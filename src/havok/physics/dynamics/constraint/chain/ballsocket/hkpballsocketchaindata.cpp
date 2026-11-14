@@ -2,6 +2,16 @@
 // src/havok/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include <new>
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_00dd1000.h"
 #include "havok/hkpBallSocketChainData.h"
 
 struct S_00d53cf0
@@ -20,7 +30,7 @@ void hkpBallSocketChainData_00d53cf0::GetConstraintSizeInfo(bool abEnabled, S_00
 {
     if (abEnabled)
     {
-        apSizeInfo->y = 3 * *(int*)((char*)this + 0x1c);
+        apSizeInfo->y = 3 * reinterpret_cast<hkpBallSocketChainData*>(this)->m_pConstraintInfo.m_iElementCount;
         apSizeInfo->x = apSizeInfo->y * 8;
     }
     else
@@ -30,26 +40,35 @@ void hkpBallSocketChainData_00d53cf0::GetConstraintSizeInfo(bool abEnabled, S_00
     }
 }
 
-struct hkpBallSocketChainData_00d53ca0
+struct hkpConstraintAtom;
+// hkpConstraintData::ConstraintInfo: solver sizes, then the atoms and their total size.
+struct GenericConstraintAtomScheme
 {
-    void InitChainData(char* out);
+    int maxSizeOfSchema, sizeOfSchemas, numSolverResults, numSolverElemTemps;
+    const hkpConstraintAtom* atoms;
+    int sizeOfAllAtoms;
 };
-// Initializes the output chain data: stores a pointer to this+0xc, zeroes fields, and sets sizes from the count at this+0x1c.
-// @fnv 0x00d53ca0
-void hkpBallSocketChainData_00d53ca0::InitChainData(char* out)
+
+struct hkpBallSocketChainData_00d53ca0 : hkpBallSocketChainData
 {
-    *(int*)(out + 0x10) = (int)(this + 0xc);
+    void InitChainData(GenericConstraintAtomScheme* info) const;
+};
+// Fills the constraint info with the bridge atoms and solver sizes computed from the number of chain links.
+// @fnv 0x00d53ca0
+void hkpBallSocketChainData_00d53ca0::InitChainData(GenericConstraintAtomScheme* info) const
+{
+    info->atoms = reinterpret_cast<const hkpConstraintAtom*>(&m_kBridgeAtoms);
     int zero = 0;
-    *(int*)(out + 8) = zero;
-    *(int*)(out + 0xc) = zero;
-    *(int*)out = zero;
-    *(int*)(out + 4) = 0x10;
-    *(int*)(out + 0x14) = 0xc;
-    int iCount = *(int*)((char*)this + 0x1c);
+    info->numSolverResults = zero;
+    info->numSolverElemTemps = zero;
+    info->maxSizeOfSchema = zero;
+    info->sizeOfSchemas = 0x10;
+    info->sizeOfAllAtoms = 0xc;
+    int iCount = m_pConstraintInfo.m_iElementCount;
     int iTripleCount = iCount * 3;
-    *(int*)(out + 4) = (((iCount * 0x134 + 0x33) & 0xfffffff0) + 0x10);
-    *(int*)(out + 8) = iTripleCount;
-    *(int*)(out + 0xc) = iTripleCount;
+    info->sizeOfSchemas = (((iCount * 0x134 + 0x33) & 0xfffffff0) + 0x10);
+    info->numSolverResults = iTripleCount;
+    info->numSolverElemTemps = iTripleCount;
 }
 
 // FUN_00d53c90 : a one-line function - getter
@@ -149,9 +168,8 @@ struct FUN_00d21ce0_cls
     FUN_00d21ce0_cls(hkFinishLoadedObjectFlagD53D flag)
     {
         if (flag.m_bFinishing)
-            FUN_00d21ce0(m_pConstraintData);
+            reinterpret_cast<::FUN_00d21ce0_cls *>(this)->FUN_00d21ce0(m_pConstraintData);
     }
-    void FUN_00d21ce0(void* pvConstraintData) throw();
 };
 
 struct hkpBridgeAtomsD53D
@@ -193,34 +211,11 @@ class FUN_00d53df0 : public hkpConstraintDataD53D
 FUN_00d53df0::FUN_00d53df0(hkFinishLoadedObjectFlagD53D flag) : hkpConstraintDataD53D(flag), m_kBridgeAtoms(flag)
 {
     if (flag.m_bFinishing)
-        m_kBridgeAtoms.m_kBridgeAtom.FUN_00d21ce0(this);
+        reinterpret_cast<::FUN_00d21ce0_cls *>(&(m_kBridgeAtoms.m_kBridgeAtom))->FUN_00d21ce0(this);
 }
 }  // namespace fnv_00d53df0
 
 namespace fnv_00d53e30 {
-class hkMemoryAllocatorD53E
-{
-  public:
-    virtual ~hkMemoryAllocatorD53E() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD53E
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD53E* m_pStreamAllocator;
-    hkMemoryAllocatorD53E& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD53E& __cdecl FUN_00c85750() throw();
 
 template <class T> class hkArrayD53E
 {
@@ -231,10 +226,10 @@ template <class T> class hkArrayD53E
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorD53E& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -280,27 +275,6 @@ FUN_00d53e30::~FUN_00d53e30() throw()
 }
 }  // namespace fnv_00d53e30
 
-class hkMemoryAllocatorD541
-{
-  public:
-    virtual ~hkMemoryAllocatorD541() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD541
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD541* m_pStreamAllocator;
-    hkMemoryAllocatorD541& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD541& __cdecl FUN_00c85750();
 
 class FUN_00d53e30
 {
@@ -311,7 +285,7 @@ class FUN_00d53e30
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00d53e30*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00d53e30*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d53e30* DestroyAndFree(unsigned int uiFlags) throw();
@@ -321,32 +295,13 @@ class FUN_00d53e30
 // @fnv 0x00d54150
 FUN_00d53e30* FUN_00d53e30::DestroyAndFree(unsigned int uiFlags) throw()
 {
-    this->FUN_00d53e30::~FUN_00d53e30();
+    reinterpret_cast<::fnv_00d53e30::FUN_00d53e30 *>((this))->fnv_00d53e30::FUN_00d53e30::~FUN_00d53e30();
     if (uiFlags & 1)
         FUN_00d53e30::operator delete(this);
     return this;
 }
 
 namespace fnv_00d549d0 {
-struct MemManager
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void deallocateChunk(void* p, int nbytes);
-};
-
-struct ThreadContext
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    MemManager* memory;
-};
-
-void* FUN_00c85750();
 
 struct Elem
 {
@@ -369,44 +324,31 @@ struct DummyClass
 // @fnv 0x00d549d0
 void DummyClass::ClearArrays()
 {
-    ThreadContext* pThreadContext2 = (ThreadContext*)FUN_00c85750();
-    MemManager& mem2 = *pThreadContext2->memory;
+    hkMemoryRouter* pThreadContext2 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator& mem2 = *pThreadContext2->m_heap;
     int iCapacity2 = cap2;
     size2 = 0;
     if ((iCapacity2 & 0x80000000) == 0)
     {
-        mem2.deallocateChunk(data2, (iCapacity2 & 0x3FFFFFFF) * 8);
+        mem2.bufFree(data2, (iCapacity2 & 0x3FFFFFFF) * 8);
     }
     data2 = 0;
     cap2 = 0x80000000;
 
-    ThreadContext* pThreadContext1 = (ThreadContext*)FUN_00c85750();
-    MemManager& mem1 = *pThreadContext1->memory;
+    hkMemoryRouter* pThreadContext1 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator& mem1 = *pThreadContext1->m_heap;
     int iCapacity1 = cap1;
     size1 = 0;
     if ((iCapacity1 & 0x80000000) == 0)
     {
-        mem1.deallocateChunk(data1, (iCapacity1 & 0x3FFFFFFF) * 8);
+        mem1.bufFree(data1, (iCapacity1 & 0x3FFFFFFF) * 8);
     }
     data1 = 0;
     cap1 = 0x80000000;
 }
 }  // namespace fnv_00d549d0
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-struct Router_00d53d30
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_10;
-};
 
 struct Pair_00d53d30
 {
@@ -415,9 +357,8 @@ struct Pair_00d53d30
 };
 
 namespace fnvc_adapt {
-Router_00d53d30* FUN_00c85750();
+
 }
-void ResizeAudioStream(void* alloc, void* arr, int elemSize);
 
 struct Chain_00d53d30
 {
@@ -436,21 +377,15 @@ struct Chain_00d53d30
 void Chain_00d53d30::Push(const __m128& a, const __m128& b)
 {
     hkArray<Pair_00d53d30>& arr = m_aiIndexedValues;
-    Router_00d53d30* r = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* r = &hkMemoryRouter::getInstance();
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(r->m_10, &arr, 0x20);
+        ::ResizeAudioStream((::AudioAllocator *)(r->m_heap), (::AudioStream *)(void *)(&arr), 0x20);
     Pair_00d53d30& e = arr.m_data[arr.m_iElementCount++];
     e.a = a;
     e.b = b;
 }
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
-struct hkpConstraintInstance;
+class hkpConstraintInstance;
 struct hkpBallSocketChainDataConstraintInfo
 {
     hkVector4 m_kPivotInA, m_kPivotInB;
@@ -458,10 +393,6 @@ struct hkpBallSocketChainDataConstraintInfo
 struct ChainPlacement
 {
 };
-inline void* operator new(unsigned int, ChainPlacement* pointer)
-{
-    return pointer;
-}
 template <class T> struct PortBodyArray
 {
     T* m_data;
@@ -526,37 +457,11 @@ struct PortQuery : ChainStep
     {}
 };
 
-struct PortMemory
-{
-    virtual ~PortMemory();
-    virtual void* AllocateMemoryBlock(int);
-    virtual void ReleaseBlock(void*, int);
-    virtual void* AllocateBufferWithSize(int&);
-    virtual void ReturnMemory(void*, int);
-    template <class T> inline void _bufFree(void* pointer, int count)
-    {
-        ReturnMemory(pointer, count * sizeof(T));
-    }
-};
-struct PortRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    PortMemory* m_pStreamAllocator;
-    inline PortMemory& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-inline PortRouter& chainRouter()
-{
-    return reinterpret_cast<PortRouter&>(FUN_00c85750());
-}
-extern "C" void ResizeAudioStream(PortMemory&, void*, int);
 struct PortAllocator
 {
-    PortMemory& get(const void*)
+    hkMemoryAllocator& get(const void*)
     {
-        return chainRouter().heap();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 
@@ -596,7 +501,7 @@ template <class T> struct PortArrayBase
         PortArrayOps::destroy(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void clearFree(PortMemory& memory)
+    __forceinline void clearFree(hkMemoryAllocator& memory)
     {
         clear();
         if (!(m_iCapacityState & 0x80000000))
@@ -604,10 +509,10 @@ template <class T> struct PortArrayBase
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    __forceinline void append(PortMemory& memory, const T& item)
+    __forceinline void append(hkMemoryAllocator& memory, const T& item)
     {
         if (m_iElementCount == capacity())
-            ResizeAudioStream(memory, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)&(memory), (::AudioStream *)(void *)(this), sizeof(T));
         PortArrayOps::copyConstruct(m_data + m_iElementCount, 1, item);
         ++m_iElementCount;
     }
@@ -711,10 +616,6 @@ struct OffsetForChain
 };
 extern "C"
 {
-    void AppendEventRecord(const PortQuery*, QueryResultSchema*, void*, int);
-    char* FUN_00dd13c0(void*);
-    void FUN_00dcee70(PortQuery*);
-    void FUN_00dcfc00(const PortVector*, const PortVector*, float, PortQuery*, char*);
     void FUN_00dd0ad0(int, float, float, float, OffsetForChain*, const QuantizedBoundsData*, char*, const PortQuery*,
                       QueryResultSchema*);
 }
@@ -727,7 +628,7 @@ struct ProbeRoot : public hkpBallSocketChainData
 void ProbeRoot::FUN_00d53e80(const PortQuery& input, QueryResultSchema& output)
 {
     void* solver = input.m_pByteBuffer.val();
-    AppendEventRecord(&input, &output, solver, 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(const ::PortQuery *)(&input), (::fnv_00d6f2b0::EventRecord **)(::QueryResultSchema *)(&output), solver, 8);
     PortQuery localQuery = input;
     localQuery.m_pConstraintChainInstance = 0;
     localQuery.m_pByteBuffer = 0;
@@ -745,7 +646,7 @@ void ProbeRoot::FUN_00d53e80(const PortQuery& input, QueryResultSchema& output)
     localQuery.m_kBodyBLocalFrame = &motion->getTransform();
     localQuery.m_fFourthQueryValue = 1.0f;
     localQuery.m_fThirdQueryValue = localQuery.m_kThirdChainValue;
-    char* schema = FUN_00dd13c0(output.m_pQueryResultSchema);
+    char* schema = ((char *)(::FUN_00dd13c0((::DD13C0Object *)(void *)(output.m_pQueryResultSchema))));
     for (int index = 0; index < count; ++index)
     {
         localQuery.m_pBodyA = localQuery.m_pBodyB;
@@ -759,8 +660,8 @@ void ProbeRoot::FUN_00d53e80(const PortQuery& input, QueryResultSchema& output)
         PortVector a, b;
         a._setTransformedPos(*localQuery.m_kBodyALocalFrame, m_pConstraintInfo.m_data[index].m_kPivotInA);
         b._setTransformedPos(*localQuery.m_kBodyBLocalFrame, m_pConstraintInfo.m_data[index].m_kPivotInB);
-        FUN_00dcee70(&localQuery);
-        FUN_00dcfc00(&a, &b, m_fMaximumAngularImpulse, &localQuery, schema);
+        ::FUN_00dcee70();
+        ::FUN_00dcfc00((const ::hkVector4 *)(const ::PortVector *)(&a), (const ::hkVector4 *)(const ::PortVector *)(&b), m_fMaximumAngularImpulse, (const ::Input102 *)(::PortQuery *)(&localQuery), (::Row102 *)(schema));
         schema += 0x90;
     }
     FUN_00dd0ad0(count, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, offsets.begin(), base, schema, &input, &output);

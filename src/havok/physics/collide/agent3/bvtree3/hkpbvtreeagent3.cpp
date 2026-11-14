@@ -2,34 +2,63 @@
 // src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl InitAndReturnTail(void*, void*, void*);
-void __fastcall FUN_00d2d890(void* self, int, void*, int);
-void __fastcall CallWithValueSource(void* self, int, int, int);
-void __fastcall FUN_00d2d430(void* self, int, int, int);
-void __fastcall FUN_00d2d480(void* self, int, int, int);
-// @fnv 0x00d2d9d0
-void FUN_00d2d9d0(void* pObject)
+#include "havok/hkMemoryRouter.h"
+#include <xmmintrin.h>
+#include <new>
+#include "fnv/symbols_00c85000.h"
+#include <windows.h>
+#include "fnv/decl/FUN_00cb21e0_shell.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/symbols_00d2d000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_00da6000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
+void __cdecl FUN_00d2d460(void* a, void* b, void* c);
+
+// The agent3 function table, in the order of hkpCollisionDispatcher::Agent3Funcs.
+struct Agent3FuncsD2D9
 {
-    *(void**)pObject = (void*)&InitAndReturnTail;
-    *(void**)((char*)pObject + 0x2c) = (void*)&FUN_00d2d890;
-    *(int*)((char*)pObject + 0x28) = 0;
-    *(int*)((char*)pObject + 8) = 0;
-    *(int*)((char*)pObject + 0xc) = 0;
-    *(int*)((char*)pObject + 0x10) = 0;
-    *(int*)((char*)pObject + 0x14) = 0;
-    *(void**)((char*)pObject + 0x18) = (void*)&CallWithValueSource;
-    *(void**)((char*)pObject + 0x1c) = (void*)&FUN_00d2d430;
-    *(int*)((char*)pObject + 0x20) = 0xd2d460;
-    *(void**)((char*)pObject + 0x24) = (void*)&FUN_00d2d480;
-    *(int*)((char*)pObject + 4) = 0xda6dc0;
-    *(char*)((char*)pObject + 0x30) = 1;
+    void* m_createFunc;
+    void* m_destroyFunc;
+    void* m_cleanupFunc;
+    void* m_removePointFunc;
+    void* m_commitPotentialFunc;
+    void* m_createZeroContactFunc;
+    void* m_processFunc;
+    void* m_sepNormalFunc;
+    void* m_invalidateTimFunc;
+    void* m_warpTimeFunc;
+    void* m_updateFilterFunc;
+    void* m_calcStatisticsFunc;
+    bool m_isPredictive;
+};
+
+// @fnv 0x00d2d9d0
+void FUN_00d2d9d0(Agent3FuncsD2D9* pObject)
+{
+    pObject->m_createFunc = (void*)&InitAndReturnTail;
+    pObject->m_calcStatisticsFunc = (void*)&FUN_00d2d890;
+    pObject->m_updateFilterFunc = 0;
+    pObject->m_cleanupFunc = 0;
+    pObject->m_removePointFunc = 0;
+    pObject->m_commitPotentialFunc = 0;
+    pObject->m_createZeroContactFunc = 0;
+    pObject->m_processFunc = (void*)&CallWithValueSource;
+    pObject->m_sepNormalFunc = (void*)&FUN_00d2d430;
+    pObject->m_invalidateTimFunc = (void*)&FUN_00d2d460;
+    pObject->m_warpTimeFunc = (void*)&FUN_00d2d480;
+    pObject->m_destroyFunc = (void*)&FUN_00da6dc0;
+    pObject->m_isPredictive = 1;
 }
 
-extern "C" void __cdecl FUN_00da35f0(void*, float, float, int);
 // @fnv 0x00d2d480
-void __cdecl FUN_00d2d480(void*, void* target, float first, float second, int flags)
+void __cdecl FUN_00d2d480(void*, void* target, float first, float second, void** flags)
 {
-    FUN_00da35f0(target, first, second, flags);
+    ::FUN_00da35f0((::Da35Stream ***)(target), first, second, flags);
 }
 
 struct Interface
@@ -111,7 +140,6 @@ struct CallBuf
     int unk1c;
 };
 
-void __cdecl FUN_00da48e0(void* a, void* b);
 
 // Calls f4 on the ValueSource, fills a CallBuf with the arguments and result, then passes it to FUN_00da48e0 with p2.
 // @fnv 0x00d2d3e0
@@ -127,7 +155,7 @@ void __cdecl CallWithValueSource(void* apUnused, void* p2, int aiArg0, ValueSour
     callBuf.unk14 = aiArg2;
     callBuf.unk0c = r;
     callBuf.unk18 = aiArg3;
-    FUN_00da48e0(p2, &callBuf);
+    ::FUN_00da48e0((p2), (&callBuf));
 }
 
 struct SpawnedObject
@@ -183,31 +211,24 @@ struct Agent
     virtual void f7();
 };
 
-extern "C" void __cdecl FUN_00d97250(int, int, void*);
-extern "C" void __cdecl FUN_00da3510(int, int);
 
 // Calls p->f6 with the type name hkBvTreeAgent3, then FUN_00d97250 with a2, a3 and p, then p->f7().
 // @fnv 0x00d2d430
-void __cdecl FUN_00d2d430(int a1, int a2, int a3, Agent* pAgent)
+void __cdecl FUN_00d2d430(void* a1, ::Hdr* a2, char** a3, Agent* pAgent)
 {
     pAgent->f6("hkBvTreeAgent3");
-    FUN_00d97250(a2, a3, pAgent);
+    ::FUN_00d97250(a2, a3, (::Logger *)(pAgent));
     pAgent->f7();
 }
 
-void __cdecl FUN_00d2d460(int a, int b, int c)
+// @fnv 0x00d2d460
+void __cdecl FUN_00d2d460(void* a, void* b, void* c)
 {
-    FUN_00da3510(b, c);
+    ::FUN_00da3510((*(::AgentSectorPointerArray *)(b)), (*(::CollisionAgentContext *)(c)));
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 extern "C" const char str_010ce7ec[];
-extern "C" const char str_010ce7e0[];
 extern "C" const char str_010ce7d4[];
-extern "C" const char str_01076f38[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 
 struct S00d2d890_Rec
 {
@@ -243,7 +264,6 @@ struct __declspec(align(16)) S00d2d890_Local
     int b0f;
     S00d2d890_Local()
     {}
-    void FUN_00cb21e0(void* a);
 };
 struct S00d2d890_Hits
 {
@@ -382,21 +402,32 @@ struct S00d2d890_Rec3
     unsigned int stamp;
     unsigned int unk08;
 };
-struct S00d2d890_Obj
+// hkpAgent3ProcessInput; offsets are the 32-bit release's.
+struct S00d2d890_Input
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    const ::hkpCdBody* m_bodyA;          // +0x00
+    const ::hkpCdBody* m_bodyB;          // +0x04
+    const ::hkpCdBody* m_overrideBodyA;  // +0x08
+    const ::GskAgentInput* m_input;      // +0x0c
+    void* m_contactMgr;                  // +0x10
+    __m128 m_aTb[4];                     // +0x20
+    float m_distAtT1;                    // +0x60
+    __m128 m_linearTimInfo;              // +0x70
 };
-char** FUN_00c85750();
-int FUN_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
-int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
-int FUN_00da4aa0(int a, void* b, int c, char* d, int e);
 
-// Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns child + 0x10.
+// The agent's data is its child track (hkpAgent1nTrack), padded to 16 bytes.
+struct S00d2d890_Track
+{
+    void** m_sectors;
+    int m_size;
+    int m_capacityAndFlags;
+};
+
+void* FUN_00d2d4b0(void* a, S00d2d890_Hits* h);
+
+// Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns the end of the agent's data.
 // @fnv 0x00d2d890
-char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
+char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, void* a4)
 {
     volatile unsigned int tb;
     S00d2d890_Buf* t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
@@ -410,18 +441,15 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
         r->stamp = tb;
         t->cur = (char*)(r + 1);
     }
-    char** arena = FUN_00c85750();
-    char* mark = *arena;
-    *arena = mark + 0x4000;
+    char* mark = static_cast<char*>(hkMemoryRouter::getInstance().allocateStack(0x4000));
+    const S00d2d890_Input* in = reinterpret_cast<const S00d2d890_Input*>(self);
     S00d2d890_Local loc;
-    loc.FUN_00cb21e0(self + 0x20);
+    reinterpret_cast<::FUN_00cb21e0_shell *>(&(loc))->FUN_00cb21e0((const ::Matrix44 *)(const void *)(in->m_aTb));
     S00d2d890_Hits hits;
-    int c = *(int*)(self + 0xc);
-    int p1 = *(int*)(self + 4);
-    int p0 = *(int*)self;
-    int numHits = FUN_00d2d4f0(p0, p1, &loc, self + 0x70, c, 0, mark, 0x1000);
-    int tree = *(int*)(self + 4);
-    int r4b = FUN_00d2d4b0(tree, &hits);
+    int numHits = ::FUN_00d2d4f0(*in->m_bodyA, *in->m_bodyB, *(const ::hkTransform *)(void *)(&loc),
+                                 *(const ::hkVector4 *)(const void *)(&in->m_linearTimInfo), *in->m_input, 0,
+                                 (unsigned int *)(void *)(mark), 0x1000);
+    void* r4b = FUN_00d2d4b0(const_cast<::hkpCdBody*>(in->m_bodyB), &hits);
 
     t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
     if (t->cur < t->end)
@@ -434,24 +462,23 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
         t->cur = (char*)(r + 1);
     }
     char* cond = numHits < 0 ? 0 : mark;
-    FUN_00da4aa0((int)child, self, (*(volatile int*)&r4b), cond, a4);
+    ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(child)), (*(const ::fnv_00da4aa0::Q14 *)(self)), (const ::fnv_00da4aa0::Q24 *)((*(void* volatile*)&r4b)), (const unsigned int *)(cond), (*(::fnv_00da4aa0::Q6 *)(a4)));
     t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
     if (t->cur < t->end)
     {
         S00d2d890_Rec3* r = (S00d2d890_Rec3*)t->cur;
-        r->name = str_01076f38;
+        r->name = ::str_01076f38;
         _ReadWriteBarrier();
         tb = (unsigned int)__rdtsc();
         r->stamp = tb;
         t->cur = (char*)(r + 1);
     }
-    *FUN_00c85750() = mark;
-    return child + 0x10;
+    hkMemoryRouter::getInstance().deallocateStack(mark);
+    return child + ((sizeof(S00d2d890_Track) + 15) & ~15);
 }
 
 struct FUN_00cfbd60_Obj
 {
-    void AddEntry(void* a1, int a2, int a3);
 };
 __declspec(noinline) void FUN_00d2d9d0(void* pObject);
 
@@ -491,5 +518,1259 @@ void FUN_00d2da20(FUN_00cfbd60_Obj* target)
 {
     S_00d2da20_AgentFuncs agentFuncs;
     FUN_00d2d9d0(&agentFuncs);
-    target->AddEntry(&agentFuncs, -1, 8);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((target))->AddEntry((::SrcRec *)(void *)(&agentFuncs), -1, 8);
 }
+
+// Moved from hkpbvtreeagent3_rtm_variant.cpp (VEGAS-15).
+// src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+
+// src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00c85000.h"
+void FUN_00d2d9d0(void* pObject);
+
+typedef float hkReal;
+typedef unsigned char hkUchar;
+typedef unsigned char hkUint8;
+typedef unsigned short hkUint16;
+typedef unsigned int hkUint32;
+typedef uintptr_t hkUlong;
+typedef size_t hk_size_t;
+typedef hkReal hkTime;
+class FinishingFlag
+{
+  public:
+    FinishingFlag() : m_bFinishing(0)
+    {}
+    int m_bFinishing;
+};
+class hkClass;
+typedef int hkBool32;
+class hkBool
+{
+  public:
+    typedef char CompileTimeTrueType;
+    inline hkBool(bool b)
+    {
+        m_cBooleanValue = static_cast<char>(b);
+    }
+    inline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+
+  private:
+    char m_cBooleanValue;
+};
+template <typename ENUM, typename STORAGE> class hkEnum
+{
+  public:
+    hkEnum()
+    {}
+    hkEnum(ENUM e)
+    {
+        m_kStorage = static_cast<STORAGE>(e);
+    }
+
+  private:
+    STORAGE m_kStorage;
+};
+template <typename TYPE> class ValueWrapper
+{
+  public:
+    __forceinline ValueWrapper()
+    {}
+    __forceinline TYPE val() const
+    {
+        return m_kStorage;
+    }
+    __forceinline TYPE operator->() const
+    {
+        return m_kStorage;
+    }
+    __forceinline operator TYPE() const
+    {
+        return val();
+    }
+
+  private:
+    TYPE m_kStorage;
+};
+struct StringPointerTriple
+{
+  public:
+    __forceinline StringPointerTriple();
+
+  protected:
+    ValueWrapper<void*> m_next;
+};
+class hkBaseObject
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+    __forceinline virtual ~hkBaseObject()
+    {}
+
+  public:
+    __forceinline hkBaseObject()
+    {}
+};
+class hkStatisticsCollector;
+class hkReferencedObject : public hkBaseObject
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(
+            hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
+        b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
+        ;
+        return b;
+    }
+    virtual const hkClass* GetClassType() const;
+    virtual void CalcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+
+  public:
+    enum
+    {
+        MASK_MEMSIZE = 0x7fff
+    };
+    hkUint16 m_usMemSizeAndFlags;
+
+  public:
+    hkReferencedObject(class FinishingFlag flag)
+    {}
+};
+template <bool N> struct BooleanTypeConstant
+{
+    typedef BooleanTypeConstant<N> type;
+    enum
+    {
+        result = N
+    };
+};
+typedef BooleanTypeConstant<true> hkTypeIsPod;
+struct RouterHeapAllocatorProvider
+{
+    hkMemoryAllocator& get(const void*)
+    {
+        return hkMemoryRouter::getInstance().heap();
+    }
+};
+template <typename T> class HavokElementArray
+{
+  public:
+    typedef HavokElementArray<T> ThisType;
+
+  protected:
+    __forceinline HavokElementArray(const HavokElementArray& a)
+    {
+        ;
+    }
+
+  public:
+    __forceinline void _useExternalArray(T*, int cap);
+
+  protected:
+    __forceinline HavokElementArray<T>& copyFromArray(hkMemoryAllocator&, const HavokElementArray<T>& src, hkTypeIsPod);
+
+  public:
+    enum
+    {
+        CAPACITY_MASK = int(0x3FFFFFFF),
+        FLAG_MASK = int(0xC0000000),
+        DONT_DEALLOCATE_FLAG = int(0x80000000),
+        FORCE_SIGNED = -1
+    };
+
+  protected:
+    friend class hkStatisticsCollector;
+
+  public:
+    HavokElementArray(FinishingFlag f)
+    {}
+};
+template <typename T, typename Allocator = RouterHeapAllocatorProvider> class hkArray : public HavokElementArray<T>
+{
+  public:
+    typedef Allocator AllocatorType;
+
+  protected:
+    __forceinline hkArray(const hkArray& a);
+
+  public:
+    __forceinline hkArray& operator=(const HavokElementArray<T>& a);
+};
+#include "fnv/symbols_simd.h"
+
+typedef __m128 hkQuadReal;
+struct hkVector4;
+typedef const hkVector4& hkVector4Parameter;
+class VectorComponentValue
+{
+  public:
+    VectorComponentValue(const hkQuadReal& x) : m_vValue(x)
+    {}
+    VectorComponentValue(hkReal x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+    __forceinline hkQuadReal broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+
+  private:
+    hkQuadReal m_vValue;
+};
+typedef const VectorComponentValue& hkSimdRealParameter;
+class Vector4Comparison;
+typedef const Vector4Comparison& hkVector4ComparisonParameter;
+class Vector4Comparison
+{
+  public:
+    enum Mask
+    {
+        MASK_NONE = 0,
+        MASK_X = 1,
+        MASK_Y = 2,
+        MASK_XY = 3,
+        MASK_Z = 4,
+        MASK_XZ = 5,
+        MASK_YZ = 6,
+        MASK_XYZ = 7,
+        MASK_W = 8,
+        MASK_XW = 9,
+        MASK_YW = 10,
+        MASK_XYW = 11,
+        MASK_ZW = 12,
+        MASK_XZW = 13,
+        MASK_YZW = 14,
+        MASK_XYZW = 15
+    };
+    __forceinline void setAnd(hkVector4ComparisonParameter a, hkVector4ComparisonParameter b)
+    {
+        m_uiMask = _mm_and_ps(a.m_uiMask, b.m_uiMask);
+    }
+    __forceinline hkBool32 allAreSet(Mask m) const
+    {
+        return (_mm_movemask_ps(m_uiMask) & m) == m;
+    }
+
+  private:
+    hkQuadReal m_uiMask;
+    friend struct hkVector4;
+};
+namespace MathUtilities {
+template <typename T> inline T __cdecl min2(T x, T y)
+{
+    return x < y ? x : y;
+}
+}
+class hkRotation;
+class hkTransform;
+struct hkVector4
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+    __forceinline void operator=(const hkVector4& v);
+    __forceinline void setAll3(hkReal x);
+    __forceinline void setZero4();
+    __forceinline void add4(const hkVector4& a);
+    __forceinline void setAdd4(const hkVector4& a, const hkVector4& b);
+    __forceinline void sub4(const hkVector4& a);
+    __forceinline void setSub4(const hkVector4& a, const hkVector4& b);
+    __forceinline void setMul4(hkSimdRealParameter r, const hkVector4& a);
+    __forceinline void addMul4(hkSimdRealParameter r, const hkVector4& a);
+    __forceinline void setCross(const hkVector4& a, const hkVector4& b);
+    __forceinline Vector4Comparison compareLessThanEqual4(hkVector4Parameter a) const;
+    __forceinline void setNeg4(const hkVector4& v);
+    __forceinline void setMin4(const hkVector4& a, const hkVector4& b);
+    __forceinline void setMax4(const hkVector4& a, const hkVector4& b);
+    __forceinline void _setRotatedInverseDir(const hkRotation& a, const hkVector4& b);
+    __forceinline void _setTransformedInversePos(const hkTransform& a, const hkVector4& b);
+    __forceinline const hkReal& operator()(int i) const;
+    __forceinline const hkQuadReal& getQuad() const;
+
+  private:
+    hkQuadReal m_vComponents;
+
+  public:
+    operator hkQuadReal() const
+    {
+        return m_vComponents;
+    }
+};
+class hkQuaternion
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+
+  public:
+    hkVector4 m_vec;
+
+  protected:
+    void setFlippedRotation(const hkVector4& from);
+};
+class hkMatrix3
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+    __forceinline const hkVector4& getColumn(int i) const;
+
+  protected:
+    hkVector4 m_kColumn0;
+    hkVector4 m_kColumn1;
+    hkVector4 m_kColumn2;
+};
+class __declspec(align(16)) hkRotation : public hkMatrix3
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+};
+class hkTransform
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+    __forceinline const hkVector4& getTranslation() const;
+    __forceinline const hkRotation& getRotation() const;
+
+  private:
+    hkRotation m_rotation;
+    hkVector4 m_vTranslation;
+};
+class hkSweptTransform
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+
+  public:
+    __forceinline void _approxTransformAt(hkTime time, hkTransform& transformOut) const;
+    __forceinline hkReal getInvDeltaTime() const;
+
+  public:
+    hkVector4 m_vCenterOfMass0;
+    hkVector4 m_vCenterOfMass1;
+    hkQuaternion m_qRotation0;
+    hkQuaternion m_qRotation1;
+    hkVector4 m_vCenterOfMassLocal;
+};
+inline const hkQuadReal& hkVector4::getQuad() const
+{
+    return m_vComponents;
+}
+inline void hkVector4::operator=(const hkVector4& v)
+{
+    m_vComponents = v.m_vComponents;
+}
+inline void hkVector4::setAll3(hkReal a)
+{
+    m_vComponents = _mm_set_ps1(a);
+}
+inline void hkVector4::setZero4()
+{
+    m_vComponents = _mm_setzero_ps();
+}
+inline void hkVector4::add4(const hkVector4& v)
+{
+    m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents);
+}
+inline void hkVector4::setAdd4(const hkVector4& v0, const hkVector4& v1)
+{
+    m_vComponents = _mm_add_ps(v0.m_vComponents, v1.m_vComponents);
+}
+inline void hkVector4::sub4(const hkVector4& v)
+{
+    m_vComponents = _mm_sub_ps(m_vComponents, v.m_vComponents);
+}
+inline void hkVector4::setSub4(const hkVector4& v0, const hkVector4& v1)
+{
+    m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+}
+inline void hkVector4::setMul4(hkSimdRealParameter r, const hkVector4& v1)
+{
+    m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents);
+}
+inline void hkVector4::addMul4(hkSimdRealParameter r, const hkVector4& v1)
+{
+    m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
+}
+inline void hkVector4::setCross(const hkVector4& v0, const hkVector4& v1)
+{
+    hkQuadReal cross0;
+    cross0 =
+        _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, (((3) << 6) | ((0) << 4) | ((2) << 2) | ((1)))),
+                   _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, (((3) << 6) | ((1) << 4) | ((0) << 2) | ((2)))));
+    hkQuadReal cross1;
+    cross1 =
+        _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, (((3) << 6) | ((1) << 4) | ((0) << 2) | ((2)))),
+                   _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, (((3) << 6) | ((0) << 4) | ((2) << 2) | ((1)))));
+    m_vComponents = _mm_sub_ps(cross0, cross1);
+}
+inline Vector4Comparison hkVector4::compareLessThanEqual4(const hkVector4& a) const
+{
+    Vector4Comparison m;
+    m.m_uiMask = _mm_cmple_ps(m_vComponents, a.m_vComponents);
+    return m;
+}
+inline void hkVector4::setNeg4(const hkVector4& v)
+{
+    m_vComponents = _mm_xor_ps(v.m_vComponents, *(const hkQuadReal*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_010c44d0)));
+}
+inline void hkVector4::setMin4(const hkVector4& a, const hkVector4& b)
+{
+    m_vComponents = _mm_min_ps(a.getQuad(), b.getQuad());
+}
+inline void hkVector4::setMax4(const hkVector4& a, const hkVector4& b)
+{
+    m_vComponents = _mm_max_ps(a.getQuad(), b.getQuad());
+}
+inline void hkVector4::_setRotatedInverseDir(const hkRotation& r, const hkVector4& b)
+{
+    hkQuadReal c0 = r.getColumn(0).m_vComponents;
+    hkQuadReal c1 = r.getColumn(1).m_vComponents;
+    hkQuadReal c2 = r.getColumn(2).m_vComponents;
+    {
+        hkQuadReal _tmp, _ctmp;
+        _tmp = _mm_unpacklo_ps(c0, c1);
+        _ctmp = _mm_shuffle_ps(_mm_unpackhi_ps(c0, c1), c2, (((3) << 6) | ((2) << 4) | ((1) << 2) | ((0))));
+        c0 = _mm_movelh_ps(_tmp, c2);
+        c1 = _mm_shuffle_ps(_mm_movehl_ps(c0, _tmp), c2, (((3) << 6) | ((1) << 4) | ((1) << 2) | ((0))));
+        c2 = _ctmp;
+    };
+    const hkQuadReal b0 =
+        _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, (((0) << 6) | ((0) << 4) | ((0) << 2) | ((0))));
+    const hkQuadReal r0 = _mm_mul_ps(c0, b0);
+    const hkQuadReal b1 =
+        _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, (((1) << 6) | ((1) << 4) | ((1) << 2) | ((1))));
+    const hkQuadReal r1 = _mm_mul_ps(c1, b1);
+    const hkQuadReal b2 =
+        _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, (((2) << 6) | ((2) << 4) | ((2) << 2) | ((2))));
+    const hkQuadReal r2 = _mm_mul_ps(c2, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
+}
+inline void hkVector4::_setTransformedInversePos(const hkTransform& a, const hkVector4& b)
+{
+    hkVector4 t0;
+    t0.setSub4(b, a.getTranslation());
+    _setRotatedInverseDir(a.getRotation(), t0);
+}
+inline const hkReal& hkVector4::operator()(int a) const
+{
+    return reinterpret_cast<const hkReal*>(&m_vComponents)[a];
+}
+inline const hkVector4& hkMatrix3::getColumn(int x) const
+{
+    return (&m_kColumn0)[x];
+}
+const hkVector4& hkTransform::getTranslation() const
+{
+    return m_vTranslation;
+}
+const hkRotation& hkTransform::getRotation() const
+{
+    return m_rotation;
+}
+hkReal hkSweptTransform::getInvDeltaTime() const
+{
+    return m_vCenterOfMass1(3);
+}
+class hkMotionState
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+    inline const hkSweptTransform& getSweptTransform() const;
+
+  protected:
+    hkTransform m_kMotionTransform;
+    class hkSweptTransform m_kSweptTransform;
+
+  public:
+    hkVector4 m_kDeltaAngle;
+    hkReal m_fObjectRadius;
+};
+const hkSweptTransform& hkMotionState::getSweptTransform() const
+{
+    return m_kSweptTransform;
+}
+class hkAabb
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+    __forceinline hkBool contains(const hkAabb& other) const;
+
+  public:
+    hkVector4 m_kMinimumCorner;
+    hkVector4 m_kMaximumCorner;
+};
+hkBool hkAabb::contains(const hkAabb& other) const
+{
+    Vector4Comparison mincomp = m_kMinimumCorner.compareLessThanEqual4(other.m_kMinimumCorner);
+    Vector4Comparison maxcomp = other.m_kMaximumCorner.compareLessThanEqual4(m_kMaximumCorner);
+    Vector4Comparison both;
+    both.setAnd(mincomp, maxcomp);
+    return both.allAreSet(Vector4Comparison::MASK_XYZ) != 0;
+}
+typedef hkUint16 hkContactPointId;
+enum CollisionShapeType
+{
+    HK_SHAPE_INVALID = 0,
+    HK_SHAPE_SPHERE,
+    HK_FIRST_SHAPE_TYPE = HK_SHAPE_SPHERE,
+    HK_SHAPE_CYLINDER,
+    HK_SHAPE_TRIANGLE,
+    HK_SHAPE_BOX,
+    HK_SHAPE_CAPSULE,
+    HK_SHAPE_CONVEX_VERTICES,
+    HK_SHAPE_COLLECTION,
+    HK_SHAPE_BV_TREE,
+    HK_SHAPE_LIST,
+    HK_SHAPE_MOPP,
+    HK_SHAPE_CONVEX_TRANSLATE,
+    HK_SHAPE_CONVEX_TRANSFORM,
+    HK_SHAPE_SAMPLED_HEIGHT_FIELD,
+    HK_SHAPE_EXTENDED_MESH,
+    HK_SHAPE_TRANSFORM,
+    HK_SHAPE_COMPRESSED_MESH,
+    HK_SHAPE_MAX_ID_SPU = HK_SHAPE_COMPRESSED_MESH + 1,
+    HK_SHAPE_CONVEX,
+    HK_SHAPE_PACKED_CONVEX_VERTICES,
+    HK_SHAPE_MOPP_EMBEDDED,
+    HK_SHAPE_CONVEX_PIECE,
+    HK_SHAPE_MULTI_SPHERE,
+    HK_SHAPE_CONVEX_LIST,
+    HK_SHAPE_TRIANGLE_COLLECTION,
+    HK_SHAPE_MULTI_RAY,
+    HK_SHAPE_HEIGHT_FIELD,
+    HK_SHAPE_SPHERE_REP,
+    HK_SHAPE_BV,
+    HK_SHAPE_PLANE,
+    HK_SHAPE_PHANTOM_CALLBACK,
+    HK_SHAPE_USER0,
+    HK_SHAPE_USER1,
+    HK_SHAPE_USER2,
+    HK_SHAPE_MAX_ID,
+    HK_SHAPE_ALL = -1
+};
+class hkpCollisionDispatcher;
+enum hkpBufferSize
+{
+    HK_SHAPE_BUFFER_SIZE = 512
+};
+typedef __declspec(align(16)) char hkpShapeBuffer[HK_SHAPE_BUFFER_SIZE];
+struct ShapeRayCastQuery;
+struct ShapeRayCastOutput;
+struct ShapeRayBundleCastInput;
+struct ShapeRayCastOutputArray;
+class hkpRayHitCollector;
+class hkpCdBody;
+class hkpShapeContainer;
+typedef hkUint32 hkpShapeKey;
+class hkpShape : public hkReferencedObject
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+    __forceinline void getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& out) const;
+    virtual hkReal getMaximumProjection(const hkVector4& direction) const;
+    virtual const hkpShapeContainer* GetShapeContainer() const
+    {
+        return 0;
+    }
+    virtual bool isConvex() const
+    {
+        return false;
+    }
+    struct PhysicsShape
+    {
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
+        {
+            ;
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+            ;
+            return obj;
+        }
+        __forceinline void __cdecl operator delete(void* p)
+        {
+            if (p)
+            {
+                ;
+                hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(hkpShape::PhysicsShape));
+            }
+        }
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
+        {
+            ;
+            return p;
+        }
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
+        {
+            return p;
+        }
+        __forceinline void __cdecl operator delete(void*, void*)
+        {}
+        __forceinline void __cdecl operator delete[](void*, void*)
+        {}
+        class CommandArgument;
+        bool m_bIsConvex;
+        bool m_bIsConvexPiece;
+        bool m_bIsComposite;
+    };
+    virtual int CalcSizeForSpu(const PhysicsShape& input, int spuBufferSizeLeft) const;
+
+  protected:
+    virtual void CalculateAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& out) const = 0;
+    virtual hkBool IntersectRayWithShape(const ShapeRayCastQuery& input, ShapeRayCastOutput& output) const = 0;
+    virtual void CastRayWithCollector(const ShapeRayCastQuery& input, const hkpCdBody& cdBody,
+                                      hkpRayHitCollector& collector) const = 0;
+    virtual Vector4Comparison CastRayBundle(const ShapeRayBundleCastInput& input, ShapeRayCastOutputArray& output,
+                                            hkVector4ComparisonParameter mask) const;
+
+  public:
+    static void __cdecl resetShapeFunctions();
+
+  public:
+  public:
+    hkUlong m_ulUserData;
+
+  public:
+    hkEnum<CollisionShapeType, hkUint32> m_type;
+
+  public:
+    hkpShape(class FinishingFlag flag) : hkReferencedObject(flag)
+    {
+        if (flag.m_bFinishing)
+        {
+            m_type = HK_SHAPE_INVALID;
+        }
+    }
+};
+void hkpShape::getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& out) const
+{
+    CalculateAabb(localToWorld, tolerance, out);
+}
+class hkpCdBody
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+    __forceinline const hkTransform& getTransform() const;
+    __forceinline const hkpShape* getShape() const;
+
+  public:
+    explicit __forceinline hkpCdBody(const hkpCdBody* parent);
+    __forceinline const hkMotionState* GetMotionState() const;
+
+  public:
+    const hkpShape* m_pCollisionShape;
+    hkpShapeKey m_uiCollisionShapeKey;
+    const void* m_pMotionState;
+};
+const hkTransform& hkpCdBody::getTransform() const
+{
+    ;
+    return *static_cast<const hkTransform*>(m_pMotionState);
+}
+const hkMotionState* hkpCdBody::GetMotionState() const
+{
+    return static_cast<const hkMotionState*>(m_pMotionState);
+}
+const hkpShape* hkpCdBody::getShape() const
+{
+    return m_pCollisionShape;
+}
+class hkpContactMgr;
+struct WorldOperationEntry;
+class hkpConstraintOwner;
+struct CollisionAgentContext;
+class hkpCollisionAgent;
+struct FourByteState
+{
+};
+typedef void hkpAgentData;
+struct AgentProcessingInput
+{
+};
+struct AgentSubtypeMarker : public AgentProcessingInput
+{
+};
+namespace hkAgent3 {
+typedef hkpAgentData*(__cdecl* CreateFunc)(const AgentProcessingInput& input, FourByteState* entry,
+                                           hkpAgentData* agentData);
+typedef void(__cdecl* DestroyFunc)(FourByteState* entry, hkpAgentData* agentData, hkpContactMgr* mgr,
+                                   hkpConstraintOwner& constraintOwner, hkpCollisionDispatcher* dispatcher);
+typedef hkpAgentData*(__cdecl* ProcessFunc)(const AgentSubtypeMarker& input, FourByteState* entry,
+                                            hkpAgentData* agentData, hkVector4* separatingNormalOut,
+                                            WorldOperationEntry& result);
+typedef void(__cdecl* SepNormalFunc)(const AgentProcessingInput& input, FourByteState* entry, hkpAgentData* agentData,
+                                     hkVector4& separatingNormalOut);
+typedef hkpAgentData*(__cdecl* CleanupFunc)(FourByteState* entry, hkpAgentData* agentData, hkpContactMgr* mgr,
+                                            hkpConstraintOwner& constraintOwner);
+typedef void(__cdecl* RemovePointFunc)(FourByteState* entry, hkpAgentData* agentData, hkContactPointId idToRemove);
+typedef void(__cdecl* CommitPotentialFunc)(FourByteState* entry, hkpAgentData* agentData,
+                                           hkContactPointId iContactPointId);
+typedef void(__cdecl* CreateZombieFunc)(FourByteState* entry, hkpAgentData* agentData,
+                                        hkContactPointId idTobecomeZombie);
+typedef void(__cdecl* UpdateFilterFunc)(FourByteState* entry, hkpAgentData* agentData, const hkpCdBody& bodyA,
+                                        const hkpCdBody& bodyB, const CollisionAgentContext& input, hkpContactMgr* mgr,
+                                        hkpConstraintOwner& constraintOwner);
+typedef void(__cdecl* CalcStatisticsFunc)(FourByteState* entry, hkpAgentData* agentData,
+                                          const CollisionAgentContext& input, hkStatisticsCollector* collector);
+typedef void(__cdecl* InvalidateTimFunc)(FourByteState* entry, hkpAgentData* agentData,
+                                         const CollisionAgentContext& input);
+typedef void(__cdecl* WarpTimeFunc)(FourByteState* entry, hkpAgentData* agentData, hkTime oldTime, hkTime newTime,
+                                    const CollisionAgentContext& input);
+}
+struct CollisionQualityInfo
+{
+    __declspec(align(16)) hkReal m_fMinimumCollisionSeparation;
+    hkReal m_fMinimumExtraSeparation;
+    hkReal m_fMaximumExtraSeparation;
+    hkReal m_fTimeOfImpactSeparation;
+    ValueWrapper<hkBool32> m_iQualityInfoValue10;
+};
+class hkpCollisionFilter;
+class hkpConvexListFilter;
+struct CollisionAgentContext
+{
+  public:
+    hkReal getTolerance() const
+    {
+        return m_fScalar;
+    }
+
+  public:
+    ValueWrapper<hkpCollisionDispatcher*> m_pCollisionDispatcher;
+    ValueWrapper<hkBool32> m_collisionQuality;
+    ValueWrapper<hkReal> m_fScalar;
+    ValueWrapper<const hkpCollisionFilter*> m_iFilter;
+    ValueWrapper<const hkpConvexListFilter*> m_pConvexListCollisionFilter;
+    struct AabbBoundsAndScale
+    {
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
+        {
+            ;
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+            ;
+            return obj;
+        }
+        __forceinline void __cdecl operator delete(void* p)
+        {
+            if (p)
+            {
+                ;
+                hkMemoryRouter::getInstance().heap().blockFree(
+                    p, sizeof(CollisionAgentContext::AabbBoundsAndScale));
+            }
+        }
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
+        {
+            ;
+            return p;
+        }
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
+        {
+            return p;
+        }
+        __forceinline void __cdecl operator delete(void*, void*)
+        {}
+        __forceinline void __cdecl operator delete[](void*, void*)
+        {}
+        class CommandArgument;
+        hkVector4 m_kAabbMin;
+        hkVector4 m_kAabbMaximum;
+        hkVector4 m_kAabbScale;
+    };
+    AabbBoundsAndScale m_aiValues;
+};
+class hkpContactMgrFactory;
+class hkpCollisionDispatcher : public hkReferencedObject
+{
+  public:
+    enum
+    {
+        HK_MAX_RESPONSE_TYPE = 8,
+        HK_MAX_SHAPE_TYPE = 32,
+        HK_MAX_AGENT2_TYPES = 64,
+        HK_MAX_AGENT3_TYPES = 16,
+        HK_MAX_COLLISION_QUALITIES = 8
+    };
+
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(
+            hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
+        b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
+        ;
+        return b;
+    }
+    typedef hkpCollisionAgent*(__cdecl* CreateFunc)(const hkpCdBody& collA, const hkpCdBody& collB,
+                                                    const CollisionAgentContext& env, hkpContactMgr* mgr);
+    struct Agent3FunctionTable
+    {
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
+        {
+            ;
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+            ;
+            return obj;
+        }
+        __forceinline void __cdecl operator delete(void* p)
+        {
+            if (p)
+            {
+                ;
+                hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(Agent3FunctionTable));
+            }
+        }
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
+        {
+            ;
+            return p;
+        }
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
+        {
+            return p;
+        }
+        __forceinline void __cdecl operator delete(void*, void*)
+        {}
+        __forceinline void __cdecl operator delete[](void*, void*)
+        {}
+        class CommandArgument;
+        Agent3FunctionTable() : m_bIsPredictive(false), m_bAgentFlag1(false), m_bAgentFlag2(false)
+        {
+            m_pUpdateFilterFunc = 0;
+            m_pCalcStats = 0;
+            m_pAgentFunction10 = 0;
+            m_pAgentFunction11 = 0;
+            m_pAgentFunction7 = 0;
+        }
+        __declspec(align(16)) hkAgent3::CreateFunc m_pCreateFunc;
+        hkAgent3::DestroyFunc m_pAgent3DestroyFuncs;
+        hkAgent3::CleanupFunc m_pAgentFunction3;
+        hkAgent3::RemovePointFunc m_pAgentFunction4;
+        hkAgent3::CommitPotentialFunc m_pAgentFunction5;
+        hkAgent3::CreateZombieFunc m_pCreateZombieFunc;
+        hkAgent3::UpdateFilterFunc m_pUpdateFilterFunc;
+        hkAgent3::CalcStatisticsFunc m_pCalcStats;
+        hkAgent3::InvalidateTimFunc m_pAgentFunction10;
+        hkAgent3::WarpTimeFunc m_pAgentFunction11;
+        hkAgent3::SepNormalFunc m_pAgentFunction7;
+        hkAgent3::ProcessFunc m_pAgentFunction8;
+        hkBool m_bIsPredictive;
+        hkBool m_bAgentFlag1;
+        hkBool m_bAgentFlag2;
+    };
+
+  public:
+    hkpCollisionDispatcher(CreateFunc defaultCreationFunction, hkpContactMgrFactory* defaultContactMgrFactory);
+
+  public:
+    struct IntegerPair
+    {
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
+        {
+            ;
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+            ;
+            return obj;
+        }
+        __forceinline void __cdecl operator delete(void* p)
+        {
+            if (p)
+            {
+                ;
+                hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(IntegerPair));
+            }
+        }
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
+        {
+            ;
+            return p;
+        }
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
+        {
+            return p;
+        }
+        __forceinline void __cdecl operator delete(void*, void*)
+        {}
+        __forceinline void __cdecl operator delete[](void*, void*)
+        {}
+        class CommandArgument;
+        CollisionShapeType m_iSecond;
+        CollisionShapeType m_iFirst;
+    };
+    struct AgentTypePairPriority
+    {
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
+        {
+            ;
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+            ;
+            return obj;
+        }
+        __forceinline void __cdecl operator delete(void* p)
+        {
+            if (p)
+            {
+                ;
+                hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(AgentTypePairPriority));
+            }
+        }
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
+        {
+            ;
+            return p;
+        }
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
+        {
+            return p;
+        }
+        __forceinline void __cdecl operator delete(void*, void*)
+        {}
+        __forceinline void __cdecl operator delete[](void*, void*)
+        {}
+        class CommandArgument;
+        char m_iAgentTypeA;
+        char m_iAgentTypeB;
+        char m_priority;
+    };
+    struct DebugTable;
+
+  protected:
+    void internalRegisterCollisionAgent(hkUchar agentTypesTable[HK_MAX_SHAPE_TYPE][HK_MAX_SHAPE_TYPE], int agentType,
+                                        CollisionShapeType typeA, CollisionShapeType typeB, CollisionShapeType origA,
+                                        CollisionShapeType origB, DebugTable* debugTable, int recursionDepth);
+
+  public:
+    enum CollisionQualityLevel
+    {
+        COLLISION_QUALITY_INVALID,
+        COLLISION_QUALITY_PSI,
+        COLLISION_QUALITY_SIMPLIFIED_TOI,
+        COLLISION_QUALITY_TOI,
+        COLLISION_QUALITY_TOI_HIGHER,
+        COLLISION_QUALITY_TOI_FORCED,
+        COLLISION_QUALITY_CHARACTER,
+        COLLISION_QUALITY_TMP_EXPAND_MANIFOLD
+    };
+
+  public:
+    hkReal m_fExpectedMaxLinearVelocity;
+};
+class hkStepInfo
+{
+  public:
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
+    {
+        ;
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
+        ;
+        return obj;
+    }
+
+  public:
+    __declspec(align(16)) ValueWrapper<hkTime> m_uiStartTime;
+    ValueWrapper<hkTime> m_fEndTime;
+    ValueWrapper<hkReal> m_fTimeStep;
+};
+struct hkpAgent1nSector;
+struct GskAgentInput : public CollisionAgentContext
+{
+  public:
+    GskAgentInput() : m_pAgent1nSector(0)
+    {}
+
+  public:
+    hkStepInfo m_pStepInfo;
+    mutable ValueWrapper<CollisionQualityInfo*> m_pCollisionQualityInfo;
+    mutable hkpAgent1nSector* m_pAgent1nSector;
+};
+class hkpShapeContainer
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+};
+class hkpShapeCollection : public hkpShape, public hkpShapeContainer
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+
+  public:
+    hkBool m_bDisableWelding;
+};
+namespace hkBvTreeAgent3 {
+hkpAgentData* __cdecl process(const AgentSubtypeMarker& input, FourByteState* entry, hkpAgentData* agentData,
+                              hkVector4* separatingNormal, WorldOperationEntry& result);
+void __cdecl RegisterAgentFunctions(hkpCollisionDispatcher* dispatcher);
+void __cdecl InitAgentFunc(hkpCollisionDispatcher::Agent3FunctionTable& f);
+void __cdecl CleanupAgent(FourByteState* entry, hkpAgentData* agentData, const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+                          const CollisionAgentContext& input, hkpContactMgr* mgr, hkpConstraintOwner& constraintOwner);
+void __cdecl AddStat(FourByteState* entry, hkpAgentData* agentData, const CollisionAgentContext& input,
+                     hkStatisticsCollector* collector);
+void __cdecl RemovePoint(FourByteState* entry, hkpAgentData* agentData, const CollisionAgentContext& input);
+void __cdecl WarpTime(FourByteState* entry, hkpAgentData* agentData, hkTime oldTime, hkTime newTime,
+                      const CollisionAgentContext& input);
+
+}
+class hkpBvTreeShape : public hkpShape
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+    enum BvTreeType
+    {
+        BVTREE_MOPP,
+        BVTREE_TRISAMPLED_HEIGHTFIELD,
+        BVTREE_USER,
+        BVTREE_MAX
+    };
+    virtual void GetObbHits(const hkTransform& obbTransform, const hkVector4& obbExtent, hkReal tolerance,
+                            hkArray<hkpShapeKey>& hits) const = 0;
+    virtual void GetAabbHits(const hkAabb& aabb, hkArray<hkpShapeKey>& hits) const = 0;
+    __forceinline hkUint32 GetAabbHits(const hkAabb& aabb, hkpShapeKey* hits, int maxNumKeys) const;
+    virtual hkUint32 GetAabbHitsToBuffer(const hkAabb& aabb, hkpShapeKey* hits, int maxNumKeys) const = 0;
+
+  public:
+    hkEnum<BvTreeType, hkUint8> m_uiUserData;
+};
+inline hkUint32 hkpBvTreeShape::GetAabbHits(const hkAabb& aabb, hkpShapeKey* hits, int maxNumKeys) const
+{
+    return GetAabbHitsToBuffer(aabb, hits, maxNumKeys);
+}
+class hkpCollidableCollidableFilter
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+    virtual ~hkpCollidableCollidableFilter()
+    {}
+};
+class hkpRayCollidableFilter
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+};
+class hkpShapeCollectionFilter
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+    virtual hkBool IsCollisionEnabled(const CollisionAgentContext& input, const hkpCdBody& bodyA,
+                                      const hkpCdBody& collectionBodyB, const hkpShapeContainer& containerShapeB,
+                                      hkpShapeKey keyB) const = 0;
+    virtual hkBool IsCollisionEnabled(const CollisionAgentContext& input, const hkpCdBody& collectionBodyA,
+                                      const hkpCdBody& collectionBodyB, const hkpShapeContainer& containerShapeA,
+                                      const hkpShapeContainer& containerShapeB, hkpShapeKey keyA,
+                                      hkpShapeKey keyB) const = 0;
+    virtual int FilterAabb(const CollisionAgentContext& input, const hkpCdBody& bodyA,
+                                             const hkpCdBody& bodyB, const hkpBvTreeShape* bvTreeShapeB, hkAabb& aabb,
+                                             hkpShapeKey* shapeKeysInOut, int shapeKeysCapacity) const = 0;
+};
+class hkpRayShapeCollectionFilter
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+};
+class hkpCollisionFilter : public hkReferencedObject,
+                           public hkpCollidableCollidableFilter,
+                           public hkpShapeCollectionFilter,
+                           public hkpRayShapeCollectionFilter,
+                           public hkpRayCollidableFilter
+{
+  public:
+    static const struct ClassMemberDescriptor Members[];
+
+  public:
+    hkpCollisionFilter();
+
+  public:
+    hkUint32 m_prepad0;
+    hkUint32 m_prepad1;
+
+  public:
+    hkpCollisionFilter(FinishingFlag flag) : hkReferencedObject(flag)
+    {}
+};
+namespace AlgorithmUtilities {
+template <typename T> class less
+{
+  public:
+    __forceinline hkBool32 operator()(const T& a, const T& b)
+    {
+        return (a < b);
+    }
+};
+template <typename T> __forceinline void __cdecl quickSort(T* pArr, int iSize)
+{
+    quickSort(pArr, iSize, less<T>());
+}
+template <typename T, typename L> void __cdecl QuickSortSubrange(T* pArr, int d, int h, L cmpLess);
+}
+namespace AlgorithmUtilities {
+
+template <typename T, typename L> void __cdecl quickSort(T* pArr, int iSize, L cmpLess)
+{
+    if (iSize > 1)
+    {
+        int low = 0;
+        int high = iSize - 1;
+        ::QuickSortRange(pArr, low, high, (*(::LessU32 *)&(const ::AlgorithmUtilities::less<unsigned int> &)(cmpLess)));
+    }
+}
+}
+// @fnv 0x00d2d4f0
+int __cdecl FUN_00d2d4f0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkTransform& bTa,
+                         const hkVector4& linearTimInfo, const GskAgentInput& input, hkAabb* cachedAabb,
+                         hkpShapeKey* hitListOut, int hitListCapacity)
+{
+    hkAabb aabb;
+    int numHits;
+    {
+        const hkMotionState* msA = bodyA.GetMotionState();
+        const hkMotionState* msB = bodyB.GetMotionState();
+        hkVector4 timInfo;
+        timInfo._setRotatedInverseDir(bodyB.getTransform().getRotation(), linearTimInfo);
+        hkVector4 aabbExtents;
+        if (input.m_pCollisionQualityInfo->m_iQualityInfoValue10.val())
+        {
+            const hkReal secOrdErrA = (msA->m_kDeltaAngle(3) + msB->m_kDeltaAngle(3)) * msA->m_fObjectRadius;
+            const hkReal secOrdErrB = msB->m_kDeltaAngle(3) * msB->m_kDeltaAngle(3) * msB->m_fObjectRadius;
+            const hkReal checkEpsilon = input.m_fScalar * 0.5f + (secOrdErrA + secOrdErrB);
+            bodyA.getShape()->getAabb(bTa, checkEpsilon, aabb);
+            hkVector4 massCenterAinB;
+            {
+                hkVector4 radius4;
+                radius4.setAll3(input.m_fScalar * 0.5f + msA->m_fObjectRadius + secOrdErrB);
+                massCenterAinB._setTransformedInversePos(bodyB.getTransform(),
+                                                         msA->getSweptTransform().m_vCenterOfMass1);
+                hkVector4 maxR;
+                maxR.setAdd4(massCenterAinB, radius4);
+                hkVector4 minR;
+                minR.setSub4(massCenterAinB, radius4);
+                aabb.m_kMinimumCorner.setMax4(aabb.m_kMinimumCorner, minR);
+                aabb.m_kMaximumCorner.setMin4(aabb.m_kMaximumCorner, maxR);
+            }
+            aabbExtents.setSub4(aabb.m_kMaximumCorner, aabb.m_kMinimumCorner);
+            {
+                if (msB->m_kDeltaAngle(3) > 0.0f)
+                {
+                    hkVector4 relPos;
+                    relPos.setSub4(massCenterAinB, msB->getSweptTransform().m_vCenterOfMassLocal);
+                    hkVector4 offsetOut;
+                    offsetOut.setCross(relPos, msB->m_kDeltaAngle);
+                    hkReal f = input.m_pStepInfo.m_fTimeStep * msB->getSweptTransform().getInvDeltaTime();
+                    timInfo.addMul4(f, offsetOut);
+                }
+                hkVector4 zero;
+                zero.setZero4();
+                hkVector4 minPath;
+                minPath.setMin4(zero, timInfo);
+                hkVector4 maxPath;
+                maxPath.setMax4(zero, timInfo);
+                aabb.m_kMinimumCorner.add4(minPath);
+                aabb.m_kMaximumCorner.add4(maxPath);
+            }
+        }
+        else
+        {
+            const hkReal checkEpsilon = input.m_fScalar * 0.5f;
+            bodyA.getShape()->getAabb(bTa, checkEpsilon, aabb);
+            aabbExtents.setSub4(aabb.m_kMaximumCorner, aabb.m_kMinimumCorner);
+        }
+        if (cachedAabb)
+        {
+            if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(cachedAabb->contains(aabb)))->FUN_005609f0())
+            {
+                return -1;
+            }
+            {
+                hkVector4 zero;
+                zero.setZero4();
+                hkVector4 minPath;
+                minPath.setMin4(zero, timInfo);
+                hkVector4 maxPath;
+                maxPath.setMax4(zero, timInfo);
+                hkVector4 expand4;
+                expand4.setAll3(input.m_fScalar * 0.5f);
+                aabb.m_kMinimumCorner.sub4(expand4);
+                aabb.m_kMaximumCorner.add4(expand4);
+                const hkReal maxExpand = 0.4f;
+                const hkReal framesLookAhead = -2.0f;
+                hkVector4 minExtentPath;
+                minExtentPath.setMul4(framesLookAhead, maxPath);
+                hkVector4 maxExtentPath;
+                maxExtentPath.setMul4(framesLookAhead, minPath);
+                hkVector4 maxExpand4;
+                maxExpand4.setMul4(maxExpand, aabbExtents);
+                maxExtentPath.setMin4(maxExtentPath, maxExpand4);
+                hkVector4 minExpand4;
+                minExpand4.setNeg4(maxExpand4);
+                minExtentPath.setMax4(minExtentPath, minExpand4);
+                aabb.m_kMinimumCorner.add4(minExtentPath);
+                aabb.m_kMaximumCorner.add4(maxExtentPath);
+                *cachedAabb = aabb;
+            }
+        }
+    }
+    {
+        const hkpBvTreeShape* bvB = static_cast<const hkpBvTreeShape*>(bodyB.getShape());
+        numHits = bvB->GetAabbHits(aabb, hitListOut, hitListCapacity);
+    }
+    if (numHits >= hitListCapacity)
+    {
+        const hkpBvTreeShape* bvB = static_cast<const hkpBvTreeShape*>(bodyB.getShape());
+        numHits =
+            input.m_iFilter->FilterAabb(input, bodyA, bodyB, bvB, aabb, hitListOut, hitListCapacity);
+        numHits = MathUtilities::min2(numHits, hitListCapacity - 1);
+    }
+    AlgorithmUtilities::quickSort(hitListOut, numHits);
+    hitListOut[numHits] = 0xffffffff;
+    return numHits;
+}
+#include "generated/data/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.inc"

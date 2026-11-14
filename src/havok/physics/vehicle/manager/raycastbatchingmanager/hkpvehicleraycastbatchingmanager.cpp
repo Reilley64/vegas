@@ -2,6 +2,15 @@
 // src/havok/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <intrin.h>
+#include <windows.h>
+#include "fnv/decl/D04B90World.h"
+#include "fnv/decl/VUC_StepInstance.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e5c000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleRayCastBatchingManager.h"
 
 struct hkObjE42A {
@@ -26,19 +35,16 @@ int hkObjE42A::GetAlignedSize(int n) const
 }
 
 struct Buffers {char* first;char* second;char* third;char* fourth;};
-struct Obj{int a,b,c,byte_size,d;unsigned short count;void ComputeBufferLayout(char* base,int unused,Buffers* out) const;};
+struct Obj{int a,b,c,byte_size,d;unsigned short count;void ComputeBufferLayout(char* base,intptr_t unused,Buffers* out) const;};
 inline int align16(int n){return (n+15)&~15;}
 // Computes aligned offsets for four buffers from count and byte_size and stores the resulting pointers in out.
 // @fnv 0x00e42b00
-void Obj::ComputeBufferLayout(char* base,int unused,Buffers* out) const {
+void Obj::ComputeBufferLayout(char* base,intptr_t unused,Buffers* out) const {
  int n=count;int iByteSize=byte_size;
  char* p=base+align16(n*80);out->second=p;p+=align16(n*96);char* pThird=p;p+=align16(iByteSize);out->first=base;out->fourth=p;out->third=pThird;
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
-extern unsigned long DAT_0126835c;
 struct TimerRecord { const char* name; unsigned time; unsigned extra; };
 struct TimerStream { void* start; TimerRecord* current; void* unused; TimerRecord* end; };
 struct WheelResult { hkVector4 position, normal, suspension, contact, friction, extra; };
@@ -59,49 +65,41 @@ struct Vehicle {
  VehicleData* data;
  unsigned field20, field24, field28, field2c, field30, field34, field38;
  WheelCaster* caster;
- void FUN_00e39030(void*, WheelResult*);
 };
-struct Allocator {
- virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
- virtual void freeBlock(void*, int);
-};
-struct ThreadMemory { char* stack; unsigned field04, field08, field0c; Allocator* allocator; Allocator& heap() { return *allocator; } };
-ThreadMemory* FUN_00c85750();
-void FUN_00c908c0(Allocator*, hkArray<WheelResult>*, int, int);
+
 struct LocalWheelResults : hkArray<WheelResult> {
  WheelResult* original;
  void initialize() {
   m_data = 0; m_iElementCount = 0; m_iCapacityState = 0x80000000;
-  ThreadMemory* memory = FUN_00c85750();
-  WheelResult* block = (WheelResult*)memory->stack;
-  memory->stack = (char*)(block + 16);
+  hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
+  WheelResult* block = (WheelResult*)memory->m_stackCurrent;
+  memory->m_stackCurrent = reinterpret_cast<char*>(block + 16);
   m_data = block; m_iCapacityState = 0x80000010; original = block;
  }
  void resize(int size) {
-  Allocator& allocator = FUN_00c85750()->heap();
+  hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
   _ReadWriteBarrier();
   int capacity = m_iCapacityState & 0x3fffffff;
   if (capacity < size) {
    int grown = capacity * 2;
    if (size >= grown) grown = size;
-   FUN_00c908c0(&allocator, this, grown, sizeof(WheelResult));
+   ::FUN_00c908c0((::SpawnedObject *)(hkMemoryAllocator *)(&allocator), (::SpawnedArray *)(::hkArray< ::WheelResult> *)(this), grown, sizeof(WheelResult));
   }
   m_iElementCount = size;
  }
  void release() {
   WheelResult* saved = original;
   if (saved == m_data) m_iElementCount = 0;
-  FUN_00c85750()->stack = (char*)saved;
-  Allocator& allocator = FUN_00c85750()->heap();
+  hkMemoryRouter::getInstance().m_stackCurrent = (char*)saved;
+  hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
   m_iElementCount = 0;
   if ((m_iCapacityState & 0x80000000) == 0)
-   allocator.freeBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(WheelResult));
+   allocator.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(WheelResult));
  }
 };
 struct BatchOutputs { WheelCommand* commands; void* temporary; unsigned char* flags; void* end; };
 struct RayBatchManager {
  unsigned field00, field04; Vehicle** vehicles; int vehicleCount; unsigned field10; hkUint16 wheels, field16;
- void ComputeBufferLayout(WheelCommand*, void*, BatchOutputs*);
  void FUN_00e42da0(void* input, void* world, WheelCommand* commands);
 };
 // Records timer entries TtDoVehicles and Et around a loop that casts or skips each wheel per vehicle via its caster and passes the results to FUN_00e39030.
@@ -120,7 +118,7 @@ void RayBatchManager::FUN_00e42da0(void* input, void* world, WheelCommand* comma
  int count = vehicleCount;
  LocalWheelResults results;
  BatchOutputs active;
- ComputeBufferLayout(commands, world, &active);
+ reinterpret_cast<::Obj *>(this)->ComputeBufferLayout((char *)(commands), (intptr_t)(world), (::Buffers *)(::BatchOutputs *)(&active));
  WheelCommand* cursor = active.commands;
  results.initialize();
  for (int i = 0; i < count; ++i) {
@@ -138,7 +136,7 @@ void RayBatchManager::FUN_00e42da0(void* input, void* world, WheelCommand* comma
    caster->finish(vehicle, wheel, &results.m_data[wheel]);
    if (enabled) ++cursor;
   }
-  vehicles[i]->FUN_00e39030(input, results.m_data);
+  reinterpret_cast<::VUC_StepInstance *>((vehicles[i]))->FUN_00e39030((*(const ::VUC_StepInfo *)(input)), results.m_data);
  }
  timer = (TimerStream*)TlsGetValue(DAT_0126835c);
  record = timer->current;
@@ -152,7 +150,6 @@ void RayBatchManager::FUN_00e42da0(void* input, void* world, WheelCommand* comma
  results.release();
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 struct VRMonitorStream
 {
@@ -166,10 +163,7 @@ struct VRMonitorStream
         {
             _ReadWriteBarrier();
             hkUint32 ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             m_uiStartTicks = ticks;
         }
     };
@@ -179,9 +173,8 @@ struct VRMonitorStream
     char* m_pRayCursor;
     char* m_pCurrentCommand;
 
-    static unsigned long ms_uiThreadLocalStorageIndex;
 
-    static VRMonitorStream& GetMonitorStream() { return *(VRMonitorStream*)TlsGetValue(ms_uiThreadLocalStorageIndex); }
+    static VRMonitorStream& GetMonitorStream() { return *(VRMonitorStream*)TlsGetValue(::DAT_0126835c); }
     bool memoryAvailable() const { return m_kRayEnd < m_pCurrentCommand; }
 
     void timerCommand(const char* name)
@@ -191,7 +184,7 @@ struct VRMonitorStream
             CommandTimingEntry* h = (CommandTimingEntry*)m_kRayEnd;
             h->m_pCommandName = name;
             h->setTime();
-            m_kRayEnd = (char*)(h + 1);
+            m_kRayEnd = reinterpret_cast<char*>(h + 1);
         }
     }
 };
@@ -384,12 +377,10 @@ struct VRRayCastJob : VRCollisionQueryJob
         m_pCollisionQueryJobHeader->m_iJobId = ((numCommands - 1) / 90) + 1;
     }
 
-    void ExecuteRayCastJob();
 };
 
 struct VRJobQueue
 {
-    void EnqueueJob(VRJob& job, int priority);
 };
 
 struct VehicleRayCastBatchingManager
@@ -404,7 +395,6 @@ struct VehicleRayCastBatchingManager
 
     VRVehicle** registeredVehicles() const { return m_ppVehicles; }
 
-    void getBufferBreakdown(void* buffer, int numJobs, VRBatch& batchOut);
     int FUN_00e42b50(const VRWorld* world, int filterSize, int numJobs, VRJobQueue* jobQueue, void* semaphore, void* buffer);
 };
 
@@ -418,7 +408,7 @@ int VehicleRayCastBatchingManager::FUN_00e42b50(const VRWorld* world, int filter
     const int numVehicles = m_numVehicles;
 
     VRBatch batch;
-    getBufferBreakdown(buffer, numJobs, batch);
+    reinterpret_cast<::Obj *>(this)->ComputeBufferLayout((char *)(buffer), numJobs, (::Buffers *)&(batch));
 
     int numCommands = 0;
     VRMonitorStream::GetMonitorStream().timerCommand("TtBuildCommands");
@@ -460,8 +450,8 @@ int VehicleRayCastBatchingManager::FUN_00e42b50(const VRWorld* world, int filter
         {
             const int count = commandsPerJob + (j < remainder);
             VRRayCastJob job(world->m_pCollisionInput, jobHeader, commands, count, semaphore);
-            job.ExecuteRayCastJob();
-            jobQueue->EnqueueJob(job, 1);
+            ::FUN_00e5cee0();
+            reinterpret_cast<::D04B90World *>((jobQueue))->AddObjectCopy((const ::D04B90Object *)&(job), (void *)(1));
             commands += count;
             jobHeader++;
         }

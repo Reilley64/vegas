@@ -1,23 +1,25 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct RecursiveSpinLock
+#include <windows.h>
+#include "fnv/decl/FUN_0078d200_cls.h"
+class RecursiveSpinLock
 {
-    bool TryLock();
 };
 
 struct FUN_008691b0
 {
+    char pad00[0x20];
+    RecursiveSpinLock m_kLock;
     void Lock();
 };
 
 // @fnv 0x008691b0
 void FUN_008691b0::Lock()
 {
-    ((RecursiveSpinLock*)((char*)this + 0x20))->TryLock();
+    reinterpret_cast<::FUN_0078d200_cls *>(&m_kLock)->FUN_0078d200();
 }
 
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long ms);
 // @fnv 0x0040fca0
 void FUN_0040fca0(unsigned long ms)
 {

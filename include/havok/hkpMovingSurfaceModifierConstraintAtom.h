@@ -5,14 +5,9 @@
 
 #include "hkBase.h"
 #include "hkpModifierConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpMovingSurfaceModifierConstraintAtom : public hkpModifierConstraintAtom
 {
   public:
     hkVector4 m_fVelocity;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMovingSurfaceModifierConstraintAtom[(sizeof(hkpMovingSurfaceModifierConstraintAtom) == 0x30)
-                                                                    ? 1
-                                                                    : -1];
 #endif

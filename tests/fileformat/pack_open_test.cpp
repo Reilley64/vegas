@@ -1,0 +1,444 @@
+#include "check.h"
+#include "fileformat/original_identity.h"
+#include "fileformat/pack_catalogue.h"
+#include "fileformat/pack_open.h"
+#include "fileformat/pack_structure.h"
+#include "fileformat/pack_validation.h"
+#include "fileformat/pack_writer.h"
+#include "fileformat/supported_release.h"
+
+#include <algorithm>
+#include <array>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <exception>
+#include <filesystem>
+#include <format>
+#include <fstream>
+#include <functional>
+#include <initializer_list>
+#include <random>
+#include <span>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <system_error>
+#include <vector>
+
+namespace
+{
+
+namespace fs = std::filesystem;
+
+using fileformat::OriginalCheckedPack;
+using fileformat::OriginalProblem;
+using fileformat::PackCatalogueProblem;
+using fileformat::PackOpenProblem;
+using fileformat::PackStructureProblem;
+using fileformat::PackWriteEntry;
+using fileformat::ValidatedPack;
+
+// Where the container decision puts the fields this test changes. The test
+// states them itself and does not share them with the reader or the writer.
+namespace at
+{
+constexpr std::size_t envelopeVersion = 8;
+constexpr std::size_t catalogueVersion = 12;
+constexpr std::size_t nativeDataContract = 16;
+constexpr std::size_t buildTarget = 20;
+constexpr std::size_t fileBytes = 64;
+constexpr std::size_t directoryBytes = 72;
+constexpr std::size_t entryCount = 80;
+constexpr std::size_t crc32 = 84;
+constexpr std::size_t directory = 88;
+constexpr std::size_t recordBytes = 24;
+constexpr std::size_t recordOffset = 8;
+constexpr std::size_t recordSize = 16;
+} // namespace at
+
+// Digests from Digest() are made up: none is the digest of a real file. The
+// packs that open record the supported release's version and digest.
+std::array<std::byte, 32> Digest(std::uint8_t seed)
+{
+    std::array<std::byte, 32> digest{};
+    for (std::size_t i = 0; i < digest.size(); ++i)
+        digest[i] = static_cast<std::byte>(seed + 7 * i);
+    return digest;
+}
+
+std::span<const std::byte> Bytes(std::string_view text)
+{
+    return std::as_bytes(std::span(text.data(), text.size()));
+}
+
+PackWriteEntry Entry(std::string_view key, std::uint32_t version, std::string_view payload)
+{
+    PackWriteEntry entry{{}, version, Bytes(payload)};
+    for (std::size_t i = 0; i < entry.key.size(); ++i)
+        entry.key[i] = key[i];
+    return entry;
+}
+
+const std::array<PackWriteEntry, 3> threeEntries{
+    Entry("AAAA", 1, "a"),
+    Entry("BBBB", 2, "bb"),
+    Entry("CCCC", 3, "ccc"),
+};
+
+std::vector<std::byte> ThreeEntryPack(const std::array<std::uint16_t, 4>& version = supported_release::version,
+                                      const std::array<std::byte, 32>& sha = supported_release::Sha256())
+{
+    return fileformat::WritePackStructure(version, sha, threeEntries);
+}
+
+// CRC-32 one bit at a time, so the test does not check zlib against zlib.
+std::uint32_t Crc32(std::uint32_t crc, std::span<const std::byte> bytes)
+{
+    crc = ~crc;
+    for (std::byte byte : bytes)
+    {
+        crc ^= static_cast<std::uint32_t>(byte);
+        for (int bit = 0; bit < 8; ++bit)
+            crc = (crc >> 1) ^ ((crc & 1) != 0 ? 0xEDB88320u : 0u);
+    }
+    return ~crc;
+}
+
+void Put(std::vector<std::byte>& bytes, std::size_t offset, std::uint64_t value, std::size_t width)
+{
+    for (std::size_t i = 0; i < width; ++i)
+        bytes[offset + i] = static_cast<std::byte>(value >> (8 * i));
+}
+
+// Stores the CRC-32 of the changed bytes, so only the change made is wrong.
+void Reseal(std::vector<std::byte>& bytes)
+{
+    const std::span<const std::byte> all = bytes;
+    Put(bytes, at::crc32, Crc32(Crc32(0, all.first(at::crc32)), all.subspan(at::crc32 + 4)), 4);
+}
+
+std::size_t Record(std::size_t index, std::size_t field)
+{
+    return at::directory + index * at::recordBytes + field;
+}
+
+// A folder of the test's own under the temporary folder, removed with what
+// it holds when the test ends.
+class Folder
+{
+  public:
+    Folder()
+    {
+        std::random_device random;
+        for (;;)
+        {
+            path = fs::temp_directory_path() / std::format("vegas-pack-open-{:08x}{:08x}", random(), random());
+            if (fs::create_directory(path))
+                return;
+        }
+    }
+    Folder(const Folder&) = delete;
+    Folder& operator=(const Folder&) = delete;
+    ~Folder()
+    {
+        std::error_code ignored;
+        fs::permissions(path / "unreadable.pack", fs::perms::owner_all, ignored);
+        fs::remove_all(path, ignored);
+    }
+
+    fs::path Write(std::string_view name, std::span<const std::byte> bytes) const
+    {
+        const fs::path file = path / name;
+        std::ofstream out(file, std::ios::binary | std::ios::trunc);
+        out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+        out.close();
+        if (!out)
+            throw std::runtime_error("the test could not write its pack");
+        return file;
+    }
+
+    fs::path path;
+};
+
+void Opens(Checks& check, std::string_view name, const Folder& folder, std::span<const PackWriteEntry> entries)
+{
+    const fs::path file = folder.Write(
+        std::format("{}.pack", name),
+        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
+    const OriginalCheckedPack pack = fileformat::OpenPack(file);
+    check.Equal(std::format("{}: original version", name), true,
+                pack.Original().version == supported_release::version);
+    check.Equal(std::format("{}: original SHA-256", name), true,
+                pack.Original().sha256 == supported_release::Sha256());
+    check.Equal(std::format("{}: entry count", name), entries.size(), pack.Entries().size());
+    if (pack.Entries().size() != entries.size())
+        return;
+    for (std::size_t i = 0; i < entries.size(); ++i)
+    {
+        check.Equal(std::format("{}: key {}", name, i), true, entries[i].key == pack.Entries()[i].key);
+        check.Equal(std::format("{}: version {}", name, i), entries[i].version, pack.Entries()[i].version);
+        check.Equal(std::format("{}: payload {}", name, i), true,
+                    std::ranges::equal(entries[i].payload, pack.EntryBytes(i)));
+    }
+}
+
+// Expects OpenPack to throw `Error` with the problem given.
+template <typename Error, typename Problem>
+void Refuses(Checks& check, std::string_view name, const fs::path& file, Problem expected)
+{
+    try
+    {
+        fileformat::OpenPack(file);
+        check.Fail(name, "was opened");
+    }
+    catch (const Error& error)
+    {
+        if (error.Problem() != expected)
+            check.Fail(name, std::format("was refused for another reason: {}", error.what()));
+    }
+    catch (const std::exception& error)
+    {
+        check.Fail(name, std::format("was refused with another kind of error: {}", error.what()));
+    }
+}
+
+void OpensAValidPack(Checks& check)
+{
+    const Folder folder;
+    Opens(check, "three entries", folder, threeEntries);
+
+    // Files of one read chunk, 1 MiB, exactly, one byte more and more than
+    // two: the reader reads to the end in chunks.
+    for (const std::size_t total : {std::size_t{1} << 20, (std::size_t{1} << 20) + 1, (std::size_t{2} << 20) + 7})
+    {
+        const std::string payload(total - at::directory - at::recordBytes, 'p');
+        const std::array<PackWriteEntry, 1> one{Entry("DATA", 1, payload)};
+        Opens(check, std::format("file of {} bytes", total), folder, one);
+    }
+}
+
+// The pack is read from its own file only; a pack beside no executable at
+// all opens the same way.
+void OpensAPackAlone(Checks& check)
+{
+    const Folder folder;
+    const fs::path file = folder.Write("vegas-data.pack", ThreeEntryPack());
+    std::size_t others = 0;
+    for (const fs::directory_entry& entry : fs::directory_iterator(folder.path))
+        others += entry.path() != file ? 1 : 0;
+    check.Equal("files beside the pack", std::size_t{0}, others);
+    const OriginalCheckedPack pack = fileformat::OpenPack(file);
+    check.Equal("entries of a pack alone", threeEntries.size(), pack.Entries().size());
+}
+
+void RefusesAMissingFile(Checks& check)
+{
+    const Folder folder;
+    Refuses<fileformat::PackOpenError>(check, "no file", folder.path / "vegas-data.pack", PackOpenProblem::Missing);
+    Refuses<fileformat::PackOpenError>(check, "no folder", folder.path / "absent" / "vegas-data.pack",
+                                       PackOpenProblem::Missing);
+}
+
+void RefusesAnUnreadableFile(Checks& check)
+{
+    const Folder folder;
+    fs::create_directory(folder.path / "folder.pack");
+    Refuses<fileformat::PackOpenError>(check, "a folder", folder.path / "folder.pack", PackOpenProblem::Unreadable);
+
+    // A file its owner may not read. Where permissions do not stop the test
+    // reading it, as on Windows or for an administrator, the case is skipped
+    // and says so.
+    const fs::path file = folder.Write("unreadable.pack", ThreeEntryPack());
+    fs::permissions(file, fs::perms::none);
+    if (std::ifstream(file, std::ios::binary).is_open())
+    {
+        std::printf("data pack open: a file without read permission: not run, permissions do not stop reading\n");
+        return;
+    }
+    Refuses<fileformat::PackOpenError>(check, "no read permission", file, PackOpenProblem::Unreadable);
+}
+
+// Each problem of the container, one change at a time, through the file.
+void RefusesACorruptContainer(Checks& check)
+{
+    const Folder folder;
+    const std::vector<std::byte> valid = ThreeEntryPack();
+    const auto refuses = [&](std::string_view name, PackStructureProblem expected,
+                             const std::function<void(std::vector<std::byte>&)>& change) {
+        std::vector<std::byte> bytes = valid;
+        change(bytes);
+        Refuses<fileformat::PackStructureError>(check, name, folder.Write(std::format("{}.pack", name), bytes),
+                                                expected);
+    };
+
+    refuses("empty", PackStructureProblem::HeaderTruncated, [](auto& b) { b.clear(); });
+    refuses("header short", PackStructureProblem::HeaderTruncated, [](auto& b) { b.resize(87); });
+    refuses("magic", PackStructureProblem::Magic, [](auto& b) { b[7] = std::byte{1}; Reseal(b); });
+    refuses("envelope version 2", PackStructureProblem::EnvelopeVersion,
+            [](auto& b) { Put(b, at::envelopeVersion, 2, 4); Reseal(b); });
+    refuses("next catalogue version", PackStructureProblem::CatalogueVersion,
+            [](auto& b) { Put(b, at::catalogueVersion, fileformat::packCatalogueVersion + 1, 4); Reseal(b); });
+    refuses("native data contract 0", PackStructureProblem::NativeDataContract,
+            [](auto& b) { Put(b, at::nativeDataContract, 0, 4); Reseal(b); });
+    refuses("build target 2", PackStructureProblem::BuildTarget,
+            [](auto& b) { Put(b, at::buildTarget, 2, 4); Reseal(b); });
+    refuses("one byte appended", PackStructureProblem::FileBytes,
+            [](auto& b) { b.push_back(std::byte{0}); Reseal(b); });
+    refuses("directory past the end", PackStructureProblem::DirectoryBytes,
+            [](auto& b) { Put(b, at::directoryBytes, b.size() - at::directory + 1, 8); Reseal(b); });
+    refuses("entry count 4", PackStructureProblem::EntryCount,
+            [](auto& b) { Put(b, at::entryCount, 4, 4); Reseal(b); });
+    refuses("no entries", PackStructureProblem::NoEntries, [](auto& b) {
+        b.resize(at::directory);
+        Put(b, at::fileBytes, b.size(), 8);
+        Put(b, at::directoryBytes, 0, 8);
+        Put(b, at::entryCount, 0, 4);
+        Reseal(b);
+    });
+    refuses("payload byte changed", PackStructureProblem::Checksum, [](auto& b) { b.back() ^= std::byte{1}; });
+    refuses("keys swapped", PackStructureProblem::KeyOrder, [](auto& b) {
+        std::swap_ranges(b.begin() + Record(0, 0), b.begin() + Record(0, 4), b.begin() + Record(1, 0));
+        Reseal(b);
+    });
+    refuses("payload past the end", PackStructureProblem::PayloadOutOfBounds,
+            [](auto& b) { Put(b, Record(0, at::recordOffset), b.size() + 1, 8); Reseal(b); });
+    refuses("payload size past the end", PackStructureProblem::PayloadOutOfBounds,
+            [](auto& b) { Put(b, Record(2, at::recordSize), 4, 8); Reseal(b); });
+    refuses("payload a byte late", PackStructureProblem::PayloadPlacement,
+            [](auto& b) { Put(b, Record(0, at::recordOffset), Record(3, 0) + 1, 8); Reseal(b); });
+    refuses("empty payload", PackStructureProblem::EmptyPayload,
+            [](auto& b) { Put(b, Record(0, at::recordSize), 0, 8); Reseal(b); });
+    refuses("last payload short", PackStructureProblem::TrailingBytes,
+            [](auto& b) { Put(b, Record(2, at::recordSize), 2, 8); Reseal(b); });
+}
+
+void RefusesAnUnsupportedOriginal(Checks& check)
+{
+    const Folder folder;
+    const auto refuses = [&](std::string_view name, const std::array<std::uint16_t, 4>& version,
+                             const std::array<std::byte, 32>& sha, OriginalProblem expected) {
+        Refuses<fileformat::UnsupportedOriginalError>(
+            check, name, folder.Write(std::format("{}.pack", name), ThreeEntryPack(version, sha)), expected);
+    };
+    refuses("another version", {1, 4, 0, 524}, supported_release::Sha256(), OriginalProblem::Version);
+    refuses("another digest", supported_release::version, Digest(1), OriginalProblem::Digest);
+    std::array<std::byte, 32> lastByte = supported_release::Sha256();
+    lastByte.back() ^= std::byte{0x01};
+    refuses("last digest byte changed", supported_release::version, lastByte, OriginalProblem::Digest);
+}
+
+// Expects OpenAndValidatePack to throw `Error` with the problem given.
+template <typename Error, typename Problem>
+void RefusesToValidate(Checks& check, std::string_view name, const fs::path& file, Problem expected)
+{
+    try
+    {
+        fileformat::OpenAndValidatePack(file);
+        check.Fail(name, "was validated");
+    }
+    catch (const Error& error)
+    {
+        if (error.Problem() != expected)
+            check.Fail(name, std::format("was refused for another reason: {}", error.what()));
+    }
+    catch (const std::exception& error)
+    {
+        check.Fail(name, std::format("was refused with another kind of error: {}", error.what()));
+    }
+}
+
+// A pack of catalogue version 4: C1 under INST, version 1, its four fields of
+// 20, 60, 8 and 52 bytes, the log path suffixes under LOGS, version 1, their
+// four fields of 16, 16, 24 and 16 bytes, the save directory strings under
+// SDIR, version 1, their ten fields of 368 bytes in all, and the main window
+// class under WNDC, version 1, its one field of 256 bytes, each holding a
+// made-up string and zeros; the format of the INI paths holds one %s.
+std::vector<std::byte> CompletePack()
+{
+    std::string payload(140, '\0');
+    payload.replace(0, 4, "name");
+    payload.replace(20, 5, "first");
+    payload.replace(80, 3, "cap");
+    payload.replace(88, 6, "second");
+    std::string suffixes(72, '\0');
+    suffixes.replace(0, 2, "s2");
+    suffixes.replace(16, 2, "s3");
+    suffixes.replace(32, 2, "s4");
+    suffixes.replace(56, 2, "s5");
+    std::string saveDirectory(368, '\0');
+    saveDirectory.replace(0, 4, "[%s]");
+    saveDirectory.replace(8, 3, "ini");
+    saveDirectory.replace(348, 6, "folder");
+    std::string windowClass(256, '\0');
+    windowClass.replace(0, 5, "class");
+    const std::array<PackWriteEntry, 4> four{Entry("INST", 1, payload), Entry("LOGS", 1, suffixes),
+                                             Entry("SDIR", 1, saveDirectory), Entry("WNDC", 1, windowClass)};
+    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), four);
+}
+
+// The file of a complete pack opens and validates; each stage before the
+// catalogue reports through the file as it does for OpenPack.
+void OpensAndValidates(Checks& check)
+{
+    const Folder folder;
+    const ValidatedPack pack = fileformat::OpenAndValidatePack(folder.Write("vegas-data.pack", CompletePack()));
+    check.Equal("validated: original SHA-256", true, pack.Original().sha256 == supported_release::Sha256());
+    check.Equal("validated: mutex name", std::string_view("name"),
+                std::string_view(pack.SingleInstance().mutexName.data()));
+    check.Equal("validated: first message text", std::string_view("first"),
+                std::string_view(pack.SingleInstance().firstMessageText.data()));
+    check.Equal("validated: message caption", std::string_view("cap"),
+                std::string_view(pack.SingleInstance().messageCaption.data()));
+    check.Equal("validated: second message text", std::string_view("second"),
+                std::string_view(pack.SingleInstance().secondMessageText.data()));
+    check.Equal("validated: first suffix", std::string_view("s2"),
+                std::string_view(pack.PathSuffixes().firstSuffix.data()));
+    check.Equal("validated: second suffix", std::string_view("s3"),
+                std::string_view(pack.PathSuffixes().secondSuffix.data()));
+    check.Equal("validated: third suffix", std::string_view("s4"),
+                std::string_view(pack.PathSuffixes().thirdSuffix.data()));
+    check.Equal("validated: fourth suffix", std::string_view("s5"),
+                std::string_view(pack.PathSuffixes().fourthSuffix.data()));
+    check.Equal("validated: INI path format", std::string_view("[%s]"),
+                std::string_view(pack.SaveDirectory().iniPathFormat.data()));
+    check.Equal("validated: first INI name", std::string_view("ini"),
+                std::string_view(pack.SaveDirectory().firstIniName.data()));
+    check.Equal("validated: default INI name", std::string_view("folder"),
+                std::string_view(pack.SaveDirectory().defaultIniName.data()));
+    check.Equal("validated: class name", std::string_view("class"),
+                std::string_view(pack.WindowClass().className.data()));
+
+    RefusesToValidate<fileformat::PackOpenError>(check, "validate: no file", folder.path / "absent.pack",
+                                                 PackOpenProblem::Missing);
+    fs::create_directory(folder.path / "folder.pack");
+    RefusesToValidate<fileformat::PackOpenError>(check, "validate: a folder", folder.path / "folder.pack",
+                                                 PackOpenProblem::Unreadable);
+    std::vector<std::byte> nextCatalogue = CompletePack();
+    Put(nextCatalogue, at::catalogueVersion, fileformat::packCatalogueVersion + 1, 4);
+    Reseal(nextCatalogue);
+    RefusesToValidate<fileformat::PackStructureError>(check, "validate: next catalogue version",
+                                                      folder.Write("next-catalogue.pack", nextCatalogue),
+                                                      PackStructureProblem::CatalogueVersion);
+    RefusesToValidate<fileformat::UnsupportedOriginalError>(
+        check, "validate: another digest",
+        folder.Write("digest.pack", ThreeEntryPack(supported_release::version, Digest(1))), OriginalProblem::Digest);
+    RefusesToValidate<fileformat::PackCatalogueError>(check, "validate: three other entries",
+                                                      folder.Write("three.pack", ThreeEntryPack()),
+                                                      PackCatalogueProblem::MissingEntry);
+}
+
+} // namespace
+
+int main()
+{
+    Checks check("data pack open");
+    check.Run("valid pack", [&] { OpensAValidPack(check); });
+    check.Run("pack alone", [&] { OpensAPackAlone(check); });
+    check.Run("missing file", [&] { RefusesAMissingFile(check); });
+    check.Run("unreadable file", [&] { RefusesAnUnreadableFile(check); });
+    check.Run("corrupt container", [&] { RefusesACorruptContainer(check); });
+    check.Run("unsupported original", [&] { RefusesAnUnsupportedOriginal(check); });
+    check.Run("open and validate", [&] { OpensAndValidates(check); });
+    return check.ExitCode();
+}

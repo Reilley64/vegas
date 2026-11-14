@@ -1,12 +1,12 @@
 // gamebryo2.2/corelibs/nianimation/nialphacontroller_decls.h: declares NiTransformController, NiAlphaController
 
-class CloningProcess;
+#include "fnv/decl/FUN_00a38ef0_Class.h"
+struct CloningProcess;
 class NiTransformController
 {
   public:
-    void CopyMemberData(NiTransformController*, CloningProcess&);
 };
-class NiAlphaController
+struct NiAlphaController
 {
   public:
     void CopyMemberData(NiAlphaController*, CloningProcess&);

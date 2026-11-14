@@ -12,17 +12,20 @@ class NiBinaryStream
         position += read(this, &value, 4, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned char prefix[0x24c];
     NiBinaryStream* input;
 };
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     float r, g, b;
     void LoadBinary(NiStream&);
+public:
+    void SaveBinary(::NiStream &);
 };
 class NiBSplineInterpolator
 {

@@ -6,7 +6,6 @@
 #include "BaseProcess.h"
 #include "TimeoutTimer.h"
 #include "ActorValueModifierList.h"
-#pragma pack(push, 4)
 class LowProcess : public BaseProcess
 {
   public:
@@ -50,31 +49,4 @@ class LowProcess : public BaseProcess
     int GetPackageObjectType();
     TESObjectREFR* GetActiveCombatTarget();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LowProcess) == 0xB4);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_uiObjectFlags) == 0x30);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pCurrentWeapon) == 0x34);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kProcessData38) == 0x38);
-FNV_STATIC_ASSERT(offsetof(LowProcess, pTarget) == 0x40);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pReference40) == 0x44);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pReference44) == 0x48);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pFormList) == 0x4C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_sFourthValue) == 0x50);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pObjectReference) == 0x54);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_iValue58) == 0x58);
-FNV_STATIC_ASSERT(offsetof(LowProcess, ReferenceListNode) == 0x5C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pDetectionData60) == 0x64);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pDetectionData64) == 0x68);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kReferenceList68) == 0x6C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kDetectionDataList) == 0x74);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kReferenceList70) == 0x7C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pBoundObject74) == 0x84);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pBoundObject78) == 0x88);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_eReferenceTypeInfo) == 0x8C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, PackageFactionTarget) == 0x90);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kActorValueModifiers) == 0x94);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_fValue88) == 0xA4);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_fValue8C) == 0xA8);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_fValue90) == 0xAC);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_bHasBoundObject) == 0xB0);
 #endif

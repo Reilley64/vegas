@@ -2,19 +2,38 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodyinertiaviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodyinertiaviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_00d67880();
 
+#include "havok/hkUlong.h"
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <intrin.h>
+#include <new>
+#include "fnv/decl/FUN_00ddcc60.h"
+#include "fnv/decl/FUN_00de1fc0.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93820__hkpWorldC938.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d67000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 extern int DAT_01268ffc;
-extern int DAT_01269cd0;
 
 struct FUN_00dd9380_StandIn {
-    int __thiscall FUN_00dd9380(const char* name, void* factory);
 };
 
 // @fnv 0x00d678c0
 void __cdecl RegisterInertiaTensors()
 {
-    DAT_01268ffc = ((FUN_00dd9380_StandIn*)DAT_01269cd0)->FUN_00dd9380("Inertia Tensors", &FUN_00d67880);
+    DAT_01268ffc = reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_StandIn*)(::DAT_01269cd0))))->FUN_00dd9380("Inertia Tensors", reinterpret_cast<intptr_t>(&((void (&)())::FUN_00d67880)));
 }
 
 struct InnerArray {
@@ -37,8 +56,6 @@ struct Arg {
     SubObject** m_34;
     int m_38;
 
-    void FUN_00c93820(void* p);
-    void FUN_00c93920(void* p);
 };
 
 struct Field28 {
@@ -56,8 +73,8 @@ struct FUN_00d67020_class {
 
 // @fnv 0x00d67020
 void FUN_00d67020_class::VisitSubObjects(Arg* arg) {
-    arg->FUN_00c93820(this ? &field28 : 0);
-    arg->FUN_00c93920(this ? &field2c : 0);
+    reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((arg))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(void *)(this ? &field28 : 0));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((arg))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(this ? &field2c : 0));
 
     for (int i = 0; i < arg->m_2c; ++i) {
         InnerArray* arr = &arg->m_28[i]->arr;
@@ -82,50 +99,58 @@ void FUN_00d67020_class::VisitSubObjects(Arg* arg) {
     }
 }
 
-struct Handler { void VisitSubObjects(int); };
 struct Collection {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
     int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
     int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C;
     int unk60; int unk64; int unk68;
-    int* items;
+    void** items;
     int count;
 };
-struct Owner {
-    int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18;
-    Collection* collection;
-    void __thiscall ProcessCollectionItems();
+// The rigid body inertia viewer: hkReferencedObject, then its hkProcess part (Owner) at +0x08 and its world
+// listener part (TargetClass) at +0x20.
+struct InertiaViewerRefObject {
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
 };
-// Iterates the collection's items and passes each to VisitSubObjects on the Handler at this-8, if the collection exists.
+struct Owner {
+    void* m_vtbl;
+    int unk04; int unk08; int unk0C; int unk10; int unk14;
+    void ProcessCollectionItems();
+};
+struct TargetClass {
+    void* m_vtbl;
+    Collection* collection;
+    void FUN_00d67150(void* arg);
+};
+struct InertiaViewer : InertiaViewerRefObject, Owner, TargetClass {
+};
+// Iterates the collection's items and passes each to VisitSubObjects on the viewer, if the collection exists.
 // @fnv 0x00d67110
-void __thiscall Owner::ProcessCollectionItems() {
+void Owner::ProcessCollectionItems() {
+    InertiaViewer* viewer = static_cast<InertiaViewer*>(this);
+    Collection* collection = viewer->collection;
     if (collection != 0) {
         int n = collection->count;
         int i = 0;
         if (0 < n) {
             do {
-                ((Handler*)((char*)this - 8))->VisitSubObjects(collection->items[i]);
+                reinterpret_cast<::FUN_00d67020_class *>(viewer)->VisitSubObjects((::Arg *)(collection->items[i]));
                 i = i + 1;
             } while (i < n);
         }
     }
 }
 
-struct Prefix32 {
-    int unk00; int unk04; int unk08; int unk0C;
-    int unk10; int unk14; int unk18; int unk1C;
-};
-struct SecondaryBase {
+// The viewer's world listener part, as TargetClass.
+struct SecondaryBase : TargetClass {
     void FUN_00d67160();
 };
-struct CompleteObject : Prefix32, SecondaryBase {
-    void VisitSubObjects();
-};
-// Adjusts this to the enclosing CompleteObject and calls its VisitSubObjects method.
+// Calls the viewer's VisitSubObjects method.
 // @fnv 0x00d67160
 void SecondaryBase::FUN_00d67160() {
-    CompleteObject* pCompleteObject = reinterpret_cast<CompleteObject*>(reinterpret_cast<char*>(this) - sizeof(Prefix32));
-    pCompleteObject->VisitSubObjects();
+    InertiaViewer* viewer = static_cast<InertiaViewer*>(static_cast<TargetClass*>(this));
+    reinterpret_cast<::FUN_00d67020_class *>(viewer)->VisitSubObjects({});
 }
 
 struct S_00d67170_Array {
@@ -229,8 +254,6 @@ struct FUN_00d66f30_params {
     int unk48;
     int unk4c;
 
-    void FUN_00c917a0(void* apTarget);
-    void ClearValue(void* apTarget);
 };
 
 struct FUN_00d66f30_cls {
@@ -253,8 +276,8 @@ struct FUN_00d66f30_cls {
 // @fnv 0x00d66f30
 void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
 {
-    apParams->FUN_00c917a0(this != 0 ? &m_kInner : 0);
-    apParams->ClearValue(this != 0 ? &m_iN : 0);
+    reinterpret_cast<::hkWorldC917 *>((apParams))->FUN_00c917a0(this != 0 ? &m_kInner : 0);
+    reinterpret_cast<::SearchArray *>((apParams))->ClearValue((this != 0 ? &m_iN : 0));
 
     for (int i = 0; i < apParams->m_iItemCount; i++) {
         FUN_00d66f30_list* pList = &apParams->m_ppItems[i]->m_kList;
@@ -278,17 +301,9 @@ void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
     }
 }
 
-struct Outer {
-    void __thiscall FUN_00d66f30(void* arg);
-};
-
-struct TargetClass {
-    void __thiscall FUN_00d67150(void* arg);
-};
-
 // @fnv 0x00d67150
 void TargetClass::FUN_00d67150(void* arg) {
-    ((Outer*)((char*)this - 0x20))->FUN_00d66f30(arg);
+    reinterpret_cast<::FUN_00d66f30_cls *>(static_cast<InertiaViewer*>(this))->FUN_00d66f30((::FUN_00d66f30_params *)(arg));
 }
 
 class D671F0ListenerA {
@@ -390,28 +405,14 @@ FUN_00d671f0::FUN_00d671f0(void* info) : D671F0Base(info)
 {
 }
 
-struct D67880Allocator {
-    virtual void unk00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct D67880MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D67880Allocator* m_pStreamAllocator;
 
-    D67880Allocator& heap() { return *m_pStreamAllocator; }
-};
-
-extern "C" D67880MemoryRouter& __cdecl FUN_00c85750();
 
 class D67880ReferencedObject {
 public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
-        D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -456,7 +457,6 @@ D67880Interface* __cdecl FUN_00d67880(const void* info)
     return new D67880Object(info);
 }
 
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 template <typename T> inline void D671B0ConstructWithCopy(T* p, int n, const T& t) { for (int i = 0; i < n; i++) p[i] = t; }
 
 template <typename T>
@@ -467,9 +467,9 @@ struct D671B0Array {
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& val)
     {
-        D67880MemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         D671B0ConstructWithCopy<T>(m_data + m_iElementCount, 1, val);
         m_iElementCount++;
     }
@@ -492,19 +492,7 @@ extern int DAT_010d1d60;
 extern int DAT_010d1d50;
 extern int DAT_010d1d34;
 extern int DAT_010d1d24;
-extern int DAT_010ccf7c;
-extern int DAT_0102f13c;
 
-struct Heap_d672 {
-    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0C();
-    virtual void ReturnMemory(void* p, int nbytes) throw();
-};
-struct Router_d672 {
-    int unk00, unk04, unk08, unk0C;
-    Heap_d672* m_pStreamAllocator;
-    Heap_d672& heap() { return *m_pStreamAllocator; }
-    static Router_d672& __cdecl FUN_00c85750() throw();
-};
 
 template <class T> __forceinline void destructArray_d672(T* p, int n)
 {
@@ -518,11 +506,11 @@ template <class T> struct hkArray_d672 {
     int m_iCapacityState;
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_d672& heap = Router_d672::FUN_00c85750().heap();
+        hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
         destructArray_d672(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            heap.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -534,10 +522,10 @@ template <class T> struct hkPodArray_d672 {
     int m_iCapacityState;
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_d672& heap = Router_d672::FUN_00c85750().heap();
+        hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            heap.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -618,8 +606,6 @@ struct Viewer_d672 {
     int* m_vtbl2C;
     hkPodArray_d672<int> m_ids;
     hkArray_d672<DisplayGeometry_d672> m_geometries;
-    void FUN_00d66f30(Entity_d672* entity);
-    void FUN_00ddcc60();
     void FUN_00d67250();
 };
 
@@ -635,13 +621,13 @@ void Viewer_d672::FUN_00d67250()
     if (m_pOwningWorld) {
         int n = m_pOwningWorld->m_iActorEntryCount;
         for (int i = 0; i < n; i++)
-            FUN_00d66f30(m_pOwningWorld->m_kActorEntries[i]);
+            reinterpret_cast<::FUN_00d66f30_cls *>(this)->FUN_00d66f30((::FUN_00d66f30_params *)(m_pOwningWorld->m_kActorEntries[i]));
     }
     m_geometries.ClearAndRelease();
     m_ids.ClearAndRelease();
-    m_vtbl2C = &DAT_010ccf7c;
-    m_vtbl28 = &DAT_0102f13c;
-    FUN_00ddcc60();
+    m_vtbl2C = &(*reinterpret_cast<int *>(&::DAT_010ccf7c));
+    m_vtbl28 = &(*reinterpret_cast<int *>(&::str_0102f13c));
+    reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
 }
 
 struct D678F0Primary {
@@ -718,46 +704,32 @@ D67900Object::D67900Object()
 // The override is DECLARED ONLY, so the thunk is the single defined
 // function symbol carrying the name FUN_00d67920, and a defined key function in the
 // derived class makes the vftable that references the thunk be emitted here.
-struct AdjBase1 {
-    AdjBase1();
+struct FnvHavok00d67920_AdjBase1 {
+    FnvHavok00d67920_AdjBase1();
     virtual void FUN_00d67920();
     char pad[0x24];
 };
 
-struct AdjBase2 {
-    AdjBase2();
+struct FnvHavok00d67920_AdjBase2 {
+    FnvHavok00d67920_AdjBase2();
 // @fnv 0x00d67920
     virtual void FUN_00d67920();
 };
 
-struct AdjOwner : AdjBase1, AdjBase2 {
-    AdjOwner();
+struct FnvHavok00d67920_AdjOwner : FnvHavok00d67920_AdjBase1, FnvHavok00d67920_AdjBase2 {
+    FnvHavok00d67920_AdjOwner();
     virtual void key_fn();    // key function - defined, so the vftable is emitted
     void FUN_00d67920();              // the shared override - declared only
 };
 
-AdjOwner::AdjOwner() { }
-void AdjOwner::key_fn() { }
+FnvHavok00d67920_AdjOwner::FnvHavok00d67920_AdjOwner() { }
+void FnvHavok00d67920_AdjOwner::key_fn() { }
 
-AdjOwner* make_adj_owner() { static AdjOwner o; return &o; }
+FnvHavok00d67920_AdjOwner* FnvHavok_hkprigidbodyinertiaviewer_make_adj_owner() { static FnvHavok00d67920_AdjOwner o; return &o; }
 
 namespace fnv_00d67930 {
-struct S_00d67930_Heap {
-    virtual void vfn_00();
-    virtual void vfn_04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct S_00d67930_Router {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S_00d67930_Heap* m_pStreamAllocator;
-    __forceinline S_00d67930_Heap& heap() { return *m_pStreamAllocator; }
-};
 
-S_00d67930_Router& __cdecl FUN_00c85750();
 
 struct FUN_00d67930 {
     virtual ~FUN_00d67930() throw();
@@ -765,10 +737,10 @@ struct FUN_00d67930 {
     short m_sReferenceCount;
 
     FUN_00d67930();
-    static void operator delete(void* p, unsigned int)
+    static void operator delete(void* p, size_t)
     {
         FUN_00d67930* b = static_cast<FUN_00d67930*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -780,10 +752,8 @@ FUN_00d67930::FUN_00d67930() {}
 #include <math.h>
 #include <xmmintrin.h>
 #include <windows.h>
-extern unsigned long DAT_0126835c;
 extern double DAT_010d0f68;
-extern float DAT_01011d78;
-extern char DAT_010c41f8[], DAT_010d1d8c[];
+extern char DAT_010d1d8c[];
 struct ProfileEvent {
     const char* name;
     unsigned int timestamp;
@@ -801,10 +771,7 @@ inline void recordEvent(const char* name) {
     if (event < stream->end) {
         event->name = name;
         unsigned int tick;
-        __asm {
-            rdtsc
-            mov dword ptr[tick], eax
-        }
+        tick = static_cast<unsigned int>(__rdtsc());
         event->timestamp = tick;
         stream->current = event + 1;
     }
@@ -862,7 +829,6 @@ struct Motion : MotionHeader {
     int unk88;
     int unk8c;
     Vec centerOfMass;
-    float FUN_00c86430();
 };
 struct Body {
     int unk00;
@@ -924,7 +890,7 @@ struct Body {
     Motion motion;
     __forceinline Motion* getRigidMotion() { return &motion; }
     __forceinline const Motion* getRigidMotionC() const { return &motion; }
-    __forceinline float GetMassValue() { return getRigidMotion()->FUN_00c86430(); }
+    __forceinline float GetMassValue() { return reinterpret_cast<::MotionMassView *>((getRigidMotion()))->FUN_00c86430(); }
     __forceinline void GetInverseScaleMatrix(Inertia& m) { getRigidMotion()->getInertia(&m); }
     __forceinline const Transform& getTransform() const { return motion.transform; }
     __forceinline const Vec& getCenterOfMassLocal() const { return motion.centerOfMass; }
@@ -941,10 +907,8 @@ struct Shape {
     int type;
     int unk54, unk58, unk5c;
     ShapeVec4 halfExtents;
-    void FUN_00de1fc0();
     void FUN_00de2010(const Vec* dimensions, const Transform* transform);
 };
-void __cdecl FUN_00c908c0(void* allocator, void* array, int capacity, int elementSize);
 struct FreeAllocator {
     virtual void v00();
     virtual void v04();
@@ -952,7 +916,7 @@ struct FreeAllocator {
     virtual void v0c();
     virtual void ReleaseBlock(void* p, int bytes);
 };
-__forceinline FreeAllocator& heapGet() { return reinterpret_cast<FreeAllocator&>(FUN_00c85750().heap()); }
+__forceinline FreeAllocator& heapGet() { return reinterpret_cast<FreeAllocator&>(hkMemoryRouter::getInstance().heap()); }
 template<class T> struct LocalArray {
     T* data;
     int count;
@@ -964,7 +928,7 @@ template<class T> struct LocalArray {
         if (capacity < n) {
             int twice = capacity * 2;
             int next = n < twice ? twice : n;
-            FUN_00c908c0(&allocator, this, next, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(this), next, sizeof(T));
         }
     }
 };
@@ -974,7 +938,7 @@ inline void destroyShapes(Shape* begin, int count) {
 inline void createShapes(Shape* begin, int count) {
     for (int k=0; k<count; ++k) {
         Shape* at = begin+k;
-        if (at) at->FUN_00de1fc0();
+        if (at) new ((void *)(at)) ::FUN_00de1fc0();
     }
 }
 struct ShapeArray : LocalArray<Shape> {
@@ -1000,7 +964,7 @@ struct Renderer {
     virtual void v2c();
     virtual void v30();
     virtual void v34();
-    virtual void display(LocalArray<Shape*>* shapes, unsigned int color, int id, int tag);
+    virtual void display(LocalArray<Shape*>* shapes, unsigned int color, hkUlong id, int tag);
 };
 struct ViewerPart {
     virtual void v00();
@@ -1034,7 +998,7 @@ void ViewerPart::FUN_00d67340(float unused) {
             float alphaSqrd = float(inertia.zz / mass * 12.0 - betaSqrd);
             float alpha; if (alphaSqrd < 0.0f) alpha=0.0f; else alpha=sqrtf(alphaSqrd);
             Vec dimensions;
-            dimensions.set(alpha * DAT_010d0f68 * 0.5, beta * DAT_010d0f68 * 0.5, gamma * DAT_010d0f68 * 0.5, DAT_01011d78);
+            dimensions.set(alpha * DAT_010d0f68 * 0.5, beta * DAT_010d0f68 * 0.5, gamma * DAT_010d0f68 * 0.5, ::DAT_01011d78);
             Transform transform = bodies[i]->motion.transform;
             Vec rotated;
             {
@@ -1088,3 +1052,5 @@ struct D67910Object : D67910Primary, D67910Secondary
 D67910Object::D67910Object()
 {
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodyinertiaviewer.inc"

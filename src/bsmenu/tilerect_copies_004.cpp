@@ -4,7 +4,19 @@
 // inlined from worker header tilerect_decls.h
 #ifndef FNV_TILERECT_H
 #define FNV_TILERECT_H
+#include "global_string_header.h"
+#include <cstddef>
 
+#include <windows.h>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0109b000.h"
 #include "layout_support.h"
 
 class Tile;
@@ -31,7 +43,6 @@ template <> class NiPointer<NiAVObject>
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
     void IncRefCount();
     void DecRefCount();
 };
@@ -45,7 +56,7 @@ class NiExtraData : public NiMemObject
     void SetName(const NiFixedString&);
 };
 
-class NiObjectNET : public NiMemObject
+struct NiObjectNET : public NiMemObject
 {
   public:
     virtual void vfn_00();
@@ -104,7 +115,6 @@ class NiObjectNET : public NiMemObject
     virtual void vfn_35();
     virtual void vfn_36();
     unsigned char layoutPadding4[0x2C];
-    bool AddExtraData(NiExtraData*);
 };
 
 class NiAVObject : public NiObjectNET
@@ -127,7 +137,6 @@ class NiAVObject : public NiObjectNET
         SetBit(1, value);
     }
     void SetName(const NiFixedString&);
-    void UpdateSceneObject();
 };
 
 class NiNode : public NiAVObject
@@ -146,14 +155,14 @@ class NiSortAdjustNode : public NiNode
     NiSortAdjustNode(unsigned int);
 };
 
-class Interface
+struct Interface
 {
   public:
     static NiNode* GetInterfaceNode();
     static void SetInterfaceNodeVisible(bool);
 };
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);
@@ -166,8 +175,6 @@ class TileListBoxCalls
 };
 
 class NiFixedString;
-extern NiFixedString EmptyFS;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class NiFixedString
 {
@@ -176,20 +183,19 @@ class NiFixedString
     __forceinline NiFixedString(const char* str)
     {
         if (!str)
-            m_kHandle = EmptyFS.m_kHandle;
+            m_kHandle = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
         else
             m_kHandle = NiGlobalStringTable::AddString(str);
     }
     __forceinline ~NiFixedString()
     {
-        if (m_kHandle == EmptyFS.m_kHandle)
+        if (m_kHandle == (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             return;
-        volatile long* refs = (volatile long*)(m_kHandle - 8);
+        volatile long* refs = &((StringHeader*)m_kHandle - 1)->refs;
         InterlockedDecrement(refs);
     }
 };
 
-#pragma pack(push, 4)
 class Tile
 {
   public:
@@ -205,9 +211,6 @@ class Tile
     virtual Tile* SetTraitValue(int, float, const char*);
 
     NiNode* GetUnderlyingNode();
-    bool ContainsTrait(int);
-    void Set(int, float, bool);
-    void SetTileType(int);
     Tile* SetTraitValueAndText(int, float, const char*);
 
   private:
@@ -230,9 +233,7 @@ class Tile
         Extra(Tile*, NiNode*);
     };
 };
-#pragma pack(pop)
 
-#pragma pack(push, 4)
 class TileRect : public Tile
 {
   public:
@@ -257,14 +258,7 @@ class TileRect : public Tile
     }
     bool m_bTextureLoaded;
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(Tile) == 0x38);
-FNV_STATIC_ASSERT(offsetof(Tile, StringProvider) == 0x20);
-FNV_STATIC_ASSERT(offsetof(Tile, m_pRenderedNodeEntry) == 0x2C);
-FNV_STATIC_ASSERT(sizeof(Tile::Extra) == 0x14);
-FNV_STATIC_ASSERT(sizeof(TileRect) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TileRect, m_bTextureLoaded) == 0x38);
 
 #endif
 

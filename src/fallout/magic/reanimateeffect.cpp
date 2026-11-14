@@ -2,19 +2,59 @@
 // src/fallout/magic/reanimateeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/reanimateeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct Actor;
+#include "fnv/native_fixed_string.h"
+#include "fnv/active_effect_fields.h"
+#include <cstdint>
+#include "fnv/decl/ActiveEffectLoader.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/EffectSaveShell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004f8960_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_0067a3a0_shell.h"
+#include "fnv/decl/FUN_00804f80_shell.h"
+#include "fnv/decl/FUN_00805760_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_008adcb0_shell.h"
+#include "fnv/decl/FUN_008b0bd0_shell.h"
+#include "fnv/decl/KillActor.h"
+#include "fnv/decl/NiQuaternion.h"
+#include "fnv/decl/PackageEx.h"
+#include "fnv/decl/QueryOwner.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S00560c20_Object.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/fnv_005659f0__Actor79.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/decl/fnv_008a6840__FUN_008a6840_shell.h"
+#include "fnv/decl/fnv_008acf10__GhostActor.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00670000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_0080b000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
+class Actor;
 
 struct ReanimateEffect
 {
-    unsigned short __thiscall FUN_00804f80(Actor* apActor);
-    unsigned short __thiscall FUN_00827440(Actor* apActor);
+    unsigned short FUN_00827440(Actor* apActor);
 };
 
 // @fnv 0x00827440
-unsigned short __thiscall ReanimateEffect::FUN_00827440(Actor* apActor)
+unsigned short ReanimateEffect::FUN_00827440(Actor* apActor)
 {
     unsigned short isize = 0;
-    isize += FUN_00804f80(apActor);
+    isize += reinterpret_cast<::FUN_00804f80_shell *>(this)->FUN_00804f80(apActor);
     isize += 4;
     isize += 4;
     isize += 0xc;
@@ -25,43 +65,41 @@ unsigned short __thiscall ReanimateEffect::FUN_00827440(Actor* apActor)
 // Minimal stand-ins
 class Actor;
 
-struct ActiveEffect
+class ActiveEffect
 {
-    void LoadGame(Actor* apActor);
 };
 
 class TESSaveLoadGame
 {
   public:
-    void ReadTypedData(void* dest, unsigned int size);
 };
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_00827510_shell : ActiveEffect
 {
-    unsigned int m_4c;
-    unsigned int m_50;
-    unsigned char m_54[12];
-    unsigned char m_60[16];
-
     void LoadGame(Actor* apActor);
+    unsigned int pad00[0x13];
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned char unk54[12];
+    unsigned char unk60[16];
 };
 
-// Loads the base ActiveEffect state, then reads four blocks (4, 4, 12 and 16 bytes) into this object at offsets 0x4c, 0x50, 0x54 and 0x60 via g_TESSaveLoadGame.
+// Loads the base ActiveEffect state, then reads the 4, 4, 12 and 16 byte members after it via g_TESSaveLoadGame.
 // @fnv 0x00827510
 void FUN_00827510_shell::LoadGame(Actor* apActor)
 {
-    ActiveEffect::LoadGame(apActor);
-    g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 0x4c), 4);
-    g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 0x50), 4);
-    g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 0x54), 12);
-    g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 0x60), 16);
+    reinterpret_cast<::ActiveEffectLoader *>(this)->FUN_00805330(apActor);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)(&this->unk4c), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)(&this->unk50), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(this->unk54, 12);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(this->unk60, 16);
 }
 
-struct TESForm
+class TESForm
 {
-    virtual void __thiscall Revert(unsigned int);
+  public:
+    virtual void Revert(unsigned int);
 };
 struct ActorVirt
 {
@@ -242,20 +280,20 @@ struct BodyVirt
     virtual void b54();
     virtual void b55();
     virtual void b56();
-    virtual void __thiscall b57(int);
+    virtual void b57(int);
 };
 struct FUN_008276e0_shell
 {
     unsigned char _pad[0x48];
     BodyVirt* pBody;
     int iState;
-    void __thiscall FUN_008276e0(Actor* apActor);
+    void FUN_008276e0(Actor* apActor);
 };
 // Reverts this form with apActor, then if iState is below 0x32 and apActor has a116() and pBody exists, calls pBody->b57(1).
 // @fnv 0x008276e0
-void __thiscall FUN_008276e0_shell::FUN_008276e0(Actor* apActor)
+void FUN_008276e0_shell::FUN_008276e0(Actor* apActor)
 {
-    ((TESForm*)this)->TESForm::Revert((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((uintptr_t)apActor);
     if (iState < 0x32 && apActor && ((ActorVirt*)apActor)->a116() && pBody)
     {
         pBody->b57(1);
@@ -292,22 +330,20 @@ struct FUN_008265b0_shell
     unsigned int z;
     unsigned int aa;
     unsigned int ab;
-    FUN_008265b0_shell(int, int, int);
+    FUN_008265b0_shell(void*, void*, void*);
 };
 // Allocates and constructs a FUN_008265b0_shell from the three arguments, returning the new object.
 // @fnv 0x008273c0
-FUN_008265b0_shell* FUN_008273c0(int aiArg1, int aiArg2, int aiArg3)
+FUN_008265b0_shell* FUN_008273c0(void* aiArg1, void* aiArg2, void* aiArg3)
 {
     return new FUN_008265b0_shell(aiArg1, aiArg2, aiArg3);
 }
 
 struct SaveGameHelper
 {
-    void SaveGame(Actor* apActor);
 };
 struct TESSaveLoadGameHelper
 {
-    void FUN_008579b0(void* apDest, int aiSize);
 };
 struct FUN_008274a0_shell : ActiveEffect
 {
@@ -322,14 +358,13 @@ struct FUN_008274a0_shell : ActiveEffect
 // @fnv 0x008274a0
 void FUN_008274a0_shell::FUN_008274a0(Actor* apActor)
 {
-    ((SaveGameHelper*)this)->SaveGame(apActor);
-    ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&m_4c, 4);
-    ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&m_50, 4);
-    ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(m_54, 12);
-    ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(m_60, 16);
+    reinterpret_cast<::EffectSaveShell *>((((SaveGameHelper*)this)))->FUN_008050d0(apActor);
+    reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)::g_TESSaveLoadGame)))->FUN_008579b0(&m_4c, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)::g_TESSaveLoadGame)))->FUN_008579b0(&m_50, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)::g_TESSaveLoadGame)))->FUN_008579b0(m_54, 12);
+    reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)::g_TESSaveLoadGame)))->FUN_008579b0(m_60, 16);
 }
 
-void* __cdecl operator new(unsigned int);
 extern int _data_011c16bc;
 
 struct FUN_008266a0_virt
@@ -364,69 +399,71 @@ struct FUN_008266a0_copy60
     unsigned char data[16];
 };
 
+// The ReanimateEffect members after ActiveEffect, as its copy function (0x008266a0) reads them.
+struct ReanimateEffectCopyFields
+{
+    unsigned char pad00[0x48];
+    unsigned int m_48;
+    int m_4c;
+    float m_50;
+    FUN_008266a0_copy54 m_54;
+    FUN_008266a0_copy60 m_60;
+};
+
 struct FUN_008266a0_shell : ReanimateEffect
 {
     ActiveEffect* FUN_008266a0();
 };
 
-// Allocates a new effect from three fields of this, passes it to a17, copies fields at 0x48-0x6f into it and returns it.
+// Allocates a new effect from this effect's caster, spell and effect item, passes it to a17, copies the ReanimateEffect members into it and returns it.
 // @fnv 0x008266a0
 ActiveEffect* FUN_008266a0_shell::FUN_008266a0()
 {
     ActiveEffect* presult = reinterpret_cast<ActiveEffect*>(
-        new FUN_008265b0_shell(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28),
-                               *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x08),
-                               *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x0c)));
+        new FUN_008265b0_shell(reinterpret_cast<ActiveEffectFields*>(this)->caster, reinterpret_cast<ActiveEffectFields*>(this)->spell, reinterpret_cast<ActiveEffectFields*>(this)->effect));
 
     reinterpret_cast<FUN_008266a0_virt*>(this)->a17(presult);
 
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(presult) + 0x48) =
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(presult) + 0x4c) =
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x4c);
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(presult) + 0x50) =
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x50);
-
-    *reinterpret_cast<FUN_008266a0_copy54*>(reinterpret_cast<char*>(presult) + 0x54) =
-        *reinterpret_cast<FUN_008266a0_copy54*>(reinterpret_cast<char*>(this) + 0x54);
-
-    *reinterpret_cast<FUN_008266a0_copy60*>(reinterpret_cast<char*>(presult) + 0x60) =
-        *reinterpret_cast<FUN_008266a0_copy60*>(reinterpret_cast<char*>(this) + 0x60);
+    ReanimateEffectCopyFields* pDest = reinterpret_cast<ReanimateEffectCopyFields*>(presult);
+    ReanimateEffectCopyFields* pSource = reinterpret_cast<ReanimateEffectCopyFields*>(this);
+    pDest->m_48 = pSource->m_48;
+    pDest->m_4c = pSource->m_4c;
+    pDest->m_50 = pSource->m_50;
+    pDest->m_54 = pSource->m_54;
+    pDest->m_60 = pSource->m_60;
 
     return presult;
 }
 
 struct DH
 {
-    bool __thiscall FUN_004226e0();
 };
 
-extern DH* g_dataHandler;
 
-struct MagicTarget
+class MagicTarget
 {
-    Actor* __thiscall GetOwnerActor() const;
+  public:
+    Actor* GetOwnerActor() const;
 };
 
 struct BSThread
 {
-    MagicTarget* __thiscall GetThreadID();
 };
 
 struct Proc_S
 {
-    void* __thiscall GetNext();
 };
 
-struct MagicCaster
+class MagicCaster
 {
-    Actor* __thiscall GetCasterActor();
+  public:
+    Actor* GetCasterActor();
 };
 
-struct Actor : ActorVirt
+enum ACTOR_LIFE_STATE;
+class Actor : public ActorVirt
 {
-    void __thiscall FUN_008acf10(bool);
-    void __thiscall Kill(Actor*, float);
+  public:
 
     virtual void a117()
     {}
@@ -476,6 +513,8 @@ struct Actor : ActorVirt
     {
         return false;
     }
+public:
+    void SetActorLifeState(::ACTOR_LIFE_STATE);
 };
 
 struct EffectVirt
@@ -662,7 +701,6 @@ struct EffectVirt
     {}
 };
 
-void __cdecl FUN_0080b9e0(Actor*, Actor*, int);
 
 struct FUN_00827230_shell
 {
@@ -670,50 +708,44 @@ struct FUN_00827230_shell
     EffectVirt* m_48;
     int m_4c;
 
-    void __thiscall FUN_00827230();
+    void FUN_00827230();
 };
 
 // @fnv 0x00827230
-void __thiscall FUN_00827230_shell::FUN_00827230()
+void FUN_00827230_shell::FUN_00827230()
 {
-    if (g_dataHandler->FUN_004226e0())
+    if (reinterpret_cast<::FUN_004226e0_shell *>((g_dataHandler))->FUN_004226e0())
         return;
 
-    Actor* pTarget = reinterpret_cast<BSThread*>(this)->GetThreadID()
-                         ? reinterpret_cast<BSThread*>(this)->GetThreadID()->GetOwnerActor()
+    Actor* pTarget = (reinterpret_cast<::ActiveEffectFields *>(this)->target)
+                         ? (reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                          : 0;
 
     if (pTarget != 0)
     {
         if (m_4c < 0x32)
         {
-            pTarget->FUN_008acf10(false);
+            reinterpret_cast<::fnv_008acf10::GhostActor *>((pTarget))->FUN_008acf10(false);
             if (m_48 != 0)
                 m_48->a57(1);
-            pTarget->Kill(0, 0.0f);
+            reinterpret_cast<::KillActor *>((pTarget))->FUN_0089d900(0, 0.0f);
         }
         else
         {
             if (!pTarget->a139(0))
-                pTarget->Kill(0, 0.0f);
+                reinterpret_cast<::KillActor *>((pTarget))->FUN_0089d900(0, 0.0f);
         }
 
         Actor* pCasterActor =
-            reinterpret_cast<Proc_S*>(this)->GetNext()
-                ? reinterpret_cast<MagicCaster*>(reinterpret_cast<Proc_S*>(this)->GetNext())->GetCasterActor()
+            ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<Proc_S*>(this)))->FUN_0045cd60()))
+                ? reinterpret_cast<MagicCaster*>(((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<Proc_S*>(this)))->FUN_0045cd60())))->GetCasterActor()
                 : 0;
 
         if (pCasterActor != 0)
-            FUN_0080b9e0(pTarget, pCasterActor, 0);
+            ::FUN_0080b9e0(pTarget, pCasterActor, 0);
     }
 }
 
-struct BoneName
-{
-    const char* text;
-    BoneName(const char*);
-    ~BoneName();
-};
 struct ReanimateNode
 {
     virtual void slot0();
@@ -755,7 +787,7 @@ struct ReanimateNode
     virtual void slot36();
     virtual void slot37();
     virtual void slot38();
-    virtual ReanimateNode* GetObject(const BoneName&);
+    virtual ReanimateNode* GetObject(const ::NiFixedString&);
 };
 struct ReanimateBody
 {
@@ -817,15 +849,10 @@ struct ReanimateBody
 };
 struct ActorBodyAccess : Actor
 {
-    ReanimateBody* FUN_008adcb0();
 };
 struct BoneCollision
 {
-    BodyVirt* FUN_006fa820();
 };
-BoneCollision* FUN_0043b610(ReanimateNode*);
-void FUN_00c6a350(ReanimateNode*, bool, bool, bool, bool);
-void FUN_005b5e40(const char*);
 struct ReanimateState
 {
     unsigned int unk00;
@@ -848,17 +875,16 @@ struct ReanimateState
     unsigned int unk44;
     BodyVirt* body;
     int state;
-    void FUN_00805760(Actor*);
     void UpdateReanimation(Actor*);
 };
 // @fnv 0x00827580
 void ReanimateState::UpdateReanimation(Actor* actor)
 {
-    FUN_00805760(actor);
+    reinterpret_cast<::FUN_00805760_shell *>(this)->FUN_00805760(actor);
     ReanimateNode* root = reinterpret_cast<ReanimateNode*>(actor->a116());
     if (root)
     {
-        ReanimateBody* controller2 = static_cast<ActorBodyAccess*>(actor)->FUN_008adcb0();
+        ReanimateBody* controller2 = ((::ReanimateBody *)(reinterpret_cast<::FUN_008adcb0_shell *>((static_cast<ActorBodyAccess*>(actor)))->FUN_008adcb0()));
         if (controller2)
         {
             if (state < 40)
@@ -867,20 +893,20 @@ void ReanimateState::UpdateReanimation(Actor* actor)
                 controller2->SetActive(false, false);
         }
         if (state < 30)
-            FUN_00c6a350(root, true, true, false, true);
-        ReanimateNode* spine = root->GetObject(BoneName("Bip01 Spine2"));
+            ::FUN_00c6a350((::NiAVObject *)(root), true, true, false, true);
+        ReanimateNode* spine = root->GetObject(::NiFixedString("Bip01 Spine2"));
         if (spine)
         {
-            BoneCollision* collision8 = FUN_0043b610(spine);
+            BoneCollision* collision8 = ((::BoneCollision *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(spine))));
             if (collision8)
             {
-                body = collision8->FUN_006fa820();
+                body = ((::BodyVirt *)(::fnv_006fa820::FUN_006fa820((const char *)(collision8))));
                 body->b57(4);
             }
         }
         else
         {
-            FUN_005b5e40("SAVELOAD: No Bip01 Spine2 bone for reanimation. Need a backup bone!");
+            ::FUN_005b5e40();
         }
     }
 }
@@ -914,12 +940,6 @@ struct RValues
     virtual void v1();
     virtual void v2();
     virtual float GetCurrent(int);
-};
-struct BoneKey
-{
-    const char* text;
-    BoneKey(const char*);
-    ~BoneKey();
 };
 struct RNode
 {
@@ -962,7 +982,7 @@ struct RNode
     virtual void v36();
     virtual void v37();
     virtual void v38();
-    virtual RNode* GetObject(const BoneKey&);
+    virtual RNode* GetObject(const ::NiFixedString&);
 };
 struct RProcess
 {
@@ -1416,7 +1436,6 @@ struct RProcess
 };
 struct RProcessAccess : RProcess
 {
-    void* GetSource();
 };
 struct RBody
 {
@@ -1481,23 +1500,14 @@ struct RBody
 };
 struct RBodyAccess : RBody
 {
-    void GetPosition(RVector&);
-    void GetRotation(RVector&);
 };
 struct RCollision
 {
-    RBodyAccess* GetBody();
 };
-RCollision* FindCollision(RNode*);
 struct RPackage
 {
     void SetType(int);
-    void SetReach(bool);
-    void SetComplete(bool);
-    void SetProcedure(int);
-    void SetEnabled(bool);
 };
-RPackage* MakePackage(int);
 struct RActor
 {
     virtual void v0();
@@ -1814,25 +1824,14 @@ struct RActorAccess : RActor
     int unk9c;
     int unka0;
     RValues values;
-    void SetState(int);
-    bool CheckFlag();
-    RProcessAccess* GetProcess();
-    void SetFlag(bool);
-    void SetLocation(RVector*);
-    void SetZero(int);
-    void Prepare();
-    void UpdateNode(RNode*);
 };
 struct RNodeAccess : RNode
 {
-    RVector* GetPosition();
 };
 struct RTarget
 {
     RActorAccess* AsActor();
 };
-void UpdatePhysics(RNode*, int, bool, bool, bool);
-void Warn(const char*);
 struct Reanimation
 {
     int unk00;
@@ -1858,89 +1857,85 @@ struct Reanimation
     int unk50;
     RVector position;
     RVector rotation;
-    RSource* GetSource();
-    RTarget* GetTarget();
-    void Dispel(bool);
     void StartReanimation();
 };
 // If the target actor is dead, resets and reconfigures it, assigns a package, and stores the spine bone's body position and rotation; otherwise dispels.
 // @fnv 0x008267b0
 void Reanimation::StartReanimation()
 {
-    if (!GetSource())
+    if (!((::RSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())))
     {
-        Dispel(true);
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
         return;
     }
-    RActorAccess* actor = GetTarget() ? GetTarget()->AsActor() : 0;
+    RActorAccess* actor = ((::RTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::RTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->AsActor() : 0;
     if (actor && actor->IsDead(0))
     {
         actor->SetStateFlags(0);
-        actor->SetState(4);
-        if (actor->CheckFlag())
+        reinterpret_cast<::Actor *>((actor))->SetActorLifeState((::ACTOR_LIFE_STATE)(4));
+        if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())))
             actor->Clear(0);
-        RProcessAccess* process = actor->GetProcess();
-        if (!process->GetSource())
+        RProcessAccess* process = ((::RProcessAccess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
+        if (!((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())))
             process->Enable(1);
-        actor->SetFlag(true);
-        actor->SetType(GetSource()->GetType());
+        reinterpret_cast<::fnv_008acf10::GhostActor *>((actor))->FUN_008acf10(true);
+        actor->SetType(((::RSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))->GetType());
         if (actor->GetNode())
-            actor->SetLocation(((RNodeAccess*)actor->GetNode())->GetPosition());
+            reinterpret_cast<::Reference *>((actor))->FUN_00575830((::Position *)(::RVector *)(((::RVector *)(::FUN_0045bb80((intptr_t)(((RNodeAccess*)actor->GetNode())))))));
         actor->Refresh();
-        actor->GetProcess()->Reset(0);
-        actor->SetZero(0);
+        ((::RProcessAccess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Reset(0);
+        reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>((actor))->FUN_008a6840(0);
         actor->ModValue(16, actor->values.GetBase(16, 0) - actor->values.GetCurrent(16));
         if (actor->GetNode())
         {
-            actor->Prepare();
-            actor->UpdateNode(actor->GetNode());
+            reinterpret_cast<::fnv_005659f0::Actor79 *>((actor))->FUN_005659f0();
+            reinterpret_cast<::FUN_008b0bd0_shell *>((actor))->FUN_008b0bd0((::NiAVObject *)(::RNode *)(actor->GetNode()));
         }
-        RPackage* package = MakePackage(27);
-        package->SetType(27);
-        package->SetReach(true);
-        package->SetComplete(true);
-        package->SetProcedure(25);
-        package->SetEnabled(true);
+        RPackage* package = ((::RPackage *)(::CreatePackageByType(27)));
+        reinterpret_cast<::PackageEx *>((package))->SetPackageType(27);
+        reinterpret_cast<::TESPackage *>((package))->SetMustReachLocation(true);
+        reinterpret_cast<::TESPackage *>((package))->SetMustComplete(true);
+        reinterpret_cast<::TESPackage *>((package))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(25));
+        reinterpret_cast<::FUN_0067a3a0_shell *>((package))->FUN_0067a3a0(true);
         actor->SetPackage(package, true, true);
         RNode* node = actor->GetNode();
         if (node)
         {
-            UpdatePhysics(node, 1, true, false, true);
-            RNode* bone = node->GetObject(BoneKey("Bip01 Spine2"));
+            ::FUN_00c6a350((::NiAVObject *)(node), 1, true, false, true);
+            RNode* bone = node->GetObject(::NiFixedString("Bip01 Spine2"));
             if (bone)
             {
-                RCollision* collision = FindCollision(bone);
+                RCollision* collision = ((::RCollision *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(bone))));
                 if (collision)
                 {
-                    body = collision->GetBody();
+                    body = ((::RBodyAccess *)(::fnv_006fa820::FUN_006fa820((const char *)(collision))));
                     body->SetMotion(4);
-                    body->GetPosition(position);
-                    body->GetRotation(rotation);
+                    reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((std::intptr_t)&(position));
+                    reinterpret_cast<::S00560c20_Object *>((body))->FUN_00560c20((::S00560c20_Target *)&(rotation));
                 }
             }
             else
-                Warn("ANIMATION: No Bip01 Spine2 bone for reanimation. Need a backup bone!");
+                ::FUN_005b5e40();
         }
     }
     else
-        Dispel(false);
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void a0();
     virtual TESObjectREFR* a1();
 };
 
 struct Character : Actor
 {
-    bool __thiscall FUN_00608d80();
-    int __thiscall FUN_004f8960();
 };
 
 struct FUN_00827340_cls
 {
-    bool __thiscall FUN_00827340(TESObjectREFR* apRef);
+    bool FUN_00827340(TESObjectREFR* apRef);
 };
 
 // Returns true when a1() yields a Character for which a139(0) is true, FUN_00608d80() is false, and FUN_004f8960() differs from 6.
@@ -1948,7 +1943,7 @@ struct FUN_00827340_cls
 bool FUN_00827340_cls::FUN_00827340(TESObjectREFR* apRef)
 {
     Character* pChar = dynamic_cast<Character*>(apRef->a1());
-    if (pChar != 0 && pChar->a139(0) && !pChar->FUN_00608d80() && pChar->FUN_004f8960() != 6)
+    if (pChar != 0 && pChar->a139(0) && !reinterpret_cast<::FUN_00608d80_shell *>((pChar))->FUN_00608d80() && reinterpret_cast<::FUN_004f8960_shell *>((pChar))->FUN_004f8960() != 6)
     {
         return true;
     }
@@ -1968,18 +1963,16 @@ struct V16b
 struct V12t
 {
     unsigned int d[3];
-    V12t& Make(float, float, float);
 };
 struct V16p
 {
     unsigned int d[4];
 };
-extern V16p g_v;
 struct EffBase
 {
     virtual void v0();
     unsigned char _pad[0x44];
-    EffBase(int, int, int);
+    EffBase(void*, void*, void*);
     ~EffBase();
 };
 struct FUN_008265b0 : EffBase
@@ -1990,16 +1983,18 @@ struct FUN_008265b0 : EffBase
     V12b m_54;
     V16b m_60;
     virtual void v0();
-    FUN_008265b0(int a, int b, int c);
+    FUN_008265b0(void* a, void* b, void* c);
 };
 // Initializes m_48, m_4c, and m_50 to zero, assigns m_54 from Make(0, 0, 0), and copies g_v to m_60.
 // @fnv 0x008265b0
-FUN_008265b0::FUN_008265b0(int a, int b, int c) : EffBase(a, b, c)
+FUN_008265b0::FUN_008265b0(void* a, void* b, void* c) : EffBase(a, b, c)
 {
     m_48 = 0;
     m_50 = 0.0f;
     m_4c = 0;
     V12t t;
-    m_54 = *(V12b*)&t.Make(0.0f, 0.0f, 0.0f);
-    m_60 = *(V16b*)&g_v;
+    m_54 = *(V12b*)&(*(::V12t *)(reinterpret_cast<::FUN_00416870_t *>(&(t))->FUN_00416870(0.0f, 0.0f, 0.0f)));
+    m_60 = *(V16b*)&(*reinterpret_cast<::V16p *>((void *)&::NiQuaternion::IDENTITY));
 }
+
+#include "generated/data/fallout/magic/reanimateeffect.inc"

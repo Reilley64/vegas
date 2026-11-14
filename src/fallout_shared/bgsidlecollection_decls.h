@@ -2,6 +2,12 @@
 #ifndef FALLOUT_SHARED_BGSIDLECOLLECTION_DECLS_H
 #define FALLOUT_SHARED_BGSIDLECOLLECTION_DECLS_H
 
+#include <cstring>
+#include "fnv/decl/FUN_008b2010_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00479000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
 #include "TESForm.h"
 template <class T, unsigned int N> class BSSimpleArray
 {
@@ -26,24 +32,16 @@ class TESIdleForm : public TESObjectANIO
 class TESFormInitFlag
 {
   public:
-    static TESForm* GetFormByID(unsigned int formID);
 };
 
 extern "C" const char kBGSIdleCollectionMissingIdle[];
 extern "C" const char kBGSIdleCollectionMissingAnim[];
-int Warning(const char* format, ...);
 
 class Actor
 {
   public:
-    bool HasIdleInFormArray(TESIdleForm*);
 };
-bool FUN_00479e20(unsigned int);
 template <int N> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned int*, EndianSizeTag<4>);
-void* operator new[](unsigned int);
-void operator delete[](void*);
-extern "C" void* memset(void*, int, unsigned int);
 #endif

@@ -1,8 +1,18 @@
 // gamebryo2.2/corelibs/nianimation/niposkey.cpp: PositionKeyInterpolator (4 functions)
 
+#include "NiAnimationKeyTables.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011f3000.h"
 #include "niposkey_decls.h"
 
-// Finds the key interval containing time, interpolates between the lower and upper keys via DAT_011f3ca8[type], updates lastIndex and returns the result.
+// Finds the key interval containing time, interpolates between the lower and upper keys via key function table kAt011f3c90, content 1, at type, updates lastIndex and returns the result.
 // @fnv 0x00a27490
 NiPoint3 PositionKeyInterpolator::InterpolatePosition(float time, PositionKeyInterpolator* keys, KeyType type,
                                                       unsigned int count, unsigned int& lastIndex, unsigned char size)
@@ -35,7 +45,7 @@ NiPoint3 PositionKeyInterpolator::InterpolatePosition(float time, PositionKeyInt
 
     float normalizedTime = (time - lowerTime) / (upperTime - lowerTime);
     NiPoint3 result;
-    DAT_011f3ca8[type](normalizedTime, keys->GetKeyAtIndex(lower, size), keys->GetKeyAtIndex(upper, size), &result);
+    NiAnimationKeyTables::Get<void (*)(float, const AnimationKey *, const AnimationKey *, void *)>(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(1, 0) + type)(normalizedTime, keys->GetKeyAtIndex(lower, size), keys->GetKeyAtIndex(upper, size), &result);
     lastIndex = lower;
     return result;
 }
@@ -58,13 +68,12 @@ struct A27760Data
     A27760Point3 m_kValue;
 };
 
-bool AreFloatsEqual(const A27760Data* pkA, const A27760Data* pkB);
 
 // Returns true when AreFloatsEqual succeeds for both records and their m_kValue points compare equal.
 // @fnv 0x00a27760
 bool AreDataEqual(const A27760Data* pkA, const A27760Data* pkB)
 {
-    if (!AreFloatsEqual(pkA, pkB))
+    if (!((bool)(::AreFloatsEqual((const float *)(pkA), (const float *)(pkB)))))
         return false;
     return pkA->m_kValue == pkB->m_kValue;
 }
@@ -112,8 +121,6 @@ P3 __cdecl GetKeyPosAtTime(float time, PKey* keys, int type, unsigned int count,
 }
 
 #include <math.h>
-extern NiPosInterpFunction DAT_011f3c18[AnimationKey::NUMKEYTYPES];
-extern NiPosInterpFunction DAT_011f3b88[AnimationKey::NUMKEYTYPES];
 inline NiPoint3 ScaleCurveVector(const NiPoint3& v, float s)
 {
     NiPoint3 r;
@@ -145,12 +152,12 @@ void __cdecl ComputeFrenetFrame(float time, const AnimationKey* key0, const Anim
                                 AnimationKey::KeyType type, NiPoint3& tangent, NiPoint3& normal, NiPoint3& binormal,
                                 float& curvature)
 {
-    NiPosInterpFunction pFirstDerivative = DAT_011f3c18[type];
-    NiPosInterpFunction pSecondDerivative = DAT_011f3b88[type];
+    NiPosInterpFunction pFirstDerivative = NiAnimationKeyTables::Get<void (*)(float, const AnimationKey *, const AnimationKey *, void *)>(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(1, 0) + type);
+    NiPosInterpFunction pSecondDerivative = NiAnimationKeyTables::Get<NiPosInterpFunction>(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(1, 0) + type);
     NiPoint3 velocity, vAcceleration;
     pFirstDerivative(time, key0, key1, &velocity);
     pSecondDerivative(time, key0, key1, &vAcceleration);
-    float lengthSquared = velocity.Dot(velocity);
+    float lengthSquared = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(velocity))->DotProduct((void *)&(velocity));
     float invLength = 1.0f / (float)sqrt(lengthSquared);
     tangent = ScaleCurveVector(velocity, invLength);
     NiPoint3 vCross = InitialCrossCurveVectors(velocity, vAcceleration);
@@ -159,8 +166,8 @@ void __cdecl ComputeFrenetFrame(float time, const AnimationKey* key0, const Anim
     curvature = crossLength * invLength * invLength;
     if ((float)fabs(curvature) > 1e-6f)
     {
-        float dot = velocity.Dot(vAcceleration);
-        velocity *= dot;
+        float dot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(velocity))->DotProduct((void *)&(vAcceleration));
+        reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(velocity))->FUN_00439180(dot);
         NiPoint3 vScaled = ScaleCurveVector(vAcceleration, lengthSquared);
         vAcceleration.x = vScaled.x - velocity.x;
         vAcceleration.y = vScaled.y - velocity.y;
@@ -183,6 +190,8 @@ void __cdecl ComputeFrenetFrame(float time, const AnimationKey* key0, const Anim
             normal.x = 0.0f;
         }
     }
-    normal.Unitize();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
     binormal = CrossCurveVectors(tangent, normal);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niposkey.inc"

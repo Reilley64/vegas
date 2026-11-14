@@ -1,5 +1,8 @@
 // gamebryo2.2/corelibs/nimain/nipropertystate.cpp: free functions (1 function)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "nipropertystate_decls.h"
 
 // Copies the seven property pointers from other, releasing the old references and adding references to the new ones.

@@ -1,4 +1,6 @@
 
+#include "fnv/decl/NiObject_b.h"
+#include "fnv/symbols_01267000.h"
 #include "nishader.h"
 
 // 1 Nov: the included file leaves optimization off (#pragma optimize("", off) never closed); functions added below build

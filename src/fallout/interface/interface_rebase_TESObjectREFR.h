@@ -1,6 +1,10 @@
 // Source layout: TESObjectREFR. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_TESOBJECTREFR_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_TESOBJECTREFR_H
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_ExtraDataList.h"
 #include "interface_rebase_OBJ_REFR.h"
@@ -88,17 +92,5 @@ class TESObjectREFR : public TESForm
     {
         CHANGE_SCRIPT_VARIABLES = 0x80000000u
     };
-    ScriptLocals* GetReferenceLocals();
-    TESObjectCELL* GetParentCell();
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, tESChildCellComponent) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pSoundForm) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, data) == 0x20);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_fObjectScale) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pOwningCell) == 0x40);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_kExtraDataCollection) == 0x44);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pRenderData) == 0x64);
 #endif

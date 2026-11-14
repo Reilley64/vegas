@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKLINKATTRIBUTE_H
 #define FNV_HAVOK_HKLINKATTRIBUTE_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkLinkAttribute
 {
   public:
@@ -17,6 +16,4 @@ class hkLinkAttribute
     };
     hkInt8 m_type;  // +0x0 (Link)
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkLinkAttribute[(sizeof(hkLinkAttribute) == 0x1) ? 1 : -1];
 #endif

@@ -2,11 +2,12 @@
 // src/havok/physics/dynamics/constraint/bilateral/rotational/hkprotationalconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/rotational/hkprotationalconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
 #include "havok/hkpRotationalConstraintData.h"
 
 // Writes 3 and 0x18 into out[1] and out[0] when flag is set, otherwise writes 0 into both.
 // @fnv 0x00e3b520
-void __stdcall FUN_00e3b520(char flag, int* out)
+void FUN_00e3b520(char flag, int* out)
 {
     if (flag)
     {
@@ -20,15 +21,14 @@ void __stdcall FUN_00e3b520(char flag, int* out)
     }
 }
 
-void* __cdecl FUN_00d21a60(void*, int, int);
-struct FUN_00e3b500_cls
+struct FUN_00e3b500_cls : public hkpRotationalConstraintData
 {
-    void __thiscall FUN_00e3b500(int arg);
+    void FUN_00e3b500(::GenericConstraintAtomScheme* arg) const;
 };
 // @fnv 0x00e3b500
-void __thiscall FUN_00e3b500_cls::FUN_00e3b500(int arg)
+void FUN_00e3b500_cls::FUN_00e3b500(::GenericConstraintAtomScheme* arg) const
 {
-    FUN_00d21a60((char*)this + 0x10, 0x74, arg);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x74, arg);
 }
 
 // Returns the constant value 16.
@@ -49,16 +49,16 @@ struct hkBool_ret
 
 struct RotationHelper
 {
-    hkBool_ret __thiscall IsOrthonormal(float eps);
+    hkBool_ret IsOrthonormal(float eps);
 };
 
 struct hkpRotationalConstraintDataHelper : public hkpRotationalConstraintData
 {
-    hkBool_ret __thiscall FUN_00e3b550();
+    hkBool_ret FUN_00e3b550();
 };
 
 // @fnv 0x00e3b550
-hkBool_ret __thiscall hkpRotationalConstraintDataHelper::FUN_00e3b550()
+hkBool_ret hkpRotationalConstraintDataHelper::FUN_00e3b550()
 {
     float eps = 0.001f;
     return ((RotationHelper*)&m_kBridgeAtoms.m_kLocalRotations.m_kRotationA)->IsOrthonormal(eps).m_cBooleanValue &&

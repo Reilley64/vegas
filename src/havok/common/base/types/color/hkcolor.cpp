@@ -2,10 +2,10 @@
 // src/havok/common/base/types/color/hkcolor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/color/hkcolor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_00cbf000.h"
 #include "havok/hkColor.h"
 
-int __cdecl FUN_00cbfef0(float f);
-unsigned int __cdecl PackBytesBigEndian(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
 // Scales RGBA floats to 0-255 via FUN_00cbfef0 and packs them into a big-endian unsigned int via PackBytesBigEndian.
 // @fnv 0x00cabb30

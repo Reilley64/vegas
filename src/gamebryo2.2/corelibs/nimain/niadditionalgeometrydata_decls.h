@@ -1,7 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niadditionalgeometrydata_decls.h: declares NiAdditionalGeometryData
 
-class ShadowSceneNode;
-extern ShadowSceneNode* DAT_011f91c8[];
+#include "fnv/symbols_011f9000.h"
+struct ShadowSceneNode;
 class NiAdditionalGeometryData
 {
   public:

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKSWEPTTRANSFORM_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkSweptTransform
 {
   public:
@@ -14,6 +13,4 @@ class hkSweptTransform
     hkQuaternion m_qRotation1;       // +0x30
     hkVector4 m_vCenterOfMassLocal;  // +0x40
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkSweptTransform[(sizeof(hkSweptTransform) == 0x50) ? 1 : -1];
 #endif

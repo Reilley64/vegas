@@ -2,34 +2,35 @@
 // src/havok/physics/collide/agent3/machine/hkpagentmachineutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/hkpagentmachineutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpCollisionDispatcher.h"
+#include "fnv/decl/FUN_00c91190_Class.h"
+#include "fnv/decl/FUN_00d06fb0_cls.h"
+#include "fnv/decl/StepBeginDetail__Simulation.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d06000.h"
 struct FUN_00c91180_Class
 {
-    void __thiscall IncrementCounter();
-    void __thiscall FUN_00c91190();
+    void IncrementCounter();
     int m_field;
     void* m_ptr;
+    ::StepBeginDetail::Simulation* m_simulation;  // +0x8
+    unsigned char m_pad0C[0x44];
+    int m_unk50;                                  // +0x50
 };
 
-void __cdecl FUN_00d01d20(void* p);
-struct FUN_00d022b0_Class
-{
-    void __thiscall FUN_00d022b0(void* a, float c);
-};
-
-// If the field at offset 0x50 is set, calls IncrementCounter, FUN_00d01d20 and FUN_00c91190 on self, then forwards a and c to the object at offset 8.
+// If m_unk50 is set, calls IncrementCounter, FUN_00d01d20 and FUN_00c91190 on self, then forwards a and c to the simulation.
 // @fnv 0x00c92d70
-void __fastcall FUN_00c92d70(FUN_00c91180_Class* self, int, void* apArg, float afValue)
+void FUN_00c92d70(FUN_00c91180_Class* self, int, void* apArg, float afValue)
 {
-    if (*(int*)((char*)self + 0x50))
+    if (self->m_unk50)
     {
         self->IncrementCounter();
-        FUN_00d01d20(self);
-        self->FUN_00c91190();
+        ::FUN_00d01d20((::Src *)(self));
+        reinterpret_cast<::FUN_00c91190_Class *>((self))->FUN_00c91190();
     }
-    ((FUN_00d022b0_Class*)*(void**)((char*)self + 8))->FUN_00d022b0(apArg, afValue);
+    self->m_simulation->FUN_00d022b0((::StepBeginDetail::ArgCls *)(apArg), afValue);
 }
 
-int __cdecl FUN_00d06f80(void* p, int size);
 
 struct S_00d97360_Collector
 {
@@ -101,7 +102,7 @@ void __cdecl CollectSectors(S_00d97360_Track& track, S_00d97360_Collector* colle
     if ((track.m_kSectors.m_iCapacityState & 0x80000000) == 0 || collector->unk10)
     {
         int iAllocatedBytes =
-            FUN_00d06f80(track.m_kSectors.m_data, track.m_kSectors.getCapacity() * sizeof(S_00d97360_Sector*));
+            ::fnv_00d06f80::FUN_00d06f80((const char *)(track.m_kSectors.m_data), track.m_kSectors.getCapacity() * sizeof(S_00d97360_Sector*));
         collector->addArray(3, "Sectors", track.m_kSectors.m_data,
                             track.m_kSectors.GetLogicalSize() * sizeof(S_00d97360_Sector*), iAllocatedBytes);
     }
@@ -138,7 +139,6 @@ struct S_00d97130_Collector
     virtual void v04();
     virtual void v08();
     virtual void AddObjectInstance(const char* fieldName, const void* object, int flags);
-    void DispatchWithMode(const char* name, const void* chunk, int sizeUsed, int sizeAllocated);
 };
 
 struct S_00d97130_Entry
@@ -1681,7 +1681,7 @@ void __cdecl FUN_00d97130(S_00d97130_Track& track, const S_00d97130_Input* input
     {
         char* sector = track.m_kSectors[i];
         int sizeUsed = (i + 1 == track.m_kSectors.GetLogicalSize()) ? track.m_bytesAllocatedInLastSector : 0x200;
-        collector->DispatchWithMode("Sector", sector, sizeUsed, 0x200);
+        reinterpret_cast<::FUN_00d06fb0_cls *>((collector))->DispatchWithMode((void *)("Sector"), (void *)(sector), sizeUsed, 0x200);
     }
 
     for (int sectorIndex = 0; sectorIndex < track.m_kSectors.GetLogicalSize();)
@@ -1733,7 +1733,6 @@ struct Logger
     int unk08;
     int unk0c;
     char quiet;
-    void __thiscall DispatchWithMode(const char* s, void* p, unsigned int q, int n);
 };
 struct Hdr
 {
@@ -1742,13 +1741,6 @@ struct Hdr
     unsigned int flags;
 };
 typedef void(__cdecl* Fn)(unsigned char*, unsigned char*, void*, void*);
-struct Ent
-{
-    Fn fn;
-    int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
-    int unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
-};
-unsigned int __cdecl FUN_00d06f80(void* p, unsigned int n);
 // Logs sector pointer array and iterates sectors dispatching entry operations to registered functions via the logger.
 // @fnv 0x00d97250
 void __cdecl FUN_00d97250(Hdr* apSectorArray, char** st, Logger* apLogger)
@@ -1757,7 +1749,7 @@ void __cdecl FUN_00d97250(Hdr* apSectorArray, char** st, Logger* apLogger)
     {
         unsigned int n = (apSectorArray->flags & 0x3fffffff) * 4;
         void* a = apSectorArray->arr;
-        unsigned int sz = FUN_00d06f80(a, n);
+        unsigned int sz = ((unsigned int)(::fnv_00d06f80::FUN_00d06f80((const char *)(a), n)));
         apLogger->Log(3, "SectorPtrs", apSectorArray->arr, apSectorArray->count * 4, sz);
     }
     int i = 0;
@@ -1790,7 +1782,7 @@ process:
         case 10:
         case 11:
         case 14: {
-            Fn f = ((Ent*)(*st + 0x16cc))[pEntry[1]].fn;
+            Fn f = reinterpret_cast<Fn>(reinterpret_cast<const hkpCollisionDispatcher*>(*st)->m_agent3Func[pEntry[1]].m_calcStatisticsFunc);
             if (f)
                 f(pEntry, pEntry + off, st, apLogger);
         }
@@ -1802,7 +1794,7 @@ refill:
     unsigned char* pSector = *(unsigned char**)((char*)apSectorArray->arr + i);
     pEntry = pSector + 0x10;
     end = pSector + *(unsigned int*)pSector + 0x10;
-    apLogger->DispatchWithMode("Sector", pSector, *(unsigned int*)pSector + 0x10, 0x200);
+    reinterpret_cast<::FUN_00d06fb0_cls *>((apLogger))->DispatchWithMode((void *)("Sector"), pSector, *(unsigned int*)pSector + 0x10, 0x200);
     i += 4;
     goto process;
 }

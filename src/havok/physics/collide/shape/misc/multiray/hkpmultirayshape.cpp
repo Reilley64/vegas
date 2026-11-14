@@ -2,26 +2,33 @@
 // src/havok/physics/collide/shape/misc/multiray/hkpmultirayshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/multiray/hkpmultirayshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpMultiRayShape.h"
 
 // FUN_00e3c610: stores zero byte through first stdcall argument and returns it.
 
 // @fnv 0x00e3c610
-unsigned char* __stdcall FUN_00e3c610(unsigned char* out, int a1, int a2)
+unsigned char* FUN_00e3c610(unsigned char* out, int a1, int a2)
 {
     *out = 0;
     return out;
 }
 
 // @fnv 0x00e3c600
-void __stdcall FUN_00e3c600(int a1, int a2, int a3)
+void FUN_00e3c600(int a1, int a2, int a3)
 {}
 
 class hkClassE3C6;
 
-extern const hkClassE3C6 DAT_01268910;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayE3C6
 {
@@ -61,7 +68,7 @@ class hkStatisticsCollectorE3C6
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
             const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(pData), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -81,7 +88,6 @@ struct hkRayE3C6
 class hkpShapeE3C6
 {
   public:
-    void FUN_00c90360(hkStatisticsCollectorE3C6* pkCollector, const hkClassE3C6* pkClass) const throw();
 };
 
 class hkObjE3C6 : public hkpShapeE3C6
@@ -101,51 +107,13 @@ class hkObjE3C6 : public hkpShapeE3C6
 void hkObjE3C6::AddRaysToStatistics(hkStatisticsCollectorE3C6* pkCollector, const hkClassE3C6* pkClass) const throw()
 {
     pkCollector->addArray("Rays", m_kRays);
-    FUN_00c90360(pkCollector, &DAT_01268910);
+    reinterpret_cast<::FunctionContext *>((void *)this)->FUN_00c90360(pkCollector, (void *)(&(*reinterpret_cast<const ::hkClassE3C6 *>(&::g_01268910))));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-}
 
-extern float DAT_0104da48;
-extern float DAT_0104e148;
 
-struct hkMemoryAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-extern "C" NineIntegerRecord* FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int reqCapacity, int elemSize);
 
 union hkQuadVector
 {
@@ -176,7 +144,7 @@ struct hkWorldRayArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(hkWorldRay));
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(hkWorldRay));
         }
     }
     __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
@@ -186,13 +154,13 @@ struct hkWorldRayArray
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        _setSize(FUN_00c85750()->heap(), n);
+        _setSize(hkMemoryRouter::getInstance().heap(), n);
     }
     __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(hkWorldRay));
+            alloc.bufFree(m_data, getCapacity() * sizeof(hkWorldRay));
     }
 };
 
@@ -259,8 +227,8 @@ void hkpMultiRayShapeImpl::FUN_00e3c800(const hkTransform& localToWorld, hkReal 
     TransformPointArray(localToWorld, reinterpret_cast<const __m128*>(m_kRays.m_data), m_kRays.m_iElementCount * 2,
                         &worldRays.m_data[0].m_kRayStart);
 
-    __m128 mn = _mm_set_ps1(DAT_0104da48);
-    __m128 mx = _mm_set_ps1(DAT_0104e148);
+    __m128 mn = _mm_set_ps1(::DAT_0104da48);
+    __m128 mx = _mm_set_ps1(::DAT_0104e148);
     const hkWorldRay* ray = worldRays.m_data;
     for (int i = 0; i < worldRays.m_iElementCount; i++, ray++)
     {
@@ -271,24 +239,9 @@ void hkpMultiRayShapeImpl::FUN_00e3c800(const hkTransform& localToWorld, hkReal 
     }
     out.m_kMinimumCorner = mn;
     out.m_kMaximumCorner = mx;
-    worldRays._clearAndDeallocate(FUN_00c85750()->heap());
+    worldRays._clearAndDeallocate(hkMemoryRouter::getInstance().heap());
 }
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_load_ps1(float const*);
-    void _mm_store_ss(float*, __m128);
-}
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* array, int numElem, int sizeElem);
 struct RayStandIn
 {
     __m128 m_kRayStart;
@@ -313,7 +266,7 @@ struct RayArrayStandIn
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(RayStandIn));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(RayStandIn));
         }
     }
     RayStandIn* _expandBy(hkMemoryAllocator& alloc, int n)
@@ -325,7 +278,7 @@ struct RayArrayStandIn
     }
     RayStandIn* expandBy(int n)
     {
-        return _expandBy(FUN_00c85750()->heap(), n);
+        return _expandBy(hkMemoryRouter::getInstance().heap(), n);
     }
 };
 
@@ -375,7 +328,7 @@ FUN_00e3c680::FUN_00e3c680(const RayStandIn* rays, int nRays, float rayPenetrati
         {
             float len;
             _mm_store_ss(&len, _mm_sqrt_ss(dot3(vec)));
-            ray->m_kRayStart.m128_f32[3] = len;
+            ray->m_kRayStart[3] = len;
         }
         {
             __m128 len2 = dot3(vec);

@@ -224,3 +224,5 @@ unsigned int __cdecl FUN_00e9cab0(e9Obj* pObj)
         return ((e9Dispatch*)&DAT_0126fa7c)[iType](pObj);
     return 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/niboundingvolume.inc"

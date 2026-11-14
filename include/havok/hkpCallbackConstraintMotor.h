@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpLimitedForceConstraintMotor.h"
-#pragma pack(push, 1)
 class hkpCallbackConstraintMotor : public hkpLimitedForceConstraintMotor
 {
   public:
@@ -23,6 +22,4 @@ class hkpCallbackConstraintMotor : public hkpLimitedForceConstraintMotor
     hkUlong m_pUserData;             // +0x20
     hkUlong m_pRefObjectLocalStore;  // +0x24
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCallbackConstraintMotor[(sizeof(hkpCallbackConstraintMotor) == 0x28) ? 1 : -1];
 #endif

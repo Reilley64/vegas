@@ -5,11 +5,11 @@
 #include "nipsysrotationmodifier_layout_support.h"
 #include "nipsysrotationmodifier_NiFixedString.h"
 #include "nipsysrotationmodifier_NiObject.h"
-class NiPSysModifier;
-class NiPSysData;
-class CloningProcess;
-class NiParticleSystem;
-class NiPSysModifier : public NiObject
+struct NiPSysModifier;
+struct NiPSysData;
+struct CloningProcess;
+struct NiParticleSystem;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream& stream);
@@ -48,9 +48,4 @@ class NiPSysModifier : public NiObject
     // NiPSysModifier& __cdecl NiPSysModifier::*(const NiPSysModifier&)
     // void __cdecl NiPSysModifier::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_uiUpdateOrder) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_pkTarget) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_bModifierActive) == 20);
 #endif

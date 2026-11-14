@@ -7,11 +7,14 @@
 #include "layout_support.h"
 #undef NiPointer
 
-class NiRTTI;
+struct NiRTTI;
+class Actor;
 
 class BSFaceGenAnimationData
 {
   public:
+    char layout0[0x189];
+    bool bShouldHeadTrack;
     void IncRefCount();
     void DecRefCount();
 };
@@ -41,7 +44,6 @@ template <class T> class NiPointer
     operator T*() const;
 };
 
-#pragma pack(push, 4)
 
 class BSFaceGenNiNode
 {
@@ -60,16 +62,24 @@ class BSFaceGenNiNode
 
     char pad04[0xA8];
     NiPointer<BSFaceGenAnimationData> spAnimationData;  // 0xAC
-    char padB0[0x26];
+    char padB0[0x24];
+    bool unkd4;
+    char unkd5;
     bool bAnimationUpdate;  // 0xD6
     char padD7[1];
     bool bApplyRotationToParent;  // 0xD8
-    char padD9[0x17];
+    char padD9[3];
+    float fLastUpdateTime;
+    char padE0[4];
+    bool bDeferredUpdate;
+    char padE5[3];
+    Actor* pActor;
+    bool unkec;
+    char padED[3];
 
     static const NiRTTI ms_kRTTI;
 };
 
-#pragma pack(pop)
 
 // @fnv 0x006629e0
 const NiRTTI* BSFaceGenNiNode::GetRTTI() const

@@ -2,6 +2,11 @@
 // src/gamebryo2.2/corelibs/nicollision/niobbox.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niobbox.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01032000.h"
 struct NiPoint3
 {
     float x;
@@ -34,8 +39,9 @@ struct ThreeByThreeMatrix
     }
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;
@@ -66,7 +72,6 @@ void S_00eba480::UpdateWorldBounds(const NiTransform& kXform)
     m_afWorldExtent[2] = m_afExtents[2] * kXform.m_fScale;
 }
 
-extern double DAT_01032980;
 
 struct S_00ebf4a0_Vec3
 {
@@ -74,7 +79,6 @@ struct S_00ebf4a0_Vec3
     float y;
     float z;
 
-    void FUN_004a0c10();
 };
 
 struct S_00ebf4a0_Class
@@ -112,7 +116,7 @@ void S_00ebf4a0_Class::ProjectOntoAxes(const S_00ebf4a0_Vec3* in, S_00ebf4a0_Vec
     norm.x = unk6C;
     norm.y = unk70;
     norm.z = unk74;
-    norm.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(norm))->FUN_004a0c10();
 
     if (norm.x <= DAT_01032980)
     {
@@ -143,7 +147,7 @@ void S_00ebf4a0_Class::ProjectOntoAxes(const S_00ebf4a0_Vec3* in, S_00ebf4a0_Vec
     float fDotZ = norm.x * unk60.x + norm.y * unk60.y + norm.z * unk60.z;
     out->z = fDotZ / (unk74 * unk74);
 
-    out->FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>((out))->FUN_004a0c10();
 }
 
 #include <math.h>
@@ -231,11 +235,11 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
     int iType = 0, iSide = 0;
     float fHitTime, fEarliestTime = 0.0f;
 
-    aafDotProducts[0][0] = pkA[0] * pkB[0];
-    aafDotProducts[0][1] = pkA[0] * pkB[1];
-    aafDotProducts[0][2] = pkA[0] * pkB[2];
-    fProjNow = afD0[0] = pkA[0] * kDiff;
-    fProjEnd = afD1[0] = afD0[0] + fTimeStep * (kVel * pkA[0]);
+    aafDotProducts[0][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[0]))->DotProduct((void *)&(pkB[0]));
+    aafDotProducts[0][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[0]))->DotProduct((void *)&(pkB[1]));
+    aafDotProducts[0][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[0]))->DotProduct((void *)&(pkB[2]));
+    fProjNow = afD0[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[0]))->DotProduct((void *)&(kDiff));
+    fProjEnd = afD1[0] = afD0[0] + fTimeStep * (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(kVel))->DotProduct((void *)&(pkA[0])));
     fRadiusA = NiAbs(pfExtentsA[0]);
     fRadiusB = NiAbs(pfExtentsB[0] * aafDotProducts[0][0]) + NiAbs(pfExtentsB[1] * aafDotProducts[0][1]) +
                NiAbs(pfExtentsB[2] * aafDotProducts[0][2]);
@@ -265,11 +269,11 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         }
     }
 
-    aafDotProducts[1][0] = pkA[1] * pkB[0];
-    aafDotProducts[1][1] = pkA[1] * pkB[1];
-    aafDotProducts[1][2] = pkA[1] * pkB[2];
-    afD0[1] = pkA[1] * kDiff;
-    afD1[1] = afD0[1] + fTimeStep * (pkA[1] * kVel);
+    aafDotProducts[1][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[1]))->DotProduct((void *)&(pkB[0]));
+    aafDotProducts[1][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[1]))->DotProduct((void *)&(pkB[1]));
+    aafDotProducts[1][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[1]))->DotProduct((void *)&(pkB[2]));
+    afD0[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[1]))->DotProduct((void *)&(kDiff));
+    afD1[1] = afD0[1] + fTimeStep * (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[1]))->DotProduct((void *)&(kVel)));
     fRadiusA = NiAbs(pfExtentsA[1]);
     fRadiusB = NiAbs(pfExtentsB[0] * aafDotProducts[1][0]) + NiAbs(pfExtentsB[1] * aafDotProducts[1][1]) +
                NiAbs(pfExtentsB[2] * aafDotProducts[1][2]);
@@ -299,11 +303,11 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         }
     }
 
-    aafDotProducts[2][0] = pkA[2] * pkB[0];
-    aafDotProducts[2][1] = pkA[2] * pkB[1];
-    aafDotProducts[2][2] = pkA[2] * pkB[2];
-    afD0[2] = pkA[2] * kDiff;
-    afD1[2] = afD0[2] + fTimeStep * (pkA[2] * kVel);
+    aafDotProducts[2][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[2]))->DotProduct((void *)&(pkB[0]));
+    aafDotProducts[2][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[2]))->DotProduct((void *)&(pkB[1]));
+    aafDotProducts[2][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[2]))->DotProduct((void *)&(pkB[2]));
+    afD0[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[2]))->DotProduct((void *)&(kDiff));
+    afD1[2] = afD0[2] + fTimeStep * (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[2]))->DotProduct((void *)&(kVel)));
     fRadiusA = NiAbs(pfExtentsA[2]);
     fRadiusB = NiAbs(pfExtentsB[0] * aafDotProducts[2][0]) + NiAbs(pfExtentsB[1] * aafDotProducts[2][1]) +
                NiAbs(pfExtentsB[2] * aafDotProducts[2][2]);
@@ -337,8 +341,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
                NiAbs(pfExtentsA[2] * aafDotProducts[2][0]);
     fRadiusB = NiAbs(pfExtentsB[0]);
     fRadiusSum = fRadiusA + fRadiusB;
-    fProjNow = pkB[0] * kDiff;
-    fProjEnd = fProjNow + fTimeStep * (pkB[0] * kVel);
+    fProjNow = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[0]))->DotProduct((void *)&(kDiff));
+    fProjEnd = fProjNow + fTimeStep * (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[0]))->DotProduct((void *)&(kVel)));
     if (fProjNow > fRadiusSum)
     {
         if (fProjEnd > fRadiusSum)
@@ -368,8 +372,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
                NiAbs(pfExtentsA[2] * aafDotProducts[2][1]);
     fRadiusB = NiAbs(pfExtentsB[1]);
     fRadiusSum = fRadiusA + fRadiusB;
-    fProjNow = pkB[1] * kDiff;
-    fProjEnd = fProjNow + fTimeStep * (pkB[1] * kVel);
+    fProjNow = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[1]))->DotProduct((void *)&(kDiff));
+    fProjEnd = fProjNow + fTimeStep * (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[1]))->DotProduct((void *)&(kVel)));
     if (fProjNow > fRadiusSum)
     {
         if (fProjEnd > fRadiusSum)
@@ -399,8 +403,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
                NiAbs(pfExtentsA[2] * aafDotProducts[2][2]);
     fRadiusB = NiAbs(pfExtentsB[2]);
     fRadiusSum = fRadiusA + fRadiusB;
-    fProjNow = pkB[2] * kDiff;
-    fProjEnd = fProjNow + fTimeStep * (pkB[2] * kVel);
+    fProjNow = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[2]))->DotProduct((void *)&(kDiff));
+    fProjEnd = fProjNow + fTimeStep * (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[2]))->DotProduct((void *)&(kVel)));
     if (fProjNow > fRadiusSum)
     {
         if (fProjEnd > fRadiusSum)
@@ -769,8 +773,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[0] * kDTW;
-            fProjB = pkB[0] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[0]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[0]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[1][0] * afX[1] + aafDotProducts[2][0] * afX[2] - fProjB;
             afX[0] =
                 (fProjA + aafDotProducts[0][0] * fTmp + aafDotProducts[0][1] * afY[1] + aafDotProducts[0][2] * afY[2]) /
@@ -812,8 +816,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[0] * kDTW;
-            fProjB = pkB[1] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[0]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[1]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[1][1] * afX[1] + aafDotProducts[2][1] * afX[2] - fProjB;
             afX[0] =
                 (fProjA + aafDotProducts[0][1] * fTmp + aafDotProducts[0][0] * afY[0] + aafDotProducts[0][2] * afY[2]) /
@@ -855,8 +859,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[0] * kDTW;
-            fProjB = pkB[2] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[0]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[2]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[1][2] * afX[1] + aafDotProducts[2][2] * afX[2] - fProjB;
             afX[0] =
                 (fProjA + aafDotProducts[0][2] * fTmp + aafDotProducts[0][0] * afY[0] + aafDotProducts[0][1] * afY[1]) /
@@ -898,8 +902,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[1] * kDTW;
-            fProjB = pkB[0] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[1]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[0]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[0][0] * afX[0] + aafDotProducts[2][0] * afX[2] - fProjB;
             afX[1] =
                 (fProjA + aafDotProducts[1][0] * fTmp + aafDotProducts[1][1] * afY[1] + aafDotProducts[1][2] * afY[2]) /
@@ -941,8 +945,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[1] * kDTW;
-            fProjB = pkB[1] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[1]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[1]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[0][1] * afX[0] + aafDotProducts[2][1] * afX[2] - fProjB;
             afX[1] =
                 (fProjA + aafDotProducts[1][1] * fTmp + aafDotProducts[1][0] * afY[0] + aafDotProducts[1][2] * afY[2]) /
@@ -984,8 +988,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[1] * kDTW;
-            fProjB = pkB[2] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[1]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[2]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[0][2] * afX[0] + aafDotProducts[2][2] * afX[2] - fProjB;
             afX[1] =
                 (fProjA + aafDotProducts[1][2] * fTmp + aafDotProducts[1][0] * afY[0] + aafDotProducts[1][1] * afY[1]) /
@@ -1027,8 +1031,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[2] * kDTW;
-            fProjB = pkB[0] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[2]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[0]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[0][0] * afX[0] + aafDotProducts[1][0] * afX[1] - fProjB;
             afX[2] =
                 (fProjA + aafDotProducts[2][0] * fTmp + aafDotProducts[2][1] * afY[1] + aafDotProducts[2][2] * afY[2]) /
@@ -1070,8 +1074,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[2] * kDTW;
-            fProjB = pkB[1] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[2]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[1]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[0][1] * afX[0] + aafDotProducts[1][1] * afX[1] - fProjB;
             afX[2] =
                 (fProjA + aafDotProducts[2][1] * fTmp + aafDotProducts[2][0] * afY[0] + aafDotProducts[2][2] * afY[2]) /
@@ -1113,8 +1117,8 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
         if (NiAbs(fDenom) > fEpsilon)
         {
             kDTW = kDiff + rfHitTime * kVel;
-            fProjA = pkA[2] * kDTW;
-            fProjB = pkB[2] * kDTW;
+            fProjA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkA[2]))->DotProduct((void *)&(kDTW));
+            fProjB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(const ::NiPoint3_ext &)(pkB[2]))->DotProduct((void *)&(kDTW));
             fTmp = aafDotProducts[0][2] * afX[0] + aafDotProducts[1][2] * afX[1] - fProjB;
             afX[2] =
                 (fProjA + aafDotProducts[2][2] * fTmp + aafDotProducts[2][0] * afY[0] + aafDotProducts[2][1] * afY[1]) /
@@ -1132,8 +1136,6 @@ int NiOBB::FUN_00ebc2a0(const NiOBB& kBox, float& rfHitTime, NiPoint3_ext& rkHit
     return 1;
 }
 
-extern float DAT_01015f5c;
-extern float DAT_01016970;
 
 struct S_00ebf610_Pt3
 {
@@ -1220,7 +1222,7 @@ static float magnitude(float v)
 {
     return (float)fabs(v);
 }
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1548,10 +1550,10 @@ int BoxE::FUN_00eba680(const BoxE& other)
     }
     NiPoint3 vSweep = vMotion.Cross(vDelta);
     float va[3], vb[3], distance, fOwnProj, fOtherProj, fTotalProj;
-    va[1] = vMotion.Dot(a[1]);
+    va[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vMotion))->DotProduct((void *)&(a[1]));
     float& projection1 = va[2];
-    projection1 = vMotion.Dot(a[2]);
-    distance = magnitude(a[0].Dot(vSweep));
+    projection1 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vMotion))->DotProduct((void *)&(a[2]));
+    distance = magnitude(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(a[0]))->DotProduct((void *)&(vSweep)));
     fOwnProj = pExtents[1] * magnitude(projection1) + pExtents[2] * magnitude(va[1]);
     fOtherProj = pOtherExtents[0] * magnitude(c[1][0] * projection1 - c[2][0] * va[1]) +
                  pOtherExtents[1] * magnitude(c[1][1] * projection1 - c[2][1] * va[1]) +
@@ -1560,8 +1562,8 @@ int BoxE::FUN_00eba680(const BoxE& other)
     if (distance > fTotalProj)
         return 0;
     float& projection2 = va[0];
-    projection2 = vMotion.Dot(a[0]);
-    distance = magnitude(a[1].Dot(vSweep));
+    projection2 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vMotion))->DotProduct((void *)&(a[0]));
+    distance = magnitude(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(a[1]))->DotProduct((void *)&(vSweep)));
     fOwnProj = Extent(2) * magnitude(projection2) + pExtents[0] * magnitude(projection1);
     fOtherProj = other.Extent(0) * magnitude(c[2][0] * projection2 - c[0][0] * projection1) +
                  other.extents[1] * magnitude(c[2][1] * projection2 - c[0][1] * projection1) +
@@ -1569,7 +1571,7 @@ int BoxE::FUN_00eba680(const BoxE& other)
     fTotalProj = fOwnProj + fOtherProj;
     if (distance > fTotalProj)
         return 0;
-    distance = magnitude(a[2].Dot(vSweep));
+    distance = magnitude(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(a[2]))->DotProduct((void *)&(vSweep)));
     fOwnProj = pExtents[0] * magnitude(va[1]) + pExtents[1] * magnitude(projection2);
     fOtherProj = other.extents[0] * magnitude(c[0][0] * va[1] - c[1][0] * projection2) +
                  pOtherExtents[1] * magnitude(c[0][1] * va[1] - c[1][1] * projection2) +
@@ -1577,9 +1579,9 @@ int BoxE::FUN_00eba680(const BoxE& other)
     fTotalProj = fOwnProj + fOtherProj;
     if (distance > fTotalProj)
         return 0;
-    vb[1] = vMotion.Dot(b[1]);
-    vb[2] = vMotion.Dot(b[2]);
-    distance = magnitude(b[0].Dot(vSweep));
+    vb[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vMotion))->DotProduct((void *)&(b[1]));
+    vb[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vMotion))->DotProduct((void *)&(b[2]));
+    distance = magnitude(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(b[0]))->DotProduct((void *)&(vSweep)));
     fOwnProj = pExtents[0] * magnitude(c[0][1] * vb[2] - c[0][2] * vb[1]) +
                pExtents[1] * magnitude(c[1][1] * vb[2] - c[1][2] * vb[1]) +
                Extent(2) * magnitude(c[2][1] * vb[2] - c[2][2] * vb[1]);
@@ -1587,8 +1589,8 @@ int BoxE::FUN_00eba680(const BoxE& other)
     fTotalProj = fOwnProj + fOtherProj;
     if (distance > fTotalProj)
         return 0;
-    vb[0] = vMotion.Dot(b[0]);
-    distance = magnitude(b[1].Dot(vSweep));
+    vb[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vMotion))->DotProduct((void *)&(b[0]));
+    distance = magnitude(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(b[1]))->DotProduct((void *)&(vSweep)));
     fOwnProj = extents[0] * magnitude(c[0][2] * vb[0] - c[0][0] * vb[2]) +
                Extent(1) * magnitude(c[1][2] * vb[0] - c[1][0] * vb[2]) +
                Extent(2) * magnitude(c[2][2] * vb[0] - c[2][0] * vb[2]);
@@ -1596,7 +1598,7 @@ int BoxE::FUN_00eba680(const BoxE& other)
     fTotalProj = fOwnProj + fOtherProj;
     if (distance > fTotalProj)
         return 0;
-    distance = magnitude(b[2].Dot(vSweep));
+    distance = magnitude(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(b[2]))->DotProduct((void *)&(vSweep)));
     fOwnProj = pExtents[0] * magnitude(c[0][0] * vb[1] - c[0][1] * vb[0]) +
                pExtents[1] * magnitude(c[1][0] * vb[1] - c[1][1] * vb[0]) +
                pExtents[2] * magnitude(c[2][0] * vb[1] - c[2][1] * vb[0]);

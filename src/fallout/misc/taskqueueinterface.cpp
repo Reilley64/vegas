@@ -1,5 +1,104 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*,
+// the destructor and the conversion to T*.
+#define FNV_KEEPS_OWN_NIPOINTER
 // fallout/misc/taskqueueinterface.cpp: TaskQueueInterface, Holder, Host, TaskQueueProxy and more (69 functions)
 
+#include "fnv/active_effect_fields.h"
+#include "InventoryStackRecord.h"
+#include <cstdint>
+#include <new>
+#include "runtime/crt.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C6E030Holder.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/Cell.h"
+#include "fnv/decl/Date.h"
+#include "fnv/decl/FUN_0040f6e0_class.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00453900_Class.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_006c0f10_shell.h"
+#include "fnv/decl/FUN_006c6200_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008a1a70_shell.h"
+#include "fnv/decl/FUN_008b51b0_cls.h"
+#include "fnv/decl/FUN_008fe9e0_shell.h"
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009865b0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FireWeapon.h"
+#include "fnv/decl/KillActor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/ObstMgr0dc0.h"
+#include "fnv/decl/Ref3.h"
+#include "fnv/decl/S005620e0_Object.h"
+#include "fnv/decl/S2f850.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/SpellActor.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Target5c80.h"
+#include "fnv/decl/TaskQueueShell.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/WaitableObject.h"
+#include "fnv/decl/bhkCharacterListener.h"
+#include "fnv/decl/fnv_00457070__FUN_00457070_shell.h"
+#include "fnv/decl/fnv_004e8510__OwnerW.h"
+#include "fnv/decl/fnv_00571760__Actor.h"
+#include "fnv/decl/fnv_0070bc20__FUN_0070bc20_shell.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_00887d00__InitActor.h"
+#include "fnv/decl/fnv_0088e8d0__EActor.h"
+#include "fnv/decl/fnv_00899200__ZActor.h"
+#include "fnv/decl/fnv_0089a760__HActor.h"
+#include "fnv/decl/fnv_008a5f20__ActH2.h"
+#include "fnv/decl/fnv_008a7d50__ActorHitOwner.h"
+#include "fnv/decl/fnv_008b52a0__ActorView.h"
+#include "fnv/decl/fnv_008d3fa0__Target8d3f.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004ab000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00552000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005c0000.h"
+#include "fnv/symbols_005cc000.h"
+#include "fnv/symbols_005d1000.h"
+#include "fnv/symbols_005d3000.h"
+#include "fnv/symbols_005d4000.h"
+#include "fnv/symbols_005d9000.h"
+#include "fnv/symbols_0062e000.h"
+#include "fnv/symbols_00648000.h"
+#include "fnv/symbols_006c0000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_0081b000.h"
+#include "fnv/symbols_0087c000.h"
+#include "fnv/symbols_00892000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00b5b000.h"
+#include "fnv/symbols_00c69000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c6c000.h"
+#include "fnv/symbols_01190000.h"
+#include "fnv/symbols_011c4000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_01202000.h"
 #include "taskqueueinterface_decls.h"
 #include "NiPoint3.h"
 
@@ -9,7 +108,6 @@
 #include "layout_support.h"
 class BSPackedTask;
 union BSPackedTask__PackedTaskVariantData;
-#pragma pack(push, 4)
 union BSPackedTask__PackedTaskVariantData
 {
   public:
@@ -23,23 +121,11 @@ union BSPackedTask__PackedTaskVariantData
         void* pData;       // +0x0, 4 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSPackedTask__PackedTaskVariantData) == 4);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, bData) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, pcDataA) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, psDataA) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, iData) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, fData) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, pData) == 0);
-#pragma pack(push, 4)
 class BSPackedTask
 {
   public:
     BSPackedTask__PackedTaskVariantData m_akPackedTaskVariantData[8];  // +0x0, 32 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSPackedTask) == 32);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask, m_akPackedTaskVariantData) == 0);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -53,8 +139,7 @@ class CountingSemaphore;
 class BSTCommonMessageQueue_BSPackedTask_;
 class BSTCommonScrapHeapMessageQueue_BSPackedTask_;
 class BSTMessageQueue_BSPackedTask_;
-class ScrapHeapBuffer;
-#pragma pack(push, 4)
+struct ScrapHeapBuffer;
 class BSTMessageQueue_BSPackedTask_
 {
   public:
@@ -63,10 +148,6 @@ class BSTMessageQueue_BSPackedTask_
     // const BSTMessageQueue<BSPackedTask>& __cdecl BSTMessageQueue<BSPackedTask>::*(const BSTMessageQueue<BSPackedTask>&)
     // void __cdecl BSTMessageQueue<BSPackedTask>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTMessageQueue_BSPackedTask_) == 4);
-FNV_STATIC_ASSERT(offsetof(BSTMessageQueue_BSPackedTask_, m_ppVirtualMethodTable) == 0);
-#pragma pack(push, 4)
 class BSTCommonMessageQueue_BSPackedTask_ : public BSTMessageQueue_BSPackedTask_
 {
   public:
@@ -81,10 +162,6 @@ class BSTCommonMessageQueue_BSPackedTask_ : public BSTMessageQueue_BSPackedTask_
     // const BSTCommonMessageQueue<BSPackedTask>& __cdecl BSTCommonMessageQueue<BSPackedTask>::*(const BSTCommonMessageQueue<BSPackedTask>&)
     // void __cdecl BSTCommonMessageQueue<BSPackedTask>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTCommonMessageQueue_BSPackedTask_) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTCommonMessageQueue_BSPackedTask_, m_uiLockState) == 4);
-#pragma pack(push, 4)
 class BSTCommonScrapHeapMessageQueue_BSPackedTask_ : public BSTCommonMessageQueue_BSPackedTask_
 {
   public:
@@ -101,12 +178,6 @@ class BSTCommonScrapHeapMessageQueue_BSPackedTask_ : public BSTCommonMessageQueu
     // bool __cdecl BSTCommonScrapHeapMessageQueue<BSPackedTask>::*(BSPackedTask&)
     // void __cdecl BSTCommonScrapHeapMessageQueue<BSPackedTask>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTCommonScrapHeapMessageQueue_BSPackedTask_) == 20);
-FNV_STATIC_ASSERT(offsetof(BSTCommonScrapHeapMessageQueue_BSPackedTask_, m_pAllocator) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTCommonScrapHeapMessageQueue_BSPackedTask_, pHead) == 12);
-FNV_STATIC_ASSERT(offsetof(BSTCommonScrapHeapMessageQueue_BSPackedTask_, m_ppTailLink) == 16);
-#pragma pack(push, 4)
 class CountingSemaphore
 {
   public:
@@ -122,12 +193,6 @@ class CountingSemaphore
     // bool __cdecl CountingSemaphore::*()
     // void* __cdecl CountingSemaphore::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CountingSemaphore) == 12);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, iCount) == 0);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, hSemaphore) == 4);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, m_iMaximumCount) == 8);
-#pragma pack(push, 4)
 class PackedTaskQueueProcessor
 {
   public:
@@ -150,12 +215,6 @@ class PackedTaskQueueProcessor
     // const PackedTaskQueueProcessor& __cdecl PackedTaskQueueProcessor::*(const PackedTaskQueueProcessor&)
     // void* __cdecl PackedTaskQueueProcessor::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PackedTaskQueueProcessor) == 40);
-FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, Queue) == 0);
-FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, m_kQueuedTaskSemaphore) == 20);
-FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, m_pTaskCompletionCallback) == 32);
-FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, m_bIsProcessing) == 36);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -163,9 +222,8 @@ FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, m_bIsProcessing) == 36);
 #define FNV_TASKQUEUEINTERFACE_H
 #include "layout_support.h"
 class PackedTaskQueueProcessor;
-class TaskQueueInterface;
-#pragma pack(push, 4)
-class TaskQueueInterface
+struct TaskQueueInterface;
+struct TaskQueueInterface
 {
   public:
     PackedTaskQueueProcessor* m_pPrimaryTaskProcessor;    // +0x0, 4 bytes
@@ -177,8 +235,6 @@ class TaskQueueInterface
     static void CopyStringToBuffer(char* apBuffer, unsigned int auiSize, const char* apSource);
     void QueueActorDisarm(bool abCritical);
     void QueueReferenceStateTask(bool abOpen);
-    void SetTaskFlagDWord(bool abSet, unsigned int auiMask);
-    void SetTaskFlagWord(bool abSet, unsigned short ausMask);
     static void ProcessQueuedTask(const BSPackedTask&);
     void ProcessPackedTask(const BSPackedTask&);
     static void ThreadProcessInput(unsigned int);
@@ -254,34 +310,9 @@ class TaskQueueInterface
     // void __cdecl TaskQueueInterface::*(const BSPackedTask&)
     // void* __cdecl TaskQueueInterface::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TaskQueueInterface) == 16);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pPrimaryTaskProcessor) == 0);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pSecondaryTaskProcessor) == 4);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pTaskQueueProcessor) == 8);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_uiTaskFlags) == 12);
 #endif
 
-extern "C" int strcpy_s(char* apDestination, unsigned int auiSize, const char* apSource);
 unsigned int gm_GetCurrentThreadId();
-
-// @fnv 0x00406d30
-void TaskQueueInterface::CopyStringToBuffer(char* apBuffer, unsigned int auiSize, const char* apSource)
-{
-    strcpy_s(apBuffer, auiSize, apSource);
-}
-
-// @fnv 0x00450f90
-void TaskQueueInterface::QueueActorDisarm(bool abCritical)
-{
-    SetTaskFlagDWord(abCritical, 1);
-}
-
-// @fnv 0x0047aa40
-void TaskQueueInterface::QueueReferenceStateTask(bool abOpen)
-{
-    SetTaskFlagWord(abOpen, 8);
-}
 
 // @fnv 0x005c3420
 NiPoint3& TaskQueueInterface::QueueActorAnimationTask(NiPoint3& akDest)
@@ -305,7 +336,7 @@ void TaskQueueInterface::ProcessPackedTask(const BSPackedTask& task)
     if (DAT_011a31f4)
     {
         if (!reinterpret_cast<PackedTaskQueueProcessor*>(
-                 reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(this)->GetSize())
+                 (((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(this)))->iSize))
                  ->CallVirtualMethod1(task))
             DebugBreak();
     }
@@ -319,516 +350,15 @@ void TaskQueueInterface::ProcessPackedTask(const BSPackedTask& task)
 // @fnv 0x007034c0
 void TaskQueueInterface::ThreadProcessInput(unsigned int input)
 {
-    if (FUN_004b7210() && reinterpret_cast<QuestStage*>(FUN_004b7210())->GetIndex())
-        FUN_004b7210()->FUN_00984f60(input);
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<QuestStage*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
+        reinterpret_cast<::TESPackage *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(input));
 }
 
 // @fnv 0x00703490
 void TaskQueueInterface::ThreadProcessSecondaryInput()
 {
-    if (FUN_004b7210() && reinterpret_cast<QuestStage*>(FUN_004b7210())->GetIndex())
-        FUN_004b7210()->ClearActivatePickResults();
-}
-
-// Dispatches a packed task by its opcode, calling the matching engine routine for each case.
-// @fnv 0x0087b990
-void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
-{
-    switch (akTask.m_akPackedTaskVariantData[0].iData)
-    {
-    case 0:
-        Warning("Float %.2f", akTask.m_akPackedTaskVariantData[1].fData);
-        break;
-    case 1:
-        Warning("Int %d", akTask.m_akPackedTaskVariantData[1].iData);
-        break;
-    case 2: {
-        NiAVObject* pTaskObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NiPoint3 kColor(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
-                        akTask.m_akPackedTaskVariantData[4].fData);
-        BipedAnim::SetNodeTranslation(pTaskObject, kColor);
-        break;
-    }
-    case 32: {
-        TESObjectWEAP* pWeapon = static_cast<TESObjectWEAP*>(akTask.m_akPackedTaskVariantData[1].pData);
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[2].pData);
-        pWeapon->Fire(m_pWorldReferenceInfo);
-        break;
-    }
-    case 31: {
-        unsigned int auiFormId = akTask.m_akPackedTaskVariantData[2].iData;
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(TESForm::GetFormByID(auiFormId));
-        if (m_pWorldReferenceInfo)
-        {
-            switch (akTask.m_akPackedTaskVariantData[1].iData)
-            {
-            case 0x1007:
-                FUN_005c0740(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].pcDataA[0],
-                             akTask.m_akPackedTaskVariantData[4].fData);
-                break;
-            case 0x1009:
-                FUN_005c0b10(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].pcDataA[0],
-                             akTask.m_akPackedTaskVariantData[4].fData);
-                break;
-            case 0x113c:
-                Script::SetReferenceScale(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].fData);
-                break;
-            case 0x1156:
-                FUN_005d3c20(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].fData);
-                break;
-            case 0x109e:
-            case 0x124f: {
-                float fY;
-                auiFormId = akTask.m_akPackedTaskVariantData[3].iData;
-                TESObjectREFR* target = static_cast<TESObjectREFR*>(TESForm::GetFormByID(auiFormId));
-                float fX = akTask.m_akPackedTaskVariantData[4].fData;
-                fY = akTask.m_akPackedTaskVariantData[5].fData;
-                float fZ = akTask.m_akPackedTaskVariantData[6].fData;
-                int iFade = 0;
-                if (akTask.m_akPackedTaskVariantData[1].iData == 0x124f)
-                    iFade = 1;
-                if (m_pWorldReferenceInfo->IsActor() && m_pWorldReferenceInfo != g_thePlayer)
-                {
-                    Actor* pActor = static_cast<Actor*>(m_pWorldReferenceInfo);
-                    if (TASK_PROCESS(pActor))
-                    {
-                        if (reinterpret_cast<MobileObject*>(pActor)->GetCurrentProcessLevel() == 0 &&
-                            pActor->GetAlpha() > 0.0 && iFade > 0.0)
-                        {
-                            HighProcess* pProcess = static_cast<HighProcess*>(TASK_PROCESS(pActor));
-                            pProcess->RefreshProcessState(pActor, target, fX, fY, fZ);
-                        }
-                        else
-                        {
-                            Script::MoveReferenceToPosition(m_pWorldReferenceInfo, target, fX, fY, fZ);
-                        }
-                    }
-                    else
-                    {
-                        Script::MoveReferenceToPosition(m_pWorldReferenceInfo, target, fX, fY, fZ);
-                    }
-                }
-                else
-                {
-                    Script::MoveReferenceToPosition(m_pWorldReferenceInfo, target, fX, fY, fZ);
-                }
-                break;
-            }
-            case 0x116c:
-                FUN_005d4c20(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].fData);
-                break;
-            case 0x11df: {
-                auiFormId = akTask.m_akPackedTaskVariantData[3].iData;
-                TESObjectREFR* target = static_cast<TESObjectREFR*>(TESForm::GetFormByID(auiFormId));
-                Script::MatchFaceGeometry(m_pWorldReferenceInfo, target, akTask.m_akPackedTaskVariantData[4].iData);
-                break;
-            }
-            }
-        }
-        break;
-    }
-    case 4: {
-        if (DAT_011df244.GetSize() > 0)
-        {
-            TaskQueueParallelWork kWork;
-            kWork.Construct(FUN_0087cfb0, &DAT_011df244, DAT_011df244.GetSize());
-            DAT_01202df4->FUN_00c44c90(&kWork);
-            reinterpret_cast<BSSimpleArray_SandBoxChoiceListItem_1024_*>(&DAT_011df244)->Clear(false);
-        }
-        if (DAT_011df1c4.GetSize() > 0)
-        {
-            BSScrapArray<NiPointer<NiAVObject>, 1024> nodeList;
-            FUN_0087d030(&nodeList);
-            TaskQueueParallelWork kWork;
-            kWork.Construct(UpdateAnimObjFromTask, &nodeList,
-                            reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&nodeList)->GetSize());
-            DAT_01202df4->FUN_00c44c90(&kWork);
-        }
-        if (!DAT_011df1b8.Bool()->b)
-            g_TES->FUN_00453900();
-        break;
-    }
-    case 3: {
-        NiNode* pNode = static_cast<NiNode*>(akTask.m_akPackedTaskVariantData[1].pData);
-        DetailedActorPathHandler::UpdateSceneNode(pNode);
-        break;
-    }
-    case 5: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        bool bTestMultibounds = false;
-        if (pObject->GetHeadTail() == 0.0)
-            bTestMultibounds = true;
-        UpdateSceneGraph(pObject);
-        if (bTestMultibounds && pObject->GetHeadTail() > 0.0)
-            reinterpret_cast<DetailedActorPathHandler*>(g_TES->GetDetailedActorPathHandler())
-                ->HandleReferenceUpdate(TESObjectREFR::GetReferenceFromNiAVObject(pObject), false, false);
-        pObject->FUN_00401970();
-        break;
-    }
-    case 6: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        UpdateControllersRecursive(pObject);
-        pObject->FUN_00401970();
-        break;
-    }
-    case 7: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NiNode* pParent = static_cast<NiNode*>(akTask.m_akPackedTaskVariantData[2].pData);
-        bool bFirstFree = akTask.m_akPackedTaskVariantData[3].bData;
-        bool bUpdate = akTask.m_akPackedTaskVariantData[4].bData;
-        pParent->AddObject(pObject, bFirstFree);
-        pObject->UpdateUpwardPassParent();
-        if (bUpdate)
-            pObject->UpdateSceneObject();
-        pObject->FUN_00401970();
-        pParent->FUN_00401970();
-        break;
-    }
-    case 8: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NiNode* pParent = pObject->GetParent();
-        if (pParent)
-            pParent->RemoveObject(pObject);
-        pObject->FUN_00401970();
-        break;
-    }
-    case 47: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        BipedAnim::SetNodeTranslation(pObject);
-        pObject->FUN_00401970();
-        break;
-    }
-    case 9: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        ShadowSceneNode* pScene =
-            NiAdditionalGeometryData::GetShadowSceneNodeForIndex(akTask.m_akPackedTaskVariantData[2].iData);
-        if (pScene)
-            pScene->RemoveObject(pObject);
-        pObject->FUN_00401970();
-        break;
-    }
-    case 10: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NiUpdateData kUpdate;
-        kUpdate.FUN_0043d410(0.0f, false, false);
-        pObject->Update(kUpdate);
-        pObject->FUN_00401970();
-        break;
-    }
-    case 11: {
-        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        BooleanFloatQuery* hitData = static_cast<BooleanFloatQuery*>(akTask.m_akPackedTaskVariantData[2].pData);
-        pActor->ProcessActorDamage(hitData->afDamageAmount, hitData);
-        if (hitData->m_pkAttacker)
-            hitData->m_pkAttacker->FUN_0088fb00(hitData->afDamageAmount, hitData, pActor);
-        hitData->DecRefCount();
-        break;
-    }
-    case 12: {
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        if (m_pWorldReferenceInfo->IsExplosion())
-        {
-            Actor* pActor = static_cast<Actor*>(m_pWorldReferenceInfo);
-            pActor->IsGuard();
-        }
-    }
-    case 13: {
-        struct DamageRequestState
-        {
-            NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int, CombatThreatRecord*>* pMap;
-            float fAmount;
-            char reservedFoundA, reservedFoundB, reservedFoundC;
-            bool bFound;
-            TESObjectREFR* ref;
-            CombatThreatRecord* pValue;
-            char reservedAllowA, reservedAllowB, reservedAllowC;
-            bool bAllowDestroyed;
-            void* point;
-        } state;
-        state.ref = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        state.fAmount = akTask.m_akPackedTaskVariantData[2].fData;
-        state.bAllowDestroyed = akTask.m_akPackedTaskVariantData[3].bData;
-        state.bFound = false;
-        state.pMap = FUN_0087ce70();
-        state.point = state.pMap->GetFirstPos();
-        state.pValue = 0;
-        while (state.point && !state.bFound)
-        {
-            unsigned int uiKey = 0;
-            state.pMap->GetNext(state.point, uiKey, state.pValue);
-            if (uiKey == reinterpret_cast<unsigned int>(state.ref))
-                state.bFound = true;
-        }
-        if (state.bFound)
-        {
-            if (state.ref->IsActor())
-            {
-                Actor* pActor = static_cast<Actor*>(state.ref);
-                pActor->DamageHealthAndFatigue(state.fAmount, 0.0f, 0);
-            }
-            else
-            {
-                state.ref->DamageObject(state.fAmount, state.bAllowDestroyed);
-            }
-        }
-        break;
-    }
-    case 48: {
-        TESObjectREFR* reference = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        bool bFlag = akTask.m_akPackedTaskVariantData[2].bData;
-        FUN_00892460(reference, bFlag);
-        break;
-    }
-    case 14: {
-        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        float* afDamageAmount = static_cast<float*>(akTask.m_akPackedTaskVariantData[2].pData);
-        pActor->Kill(pActor->pKillerEntry, *afDamageAmount);
-        DismemberLimbTaskData* pLimbData =
-            static_cast<DismemberLimbTaskData*>(akTask.m_akPackedTaskVariantData[3].pData);
-        if (pLimbData)
-        {
-            pActor->HandleDismembermentTask(pLimbData->iDismembermentOption, pLimbData->uiLimb, pLimbData->pActor);
-            delete pLimbData;
-        }
-        delete afDamageAmount;
-        break;
-    }
-    case 15: {
-        Actor* pQueuedActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        bool bPower = akTask.m_akPackedTaskVariantData[2].bData;
-        bool fForce = akTask.m_akPackedTaskVariantData[3].bData;
-        pQueuedActor->ProcessQueuedHit(bPower, fForce);
-        break;
-    }
-    case 16: {
-        struct PushActorRequest
-        {
-            float fForce;
-            Actor* pActor;
-        } request;
-        request.pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NiPoint3 kPosition(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
-                           akTask.m_akPackedTaskVariantData[4].fData);
-        request.fForce = akTask.m_akPackedTaskVariantData[5].fData;
-        if (request.pActor && TASK_PROCESS(request.pActor))
-            TASK_PROCESS(request.pActor)->PushActorAway(request.pActor, kPosition, request.fForce);
-        break;
-    }
-    case 17: {
-        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        BooleanFloatQuery* hitData = static_cast<BooleanFloatQuery*>(akTask.m_akPackedTaskVariantData[2].pData);
-        if (pActor)
-            pActor->ProcessHitData(hitData, 0);
-        hitData->DecRefCount();
-        break;
-    }
-    case 18: {
-        ActiveEffect* pEffect = static_cast<ActiveEffect*>(akTask.m_akPackedTaskVariantData[1].pData);
-        if (pEffect)
-            reinterpret_cast<Script*>(pEffect)->SetOwnerQuest(
-                reinterpret_cast<TESQuest*>(MagicHitEffect::GetEffectsForActiveEffect(pEffect)));
-        break;
-    }
-    case 19: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        if (pObject)
-        {
-            TESObjectREFR* m_pWorldReferenceInfo = TESObjectREFR::GetReferenceFromNiAVObject(pObject);
-            TESObjectCELL* cell = m_pWorldReferenceInfo ? m_pWorldReferenceInfo->GetParentCell() : 0;
-            bhkWorld* pWorld = cell ? reinterpret_cast<ExtraDataList*>(cell)->GetRoomId() : 0;
-            if (pWorld)
-                pWorld->AddObject(pObject, true, true, 0, false);
-            pObject->FUN_00401970();
-        }
-        break;
-    }
-    case 20: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        if (pObject)
-        {
-            FUN_00c6a270(pObject, true, true, 0);
-            GetObjectFromNode(pObject, true, 0);
-            pObject->FUN_00401970();
-        }
-        break;
-    }
-    case 21: {
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        TESObjectWEAP* pWeapon = static_cast<TESObjectWEAP*>(akTask.m_akPackedTaskVariantData[2].pData);
-        m_pWorldReferenceInfo->SetExtraDataString(pWeapon);
-        break;
-    }
-    case 22: {
-        Actor* pTargetActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        unsigned int uiObjectID = akTask.m_akPackedTaskVariantData[2].iData;
-        if (TASK_PROCESS(pTargetActor) && TASK_PROCESS(pTargetActor)->GetWeaponInfo())
-        {
-            BSSimpleArray<ParentSpaceNode, 1024>* pEntry = TASK_PROCESS(pTargetActor)->GetWeaponInfo();
-            if (pEntry->GetSize() == uiObjectID)
-            {
-                reinterpret_cast<BipedAnim*>(pTargetActor)->AttachFaceGenNode();
-                if (TASK_PROCESS(pTargetActor))
-                    TASK_PROCESS(pTargetActor)->Unk_58(0, 0, false);
-            }
-        }
-        break;
-    }
-    case 24: {
-        Actor* m_pAttachedReference = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        unsigned int uiAV = akTask.m_akPackedTaskVariantData[2].iData;
-        unsigned int uiLimb = akTask.m_akPackedTaskVariantData[3].iData;
-        bool bFlagA = akTask.m_akPackedTaskVariantData[3].bData;
-        bool bDismember = akTask.m_akPackedTaskVariantData[4].bData;
-        m_pAttachedReference->DismemberLimb(uiAV, uiLimb, bFlagA, bDismember, true, false);
-        break;
-    }
-    case 23: {
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        m_pWorldReferenceInfo->Set3D(0, false);
-        break;
-    }
-    case 25: {
-        TESObjectREFR* ref = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        TESObjectREFR* pWaterReference = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[2].pData);
-        float fRate = akTask.m_akPackedTaskVariantData[3].fData;
-        g_TES->GetActorScale()->SetWaterHeight(ref, pWaterReference, fRate);
-        break;
-    }
-    case 26: {
-        TESObjectREFR* ref = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        TESObjectREFR* pWaterReference = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[2].pData);
-        float fRate = akTask.m_akPackedTaskVariantData[3].fData;
-        g_TES->GetActorScale()->UpdateWaterZone(ref, pWaterReference, fRate);
-        break;
-    }
-    case 27: {
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NavMeshObstacleManager::GetSingleton()->RemoveObstacleReference(m_pWorldReferenceInfo);
-        break;
-    }
-    case 28: {
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NavMeshObstacleManager::GetSingleton()->AddObstacleReference(m_pWorldReferenceInfo);
-        break;
-    }
-    case 29: {
-        Character* pCharacter = static_cast<Character*>(akTask.m_akPackedTaskVariantData[1].pData);
-        if (pCharacter)
-            pCharacter->Reset3D();
-        break;
-    }
-    case 30: {
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        bool isOpen = akTask.m_akPackedTaskVariantData[2].bData;
-        bool bSnap = akTask.m_akPackedTaskVariantData[3].bData;
-        if (m_pWorldReferenceInfo)
-            BGSOpenCloseForm::SetOpenState(m_pWorldReferenceInfo, isOpen, bSnap);
-        break;
-    }
-    case 33: {
-        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NiPoint3 kPosition(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
-                           akTask.m_akPackedTaskVariantData[4].fData);
-        if (pActor)
-            pActor->SetPos(&kPosition);
-        break;
-    }
-    case 34: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        int iFlags = akTask.m_akPackedTaskVariantData[2].iData;
-        if (pObject)
-        {
-            Creature::SetNodeFlagsRecursive(pObject, iFlags, true, false, true);
-            pObject->FUN_00401970();
-        }
-        break;
-    }
-    case 35: {
-        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        bool bFlag = akTask.m_akPackedTaskVariantData[2].bData;
-        if (pActor)
-            pActor->FUN_008a5f20(bFlag);
-        break;
-    }
-    case 36: {
-        float fWaterLevelItem = akTask.m_akPackedTaskVariantData[1].fData;
-        NiPoint3 kPosition(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
-                           akTask.m_akPackedTaskVariantData[4].fData);
-        TESWaterListener::UpdateWaterHeightAtPosition(fWaterLevelItem, kPosition);
-        break;
-    }
-    case 37: {
-        float rippleRadius = akTask.m_akPackedTaskVariantData[1].fData;
-        NiPoint3 kPosition(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
-                           akTask.m_akPackedTaskVariantData[4].fData);
-        g_TES->GetActorScale()->AddWaterRipple(kPosition, rippleRadius);
-        break;
-    }
-    case 38: {
-        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        bool bFirstFlag = akTask.m_akPackedTaskVariantData[2].bData;
-        bool bFlagB = akTask.m_akPackedTaskVariantData[3].bData;
-        if (pActor)
-            pActor->RefreshActorInteraction(bFirstFlag, bFlagB);
-        break;
-    }
-    case 39: {
-        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        if (pActor)
-            pActor->ProcessQueuedActorUpdate();
-        break;
-    }
-    case 40: {
-        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        if (pActor)
-            pActor->OnLifeStateChanged();
-        break;
-    }
-    case 41: {
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        m_pWorldReferenceInfo->vfn_01fc(false);
-        break;
-    }
-    case 45: {
-        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
-        m_pWorldReferenceInfo->AnimateNiNode();
-        break;
-    }
-    case 42: {
-        TESForm* pForm = TESForm::GetFormByID(akTask.m_akPackedTaskVariantData[1].iData);
-        if (pForm && pForm->GetIsReference())
-        {
-            TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(pForm);
-            m_pWorldReferenceInfo->Unload3D();
-        }
-        break;
-    }
-    case 49: {
-        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        FUN_00c69fc0(pObject, akTask.m_akPackedTaskVariantData[2].bData, akTask.m_akPackedTaskVariantData[3].bData,
-                     akTask.m_akPackedTaskVariantData[4].bData);
-        pObject->FUN_00401970();
-        break;
-    }
-    case 44: {
-        MobileObject* pActor = static_cast<MobileObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        bhkCharacterController* pController = pActor->GetPhysicsCharacterController();
-        if (pController)
-        {
-            pController->FUN_005620e0(pActor->SetBipedAnim());
-            pController->FUN_0080fb00(FUN_00458b20());
-            pController->FUN_005d10f0();
-            pController->FUN_0087cee0();
-            pController->ResetState();
-        }
-        break;
-    }
-    case 46: {
-        ActiveEffect* pEffect = static_cast<ActiveEffect*>(akTask.m_akPackedTaskVariantData[1].pData);
-        delete pEffect;
-        break;
-    }
-    }
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<QuestStage*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
+        reinterpret_cast<::fnv_0070bc20::FUN_0070bc20_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->UpdateActivatePick();
 }
 
 struct FUN_0043b370_cls
@@ -837,6 +367,11 @@ struct FUN_0043b370_cls
     unsigned int flags;
     void FUN_0043b370(bool set, unsigned int m);
 };
+// @fnv 0x00450f90
+void TaskQueueInterface::QueueActorDisarm(bool abCritical)
+{
+    reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(abCritical, 1);
+}
 // Sets or clears the bits of m in flags depending on set.
 // @fnv 0x0043b370
 void FUN_0043b370_cls::FUN_0043b370(bool set, unsigned int auiMask)
@@ -853,6 +388,11 @@ struct FUN_0047aa60_cls
     unsigned short flags;
     void FUN_0047aa60(bool set, unsigned short m);
 };
+// @fnv 0x0047aa40
+void TaskQueueInterface::QueueReferenceStateTask(bool abOpen)
+{
+    reinterpret_cast<::FUN_0047aa60_cls *>(this)->FUN_0047aa60(abOpen, 8);
+}
 // Sets or clears the bits of flags selected by m, depending on set.
 // @fnv 0x0047aa60
 void FUN_0047aa60_cls::FUN_0047aa60(bool set, unsigned short ausMask)
@@ -906,7 +446,6 @@ struct FUN_0087b2b0_shell : public TaskQueueInterface
 class TESSound
 {
   public:
-    unsigned int Deallocate(void);
 };
 
 // @fnv 0x0087b2b0
@@ -915,10 +454,10 @@ void FUN_0087b2b0_shell::FUN_0087b2b0(TESObjectREFR* apRef)
     union
     {
         BSPackedTask task;
-        char buf[32];
+        ::BSPackedTask buf;
     } u;
     u.task.m_akPackedTaskVariantData[0].iData = 0x2a;
-    u.task.m_akPackedTaskVariantData[1].iData = reinterpret_cast<TESSound*>(apRef)->Deallocate();
+    u.task.m_akPackedTaskVariantData[1].iData = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(apRef)))->FUN_0084e3a0()));
     ProcessPackedTask(u.task);
 }
 
@@ -961,20 +500,21 @@ void FUN_0087b650_shell::QueueActorLocationTask(Actor* apActor, void* aLocation)
     ProcessPackedTask(task);
 }
 
+struct DummyFlags
+{
+};
+
 struct FUN_0087cee0_shell : public bhkCharacterController
 {
     bool FUN_0087cee0();
-};
-
-struct DummyFlags
-{
-    int FUN_00621270(int flag);
+    char pad00[0x410];
+    DummyFlags unk410;
 };
 
 // @fnv 0x0087cee0
 bool FUN_0087cee0_shell::FUN_0087cee0()
 {
-    return ((DummyFlags*)((char*)this + 0x410))->FUN_00621270(0x80) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>((&unk410))->FUN_00621270(0x80))) != 0;
 }
 
 struct FUN_0087cf10_shell
@@ -983,12 +523,12 @@ struct FUN_0087cf10_shell
     void* b;
     void* c;
     void* d;
-    FUN_0087cf10_shell* __thiscall Construct(void* a, void* b, void* c);
+    FUN_0087cf10_shell* Construct(void* a, void* b, void* c);
 };
 
 // Stores the three arguments into fields a, b and c, clears field d, and returns this.
 // @fnv 0x0087cf10
-FUN_0087cf10_shell* __thiscall FUN_0087cf10_shell::Construct(void* apArg1, void* apArg2, void* apArg3)
+FUN_0087cf10_shell* FUN_0087cf10_shell::Construct(void* apArg1, void* apArg2, void* apArg3)
 {
     this->a = apArg1;
     this->b = apArg2;
@@ -999,7 +539,6 @@ FUN_0087cf10_shell* __thiscall FUN_0087cf10_shell::Construct(void* apArg1, void*
 
 struct RagH
 {
-    bool FUN_00552490();
 };
 
 struct BSFadeNode
@@ -1015,39 +554,40 @@ struct FUN_00844160_entry
 
 struct FUN_00844160_shell
 {
-    FUN_00844160_entry* FUN_00844160(int aiIndex);
+public:
+    uintptr_t FUN_00844160(unsigned int);
 };
 
 struct MobileObjectDialogueView
 {
-    bool IsInDialogueWithPlayer() const;
 };
 
-void __cdecl SetTlsValueAndReset(BSFadeNode* apNode, int aiState);
 
 // @fnv 0x0087cfb0
 void __cdecl FUN_0087cfb0(void* apData, int aiIndex)
 {
     FUN_00844160_shell* pshell = static_cast<FUN_00844160_shell*>(apData);
-    FUN_00844160_entry* pentry = pshell->FUN_00844160(aiIndex);
-    if (pentry->pActor && *reinterpret_cast<RagH**>(reinterpret_cast<char*>(pentry->pActor) + 0xac) &&
-        (*reinterpret_cast<RagH**>(reinterpret_cast<char*>(pentry->pActor) + 0xac))->FUN_00552490() &&
+    FUN_00844160_entry* pentry = ((::FUN_00844160_entry *)(pshell->FUN_00844160(aiIndex)));
+    if (pentry->pActor && *reinterpret_cast<RagH**>(&pentry->pActor->unkac) &&
+        ::FUN_00552490((bool *)((*reinterpret_cast<RagH**>(&pentry->pActor->unkac)))) &&
         !pentry->pNode->FUN_00552470() &&
-        !reinterpret_cast<MobileObjectDialogueView*>(pentry->pActor)->IsInDialogueWithPlayer())
-        SetTlsValueAndReset(pentry->pNode, 2);
+        !reinterpret_cast<::MobileObject *>((void *)(reinterpret_cast<MobileObjectDialogueView*>(pentry->pActor)))->IsInDialogueWithPlayer())
+        ::SetTlsValueAndReset((intptr_t)(pentry->pNode), 2);
 }
 
 extern int __cdecl InitScriptRunLock(void*);
 
 struct FUN_0087adf0_shell
 {
-    int __thiscall InitScriptRunLockForSelf();
+    int InitScriptRunLockForSelf();
+    char pad00[0x60];
+    long unk60;
 };
 
 // @fnv 0x0087adf0
-int __thiscall FUN_0087adf0_shell::InitScriptRunLockForSelf()
+int FUN_0087adf0_shell::InitScriptRunLockForSelf()
 {
-    return InitScriptRunLock((char*)this + 0x60);
+    return InitScriptRunLock(&unk60);
 }
 
 float __cdecl GetFloatByType(int, int, int);
@@ -1065,16 +605,16 @@ float __cdecl FUN_00648c80(float afConditionMult, int b)
 
 struct FUN_0087aa40_Holder
 {
-    void FUN_0087aa40(int, int);
+    void FUN_0087aa40(void*, void*);
 };
 // @fnv 0x0087aa40
-void FUN_0087aa40_Holder::FUN_0087aa40(int aiArg0, int aiArg1)
+void FUN_0087aa40_Holder::FUN_0087aa40(void* apArg0, void* apArg1)
 {
-    char buf[32];
-    ((int*)buf)[0] = 0x20;
-    ((int*)buf)[1] = aiArg0;
-    ((int*)buf)[2] = aiArg1;
-    ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)buf);
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x20;
+    task.m_akPackedTaskVariantData[1].pData = apArg0;
+    task.m_akPackedTaskVariantData[2].pData = apArg1;
+    ((TaskQueueInterface*)this)->ProcessPackedTask(task);
 }
 
 struct FUN_0087aa90_shell : TaskQueueInterface
@@ -1084,16 +624,15 @@ struct FUN_0087aa90_shell : TaskQueueInterface
 // @fnv 0x0087aa90
 void FUN_0087aa90_shell::FUN_0087aa90()
 {
-    char task[32];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[0].iData = 4;
-    ProcessPackedTask((BSPackedTask&)task);
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 4;
+    ProcessPackedTask(task);
 }
 
 struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-extern GlobalObject_0045cf30 g_011df214;
 struct S5460
 {
     unsigned int FUN_00845460();
@@ -1110,17 +649,16 @@ struct S0087ab50
 // @fnv 0x0087ab50
 void S0087ab50::SetPairIfEnabled(unsigned int uiFirst, unsigned int uiSecond)
 {
-    if (*g_011df214.Bool())
+    if (*::g_011df214.Bool())
     {
-        unsigned int uiIndex = ((S5460*)&DAT_011df244)->FUN_00845460();
-        ((S006950d0*)&DAT_011df244)->GetElement(uiIndex)[0] = uiFirst;
-        ((S006950d0*)&DAT_011df244)->GetElement(uiIndex)[1] = uiSecond;
+        unsigned int uiIndex = ((S5460*)&(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)))->FUN_00845460();
+        ((S006950d0*)&(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)))->GetElement(uiIndex)[0] = uiFirst;
+        ((S006950d0*)&(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)))->GetElement(uiIndex)[1] = uiSecond;
     }
 }
 
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct FakeTask
 {
@@ -1139,14 +677,13 @@ void FUN_0087abb0_shell::FUN_0087abb0(G00559a40* pObject)
     FakeTask task;
     task.i0 = 6;
     task.p1 = pObject;
-    pObject->FUN_0040f6e0();
+    reinterpret_cast<::FUN_0040f6e0_class *>((pObject))->FUN_0040f6e0();
     ProcessPackedTask(reinterpret_cast<BSPackedTask&>(task));
 }
 
 namespace fnv_0087ac00 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct Owner0087ac00 : public TaskQueueInterface
 {
@@ -1158,7 +695,7 @@ void Owner0087ac00::QueueTaskWithTwoObjects(G00559a40* pFirstObject, G00559a40* 
     union U
     {
         BSPackedTask task;
-        char buf[32];
+        ::BSPackedTask buf;
     };
     U u;
     u.task.m_akPackedTaskVariantData[0].iData = 7;
@@ -1166,8 +703,8 @@ void Owner0087ac00::QueueTaskWithTwoObjects(G00559a40* pFirstObject, G00559a40* 
     u.task.m_akPackedTaskVariantData[2].pData = pSecondObject;
     u.task.m_akPackedTaskVariantData[3].bData = bFlag1;
     u.task.m_akPackedTaskVariantData[4].bData = bFlag2;
-    pFirstObject->FUN_0040f6e0();
-    pSecondObject->FUN_0040f6e0();
+    reinterpret_cast<::FUN_0040f6e0_class *>((pFirstObject))->FUN_0040f6e0();
+    reinterpret_cast<::FUN_0040f6e0_class *>((pSecondObject))->FUN_0040f6e0();
     ProcessPackedTask(u.task);
 }
 }  // namespace fnv_0087ac00
@@ -1175,7 +712,6 @@ void Owner0087ac00::QueueTaskWithTwoObjects(G00559a40* pFirstObject, G00559a40* 
 namespace fnv_0087ac60 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct FUN_0087AC60_Holder
 {
@@ -1190,11 +726,11 @@ void FUN_0087AC60_Holder::FUN_0087ac60(G00559a40* pObject)
         union
         {
             BSPackedTask task;
-            char buf[32];
+            ::BSPackedTask buf;
         };
         task.m_akPackedTaskVariantData[0].iData = 8;
         task.m_akPackedTaskVariantData[1].pData = pObject;
-        pObject->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((pObject))->FUN_0040f6e0();
         ((TaskQueueInterface*)this)->ProcessPackedTask(task);
     }
 }
@@ -1203,7 +739,6 @@ void FUN_0087AC60_Holder::FUN_0087ac60(G00559a40* pObject)
 namespace fnv_0087acb0 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct FUN_0087acb0_host : TaskQueueInterface
 {
@@ -1221,7 +756,7 @@ void FUN_0087acb0_host::FUN_0087acb0(G00559a40* pObject)
         } packedTask;
         packedTask.t.m_akPackedTaskVariantData[0].iData = 47;
         packedTask.t.m_akPackedTaskVariantData[1].pData = pObject;
-        pObject->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((pObject))->FUN_0040f6e0();
         ProcessPackedTask(packedTask.t);
     }
 }
@@ -1230,7 +765,6 @@ void FUN_0087acb0_host::FUN_0087acb0(G00559a40* pObject)
 namespace fnv_0087ad00 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct TaskBuf0087ad00
 {
@@ -1252,7 +786,7 @@ void H0087ad00::FUN_0087ad00(G00559a40* apObject, void* apData)
         task.v0 = 9;
         task.v1 = apObject;
         task.v2 = apData;
-        apObject->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((apObject))->FUN_0040f6e0();
         ((TaskQueueInterface*)this)->ProcessPackedTask((const BSPackedTask&)task);
     }
 }
@@ -1261,7 +795,6 @@ void H0087ad00::FUN_0087ad00(G00559a40* apObject, void* apData)
 namespace fnv_0087ad50 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct Host : TaskQueueInterface
 {
@@ -1281,7 +814,7 @@ void Host::FUN_0087ad50(G00559a40* a1)
         HostBuf b;
         b.i0 = 10;
         b.p1 = a1;
-        a1->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((a1))->FUN_0040f6e0();
         ProcessPackedTask((BSPackedTask&)b);
     }
 }
@@ -1290,23 +823,22 @@ void Host::FUN_0087ad50(G00559a40* a1)
 namespace fnv_0087ada0 {
 struct FUN_0087adf0_shell
 {
-    int InitScriptRunLockForSelf();
 };
 struct FUN_0087ada0_shell : public TaskQueueInterface
 {
-    void FUN_0087ada0(int, FUN_0087adf0_shell*);
+    void FUN_0087ada0(intptr_t, FUN_0087adf0_shell*);
 };
 // @fnv 0x0087ada0
-void FUN_0087ada0_shell::FUN_0087ada0(int aiTaskArg, FUN_0087adf0_shell* a2)
+void FUN_0087ada0_shell::FUN_0087ada0(intptr_t aiTaskArg, FUN_0087adf0_shell* a2)
 {
-    char buf[32];
+    ::BSPackedTask buf;
     if (a2)
     {
-        ((BSPackedTask*)buf)->m_akPackedTaskVariantData[0].iData = 11;
-        ((BSPackedTask*)buf)->m_akPackedTaskVariantData[1].iData = aiTaskArg;
-        ((BSPackedTask*)buf)->m_akPackedTaskVariantData[2].pData = a2;
-        a2->InitScriptRunLockForSelf();
-        ProcessPackedTask(*(BSPackedTask*)buf);
+        buf.m_akPackedTaskVariantData[0].iData = 11;
+        buf.m_akPackedTaskVariantData[1].iData = aiTaskArg;
+        buf.m_akPackedTaskVariantData[2].pData = a2;
+        reinterpret_cast<::FUN_0087adf0_shell *>((a2))->InitScriptRunLockForSelf();
+        ProcessPackedTask(buf);
     }
 }
 }  // namespace fnv_0087ada0
@@ -1314,23 +846,22 @@ void FUN_0087ada0_shell::FUN_0087ada0(int aiTaskArg, FUN_0087adf0_shell* a2)
 namespace fnv_0087ae10 {
 struct FUN_0087adf0_shell
 {
-    int InitScriptRunLockForSelf();
 };
 struct FUN_0087ae10_shell : TaskQueueInterface
 {
-    void FUN_0087ae10(int, FUN_0087adf0_shell*);
+    void FUN_0087ae10(intptr_t, FUN_0087adf0_shell*);
 };
 // @fnv 0x0087ae10
-void FUN_0087ae10_shell::FUN_0087ae10(int a, FUN_0087adf0_shell* b)
+void FUN_0087ae10_shell::FUN_0087ae10(intptr_t a, FUN_0087adf0_shell* b)
 {
-    char task[32];
+    ::BSPackedTask task;
     if (b)
     {
-        ((int*)task)[0] = 17;
-        ((int*)task)[1] = a;
-        ((FUN_0087adf0_shell**)task)[2] = b;
-        b->InitScriptRunLockForSelf();
-        ProcessPackedTask(*(BSPackedTask*)task);
+        task.m_akPackedTaskVariantData[0].iData = 17;
+        task.m_akPackedTaskVariantData[1].iData = a;
+        task.m_akPackedTaskVariantData[2].pData = b;
+        reinterpret_cast<::FUN_0087adf0_shell *>((b))->InitScriptRunLockForSelf();
+        ProcessPackedTask(task);
     }
 }
 }  // namespace fnv_0087ae10
@@ -1484,10 +1015,10 @@ void Host::QueueCheckTask(FakeObj* pObj)
 {
     if (pObj && pObj->Check())
     {
-        char buf[32];
-        ((int*)buf)[0] = 12;
-        ((FakeObj**)buf)[1] = pObj;
-        ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)buf);
+        ::BSPackedTask buf;
+        buf.m_akPackedTaskVariantData[0].iData = 12;
+        buf.m_akPackedTaskVariantData[1].pData = pObj;
+        ((TaskQueueInterface*)this)->ProcessPackedTask(buf);
     }
 }
 
@@ -1555,19 +1086,18 @@ void FUN_0087b040_shell::QueuePowerAttackTask(Actor* apActor, bool abPowerAttack
 {
     if (apActor)
     {
-        char task[32];
-        reinterpret_cast<BSPackedTask&>(task).m_akPackedTaskVariantData[0].iData = 15;
-        reinterpret_cast<BSPackedTask&>(task).m_akPackedTaskVariantData[1].pData = apActor;
-        reinterpret_cast<BSPackedTask&>(task).m_akPackedTaskVariantData[2].bData = abPowerAttack;
-        reinterpret_cast<BSPackedTask&>(task).m_akPackedTaskVariantData[3].bData = abInCombatAttack;
-        ProcessPackedTask(reinterpret_cast<BSPackedTask&>(task));
+        ::BSPackedTask task;
+        task.m_akPackedTaskVariantData[0].iData = 15;
+        task.m_akPackedTaskVariantData[1].pData = apActor;
+        task.m_akPackedTaskVariantData[2].bData = abPowerAttack;
+        task.m_akPackedTaskVariantData[3].bData = abInCombatAttack;
+        ProcessPackedTask(task);
     }
 }
 
 namespace fnv_0087b0f0 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct FUN_0087b0f0_shell : TaskQueueInterface
 {
@@ -1578,11 +1108,11 @@ void FUN_0087b0f0_shell::FUN_0087b0f0(G00559a40* p)
 {
     if (p)
     {
-        p->FUN_0040f6e0();
-        char task[32];
-        ((BSPackedTask*)task)->m_akPackedTaskVariantData[0].iData = 0x13;
-        ((BSPackedTask*)task)->m_akPackedTaskVariantData[1].pData = p;
-        ProcessPackedTask(*(BSPackedTask*)task);
+        reinterpret_cast<::FUN_0040f6e0_class *>((p))->FUN_0040f6e0();
+        ::BSPackedTask task;
+        task.m_akPackedTaskVariantData[0].iData = 0x13;
+        task.m_akPackedTaskVariantData[1].pData = p;
+        ProcessPackedTask(task);
     }
 }
 }  // namespace fnv_0087b0f0
@@ -1590,7 +1120,6 @@ void FUN_0087b0f0_shell::FUN_0087b0f0(G00559a40* p)
 namespace fnv_0087b140 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct FUN_0087b140_Holder : public TaskQueueInterface
 {
@@ -1599,13 +1128,13 @@ struct FUN_0087b140_Holder : public TaskQueueInterface
 // @fnv 0x0087b140
 void FUN_0087b140_Holder::QueueTaskIfPresent(G00559a40* a)
 {
-    char buf[32];
+    ::BSPackedTask buf;
     if (a)
     {
-        a->FUN_0040f6e0();
-        ((int*)buf)[0] = 20;
-        ((G00559a40**)buf)[1] = a;
-        ProcessPackedTask(*(BSPackedTask*)buf);
+        reinterpret_cast<::FUN_0040f6e0_class *>((a))->FUN_0040f6e0();
+        buf.m_akPackedTaskVariantData[0].iData = 20;
+        buf.m_akPackedTaskVariantData[1].pData = a;
+        ProcessPackedTask(buf);
     }
 }
 }  // namespace fnv_0087b140
@@ -1613,12 +1142,11 @@ void FUN_0087b140_Holder::QueueTaskIfPresent(G00559a40* a)
 namespace fnv_0087b1e0 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 union TaskUnion
 {
     BSPackedTask task;
-    char buf[32];
+    ::BSPackedTask buf;
 };
 struct Holder : TaskQueueInterface
 {
@@ -1629,7 +1157,7 @@ void Holder::FUN_0087b1e0(G00559a40* apObject, int aiValue)
 {
     if (apObject)
     {
-        apObject->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((apObject))->FUN_0040f6e0();
         TaskUnion task;
         task.task.m_akPackedTaskVariantData[0].iData = 0x22;
         task.task.m_akPackedTaskVariantData[1].pData = apObject;
@@ -1646,72 +1174,72 @@ struct FUN_0087b230_Holder : TaskQueueInterface
 // @fnv 0x0087b230
 void FUN_0087b230_Holder::FUN_0087b230(int aiValue)
 {
-    char task[32];
-    ((int*)task)[0] = 45;
-    ((int*)task)[1] = aiValue;
-    ProcessPackedTask(*reinterpret_cast<BSPackedTask*>(task));
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 45;
+    task.m_akPackedTaskVariantData[1].iData = aiValue;
+    ProcessPackedTask(task);
 }
 
 struct FUN_0087b440_holder
 {
-    void FUN_0087b440(int, int, int, bool, bool);
+    void FUN_0087b440(void*, int, int, bool, bool);
 };
 // @fnv 0x0087b440
-void FUN_0087b440_holder::FUN_0087b440(int aiArg0, int aiArg1, int aiArg2, bool abFlag0, bool abFlag1)
+void FUN_0087b440_holder::FUN_0087b440(void* apArg0, int aiArg1, int aiArg2, bool abFlag0, bool abFlag1)
 {
-    char buf[32];
-    ((int*)buf)[0] = 0x18;
-    ((int*)buf)[1] = aiArg0;
-    ((int*)buf)[2] = aiArg1;
-    ((int*)buf)[3] = aiArg2;
-    buf[16] = abFlag0;
-    buf[20] = abFlag1;
-    reinterpret_cast<TaskQueueInterface*>(this)->ProcessPackedTask(*reinterpret_cast<BSPackedTask*>(buf));
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x18;
+    task.m_akPackedTaskVariantData[1].pData = apArg0;
+    task.m_akPackedTaskVariantData[2].iData = aiArg1;
+    task.m_akPackedTaskVariantData[3].iData = aiArg2;
+    task.m_akPackedTaskVariantData[4].bData = abFlag0;
+    task.m_akPackedTaskVariantData[5].bData = abFlag1;
+    reinterpret_cast<TaskQueueInterface*>(this)->ProcessPackedTask(task);
 }
 
 struct FakeTaskQueue
 {
-    void FUN_0087b4a0(int a, int b, float c);
+    void FUN_0087b4a0(void* a, void* b, float c);
 };
 // Builds a 32-byte task with opcode 0x19 and the three arguments, then passes it to the queue interface.
 // @fnv 0x0087b4a0
-void FakeTaskQueue::FUN_0087b4a0(int aiArg1, int aiArg2, float afArg3)
+void FakeTaskQueue::FUN_0087b4a0(void* apArg1, void* apArg2, float afArg3)
 {
-    char task[32];
-    ((int*)task)[0] = 0x19;
-    ((int*)task)[1] = aiArg1;
-    ((int*)task)[2] = aiArg2;
-    ((float*)task)[3] = afArg3;
-    ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)task);
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x19;
+    task.m_akPackedTaskVariantData[1].pData = apArg1;
+    task.m_akPackedTaskVariantData[2].pData = apArg2;
+    task.m_akPackedTaskVariantData[3].fData = afArg3;
+    ((TaskQueueInterface*)this)->ProcessPackedTask(task);
 }
 
 struct Holder0087b4f0
 {
-    void FUN_0087b4f0(int a, int b, float c);
+    void FUN_0087b4f0(void* a, void* b, float c);
 };
 // Builds a BSPackedTask with id 26 and the three arguments, then queues it via TaskQueueInterface.
 // @fnv 0x0087b4f0
-void Holder0087b4f0::FUN_0087b4f0(int aiArg0, int aiArg1, float afArg2)
+void Holder0087b4f0::FUN_0087b4f0(void* apArg0, void* apArg1, float afArg2)
 {
-    char task[32];
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[0].iData = 26;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[1].iData = aiArg0;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[2].iData = aiArg1;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[3].fData = afArg2;
-    ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)task);
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 26;
+    task.m_akPackedTaskVariantData[1].pData = apArg0;
+    task.m_akPackedTaskVariantData[2].pData = apArg1;
+    task.m_akPackedTaskVariantData[3].fData = afArg2;
+    ((TaskQueueInterface*)this)->ProcessPackedTask(task);
 }
 
 struct FUN_0087b540_Holder : public TaskQueueInterface
 {
-    void FUN_0087b540(int);
+    void FUN_0087b540(intptr_t);
 };
 // @fnv 0x0087b540
-void FUN_0087b540_Holder::FUN_0087b540(int a1)
+void FUN_0087b540_Holder::FUN_0087b540(intptr_t a1)
 {
-    char buf[32];
-    *reinterpret_cast<int*>(buf) = 0x1B;
-    *reinterpret_cast<int*>(buf + 4) = a1;
-    ProcessPackedTask(*reinterpret_cast<BSPackedTask*>(buf));
+    ::BSPackedTask buf;
+    buf.m_akPackedTaskVariantData[0].iData = 0x1B;
+    buf.m_akPackedTaskVariantData[1].iData = a1;
+    ProcessPackedTask(buf);
 }
 
 struct TaskBuf87580
@@ -1722,11 +1250,11 @@ struct TaskBuf87580
 };
 struct Holder87b580
 {
-    void FUN_0087b580(int);
+    void FUN_0087b580(intptr_t);
 };
 // Builds a task buffer with type 0x1c and the given value, then queues it through the task queue interface.
 // @fnv 0x0087b580
-void Holder87b580::FUN_0087b580(int aiValue)
+void Holder87b580::FUN_0087b580(intptr_t aiValue)
 {
     TaskBuf87580 t;
     t.i0 = 0x1c;
@@ -1736,44 +1264,44 @@ void Holder87b580::FUN_0087b580(int aiValue)
 
 struct Unnamed_0087b5c0 : TaskQueueInterface
 {
-    void FUN_0087b5c0(int);
+    void FUN_0087b5c0(void*);
 };
 // @fnv 0x0087b5c0
-void Unnamed_0087b5c0::FUN_0087b5c0(int aiArg)
+void Unnamed_0087b5c0::FUN_0087b5c0(void* apArg)
 {
-    char task[32];
-    *(int*)&task[0] = 29;
-    *(int*)&task[4] = aiArg;
-    ProcessPackedTask(*(const BSPackedTask*)task);
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 29;
+    task.m_akPackedTaskVariantData[1].pData = apArg;
+    ProcessPackedTask(task);
 }
 
 struct FUN_0087b600_Holder : TaskQueueInterface
 {
-    void FUN_0087b600(int a, bool b, bool c);
+    void FUN_0087b600(intptr_t a, bool b, bool c);
 };
 // @fnv 0x0087b600
-void FUN_0087b600_Holder::FUN_0087b600(int aiValue, bool abFlag1, bool abFlag2)
+void FUN_0087b600_Holder::FUN_0087b600(intptr_t aiValue, bool abFlag1, bool abFlag2)
 {
-    char buf[32];
-    ((int*)buf)[0] = 30;
-    ((int*)buf)[1] = aiValue;
-    buf[8] = abFlag1;
-    buf[12] = abFlag2;
-    ProcessPackedTask(*(BSPackedTask*)buf);
+    ::BSPackedTask buf;
+    buf.m_akPackedTaskVariantData[0].iData = 30;
+    buf.m_akPackedTaskVariantData[1].iData = aiValue;
+    buf.m_akPackedTaskVariantData[2].bData = abFlag1;
+    buf.m_akPackedTaskVariantData[3].bData = abFlag2;
+    ProcessPackedTask(buf);
 }
 
 struct FUN_0087b6b0_shell : TaskQueueInterface
 {
-    void FUN_0087b6b0(int a1, bool b1);
+    void FUN_0087b6b0(intptr_t a1, bool b1);
 };
 // @fnv 0x0087b6b0
-void FUN_0087b6b0_shell::FUN_0087b6b0(int aiValue, bool abFlag)
+void FUN_0087b6b0_shell::FUN_0087b6b0(intptr_t aiValue, bool abFlag)
 {
-    char task[32];
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[0].iData = 0x23;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[1].iData = aiValue;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[2].bData = abFlag;
-    ProcessPackedTask(*(BSPackedTask*)task);
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x23;
+    task.m_akPackedTaskVariantData[1].iData = aiValue;
+    task.m_akPackedTaskVariantData[2].bData = abFlag;
+    ProcessPackedTask(task);
 }
 
 struct FUN_0087b700_shell : TaskQueueInterface
@@ -1783,13 +1311,13 @@ struct FUN_0087b700_shell : TaskQueueInterface
 // @fnv 0x0087b700
 void FUN_0087b700_shell::FUN_0087b700(float afValue, NiPoint3* apPoint)
 {
-    char task[32];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[0].iData = 0x24;
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[1].fData = afValue;
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[2].fData = ((float*)apPoint)[0];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[3].fData = ((float*)apPoint)[1];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[4].fData = ((float*)apPoint)[2];
-    ProcessPackedTask((BSPackedTask&)task);
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x24;
+    task.m_akPackedTaskVariantData[1].fData = afValue;
+    task.m_akPackedTaskVariantData[2].fData = apPoint->x;
+    task.m_akPackedTaskVariantData[3].fData = apPoint->y;
+    task.m_akPackedTaskVariantData[4].fData = apPoint->z;
+    ProcessPackedTask(task);
 }
 
 struct Holder
@@ -1800,13 +1328,13 @@ struct Holder
 // @fnv 0x0087b760
 void Holder::FUN_0087b760(float afValue, NiPoint3* apPoint)
 {
-    char task[32];
-    ((int*)task)[0] = 0x25;
-    ((float*)task)[1] = afValue;
-    ((float*)task)[2] = ((float*)apPoint)[0];
-    ((float*)task)[3] = ((float*)apPoint)[1];
-    ((float*)task)[4] = ((float*)apPoint)[2];
-    ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)task);
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x25;
+    task.m_akPackedTaskVariantData[1].fData = afValue;
+    task.m_akPackedTaskVariantData[2].fData = apPoint->x;
+    task.m_akPackedTaskVariantData[3].fData = apPoint->y;
+    task.m_akPackedTaskVariantData[4].fData = apPoint->z;
+    ((TaskQueueInterface*)this)->ProcessPackedTask(task);
 }
 
 struct FUN_0087b7c0_Proxy : TaskQueueInterface
@@ -1816,24 +1344,24 @@ struct FUN_0087b7c0_Proxy : TaskQueueInterface
 // @fnv 0x0087b7c0
 void FUN_0087b7c0_Proxy::FUN_0087b7c0(int aiValue, bool abFlag1, bool abFlag2)
 {
-    char buf[32];
-    ((int*)buf)[0] = 0x26;
-    ((int*)buf)[1] = aiValue;
-    buf[8] = abFlag1;
-    buf[12] = abFlag2;
-    ProcessPackedTask(*(BSPackedTask*)buf);
+    ::BSPackedTask buf;
+    buf.m_akPackedTaskVariantData[0].iData = 0x26;
+    buf.m_akPackedTaskVariantData[1].iData = aiValue;
+    buf.m_akPackedTaskVariantData[2].bData = abFlag1;
+    buf.m_akPackedTaskVariantData[3].bData = abFlag2;
+    ProcessPackedTask(buf);
 }
 
 struct FUN_0087b810_Host : TaskQueueInterface
 {
-    void QueueTaskWithId(int);
+    void QueueTaskWithId(intptr_t);
 };
 // @fnv 0x0087b810
-void FUN_0087b810_Host::QueueTaskWithId(int aiValue)
+void FUN_0087b810_Host::QueueTaskWithId(intptr_t aiValue)
 {
     union U
     {
-        char buf[32];
+        ::BSPackedTask buf;
         BSPackedTask task;
     } u;
     u.task.m_akPackedTaskVariantData[0].iData = 39;
@@ -1844,15 +1372,15 @@ void FUN_0087b810_Host::QueueTaskWithId(int aiValue)
 namespace fnv_0087b850 {
 struct Holder
 {
-    void FUN_0087b850(int);
+    void FUN_0087b850(intptr_t);
 };
 // @fnv 0x0087b850
-void Holder::FUN_0087b850(int aiValue)
+void Holder::FUN_0087b850(intptr_t aiValue)
 {
-    char task[32];
-    *reinterpret_cast<int*>(task) = 0x28;
-    *reinterpret_cast<int*>(task + 4) = aiValue;
-    reinterpret_cast<TaskQueueInterface*>(this)->ProcessPackedTask(*reinterpret_cast<const BSPackedTask*>(task));
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x28;
+    task.m_akPackedTaskVariantData[1].iData = aiValue;
+    reinterpret_cast<TaskQueueInterface*>(this)->ProcessPackedTask(task);
 }
 }  // namespace fnv_0087b850
 
@@ -1866,34 +1394,33 @@ void MyOwner::QueueTaskWithValue(int aiValue)
     union
     {
         BSPackedTask task;
-        char buf[32];
+        ::BSPackedTask buf;
     } u;
     u.task.m_akPackedTaskVariantData[0].iData = 46;
     u.task.m_akPackedTaskVariantData[1].iData = aiValue;
     ProcessPackedTask(u.task);
 }
 
-int __cdecl FinishScriptRunLock(void*);
-void __cdecl _Deallocate(void*);
 struct S_0087cea0
 {
     void ReleaseScriptRunLock();
+    char pad00[0x60];
+    long unk60;
 };
 // Releases the script run lock at offset 0x60; if that fails, deallocates this object.
 // @fnv 0x0087cea0
 void S_0087cea0::ReleaseScriptRunLock()
 {
-    if (!FinishScriptRunLock((void*)((char*)this + 0x60)))
+    if (!((int)(::WaitForSingleObjectEx(&unk60))))
     {
         void* p = this;
-        _Deallocate(p);
+        ::FUN_00401030(p);
     }
 }
 
 class Actor;
 struct ActorCombatGroup
 {
-    bool ContainsActor(Actor*);
 };
 struct Unk_0097fa10
 {
@@ -1904,19 +1431,19 @@ struct Unk_0097fa10
 // @fnv 0x0097fa10
 bool Unk_0097fa10::FUN_0097fa10(Actor* apActor)
 {
-    return m_pGroup ? m_pGroup->ContainsActor(apActor) : false;
+    return m_pGroup ? reinterpret_cast<::FUN_009865b0_shell *>((m_pGroup))->FUN_009865b0((intptr_t)(apActor)) : false;
 }
 
 struct FUN_0087a890_shell
 {
     void* vtbl;
     void* m_04;
-    void __thiscall CallVirtualMethod1(int a);
+    void CallVirtualMethod1(int a);
 };
 // @fnv 0x0087a890
-void __thiscall FUN_0087a890_shell::CallVirtualMethod1(int a)
+void FUN_0087a890_shell::CallVirtualMethod1(int a)
 {
-    ((void(__thiscall*)(void*, int))((void**)this->vtbl)[1])(this, a);
+    ((void(*)(void*, int))((void**)this->vtbl)[1])(this, a);
 }
 
 struct FUN_0087afa0_Holder : TaskQueueInterface
@@ -1956,7 +1483,6 @@ struct GO
 };
 struct S2f850
 {
-    unsigned int FUN_006c61b0(const GO&);
 };
 struct FUN_0087aad0_s
 {
@@ -1966,10 +1492,10 @@ struct FUN_0087aad0_s
 // @fnv 0x0087aad0
 void FUN_0087aad0_s::FUN_0087aad0(int a)
 {
-    if (*(unsigned char*)((GlobalObject_0045cf30*)(void*)&DAT_011df1b8)->Bool())
+    if (*(unsigned char*)((GlobalObject_0045cf30*)(void*)&(*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011df1b8)))->Bool())
     {
         GO t(a);
-        ((S2f850*)(void*)&DAT_011df1c4)->FUN_006c61b0(t);
+        reinterpret_cast<::S2f850 *>((((S2f850*)(void*)&(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4)))))->FUN_006c61b0((const ::NavMeshPtr &)(t));
     }
 }
 }  // namespace fnv_0087aad0
@@ -1977,7 +1503,6 @@ void FUN_0087aad0_s::FUN_0087aad0(int a)
 class FNVFloatSource
 {
   public:
-    float* GetValue();
 };
 extern FNVFloatSource* DAT_0119b310[];
 extern FNVFloatSource* DAT_0119b324[];
@@ -1991,10 +1516,10 @@ float __cdecl GetFloatByType(int index, int type, int useAlt)
     switch (type)
     {
     case 0x10:
-        result = ((unsigned char)useAlt != 0) ? *DAT_0119b310[index]->GetValue() : *DAT_0119b324[index]->GetValue();
+        result = ((unsigned char)useAlt != 0) ? *((float *)&(::FUN_00403e20((float *)(DAT_0119b310[index])))) : *((float *)&(::FUN_00403e20((float *)(DAT_0119b324[index]))));
         break;
     case 0x18:
-        result = *DAT_0119b338[index]->GetValue();
+        result = *((float *)&(::FUN_00403e20((float *)(DAT_0119b338[index]))));
         break;
     }
     return result;
@@ -2012,13 +1537,12 @@ struct FunTask090
 
 struct FUN_0087b090_shell
 {
-    void Q160(FunTask090*);
-    void FUN_0087b090(unsigned int a1, float a2, float a3, float a4, float a5);
+    void FUN_0087b090(uintptr_t a1, float a2, float a3, float a4, float a5);
 };
 
 // Fills a FunTask090 with the given pointer and four floats and passes it to Q160 when the pointer is non-null.
 // @fnv 0x0087b090
-void FUN_0087b090_shell::FUN_0087b090(unsigned int a1, float a2, float a3, float a4, float a5)
+void FUN_0087b090_shell::FUN_0087b090(uintptr_t a1, float a2, float a3, float a4, float a5)
 {
     FunTask090 task;
     if (a1 != 0)
@@ -2029,7 +1553,7 @@ void FUN_0087b090_shell::FUN_0087b090(unsigned int a1, float a2, float a3, float
         task.f[1] = a3;
         task.f[2] = a4;
         task.f[3] = a5;
-        this->Q160(&task);
+        reinterpret_cast<::TaskQueueInterface *>((this))->ProcessPackedTask((*(const ::BSPackedTask *)(&task)));
     }
 }
 
@@ -2041,67 +1565,558 @@ struct FUN_0087a670
     unsigned int taskState;
     FUN_0087a670(unsigned int first, unsigned int second);
 };
-extern FUN_0087a670* DAT_011df1a8;
 // Allocates a FUN_0087a670 task object with the two given values and stores it in DAT_011df1a8.
 // @fnv 0x0087b8d0
 void __cdecl FUN_0087b8d0(unsigned int first, unsigned int second)
 {
-    DAT_011df1a8 = new FUN_0087a670(first, second);
+    (*reinterpret_cast<::FUN_0087a670 * *>(&::DAT_011df1a8)) = new FUN_0087a670(first, second);
 }
 
 namespace fnv_0087b950 {
 class FNVTaskQueueStub
 {
   public:
-    void* FUN_007b3fa0_stub(int a);
 };
 
-extern FNVTaskQueueStub* DAT_011df1a8;
 
 // Calls FUN_007b3fa0_stub(1) on DAT_011df1a8 if non-null, then sets DAT_011df1a8 to null.
 // @fnv 0x0087b950
 void __cdecl ClearTaskQueue()
 {
-    FNVTaskQueueStub* queue = DAT_011df1a8;
+    FNVTaskQueueStub* queue = (*reinterpret_cast<::fnv_0087b950::FNVTaskQueueStub * *>(&::DAT_011df1a8));
     FNVTaskQueueStub* first = queue;
     void* result;
     if (first != 0)
     {
-        result = first->FUN_007b3fa0_stub(1);
+        result = reinterpret_cast<::Date *>((first))->FUN_007b3fa0(1);
     }
     else
     {
         result = 0;
     }
-    DAT_011df1a8 = 0;
+    (*reinterpret_cast<::fnv_0087b950::FNVTaskQueueStub * *>(&::DAT_011df1a8)) = 0;
 }
 }  // namespace fnv_0087b950
 
 struct CallTarget
 {
-    float Tail();
 };
 
 struct FUN_0087ce50_cls
 {
-    CallTarget* Head();
     float GetHeadTail();
 };
+// Dispatches a packed task by its opcode, calling the matching engine routine for each case.
+// @fnv 0x0087b990
+void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
+{
+    switch (akTask.m_akPackedTaskVariantData[0].iData)
+    {
+    case 0:
+        ::FUN_005b5e40();
+        break;
+    case 1:
+        ::FUN_005b5e40();
+        break;
+    case 2: {
+        NiAVObject* pTaskObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        NiPoint3 kColor(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
+                        akTask.m_akPackedTaskVariantData[4].fData);
+        ::FUN_00b553d0((::NiGeometry *)(pTaskObject), (::NiPoint3 *)&(kColor));
+        break;
+    }
+    case 32: {
+        TESObjectWEAP* pWeapon = static_cast<TESObjectWEAP*>(akTask.m_akPackedTaskVariantData[1].pData);
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[2].pData);
+        reinterpret_cast<::FireWeapon *>((pWeapon))->FUN_00523150((::FireRef *)(m_pWorldReferenceInfo));
+        break;
+    }
+    case 31: {
+        unsigned int auiFormId = akTask.m_akPackedTaskVariantData[2].iData;
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(::FUN_004839c0(auiFormId));
+        if (m_pWorldReferenceInfo)
+        {
+            switch (akTask.m_akPackedTaskVariantData[1].iData)
+            {
+            case 0x1007:
+                ::FUN_005c0740(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].pcDataA[0],
+                             akTask.m_akPackedTaskVariantData[4].fData);
+                break;
+            case 0x1009:
+                ::FUN_005c0b10((::C0B10Ref *)(m_pWorldReferenceInfo), akTask.m_akPackedTaskVariantData[3].pcDataA[0],
+                             akTask.m_akPackedTaskVariantData[4].fData);
+                break;
+            case 0x113c:
+                Script::SetReferenceScale(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].fData);
+                break;
+            case 0x1156:
+                ::FUN_005d3c20((::S_005d3c20_Foo *)(m_pWorldReferenceInfo), akTask.m_akPackedTaskVariantData[3].fData);
+                break;
+            case 0x109e:
+            case 0x124f: {
+                float fY;
+                auiFormId = akTask.m_akPackedTaskVariantData[3].iData;
+                TESObjectREFR* target = static_cast<TESObjectREFR*>(::FUN_004839c0(auiFormId));
+                float fX = akTask.m_akPackedTaskVariantData[4].fData;
+                fY = akTask.m_akPackedTaskVariantData[5].fData;
+                float fZ = akTask.m_akPackedTaskVariantData[6].fData;
+                int iFade = 0;
+                if (akTask.m_akPackedTaskVariantData[1].iData == 0x124f)
+                    iFade = 1;
+                if (m_pWorldReferenceInfo->IsActor() && m_pWorldReferenceInfo != ::_g_thePlayer)
+                {
+                    Actor* pActor = static_cast<Actor*>(m_pWorldReferenceInfo);
+                    if (TASK_PROCESS(pActor))
+                    {
+                        if (reinterpret_cast<MobileObject*>(pActor)->GetCurrentProcessLevel() == 0 &&
+                            pActor->GetAlpha() > 0.0 && iFade > 0.0)
+                        {
+                            HighProcess* pProcess = static_cast<HighProcess*>(TASK_PROCESS(pActor));
+                            reinterpret_cast<::FUN_008fe9e0_shell *>((pProcess))->FUN_008fe9e0(pActor, target, fX, fY, fZ);
+                        }
+                        else
+                        {
+                            ::MoveReference::FUN_005ccb20((::MoveReference::Reference *)(m_pWorldReferenceInfo), (::MoveReference::Reference *)(target), fX, fY, fZ);
+                        }
+                    }
+                    else
+                    {
+                        ::MoveReference::FUN_005ccb20((::MoveReference::Reference *)(m_pWorldReferenceInfo), (::MoveReference::Reference *)(target), fX, fY, fZ);
+                    }
+                }
+                else
+                {
+                    ::MoveReference::FUN_005ccb20((::MoveReference::Reference *)(m_pWorldReferenceInfo), (::MoveReference::Reference *)(target), fX, fY, fZ);
+                }
+                break;
+            }
+            case 0x116c:
+                ::FUN_005d4c20((::FUN_005d4c20_cls *)(m_pWorldReferenceInfo), akTask.m_akPackedTaskVariantData[3].fData);
+                break;
+            case 0x11df: {
+                auiFormId = akTask.m_akPackedTaskVariantData[3].iData;
+                TESObjectREFR* target = static_cast<TESObjectREFR*>(::FUN_004839c0(auiFormId));
+                ::FUN_005d9bc0(m_pWorldReferenceInfo, target, akTask.m_akPackedTaskVariantData[4].iData);
+                break;
+            }
+            }
+        }
+        break;
+    }
+    case 4: {
+        if (((&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244))))->iSize) > 0)
+        {
+            TaskQueueParallelWork kWork;
+            reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(((void (&)(unsigned int, void *))::FUN_0087cfb0), &(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)), (void *)(std::uintptr_t)(((&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244))))->iSize)));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&kWork));
+            reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray_SandBoxChoiceListItem_1024_*>(&(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)))))->Clear(false);
+        }
+        if (((&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4))))->iSize) > 0)
+        {
+            BSScrapArray<NiPointer<NiAVObject>, 1024> nodeList;
+            FUN_0087d030(&nodeList);
+            TaskQueueParallelWork kWork;
+            reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(UpdateAnimObjFromTask, &nodeList,
+                            (void *)(std::uintptr_t)((((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&nodeList)))->iSize)));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&kWork));
+        }
+        if (!(*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011df1b8)).Bool()->b)
+            reinterpret_cast<::FUN_00453900_Class *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00453900();
+        break;
+    }
+    case 3: {
+        NiNode* pNode = static_cast<NiNode*>(akTask.m_akPackedTaskVariantData[1].pData);
+        ::FUN_00552390((::SceneNode *)(pNode));
+        break;
+    }
+    case 5: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        bool bTestMultibounds = false;
+        if (reinterpret_cast<::FUN_0087ce50_cls *>((pObject))->GetHeadTail() == 0.0)
+            bTestMultibounds = true;
+        UpdateSceneGraph(pObject);
+        if (bTestMultibounds && reinterpret_cast<::FUN_0087ce50_cls *>((pObject))->GetHeadTail() > 0.0)
+            reinterpret_cast<::Cell *>((reinterpret_cast<DetailedActorPathHandler*>(((::TESObjectCELL *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00457070())))))->UpdateRefPlacement((::Ref *)(::TESObjectREFR *)(::FUN_0056f930(pObject)), false, false);
+        reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        break;
+    }
+    case 6: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        ::UpdateControllersRecursive((::AVObj_552790 *)(pObject));
+        reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        break;
+    }
+    case 7: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        NiNode* pParent = static_cast<NiNode*>(akTask.m_akPackedTaskVariantData[2].pData);
+        bool bFirstFree = akTask.m_akPackedTaskVariantData[3].bData;
+        bool bUpdate = akTask.m_akPackedTaskVariantData[4].bData;
+        pParent->AddObject(pObject, bFirstFree);
+        pObject->UpdateUpwardPassParent();
+        if (bUpdate)
+            reinterpret_cast<::FUN_00a5a040_Class *>((pObject))->FUN_00a5a040();
+        reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        reinterpret_cast<::WaitableObject *>((pParent))->FUN_00401970();
+        break;
+    }
+    case 8: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        NiNode* pParent = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((pObject))->FUN_009611e0()));
+        if (pParent)
+            pParent->RemoveObject(pObject);
+        reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        break;
+    }
+    case 47: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        ::FUN_004ab0c0((::Ref_cls *)(pObject));
+        reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        break;
+    }
+    case 9: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        ShadowSceneNode* pScene =
+            ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(akTask.m_akPackedTaskVariantData[2].iData);
+        if (pScene)
+            ::FUN_00b5b1c0((::ShadowSceneNode *)(pScene), (intptr_t)(pObject), {});
+        reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        break;
+    }
+    case 10: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        NiUpdateData kUpdate(0.0f, false, false);
+        reinterpret_cast<::FUN_00a59c60_cls *>((pObject))->FUN_00a59c60((std::intptr_t)&(kUpdate));
+        reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        break;
+    }
+    case 11: {
+        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        BooleanFloatQuery* hitData = static_cast<BooleanFloatQuery*>(akTask.m_akPackedTaskVariantData[2].pData);
+        reinterpret_cast<::fnv_0088e8d0::EActor *>((pActor))->FUN_0088e8d0(hitData->afDamageAmount, (::fnv_0088e8d0::ERequest *)(hitData));
+        if (hitData->m_pkAttacker)
+            reinterpret_cast<::SpellActor *>((hitData->m_pkAttacker))->FUN_0088fb00(hitData->afDamageAmount, (::HitSource *)(hitData), (::SpellActor *)(pActor));
+        reinterpret_cast<::S_0087cea0 *>((hitData))->ReleaseScriptRunLock();
+        break;
+    }
+    case 12: {
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        if (m_pWorldReferenceInfo->IsExplosion())
+        {
+            Actor* pActor = static_cast<Actor*>(m_pWorldReferenceInfo);
+            pActor->IsGuard();
+        }
+    }
+    case 13: {
+        struct DamageRequestState
+        {
+            NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int, CombatThreatRecord*>* pMap;
+            float fAmount;
+            char reservedFoundA, reservedFoundB, reservedFoundC;
+            bool bFound;
+            TESObjectREFR* ref;
+            CombatThreatRecord* pValue;
+            char reservedAllowA, reservedAllowB, reservedAllowC;
+            bool bAllowDestroyed;
+            void* point;
+        } state;
+        state.ref = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        state.fAmount = akTask.m_akPackedTaskVariantData[2].fData;
+        state.bAllowDestroyed = akTask.m_akPackedTaskVariantData[3].bData;
+        state.bFound = false;
+        state.pMap = FUN_0087ce70();
+        state.point = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((state.pMap))->GetFirstPos();
+        state.pValue = 0;
+        while (state.point && !state.bFound)
+        {
+            unsigned int uiKey = 0;
+            reinterpret_cast<::C6b7f20_Map *>((state.pMap))->FUN_006b7f20((::C6b7f20_Node **)&(state.point), (unsigned int *)&(uiKey), (void **)&(state.pValue));
+            if (uiKey == reinterpret_cast<uintptr_t>(state.ref))
+                state.bFound = true;
+        }
+        if (state.bFound)
+        {
+            if (state.ref->IsActor())
+            {
+                Actor* pActor = static_cast<Actor*>(state.ref);
+                pActor->DamageHealthAndFatigue(state.fAmount, 0.0f, 0);
+            }
+            else
+            {
+                state.ref->DamageObject(state.fAmount, state.bAllowDestroyed);
+            }
+        }
+        break;
+    }
+    case 48: {
+        TESObjectREFR* reference = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        bool bFlag = akTask.m_akPackedTaskVariantData[2].bData;
+        ::FUN_00892460((::FnvActorProxy *)(reference), bFlag);
+        break;
+    }
+    case 14: {
+        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        float* afDamageAmount = static_cast<float*>(akTask.m_akPackedTaskVariantData[2].pData);
+        reinterpret_cast<::KillActor *>((pActor))->FUN_0089d900(pActor->pKillerEntry, *afDamageAmount);
+        DismemberLimbTaskData* pLimbData =
+            static_cast<DismemberLimbTaskData*>(akTask.m_akPackedTaskVariantData[3].pData);
+        if (pLimbData)
+        {
+            reinterpret_cast<::FUN_008b51b0_cls *>((pActor))->FUN_008b51b0(pLimbData->iDismembermentOption, pLimbData->uiLimb, (intptr_t)(pLimbData->pActor));
+            delete pLimbData;
+        }
+        delete afDamageAmount;
+        break;
+    }
+    case 15: {
+        Actor* pQueuedActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        bool bPower = akTask.m_akPackedTaskVariantData[2].bData;
+        bool fForce = akTask.m_akPackedTaskVariantData[3].bData;
+        reinterpret_cast<::fnv_00899200::ZActor *>((pQueuedActor))->FUN_00899200(bPower, fForce);
+        break;
+    }
+    case 16: {
+        struct PushActorRequest
+        {
+            float fForce;
+            Actor* pActor;
+        } request;
+        request.pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        NiPoint3 kPosition(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
+                           akTask.m_akPackedTaskVariantData[4].fData);
+        request.fForce = akTask.m_akPackedTaskVariantData[5].fData;
+        if (request.pActor && TASK_PROCESS(request.pActor))
+            TASK_PROCESS(request.pActor)->PushActorAway(request.pActor, kPosition, request.fForce);
+        break;
+    }
+    case 17: {
+        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        BooleanFloatQuery* hitData = static_cast<BooleanFloatQuery*>(akTask.m_akPackedTaskVariantData[2].pData);
+        if (pActor)
+            reinterpret_cast<::fnv_0089a760::HActor *>((pActor))->FUN_0089a760((::fnv_0089a760::HHit *)(hitData), 0);
+        reinterpret_cast<::S_0087cea0 *>((hitData))->ReleaseScriptRunLock();
+        break;
+    }
+    case 18: {
+        ActiveEffect* pEffect = static_cast<ActiveEffect*>(akTask.m_akPackedTaskVariantData[1].pData);
+        if (pEffect)
+            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>((reinterpret_cast<Script*>(pEffect)))->FUN_0087ce80(
+                (::fnv_0087ce80::TESObjectCELL *)(::TESQuest *)(reinterpret_cast<TESQuest*>(((::BSSimpleList< ::MagicHitEffect *> *)(::CreateEffectEntries(pEffect))))));
+        break;
+    }
+    case 19: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        if (pObject)
+        {
+            TESObjectREFR* m_pWorldReferenceInfo = ::FUN_0056f930(pObject);
+            TESObjectCELL* cell = m_pWorldReferenceInfo ? ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((m_pWorldReferenceInfo))->GetTarget())) : 0;
+            bhkWorld* pWorld = cell ? ((::bhkWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((reinterpret_cast<ExtraDataList*>(cell)))->FUN_004543c0())) : 0;
+            if (pWorld)
+                pWorld->AddObject(pObject, true, true, 0, false);
+            reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        }
+        break;
+    }
+    case 20: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        if (pObject)
+        {
+            ::FUN_00c6a270((intptr_t)(pObject), true, true, 0);
+            ::FUN_00c69ee0(pObject, true, 0);
+            reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        }
+        break;
+    }
+    case 21: {
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        TESObjectWEAP* pWeapon = static_cast<TESObjectWEAP*>(akTask.m_akPackedTaskVariantData[2].pData);
+        reinterpret_cast<::fnv_00571760::Actor *>((m_pWorldReferenceInfo))->FUN_00571760((::fnv_00571760::TESObjectWEAP *)(pWeapon));
+        break;
+    }
+    case 22: {
+        Actor* pTargetActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        void* pObject = akTask.m_akPackedTaskVariantData[2].pData;
+        if (TASK_PROCESS(pTargetActor) && TASK_PROCESS(pTargetActor)->GetWeaponInfo())
+        {
+            BSSimpleArray<ParentSpaceNode, 1024>* pEntry = TASK_PROCESS(pTargetActor)->GetWeaponInfo();
+            if (reinterpret_cast<::InventoryStackRecord *>(pEntry)->m_pItemObject == pObject)
+            {
+                reinterpret_cast<BipedAnim*>(pTargetActor)->AttachFaceGenNode();
+                if (TASK_PROCESS(pTargetActor))
+                    TASK_PROCESS(pTargetActor)->Unk_58(0, 0, false);
+            }
+        }
+        break;
+    }
+    case 24: {
+        Actor* m_pAttachedReference = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        uintptr_t uiAV = akTask.m_akPackedTaskVariantData[2].iData;
+        unsigned int uiLimb = akTask.m_akPackedTaskVariantData[3].iData;
+        bool bFlagA = akTask.m_akPackedTaskVariantData[3].bData;
+        bool bDismember = akTask.m_akPackedTaskVariantData[4].bData;
+        reinterpret_cast<::fnv_008b52a0::ActorView *>((m_pAttachedReference))->FUN_008b52a0((void *)(uiAV), uiLimb, bFlagA, bDismember, true, false);
+        break;
+    }
+    case 23: {
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        m_pWorldReferenceInfo->Set3D(0, false);
+        break;
+    }
+    case 25: {
+        TESObjectREFR* ref = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        TESObjectREFR* pWaterReference = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[2].pData);
+        float fRate = akTask.m_akPackedTaskVariantData[3].fData;
+        reinterpret_cast<::Target5c80 *>((((::WaterZoneManager *)(::FUN_0070ec90((char *)((*reinterpret_cast<::TES * *>(&::g_TES))))))))->AddObjectToEntry(ref, (::Object5c80 *)(pWaterReference), fRate);
+        break;
+    }
+    case 26: {
+        TESObjectREFR* ref = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        TESObjectREFR* pWaterReference = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[2].pData);
+        float fRate = akTask.m_akPackedTaskVariantData[3].fData;
+        ((::WaterZoneManager *)(::FUN_0070ec90((char *)((*reinterpret_cast<::TES * *>(&::g_TES))))))->UpdateWaterZone(ref, pWaterReference, fRate);
+        break;
+    }
+    case 27: {
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        reinterpret_cast<::ObstMgr0dc0 *>((((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c0dc0(m_pWorldReferenceInfo);
+        break;
+    }
+    case 28: {
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        reinterpret_cast<::FUN_006c0f10_shell *>((((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->UpdateDoorObstacle(m_pWorldReferenceInfo);
+        break;
+    }
+    case 29: {
+        Character* pCharacter = static_cast<Character*>(akTask.m_akPackedTaskVariantData[1].pData);
+        if (pCharacter)
+            reinterpret_cast<::fnv_008d3fa0::Target8d3f *>((pCharacter))->FUN_008d3fa0();
+        break;
+    }
+    case 30: {
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        bool isOpen = akTask.m_akPackedTaskVariantData[2].bData;
+        bool bSnap = akTask.m_akPackedTaskVariantData[3].bData;
+        if (m_pWorldReferenceInfo)
+            BGSOpenCloseForm::SetOpenState(m_pWorldReferenceInfo, isOpen, bSnap);
+        break;
+    }
+    case 33: {
+        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        NiPoint3 kPosition(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
+                           akTask.m_akPackedTaskVariantData[4].fData);
+        if (pActor)
+            pActor->SetPos(&kPosition);
+        break;
+    }
+    case 34: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        int iFlags = akTask.m_akPackedTaskVariantData[2].iData;
+        if (pObject)
+        {
+            ::FUN_00c6a350(pObject, iFlags, true, false, true);
+            reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        }
+        break;
+    }
+    case 35: {
+        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        bool bFlag = akTask.m_akPackedTaskVariantData[2].bData;
+        if (pActor)
+            reinterpret_cast<::fnv_008a5f20::ActH2 *>((pActor))->FUN_008a5f20(bFlag);
+        break;
+    }
+    case 36: {
+        float fWaterLevelItem = akTask.m_akPackedTaskVariantData[1].fData;
+        NiPoint3 kPosition(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
+                           akTask.m_akPackedTaskVariantData[4].fData);
+        ::FUN_0062eb50(fWaterLevelItem, kPosition);
+        break;
+    }
+    case 37: {
+        float rippleRadius = akTask.m_akPackedTaskVariantData[1].fData;
+        NiPoint3 kPosition(akTask.m_akPackedTaskVariantData[2].fData, akTask.m_akPackedTaskVariantData[3].fData,
+                           akTask.m_akPackedTaskVariantData[4].fData);
+        reinterpret_cast<::fnv_004e8510::OwnerW *>((((::WaterZoneManager *)(::FUN_0070ec90((char *)((*reinterpret_cast<::TES * *>(&::g_TES))))))))->SpawnGroupNodeNearPlayer((*(float *)&(const ::NiPoint3 &)(kPosition)), rippleRadius, {}, {});
+        break;
+    }
+    case 38: {
+        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        bool bFirstFlag = akTask.m_akPackedTaskVariantData[2].bData;
+        bool bFlagB = akTask.m_akPackedTaskVariantData[3].bData;
+        if (pActor)
+            reinterpret_cast<::fnv_008a7d50::ActorHitOwner *>((pActor))->FUN_008a7d50(bFirstFlag, bFlagB);
+        break;
+    }
+    case 39: {
+        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        if (pActor)
+            reinterpret_cast<::FUN_008a1a70_shell *>((pActor))->FUN_008a1a70();
+        break;
+    }
+    case 40: {
+        Actor* pActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
+        if (pActor)
+            reinterpret_cast<::fnv_00887d00::InitActor *>((pActor))->FUN_00887d00();
+        break;
+    }
+    case 41: {
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        m_pWorldReferenceInfo->vfn_01fc(false);
+        break;
+    }
+    case 45: {
+        TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(akTask.m_akPackedTaskVariantData[1].pData);
+        m_pWorldReferenceInfo->AnimateNiNode();
+        break;
+    }
+    case 42: {
+        TESForm* pForm = ::FUN_004839c0(akTask.m_akPackedTaskVariantData[1].iData);
+        if (pForm && pForm->GetIsReference())
+        {
+            TESObjectREFR* m_pWorldReferenceInfo = static_cast<TESObjectREFR*>(pForm);
+            m_pWorldReferenceInfo->Unload3D();
+        }
+        break;
+    }
+    case 49: {
+        NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        ::FUN_00c69fc0((intptr_t)(pObject), akTask.m_akPackedTaskVariantData[2].bData, akTask.m_akPackedTaskVariantData[3].bData,
+                     akTask.m_akPackedTaskVariantData[4].bData);
+        reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
+        break;
+    }
+    case 44: {
+        MobileObject* pActor = static_cast<MobileObject*>(akTask.m_akPackedTaskVariantData[1].pData);
+        bhkCharacterController* pController = ((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pActor))->FUN_009306d0()));
+        if (pController)
+        {
+            reinterpret_cast<::S005620e0_Object *>((pController))->FUN_005620e0((const ::S005620e0_Source *)(void *)(pActor->SetBipedAnim()));
+            reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((pController))->FUN_0080fb00((intptr_t)(FUN_00458b20()));
+            ::FUN_005d10f0((const char *)(pController));
+            reinterpret_cast<::FUN_0087cee0_shell *>((pController))->FUN_0087cee0();
+            reinterpret_cast<::C6E030Holder *>((pController))->ResetState();
+        }
+        break;
+    }
+    case 46: {
+        ActiveEffect* pEffect = static_cast<ActiveEffect*>(akTask.m_akPackedTaskVariantData[1].pData);
+        delete pEffect;
+        break;
+    }
+    }
+}
 
 // @fnv 0x0087ce50
 float FUN_0087ce50_cls::GetHeadTail()
 {
-    return Head()->Tail();
+    return reinterpret_cast<::Twin_0084d030 *>((((::CallTarget *)(reinterpret_cast<::FUN_0043d450_Owner *>(this)->FUN_0043d450()))))->GetStoredFloatValue();
 }
 
-extern NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int, CombatThreatRecord*>
-    DAT_011c4104;
 
 // @fnv 0x0087ce70
 NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int,
            CombatThreatRecord*>* __cdecl FUN_0087ce70()
 {
-    return &DAT_011c4104;
+    return &(*reinterpret_cast<::NiTMapBase< ::DFALL< ::NiTMapItem<unsigned int, ::CombatThreatRecord *>>, unsigned int, ::CombatThreatRecord *> *>(&::g_011c4104));
 }
 
 struct WrapperShell;
@@ -2109,12 +2124,10 @@ struct AnimObj;
 
 struct TaskShell
 {
-    WrapperShell* FUN_006a7ad0(void* pvArg);
 };
 
 struct WrapperShell
 {
-    AnimObj* FUN_00559450();
 };
 
 struct AnimObj
@@ -2174,11 +2187,10 @@ struct AnimObj
 void UpdateAnimObjFromTask(unsigned int auiTask, void* pvArg)
 {
     TaskShell* pTask = reinterpret_cast<TaskShell*>(auiTask);
-    AnimObj* pObj = pTask->FUN_006a7ad0(pvArg)->FUN_00559450();
+    AnimObj* pObj = ((::AnimObj *)(::FUN_00559450((int *)(((::WrapperShell *)(reinterpret_cast<::S3e60 *>((pTask))->FUN_006a7ad0((uintptr_t)(pvArg))))))));
     if (pObj != 0)
     {
-        NiUpdateData upd;
-        upd.FUN_0043d410(0.0f, false, false);
+        NiUpdateData upd(0.0f, false, false);
         pObj->Update(upd);
     }
 }
@@ -2305,16 +2317,13 @@ struct PhysicsState
 };
 struct ActorController
 {
-    PhysicsState* FUN_00822b40();
 };
 struct EntityRef
 {
-    ActorController* FUN_0059bb30();
 };
 struct FUN_0087aec0_shell : TaskQueueInterface
 {
     void FUN_0087aec0(EntityRef* reference);
-    void FUN_0087d160(const FakeTask& task);
 };
 // @fnv 0x0087aec0
 void FUN_0087aec0_shell::FUN_0087aec0(EntityRef* reference)
@@ -2323,18 +2332,18 @@ void FUN_0087aec0_shell::FUN_0087aec0(EntityRef* reference)
     {
         FakeTask task;
         task.i0 = 0x12;
-        if (reference->FUN_0059bb30()->FUN_00822b40())
+        if (((::PhysicsState *)(reinterpret_cast<::MagicTarget *>((((::ActorController *)(reinterpret_cast<::ActiveEffectFields *>(reference)->target))))->GetOwnerActor())))
         {
-            if (reference->FUN_0059bb30()->FUN_00822b40()->IsEligible())
+            if (((::PhysicsState *)(reinterpret_cast<::MagicTarget *>((((::ActorController *)(reinterpret_cast<::ActiveEffectFields *>(reference)->target))))->GetOwnerActor()))->IsEligible())
             {
                 task.p1 = reference;
-                FUN_0087d160(task);
+                reinterpret_cast<::TaskQueueInterface *>(this)->ProcessPackedTask((const ::BSPackedTask &)(task));
             }
         }
         else
         {
             task.p1 = reference;
-            FUN_0087d160(task);
+            reinterpret_cast<::TaskQueueInterface *>(this)->ProcessPackedTask((const ::BSPackedTask &)(task));
         }
     }
 }
@@ -2343,7 +2352,6 @@ void FUN_0087aec0_shell::FUN_0087aec0(EntityRef* reference)
 class FormTaskRef
 {
   public:
-    unsigned int GetFormID();
 };
 struct ScriptParamInfo
 {
@@ -2365,7 +2373,6 @@ struct ScriptCommandInfo
     void* evaluate;
     unsigned int flags;
 };
-extern ScriptCommandInfo scriptCommands[];
 union TaskScalar
 {
     int iData;
@@ -2382,39 +2389,39 @@ void __cdecl FUN_0087a8b0(TaskQueueInterface* queue, unsigned int opcode, FormTa
     int h;
     int p;
     unsigned short a;
-    char task[32];
-    ((int*)task)[0] = 31;
-    ((int*)task)[1] = opcode;
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 31;
+    task.m_akPackedTaskVariantData[1].iData = opcode;
     if (form)
-        ((int*)task)[2] = form->GetFormID();
+        task.m_akPackedTaskVariantData[2].iData = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0()));
     else
-        ((int*)task)[2] = 0;
+        task.m_akPackedTaskVariantData[2].iData = 0;
     {
         va_list args;
         va_start(args, form);
         h = 3;
         p = opcode - 0x1000;
-        a = scriptCommands[p].numParams;
+        a = (*reinterpret_cast<ScriptCommandInfo (*)[]>(&::g_scriptCommands))[p].numParams;
         for (int s = 0; s < a; s++)
         {
             if (h < 8)
             {
-                switch (scriptCommands[p].params[s].type)
+                switch ((*reinterpret_cast<ScriptCommandInfo (*)[]>(&::g_scriptCommands))[p].params[s].type)
                 {
                 case 2:
-                    ((float*)task)[h++] = (float)va_arg(args, double);
+                    task.m_akPackedTaskVariantData[h++].fData = (float)va_arg(args, double);
                     break;
                 case 1:
                 case 8:
-                    ((int*)task)[h++] = va_arg(args, int);
+                    task.m_akPackedTaskVariantData[h++].iData = va_arg(args, int);
                     break;
                 case 4:
                 case 6: {
                     FormTaskRef* k = va_arg(args, FormTaskRef*);
                     if (k)
-                        ((int*)task)[h] = k->GetFormID();
+                        task.m_akPackedTaskVariantData[h].iData = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((k))->FUN_0084e3a0()));
                     else
-                        ((int*)task)[h] = 0;
+                        task.m_akPackedTaskVariantData[h].iData = 0;
                     h++;
                     break;
                 }
@@ -2423,7 +2430,7 @@ void __cdecl FUN_0087a8b0(TaskQueueInterface* queue, unsigned int opcode, FormTa
         }
         va_end(args);
     }
-    queue->ProcessPackedTask(*(const BSPackedTask*)&task);
+    queue->ProcessPackedTask(task);
 }
 
 // NiAVObject in the pack has no IncRefCount: use the game's out-of-line ctor/dtor.
@@ -2447,7 +2454,6 @@ class FUN_0087d030_ParentArray
     NiPointer<NiNode>* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    unsigned int GetSize();
     NiPointer<NiNode>& GetAt(int index);
     void Clear(bool freeMemory);
 };
@@ -2466,28 +2472,30 @@ class FUN_0087d030_ObjectArray
 // @fnv 0x0087d030
 void FUN_0087d030(BSScrapArray<NiPointer<NiAVObject>, 1024>* apArray)
 {
-    unsigned int uiParentCount = ((FUN_0087d030_ParentArray&)DAT_011df1c4).GetSize();
+    unsigned int uiParentCount = ((&(((FUN_0087d030_ParentArray&)(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4)))))->iSize);
     for (unsigned int iParentIndex = 0; iParentIndex < uiParentCount; iParentIndex++)
     {
-        NiNode* pParent = ((FUN_0087d030_ParentArray&)DAT_011df1c4).GetAt(iParentIndex);
+        NiNode* pParent = ((FUN_0087d030_ParentArray&)(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4))).GetAt(iParentIndex);
         unsigned int uiChildCount = ((FUN_0087d030_NodeChildren*)pParent)->FUN_0043b480();
         if (uiChildCount > 10)
         {
             for (unsigned int iChildIndex = 0; iChildIndex < uiChildCount; iChildIndex++)
             {
-                NiAVObject* pChild = ((FUN_0087d030_NodeChildren*)pParent)->GetAt(iChildIndex);
+                NiAVObject* pChild = reinterpret_cast<::NiNode *>((((FUN_0087d030_NodeChildren*)pParent)))->GetAt(iChildIndex);
                 if (pChild)
                 {
                     NiPointer<NiAVObject> spChild(pChild);
-                    ((FUN_0087d030_ObjectArray*)apArray)->Add(spChild);
+                    reinterpret_cast<::S2f850 *>((((FUN_0087d030_ObjectArray*)apArray)))->FUN_006c61b0((const ::NavMeshPtr &)(spChild));
                 }
             }
         }
         else
         {
             NiPointer<NiAVObject> spRetainedObject(pParent);
-            ((FUN_0087d030_ObjectArray*)apArray)->Add(spRetainedObject);
+            reinterpret_cast<::S2f850 *>((((FUN_0087d030_ObjectArray*)apArray)))->FUN_006c61b0((const ::NavMeshPtr &)(spRetainedObject));
         }
     }
-    ((FUN_0087d030_ParentArray&)DAT_011df1c4).Clear(false);
+    reinterpret_cast<::FUN_006c6200_cls *>(&(((FUN_0087d030_ParentArray&)(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4)))))->FUN_006c6200(false);
 }
+
+#include "generated/data/fallout/misc/taskqueueinterface.inc"

@@ -2,13 +2,13 @@
 #ifndef ESCORTPACKAGE_DECLS_H
 #define ESCORTPACKAGE_DECLS_H
 
-extern void* kVtbl_UseWeaponActorPackageData[];
+#include "fnv/decl/ActorPackageData.h"
+#include "fnv/symbols_01068000.h"
 class Actor;
 class EscortActorPackageData
 {
   public:
     EscortActorPackageData();
-    void FUN_0067d920();
     void** m_ppVirtualMethodTable;
     Actor* pActor;
 };

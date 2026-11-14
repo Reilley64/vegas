@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkpShape;
-#pragma pack(push, 1)
 class hkpListShapeChildInfo
 {
   public:
@@ -14,6 +13,4 @@ class hkpListShapeChildInfo
     hkInt32 m_iShapeKey;               // +0x8
     hkInt32 m_iChildShapeCount;        // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpListShapeChildInfo[(sizeof(hkpListShapeChildInfo) == 0x10) ? 1 : -1];
 #endif

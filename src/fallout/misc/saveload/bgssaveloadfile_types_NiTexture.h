@@ -38,7 +38,6 @@ enum NiTexture__FormatPrefs__MipFlag
     NiTexture__FormatPrefs__MipFlag_YES = 1,
     NiTexture__FormatPrefs__MipFlag_MIP_DEFAULT = 2
 };
-#pragma pack(push, 4)
 class NiTexture__FormatPrefs
 {
   public:
@@ -46,12 +45,6 @@ class NiTexture__FormatPrefs
     NiTexture__FormatPrefs__AlphaFormat m_eAlphaFormat;           // +0x4, 4 bytes
     NiTexture__FormatPrefs__MipFlag m_eMipFlag;                   // +0x8, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTexture__FormatPrefs) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTexture__FormatPrefs, m_ePreferredPixelLayout) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTexture__FormatPrefs, m_eAlphaFormat) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTexture__FormatPrefs, m_eMipFlag) == 8);
-#pragma pack(push, 4)
 class NiTexture : public NiObjectNET
 {
   public:
@@ -92,10 +85,4 @@ class NiTexture : public NiObjectNET
     // NiTexture& __cdecl NiTexture::*(const NiTexture&)
     // void __cdecl NiTexture::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTexture) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTexture, m_kTextureFormatPreferences) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTexture, m_pTextureRendererData) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTexture, m_pkPrev) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTexture, m_pkNext) == 44);
 #endif

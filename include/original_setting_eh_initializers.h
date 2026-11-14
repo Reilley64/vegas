@@ -1,126 +1,21 @@
 #ifndef FNV_ORIGINAL_SETTING_EH_INITIALIZERS_H
 #define FNV_ORIGINAL_SETTING_EH_INITIALIZERS_H
 
-// Game-setting globals whose constructors are inlined (/Od /Ob1). Classes are named by original vtable, collection
-// and init-function addresses; vtables, destructors, the collection and init function stay original (bound by address).
-void FUN_004de4a0();
-class SetColl_011f35a0_004de4a0
+// INI settings whose constructors the original inlined (/Od /Ob1). Classes are named by original vtable and collection
+// addresses.
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f9000.h"
+#include "SettingT.h"
+class Setting_01017720_011f96a0 : public SettingT<INISettingCollection>
 {
   public:
-    virtual void vfn0();
-    virtual void Add(void* setting);
+    using SettingT<INISettingCollection>::SettingT;
 };
-extern SetColl_011f35a0_004de4a0* g_coll_011f35a0;
-inline SetColl_011f35a0_004de4a0* GetSetColl_011f35a0_004de4a0()
-{
-    int a;
-    int b;
-    int c;
-    FUN_004de4a0();
-    return g_coll_011f35a0;
-}
-void FUN_0044f570();
-class SetColl_011f96a0_0044f570
+class Setting_01022738_011f35a0 : public SettingT<INIPrefSettingCollection>
 {
   public:
-    virtual void vfn0();
-    virtual void Add(void* setting);
-};
-extern SetColl_011f96a0_0044f570* g_coll_011f96a0;
-inline SetColl_011f96a0_0044f570* GetSetColl_011f96a0_0044f570()
-{
-    int a;
-    int b;
-    int c;
-    FUN_0044f570();
-    return g_coll_011f96a0;
-}
-class SettingBase_01012120
-{
-  public:
-    SettingBase_01012120(const char* name)
-    {
-        m_name = name;
-    }
-    SettingBase_01012120(const char* name, const char* value)
-    {
-        m_name = name;
-        m_uiFilterValue.s = value;
-    }
-    SettingBase_01012120(const char* name, int value)
-    {
-        m_name = name;
-        m_uiFilterValue.i = value;
-    }
-    SettingBase_01012120(const char* name, float value)
-    {
-        m_name = name;
-        m_uiFilterValue.f = value;
-    }
-    SettingBase_01012120(const char* name, bool value)
-    {
-        m_name = name;
-        m_uiFilterValue.b = value;
-    }
-    virtual ~SettingBase_01012120();
-    union
-    {
-        const char* s;
-        int i;
-        float f;
-        bool b;
-    } m_uiFilterValue;
-    const char* m_name;
-};
-class Setting_01017720_011f96a0 : public SettingBase_01012120
-{
-  public:
-    Setting_01017720_011f96a0(const char* name) : SettingBase_01012120(name)
-    {
-        GetSetColl_011f96a0_0044f570()->Add(this);
-    }
-    Setting_01017720_011f96a0(const char* name, const char* value) : SettingBase_01012120(name, value)
-    {
-        GetSetColl_011f96a0_0044f570()->Add(this);
-    }
-    Setting_01017720_011f96a0(const char* name, int value) : SettingBase_01012120(name, value)
-    {
-        GetSetColl_011f96a0_0044f570()->Add(this);
-    }
-    Setting_01017720_011f96a0(const char* name, float value) : SettingBase_01012120(name, value)
-    {
-        GetSetColl_011f96a0_0044f570()->Add(this);
-    }
-    Setting_01017720_011f96a0(const char* name, bool value) : SettingBase_01012120(name, value)
-    {
-        GetSetColl_011f96a0_0044f570()->Add(this);
-    }
-    virtual ~Setting_01017720_011f96a0();
-};
-class Setting_01022738_011f35a0 : public SettingBase_01012120
-{
-  public:
-    Setting_01022738_011f35a0(const char* name) : SettingBase_01012120(name)
-    {
-        GetSetColl_011f35a0_004de4a0()->Add(this);
-    }
-    Setting_01022738_011f35a0(const char* name, const char* value) : SettingBase_01012120(name, value)
-    {
-        GetSetColl_011f35a0_004de4a0()->Add(this);
-    }
-    Setting_01022738_011f35a0(const char* name, int value) : SettingBase_01012120(name, value)
-    {
-        GetSetColl_011f35a0_004de4a0()->Add(this);
-    }
-    Setting_01022738_011f35a0(const char* name, float value) : SettingBase_01012120(name, value)
-    {
-        GetSetColl_011f35a0_004de4a0()->Add(this);
-    }
-    Setting_01022738_011f35a0(const char* name, bool value) : SettingBase_01012120(name, value)
-    {
-        GetSetColl_011f35a0_004de4a0()->Add(this);
-    }
-    virtual ~Setting_01022738_011f35a0();
+    using SettingT<INIPrefSettingCollection>::SettingT;
 };
 extern const char s_01094eb8[];
 extern const char s_01094ed8[];

@@ -6,7 +6,7 @@
 class NavMeshInfo;
 class TESFile;
 
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     unsigned int Add(const T&);

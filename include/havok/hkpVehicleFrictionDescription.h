@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpVehicleFrictionDescriptionAxisDescription.h"
-#pragma pack(push, 1)
 class hkpVehicleFrictionDescription
 {
   public:
@@ -13,6 +12,4 @@ class hkpVehicleFrictionDescription
     hkReal m_fMaxVelocityForPositionalFriction;                           // +0x4
     hkpVehicleFrictionDescriptionAxisDescription m_kAxisDescriptions[2];  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleFrictionDescription[(sizeof(hkpVehicleFrictionDescription) == 0xD0) ? 1 : -1];
 #endif

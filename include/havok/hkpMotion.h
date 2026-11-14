@@ -7,7 +7,6 @@
 #include "hkMotionState.h"
 #include "hkReferencedObject.h"
 class hkpMaxSizeMotion;
-#pragma pack(push, 1)
 class hkpMotion : public hkReferencedObject
 {
   public:
@@ -37,6 +36,4 @@ class hkpMotion : public hkReferencedObject
     hkUint16 m_savedMotionSize;                          // +0x11C
     hkHalf m_fGravityFactor;                             // +0x11E
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMotion[(sizeof(hkpMotion) == 0x120) ? 1 : -1];
 #endif

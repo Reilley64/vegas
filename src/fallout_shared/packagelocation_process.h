@@ -4,6 +4,7 @@
 
 
 // Only virtual slot positions are needed by the running-location resolver.
+#include "fnv/decl/BSShaderNoLightingProperty.h"
 class BaseProcess
 {
   public:
@@ -346,7 +347,6 @@ class Date;
 class PlayerQuestData
 {
   public:
-    Date* GetLogDate();
 };
 
 #endif

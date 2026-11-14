@@ -1,61 +1,38 @@
+#include "fnv/tls.h"
 // bscore/memorymanager.cpp: MemoryManager, TESQuest, TESActorBaseData, Actor and more (21 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/AE91F0Map.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/RecursiveLock.h"
+#include "fnv/decl/S_00adc830_Map.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/fnv_00404f70__FUN_00404f70_shell.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa7000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "memorymanager_identity.h"
 #include "memorymanager_memory.h"
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
 
-// @fnv 0x00aa4150
-void* MemoryManager::Reallocate(void* apBlock, unsigned int size)
-{
-    void* allocation = 0;
-    unsigned int copySize = Size(apBlock);
-    if (copySize)
-    {
-        allocation = Allocate(size);
-        if (copySize > size)
-            copySize = size;
-        memmove(allocation, apBlock, copySize);
-        Deallocate(apBlock);
-    }
-    else
-    {
-        void* resized = apBlock;
-        resized = realloc(resized, size);
-        allocation = resized;
-    }
-    return allocation;
-}
-
-// Returns the allocation size of a pointer by checking the owning MemoryPool, then the heap for the pointer or its physical address, falling back to _msize.
-// @fnv 0x00aa44c0
-unsigned int MemoryManager::Size(const void* pointer)
-{
-    unsigned int size;
-    MemoryPool* pool = MemoryPool::ms_pPoolAddressMap[reinterpret_cast<size_t>(pointer) >> kPoolAddressRegionShift];
-    if (pool && pool->PointerInPool(pointer))
-        size = pool->GetBlockSize();
-    else
-    {
-        IMemoryHeap* heap = GetHeapForPointer(pointer);
-        if (heap)
-            size = heap->Size(pointer, 0);
-        else
-        {
-            heap = GetHeapForPhysicalPointer(pointer);
-            if (heap)
-                size = heap->Size(pointer, 0);
-            else
-            {
-                unsigned int systemSize = 0;
-                systemSize = _msize(const_cast<void*>(pointer));
-                size = systemSize;
-            }
-        }
-    }
-    return size;
-}
+// Native size/reallocation of manager-owned heap/bootstrap allocations live in
+// canonical_memory_manager.cpp. Legacy pool/physical domains are not admitted
+// by that owner; whole-engine publication remains held.
 
 // @fnv 0x005f5760
 PerkEntryConditionSet* TESQuest::GetConditions()
@@ -79,35 +56,41 @@ SEX Actor::GetSex()
 // @fnv 0x00419970
 void ExtraDataList::SetExtraHealth(float health)
 {
-    ExtraHealth* extra = static_cast<ExtraHealth*>(GetExtraData(0x25));
+    ExtraHealth* extra = static_cast<ExtraHealth*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x25));
     if (extra)
         extra->fHealthPercent = health;
     else
     {
         extra = new ExtraHealth(health);
-        AddExtra(extra);
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(this)->FUN_0040ff60(extra);
     }
 }
 
-MemoryManager* FUN_00401020();
 // @fnv 0x0042f5d0
 void* Reallocate(void* pointer, unsigned int size)
 {
     return FUN_00401020()->Reallocate(pointer, size);
 }
 
-// Looks up the scrap heap for the current thread ID, creating and storing a new one if none exists, and returns it.
+// Looks up the actual thread's scrap object using native keys and links.
 // @fnv 0x00aa42e0
 ScrapHeapBuffer* MemoryManager::GetGeneralAllocator()
 {
-    unsigned long threadID = GetCurrentThreadId();
-    ScrapHeapBuffer* heap = 0;
-    threadScrapHeaps.GetAt(threadID, heap);
-    if (!heap)
-    {
-        heap = new ScrapHeapBuffer;
-        threadScrapHeaps.SetAt(threadID, heap);
+    std::lock_guard guard(scrapLock_);
+    const unsigned long thread = GetCurrentThreadId();
+    for (auto* entry = scraps_; entry; entry = entry->next)
+        if (entry->thread == thread)
+            return entry->heap;
+    // This remains the genuine scrap constructor, not an empty substitute.
+    auto* heap = new ScrapHeapBuffer;
+    auto* storage = AllocateBootstrap(sizeof(ScrapEntry));
+    if (!storage) {
+        delete heap;
+        throw std::bad_alloc();
     }
+    auto* entry = new (storage) ScrapEntry{scraps_, thread, heap,
+        [](ScrapHeapBuffer* value) noexcept { delete value; }};
+    scraps_ = entry;
     return heap;
 }
 
@@ -122,72 +105,12 @@ void __cdecl Deallocate(void*);
 // @fnv 0x00473960
 void FUN_00473960_shell::FUN_00473960()
 {
-    if (*(void**)((char*)this + 0x420) != 0)
+    if (*(void**)&this->m_pDecompressedFormBuffer != 0)
     {
-        Deallocate(*(void**)((char*)this + 0x420));
-        *(void**)((char*)this + 0x420) = 0;
-        *(unsigned int*)((char*)this + 0x424) = 0;
+        ::FUN_00401030(*(void**)&this->m_pDecompressedFormBuffer);
+        *(void**)&this->m_pDecompressedFormBuffer = 0;
+        this->m_uiAuxBufferSize = 0;
     }
-}
-
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
-struct FUN_00aa3cc0_shell : public MemoryManager
-{
-    void CreateMemoryPool(unsigned int, unsigned int, char*);
-};
-
-extern __declspec(thread) int g_tlsMemContext;
-struct MemCtxGuard
-{
-    int iOld;
-    static int GetCtx()
-    {
-        return g_tlsMemContext;
-    }
-    static void SetCtx(int c)
-    {
-        g_tlsMemContext = c;
-    }
-    MemCtxGuard(int c)
-    {
-        iOld = GetCtx();
-        SetCtx(c);
-    }
-    ~MemCtxGuard()
-    {
-        SetCtx(iOld);
-    }
-};
-struct MemoryPoolView : public MemoryPool
-{
-    bool HasMemory()
-    {
-        return *(void**)((char*)this + 4) != 0;
-    }
-};
-// Creates a MemoryPool with the given block and pool sizes and description, deleting it if it has no memory; returns early when aiBlockSize is below 8.
-// @fnv 0x00aa3cc0
-void FUN_00aa3cc0_shell::CreateMemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, char* apDesc)
-{
-    MemCtxGuard tempMemContext(3);
-    if (aiBlockSize < 8)
-        return;
-    m_bPoolAllocationEnabled = false;
-    MemoryPool* pnewPool = new MemoryPool(aiBlockSize, aiPoolSize, apDesc);
-    if (!static_cast<MemoryPoolView*>(pnewPool)->HasMemory())
-    {
-        delete pnewPool;
-    }
-    m_bPoolAllocationEnabled = true;
 }
 
 struct FUN_00aa3a10_shell
@@ -205,28 +128,24 @@ __declspec(thread) FUN_00aa3a10_tls_struct g_fun_tls;
 
 // Clears the TLS flag and sets the first byte of this object to 1.
 // @fnv 0x00aa3a10
-void __thiscall FUN_00aa3a10_shell::ClearFlagAndSetByte()
+void FUN_00aa3a10_shell::ClearFlagAndSetByte()
 {
-    g_fun_tls.flag = 0;
+    (*reinterpret_cast<::FUN_00aa3a10_tls_struct *>(&::g_tlsBlock)).flag = 0;
     *(unsigned char*)this = 1;
 }
 
-struct _RTL_CRITICAL_SECTION;
-__declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION*);
-extern _RTL_CRITICAL_SECTION DAT_011f6234;
+extern volatile long DAT_011f6234;
 // @fnv 0x00aa4460
 void FUN_00aa4460()
 {
-    EnterCriticalSection(&DAT_011f6234);
+    InterlockedIncrement(&DAT_011f6234);
 }
 
-struct _RTL_CRITICAL_SECTION;
-__declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION*);
-extern _RTL_CRITICAL_SECTION DAT_011f6234;
+extern volatile long DAT_011f6234;
 // @fnv 0x00aa4470
 void FUN_00aa4470()
 {
-    LeaveCriticalSection(&DAT_011f6234);
+    InterlockedDecrement(&DAT_011f6234);
 }
 
 extern char DAT_011f6230;
@@ -238,7 +157,6 @@ void FUN_00aa4480(unsigned char value)
 }
 
 namespace fnv_00aa4490 {
-extern unsigned int DAT_011f6234;
 
 // @fnv 0x00aa4490
 bool FUN_00aa4490()
@@ -285,37 +203,8 @@ void* FUN_00aa46a0_holder::GetEntryAt(unsigned int index)
     return pEntry;
 }
 
-extern "C" int _tls_index;
-struct FUN_00aa39c0_tls
-{
-    unsigned char unk0000[0x2b4];
-    unsigned int m_2b4;
-};
-extern __declspec(thread) FUN_00aa39c0_tls g_tls;
-
-void ClearMemoryPoolTables();
-
-class FUN_00aa39c0_cls
-{
-  public:
-    unsigned char m_00;
-    void InitializeHeaps();
-    void FUN_00866770();
-    void FUN_00483710();
-    void FUN_00aa39c0();
-};
-
-// Calls ClearMemoryPoolTables, InitializeHeaps, FUN_00866770 and FUN_00483710, sets m_00 to 1 and clears g_tls.m_2b4.
-// @fnv 0x00aa39c0
-void FUN_00aa39c0_cls::FUN_00aa39c0()
-{
-    ClearMemoryPoolTables();
-    InitializeHeaps();
-    m_00 = 1;
-    FUN_00866770();
-    FUN_00483710();
-    g_tls.m_2b4 = 0;
-}
+// The incompatible 00aa39c0 startup adapter is isolated in
+// legacy_memory_manager_startup.cpp; it cannot enter this native owner.
 
 extern FUN_00aa46a0_holder DAT_011f6238;
 extern unsigned short DAT_011f623a;
@@ -356,17 +245,9 @@ void CallVirtualOnEachElement()
     }
 }
 
-__forceinline void operator delete[](void* p)
-{
-    g_memoryManager.Deallocate(p);
-}
 struct ScrapView
 {
     ~ScrapView();
-    static __forceinline void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 };
 struct HeapView
 {
@@ -398,7 +279,6 @@ struct MapView
         }
         return 0;
     }
-    void FUN_00a0c850(WeightedMapNode*&, unsigned long&, ScrapView*&);
     inline void ClearAll()
     {
         for (unsigned int bucket = 0; bucket < unk04; ++bucket)
@@ -416,15 +296,11 @@ struct MapView
 };
 inline void FreeArray(void* p)
 {
-    g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 struct FUN_00aa5950_s
 {
     ~FUN_00aa5950_s();
-    static __forceinline void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 };
 extern FUN_00aa5950_s* DAT_011f63b4;
 inline void FUN_00aa5950()
@@ -432,24 +308,18 @@ inline void FUN_00aa5950()
     delete DAT_011f63b4;
     DAT_011f63b4 = 0;
 }
-struct PoolView
+struct PoolView : MemoryPool
 {
     ~PoolView();
-    static __forceinline void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 };
-extern PoolView* DAT_011f67b8[256];
 inline void DestroyMemoryPools()
 {
     for (unsigned int i = 0; i < 256; ++i)
     {
-        delete DAT_011f67b8[i];
+        delete static_cast<PoolView*>(DAT_011f67b8[i]);
         DAT_011f67b8[i] = 0;
     }
 }
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00aa3a40
 {
     bool unk00;
@@ -461,7 +331,6 @@ struct FUN_00aa3a40
     void* unk0C[66];
     MapView unk114;
     HeapView** unk124;
-    void FUN_00483710();
     ~FUN_00aa3a40();
 };
 // @fnv 0x00aa3a40
@@ -472,14 +341,14 @@ FUN_00aa3a40::~FUN_00aa3a40()
     ScrapView* heap;
     while (position)
     {
-        unk114.FUN_00a0c850(position, key, heap);
+        reinterpret_cast<::RecursiveLock *>(&(unk114))->Unlock((::BSCriticalSectionEntry **)&(position), (unsigned int *)&(key), (void **)&(heap));
         delete heap;
     }
-    unk114.ClearAll();
+    reinterpret_cast<::AE91F0Map *>(&(unk114))->ClearAll();
     FUN_00aa5950();
-    FUN_00483710();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
     DestroyMemoryPools();
-    fnv_zlib_memset(unk0C, 0, 0x108);
+    std::memset(unk0C, 0, 0x108);
     unk00 = false;
     if (unk08)
     {
@@ -502,7 +371,6 @@ FUN_00aa3a40::~FUN_00aa3a40()
 }
 
 namespace fnv_00aa43a0 {
-void __cdecl FUN_00aa7370();
 
 class ItemAA43
 {
@@ -526,7 +394,6 @@ class FUN_00aa46a0_holder
     {
         return m_count2 + m_count4;
     }
-    void* GetEntryAt(unsigned int index);
     void FUN_00aa43a0(int unused);
 };
 
@@ -534,13 +401,15 @@ class FUN_00aa46a0_holder
 // @fnv 0x00aa43a0
 void FUN_00aa46a0_holder::FUN_00aa43a0(int unused)
 {
-    FUN_00aa7370();
+    ::FUN_00aa7370();
     ItemAA43* pkItem;
     int ItemUpdateArray = GetCount();
     for (int i = 0; i < ItemUpdateArray; i++)
     {
-        pkItem = (ItemAA43*)GetEntryAt(i);
+        pkItem = (ItemAA43*)reinterpret_cast<::FUN_00aa46a0_holder *>(this)->GetEntryAt(i);
         pkItem->Update();
     }
 }
 }  // namespace fnv_00aa43a0
+
+#include "generated/data/bscore/memorymanager.inc"

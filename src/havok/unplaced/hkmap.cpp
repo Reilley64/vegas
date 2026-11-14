@@ -1,27 +1,47 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct FUN_00cb18f0_t
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include "fnv/decl/ProbeMap64.h"
+#include "fnv/symbols_00a29000.h"
+
+// hkMap<hkUlong, hkUlong>: open addressing over key/value pairs. An empty slot holds the key ~0.
+struct hkMapUlongPair
 {
-    int m_uiStandInValue;
-    int m_iValueAfterStandIn;
-    int m_iPairCount;
-    int FindSlot(int);
-    int RemoveEntry(int);
-    int FUN_00cb1fb0(int key);
+    uintptr_t key;
+    uintptr_t val;
 };
 
-// @fnv 0x00cb1fb0
-int __thiscall FUN_00cb18f0_t::FUN_00cb1fb0(int key)
+const uintptr_t hkMapUlongEmpty = ~uintptr_t(0);
+
+inline unsigned hkMapUlongHash(uintptr_t key, int mod)
 {
-    int found = FindSlot(key);
-    if (found <= m_iPairCount)
-    {
-        RemoveEntry(found);
-        return 0;
-    }
-    return 1;
+    return unsigned((key >> 4) * 2654435761U) & unsigned(mod);
 }
+
+namespace fnv_00cb1870 {
+class hkMemoryAllocatorCB18;
+
+class hkMapBaseCB18
+{
+  public:
+    hkMapUlongPair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
+
+    int FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uintptr_t val);
+};
+}  // namespace fnv_00cb1870
+
+struct FUN_00cb18f0_t
+{
+    hkMapUlongPair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
+    intptr_t FindSlot(intptr_t);
+    int FUN_00cb1fb0(intptr_t key);
+};
 
 // @fnv 0x00cb1810
 int __cdecl FUN_00cb1810(int key)
@@ -38,26 +58,25 @@ int __cdecl FUN_00cb1810(int key)
 
 struct FUN_00cb1930_t
 {
-    int* m_uiStandInValue;
-    int m_iValueAfterStandIn;
+    hkMapUlongPair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
     int m_iPairCount;
-    int LookupHashEntry(int key, int defaultValue);
+    intptr_t LookupHashEntry(intptr_t key, intptr_t defaultValue);
 };
 
 // @fnv 0x00cb1930
-int FUN_00cb1930_t::LookupHashEntry(int key, int defaultValue)
+intptr_t FUN_00cb1930_t::LookupHashEntry(intptr_t key, intptr_t defaultValue)
 {
     if (m_iPairCount > 0)
     {
-        unsigned int uiIndex = ((unsigned int)key >> 4) * 0x9e3779b1u;
-        uiIndex &= m_iPairCount;
-        int iCurrentKey = m_uiStandInValue[uiIndex * 2];
-        while (iCurrentKey != -1)
+        unsigned uiIndex = hkMapUlongHash(key, m_iPairCount);
+        uintptr_t uiCurrentKey = m_kPrimitiveElement[uiIndex].key;
+        while (uiCurrentKey != hkMapUlongEmpty)
         {
-            if (iCurrentKey == key)
-                return m_uiStandInValue[uiIndex * 2 + 1];
+            if (uiCurrentKey == uintptr_t(key))
+                return m_kPrimitiveElement[uiIndex].val;
             uiIndex = (uiIndex + 1) & m_iPairCount;
-            iCurrentKey = m_uiStandInValue[uiIndex * 2];
+            uiCurrentKey = m_kPrimitiveElement[uiIndex].key;
         }
     }
     return defaultValue;
@@ -77,22 +96,23 @@ int FUN_00cb17f0(int value)
         } while (size < required);
     }
 
-    return size * 8;
+    return size * int(sizeof(hkMapUlongPair));
 }
 
 struct DepthLimit
 {
-    int FindSlot(int);
-    int* m_buckets;
+    hkMapUlongPair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
 };
 // Hashes key, and if the hash is within the limit, writes the bucket's paired value to out and returns 0; otherwise returns 1.
 // @fnv 0x00cb1980
-int __fastcall LookupBucketValue(DepthLimit* self, int edx, int key, int* paiOut)
+int LookupBucketValue(DepthLimit* self, uintptr_t key, uintptr_t* puiOut)
 {
-    int iHash = self->FindSlot(key);
-    if (iHash <= *(int*)((char*)self + 8))
+    intptr_t iHash = reinterpret_cast<::FUN_00cb18f0_t *>((self))->FindSlot(key);
+    if (iHash <= self->m_iPairCount)
     {
-        *paiOut = self->m_buckets[iHash * 2 + 1];
+        *puiOut = self->m_kPrimitiveElement[iHash].val;
         return 0;
     }
     return 1;
@@ -100,7 +120,7 @@ int __fastcall LookupBucketValue(DepthLimit* self, int edx, int key, int* paiOut
 
 struct FUN_00cb1a60_t
 {
-    int* m_kPrimitiveElement;
+    hkMapUlongPair* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
     void ResetEntries();
@@ -112,17 +132,11 @@ void FUN_00cb1a60_t::ResetEntries()
     int i;
     int n = m_iPairCount + 1;
     for (i = 0; i < n; ++i)
-        m_kPrimitiveElement[i * 2] = -1;
+        m_kPrimitiveElement[i].key = hkMapUlongEmpty;
     m_iCapacityFlags &= 0x80000000;
 }
 
 namespace fnv_00cb1ac0 {
-struct TypeNode
-{
-    int m_key;
-    int m_uiFilterValue;
-};
-
 struct Allocator
 {
     virtual void Unused() = 0;
@@ -132,11 +146,10 @@ struct Allocator
 
 struct DepthLimit
 {
-    TypeNode* m_data;
+    hkMapUlongPair* m_data;
     int m_flags;
     int m_uiItemCount;
 
-    void FUN_00cb1870(void* allocator, void* key, int value);
     void ResizeAndRehash(Allocator* allocator, int count);
 };
 
@@ -148,26 +161,27 @@ void DepthLimit::ResizeAndRehash(Allocator* allocator, int count)
         iNewCapacity = 8;
 
     unsigned int flags = m_flags & 0x80000000u;
-    TypeNode* pOldEntries = m_data;
+    hkMapUlongPair* pOldEntries = m_data;
     int iOldCapacity = m_uiItemCount + 1;
 
-    m_data = static_cast<TypeNode*>(allocator->Allocate(iNewCapacity * 8));
+    m_data = static_cast<hkMapUlongPair*>(allocator->Allocate(iNewCapacity * int(sizeof(hkMapUlongPair))));
 
     for (int i = 0; i < iNewCapacity; ++i)
-        m_data[i].m_key = -1;
+        m_data[i].key = hkMapUlongEmpty;
 
     m_uiItemCount = iNewCapacity - 1;
     m_flags = 0;
 
     for (int i = 0; i < iOldCapacity; ++i)
     {
-        if (pOldEntries[i].m_key != -1)
-            this->FUN_00cb1870(allocator, reinterpret_cast<void*>(pOldEntries[i].m_key),
-                               pOldEntries[i].m_uiFilterValue);
+        if (pOldEntries[i].key != hkMapUlongEmpty)
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18*>(this)->FUN_00cb1870(
+                *reinterpret_cast<::fnv_00cb1870::hkMemoryAllocatorCB18*>(allocator), pOldEntries[i].key,
+                pOldEntries[i].val);
     }
 
     if (flags == 0)
-        allocator->Free(pOldEntries, iOldCapacity * 8);
+        allocator->Free(pOldEntries, iOldCapacity * int(sizeof(hkMapUlongPair)));
 }
 }  // namespace fnv_00cb1ac0
 
@@ -181,65 +195,38 @@ struct FUN_00cb1e40_arg_t
     virtual void FUN_00cb1e40_dummy2()
     {}
 
-    virtual void FUN_00cb1e40_op(int data, int size)
+    virtual void FUN_00cb1e40_op(void* data, int size)
     {}
 };
 
 struct FUN_00cb1e40_t
 {
-    int m_data;
+    void* m_data;
     int m_flags;
     int m_uiItemCount;
 
-    void FUN_00cb1e00();
     void FUN_00cb1e40(FUN_00cb1e40_arg_t* arg);
 };
-
-void FUN_00cb1e40_t::FUN_00cb1e40(FUN_00cb1e40_arg_t* arg)
-{
-    FUN_00cb1e00();
-
-    if (!(m_flags & 0x80000000))
-    {
-        arg->FUN_00cb1e40_op(m_data, (m_uiItemCount + 1) << 4);
-    }
-}
 
 struct CB1BC0Allocator
 {
 };
 
+struct CB1BC0Allocator;
 struct CB1BC0Map
 {
-    void ResizeStorage(CB1BC0Allocator&, int);
     void ResizeToFit(CB1BC0Allocator&, int);
+public:
+    int InsertKeyValue(::CB1BC0Allocator &, unsigned long long, unsigned long long);
 };
-
-// @fnv 0x00cb2030
-void CB1BC0Map::ResizeToFit(CB1BC0Allocator& allocator, int size)
-{
-    int doubledSize = size + size;
-    int newSize = 8;
-
-    if (doubledSize > 8)
-    {
-        do
-        {
-            newSize += newSize;
-        } while (newSize < doubledSize);
-    }
-
-    ResizeStorage(allocator, newSize);
-}
 
 struct HashEntryTable
 {
-    unsigned long FindValueForKey(unsigned long key, unsigned long defaultValue);
 };
 // @fnv 0x00dc8e30
-unsigned long __fastcall LookupWithDefault(HashEntryTable* self, int edx, unsigned long key)
+uintptr_t LookupWithDefault(HashEntryTable* self, uintptr_t key)
 {
-    return ((HashEntryTable*)((char*)self + 0xc))->FindValueForKey(key, -1);
+    return reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)self + 0xc))))->LookupHashEntry(key, -1);
 }
 
 struct FUN_00cb17e0_cls
@@ -253,47 +240,52 @@ struct FUN_00cb17e0_cls
 // @fnv 0x00cb17e0
 int FUN_00cb17e0_cls::FUN_00cb17e0()
 {
-    return m_iPairCount * 8 + 8;
+    return (m_iPairCount + 1) * int(sizeof(hkMapUlongPair));
 }
 
 struct hkMapOperatorsCB19
 {
-    static unsigned hash(unsigned long key, unsigned long mod)
+    static unsigned hash(uintptr_t key, int mod)
     {
-        return unsigned((key >> 4) * 2654435761U) & mod;
+        return hkMapUlongHash(key, mod);
     }
-    static void invalidate(unsigned long& key)
+    static void invalidate(uintptr_t& key)
     {
-        key = unsigned long(-1);
+        key = hkMapUlongEmpty;
     }
-    static bool isValid(unsigned long key)
+    static bool isValid(uintptr_t key)
     {
-        return key != unsigned long(-1);
+        return key != hkMapUlongEmpty;
     }
 };
 
 class hkMapBaseCB19
 {
   public:
-    struct Pair
-    {
-        unsigned long key;
-        unsigned long val;
-    };
-
-    Pair* m_kPrimitiveElement;
+    hkMapUlongPair* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
     void RemoveEntry(void* it) throw();
 };
+// @fnv 0x00cb1fb0
+int FUN_00cb18f0_t::FUN_00cb1fb0(intptr_t key)
+{
+    intptr_t found = FindSlot(key);
+    if (found <= m_iPairCount)
+    {
+        reinterpret_cast<::hkMapBaseCB19 *>(this)->RemoveEntry((void *)(found));
+        return 0;
+    }
+    return 1;
+}
 
 // Removes the map entry at the given slot, invalidates its key, and shifts later entries back to fill the gap.
 // @fnv 0x00cb19b0
 void hkMapBaseCB19::RemoveEntry(void* it) throw()
 {
     typedef hkMapOperatorsCB19 OPS;
-    unsigned i = unsigned(unsigned long(it));
+    unsigned i = unsigned(uintptr_t(it));
 
     --m_iCapacityFlags;
     OPS::invalidate(m_kPrimitiveElement[i].key);
@@ -334,24 +326,23 @@ struct CB1A90Argument
 {
     virtual void Dummy0();
     virtual void Dummy1();
-    virtual void Process(int data, int size);
+    virtual void Process(void* data, int size);
 };
 struct CB1A90Owner
 {
-    int data;
+    void* data;
     int flags;
     int count;
-    void ResetEntries();
     void ProcessArgument(CB1A90Argument* argument);
 };
 // Calls ResetEntries, then if the high flag bit is clear, passes data and (count + 1) << 3 to argument->Process.
 // @fnv 0x00cb1a90
 void CB1A90Owner::ProcessArgument(CB1A90Argument* argument)
 {
-    ResetEntries();
+    reinterpret_cast<::FUN_00cb1a60_t *>(this)->ResetEntries();
     if (!(flags & 0x80000000))
     {
-        argument->Process(data, (count + 1) << 3);
+        argument->Process(data, (count + 1) * int(sizeof(hkMapUlongPair)));
     }
 }
 
@@ -371,6 +362,15 @@ class hkMapCB1E
 
     void FUN_00cb1e00();
 };
+void FUN_00cb1e40_t::FUN_00cb1e40(FUN_00cb1e40_arg_t* arg)
+{
+    reinterpret_cast<::hkMapCB1E *>(this)->FUN_00cb1e00();
+
+    if (!(m_flags & 0x80000000))
+    {
+        arg->FUN_00cb1e40_op(m_data, (m_uiItemCount + 1) << 4);
+    }
+}
 
 // @fnv 0x00cb1e00
 void hkMapCB1E::FUN_00cb1e00()
@@ -385,16 +385,15 @@ void hkMapCB1E::FUN_00cb1e00()
 
 struct FUN_00cb1ac0_Obj
 {
-    void ResizeAndRehash(int a1, int a2);
 };
 
 struct FUN_00cb1fe0_t
 {
-    void EnsureCapacity(int a1, int n);
+    void EnsureCapacity(intptr_t a1, int n);
 };
 
 // @fnv 0x00cb1fe0
-void FUN_00cb1fe0_t::EnsureCapacity(int a1, int n)
+void FUN_00cb1fe0_t::EnsureCapacity(intptr_t a1, int n)
 {
     int iWantedSize = n * 2;
     int size = 8;
@@ -402,7 +401,7 @@ void FUN_00cb1fe0_t::EnsureCapacity(int a1, int n)
     {
         size += size;
     }
-    ((FUN_00cb1ac0_Obj*)this)->ResizeAndRehash(a1, size);
+    reinterpret_cast<::fnv_00cb1ac0::DepthLimit *>((((FUN_00cb1ac0_Obj*)this)))->ResizeAndRehash((::fnv_00cb1ac0::Allocator *)(a1), size);
 }
 
 class FUN_00cb2000_cls
@@ -412,33 +411,13 @@ class FUN_00cb2000_cls
     int m_04;
     int m_pFreeList;
 
-    int FUN_00cb1c60(int iArg0, int iArg1);
-    void FUN_00cb1d20(int iCount);
     int FUN_00cb2000(int iArg0, int iArg1);
-};
-
-// @fnv 0x00cb2000
-int FUN_00cb2000_cls::FUN_00cb2000(int iArg0, int iArg1)
-{
-    int iCount = FUN_00cb1c60(iArg0, iArg1);
-    if (iCount <= m_pFreeList)
-    {
-        FUN_00cb1d20(iCount);
-        return 0;
-    }
-    return 1;
-}
-
-struct hkMapPairCB18
-{
-    unsigned int key;
-    unsigned int val;
 };
 
 class FUN_00cb1830
 {
   public:
-    hkMapPairCB18* m_kPrimitiveElement;
+    hkMapUlongPair* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
@@ -448,45 +427,26 @@ class FUN_00cb1830
 // @fnv 0x00cb1830
 FUN_00cb1830::FUN_00cb1830(void* apElements, unsigned int sizeInBytes)
 {
-    int maxKeys = sizeInBytes / sizeof(hkMapPairCB18);
-    m_kPrimitiveElement = static_cast<hkMapPairCB18*>(apElements);
+    int maxKeys = sizeInBytes / sizeof(hkMapUlongPair);
+    m_kPrimitiveElement = static_cast<hkMapUlongPair*>(apElements);
     m_iCapacityFlags = 0x80000000;
     m_iPairCount = maxKeys - 1;
     for (int i = 0; i < maxKeys; i++)
     {
-        m_kPrimitiveElement[i].key = 0xffffffff;
+        m_kPrimitiveElement[i].key = hkMapUlongEmpty;
     }
 }
 
 namespace fnv_00cb1870 {
-class hkMemoryAllocatorCB18;
-
-struct hkMapPairCB18
-{
-    unsigned int key;
-    unsigned int val;
-};
-
-class hkMapBaseCB18
-{
-  public:
-    hkMapPairCB18* m_kPrimitiveElement;
-    int m_iCapacityFlags;
-    int m_iPairCount;
-
-    void ResizeAndRehash(hkMemoryAllocatorCB18& alloc, int newHashMod);
-    int FUN_00cb1870(hkMemoryAllocatorCB18& alloc, unsigned int key, unsigned int val);
-};
-
 // Inserts or updates a key/val pair in the hash map, resizing if needed, and returns 1 if the key was new.
 // @fnv 0x00cb1870
-int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, unsigned int key, unsigned int val)
+int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uintptr_t val)
 {
     if ((m_iCapacityFlags & 0x7fffffff) * 2 > m_iPairCount)
-        ResizeAndRehash(alloc, m_iPairCount + m_iPairCount + 2);
-    unsigned int i;
+        reinterpret_cast<::fnv_00cb1ac0::DepthLimit *>(this)->ResizeAndRehash((::fnv_00cb1ac0::Allocator *)&(alloc), m_iPairCount + m_iPairCount + 2);
+    uintptr_t i;
     int isNewKey = 1;
-    for (i = ((key >> 4) * 2654435761U) & m_iPairCount; m_kPrimitiveElement[i].key != (unsigned int)-1;
+    for (i = hkMapUlongHash(key, m_iPairCount); m_kPrimitiveElement[i].key != hkMapUlongEmpty;
          i = (i + 1) & m_iPairCount)
     {
         if (m_kPrimitiveElement[i].key == key)
@@ -503,27 +463,17 @@ int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, unsigned int key, 
 }  // namespace fnv_00cb1870
 
 struct Allocator;
-struct EdgeEntry
-{
-    int key;
-    int value;
-};
 struct EdgeMap
 {
-    EdgeEntry* unk00;
+    hkMapUlongPair* unk00;
     int unk04;
     int unk08;
-    void EnsureCapacity(Allocator& allocator, int count);
-    int FindSlot(int key);
-    void FUN_00cb1870(Allocator& allocator, int key, int value);
-    void ProcessArgument(Allocator& allocator);
-    void FUN_00a29680();
     int first() const
     {
         int i;
         for (i = 0; i <= unk08; ++i)
         {
-            if (unk00[i].key != -1)
+            if (unk00[i].key != hkMapUlongEmpty)
                 break;
         }
         return i;
@@ -532,7 +482,7 @@ struct EdgeMap
     {
         for (++i; i <= unk08; ++i)
         {
-            if (unk00[i].key != -1)
+            if (unk00[i].key != hkMapUlongEmpty)
                 break;
         }
         return i;
@@ -540,14 +490,13 @@ struct EdgeMap
 };
 struct Manager
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     Allocator* unk10;
     Allocator& heap()
     {
         return *unk10;
     }
 };
-Manager* __cdecl FUN_00c85750();
 struct Target
 {
     int unk00, unk04;
@@ -562,8 +511,8 @@ struct Target
 bool* Target::FUN_00e48e80(bool* apResult)
 {
     EdgeMap edgeMap = {0, 0, -1};
-    Allocator& allocator = FUN_00c85750()->heap();
-    edgeMap.EnsureCapacity(allocator, 0);
+    Allocator& allocator = static_cast<Manager*>(::FUN_00c85750())->heap();
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(edgeMap))->EnsureCapacity((intptr_t)&(allocator), 0);
     int count = unk18;
     int iVertexOffset = 0;
     for (int i = 0; i < count; ++i)
@@ -581,23 +530,23 @@ bool* Target::FUN_00e48e80(bool* apResult)
                 key = (static_cast<unsigned int>(iCurrVertex) << 16) | iPrevVertex;
             int iOrientation = 1 + (iPrevVertex < iCurrVertex);
             int keyPlus = key + 1;
-            int index = edgeMap.FindSlot(keyPlus);
+            intptr_t index = reinterpret_cast<::FUN_00cb18f0_t *>(&(edgeMap))->FindSlot(keyPlus);
             if (index <= edgeMap.unk08)
             {
-                int value = edgeMap.unk00[index].value;
+                int value = int(edgeMap.unk00[index].val);
                 if (value & iOrientation)
                 {
                     *apResult = false;
-                    edgeMap.ProcessArgument(FUN_00c85750()->heap());
-                    edgeMap.FUN_00a29680();
+                    reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(static_cast<Manager*>(::FUN_00c85750())->heap()));
+                    ::FUN_00a29680();
                     return apResult;
                 }
-                edgeMap.unk00[index].value = value | iOrientation;
+                edgeMap.unk00[index].val = value | iOrientation;
             }
             else
             {
-                Allocator& allocator = FUN_00c85750()->heap();
-                edgeMap.FUN_00cb1870(allocator, keyPlus, iOrientation);
+                Allocator& allocator = static_cast<Manager*>(::FUN_00c85750())->heap();
+                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(edgeMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(allocator), keyPlus, iOrientation);
             }
             iPrevVertex = iCurrVertex;
         }
@@ -605,17 +554,17 @@ bool* Target::FUN_00e48e80(bool* apResult)
     }
     for (int index = edgeMap.first(); index <= edgeMap.unk08; index = edgeMap.next(index))
     {
-        if (edgeMap.unk00[index].value != 3)
+        if (edgeMap.unk00[index].val != 3)
         {
             *apResult = false;
-            edgeMap.ProcessArgument(FUN_00c85750()->heap());
-            edgeMap.FUN_00a29680();
+            reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(static_cast<Manager*>(::FUN_00c85750())->heap()));
+            ::FUN_00a29680();
             return apResult;
         }
     }
     *apResult = true;
-    edgeMap.ProcessArgument(FUN_00c85750()->heap());
-    edgeMap.FUN_00a29680();
+    reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(static_cast<Manager*>(::FUN_00c85750())->heap()));
+    ::FUN_00a29680();
     return apResult;
 }
 
@@ -700,6 +649,17 @@ class hkMapBaseU64
 
     void FUN_00cb1d20(unsigned it);
 };
+// @fnv 0x00cb2000
+int FUN_00cb2000_cls::FUN_00cb2000(int iArg0, int iArg1)
+{
+    int iCount = reinterpret_cast<::ProbeMap64 *>(this)->FUN_00cb1c60(iArg0);
+    if (iCount <= m_pFreeList)
+    {
+        reinterpret_cast<::hkMapBaseU64 *>(this)->FUN_00cb1d20(iCount);
+        return 0;
+    }
+    return 1;
+}
 
 // Invalidates the entry at index it and rehashes subsequent entries to close the gap in the open-addressed map.
 // @fnv 0x00cb1d20
@@ -762,9 +722,24 @@ class MapBase_cb1e
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void InsertKeyValue(Allocator_cb1e& alloc, unsigned __int64 key, unsigned __int64 val);
     void FUN_00cb1e70(Allocator_cb1e& alloc, int newcap);
 };
+// @fnv 0x00cb2030
+void CB1BC0Map::ResizeToFit(CB1BC0Allocator& allocator, int size)
+{
+    int doubledSize = size + size;
+    int newSize = 8;
+
+    if (doubledSize > 8)
+    {
+        do
+        {
+            newSize += newSize;
+        } while (newSize < doubledSize);
+    }
+
+    reinterpret_cast<::MapBase_cb1e *>(this)->FUN_00cb1e70((::Allocator_cb1e &)(allocator), newSize);
+}
 
 // Reallocates the pair array to newcap (min 8), reinserts old pairs, and frees the old block unless the high bit of m_iCapacityFlags was set.
 // @fnv 0x00cb1e70
@@ -783,7 +758,7 @@ void MapBase_cb1e::FUN_00cb1e70(Allocator_cb1e& alloc, int aiNewCapacity)
     for (int i = 0; i < iOldCapacity; ++i)
     {
         if (oldelem[i].key != (unsigned __int64)-1)
-            InsertKeyValue(alloc, oldelem[i].key, oldelem[i].val);
+            reinterpret_cast<::CB1BC0Map *>(this)->InsertKeyValue((::CB1BC0Allocator &)(alloc), oldelem[i].key, oldelem[i].val);
     }
     if (dontDeallocate == 0)
         alloc.ReleaseBlock(oldelem, sizeof(MapPair_cb1e) * iOldCapacity);
@@ -793,31 +768,30 @@ struct hkMemoryAllocatorCB1F;
 
 struct hkMapOperationsCB1F
 {
-    static unsigned hash(unsigned int key, unsigned mod)
+    static unsigned hash(uintptr_t key, unsigned mod)
     {
-        return (unsigned(key) >> 4) * 2654435761U & mod;
+        return hkMapUlongHash(key, mod);
     }
-    static bool equal(unsigned int keyCur, unsigned int keyValue)
+    static bool equal(uintptr_t keyCur, uintptr_t keyValue)
     {
         return keyCur == keyValue;
     }
-    static bool isValid(unsigned int key)
+    static bool isValid(uintptr_t key)
     {
-        return key != unsigned(-1);
+        return key != hkMapUlongEmpty;
     }
 };
 
 struct hkMapPairCB1F
 {
-    unsigned int key;
-    unsigned int val;
+    uintptr_t key;
+    uintptr_t val;
 };
 
 class hkMapBaseCB1F
 {
   public:
-    void ResizeAndRehash(hkMemoryAllocatorCB1F& alloc, int newcap);
-    int FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, unsigned int key, unsigned int val);
+    int FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, uintptr_t key, unsigned int val);
 
     hkMapPairCB1F* m_kPrimitiveElement;
     int m_iCapacityFlags;
@@ -826,13 +800,13 @@ class hkMapBaseCB1F
 
 // Grows the table if over half full, adds key/val if key is absent, and returns the key's slot index.
 // @fnv 0x00cb1f40
-int hkMapBaseCB1F::FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, unsigned int key, unsigned int uiValue)
+int hkMapBaseCB1F::FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, uintptr_t key, unsigned int uiValue)
 {
     {
         int numElems = m_iCapacityFlags & static_cast<int>(0x7fffffff);
         if ((numElems + numElems) > m_iPairCount)
         {
-            ResizeAndRehash(alloc, m_iPairCount + m_iPairCount + 2);
+            reinterpret_cast<::fnv_00cb1ac0::DepthLimit *>(this)->ResizeAndRehash((::fnv_00cb1ac0::Allocator *)&(alloc), m_iPairCount + m_iPairCount + 2);
         }
     }
 
@@ -853,23 +827,19 @@ int hkMapBaseCB1F::FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, unsigned int key, 
 
 // Hashes key into the open-addressing table and linearly probes for a matching entry, returning its slot index or a not-found value.
 // @fnv 0x00cb18f0
-int FUN_00cb18f0_t::FindSlot(int key)
+intptr_t FUN_00cb18f0_t::FindSlot(intptr_t key)
 {
     int mod = m_iPairCount;
     if (mod > 0)
     {
-        int* table = (int*)m_uiStandInValue;
-        unsigned int index = ((unsigned int)key >> 4) * 0x9e3779b1u & (unsigned int)mod;
-        int value = table[index * 2];
-        if (value != -1)
+        unsigned index = hkMapUlongHash(key, mod);
+        uintptr_t value = m_kPrimitiveElement[index].key;
+        while (value != hkMapUlongEmpty)
         {
-            do
-            {
-                if (value == key)
-                    return (int)index;
-                index = (index + 1) & (unsigned int)mod;
-                value = table[index * 2];
-            } while (value != -1);
+            if (value == uintptr_t(key))
+                return (int)index;
+            index = (index + 1) & unsigned(mod);
+            value = m_kPrimitiveElement[index].key;
         }
     }
     return mod + 1;

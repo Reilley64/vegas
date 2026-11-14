@@ -1,0 +1,137 @@
+#ifndef VEGAS_FILEFORMAT_PACK_CATALOGUE_H
+#define VEGAS_FILEFORMAT_PACK_CATALOGUE_H
+
+#include <array>
+#include <cstddef>
+#include <cstdint>
+
+// The catalogue of the data pack, the source's list of the entries a pack
+// holds, by the pack decision record, ADR 0001, and the catalogue decisions
+// of VEGAS-52 (docs/data-pack-catalogue.md).
+namespace fileformat
+{
+
+// The catalogue version this catalogue is. By ADR 0001 as amended on
+// 2026-11-13, a pack's header field must equal it, and any change to the
+// required entries raises it by one. It is its own constant, not the
+// container's revision.
+inline constexpr std::uint32_t packCatalogueVersion = 4;
+
+// One entry of the catalogue: a pack holds it under `key`, with exactly
+// `version` and exactly `bytes` bytes.
+struct PackCatalogueEntry
+{
+    std::array<char, 4> key; // four ASCII bytes; no key encodes an address
+    std::uint32_t version;
+    std::size_t bytes;
+};
+
+// The values of C1: the four strings that the single-instance and
+// remote-session checks at the start of WinMain read, one field per string.
+// Each capacity is the distance from the string's address to the next address
+// the recipe binds. A field holds its string, then a zero byte, then zeros to
+// its end.
+struct SingleInstanceStrings
+{
+    std::array<char, 20> mutexName;         // the name of the mutex
+    std::array<char, 60> firstMessageText;  // the text of the first message box
+    std::array<char, 8> messageCaption;     // the caption of both message boxes
+    std::array<char, 52> secondMessageText; // the text of the second message box
+};
+
+// C1's entry: its four fields in order, end to end.
+inline constexpr PackCatalogueEntry singleInstanceEntry{
+    {'I', 'N', 'S', 'T'},
+    1,
+    sizeof(SingleInstanceStrings::mutexName) + sizeof(SingleInstanceStrings::firstMessageText) +
+        sizeof(SingleInstanceStrings::messageCaption) + sizeof(SingleInstanceStrings::secondMessageText),
+};
+static_assert(singleInstanceEntry.bytes == 140);
+
+// The values of the log path suffixes: the four strings that WinMain's
+// log-path builders, its statements S2 to S5, each append to the user folder,
+// one field per string in the order WinMain passes them. Each capacity is the
+// distance from the string's address to the next address the recipe binds. A
+// field holds its string, then a zero byte, then zeros to its end.
+struct LogPathSuffixes
+{
+    std::array<char, 16> firstSuffix;  // S2, the suffix FUN_00c3bb90 appends
+    std::array<char, 16> secondSuffix; // S3, the suffix fnv_00c3bbe0::FUN_00c3bbe0 appends
+    std::array<char, 24> thirdSuffix;  // S4, the suffix FUN_00c3bc30 appends
+    std::array<char, 16> fourthSuffix; // S5, the suffix fnv_00c3bc80::FUN_00c3bc80 appends
+};
+
+// The log path suffixes' entry: its four fields in order, end to end.
+inline constexpr PackCatalogueEntry logPathSuffixesEntry{
+    {'L', 'O', 'G', 'S'},
+    1,
+    sizeof(LogPathSuffixes::firstSuffix) + sizeof(LogPathSuffixes::secondSuffix) +
+        sizeof(LogPathSuffixes::thirdSuffix) + sizeof(LogPathSuffixes::fourthSuffix),
+};
+static_assert(logPathSuffixesEntry.bytes == 72);
+
+// The values of the save directory strings: the ten strings that
+// BGSSaveLoadManager::GetSaveDirectory (0x00876ad0) reads, one field per
+// string in the order it first reads them. A string the original stores at a
+// recipe-bound address has the recipe bound as its capacity, the distance to
+// the next address the recipe binds; so does the first INI name, reached
+// through the pointer at 0x011a2ff4 to an address the recipe binds. The
+// second INI name, reached through the pointer at 0x011a2ff0 to an address
+// the recipe does not bind, has 256 bytes, as the main window class. A field
+// holds its string, then a zero byte, then zeros to its end. The format of
+// the INI paths is passed one argument, an INI name, so it holds exactly one
+// %s and no other conversion.
+struct SaveDirectoryStrings
+{
+    std::array<char, 8> iniPathFormat;    // the format of both INI paths, one %s for the INI name
+    std::array<char, 12> firstIniName;    // the first INI file the setting is read from
+    std::array<char, 8> iniSection;       // the INI section of the setting
+    std::array<char, 24> settingKey;      // the INI key of the setting that selects the profile folders
+    std::array<char, 256> secondIniName;  // the second INI file the setting is read from, and the INI path's name
+    std::array<char, 12> localFolder;     // appended to the local application data folder
+    std::array<char, 12> documentsFolder; // appended to the documents folder
+    std::array<char, 12> gameFolder;      // appended after documentsFolder
+    std::array<char, 4> workingFolder;    // both folders when the setting is off
+    std::array<char, 20> defaultIniName;  // the file copied when the INI path names no file
+};
+
+// The save directory strings' entry: its ten fields in order, end to end.
+inline constexpr PackCatalogueEntry saveDirectoryEntry{
+    {'S', 'D', 'I', 'R'},
+    1,
+    sizeof(SaveDirectoryStrings::iniPathFormat) + sizeof(SaveDirectoryStrings::firstIniName) +
+        sizeof(SaveDirectoryStrings::iniSection) + sizeof(SaveDirectoryStrings::settingKey) +
+        sizeof(SaveDirectoryStrings::secondIniName) + sizeof(SaveDirectoryStrings::localFolder) +
+        sizeof(SaveDirectoryStrings::documentsFolder) + sizeof(SaveDirectoryStrings::gameFolder) +
+        sizeof(SaveDirectoryStrings::workingFolder) + sizeof(SaveDirectoryStrings::defaultIniName),
+};
+static_assert(saveDirectoryEntry.bytes == 368);
+
+// The value of the main window class: the class name that the second-window
+// check of WinMain reads, after the single-instance and remote-session
+// checks. The original reaches it through the pointer at 0x011a2fe8. Its
+// capacity is 256 bytes, the length limit Windows documents for a window
+// class name; the recipe binds no address inside the string, so it has no
+// recipe bound. The field holds the class name, then a zero byte, then zeros
+// to its end.
+struct MainWindowClass
+{
+    std::array<char, 256> className; // the class name of the main window
+};
+
+// The main window class's entry: its one field.
+inline constexpr PackCatalogueEntry mainWindowClassEntry{
+    {'W', 'N', 'D', 'C'},
+    1,
+    sizeof(MainWindowClass::className),
+};
+static_assert(mainWindowClassEntry.bytes == 256);
+
+// Every entry of catalogue version 4, in ascending key order. A pack holds
+// each of them and no other.
+inline constexpr std::array<PackCatalogueEntry, 4> packCatalogue{singleInstanceEntry, logPathSuffixesEntry,
+                                                                 saveDirectoryEntry, mainWindowClassEntry};
+
+} // namespace fileformat
+
+#endif

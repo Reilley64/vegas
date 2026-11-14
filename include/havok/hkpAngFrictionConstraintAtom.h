@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpAngFrictionConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -15,6 +14,4 @@ class hkpAngFrictionConstraintAtom : public hkpConstraintAtom
     char pad5[0x3];
     hkReal m_fMaxFrictionTorque;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpAngFrictionConstraintAtom[(sizeof(hkpAngFrictionConstraintAtom) == 0xC) ? 1 : -1];
 #endif

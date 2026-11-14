@@ -3,6 +3,13 @@
 #define FNV_TESSPELLLIST_DECLS_H
 
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/xEffOwner.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011de000.h"
 class ActorPackageContext;
 class InventoryStackRecord;
 
@@ -12,19 +19,7 @@ class BaseProcess
     ActorPackageContext* GetCurrentProcessData();
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    BSSimpleList();
-    ~BSSimpleList();
-    T m_item;
-    BSSimpleList* m_pkNext;
-    BSSimpleList* GetNext();
-    void Remove(const T&);
-    void SetItem(const T&);
-    T& GetItem();
-    void RemoveHead();
-};
+#include "fnv/bs_simple_list.h"
 
 class TESFile;
 class BGSCameraShot;
@@ -35,11 +30,7 @@ class TESActorBase;
 class TESForm
 {
   public:
-    bool IsInCombat();
     TESFile* GetFile(int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
-    unsigned int GetFormID();
     virtual void vfn_0();
     virtual void vfn_4();
     virtual void vfn_8();
@@ -117,6 +108,8 @@ class TESForm
     virtual void vfn_128();
     virtual void vfn_12c();
     virtual const char* GetEditorID();
+public:
+    void ClearData();
 };
 class BGSCameraPath
 {
@@ -140,10 +133,7 @@ class Actor
 class PlayerCharacter : public Actor
 {
   public:
-    void OnSpellRemoved(SpellItem*);
 };
-extern PlayerCharacter* g_thePlayer;
-int Warning(const char*, ...);
 class TESAttributes
 {
   public:
@@ -162,13 +152,11 @@ class TESSpellList : public BaseFormComponent
   public:
     TESSpellList();
     void InitItem(TESForm*);
-    void FUN_0048d210(TESLevSpell*);
     virtual void InitializeComponent();
     BSSimpleList<InventoryStackRecord*> spells;
     BSSimpleList<InventoryStackRecord*> leveledSpells;
     void ClearComponent();
     void ClearSpells();
-    BSSimpleList<InventoryStackRecord*>* GetOffsetC();
 };
 
 #endif

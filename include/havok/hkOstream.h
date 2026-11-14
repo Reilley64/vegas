@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkStreamWriter;
-#pragma pack(push, 1)
 class hkOstream : public hkReferencedObject
 {
   public:
     hkStreamWriter* m_pStreamWriter;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkOstream[(sizeof(hkOstream) == 0xC) ? 1 : -1];
 #endif

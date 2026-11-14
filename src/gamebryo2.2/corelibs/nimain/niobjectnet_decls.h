@@ -2,12 +2,21 @@
 #ifndef NIOBJECTNET_PRIVATE_DECLS_H
 #define NIOBJECTNET_PRIVATE_DECLS_H
 
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niobjectnet_bhk_decls.h"
 #include "NiRefObject.h"
 #include "NiFixedString.h"
 
-class NiStream;
-class CloningProcess;
+struct NiStream;
+struct CloningProcess;
 class NiExtraData;
 class NiTimeController;
 class NiInterpolator;
@@ -18,7 +27,7 @@ class NiAVObject
     NiExtraData* GetExtraData(const NiFixedString&);
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual void Slot02()
@@ -103,7 +112,7 @@ class NiTimeController : public NiObject
     NiTimeController* m_spNextController;
 };
 
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;
@@ -125,26 +134,17 @@ class NiObjectNET : public NiObject
     void RefreshExtraData();
     bool AddExtraData(NiExtraData*);
     virtual void LinkObject(NiStream&);
+public:
+    void DeleteExtraData(unsigned short);
 };
 
-extern char g_NiObjectNETExtraDataLock;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-void* __cdecl _NiMalloc(unsigned int);
-void __cdecl NiFree(void*);
-extern "C" void* __cdecl fnv_zlib_memcpy(void*, const void*, unsigned int);
 
-class NiStream
+struct NiStream
 {
   public:
     char m_kPad000[0xD8];
     unsigned int m_uiNifVersion;
-    void ReadFixedString(NiFixedString&);
-    void ReadStringTableEntry(NiFixedString&);
-    void ResetStreamState();
-    unsigned int ReadUnsignedInteger();
     NiObject* GetLoadedObject();
-    unsigned int GetLinkID();
 };
 
 #endif

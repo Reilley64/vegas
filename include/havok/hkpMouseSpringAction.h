@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpUnaryAction.h"
-#pragma pack(push, 1)
 class hkpMouseSpringAction : public hkpUnaryAction
 {
   public:
@@ -19,6 +18,4 @@ class hkpMouseSpringAction : public hkpUnaryAction
     hkUint32 m_uiCollisionShapeKey;                // +0x50
     hkArray<char> m_kAppliedCallbacks;  // +0x54
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMouseSpringAction[(sizeof(hkpMouseSpringAction) == 0x60) ? 1 : -1];
 #endif

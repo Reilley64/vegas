@@ -2,23 +2,24 @@
 #ifndef FNV_NIPSYSPLANARCOLLIDER_H
 #define FNV_NIPSYSPLANARCOLLIDER_H
 
+#include "fnv/decl/FUN_00a5d450_class.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
 #include "layout_support.h"
-class NiStream;
+struct NiStream;
 class NiAVObject;
-class CloningProcess;
-class ThreeByThreeMatrix;
+struct CloningProcess;
+struct ThreeByThreeMatrix;
 class NiPSysCollider;
 class NiPSysColliderManager;
 class NiPSysPlanarCollider;
 class NiPSysSpawnModifier;
-class NiPlane;
+struct NiPlane;
 class NiPoint4;
 class NiTransform;
 class FourComponentNumericValue;
-#pragma pack(push, 4)
+struct NiStream;
 class NiPSysCollider : public NiObject
 {
   public:
@@ -57,7 +58,6 @@ class NiPSysCollider : public NiObject
     // void __cdecl NiPSysCollider::*()
     // NiPSysCollider& __cdecl NiPSysCollider::*(const NiPSysCollider&)
     // void __cdecl NiPSysCollider::*()
-    void CreateVertexBufferSet(NiPSysCollider*, CloningProcess&);
     virtual void vfn_08();
     virtual void vfn_0c();
     virtual void vfn_10();
@@ -75,19 +75,11 @@ class NiPSysCollider : public NiObject
     virtual void vfn_40();
     virtual void vfn_44();
     virtual NiPSysCollider* Clone(CloningProcess&);
+public:
+    void LinkObject(::NiStream &);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysCollider) == 44);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_fBounceFactor) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_bSpawnOnCollision) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_bDieOnCollision) == 13);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_pSpawnModifier) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_kCollisionPosition) == 20);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_fSpawnRate) == 32);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_pColliderManager) == 36);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_spNextController) == 40);
-#pragma pack(push, 4)
-class NiPlane
+struct NiPoint3;
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;  // +0x0, 12 bytes
@@ -105,12 +97,11 @@ class NiPlane
     // void __cdecl NiPlane::*(NiStream&)
     // void __cdecl NiPlane::*(NiStream&)
     // char* __cdecl NiPlane::*(const char*)
+public:
+    bool operator==(const ::NiPlane &);
+public:
+    NiPlane(const ::NiPoint3 &, float);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPlane) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPlane, m_kPlaneNormal) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPlane, m_fPlaneConstant) == 12);
-#pragma pack(push, 4)
 class FourComponentNumericValue
 {
   public:
@@ -129,17 +120,6 @@ class FourComponentNumericValue
         unsigned int u[4];  // +0x0, 16 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FourComponentNumericValue) == 16);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_afComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_auiComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, x) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, y) == 4);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, z) == 8);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, w) == 12);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, v) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, u) == 0);
-#pragma pack(push, 4)
 class NiPoint4
 {
   public:
@@ -167,12 +147,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint4) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_kComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_afExtents) == 0);
-#pragma pack(push, 4)
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes
@@ -183,10 +158,6 @@ class ThreeByThreeMatrix
     // operator*
     // Inverse
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 48);
-FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
-#pragma pack(push, 4)
 class NiTransform
 {
   public:
@@ -202,13 +173,9 @@ class NiTransform
     // void __cdecl NiTransform::*(NiStream&)
     // void __cdecl NiTransform::*(NiStream&)
     // void __cdecl NiTransform::*()
+public:
+    void ResetToIdentity();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTransform) == 64);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kOrientation) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kTranslation) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_fScale) == 60);
-#pragma pack(push, 4)
 class NiPSysPlanarCollider : public NiPSysCollider
 {
   public:
@@ -258,18 +225,4 @@ class NiPSysPlanarCollider : public NiPSysCollider
     // void __cdecl NiPSysPlanarCollider::*()
     // void __cdecl NiPSysPlanarCollider::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysPlanarCollider) == 304);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_pkColliderObject) == 44);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_fOriginX) == 48);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_fOriginZ) == 52);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_kFirstVector) == 56);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_kSecondPlaneVector) == 68);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_fWidthSquared) == 80);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_fHeightSquared) == 84);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_kHalfSpacePlane) == 88);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_kPathOffset) == 104);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_kRotationMatrix) == 128);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_kFirstTransform) == 176);
-FNV_STATIC_ASSERT(offsetof(NiPSysPlanarCollider, m_kSecondTransform) == 240);
 #endif

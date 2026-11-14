@@ -4,13 +4,10 @@
 #define FNV_HAVOK_HKPMOPPCODEREINDEXEDTERMINAL_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpMoppCodeReindexedTerminal
 {
   public:
     hkUint32 m_uiOriginalTerminalIndex;   // +0x0
     hkUint32 m_uiReindexedTerminalIndex;  // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMoppCodeReindexedTerminal[(sizeof(hkpMoppCodeReindexedTerminal) == 0x8) ? 1 : -1];
 #endif

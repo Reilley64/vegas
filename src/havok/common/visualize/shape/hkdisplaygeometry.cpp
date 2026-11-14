@@ -2,6 +2,8 @@
 // src/havok/common/visualize/shape/hkdisplaygeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaygeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00cce530.h"
 struct S_00da2560_Alloc
 {
     virtual ~S_00da2560_Alloc();
@@ -10,28 +12,26 @@ struct S_00da2560_Alloc
 };
 struct S_00da2560_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00da2560_Alloc* m_pStreamAllocator;
     S_00da2560_Alloc& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-S_00da2560_Router* FUN_00c85750();
 
 struct S_00da2560_Member
 {
     ~S_00da2560_Member() throw()
     {
-        FUN_00cce530();
+        reinterpret_cast<::FUN_00cce530 *>(this)->FUN_00cce530::~FUN_00cce530();
     }
-    void FUN_00cce530() throw();
     void operator delete(void* p)
     {
-        FUN_00c85750()->heap().ReleaseBlock(p, 0x18);
+        static_cast<S_00da2560_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, 0x18);
     }
 };
 

@@ -2,16 +2,34 @@
 // src/havok/common/visualize/serialize/hkobjectserialize.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkobjectserialize.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-typedef unsigned int C68E30size_t;
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <cstdint>
+#include <new>
+#include "fnv/decl/D60590Object.h"
+#include "fnv/decl/E02A80_cls.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cc0780.h"
+#include "fnv/decl/FUN_00d60830.h"
+#include "fnv/decl/FUN_00d609a0_Class.h"
+#include "fnv/decl/FUN_00e028e0.h"
+#include "fnv/decl/FUN_00e02bb0_cls.h"
+#include "fnv/decl/FUN_00e02c70_Class.h"
+#include "fnv/decl/fnv_00cc06f0__FUN_00cc06f0.h"
+#include "fnv/decl/hkOArchive_2.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d60000.h"
+#include "fnv/symbols_01268000.h"
+typedef std::size_t C68E30size_t;
 
 struct C68E30Allocator;
 
 struct C68E30MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     C68E30Allocator* m_pStreamAllocator;
 
     C68E30Allocator& heap()
@@ -20,8 +38,6 @@ struct C68E30MemoryRouter
     }
 };
 
-extern "C" C68E30MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct C68E30PrimaryBase
 {
@@ -52,10 +68,6 @@ struct C68E30Pair
     C68E30Listener* m_kListener;
     int m_uiFilterValue;
 
-    static void* operator new(C68E30size_t, void* p) throw()
-    {
-        return p;
-    }
 };
 
 struct C68E30PairArray
@@ -67,14 +79,14 @@ struct C68E30PairArray
     void _pushBack(C68E30Allocator& alloc, const C68E30Pair& pair)
     {
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(&alloc, this, sizeof(C68E30Pair));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(C68E30Pair));
         new (m_data + m_iElementCount) C68E30Pair(pair);
         m_iElementCount++;
     }
 
     void AddBack(const C68E30Pair& pair)
     {
-        _pushBack(FUN_00c85750().heap(), pair);
+        _pushBack((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), pair);
     }
 };
 
@@ -139,19 +151,16 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* volatile m_pAllocator;
 };
 
 namespace fnvc_adapt {
-AudioHolder* __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(void* apOwner, void* apArray, int aiSize, int aiAlign);
 
-extern int DAT_01268fd0;
 
 struct SweptVirtualObj
 {
@@ -205,18 +214,18 @@ void FUN_00d641f0_cls::ClearSweptEntry(int aiIndex)
     {
         do
         {
-            m_18->v14(pEntry->m_04.m_00[i], DAT_01268fd0, 0);
+            m_18->v14(pEntry->m_04.m_00[i], ::g_ptr_0x1268fd0, 0);
             ++i;
         } while (i < pEntry->m_04.m_04);
     }
 
     SweptItemArray* pArray = &pEntry->m_04;
-    AudioHolder* pAudioHolder = fnvc_adapt::FUN_00c85750();
+    AudioHolder* pAudioHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     void* pAllocator = pAudioHolder->m_pAllocator;
     int iCapacity = (int)(pArray->m_08 & 0x3fffffffu);
     if (iCapacity < 0)
     {
-        FUN_00c908c0(pAllocator, pArray, (iCapacity * 2) > 0 ? iCapacity * 2 : 0, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(pAllocator), (::SpawnedArray *)(pArray), (iCapacity * 2) > 0 ? iCapacity * 2 : 0, 4);
     }
     pArray->m_04 = 0;
 }
@@ -257,16 +266,11 @@ struct Buffer
     unsigned short state, references;
     Sink* stream;
     bool byteSwap;
-    void FUN_00d60830(Sink*, ByteSwap) throw();
-    void FUN_00d609a0(unsigned int, unsigned int) throw();
-    void WriteInt(unsigned int) throw();
-    void FUN_00d60960(unsigned int) throw();
-    void FUN_00d60590() throw();
 };
 
 // Serializes a1-a4, data pairs/triples, and payload into sink via buffer, returning total bytes written or -1 on failure.
 // @fnv 0x00e0b850
-static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
+static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, uintptr_t a3, unsigned int a4,
                                              const void* payload, unsigned int payloadBytes, ByteSwap byteSwap,
                                              Data* data, Sink* sink)
 {
@@ -274,61 +278,61 @@ static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, u
     unsigned int bytes;
     unsigned int count;
     Buffer buffer;
-    buffer.FUN_00d60830(sink, byteSwap);
-    buffer.FUN_00d609a0(a1, a2);
+    new ((void *)&(buffer)) ::FUN_00d60830((::hkReferencedObject *)(sink), (*(char *)&(const ::ByteSwap &)(byteSwap)));
+    reinterpret_cast<::FUN_00d609a0_Class *>(&(buffer))->FUN_00d609a0(a1, a2);
     if (!*sink->Get(&status))
     {
-        buffer.FUN_00d60590();
+        reinterpret_cast<::D60590Object *>(&(buffer))->FUN_00d60590();
         return -1;
     }
-    buffer.FUN_00d609a0(a3, a4);
+    reinterpret_cast<::FUN_00d609a0_Class *>(&(buffer))->FUN_00d609a0(a3, a4);
     if (!*sink->Get(&status))
     {
-        buffer.FUN_00d60590();
+        reinterpret_cast<::D60590Object *>(&(buffer))->FUN_00d60590();
         return -1;
     }
     count = data->pairCount;
-    buffer.FUN_00d60960(count);
+    ::FUN_00d60960((const float *)&(buffer));
     bytes = 0x14;
     for (unsigned int i = 0; i < count; ++i)
     {
-        buffer.WriteInt(data->pairs[i].first);
-        buffer.WriteInt(data->pairs[i].second);
+        reinterpret_cast<::hkOArchive_2 *>(&(buffer))->WriteInt(data->pairs[i].first);
+        reinterpret_cast<::hkOArchive_2 *>(&(buffer))->WriteInt(data->pairs[i].second);
         if (!*sink->Get(&status))
         {
-            buffer.FUN_00d60590();
+            reinterpret_cast<::D60590Object *>(&(buffer))->FUN_00d60590();
             return -1;
         }
         bytes += 8;
     }
     count = data->tripleCount;
-    buffer.FUN_00d60960(count);
+    ::FUN_00d60960((const float *)&(buffer));
     bytes += 4;
     for (unsigned int i = 0; i < count; ++i)
     {
-        buffer.WriteInt(data->triples[i].first);
-        buffer.FUN_00d609a0(data->triples[i].second, 0);
-        buffer.FUN_00d609a0(data->triples[i].third, 0);
+        reinterpret_cast<::hkOArchive_2 *>(&(buffer))->WriteInt(data->triples[i].first);
+        reinterpret_cast<::FUN_00d609a0_Class *>(&(buffer))->FUN_00d609a0(data->triples[i].second, 0);
+        reinterpret_cast<::FUN_00d609a0_Class *>(&(buffer))->FUN_00d609a0(data->triples[i].third, 0);
         if (!*sink->Get(&status))
         {
-            buffer.FUN_00d60590();
+            reinterpret_cast<::D60590Object *>(&(buffer))->FUN_00d60590();
             return -1;
         }
         bytes += 20;
     }
-    buffer.FUN_00d60960(payloadBytes);
+    ::FUN_00d60960((const float *)&(buffer));
     if (!*sink->Get(&status))
     {
-        buffer.FUN_00d60590();
+        reinterpret_cast<::D60590Object *>(&(buffer))->FUN_00d60590();
         return -1;
     }
     sink->Put(payload, payloadBytes);
     if (!*sink->Get(&status))
     {
-        buffer.FUN_00d60590();
+        reinterpret_cast<::D60590Object *>(&(buffer))->FUN_00d60590();
         return -1;
     }
-    buffer.FUN_00d60590();
+    reinterpret_cast<::D60590Object *>(&(buffer))->FUN_00d60590();
     return bytes + payloadBytes + 4;
 }
 
@@ -347,8 +351,7 @@ struct C68E30Allocator
     virtual void ReleaseBlock(void* p, int numBytes) throw();
 };
 
-void __cdecl FUN_00c908c0(void* alloc, void* array, int numElements, int sizeElem);
-void* __cdecl AllocateWithHeader(void* alloc, int size);
+void* __cdecl AllocateWithHeader(void* alloc, intptr_t size);
 void __cdecl FUN_00c856c0(void* alloc, void* p);
 
 struct hkBool
@@ -414,7 +417,7 @@ template <typename T> struct hkArray
             int newCap = cap + cap;
             if (size >= newCap)
                 newCap = size;
-            FUN_00c908c0(&alloc, this, newCap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(void *)(this), newCap, sizeof(T));
         }
         m_iElementCount = size;
     }
@@ -436,71 +439,71 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     unsigned __int64 header;
 
     stream->read(&header, 8);
-    if (!stream->IsStreamValid())
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
         return 0;
 
     stream->read(tag, 8);
-    if (!stream->IsStreamValid())
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
         return 0;
 
     hkArray<Reloc> relocs;
     stream->read(&numRelocs, 4);
-    if (!stream->IsStreamValid())
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
     {
-        relocs.ClearAndRelease(FUN_00c85750().heap());
+        relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
         return 0;
     }
 
     int count = numRelocs;
-    relocs.SetSizeAndGrow(FUN_00c85750().heap(), count);
+    relocs.SetSizeAndGrow((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), count);
     for (i = 0; i < (unsigned int)numRelocs; ++i)
     {
         Reloc& r = relocs[i];
         stream->read(&r.m_iSourceOffset, 4);
         stream->read(&r.toOffset, 4);
-        if (!stream->IsStreamValid())
+        if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
         {
-            relocs.ClearAndRelease(FUN_00c85750().heap());
+            relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
             return 0;
         }
     }
 
     stream->read(&numItems, 4);
-    if (!stream->IsStreamValid())
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
     {
-        relocs.ClearAndRelease(FUN_00c85750().heap());
+        relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
         return 0;
     }
 
     count = numItems;
-    outItems.SetSizeAndGrow(FUN_00c85750().heap(), count);
+    outItems.SetSizeAndGrow((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), count);
     for (i = 0; i < (unsigned int)numItems; ++i)
     {
         char* item = (char*)&outItems[i];
         stream->read(item, 4);
         stream->read(item + 8, 8);
         stream->read(item + 16, 8);
-        if (!stream->IsStreamValid())
+        if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
         {
-            relocs.ClearAndRelease(FUN_00c85750().heap());
+            relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
             return 0;
         }
     }
 
     stream->read(outAllocSize, 4);
-    if (!stream->IsStreamValid())
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
     {
-        relocs.ClearAndRelease(FUN_00c85750().heap());
+        relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
         return 0;
     }
 
     int iAllocationSize = *outAllocSize;
-    char* buffer = (char*)AllocateWithHeader(&FUN_00c85750().heap(), iAllocationSize);
+    char* buffer = (char*)AllocateWithHeader(&(*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), iAllocationSize);
     stream->read(buffer, *outAllocSize);
-    if (!stream->IsStreamValid())
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
     {
-        FUN_00c856c0(&FUN_00c85750().heap(), buffer);
-        relocs.ClearAndRelease(FUN_00c85750().heap());
+        FUN_00c856c0(&(*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), buffer);
+        relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
         return 0;
     }
 
@@ -515,7 +518,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
 
     *outBuffer = buffer;
     unsigned __int64 ret = header;
-    relocs.ClearAndRelease(FUN_00c85750().heap());
+    relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
     return ret;
 }
 
@@ -531,8 +534,8 @@ struct ObjectWriteFlag
         return value != 0;
     }
 };
-static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigned int idLow, unsigned int idHigh,
-                                             unsigned int classLow, unsigned int classHigh, const void* payload,
+static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, uintptr_t idLow, unsigned int idHigh,
+                                             uintptr_t classLow, unsigned int classHigh, const void* payload,
                                              unsigned int payloadSize, ObjectWriteFlag swap)
 {
     bool ok;
@@ -541,61 +544,61 @@ static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigne
     Buffer archive;
     ByteSwap endian;
     endian.value = swap;
-    archive.FUN_00d60830(output, endian);
-    archive.FUN_00d609a0(idLow, idHigh);
+    new ((void *)&(archive)) ::FUN_00d60830((::hkReferencedObject *)(output), (*(char *)&(const ::ByteSwap &)(endian)));
+    reinterpret_cast<::FUN_00d609a0_Class *>(&(archive))->FUN_00d609a0(idLow, idHigh);
     if (!*output->Get(&ok))
     {
-        archive.FUN_00d60590();
+        reinterpret_cast<::D60590Object *>(&(archive))->FUN_00d60590();
         return -1;
     }
-    archive.FUN_00d609a0(classLow, classHigh);
+    reinterpret_cast<::FUN_00d609a0_Class *>(&(archive))->FUN_00d609a0(classLow, classHigh);
     if (!*output->Get(&ok))
     {
-        archive.FUN_00d60590();
+        reinterpret_cast<::D60590Object *>(&(archive))->FUN_00d60590();
         return -1;
     }
     count = fixups->pairCount;
-    archive.FUN_00d60960(count);
+    ::FUN_00d60960((const float *)&(archive));
     total = 20;
     for (unsigned int j = 0; j < count; ++j)
     {
-        archive.WriteInt(fixups->pairs[j].first);
-        archive.WriteInt(fixups->pairs[j].second);
+        reinterpret_cast<::hkOArchive_2 *>(&(archive))->WriteInt(fixups->pairs[j].first);
+        reinterpret_cast<::hkOArchive_2 *>(&(archive))->WriteInt(fixups->pairs[j].second);
         if (!*output->Get(&ok))
         {
-            archive.FUN_00d60590();
+            reinterpret_cast<::D60590Object *>(&(archive))->FUN_00d60590();
             return -1;
         }
         total += 8;
     }
     count = fixups->tripleCount;
-    archive.FUN_00d60960(count);
+    ::FUN_00d60960((const float *)&(archive));
     total += 4;
     for (unsigned int j = 0; j < count; ++j)
     {
-        archive.WriteInt(fixups->triples[j].first);
-        archive.FUN_00d609a0(fixups->triples[j].second, 0);
-        archive.FUN_00d609a0(fixups->triples[j].third, 0);
+        reinterpret_cast<::hkOArchive_2 *>(&(archive))->WriteInt(fixups->triples[j].first);
+        reinterpret_cast<::FUN_00d609a0_Class *>(&(archive))->FUN_00d609a0(fixups->triples[j].second, 0);
+        reinterpret_cast<::FUN_00d609a0_Class *>(&(archive))->FUN_00d609a0(fixups->triples[j].third, 0);
         if (!*output->Get(&ok))
         {
-            archive.FUN_00d60590();
+            reinterpret_cast<::D60590Object *>(&(archive))->FUN_00d60590();
             return -1;
         }
         total += 20;
     }
-    archive.FUN_00d60960(payloadSize);
+    ::FUN_00d60960((const float *)&(archive));
     if (!*output->Get(&ok))
     {
-        archive.FUN_00d60590();
+        reinterpret_cast<::D60590Object *>(&(archive))->FUN_00d60590();
         return -1;
     }
     output->Put(payload, payloadSize);
     if (!*output->Get(&ok))
     {
-        archive.FUN_00d60590();
+        reinterpret_cast<::D60590Object *>(&(archive))->FUN_00d60590();
         return -1;
     }
-    archive.FUN_00d60590();
+    reinterpret_cast<::D60590Object *>(&(archive))->FUN_00d60590();
     return total + payloadSize + 4;
 }
 
@@ -652,7 +655,6 @@ struct ObjectWriteW
     ObjectWriteArrInt m_a2;
     ObjectWriteArrInt m_a3;
     int m_30;
-    void FUN_00e028e0();
 };
 
 struct ObjectWriteZ
@@ -662,8 +664,6 @@ struct ObjectWriteZ
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00cc06f0(ObjectWriteArrByte* y, int one);
-    void FUN_00cc0780();
 };
 
 struct ObjectWriteInfo
@@ -678,26 +678,23 @@ struct ObjectWriteX
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00e02bb0(ObjectWriteInfo* info);
-    void FUN_00e02a80(ObjectWriteZ* z, int a, int b, ObjectWriteW* w);
-    void FUN_00e02c70();
 };
 
 extern char DAT_011b7b89;
 
 // Writes an object record to a sink by serializing its fixups and payload via FUN_00e0b850, returning the total bytes written.
 // @fnv 0x00e0bd40
-int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, unsigned int aiIdHigh, int p5,
-                         unsigned int p6, ObjectWriteArrItem* out)
+int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, uintptr_t aiIdLow, unsigned int aiIdHigh, intptr_t p5,
+                         uintptr_t p6, ObjectWriteArrItem* out)
 {
     ObjectWriteX x;
-    x.FUN_00e02bb0(p2);
+    reinterpret_cast<::FUN_00e02bb0_cls *>(&(x))->FUN_00e02bb0((intptr_t)(p2));
     ObjectWriteArrByte y;
     y.m_data = 0;
     y.m_iElementCount = 0;
     y.m_cap = 0x80000000;
     ObjectWriteZ z;
-    z.FUN_00cc06f0(&y, 1);
+    new ((void *)&(z)) ::fnv_00cc06f0::FUN_00cc06f0((::fnv_00cc06f0::hkArrayCC06<char> *)(::ObjectWriteArrByte *)(&y), 1);
     ObjectWriteW w;
     w.m_a0.m_data = 0;
     w.m_a0.m_iElementCount = 0;
@@ -712,20 +709,20 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
     w.m_a3.m_iElementCount = 0;
     w.m_a3.m_cap = 0x80000000;
     w.m_30 = 0;
-    x.FUN_00e02a80(&z, p5, p6, &w);
+    reinterpret_cast<::E02A80_cls *>(&(x))->FUN_00e02a80((::E02A80Arg *)(::ObjectWriteZ *)(&z), p5, (::E02A80Helper *)(p6), (intptr_t)(&w));
 
     int need = out->m_iElementCount + w.m_a1.m_iElementCount;
-    C68E30Allocator& alloc = FUN_00c85750().heap();
+    C68E30Allocator& alloc = (*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap();
     if ((out->m_cap & 0x3fffffff) < need)
     {
         int iDoubled = (out->m_cap & 0x3fffffff) * 2;
-        FUN_00c908c0(&alloc, out, need < iDoubled ? iDoubled : need, 0x18);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(out), need < iDoubled ? iDoubled : need, 0x18);
     }
     for (int i = 0; i < w.m_a1.m_iElementCount; i++)
     {
-        C68E30MemoryRouter* router = &FUN_00c85750();
+        C68E30MemoryRouter* router = &(*static_cast<C68E30MemoryRouter*>(::FUN_00c85750()));
         if (out->m_iElementCount == (out->m_cap & 0x3fffffff))
-            ResizeAudioStream(router->m_pStreamAllocator, out, 0x18);
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(out), 0x18);
         ObjectWriteItem* p = out->m_data + out->m_iElementCount;
         out->m_iElementCount++;
         p->m_00 = w.m_a1.m_data[i].a;
@@ -736,14 +733,16 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
     }
     int r = FUN_00e0b850((Data*)&w, p1, aiIdLow, aiIdHigh, p6, 0, y.m_data, y.m_iElementCount,
                          ObjectWriteFlag(p2->m_01 != DAT_011b7b89));
-    w.FUN_00e028e0();
-    z.FUN_00cc0780();
-    C68E30Allocator& allocY = FUN_00c85750().heap();
+    reinterpret_cast<::FUN_00e028e0 *>(&(w))->FUN_00e028e0::~FUN_00e028e0();
+    reinterpret_cast<::FUN_00cc0780 *>(&(z))->FUN_00cc0780::~FUN_00cc0780();
+    C68E30Allocator& allocY = (*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap();
     y.m_iElementCount = 0;
     if ((y.m_cap & 0x80000000) == 0)
         allocY.ReleaseBlock(y.m_data, y.m_cap & 0x3fffffff);
     y.m_data = 0;
     y.m_cap = 0x80000000;
-    x.FUN_00e02c70();
+    reinterpret_cast<::FUN_00e02c70_Class *>(&(x))->FUN_00e02c70_Class::~FUN_00e02c70_Class();
     return r;
 }
+
+#include "generated/data/havok/common/visualize/serialize/hkobjectserialize.inc"

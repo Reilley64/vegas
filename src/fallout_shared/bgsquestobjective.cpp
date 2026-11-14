@@ -1,5 +1,43 @@
 // fallout_shared/bgsquestobjective.cpp: BGSQuestObjective, StandIn (15 functions)
 
+#include <new>
+#include <malloc.h>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_00471d60_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0059e400_shell.h"
+#include "fnv/decl/FUN_005ec700_shell.h"
+#include "fnv/decl/FUN_0060ffe0.h"
+#include "fnv/decl/FUN_00610190_cls.h"
+#include "fnv/decl/FUN_00952a20_shell.h"
+#include "fnv/decl/FUN_00952d60_stand.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/MessageHandler.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/Obj_009529d0.h"
+#include "fnv/decl/PerkEntryConditionSet.h"
+#include "fnv/decl/TESFaction_RankDataView.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/TESQuest.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkLiquidAction.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_004721d0__FUN_004721d0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005cb000.h"
+#include "fnv/symbols_0077a000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011de000.h"
 #include "bgsquestobjective_decls.h"
 // If not yet initialized, stores quest and calls InitItem on each entry of the target list, then marks the objective initialized.
 // @fnv 0x005ec210
@@ -8,13 +46,13 @@ void BGSQuestObjective::InitItem(TESQuest* quest)
     if (bInitialized)
         return;
     m_pOwnerQuest = quest;
-    BSSimpleList<RegionObjectEntry*>* targets = GetTargetList();
+    BSSimpleList<RegionObjectEntry*>* targets = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>(this)->GetActiveEffectList()));
     while (targets && !reinterpret_cast<BSSimpleList<const char*>*>(targets)->IsEmpty())
     {
-        reinterpret_cast<RegionObjectEntry*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets)->GetItem())
+        reinterpret_cast<RegionObjectEntry*>(((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets))->m_item))
             ->InitItem(reinterpret_cast<TESForm*>(quest));
         targets = reinterpret_cast<BSSimpleList<RegionObjectEntry*>*>(
-            reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets)->GetNext());
+            ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets)))->FUN_00726070())));
     }
     bInitialized = true;
 }
@@ -23,14 +61,15 @@ void BGSQuestObjective::InitItem(TESQuest* quest)
 void BGSQuestObjective::Initialize()
 {
     iIndex = 0;
-    m_kDisplayText = g_emptyTopicInfoPrompt;
+    m_kDisplayText = ::DAT_01011584;
     bInitialized = false;
     state = 0;
     m_pOwnerQuest = 0;
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     RecursiveSpinLock();
     ~RecursiveSpinLock();
     int pad[2];
@@ -43,7 +82,6 @@ struct StrMem
 };
 struct InitStub
 {
-    void Initialize();
 };
 struct FUN_005ec090
 {
@@ -56,7 +94,7 @@ struct FUN_005ec090
 // @fnv 0x005ec090
 FUN_005ec090::FUN_005ec090()
 {
-    ((InitStub*)this)->Initialize();
+    reinterpret_cast<::BGSQuestObjective *>((((InitStub*)this)))->Initialize();
 }
 
 struct FUN_005ec330_shell : public BGSQuestObjective
@@ -72,21 +110,22 @@ struct StrH
 // @fnv 0x005ec330
 char* FUN_005ec330_shell::GetPromptText()
 {
-    return (char*)((const char*)*(StrH*)((char*)this + 8) ? (const char*)*(StrH*)((char*)this + 8)
-                                                          : g_emptyTopicInfoPrompt);
+    return (char*)((const char*)*(StrH*)&this->m_kDisplayText.storage[0] ? (const char*)*(StrH*)&this->m_kDisplayText.storage[0]
+                                                          : ::DAT_01011584);
 }
 
 struct BSFile;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct TESBitArrayFile;
-struct TESForm;
-struct TESObjectCELL;
+class TESForm;
+class TESObjectCELL;
 struct _FILETIME;
 struct _SYSTEMTIME;
 struct _WIN32_FIND_DATAA;
-struct TESFile
+class TESFile
 {
+  public:
     bool CreateTES(char*, char*, int);
     bool CreateTES(int);
     bool OpenTESFile(char*, char*, int, bool);
@@ -105,10 +144,8 @@ struct TESFile
     void SetFormCount(int);
     int GetFileLanguage();
     void SetFileLanguage(int);
-    float GetFileVersion();
     void SetFileVersion(float);
     bool IsValidFileVersion();
-    unsigned int GetFORMSize();
     char* GetPath();
     char* GetFilename();
     unsigned int GetFileSize();
@@ -149,18 +186,13 @@ struct TESFile
     void SetGroupMode(bool);
     void TESRewindChunk();
     bool NextForm(bool);
-    bool HasNextForm();
     void RewindForm();
-    int GetTESForm();
     unsigned int GetOffset();
     unsigned int GetOffsetChunk();
-    bool SetOffset(unsigned int);
     bool SetOffsetChunk(unsigned int);
     int GetFormAtOffset(unsigned int);
     unsigned int CopyCurrentFormToBuffer(void*, unsigned int);
-    int ReadCurrentForm();
     bool NextChunk();
-    unsigned int GetChunkSize();
     bool GetChunkData(unsigned short*);
     bool GetChunkData(short*);
     bool GetChunkData(float*);
@@ -184,7 +216,6 @@ struct TESFile
     void SetAltered(bool);
     bool GetAltered();
     void SetActive(bool);
-    bool GetActive();
     void SetLittleEndian(bool);
     bool GetLittleEndian();
     bool QEndian();
@@ -204,14 +235,12 @@ struct TESFile
     int GetLastFileError();
     FormRecordHeader* GetFormData();
     unsigned int GetID();
-    unsigned short GetFormVersion();
     bool TakeOwnership();
     static bool TakeFileOwnership(char*);
     static unsigned short GetFileFormVersion();
     void SetCached(bool);
     void SetCaching(bool);
     void ResetWithCachedFile();
-    bool GetCached();
     bool GetCaching();
     unsigned int GetMasterCount();
     unsigned int GetFlags();
@@ -289,47 +318,15 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_005ec370_shell : public BGSQuestObjective
 {
     void FUN_005ec370(TESFile*);
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct S_005ec440
 {
     void FUN_005ec440(char*);
 };
-// Reads chunks from apFile: stores the QOBJ chunk's int in iIndex, and on the NNAM chunk passes its data (or null) to FUN_005ec440, then returns.
-// @fnv 0x005ec370
-void FUN_005ec370_shell::FUN_005ec370(TESFile* apFile)
-{
-    int chunkid;
-    while ((chunkid = apFile->ReadCurrentForm()) != 0)
-    {
-        switch (chunkid)
-        {
-        case 0x4a424f51:
-            apFile->GetChunkData(&iIndex);
-            break;
-        case 0x4d414e4e:
-            if (apFile->GetChunkSize())
-            {
-                char* pMessage = (char*)_alloca(apFile->GetChunkSize());
-                apFile->GetChunkData(pMessage, 0);
-                ((S_005ec440*)this)->FUN_005ec440(pMessage);
-            }
-            else
-            {
-                ((S_005ec440*)this)->FUN_005ec440(0);
-            }
-            return;
-        }
-        if (!apFile->NextChunk())
-            break;
-    }
-}
-
 struct FUN_005ec500_shell : public BGSQuestObjective
 {
     void AddMatchingTargetsToList(void*);
@@ -337,58 +334,46 @@ struct FUN_005ec500_shell : public BGSQuestObjective
 
 struct QObjOps
 {
-    int _FNV_GetObjectReference();
 };
 struct ListOps
 {
-    RegionObjectEntry** _ref_006815c0();
-    ListOps* _ref_00726070();
 };
 struct TgtOps
 {
-    void* GetReference(bool);
-    bool IsFlagSet();
-    void* GetSourceFiles();
-    void* GetPosition();
 };
 struct CondOps
 {
-    bool ContainsTrait(void*, int);
 };
 struct PlayerOps
 {
-    void FUN_00952d60(void*, void*, int);
 };
 struct OutList
 {
-    void AddTail(RegionObjectEntry**);
 };
-extern PlayerOps* g_thePlayer;
 
 // If the objective's object reference is 1, walks the target list and appends targets whose condition passes to apListToFill, calling the player op on each.
 // @fnv 0x005ec500
 void FUN_005ec500_shell::AddMatchingTargetsToList(void* apListToFill)
 {
-    if (((QObjOps*)this)->_FNV_GetObjectReference() != 1)
+    if (((int)(std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((QObjOps*)this)))->FUN_007af430())) != 1)
         return;
-    ListOps* pMasterList = (ListOps*)((BGSQuestObjective*)this)->GetTargetList();
+    ListOps* pMasterList = (ListOps*)((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
     RegionObjectEntry* pTarget = 0;
-    while (pMasterList && *pMasterList->_ref_006815c0())
+    while (pMasterList && *((::RegionObjectEntry **)((void *)(pMasterList))))
     {
-        pTarget = *pMasterList->_ref_006815c0();
-        pMasterList = pMasterList->_ref_00726070();
-        if (((CondOps*)((TgtOps*)pTarget)->GetPosition())->ContainsTrait(((TgtOps*)pTarget)->GetReference(0), 0))
+        pTarget = *((::RegionObjectEntry **)((void *)(pMasterList)));
+        pMasterList = ((::ListOps *)(reinterpret_cast<::Callees *>((pMasterList))->FUN_00726070()));
+        if (reinterpret_cast<::PerkEntryConditionSet *>((((CondOps*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)pTarget)))->GetCurrentProcessData())))))->ContainsTrait((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(0)))), (::TESObjectREFR *)(0)))
         {
-            g_thePlayer->FUN_00952d60(((TgtOps*)pTarget)->GetReference(1), ((TgtOps*)pTarget)->GetSourceFiles(),
-                                      ((TgtOps*)pTarget)->IsFlagSet());
-            ((OutList*)apListToFill)->AddTail(&pTarget);
+            reinterpret_cast<::FUN_00952d60_stand *>(((*reinterpret_cast<::PlayerOps * *>(&::_g_thePlayer))))->FUN_00952d60((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(1)))), (::PathingPath *)(void *)(((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)pTarget)))))),
+                                      reinterpret_cast<::FUN_00610190_cls *>((((TgtOps*)pTarget)))->IsFlagSet());
+            reinterpret_cast<::Callees *>((((OutList*)apListToFill)))->FUN_00905820(&pTarget);
         }
     }
 }
 
 struct S7010
 {
-    unsigned int Length();
 };
 
 struct FUN_005ec310_shell
@@ -399,56 +384,35 @@ struct FUN_005ec310_shell
 // @fnv 0x005ec310
 unsigned int FUN_005ec310_shell::GetLength()
 {
-    return ((S7010*)((char*)this + 8))->Length();
+    return ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)this + 8))))->FUN_004048e0()));
 }
 
-void __cdecl _Deallocate(void*);
 struct S_005ec110
 {
     void FUN_005ec140();
     void* FUN_005ec110(unsigned int);
 };
-// Calls FUN_005ec140, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x005ec110
-void* S_005ec110::FUN_005ec110(unsigned int flags)
-{
-    FUN_005ec140();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct StandIn
 {
-    void FUN_0060ffe0();
     void* FUN_005ec4d0(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 // Calls FUN_0060ffe0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x005ec4d0
 void* StandIn::FUN_005ec4d0(unsigned int flags)
 {
-    FUN_0060ffe0();
+    reinterpret_cast<::FUN_0060ffe0 *>(this)->FUN_0060ffe0::~FUN_0060ffe0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_005ec1f0_shell
 {
-    void FUN_005ec460();
     void FUN_005ec1f0();
 };
 
-// @fnv 0x005ec1f0
-void FUN_005ec1f0_shell::FUN_005ec1f0()
-{
-    FUN_005ec460();
-}
-
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
 
 struct FUN_005ec440
@@ -457,29 +421,54 @@ struct FUN_005ec440
     BSStr m_str;  // +0x08
     void Set(const char* name);
 };
+// Reads chunks from apFile: stores the QOBJ chunk's int in iIndex, and on the NNAM chunk passes its data (or null) to FUN_005ec440, then returns.
+// @fnv 0x005ec370
+void FUN_005ec370_shell::FUN_005ec370(TESFile* apFile)
+{
+    int chunkid;
+    while ((chunkid = reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0()) != 0)
+    {
+        switch (chunkid)
+        {
+        case 0x4a424f51:
+            apFile->GetChunkData(&iIndex);
+            break;
+        case 0x4d414e4e:
+            if (reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C())
+            {
+                char* pMessage = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pMessage), 0);
+                reinterpret_cast<::FUN_005ec440 *>((((S_005ec440*)this)))->Set(pMessage);
+            }
+            else
+            {
+                reinterpret_cast<::FUN_005ec440 *>((((S_005ec440*)this)))->Set(0);
+            }
+            return;
+        }
+        if (!apFile->NextChunk())
+            break;
+    }
+}
 
 // @fnv 0x005ec440
 void FUN_005ec440::Set(const char* name)
 {
-    m_str.Set(name, 0);
+    reinterpret_cast<::TextString *>(&(m_str))->FUN_004037f0(name, 0);
 }
 
 namespace fnv_005ec280 {
 struct FUN_00485910_shell
 {
-    static void __cdecl FUN_00485910(int, void*);
 };
 struct FUN_004856f0_shell
 {
-    static void __cdecl FUN_004856f0(int, const char*, unsigned int);
 };
 struct FUN_005ec310_shell
 {
-    unsigned int GetLength();
 };
 struct FUN_005ec330_shell
 {
-    const char* GetPromptText();
 };
 struct Date
 {
@@ -492,14 +481,14 @@ struct FUN_005ec280_shell
 // @fnv 0x005ec280
 void FUN_005ec280_shell::FUN_005ec280()
 {
-    FUN_00485910_shell::FUN_00485910(0x4a424f51, ((BSSimpleList<RegionObjectEntry*>*)this)->GetNext());
-    FUN_004856f0_shell::FUN_004856f0(0x4d414e4e, ((FUN_005ec330_shell*)this)->GetPromptText(),
-                                     ((FUN_005ec310_shell*)this)->GetLength() + 1);
-    BSSimpleList<RegionObjectEntry*>* list = ((BGSQuestObjective*)this)->GetTargetList();
+    ::FUN_00485910(0x4a424f51, (int)(std::uintptr_t)(((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<RegionObjectEntry*>*)this)))->FUN_00726070()))));
+    ::FUN_004856f0((void *)(0x4d414e4e), (void *)(reinterpret_cast<::FUN_005ec330_shell *>((((FUN_005ec330_shell*)this)))->GetPromptText()),
+                                     (void *)(std::uintptr_t)(reinterpret_cast<::FUN_005ec310_shell *>((((FUN_005ec310_shell*)this)))->GetLength() + 1));
+    BSSimpleList<RegionObjectEntry*>* list = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
     while (list && !list->IsEmpty())
     {
-        ((Date*)list->GetItem())->Date::~Date();
-        list = list->GetNext();
+        reinterpret_cast<::TESForm *>((((Date*)(list->m_item))))->ClearData();
+        list = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
 }
 }  // namespace fnv_005ec280
@@ -514,11 +503,11 @@ enum QUEST_OBJECTIVE_STATE
 
 struct BSAudio
 {
-    int GetAudioBackendData();
 };
 
-struct TESQuest
+class TESQuest
 {
+  public:
     virtual void V00()
     {}
     virtual void V01()
@@ -557,44 +546,33 @@ struct TESQuest
     {}
     virtual void FUN_005ec000(unsigned int);
 
-    bool GetCompleted();
-    void SetEnabled(bool);
 };
 
 struct TESFaction_RankDataView
 {
-    bool HasFlag20();
 };
 
 struct FUN_005ec700_shell
 {
-    void SetFlag20(bool);
 };
 
 struct FUN_005ec330_shell
 {
-    char const* GetDisplayText();
 };
 
 struct Obj_009529d0
 {
-    void FUN_009529d0(int);
 };
 
 struct FUN_00952a20_shell
 {
-    void FUN_00952a20(BGSQuestObjective*);
 };
 
-struct PlayerCharacter : Obj_009529d0
+class PlayerCharacter : public Obj_009529d0
 {
 };
 
-extern PlayerCharacter* _g_thePlayer;
 
-int __fastcall FUN_005cbb50(char*);
-void __cdecl FUN_0077a480(void*);
-void __cdecl FUN_0077a5b0(char const*, int, int);
 
 struct FUN_005ec5d0_shell : BGSQuestObjective
 {
@@ -604,7 +582,7 @@ struct FUN_005ec5d0_shell : BGSQuestObjective
 // @fnv 0x005ec5d0
 void FUN_005ec5d0_shell::FUN_005ec5d0(QUEST_OBJECTIVE_STATE aeNewState)
 {
-    TESQuest* powner = reinterpret_cast<TESQuest*>(reinterpret_cast<BSAudio*>(this)->GetAudioBackendData());
+    TESQuest* powner = reinterpret_cast<TESQuest*>(((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<BSAudio*>(this)))->FUN_0044edb0())));
 
     powner->FUN_005ec000(0x20000000);
 
@@ -612,30 +590,30 @@ void FUN_005ec5d0_shell::FUN_005ec5d0(QUEST_OBJECTIVE_STATE aeNewState)
     {
         if (aeNewState == QUEST_OBJECTIVE_STATE_1)
         {
-            if (!powner->GetCompleted())
+            if (!reinterpret_cast<::FUN_0059e400_shell *>((powner))->FUN_0059e400())
             {
-                powner->SetEnabled(true);
-                if (!FUN_005cbb50(reinterpret_cast<char*>(_g_thePlayer)))
+                reinterpret_cast<::TESQuest *>((powner))->SetEnabled(true);
+                if (!::FUN_005cbb50(reinterpret_cast<char*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))
                 {
-                    reinterpret_cast<Obj_009529d0*>(_g_thePlayer)->FUN_009529d0(reinterpret_cast<int>(powner));
+                    reinterpret_cast<::Obj_009529d0 *>((reinterpret_cast<Obj_009529d0*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_009529d0(reinterpret_cast<std::intptr_t>(powner));
                 }
             }
 
-            FUN_0077a5b0(reinterpret_cast<FUN_005ec330_shell*>(this)->GetDisplayText(), 0, 0);
+            ::FUN_0077a5b0(reinterpret_cast<::FUN_005ec330_shell *>((reinterpret_cast<FUN_005ec330_shell*>(this)))->GetPromptText(), 0, 0);
 
-            if (!reinterpret_cast<TESFaction_RankDataView*>(powner)->HasFlag20())
+            if (!reinterpret_cast<::TESFaction_RankDataView *>((reinterpret_cast<TESFaction_RankDataView*>(powner)))->HasFlag20())
             {
-                FUN_0077a480(powner);
-                reinterpret_cast<FUN_005ec700_shell*>(powner)->SetFlag20(true);
+                ::fnv_0077a480::FUN_0077a480((::fnv_0077a480::TESQuest *)(powner));
+                reinterpret_cast<::FUN_005ec700_shell *>((reinterpret_cast<FUN_005ec700_shell*>(powner)))->SetFlag20(true);
             }
         }
 
-        reinterpret_cast<FUN_00952a20_shell*>(_g_thePlayer)->FUN_00952a20(this);
+        reinterpret_cast<::FUN_00952a20_shell *>((reinterpret_cast<FUN_00952a20_shell*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_00952a20(this);
     }
 
-    if (aeNewState == QUEST_OBJECTIVE_STATE_3 && state == QUEST_OBJECTIVE_STATE_1 && !powner->GetCompleted())
+    if (aeNewState == QUEST_OBJECTIVE_STATE_3 && state == QUEST_OBJECTIVE_STATE_1 && !reinterpret_cast<::FUN_0059e400_shell *>((powner))->FUN_0059e400())
     {
-        FUN_0077a5b0(reinterpret_cast<FUN_005ec330_shell*>(this)->GetDisplayText(), 1, 0);
+        ::FUN_0077a5b0(reinterpret_cast<::FUN_005ec330_shell *>((reinterpret_cast<FUN_005ec330_shell*>(this)))->GetPromptText(), 1, 0);
     }
 
     state = aeNewState;
@@ -648,33 +626,44 @@ struct FUN_005ec140
     unsigned int iIndex;
     StrMem m_kDisplayText;
     RecursiveSpinLock lock;
-    void FUN_005ec1f0();
     ~FUN_005ec140();
 };
+// Calls FUN_005ec140, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x005ec110
+void* S_005ec110::FUN_005ec110(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005ec140 *>(this)->FUN_005ec140::~FUN_005ec140();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x005ec140
 FUN_005ec140::~FUN_005ec140()
 {
-    FUN_005ec1f0();
+    reinterpret_cast<::FUN_005ec1f0_shell *>(this)->FUN_005ec1f0();
 }
 
 struct FUN_005ec460_List
 {
     bool FUN_008256d0();
-    StandIn** FUN_006815c0();
     void FUN_0063f7b0();
 };
 struct FUN_005ec460_Owner
 {
-    FUN_005ec460_List* FUN_007d6bb0();
     void FUN_005ec460();
 };
+// @fnv 0x005ec1f0
+void FUN_005ec1f0_shell::FUN_005ec1f0()
+{
+    reinterpret_cast<::FUN_005ec460_Owner *>(this)->FUN_005ec460();
+}
 // @fnv 0x005ec460
 void FUN_005ec460_Owner::FUN_005ec460()
 {
-    FUN_005ec460_List* list = FUN_007d6bb0();
+    FUN_005ec460_List* list = ((::FUN_005ec460_List *)(reinterpret_cast<::NonActorMagicTarget *>(this)->GetActiveEffectList()));
     while (list && !list->FUN_008256d0())
     {
-        StandIn* target = *list->FUN_006815c0();
+        StandIn* target = *((::StandIn **)((void *)(list)));
         StandIn* deletionTarget = target;
         deletionTarget ? deletionTarget->FUN_005ec4d0(1) : 0;
         list->FUN_0063f7b0();

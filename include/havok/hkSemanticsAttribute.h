@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKSEMANTICSATTRIBUTE_H
 #define FNV_HAVOK_HKSEMANTICSATTRIBUTE_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkSemanticsAttribute
 {
   public:
@@ -17,6 +16,4 @@ class hkSemanticsAttribute
     };
     hkInt8 m_type;  // +0x0 (Semantics)
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkSemanticsAttribute[(sizeof(hkSemanticsAttribute) == 0x1) ? 1 : -1];
 #endif

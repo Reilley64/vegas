@@ -2,15 +2,28 @@
 // src/gamebryo2.2/corelibs/nianimation/nicolorextradatacontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicolorextradatacontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/FUN_00a3bc60_shell.h"
+#include "fnv/decl/FUN_00a3bd80.h"
+#include "fnv/decl/FUN_00a55f80.h"
+#include "fnv/decl/FUN_00a893b0_shell.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/S_00a571e0_Cls.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011f3000.h"
 extern "C"
 {
-    extern void* g_011f3fdc;
 }
 
 // @fnv 0x00a4fb00
 void* __cdecl FUN_00a4fb00()
 {
-    return &g_011f3fdc;
+    return &(*reinterpret_cast<void * *>(&::g_011f3fdc));
 }
 
 extern "C" void __cdecl FUN_00a572d0(void);
@@ -18,11 +31,11 @@ extern "C" void __cdecl __Dummy_00b6fef0(void* p, int size);
 
 struct FUN_00a4fb10_shell
 {
-    void* __thiscall FUN_00a4fb10(int p);
+    void* FUN_00a4fb10(int p);
 };
 
 // @fnv 0x00a4fb10
-void* __thiscall FUN_00a4fb10_shell::FUN_00a4fb10(int aiFlags)
+void* FUN_00a4fb10_shell::FUN_00a4fb10(int aiFlags)
 {
     FUN_00a572d0();
     if (aiFlags & 1)
@@ -36,10 +49,8 @@ extern "C" void __cdecl FUN_00a572d0(void);
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
 };
 
-int* __fastcall InitTimeController(int* p);
 
 extern int DAT_0109947c;
 
@@ -47,7 +58,7 @@ extern int DAT_0109947c;
 // @fnv 0x00a4fac0
 void* __cdecl FUN_00a4fac0()
 {
-    void* mem = BSFadeNode::operator new(0x40);
+    void* mem = ::operator new(0x40);
     if (mem)
     {
         int* p = InitTimeController((int*)mem);
@@ -59,14 +70,13 @@ void* __cdecl FUN_00a4fac0()
 
 struct Holder_00a55f80
 {
-    void* __thiscall FUN_00a55f80(int, float, int);
 };
 // @fnv 0x00a4fa70
-void* __stdcall FUN_00a4fa70(int a1, int a2, int a3, float a4, int a5)
+void* FUN_00a4fa70(int a1, int a2, int a3, float a4, int a5)
 {
-    void* p = BSFadeNode::operator new(0x44);
+    void* p = ::operator new(0x44);
     if (p)
-        return ((Holder_00a55f80*)p)->FUN_00a55f80(a2, a4, a5);
+        return ((void *)(new ((void *)(((Holder_00a55f80*)p))) ::FUN_00a55f80(a2, a4, a5)));
     return 0;
 }
 
@@ -81,22 +91,21 @@ struct Holder9
 };
 struct Interp9
 {
-    void* __thiscall FUN_00a3bd80(ColorA c);
 };
 struct Ctrl9
 {
     char _0[0x3c];
     Holder9* fld3c;
-    void* __thiscall FUN_00a4fb30(unsigned short);
+    void* FUN_00a4fb30(unsigned short);
 };
 // @fnv 0x00a4fb30
-void* __thiscall Ctrl9::FUN_00a4fb30(unsigned short usIndex)
+void* Ctrl9::FUN_00a4fb30(unsigned short usIndex)
 {
-    void* mem = BSFadeNode::operator new(0x24);
+    void* mem = ::operator new(0x24);
     if (mem)
     {
         Interp9* p = (Interp9*)mem;
-        return p->FUN_00a3bd80(fld3c->col);
+        return ((void *)(new ((void *)(p)) ::FUN_00a3bd80((*(unsigned int *)&(const ::ColorA &)(fld3c->col)), {}, {}, {})));
     }
     return 0;
 }
@@ -105,9 +114,8 @@ struct RgbaColor
 {
     float r, g, b, a;
 };
-class NiRTTI;
-extern NiRTTI _g_011f3730;
-class NiObject
+struct NiRTTI;
+struct NiObject
 {
   public:
     NiObject* DynamicCast(NiRTTI const*);
@@ -118,7 +126,6 @@ class NiInterpolator : public NiObject
 class NiColorInterpolator : public NiObject
 {
   public:
-    void SetColorValue(RgbaColor);
 };
 struct NiColorExtraData
 {
@@ -138,8 +145,8 @@ void NiColorExtraDataController::FUN_00a4fc90(NiInterpolator* pkInterp, unsigned
     if (!pkInterp)
         pkColorInterp = 0;
     else
-        pkColorInterp = (NiColorInterpolator*)pkInterp->DynamicCast(&_g_011f3730);
-    pkColorInterp->SetColorValue(m_pkExtra->m_kFogTint);
+        pkColorInterp = (NiColorInterpolator*)pkInterp->DynamicCast(&(*reinterpret_cast<::NiRTTI *>(&::g_011f3730)));
+    reinterpret_cast<::FUN_00a3bc60_shell *>((pkColorInterp))->SetColorValue(m_pkExtra->m_kFogTint);
 }
 
 struct StrArr
@@ -149,28 +156,25 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _pad1;
     unsigned short m_usGrow;
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
 };
 struct Base57420
 {
-    void __thiscall FUN_00a57420(StrArr*);
+    void FUN_00a57420(StrArr*);
 };
-char* __cdecl _FUN_00a7d330(const char*);
 struct FUN_00a4fd90_shell : Base57420
 {
-    void __thiscall AppendString(StrArr*);
+    void AppendString(StrArr*);
 };
 // Appends the string returned by _FUN_00a7d330(g_011f3fdc) to pkStrings, growing the array if its size has reached its allocation.
 // @fnv 0x00a4fd90
-void __thiscall FUN_00a4fd90_shell::AppendString(StrArr* pkStrings)
+void FUN_00a4fd90_shell::AppendString(StrArr* pkStrings)
 {
     FUN_00a57420(pkStrings);
-    char* pcString = _FUN_00a7d330((const char*)g_011f3fdc);
+    char* pcString = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3fdc)));
     unsigned int uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usAlloc)
-        pkStrings->SetSize(uiIndex + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiIndex, pcString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiIndex + pkStrings->m_usGrow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
 }
 
 // Stand-in with the target virtual at vtable slot 0xB4/4 = 45
@@ -226,12 +230,12 @@ struct InterpVT_00a4faa0
 
 // Calls IsCorrectType on the interpolator's vtable and returns the result, ignoring the index.
 // @fnv 0x00a4faa0
-bool __stdcall FUN_00a4faa0(NiInterpolator* pkInterpolator, unsigned short usIndex)
+bool FUN_00a4faa0(NiInterpolator* pkInterpolator, unsigned short usIndex)
 {
     return reinterpret_cast<InterpVT_00a4faa0*>(pkInterpolator)->IsCorrectType();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_0109947c;
 
 struct FUN_00a4fb80_obj
@@ -345,10 +349,8 @@ class NiInterpolatorA4F
 class NiColorTargetA4F
 {
   public:
-    void SetColor(NiColorAA4F kColor);
 };
 
-extern const float INVALID_TIME_A4F;
 
 class NiUpdateDataA4F
 {
@@ -373,7 +375,6 @@ class NiTimeControllerA4F
     {
         return (bool)(GetField(MANAGERCONTROLLED_MASK, MANAGERCONTROLLED_POS) & 1);
     }
-    bool AdvanceController(float fTime);
 
     int unk00;
     int unk04;
@@ -406,9 +407,9 @@ void NiColorControllerA4F::UpdateColorController(NiUpdateDataA4F& kUpdateData)
 {
     if (GetManagerControlled())
     {
-        m_fControllerTime = INVALID_TIME_A4F;
+        m_fControllerTime = ::DAT_01096324;
     }
-    else if (AdvanceController(kUpdateData.m_fTime) &&
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
@@ -420,15 +421,14 @@ void NiColorControllerA4F::UpdateColorController(NiUpdateDataA4F& kUpdateData)
         if (m_spControllerInterpolator->Update(m_fControllerTime, m_pkTarget, kColor))
         {
             if (m_pkColorTarget)
-                m_pkColorTarget->SetColor(kColor);
+                reinterpret_cast<::FUN_00a893b0_shell *>((m_pkColorTarget))->SetValues((*(int *)&(const ::NiColorAA4F &)(kColor)), {}, {}, {});
         }
     }
 }
 
-extern "C" void __cdecl IsEquivalent();
 
 // @fnv 0x00a4faf0
 void __cdecl FUN_00a4faf0()
 {
-    IsEquivalent();
+    static_cast<::S_00a571e0_Cls *>(nullptr)->IsEquivalent({});
 }

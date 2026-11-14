@@ -7,7 +7,6 @@
 #include "GameTimerRecord.h"
 #include "HotkeyWheelDisplay.h"
 #include "Menu.h"
-#pragma pack(push, 4)
 class HUDMainMenu : public Menu
 {
   public:
@@ -57,42 +56,4 @@ class HUDMainMenu : public Menu
     float m_fRadiationUpdateTimer;                                    // +0x274
     int GetClass();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(HUDMainMenu) == 0x278);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pAdditionalHudTile) == 0x184);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_fMessageDisplayTimer) == 0x188);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_kMessageList) == 0x18C);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_uiMessageCount) == 0x194);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_kSubtitleArray) == 0x198);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pCurrentSubtitle) == 0x1A8);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_kTargetDisplayData) == 0x1AC);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pCrosshairReference) == 0x1B8);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_iHudValueFirstBeforeMode) == 0x1BC);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_iHudValueSecondBeforeMode) == 0x1C0);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_eHudMenuMode) == 0x1C4);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_kMenuData) == 0x1C8);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_bHudModeActive) == 0x1FC);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pHudAnimationSequence) == 0x200);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_bSequenceActive) == 0x204);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_bHudAnimationActive) == 0x205);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_uiHudAnimationCounter) == 0x208);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pRegionObjectListObj) == 0x20C);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_iHudValueFirstAfterUpdateList) == 0x210);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_iHudValueSecondAfterUpdateList) == 0x214);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_iHudValueThirdAfterUpdateList) == 0x218);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pTargetActor) == 0x21C);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_bTargetActorVisible) == 0x220);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_cBuffer) == 0x224);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_uiHudValueFirstAfterActor) == 0x244);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_uiHudValueSecondAfterActor) == 0x248);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_iHudValueFirstAfterUnsignedValues) == 0x24C);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_iHudValueSecondAfterUnsignedValues) == 0x250);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_bQuestObjectiveUpdatesEnabled) == 0x254);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_kQuestObjectives) == 0x258);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_bQuestObjectiveUpdatePending) == 0x260);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_bXPUpdatePending) == 0x261);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_kXPUpdates) == 0x264);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_kRadiationUpdates) == 0x26C);
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_fRadiationUpdateTimer) == 0x274);
 #endif

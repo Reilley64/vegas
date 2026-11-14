@@ -2,33 +2,33 @@
 #ifndef FNV_BGSCAMERASHOT_DECLS_H
 #define FNV_BGSCAMERASHOT_DECLS_H
 
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/CameraState.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_009ca410_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00529000.h"
+#include "fnv/symbols_005b5000.h"
 class BSExtraData;
-class InventoryChanges;
+struct InventoryChanges;
 class TESBoundObject;
 class TESObjectCELL;
 class CellDataNode;
 class AnimData;
 class ValidBip01Names;
-class ScriptLocals;
+struct ScriptLocals;
 class NiAVObject;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
-int __cdecl Warning(const char*, ...);
+#include "fnv/ni_pointer.h"
 class VATS
 {
   public:
-    void ProcessVATSCommands();
 };
 class StateNode
 {
   public:
-    void ResetCameraState();
 };
 class ImageSpaceModifierInstanceDOF;
-void FUN_005293f0(ImageSpaceModifierInstanceDOF*);
 struct CameraTargetResetFields
 {
     char pad[12];
@@ -42,9 +42,8 @@ struct CameraTargetResetFields
 class TESFileFormInt
 {
   public:
-    int GetTESForm();
 };
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:
@@ -54,16 +53,12 @@ class TESFile;
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile*, void*, unsigned short);
 };
 struct CameraShotLegacyData
 {
     int action, location, target;
     unsigned int flags;
     float playerMult, globalMult, maxTime, minTime;
-    void FUN_0058c2e0();
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 #endif

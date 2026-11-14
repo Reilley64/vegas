@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_TESSCRIPTFUNCTIONS_TESACTORBASEDATA_H
 #define FNV_TESSCRIPTFUNCTIONS_TESACTORBASEDATA_H
+#include "fnv/decl/FlagSet.h"
 #include "tesscriptfunctions_layout_support.h"
 #include "tesscriptfunctions_BaseFormComponent.h"
 #include "tesscriptfunctions_layout_support.h"
@@ -23,24 +24,12 @@ class ActorBaseAttributes
     unsigned short m_usField16;  // +0x16, 2 bytes
     // void __cdecl ActorBaseAttributes::*()
 };
-FNV_STATIC_ASSERT(sizeof(ActorBaseAttributes) == 24);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_uiActorFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField04) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField06) == 6);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, sLevel) == 8);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0A) == 10);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0C) == 12);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0E) == 14);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_fField10) == 16);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField14) == 20);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField16) == 22);
 class TESActorBaseData : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
     void SetEssential(bool value);
     void SetMatchesPCLevel(bool value);
-    void UpdateFlagBit(int flag, bool value, bool addChange);
     ActorBaseAttributes actorData;             // +0x4, 24 bytes
     TESLevItem* m_pBaseTemplateForm;           // +0x1C, 4 bytes
     BGSVoiceType* m_kFactionList;              // +0x20, 4 bytes
@@ -140,16 +129,7 @@ class TESActorBaseData : public BaseFormComponent
     // void __cdecl TESActorBaseData::*(TESActorBaseData*)
     // TESActorBaseData& __cdecl TESActorBaseData::*(const TESActorBaseData&)
     // void* __cdecl TESActorBaseData::*(unsigned int)
+public:
+    bool GetFlag(unsigned int) const;
 };
-FNV_STATIC_ASSERT(sizeof(TESActorBaseData) == 52);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, actorData) == 4);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pBaseTemplateForm) == 28);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_kFactionList) == 32);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_ppTemplateForms) == 36);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pDeathItem) == 40);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pVoiceType) == 44);
-FNV_STATIC_ASSERT(__alignof(ActorBaseAttributes) == 4);
-FNV_STATIC_ASSERT(__alignof(TESActorBaseData) == 4);
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<FactionReaction*>) == 8);
-FNV_STATIC_ASSERT(__alignof(BSSimpleList<FactionReaction*>) == 4);
 #endif

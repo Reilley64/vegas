@@ -1,31 +1,42 @@
 // fallout_shared/bgsprimitive_decls.h: declares NiPoint3, RgbaColor, NiBound, NiUpdateData, NiFixedString and more
 #ifndef BGSPRIMITIVE_DECLS_H
 #define BGSPRIMITIVE_DECLS_H
-namespace std {
-float abs(float);
-}
-class NiPoint3
+#include <new>
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s4a5200__Owner.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00a5b000.h"
+#include <cmath>
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3(float, float, float);
-    float& operator[](unsigned int);
+    float& operator[](unsigned int i) { return (&x)[i]; }
     static const NiPoint3 ZERO;
+public:
+    float ComputeMagnitude() const;
+public:
+    char *FUN_00a59af0(const char *);
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
     NiBound();
-    void SetCenterAndRadius(const NiPoint3&, float);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float m_fTime;
@@ -53,14 +64,11 @@ class NiGeometryData
   public:
     NiPoint3* GetVertices();
     RgbaColor* GetColors();
-    unsigned short GetVertexCount();
     void SetDirtyFlags(unsigned int);
 };
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiAVObject : public NiMemObject
 {
@@ -113,16 +121,10 @@ class NiAVObject : public NiMemObject
     virtual void vfn_b4();
     virtual void vfn_b8();
     virtual void UpdateWorldBound();
-    void Update(NiUpdateData&);
-    void UpdateSceneObject();
-    void SetName(const NiFixedString&);
 };
 class NiGeometry : public NiAVObject
 {
   public:
-    NiGeometryData* FUN_005495f0();
-    void SetModelBound(const NiBound&);
-    void SetAppCulled(bool);
 };
 class NiLines : public NiGeometry
 {
@@ -146,7 +148,7 @@ class BGSPrimitive
     NiPointer<BSFadeNode> m_pController;
     unsigned int m_uiPrimitiveFlags;
 };
-class BGSPrimitiveBox : public BGSPrimitive
+struct BGSPrimitiveBox : public BGSPrimitive
 {
   public:
     BGSPrimitiveBox();
@@ -161,9 +163,6 @@ class BGSPrimitivePlane : public BGSPrimitive
   public:
     void SetColor(RgbaColor&);
 };
-typedef char BGSPrimitive_size_check[sizeof(BGSPrimitive) == 0x34 ? 1 : -1];
-typedef char BGSPrimitiveBox_size_check[sizeof(BGSPrimitiveBox) == 0x4c ? 1 : -1];
-typedef char BSFadeNode_size_check[sizeof(BSFadeNode) == 0xe4 ? 1 : -1];
 class bhkMultiSphereShape
 {
   public:

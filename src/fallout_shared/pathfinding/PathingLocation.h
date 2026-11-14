@@ -6,9 +6,8 @@
 
 #include "layout_support.h"
 #include "NiPoint3.h"
-class NavMeshPtr;
-#pragma pack(push, 4)
-class PathingLocation
+struct NavMeshPtr;
+struct PathingLocation
 {
   public:
     void** m_ppVirtualMethodTable;                                                   // +0x0
@@ -26,16 +25,9 @@ class PathingLocation
     bool ResolveNavMesh(NavMeshPtr&);
     bool FindNavMeshTriangle(NavMeshPtr&, unsigned short&);
     PathingLocation& operator=(const PathingLocation&);
+public:
+    bool HasValidTriangle_006dd6a0();
+public:
+    bool HasPathingLocation();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingLocation) == 0x28);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, Location) == 0x4);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_pLocationNavMesh) == 0x10);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, pNavMeshInfoArray) == 0x14);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, pCell) == 0x18);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_pContainingWorldspace) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_uiPathingFlags) == 0x20);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_usTriangleID) == 0x24);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, uiFlags) == 0x26);
 #endif

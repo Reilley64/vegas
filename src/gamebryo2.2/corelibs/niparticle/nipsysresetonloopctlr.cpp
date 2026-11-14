@@ -2,36 +2,49 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysresetonloopctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysresetonloopctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00a6d220.h"
+#include "fnv/decl/FUN_00a6d730_shell.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/NiTimeController_Luna.h"
+#include "fnv/decl/TCController.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a6c000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01202000.h"
 extern "C"
 {
-    extern void* g_012026a8;
 }
 
 // @fnv 0x00c28400
 void* __cdecl FUN_00c28400()
 {
-    return &g_012026a8;
+    return &(*reinterpret_cast<void * *>(&::g_012026a8));
 }
 
 void __cdecl FUN_00a6d290();
-void __cdecl _delete(void* p, unsigned int size);
 
 struct NiPSysResetOnLoopCtlr
 {
-    NiPSysResetOnLoopCtlr* __thiscall Destroy(unsigned int flags);
+    NiPSysResetOnLoopCtlr* Destroy(unsigned int flags);
 };
 
 // Calls FUN_00a6d290, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00c28410
-NiPSysResetOnLoopCtlr* __thiscall NiPSysResetOnLoopCtlr::Destroy(unsigned int flags)
+NiPSysResetOnLoopCtlr* NiPSysResetOnLoopCtlr::Destroy(unsigned int flags)
 {
     FUN_00a6d290();
     if (flags & 1)
-        _delete(this, 0x38);
+        ::FUN_00aa1460(this, 0x38);
     return this;
 }
 
-extern char const* const g_01202538_arg1;
 struct RTTI_00c284f0
 {
     int _00;
@@ -45,11 +58,11 @@ struct Obj_00c284f0
 };
 struct Cls_00c284f0
 {
-    bool __thiscall IsTargetOfType();
+    bool IsTargetOfType();
 };
 // Checks whether the object at offset 0x2c exists and its RTTI chain contains g_01202538_arg1, returning true if found.
 // @fnv 0x00c284f0
-bool __thiscall Cls_00c284f0::IsTargetOfType()
+bool Cls_00c284f0::IsTargetOfType()
 {
     Obj_00c284f0* pkTarget = *(Obj_00c284f0**)((char*)this + 0x2c);
     if (!pkTarget)
@@ -57,7 +70,7 @@ bool __thiscall Cls_00c284f0::IsTargetOfType()
     RTTI_00c284f0* pkRTTI = pkTarget->GetRTTI();
     for (; pkRTTI; pkRTTI = pkRTTI->m_pkBase)
     {
-        if (pkRTTI == (RTTI_00c284f0*)&g_01202538_arg1)
+        if (pkRTTI == (RTTI_00c284f0*)&(*reinterpret_cast<const char *const *>(&::g_012024e0)))
             return true;
     }
     return false;
@@ -70,32 +83,25 @@ struct StrArr
     unsigned short _sA;
     unsigned short _sC;
     unsigned short _sE;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a6d830(StrArr*);
-char* __cdecl _FUN_00a7d330(void*);
 // Appends the string returned by _FUN_00a7d330(g_012026a8) to pkStrings, growing the array if the position is at or past its size.
 // @fnv 0x00c28520
-void __stdcall FUN_00c28520(StrArr* pkStrings)
+void FUN_00c28520(StrArr* pkStrings)
 {
-    FUN_00a6d830(pkStrings);
-    char* pcString = _FUN_00a7d330(g_012026a8);
+    reinterpret_cast<::TCController *>((pkStrings))->FUN_00a6d830({});
+    char* pcString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012026a8))));
     unsigned int uiPos = pkStrings->_sA;
     unsigned int uiSize = pkStrings->_s8;
     if (uiPos >= uiSize)
     {
-        pkStrings->SetSize(uiPos + pkStrings->_sE);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiPos + pkStrings->_sE);
     }
-    pkStrings->SetAt(uiPos, pcString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiPos, pcString);
 }
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int size);
 };
-void __fastcall FUN_00a6d220(void* object);
-extern float DAT_01015f5c;
 extern int DAT_010be8e4;
 
 struct CloningProcess
@@ -104,7 +110,6 @@ struct CloningProcess
 struct CloneableObj
 {
     void* vtable;
-    void FUN_00a6cfe0(CloneableObj* object, void* argument);
 };
 struct FUN_00c28430_Object : CloneableObj
 {
@@ -129,24 +134,23 @@ struct FUN_00c28430_class : CloneableObj
 // @fnv 0x00c28430
 FUN_00c28430_Object* FUN_00c28430_class::CreateCloneableObject(void* volatile argument)
 {
-    FUN_00c28430_Object* object = (FUN_00c28430_Object*)NiMemObject::operator new(0x38);
+    FUN_00c28430_Object* object = (FUN_00c28430_Object*)::operator new(0x38);
     if (object)
     {
-        FUN_00a6d220(object);
+        new ((void *)(object)) class ::FUN_00a6d220();
         object->value34 = DAT_01015f5c;
         object->vtable = &DAT_010be8e4;
-        FUN_00a6cfe0(object, argument);
+        reinterpret_cast<::NiTimeControllerCM *>(this)->FUN_00a6cfe0((::NiTimeController *)(object), (*(::CloningProcess *)(argument)));
     }
     else
     {
         object = 0;
         void* copy = argument;
-        FUN_00a6cfe0(object, copy);
+        reinterpret_cast<::NiTimeControllerCM *>(this)->FUN_00a6cfe0((::NiTimeController *)(object), (*(::CloningProcess *)(copy)));
     }
     return object;
 }
 
-extern double _DAT_010241b0;
 struct FUN_00c28490_shell
 {
     int unk00;
@@ -164,7 +168,6 @@ struct FUN_00c28490_shell
     char* unk2c;
     int unk30;
     float unk34;
-    char FUN_00a36250(float value);
     void FUN_00c28490(float* p);
 };
 // Clears two flags, and if unk2c is set and FUN_00a36250(*p) returns 0, resets unk34 to unk28 and sets unk2c[0xd8] when unk34 exceeds unk28.
@@ -174,9 +177,9 @@ void FUN_00c28490_shell::FUN_00c28490(float* pfValue)
     flags &= 0xfff9;
     if (unk2c != 0)
     {
-        if (FUN_00a36250(*pfValue) == 0)
+        if (((char)(reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(*pfValue))) == 0)
         {
-            if ((double)unk34 == _DAT_010241b0)
+            if ((double)unk34 == ::DAT_010241b0)
                 unk34 = unk28;
             if (unk34 > unk28)
                 unk2c[0xd8] = 1;
@@ -185,12 +188,11 @@ void FUN_00c28490_shell::FUN_00c28490(float* pfValue)
     }
 }
 
-void __cdecl FUN_00a6d0f0();
 
 // @fnv 0x00a2f8b0
 void __cdecl FUN_00a2f8b0()
 {
-    FUN_00a6d0f0();
+    ::FUN_00a6d0f0({}, {}, *(::NiStream *)nullptr);
 }
 
 struct NiStream
@@ -200,7 +202,6 @@ struct NiStream
 
 struct BaseHack
 {
-    void FUN_00a6d730(NiStream& s);
 };
 
 struct C27120Class : BaseHack
@@ -211,26 +212,24 @@ struct C27120Class : BaseHack
 // @fnv 0x00c27120
 void C27120Class::FUN_00c27120(NiStream& s)
 {
-    FUN_00a6d730(s);
+    reinterpret_cast<::FUN_00a6d730_shell *>(this)->FUN_00a6d730((::Stream_a6d730 &)(s));
 }
 
 struct NiStream;
 
 struct SubNiPSysResetOnLoopCtlr : NiPSysResetOnLoopCtlr
 {
-    void FUN_00a6d5e0(NiStream& stream);
     void FUN_00c283e0(NiStream& stream);
 };
 
 // @fnv 0x00c283e0
 void SubNiPSysResetOnLoopCtlr::FUN_00c283e0(NiStream& stream)
 {
-    FUN_00a6d5e0(stream);
+    reinterpret_cast<::NiTimeController_Luna *>(this)->FUN_00a6d5e0(stream);
 }
 
-void __cdecl FUN_00a6cc80();
 // @fnv 0x00c283f0
 void __cdecl FUN_00c283f0()
 {
-    FUN_00a6cc80();
+    ::FUN_00a6cc80({}, {}, {});
 }

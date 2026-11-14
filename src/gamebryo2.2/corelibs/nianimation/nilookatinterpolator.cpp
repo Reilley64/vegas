@@ -2,37 +2,71 @@
 // src/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3f90;
 
 // @fnv 0x00a4be10
+#include "fnv/symbols_00a81000.h"
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/CloneSourceA5d6.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_00a5d430_Class.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00ba87d0_Class.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiQuatTransform.h"
+#include "fnv/decl/QXformViewer.h"
+#include "fnv/decl/T.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a72000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_00a4c000.h"
 void* __cdecl FUN_00a4be10()
 {
-    return &g_011f3f90;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f90));
 }
 
 struct NiLookAtInterpolator
 {
     virtual ~NiLookAtInterpolator();
-    void* __thiscall FUN_00a4c5c0(unsigned int flags);
+    void* FUN_00a4c5c0(unsigned int flags);
 };
 
 extern "C" void __cdecl FUN_00a4be20();
-extern "C" void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 
 // @fnv 0x00a4c5c0
-void* __thiscall NiLookAtInterpolator::FUN_00a4c5c0(unsigned int flags)
+void* NiLookAtInterpolator::FUN_00a4c5c0(unsigned int flags)
 {
     FUN_00a4be20();
     if (flags & 1)
     {
-        __Dummy_00b6fef0(this, 0x44);
+        ::FUN_00aa1460(this, 0x44);
     }
     return this;
 }
 
 class NiAVObject;
-struct NiFixedString
+class NiFixedString
 {
+  public:
     void* p;
 };
 struct NiAVObjectPalette
@@ -63,7 +97,6 @@ bool Holder_00a4b8d0::ResolveTargetObject(NiAVObjectPalette* pkPalette)
 struct ShaderBufferRecord;
 struct NiTStringPointerMap_00e93060
 {
-    bool GetAt(char const*, ShaderBufferRecord*&);
 };
 struct CloningProcess
 {
@@ -75,25 +108,26 @@ struct NiObject
 };
 struct Host_00a4bb80
 {
-    void __thiscall FUN_00a4bb80(CloningProcess&);
+    void FUN_00a4bb80(CloningProcess&);
 };
 // @fnv 0x00a4bb80
-void __thiscall Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
+void Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
 {
     bool bCloned;
     NiObject* pkClone;
     NiLookAtInterpolator* pkDest;
-    ((NiObject*)this)->NiObject::ProcessClone(kCloning);
+    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObject*)this)))->FUN_00a5d430((uintptr_t)&(kCloning));
     pkClone = 0;
-    kCloning.m_pCloneMap->GetAt((char const*)this, (ShaderBufferRecord*&)pkClone);
+    reinterpret_cast<::A54440Hash *>((kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)((char const*)this), (::A54440Manager **)&((ShaderBufferRecord*&)pkClone));
     pkDest = (NiLookAtInterpolator*)pkClone;
-    bCloned = kCloning.m_pCloneMap->GetAt((char const*)*(void**)((char*)this + 0x10), (ShaderBufferRecord*&)pkClone);
+    bCloned = reinterpret_cast<::A54440Hash *>((kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)((char const*)*(void**)((char*)this + 0x10)), (::A54440Manager **)&((ShaderBufferRecord*&)pkClone));
     if (bCloned)
         *(void**)((char*)pkDest + 0x10) = pkClone;
     else
         *(void**)((char*)pkDest + 0x10) = *(void**)((char*)this + 0x10);
 }
 
+struct NiObject;
 struct NiStream
 {
     virtual void F0();
@@ -105,6 +139,8 @@ struct NiStream
     virtual void F6();
     virtual void F7();
     virtual void Register(void*);
+public:
+    ::NiObject *DeserializeObject();
 };
 struct ObjType
 {
@@ -133,17 +169,17 @@ struct ObjType
 };
 struct BaseInterp
 {
-    bool __thiscall FUN_00a81fe0(NiStream*);
+    bool FUN_00a81fe0(NiStream*);
 };
 struct MyInterp
 {
-    bool __thiscall FUN_00a4bbe0(NiStream*);
+    bool FUN_00a4bbe0(NiStream*);
 };
 // @fnv 0x00a4bbe0
-bool __thiscall MyInterp::FUN_00a4bbe0(NiStream* kStream)
+bool MyInterp::FUN_00a4bbe0(NiStream* kStream)
 {
     unsigned int ui;
-    if (!((BaseInterp*)this)->FUN_00a81fe0(kStream))
+    if (!reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0(*(::NiStream *)kStream))
         return false;
     for (ui = 0; ui < 3; ++ui)
     {
@@ -160,13 +196,12 @@ bool __thiscall MyInterp::FUN_00a4bbe0(NiStream* kStream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
-    void* __thiscall FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
+    void* FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
 // @fnv 0x00a4c5a0
 void* __cdecl FUN_00a4c5a0()
 {
-    void* p = BSFadeNode::operator new(0x44);
+    void* p = ::operator new(0x44);
     if (p)
         return ((BSFadeNode*)p)->FUN_00a4bcf0(0, 0, 0);
     return 0;
@@ -297,11 +332,11 @@ struct FakeInterp
 };
 struct Holder
 {
-    void __thiscall FUN_00a4b9f0(float m_fStartTime, float m_fMaximumDistance);
+    void FUN_00a4b9f0(float m_fStartTime, float m_fMaximumDistance);
 };
 // Calls the two-float virtual method on each of the three FakeInterp pointers stored at offset 0x38, skipping null entries.
 // @fnv 0x00a4b9f0
-void __thiscall Holder::FUN_00a4b9f0(float afValue1, float afValue2)
+void Holder::FUN_00a4b9f0(float afValue1, float afValue2)
 {
     unsigned int ui;
     for (ui = 0; ui < 3; ui++)
@@ -313,9 +348,6 @@ void __thiscall Holder::FUN_00a4b9f0(float afValue1, float afValue2)
 }
 
 extern "C" const float g_01098b04;
-extern "C" const float g_01015f5c;
-extern "C" const double g_010231b0;
-extern "C" const double g_010241b0;
 
 struct FUN_00a4b930_item
 {
@@ -388,16 +420,16 @@ struct FUN_00a4b930_cls
     unsigned int unk34;
     FUN_00a4b930_item* m_pItems[3];
 
-    void __thiscall GetItemsRange(float* pStart, float* pEnd);
+    void GetItemsRange(float* pStart, float* pEnd);
 };
 
 // @fnv 0x00a4b930
-void __thiscall FUN_00a4b930_cls::GetItemsRange(float* pfMin, float* pfMax)
+void FUN_00a4b930_cls::GetItemsRange(float* pfMin, float* pfMax)
 {
     float a;
     float b;
     *pfMin = g_01098b04;
-    *pfMax = g_01015f5c;
+    *pfMax = ::DAT_01015f5c;
     FUN_00a4b930_item** pp = m_pItems;
     unsigned int n = 3;
     do
@@ -416,18 +448,13 @@ void __thiscall FUN_00a4b930_cls::GetItemsRange(float* pfMin, float* pfMax)
         }
         ++pp;
     } while (--n != 0);
-    if (*pfMin == g_010231b0 && *pfMax == g_010241b0)
+    if (*pfMin == ::_DAT_010231b0 && *pfMax == ::DAT_010241b0)
     {
         *pfMin = 0.0f;
         *pfMax = 0.0f;
     }
 }
 
-extern "C" void* g_0109b220;
-extern "C" void* g_011f49e0;
-void* __cdecl FUN_00a5b690(void* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* pTarget);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* pTarget);
 
 struct RegObj
 {
@@ -454,27 +481,27 @@ bool FUN_00a4bae0_cls::FUN_00a4bae0()
     void* p = pRegObj->m_08;
     if (p != 0)
     {
-        void* pNewHandle = FUN_00a5b690(p);
-        long(__stdcall * pfnDecrement)(volatile long*) = InterlockedDecrement;
+        void* pNewHandle = ((void *)(::NiGlobalStringTable::AddString((const char *)(p))));
+        long(* pfnDecrement)(volatile long*) = [](volatile long* p) { return InterlockedDecrement(p); };
         if (m_hCur != pNewHandle)
         {
-            if (pNewHandle != g_0109b220)
+            if (pNewHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
                 (void)InterlockedIncrement((volatile long*)((char*)pNewHandle - 8));
-            if (m_hCur != g_0109b220)
+            if (m_hCur != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
                 (void)pfnDecrement((volatile long*)((char*)m_hCur - 8));
             m_hCur = pNewHandle;
         }
-        if (pNewHandle != g_0109b220)
+        if (pNewHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
             (void)pfnDecrement((volatile long*)((char*)pNewHandle - 8));
         m_pReg = 0;
         return true;
     }
-    void* pFallbackHandle = g_011f49e0;
+    void* pFallbackHandle = (*reinterpret_cast<void * *>(&::DAT_011f49e0));
     if (m_hCur != pFallbackHandle)
     {
-        if (pFallbackHandle != g_0109b220)
+        if (pFallbackHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
             (void)InterlockedIncrement((volatile long*)((char*)pFallbackHandle - 8));
-        if (m_hCur != g_0109b220)
+        if (m_hCur != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
             (void)InterlockedDecrement((volatile long*)((char*)m_hCur - 8));
         m_hCur = pFallbackHandle;
     }
@@ -527,7 +554,6 @@ struct A4BC40Transform
 class A4BC40Base : public A4BC40Object
 {
   public:
-    bool BaseIsEqual(A4BC40Object* pkObject);
 
     int unk04;
     int unk08;
@@ -549,7 +575,7 @@ class A4BC40Data : public A4BC40Base
 // @fnv 0x00a4bc40
 bool A4BC40Data::FUN_00a4bc40(A4BC40Object* pkObject)
 {
-    if (!BaseIsEqual(pkObject))
+    if (!reinterpret_cast<::FUN_00ba87d0_Class *>(this)->FUN_00ba87d0((::NiObj_s *)(pkObject)))
         return false;
 
     A4BC40Data* pkData = (A4BC40Data*)pkObject;
@@ -561,7 +587,7 @@ bool A4BC40Data::FUN_00a4bc40(A4BC40Object* pkObject)
     if (m_pkRotation && pkData->m_pkRotation && !m_pkRotation->IsEqual(pkData->m_pkRotation))
         return false;
 
-    if (!(m_kTransform == pkData->m_kTransform))
+    if (!(reinterpret_cast<::T *>((void *)&(const ::A4BC40Transform &)(m_kTransform))->Equals((const ::T &)(pkData->m_kTransform))))
         return false;
 
     for (unsigned int i = 0; i < 3; i++)
@@ -581,15 +607,6 @@ struct Builder
     void FUN_00a4c4b0(BSFadeNode*, unsigned int);
     BSFadeNode* CreateFadeNode(unsigned int);
 };
-// @fnv 0x00a4c5e0
-BSFadeNode* Builder::CreateFadeNode(unsigned int flags)
-{
-    BSFadeNode* allocated = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x44));
-    BSFadeNode* node = allocated ? static_cast<BSFadeNode*>(allocated->FUN_00a4bcf0(0, 0, 0)) : 0;
-    FUN_00a4c4b0(node, flags);
-    return node;
-}
-
 struct Arg_b9286
 {
     unsigned int unk00;
@@ -598,13 +615,10 @@ struct Arg_b9286
     unsigned short m0a;
     unsigned short m0c;
     unsigned short m0e;
-    void __thiscall FUN_0096ad30(unsigned int n);
-    void __thiscall FUN_0096ae90(unsigned int n, void** out);
 };
 
 struct Holder_b9286
 {
-    void __thiscall FUN_00a38cb0(Arg_b9286* a);
 };
 
 struct Obj_b9286
@@ -636,9 +650,6 @@ struct Obj_b9286
     virtual void Visit(Arg_b9286* a);
 };
 
-extern "C" void* g_011f3f90;
-extern "C" void* __cdecl FUN_00a7d330(void* p);
-extern "C" void* __cdecl FUN_00a7d5a0(const char* s, void* p);
 
 struct FUN_00a4c780_cls
 {
@@ -660,7 +671,6 @@ struct FUN_00a4c780_cls
     Obj_b9286* m3c;
     Obj_b9286* m40;
 
-    void __thiscall FUN_00a570b0(Arg_b9286* a);
 
     void FUN_00a4c780(Arg_b9286* a);
 };
@@ -668,24 +678,24 @@ struct FUN_00a4c780_cls
 // @fnv 0x00a4c780
 void FUN_00a4c780_cls::FUN_00a4c780(Arg_b9286* a)
 {
-    FUN_00a570b0(a);
-    void* p = FUN_00a7d330(g_011f3f90);
+    ::FUN_00a570b0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)this);
+    void* p = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3f90))))));
     unsigned int b = a->m0a;
     unsigned int c = a->m08;
     if (b >= c)
     {
-        a->FUN_0096ad30((unsigned int)a->m0e + b);
+        reinterpret_cast<::ViewerStrings *>((a))->SetSize((unsigned int)a->m0e + b);
     }
-    a->FUN_0096ae90(b, &p);
-    p = FUN_00a7d5a0("m_pkLookAt", m10);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((a))->SetAt(b, (*(char * *)(&p)));
+    p = ((void *)(::FUN_00a7d5a0("m_pkLookAt", m10)));
     b = a->m0a;
     c = a->m08;
     if (b >= c)
     {
-        a->FUN_0096ad30((unsigned int)a->m0e + b);
+        reinterpret_cast<::ViewerStrings *>((a))->SetSize((unsigned int)a->m0e + b);
     }
-    a->FUN_0096ae90(b, &p);
-    reinterpret_cast<Holder_b9286*>(&unk18)->FUN_00a38cb0(a);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((a))->SetAt(b, (*(char * *)(&p)));
+    reinterpret_cast<::QXformViewer *>((reinterpret_cast<Holder_b9286*>(&unk18)))->FUN_00a38cb0((::ViewerStrings *)(a));
     Obj_b9286** pp = &m38;
     for (unsigned int i = 3; i != 0; --i)
     {
@@ -699,10 +709,10 @@ void FUN_00a4c780_cls::FUN_00a4c780(Arg_b9286* a)
 }
 
 namespace fnv_00eea6d0 {
-extern char* EmptyFS;
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_kHandle;
 };
 
@@ -720,10 +730,10 @@ void NiLookAtInterpolator::FUN_00eea6d0(const NiFixedString& kName)
     char* pcNewHandle = kName.m_kHandle;
     if (m_kTargetNodeName.m_kHandle != pcNewHandle)
     {
-        if (pcNewHandle != EmptyFS)
+        if (pcNewHandle != ::DAT_0109b220)
             InterlockedIncrement((long*)(pcNewHandle - 8));
         char* pcOldHandle = m_kTargetNodeName.m_kHandle;
-        if (pcOldHandle != EmptyFS)
+        if (pcOldHandle != ::DAT_0109b220)
             InterlockedDecrement((long*)(pcOldHandle - 8));
         m_kTargetNodeName.m_kHandle = pcNewHandle;
     }
@@ -732,8 +742,6 @@ void NiLookAtInterpolator::FUN_00eea6d0(const NiFixedString& kName)
 
 // LoadBinary: base interpolator data, flags, the linked object, the name, the transform and three linked interpolators.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class C630RefObject
 {
@@ -954,15 +962,11 @@ class C630Stream
     int unk248;
     C630BinaryStream* m_pUnderlyingStream;
 
-    void* DeserializeObject();
-    void ReadFixedString(C630FixedString& kString);
-    void ReadStringTableEntry(C630FixedString& kString);
 };
 
 class C630Transform
 {
   public:
-    void LoadBinary(C630Stream& kStream);
 
     int unk000;
     int unk004;
@@ -977,7 +981,6 @@ class C630Transform
 class C630Interpolator
 {
   public:
-    void LoadBinary(C630Stream& kStream);
 };
 
 class C630Blend : public C630Interpolator
@@ -1000,18 +1003,18 @@ class C630Blend : public C630Interpolator
 // @fnv 0x00a4c630
 void C630Blend::FUN_00a4c630(C630Stream& kStream)
 {
-    C630Interpolator::LoadBinary(kStream);
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40((::NiStream &)kStream);
 
     C630LoadBinary(*kStream.m_pUnderlyingStream, m_usFlags);
-    m_pkTarget = kStream.DeserializeObject();
+    m_pkTarget = ((void *)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));
     if (kStream.m_uiFileVersion < 0x14010001)
-        kStream.ReadFixedString(m_kName);
+        reinterpret_cast<::Cls_a64ea0 *>(&(kStream))->FUN_00a64ea0((char **)&(m_kName));
     else
-        kStream.ReadStringTableEntry(m_kName);
-    m_kTransform.LoadBinary(kStream);
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(kStream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(m_kName));
+    reinterpret_cast<::NiQuatTransform *>(&(m_kTransform))->LoadBinary((::NiStream &)(kStream));
 
     for (unsigned int i = 0; i < 3; i++)
-        m_akReferencedObjects[i] = (C630RefObject*)kStream.DeserializeObject();
+        m_akReferencedObjects[i] = (C630RefObject*)((void *)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));
 }
 
 struct BinaryOutput341
@@ -1195,21 +1198,18 @@ struct Stream341
     unsigned int unk248;
     unsigned int unk24c;
     BinaryOutput341* output;
-    void WriteObjectLink(const void* name);
 };
 struct Transform341
 {
     float translationX, translationY, translationZ;
     float rotationW, rotationX, rotationY, rotationZ;
     float scale;
-    void FUN_00a38b60(Stream341*);
 };
 struct Interpolator341
 {
     virtual ~Interpolator341();
     unsigned int referenceCount;
     float lastTime;
-    void FUN_00a724d0(Stream341*);
 };
 struct LookAt341 : Interpolator341
 {
@@ -1224,11 +1224,11 @@ struct LookAt341 : Interpolator341
 // @fnv 0x00a4c700
 void LookAt341::SaveToStream(Stream341* stream)
 {
-    FUN_00a724d0(stream);
+    ::FUN_00a724d0();
     SaveBinary341(*stream->output, flags);
     stream->SaveLink(target);
-    stream->WriteObjectLink(&targetName);
-    transform.FUN_00a38b60(stream);
+    reinterpret_cast<::FUN_00a641f0_cls *>((stream))->WriteObjectLink((void *)(&targetName));
+    reinterpret_cast<::DataA38 *>(&(transform))->FUN_00a38b60((*(::NiStreamA38 *)(stream)));
     for (unsigned int i = 0; i < 3; ++i)
         stream->SaveLink(interpolators[i]);
 }
@@ -1336,15 +1336,14 @@ struct S_00a4ba30_Cls
     int unk30;
     int unk34;
     S_00a4ba30_Ptr unk38[3];
-    S_00a4ba30_Cls* __thiscall FUN_00a57050(float a, float b);
-    S_00a4ba30_Cls* __thiscall FUN_00a4ba30(float a, float b);
+    S_00a4ba30_Cls* FUN_00a4ba30(float a, float b);
 };
 
 // Calls FUN_00a57050 with the two floats, then assigns each non-null unk38[i] entry's v50 result to the corresponding entry in r.
 // @fnv 0x00a4ba30
-S_00a4ba30_Cls* __thiscall S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
+S_00a4ba30_Cls* S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
 {
-    S_00a4ba30_Cls* pResult = FUN_00a57050(a, b);
+    S_00a4ba30_Cls* pResult = ((::S_00a4ba30_Cls *)(::FUN_00a57050((intptr_t)this, a)));
     for (int i = 0; i < 3; i++)
     {
         if (unk38[i])
@@ -1353,17 +1352,7 @@ S_00a4ba30_Cls* __thiscall S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
     return pResult;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
-extern int DAT_0109b220;
-extern int DAT_011a8400;
-extern int DAT_011a8404;
-extern int DAT_011a8408;
-extern int DAT_011f3704;
-extern int DAT_011f3708;
-extern int DAT_011f370c;
-extern int DAT_011f3710;
-extern float DAT_01096b8c;
 
 struct RefObj
 {
@@ -1409,21 +1398,25 @@ struct SmartPtr
 struct NiPoint3
 {
     int x, y, z;
-    NiPoint3() : x(DAT_011a8400), y(DAT_011a8404), z(DAT_011a8408)
+    NiPoint3() : x((*reinterpret_cast<int *>(&::DAT_011a8400))), y(DAT_011a8404), z(DAT_011a8408)
     {}
 };
 
-struct NiQuaternion
+struct ThreeByThreeMatrix;
+class NiQuaternion
 {
+  public:
     int w, x, y, z;
-    NiQuaternion() : w(DAT_011f3704), x(DAT_011f3708), y(DAT_011f370c), z(DAT_011f3710)
+    NiQuaternion() : w((*reinterpret_cast<int *>(&::DAT_011f3704))), x(DAT_011f3708), y(DAT_011f370c), z(DAT_011f3710)
     {}
+public:
+    void FromRotationMatrix(const ::ThreeByThreeMatrix &);
 };
 
 struct FixedStr
 {
     int p;
-    FixedStr() : p(DAT_0109b220)
+    FixedStr() : p((*reinterpret_cast<int *>(&::DAT_0109b220)))
     {}
 };
 
@@ -1439,6 +1432,14 @@ struct FUN_00a4bcf0 : public NiInterpolator
 
     FUN_00a4bcf0(unsigned int pkLookAt, unsigned int eAxis, bool bFlip);
 };
+// @fnv 0x00a4c5e0
+BSFadeNode* Builder::CreateFadeNode(unsigned int flags)
+{
+    BSFadeNode* allocated = static_cast<BSFadeNode*>(::operator new(0x44));
+    BSFadeNode* node = allocated ? static_cast<BSFadeNode*>(((void *)(new ((void *)(allocated)) ::FUN_00a4bcf0(0, 0, 0)))) : 0;
+    FUN_00a4c4b0(node, flags);
+    return node;
+}
 
 // @fnv 0x00a4bcf0
 FUN_00a4bcf0::FUN_00a4bcf0(unsigned int pkLookAt, unsigned int eAxis, bool bFlip)
@@ -1454,14 +1455,11 @@ FUN_00a4bcf0::FUN_00a4bcf0(unsigned int pkLookAt, unsigned int eAxis, bool bFlip
     m_akReferencedObjects[2] = 0;
 }
 
-extern "C" void _ReadWriteBarrier(void);
-const float DAT_01015f5c = -3.4028234663852886e38f;
 const float DAT_01017d00 = 0.0010000000474974513f;
 const float DAT_01098c00 = 1.0010000467300415f;
 const double DAT_01098bf8 = 0.9990000128746033;
 const float DAT_01098bf0 = -1.0010000467300415f;
 const double DAT_01098be8 = -0.9990000128746033;
-const double DAT_010241b0 = -3.4028234663852886e38;
 struct LookNode;
 struct LookVector
 {
@@ -1525,7 +1523,6 @@ struct LookVector
     {
         return LookVector(y * v.GetZ() - z * v.GetY(), z * v.GetX() - x * v.GetZ(), x * v.GetY() - y * v.GetX());
     }
-    __declspec(noalias) void FUN_004a0c10();
 };
 struct LookMatrix
 {
@@ -1533,7 +1530,6 @@ struct LookMatrix
     LookVector FUN_004b4500(const LookVector&) const;
     LookMatrix FUN_00a588a0(const LookMatrix&) const;
     LookMatrix FUN_0043f8d0(const LookMatrix&) const;
-    void FUN_004a0c90(float);
     void Identity()
     {
         m00 = 1.0f;
@@ -1568,7 +1564,6 @@ struct LookMatrix
 struct LookQuaternion
 {
     float w, x, y, z;
-    void FUN_00a6df40(const LookMatrix&);
 };
 struct LookTransform
 {
@@ -1654,8 +1649,6 @@ struct LookInterpolator
     virtual void Slot98();
     virtual bool UpdateFloat(float, LookNode*, float&);
 };
-extern const LookMatrix DAT_011a9448;
-extern const LookVector DAT_011a9478, DAT_011a9484;
 struct LookAt
 {
     int unk00, unk04;
@@ -1704,7 +1697,7 @@ bool LookAt::Update(float time, LookNode* apNode, LookTransform& apTransform)
     }
     else
     {
-        mParentRotation = DAT_011a9448;
+        mParentRotation = (*reinterpret_cast<const ::LookMatrix *>(&::DAT_011a9448));
         worldPosition = localPosition;
     }
     LookVector vDirection = vTargetPosition - worldPosition;
@@ -1713,22 +1706,22 @@ bool LookAt::Update(float time, LookNode* apNode, LookTransform& apTransform)
         rotation.Identity();
     else
     {
-        vDirection.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(vDirection))->FUN_004a0c10();
         LookVector vUp;
         float projection;
         if ((vDirection.z < DAT_01098c00 && vDirection.z > DAT_01098bf8) ||
             (vDirection.z > DAT_01098bf0 && vDirection.z < DAT_01098be8))
         {
-            vUp = DAT_011a9478;
+            vUp = (*reinterpret_cast<const ::LookVector *>(&::DAT_011a9478));
             projection = vDirection.y;
         }
         else
         {
-            vUp = DAT_011a9484;
+            vUp = (*reinterpret_cast<const ::LookVector *>((void *)&::DAT_011a9484));
             projection = vDirection.z;
         }
         vUp -= vDirection * projection;
-        vUp.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(vUp))->FUN_004a0c10();
         if (!bool(flags & 1))
             vDirection = -vDirection;
 
@@ -1762,12 +1755,12 @@ bool LookAt::Update(float time, LookNode* apNode, LookTransform& apTransform)
                 return false;
             }
             LookMatrix mRollRotation;
-            mRollRotation.FUN_004a0c90(-angle);
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(mRollRotation))->FUN_004a0c90(-angle);
             rotation = rotation.FUN_0043f8d0(mRollRotation);
         }
     }
     LookQuaternion qRotation;
-    qRotation.FUN_00a6df40(rotation);
+    reinterpret_cast<::NiQuaternion *>(&(qRotation))->FromRotationMatrix((const ::ThreeByThreeMatrix &)(rotation));
     value.rotation = qRotation;
     _ReadWriteBarrier();
     if (scale)
@@ -1791,15 +1784,12 @@ bool LookAt::Update(float time, LookNode* apNode, LookTransform& apTransform)
 }
 
 namespace fnv_00a4c4b0 {
-extern char* DAT_011f49e0;
-extern char* DAT_0109b220;
 
 struct S_00a4c4b0_Ref
 {
     virtual void vf0();
     virtual void vf1();
     long m_refs;
-    S_00a4c4b0_Ref* FUN_00a5d680();
 };
 struct S_00a4c4b0_Ptr
 {
@@ -1853,14 +1843,13 @@ struct S_00a4c4b0_Obj
     char* m_name;
     S_00a4c4b0_Xform m_kObjectTransform;
     S_00a4c4b0_Ptr m_ptr[3];
-    void __thiscall FUN_00aa1000(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c);
-    void __thiscall FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c);
+    void FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c);
 };
 // Copies flags, unk10, m_name, m_kObjectTransform, and m_ptr entries from this object to dest after calling FUN_00aa1000.
 // @fnv 0x00a4c4b0
-void __thiscall S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c)
+void S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c)
 {
-    FUN_00aa1000(dest, c);
+    ::FUN_00aa1000();
     unsigned int f = m_flags.w;
     dest->m_flags.w = f;
     dest->m_flags.w = (m_flags.w & 1) ? (f | 1) : (f & 0xfffe);
@@ -1869,13 +1858,13 @@ void __thiscall S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cl
         pDestFlags->f.mid = m_flags.f.mid;
     }
     dest->unk10 = unk10;
-    char* s = DAT_011f49e0;
+    char* s = (*reinterpret_cast<char * *>(&::DAT_011f49e0));
     if (dest->m_name != s)
     {
-        if (s != DAT_0109b220)
+        if (s != ::DAT_0109b220)
             InterlockedIncrement((volatile LONG*)(s - 8));
         char* o = dest->m_name;
-        if (o != DAT_0109b220)
+        if (o != ::DAT_0109b220)
             InterlockedDecrement((volatile LONG*)(o - 8));
         dest->m_name = s;
     }
@@ -1883,7 +1872,99 @@ void __thiscall S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cl
     for (int i = 0; i < 3; i++)
     {
         if (m_ptr[i].m_p)
-            dest->m_ptr[i] = m_ptr[i].m_p->FUN_00a5d680();
+            dest->m_ptr[i] = ((::fnv_00a4c4b0::S_00a4c4b0_Ref *)(reinterpret_cast<::CloneSourceA5d6 *>((m_ptr[i].m_p))->FUN_00a5d680()));
     }
 }
 }  // namespace fnv_00a4c4b0
+
+void* __cdecl FUN_00a4be10();
+
+
+class LAFixedString
+{
+  public:
+    ~LAFixedString()
+    {
+        DecRefCount(m_kHandle);
+    }
+    LAFixedString& operator=(const LAFixedString& kString)
+    {
+        char* h = kString.m_kHandle;
+        if (m_kHandle != h)
+        {
+            IncRefCount(h);
+            DecRefCount(m_kHandle);
+            m_kHandle = h;
+        }
+        return *this;
+    }
+    static void IncRefCount(char* h)
+    {
+        if (h == ::DAT_0109b220)
+            return;
+        InterlockedIncrement((long volatile*)(h - 8));
+    }
+    static void DecRefCount(char* h)
+    {
+        if (h == ::DAT_0109b220)
+            return;
+        InterlockedDecrement((long volatile*)(h - 8));
+    }
+    char* m_kHandle;
+};
+
+class LARefObject
+{
+  public:
+    virtual ~LARefObject();
+    virtual void DeleteThis();
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_lRefCount) == 0)
+            DeleteThis();
+    }
+    long m_lRefCount;
+};
+
+template <class T> class LAPointer
+{
+  public:
+    ~LAPointer()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    T* m_pObject;
+};
+
+class NiInterpolator_noehsc : public LARefObject
+{
+  public:
+    virtual ~NiInterpolator_noehsc();
+    int unk08;
+    int unk0C;
+    int unk10;
+};
+
+class NiLookAtInterpolatorX : public NiInterpolator_noehsc
+{
+  public:
+    virtual ~NiLookAtInterpolatorX();
+    LAFixedString m_kTargetNodeName;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    LAPointer<NiInterpolator_noehsc> m_akReferencedObjects[3];
+};
+
+// @fnv 0x00a4be20
+NiLookAtInterpolatorX::~NiLookAtInterpolatorX()
+{
+    m_kTargetNodeName = *(LAFixedString*)&(*reinterpret_cast<char * *>(&::DAT_011f49e0));
+}
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.inc"

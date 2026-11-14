@@ -1,7 +1,15 @@
 #ifndef NID3DSHADERINTERFACE_DECLS_H
 #define NID3DSHADERINTERFACE_DECLS_H
 
-class NiRenderer
+#include "fnv/decl/FUN_00e93ad0.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_00e91000.h"
+#include "fnv/symbols_00e92000.h"
+#include "fnv/symbols_00e93000.h"
+#include "fnv/symbols_0126f000.h"
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
@@ -119,10 +127,6 @@ class NiD3DShaderInterface : public NiShader
     void SetShaderObject(GraphicsRenderer*);
     static unsigned int InitializeShaderRenderer(GraphicsRenderer*);
 };
-void FUN_00e7f920(GraphicsRenderer*);
-void FUN_00e7e8d0(GraphicsRenderer*);
-void FUN_00e92f70(GraphicsRenderer*);
-void FUN_00e93f50(GraphicsRenderer*);
 class NiD3DPass
 {
   public:
@@ -131,18 +135,15 @@ class NiD3DPass
 class NiD3DDefaultShader
 {
   public:
-    static void SetShaderName(const char*);
 };
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
 };
-class Program : public NiMemObject
+struct Program : public NiMemObject
 {
   public:
     unsigned char data[28];
-    Program* FUN_00e93ad0();
 };
 class NiD3DShaderFactory
 {
@@ -176,8 +177,5 @@ class NiD3DShaderFactory
     virtual void vfn_68();
     virtual void vfn_6c();
     virtual void vfn_70(GraphicsRenderer*);
-    static NiD3DShaderFactory* GetShaderFactory();
 };
-extern Direct3DDeviceInterface* DAT_0126f99c;
-extern Program* DAT_0126fa10;
 #endif

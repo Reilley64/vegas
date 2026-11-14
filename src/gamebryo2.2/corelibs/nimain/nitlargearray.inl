@@ -1,4 +1,7 @@
 
+#include <cstdint>
+#include "fnv/symbols_004ed000.h"
+#include "fnv/symbols_0096a000.h"
 #include "nitlargearray_decls.h"
 
 // @fnv 0x00486b80
@@ -19,13 +22,13 @@ TESTopicInfo* NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >::
 // @fnv 0x00a64250
 void NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >::RemoveAll()
 {
-    register NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >* array = this;
-    register unsigned int index = 0;
+    NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >* array = this;
+    unsigned int index = 0;
     if (array->m_uiSize > 0)
     do
     {
         unsigned int* slot = &array->m_pBase[index];
-        unsigned int value = *slot;
+        uintptr_t value = *slot;
         if (value)
         {
             NiRefObject* object = reinterpret_cast<NiRefObject*>(value);
@@ -94,7 +97,7 @@ void NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >::Compact()
     m_uiMaxSize = m_uiSize;
     if (m_uiMaxSize > 0)
     {
-        m_pBase = reinterpret_cast<TESTopicInfo**>(reinterpret_cast<ActorCombatGroup** (__cdecl*)(unsigned int)>(&NiTMallocInterface<ActorCombatGroup*>::Allocate)(m_uiMaxSize));
+        m_pBase = reinterpret_cast<TESTopicInfo**>(reinterpret_cast<ActorCombatGroup** (__cdecl*)(unsigned int)>(&((ActorCombatGroup **(&)(unsigned short))::FUN_0096afc0))(m_uiMaxSize));
         for (unsigned int index = 0; index < m_uiSize; ++index)
             m_pBase[index] = oldBase[index];
     }
@@ -102,7 +105,7 @@ void NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >::Compact()
     {
         m_pBase = 0;
     }
-    NiTMallocInterface<ActorCombatGroup*>::Deallocate(reinterpret_cast<ActorCombatGroup**>(oldBase));
+    ::FUN_004ede70(reinterpret_cast<ActorCombatGroup**>(oldBase));
 }
 // @fnv 0x00864280
 void NiTLargeArray<TESForm*, NiTMallocInterface<TESForm*> >::SetSize(unsigned int size)
@@ -127,7 +130,7 @@ void NiTLargeArray<TESForm*, NiTMallocInterface<TESForm*> >::SetSize(unsigned in
     m_uiMaxSize = size;
     if (size > 0)
     {
-        m_pBase = reinterpret_cast<unsigned int*>(reinterpret_cast<ActorCombatGroup** (__cdecl*)(unsigned int)>(&NiTMallocInterface<ActorCombatGroup*>::Allocate)(m_uiMaxSize));
+        m_pBase = reinterpret_cast<unsigned int*>(reinterpret_cast<ActorCombatGroup** (__cdecl*)(unsigned int)>(&((ActorCombatGroup **(&)(unsigned short))::FUN_0096afc0))(m_uiMaxSize));
         for (ui = 0; ui < m_uiSize; ++ui)
             m_pBase[ui] = pOldBase[ui];
         for (ui = m_uiSize; ui < m_uiMaxSize; ++ui)
@@ -137,6 +140,6 @@ void NiTLargeArray<TESForm*, NiTMallocInterface<TESForm*> >::SetSize(unsigned in
     {
         m_pBase = 0;
     }
-    NiTMallocInterface<ActorCombatGroup*>::Deallocate(reinterpret_cast<ActorCombatGroup**>(pOldBase));
+    ::FUN_004ede70(reinterpret_cast<ActorCombatGroup**>(pOldBase));
 }
 

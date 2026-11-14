@@ -1,13 +1,15 @@
 // gamebryo2.2/corelibs/nimain/nishader.h: declares NiRTTI, NiObject, NiAVObject, GarbageCollectorObjectPtr, NiShader
 
+#include "fnv/decl/NiObject_b.h"
+#include "fnv/symbols_01267000.h"
 #pragma optimize("", off)
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;
     const NiRTTI* m_pBaseRTTI;
 };
-class NiObject
+struct NiObject
 {
   public:
     bool IsKindOfType(const NiRTTI*) const;
@@ -22,7 +24,6 @@ class GarbageCollectorObjectPtr
     unsigned int storage[2];
     NiAVObject* operator->() const;
 };
-extern NiRTTI DAT_01267b70;
 GarbageCollectorObjectPtr* FUN_00c85ef0(GarbageCollectorObjectPtr*, NiAVObject*, const NiRTTI*);
 class NiShader
 {
@@ -49,14 +50,14 @@ bool FUN_0043b300(const NiRTTI* type, NiAVObject* object)
 {
     if (!object)
         return false;
-    return object->IsKindOfType(type);
+    return reinterpret_cast<::NiObject_b *>((void *)(object))->FUN_006532c0((const ::NiRTTI_b *)(type));
 }
 
 // @fnv 0x004b5a50
 NiAVObject* NiShader::DynamicCast(NiAVObject* object)
 {
     GarbageCollectorObjectPtr result;
-    return FUN_00c85ef0(&result, object, &DAT_01267b70)->operator->();
+    return FUN_00c85ef0(&result, object, &(*reinterpret_cast<::NiRTTI *>(&::g_01267b70)))->operator->();
 }
 
 #pragma optimize("", on)

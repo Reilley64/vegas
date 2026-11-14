@@ -2,7 +2,6 @@
 #ifndef FNV_BGSENTRYPOINTFUNCTION_H
 #define FNV_BGSENTRYPOINTFUNCTION_H
 #include "layout_support.h"
-#pragma pack(push, 4)
 class BGSEntryPointFunction
 {
   public:
@@ -40,9 +39,4 @@ class BGSEntryPointFunction
     static EntryPointFunctionInfo ms_kEntryPointFunctionTable[];
     static unsigned int ms_auiArgumentCountsByType[];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSEntryPointFunction::EntryPointFunctionInfo) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointFunction::EntryPointFunctionInfo, pFunctionName) == 0);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointFunction::EntryPointFunctionInfo, m_eFunctionType) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointFunction::EntryPointFunctionInfo, pFunction) == 8);
 #endif

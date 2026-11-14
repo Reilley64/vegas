@@ -1,5 +1,52 @@
 // fallout_shared/tesanimgroup.cpp: TESAnimGroup, BSAnimGroupSequence, TESAnimGroupDestructionView, Holder (35 functions)
 
+#include <new>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FOPipboyManager.h"
+#include "fnv/decl/FUN_00495f30_shell.h"
+#include "fnv/decl/FUN_005f29f0_Class.h"
+#include "fnv/decl/FUN_005f2a30_Class.h"
+#include "fnv/decl/FUN_005f2a70_cls.h"
+#include "fnv/decl/FUN_005f2ac0_cls.h"
+#include "fnv/decl/FUN_005f2b20_Class.h"
+#include "fnv/decl/FUN_005f4b70_Class.h"
+#include "fnv/decl/FUN_005f4b90_Class.h"
+#include "fnv/decl/FUN_005f4bd0_class.h"
+#include "fnv/decl/FUN_005f4c00_cls.h"
+#include "fnv/decl/FUN_006c9900_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008bf4e0_cls.h"
+#include "fnv/decl/FUN_00a307c0_cls.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/S7f.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/sad8050__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_005f3000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c3b000.h"
+#include "fnv/symbols_01197000.h"
+#include "fnv/symbols_01199000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011c3000.h"
 #include "tesanimgroup_types.h"
 #include "tesanimgroup_sequence_types.h"
 
@@ -84,7 +131,7 @@ bool TESAnimGroup::IsJumpAnimation() const
 // @fnv 0x005f4c70
 float TESAnimGroup::GetAnimationSpeed() const
 {
-    return speed.Length();
+    return reinterpret_cast<::NiPoint3 *>((void *)&(speed))->ComputeMagnitude();
 }
 
 // @fnv 0x005f3870
@@ -156,7 +203,6 @@ unsigned short FUN_0047d3b0_shell::FUN_0047d3b0()
 
 struct NiMemObjectAllocation
 {
-    static void __cdecl operator delete(void* p, unsigned int size);
 };
 
 struct TESAnimGroupDestructionView : public TESAnimGroup
@@ -164,16 +210,6 @@ struct TESAnimGroupDestructionView : public TESAnimGroup
     void FUN_005f22d0();
     void* FUN_005f22a0(unsigned int flags);
 };
-
-// Calls FUN_005f22d0, frees this via NiMemObjectAllocation::operator delete when flags has bit 1 set, and returns this.
-// @fnv 0x005f22a0
-void* TESAnimGroupDestructionView::FUN_005f22a0(unsigned int flags)
-{
-    this->FUN_005f22d0();
-    if (flags & 1)
-        NiMemObjectAllocation::operator delete(this, sizeof(TESAnimGroup));
-    return this;
-}
 
 struct FUN_005f3740_shell : public TESAnimGroup
 {
@@ -197,15 +233,12 @@ struct FUN_005f3780_shell : public TESAnimGroup
     float FUN_005f3780(int);
 };
 
-void __cdecl _FNV_Warning(const char*, ...);
-int __cdecl _FNV_IsNaN(double);
 
 struct AnimGroupInfo_011977d8
 {
     const char* name;
     char pad[0x20];
 };
-extern AnimGroupInfo_011977d8 DAT_011977d8[];
 
 // Validates groupAction against frameCount, warns on out-of-range or NaN times, and returns times[groupAction] or 0.0f.
 // @fnv 0x005f3780
@@ -213,21 +246,19 @@ float FUN_005f3780_shell::FUN_005f3780(int groupAction)
 {
     if (groupAction < 0)
     {
-        _FNV_Warning("ANIMATION: Invalid anim group action (action %d too small) in %s (%04X).", groupAction,
-                     DAT_011977d8[GetType(sType)].name, sType);
+        ::FUN_005b5e40();
         return 0.0f;
     }
     if ((unsigned int)groupAction >= frameCount)
     {
-        _FNV_Warning("ANIMATION: Invalid anim group action (action %d too big %d max) in %s (%04x).", groupAction,
-                     frameCount, DAT_011977d8[GetType(sType)].name, sType);
+        ::FUN_005b5e40();
         return 0.0f;
     }
     if (times)
     {
-        if (_FNV_IsNaN(times[groupAction]))
+        if (std::isnan(times[groupAction]))
         {
-            _FNV_Warning("ANIMATION: Time %d in group %04X is QNAN", groupAction, sType);
+            ::FUN_005b5e40();
             return 0.0f;
         }
         return times[groupAction];
@@ -237,40 +268,36 @@ float FUN_005f3780_shell::FUN_005f3780(int groupAction)
 
 template <typename T> unsigned int __cdecl BSStringLength(const T* str);
 
-const char* __cdecl _strrchr(const char*, int);
-int __cdecl __strnicmp(const char*, const char*, unsigned int);
 
-extern const char* DAT_01197794[];
-extern const char* DAT_011977a4[];
 
 // @fnv 0x005f38d0
 void __cdecl FUN_005f38d0(const char* apModelName, unsigned int* aeMove, unsigned int* aeWeapon, bool* abPowerArmor)
 {
     unsigned int n;
-    const char* plastSlash = _strrchr(apModelName, '\\');
+    const char* plastSlash = ((const char *)(std::strrchr((char *)(apModelName), '\\')));
     *abPowerArmor = false;
     *aeMove = 0;
     *aeWeapon = 0;
     if (plastSlash)
     {
         plastSlash = plastSlash + 1;
-        if (__strnicmp(plastSlash, "PA", BSStringLength("PA")) == 0)
+        if (fnv::crt::strnicmp(plastSlash, "PA", ::FUN_0044a670("PA")) == 0)
         {
             *abPowerArmor = true;
-            plastSlash += BSStringLength("PA");
+            plastSlash += ::FUN_0044a670("PA");
         }
         for (n = 1; n < 4; ++n)
         {
-            if (__strnicmp(plastSlash, DAT_01197794[n], BSStringLength(DAT_01197794[n])) == 0)
+            if (fnv::crt::strnicmp(plastSlash, DAT_01197794[n], ::FUN_0044a670(DAT_01197794[n])) == 0)
             {
                 *aeMove = n;
-                plastSlash += BSStringLength(DAT_01197794[n]);
+                plastSlash += ::FUN_0044a670(DAT_01197794[n]);
                 break;
             }
         }
         for (n = 1; n < 12; ++n)
         {
-            if (__strnicmp(plastSlash, DAT_011977a4[n], BSStringLength(DAT_011977a4[n])) == 0)
+            if (fnv::crt::strnicmp(plastSlash, DAT_011977a4[n], ::FUN_0044a670(DAT_011977a4[n])) == 0)
             {
                 *aeWeapon = n;
                 break;
@@ -291,17 +318,13 @@ void FUN_005f4c40_shell::SetSpeed(NiPoint3* apSpeed)
     speed = *apSpeed;
 }
 
-extern char* PTR_s_Start_01199a50[][11];
 struct UShortArg
 {
     unsigned short v;
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-void* __cdecl memset(void*, int, unsigned int);
 
 // @fnv 0x005f2450
-void __fastcall SetAnimGroupType(TESAnimGroup* self, UShortArg type)
+void SetAnimGroupType(TESAnimGroup* self, UShortArg type)
 {
     self->sType = type.v;
     int i;
@@ -316,7 +339,7 @@ void __fastcall SetAnimGroupType(TESAnimGroup* self, UShortArg type)
     if (self->frameCount)
     {
         self->times = new float[self->frameCount];
-        memset(self->times, 0, self->frameCount * sizeof(float));
+        ::FUN_00403d30(self->times, 0, self->frameCount * sizeof(float));
     }
     else
     {
@@ -326,7 +349,6 @@ void __fastcall SetAnimGroupType(TESAnimGroup* self, UShortArg type)
 
 extern int DAT_010484e8;
 
-void __cdecl operator delete(void*);
 
 struct EBase
 {
@@ -343,14 +365,23 @@ struct FUN_005f22d0 : EBase
 
     virtual ~FUN_005f22d0();
 };
+// Calls FUN_005f22d0, frees this via NiMemObjectAllocation::operator delete when flags has bit 1 set, and returns this.
+// @fnv 0x005f22a0
+void* TESAnimGroupDestructionView::FUN_005f22a0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005f22d0 *>((this))->FUN_005f22d0::~FUN_005f22d0();
+    if (flags & 1)
+        ::FUN_00aa1460(this, sizeof(TESAnimGroup));
+    return this;
+}
 
 // @fnv 0x005f22d0
 FUN_005f22d0::~FUN_005f22d0()
 {
     void* p = times;
-    operator delete(p);
+    ::FUN_00401030(p);
     times = 0;
-    operator delete(sounds);
+    ::FUN_00401030(sounds);
     sounds = 0;
     m_uiSoundEntryCount = 0;
 }
@@ -366,17 +397,16 @@ ANIM_GROUP_MOVE_ENUM FUN_005f23a0_shell::GetMoveAnimGroup()
     return TESAnimGroup::GetMoveType(this->sType);
 }
 
-extern "C" unsigned short __cdecl FUN_005f2400(unsigned short);
 
-struct FUN_005f23e0_shell
+struct FUN_005f23e0_shell : ::TESAnimGroup
 {
-    unsigned short __thiscall FUN_005f23e0();
+    unsigned short FUN_005f23e0();
 };
 
 // @fnv 0x005f23e0
-unsigned short __thiscall FUN_005f23e0_shell::FUN_005f23e0()
+unsigned short FUN_005f23e0_shell::FUN_005f23e0()
 {
-    return FUN_005f2400(*((unsigned short*)((char*)this + 0x10)));
+    return ((unsigned short)(::fnv_005f2400::FUN_005f2400(this->sType)));
 }
 
 namespace fnv_005f2400 {
@@ -405,7 +435,6 @@ bool IsValidCharCode(int aiCharCode)
     return false;
 }
 
-bool __cdecl IsIronSightsAction(ANIM_GROUP_ENUM);
 
 // Returns false for anim group 0xff, otherwise checks whether the group's type is an iron sights action.
 // @fnv 0x005f2720
@@ -413,10 +442,10 @@ bool IsIronSightsAnimGroup(unsigned short usAnimGroup)
 {
     if (usAnimGroup == 0xff)
         return false;
-    return IsIronSightsAction(TESAnimGroup::GetType(usAnimGroup));
+    return ::FUN_005f2750((*(int *)&(const ::ANIM_GROUP_ENUM &)(TESAnimGroup::GetType(usAnimGroup))));
 }
 
-int __cdecl GetType(unsigned short);
+std::intptr_t __cdecl GetType(unsigned short);
 bool __cdecl IsNine(int);
 
 // Returns false for type 0xff, otherwise looks up the type's entry and returns the result of IsNine on its stored value.
@@ -428,47 +457,35 @@ bool FUN_005f25d0(unsigned short ausType)
     return IsNine(*(int*)(GetType(ausType) * 0x24 + 0x11977e4));
 }
 
-struct TESSound;
-struct SoundPlaybackEntry
-{
-    float fTime;
-    unsigned char m_bFlag;
-    char _pad_5[3];
-    float fCurrentSpeed;
-    TESSound* SoundAssetTmp;
-};
-typedef char _sizecheck_GROUP_SOUND[sizeof(SoundPlaybackEntry) == 16 ? 1 : -1];
 struct FUN_005f2820_shell : public TESAnimGroup
 {
     void FUN_005f2820(unsigned int);
 };
 
-void* __cdecl _Deallocate(void*);
-void* __cdecl __memcpy(void*, const void*, unsigned int);
-void* __cdecl _Reallocate(void*, unsigned int);
 
 // Resizes the sounds array to count entries, copying existing entries and initialising new ones with default time, type and volume values.
 // @fnv 0x005f2820
 void FUN_005f2820_shell::FUN_005f2820(unsigned int count)
 {
+    const unsigned int entrySize = sizeof(AnimGroupSound);
     unsigned int oldSoundCount = m_uiSoundEntryCount;
     m_uiSoundEntryCount = count;
     if (!m_uiSoundEntryCount)
     {
-        _Deallocate(sounds);
+        ::FUN_00401030(sounds);
         sounds = 0;
         return;
     }
     if (oldSoundCount)
     {
-        SoundPlaybackEntry* sounds_old = (SoundPlaybackEntry*)operator new(oldSoundCount * 16);
-        __memcpy(sounds_old, sounds, oldSoundCount * 16);
-        sounds = (AnimGroupSound*)_Reallocate(sounds, m_uiSoundEntryCount * 16);
+        AnimGroupSound* sounds_old = (AnimGroupSound*)::FUN_00401000(oldSoundCount * entrySize);
+        __memcpy(sounds_old, sounds, oldSoundCount * entrySize);
+        sounds = (AnimGroupSound*)::Reallocate(sounds, m_uiSoundEntryCount * entrySize);
         unsigned int n = oldSoundCount;
         if (oldSoundCount > m_uiSoundEntryCount)
             n = m_uiSoundEntryCount;
-        __memcpy(sounds, sounds_old, n * 16);
-        _Deallocate(sounds_old);
+        __memcpy(sounds, sounds_old, n * entrySize);
+        ::FUN_00401030(sounds_old);
         for (unsigned int i = oldSoundCount; i < m_uiSoundEntryCount; i++)
         {
             sounds[i].SoundAssetTmp = 0;
@@ -479,7 +496,7 @@ void FUN_005f2820_shell::FUN_005f2820(unsigned int count)
     }
     else
     {
-        sounds = (AnimGroupSound*)operator new(m_uiSoundEntryCount * 16);
+        sounds = (AnimGroupSound*)::FUN_00401000(m_uiSoundEntryCount * entrySize);
         for (unsigned int i = 0; i < m_uiSoundEntryCount; i++)
         {
             sounds[i].SoundAssetTmp = 0;
@@ -490,7 +507,7 @@ void FUN_005f2820_shell::FUN_005f2820(unsigned int count)
     }
 }
 
-int __cdecl GetType(unsigned short);
+std::intptr_t __cdecl GetType(unsigned short);
 // Returns true when GetType(a) is 0, 1 or 0xAA, otherwise false.
 // @fnv 0x005f4cc0
 bool __cdecl FUN_005f4cc0(unsigned short ausType)
@@ -514,16 +531,16 @@ struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiStream;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESObject;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESSound;
+class TESObjectREFR;
+class TESSound;
 struct TESWaterForm;
 struct blob8
 {
@@ -540,9 +557,7 @@ struct blob36
 struct TimedTextEntry
 {
     void SetTime(float);
-    float GetTime();
     void SetText(void*);
-    void* GetText();
     TimedTextEntry* Copy();
     void LoadBinary(NiStream*);
     void SaveBinary(NiStream*);
@@ -551,104 +566,59 @@ struct TimedTextEntry
     float m_fTime;
     NiFixedString m_kText;
 };
-typedef char _sizecheck_NiTextKey[sizeof(TimedTextEntry) == 8 ? 1 : -1];
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 
-int _stricmp(const char* str1, const char* str2);
-int __strnicmp(const char* str1, const char* str2, int count);
-const char* _strrchr(const char* str, int ch);
-void _FNV_Warning(const char* format, ...);
 template <class T> unsigned int BSStringLength(const T* str);
 char* strchr(char* str, int ch);
-double atof(const char* str);
-long atol(const char* str);
-int strcpy_s(char* dest, unsigned int size, const char* src);
-int sprintf_s(char* buffer, unsigned int size, const char* format, ...);
-int TruncateFloatToInt(float f);
-void FUN_0043b2b0(bool b);
 
 struct NiFixedStringEx : NiFixedString
 {
     NiFixedStringEx(const NiFixedString& kString);
     ~NiFixedStringEx();
-    bool Exists() const;
     operator const char*() const;
 };
 
 struct NiTextKeyExtraData
 {
-    TimedTextEntry* GetKeys(unsigned int& uiNumKeys) const;
 };
 
 struct NiControllerSequenceEx : NiControllerSequence
 {
-    const NiFixedStringEx& GetName() const;
-    const NiFixedStringEx& GetAccumRootName() const;
-    unsigned int GetNumIDs() const;
-    void GetIDTagName(unsigned int uiIndex, char* pcName);
-    bool GetEntryByte0d(int iIndex);
-    void SetEntryByte(int iIndex, bool bValue);
     NiTextKeyExtraData* GetTextKeys() const;
-    unsigned int GetCycleType() const;
 };
 
 enum ANIM_ENUM
 {
 };
 
-struct TESSound
+class TESSound
 {
-    unsigned int GetSoundID();
 };
 
 struct BSAudio
 {
-    static BSAudio* GetSingleton();
-    void ForwardToManager(unsigned int uiSoundID, bool bValue);
 };
 
-struct TESDataHandler
+class TESDataHandler
 {
-    TESSound* GetSoundByEditorID(const char* pName);
 };
 
-struct TESFile
+class TESFile
 {
-    static char* IsTempIDLoadable();
 };
 
 struct TESAnimGroupEx : TESAnimGroup
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
     TESAnimGroupEx(unsigned short sGroup);
-    unsigned int GetSoundCount();
-    void ResizeSoundList(unsigned int ItemUpdateArray);
-    void SetSoundTime(unsigned int uiIndex, float fTime);
-    void SetSound(unsigned int uiIndex, TESSound* SoundAssetTmp);
-    void SetSoundEnum(unsigned int uiIndex, ANIM_ENUM eType, unsigned int uiData);
-    void SetSoundVolume(unsigned int uiIndex, float m_fFadeDuration);
-    void SetSoundPitch(unsigned int uiIndex, float fCurrentSpeed);
-    void SetParentName(const char* pName);
-    void SetBlendIn(unsigned char cFrames);
-    void SetBlendOut(unsigned char cFrames);
-    void SetBlend(unsigned char cFrames);
-    void SetDecal(unsigned char m_ucDecal);
-    char GetMorphKey();
-    void SetMorphKey(unsigned char cKey);
-    bool SetActionTime(unsigned int eAction, float fTime);
-    float GetActionTime(int eAction);
 };
 
-void ParseAnimationGroupFilename(const char* pFilename, ANIM_GROUP_MOVE_ENUM& eMove, ANIM_GROUP_WEAPON_ENUM& eWeapon,
-                                 bool& bPowerArmor);
 
 struct AnimGroupInfo
 {
@@ -659,11 +629,7 @@ struct AnimGroupInfo
     int m_iPadding[5];
 };
 
-extern AnimGroupInfo DAT_011977d8[];
-extern const char* DAT_01199a50[][11];
 extern const char* DAT_01199b50[];
-extern const char* DAT_011a8244;
-extern TESDataHandler* g_dataHandler;
 
 // Parses a controller sequence's text keys to build a TESAnimGroupEx, setting parent, morph, blend, decal and sound data and warning on bad notes.
 // @fnv 0x005f3a20
@@ -678,107 +644,106 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
     bool bpowerArmor = false;
     ANIM_GROUP_MOVE_ENUM eanimMove = ANIM_GROUP_MOVE_ENUM_AGM_NONE;
     ANIM_GROUP_WEAPON_ENUM eanimWeapon = ANIM_GROUP_WEAPON_ENUM_AGW_NONE;
-    const char* plastSlash = _strrchr(apModelName, '\\');
-    FUN_0043b2b0(true);
-    const char* paccumName = apSequence->GetAccumRootName();
+    const char* plastSlash = ((const char *)(std::strrchr((char *)(apModelName), '\\')));
+    ::FUN_0043b2b0(true);
+    const char* paccumName = (*(const ::fnv_005f3a20::NiFixedStringEx *)(reinterpret_cast<::FUN_006c9900_shell *>((void *)(apSequence))->FUN_006c9900()));
     int iaccumIndex = -1;
     int inonAccumIndex = -1;
     char cnonAccumName[64];
-    sprintf_s(cnonAccumName, 64, "%s NonAccum", paccumName);
+    ::FUN_00406d00(cnonAccumName, 64, "%s NonAccum", paccumName);
     unsigned int n;
-    for (n = 0; n < apSequence->GetNumIDs(); n++)
+    for (n = 0; n < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(apSequence))->FUN_0084e3a0())); n++)
     {
         char ptestName[260];
-        apSequence->GetIDTagName(n, ptestName);
+        reinterpret_cast<::FUN_00a307c0_cls *>((apSequence))->GetEntryText(n, ptestName);
         if (ptestName[0])
         {
-            if (!_stricmp(paccumName, ptestName))
+            if (!::FUN_00404dc0(paccumName, ptestName))
                 iaccumIndex = n;
-            else if (!_stricmp(cnonAccumName, ptestName))
+            else if (!::FUN_00404dc0(cnonAccumName, ptestName))
                 inonAccumIndex = n;
         }
         else
         {
-            _FNV_Warning("No object name at index %i for sequence '%s'.", n, (const char*)apSequence->GetName());
+            ::FUN_005b5e40();
         }
         if (iaccumIndex != -1 && inonAccumIndex != -1)
         {
-            apSequence->SetEntryByte(inonAccumIndex, apSequence->GetEntryByte0d(iaccumIndex));
+            reinterpret_cast<::FUN_005f4bd0_class *>((apSequence))->SetEntryByte(inonAccumIndex, ((bool)(reinterpret_cast<::FUN_005f4c00_cls *>((apSequence))->GetEntryByte0d(iaccumIndex))));
             break;
         }
     }
 
-    ParseAnimationGroupFilename(apModelName, eanimMove, eanimWeapon, bpowerArmor);
+    ::FUN_005f38d0(apModelName, (unsigned int *)&(eanimMove), (unsigned int *)&(eanimWeapon), (bool *)&(bpowerArmor));
 
     if (apSequence && apSequence->GetTextKeys())
     {
         unsigned int numKeys;
         char plocalKeyText[260];
-        TimedTextEntry* key = apSequence->GetTextKeys()->GetKeys(numKeys);
+        TimedTextEntry* key = ((::fnv_005f3a20::TimedTextEntry *)(std::uintptr_t)(reinterpret_cast<::FUN_00495f30_shell *>((void *)(apSequence->GetTextKeys()))->FUN_00495f30((int *)&(numKeys))));
         for (n = 0; n < numKeys; n++)
         {
-            NiFixedStringEx keyText(*(NiFixedString*)key[n].GetText());
-            float time = key[n].GetTime();
-            if (!keyText.Exists())
+            NiFixedStringEx keyText(*(NiFixedString*)((void *)(reinterpret_cast<::BaseProcess *>(&(key[n]))->GetCurrentProcessData())));
+            float time = reinterpret_cast<::CombatTargetTimestamp *>(&(key[n]))->FUN_006a7f50();
+            if (!((bool)(reinterpret_cast<::NiFixedString *>((void *)&(keyText))->IsNotEmpty())))
             {
-                _FNV_Warning("ANIMATION: AnimGroup empty note key at time %.2f in sequence '%s' in model '%s'.", time,
-                             (const char*)apSequence->GetName(), apModelName);
+                ::FUN_005b5e40();
                 bshowWarning = true;
             }
-            else if (!__strnicmp(keyText, "prn:", 4))
+            else if (!fnv::crt::strnicmp(keyText, "prn:", 4))
             {
                 if (((const char*)keyText)[4] != ' ')
-                    panimGroup->SetParentName(keyText + 4);
+                    reinterpret_cast<::BGSCameraPath *>((panimGroup))->AssignParentPath((::BGSCameraPath *)(keyText + 4));
                 else
-                    panimGroup->SetParentName(keyText + 5);
+                    reinterpret_cast<::BGSCameraPath *>((panimGroup))->AssignParentPath((::BGSCameraPath *)(keyText + 5));
             }
             else
             {
-                strcpy_s(plocalKeyText, 260, keyText);
+                ::TaskQueueInterface::CopyStringToBuffer(plocalKeyText, 260, keyText);
                 char* ptoken = plocalKeyText;
                 char* pfirstLineOfKeyText = plocalKeyText;
-                while (ptoken && BSStringLength(ptoken))
+                while (ptoken && ::FUN_0044a670(ptoken))
                 {
                     if (*ptoken == '\r')
                         ptoken = TESAnimGroup::FindNextLine(ptoken);
-                    if (!__strnicmp(ptoken, DAT_011a8244, BSStringLength(DAT_011a8244)))
+                    if (!fnv::crt::strnicmp(ptoken, ::g_kTextKeyA, ::FUN_0044a670(::g_kTextKeyA)))
                     {
-                        if (!panimGroup->GetMorphKey())
-                            panimGroup->SetMorphKey(ptoken[2]);
+                        if (!((char)(reinterpret_cast<::FOPipboyManager *>((panimGroup))->IsUnk28Set())))
+                            reinterpret_cast<::MiddleHighProcess *>((panimGroup))->FUN_00929260(ptoken[2]);
                     }
-                    else if (!__strnicmp(ptoken, "BlendIn:", 8))
+                    else if (!fnv::crt::strnicmp(ptoken, "BlendIn:", 8))
                     {
                         if (ptoken[8] != ' ')
-                            panimGroup->SetBlendIn(atol(ptoken + 8));
+                            reinterpret_cast<::S7f *>((panimGroup))->SetValue(std::atoi(ptoken + 8));
                         else
-                            panimGroup->SetBlendIn(atol(ptoken + 9));
+                            reinterpret_cast<::S7f *>((panimGroup))->SetValue(std::atoi(ptoken + 9));
                     }
-                    else if (!__strnicmp(ptoken, "BlendOut:", 9))
+                    else if (!fnv::crt::strnicmp(ptoken, "BlendOut:", 9))
                     {
                         if (ptoken[9] != ' ')
-                            panimGroup->SetBlendOut(atol(ptoken + 9));
+                            reinterpret_cast<::FUN_005f4b90_Class *>((panimGroup))->SetByteAtOffset2B(std::atoi(ptoken + 9));
                         else
-                            panimGroup->SetBlendOut(atol(ptoken + 10));
+                            reinterpret_cast<::FUN_005f4b90_Class *>((panimGroup))->SetByteAtOffset2B(std::atoi(ptoken + 10));
                     }
-                    else if (!__strnicmp(ptoken, "Blend:", 6))
+                    else if (!fnv::crt::strnicmp(ptoken, "Blend:", 6))
                     {
                         if (ptoken[6] != ' ')
-                            panimGroup->SetBlend(atol(ptoken + 6));
+                            reinterpret_cast<::FUN_005f4b70_Class *>((panimGroup))->FUN_005f4b70(std::atoi(ptoken + 6));
                         else
-                            panimGroup->SetBlend(atol(ptoken + 7));
+                            reinterpret_cast<::FUN_005f4b70_Class *>((panimGroup))->FUN_005f4b70(std::atoi(ptoken + 7));
                     }
-                    else if (!__strnicmp(ptoken, "Decal:", 6))
+                    else if (!fnv::crt::strnicmp(ptoken, "Decal:", 6))
                     {
                         if (ptoken[6] != ' ')
-                            panimGroup->SetDecal(atol(ptoken + 6));
+                            reinterpret_cast<::FUN_008bf4e0_cls *>((panimGroup))->set(std::atoi(ptoken + 6));
                         else
-                            panimGroup->SetDecal(atol(ptoken + 7));
+                            reinterpret_cast<::FUN_008bf4e0_cls *>((panimGroup))->set(std::atoi(ptoken + 7));
                     }
-                    else if (!__strnicmp(ptoken, "Sound:", BSStringLength("Sound:")) ||
-                             !__strnicmp(ptoken, "Enum:", BSStringLength("Enum:")))
+                    else if (!fnv::crt::strnicmp(ptoken, "Sound:", ::FUN_0044a670("Sound:")) ||
+                             !fnv::crt::strnicmp(ptoken, "Enum:", ::FUN_0044a670("Enum:")))
                     {
                         bool benum = false;
-                        if (!__strnicmp(ptoken, "Enum:", BSStringLength("Enum:")))
+                        if (!fnv::crt::strnicmp(ptoken, "Enum:", ::FUN_0044a670("Enum:")))
                             benum = true;
                         if (panimGroup)
                         {
@@ -787,10 +752,10 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                                 *cr2 = 0;
                             const char* soundID = ptoken;
                             if (benum)
-                                soundID += BSStringLength("Enum: ");
+                                soundID += ::FUN_0044a670("Enum: ");
                             else
-                                soundID += BSStringLength("Sound: ");
-                            strcpy_s(message, 260, soundID);
+                                soundID += ::FUN_0044a670("Sound: ");
+                            ::TaskQueueInterface::CopyStringToBuffer(message, 260, soundID);
                             char* vol = 0;
                             char* pitch = 0;
                             char* cr = strchr(message, ',');
@@ -828,15 +793,15 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                             if (benum)
                             {
                                 ANIM_ENUM etype = (ANIM_ENUM)0;
-                                while (etype < 31 && _stricmp(DAT_01199b50[etype], message))
+                                while (etype < 31 && ::FUN_00404dc0(DAT_01199b50[etype], message))
                                     etype = (ANIM_ENUM)(etype + 1);
                                 if (etype < 31)
                                 {
                                     unsigned int iElementIndex = ((ptoken - pfirstLineOfKeyText) << 8) | n;
-                                    unsigned int m_uiSoundEntryCount = panimGroup->GetSoundCount();
-                                    panimGroup->ResizeSoundList(m_uiSoundEntryCount + 1);
-                                    panimGroup->SetSoundTime(m_uiSoundEntryCount, time);
-                                    panimGroup->SetSoundEnum(m_uiSoundEntryCount, etype, iElementIndex);
+                                    unsigned int m_uiSoundEntryCount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((panimGroup))->GetPrevPath()));
+                                    reinterpret_cast<::FUN_005f2820_shell *>((panimGroup))->FUN_005f2820(m_uiSoundEntryCount + 1);
+                                    reinterpret_cast<::FUN_005f29f0_Class *>((panimGroup))->SetValueAtIndex(m_uiSoundEntryCount, time);
+                                    reinterpret_cast<::FUN_005f2a70_cls *>((panimGroup))->SetRecordFlagAndValue(m_uiSoundEntryCount, (*(unsigned char *)&(etype)), iElementIndex);
                                 }
                                 else
                                 {
@@ -845,18 +810,18 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                             }
                             else
                             {
-                                TESSound* openSound = g_dataHandler->GetSoundByEditorID(message);
+                                TESSound* openSound = ((::fnv_005f3a20::TESSound *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_005f3a20::TESDataHandler * *>(&::g_dataHandler))))->GetSoundByEditorID(message)));
                                 if (openSound)
                                 {
-                                    BSAudio::GetSingleton()->ForwardToManager(openSound->GetSoundID(), false);
-                                    unsigned int m_uiSoundEntryCount = panimGroup->GetSoundCount();
-                                    panimGroup->ResizeSoundList(m_uiSoundEntryCount + 1);
-                                    panimGroup->SetSoundTime(m_uiSoundEntryCount, time);
-                                    panimGroup->SetSound(m_uiSoundEntryCount, openSound);
+                                    reinterpret_cast<::sad8050::Owner *>((((::fnv_005f3a20::BSAudio *)(::FUN_00453a70()))))->ForwardToManager(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((openSound))->FUN_0084e3a0())), false);
+                                    unsigned int m_uiSoundEntryCount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((panimGroup))->GetPrevPath()));
+                                    reinterpret_cast<::FUN_005f2820_shell *>((panimGroup))->FUN_005f2820(m_uiSoundEntryCount + 1);
+                                    reinterpret_cast<::FUN_005f29f0_Class *>((panimGroup))->SetValueAtIndex(m_uiSoundEntryCount, time);
+                                    reinterpret_cast<::FUN_005f2a30_Class *>((panimGroup))->SetEntryValue(m_uiSoundEntryCount, (std::uintptr_t)(openSound));
                                     if (vol && *vol)
-                                        panimGroup->SetSoundVolume(m_uiSoundEntryCount, atof(vol));
+                                        reinterpret_cast<::FUN_005f2ac0_cls *>((panimGroup))->SetRecordValue(m_uiSoundEntryCount, std::atof(vol));
                                     if (pitch)
-                                        panimGroup->SetSoundPitch(m_uiSoundEntryCount, atof(pitch));
+                                        reinterpret_cast<::FUN_005f2b20_Class *>((panimGroup))->SetEntryFloat(m_uiSoundEntryCount, std::atof(pitch));
                                 }
                                 else
                                 {
@@ -865,8 +830,7 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                             }
                             if (bbadNote)
                             {
-                                _FNV_Warning("ANIMATION: Bad note string \"%s\" frame %d in \"%s\".", ptoken,
-                                             TruncateFloatToInt(time * 30.0), apModelName);
+                                ::FUN_005b5e40();
                                 bshowWarning = true;
                             }
                             if (cr2)
@@ -879,22 +843,22 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                         {
                             if (lastGroup != 0xff)
                                 m = lastGroup;
-                            if (!_stricmp(apSequence->GetName(), DAT_011977d8[m].pName))
+                            if (!::FUN_00404dc0((*(const ::fnv_005f3a20::NiFixedStringEx *)(reinterpret_cast<::TESTopicInfoData *>((void *)(apSequence))->GetLinkToList())), (*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].pName))
                             {
                                 lastGroup = m;
-                                ANIM_GROUP_ACTION action = (ANIM_GROUP_ACTION)DAT_011977d8[m].m_iPadding[iactionIndex];
+                                ANIM_GROUP_ACTION action = (ANIM_GROUP_ACTION)(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].m_iPadding[iactionIndex];
                                 if (action == -1)
                                     break;
                                 if (m == 2 && iactionIndex == 1 &&
-                                    !__strnicmp(ptoken, DAT_01199a50[3][DAT_011977d8[m].iSequenceType],
-                                                BSStringLength(DAT_01199a50[3][DAT_011977d8[m].iSequenceType])))
+                                    !fnv::crt::strnicmp(ptoken, ::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
+                                                ::FUN_0044a670(::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType])))
                                     iactionIndex = action = (ANIM_GROUP_ACTION)3;
-                                if (DAT_011977d8[m].iSequenceType == 5 && iactionIndex == 2 &&
-                                    !__strnicmp(ptoken, DAT_01199a50[3][DAT_011977d8[m].iSequenceType],
-                                                BSStringLength(DAT_01199a50[3][DAT_011977d8[m].iSequenceType])))
+                                if ((*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType == 5 && iactionIndex == 2 &&
+                                    !fnv::crt::strnicmp(ptoken, ::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
+                                                ::FUN_0044a670(::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType])))
                                     iactionIndex = action = (ANIM_GROUP_ACTION)3;
-                                if (!__strnicmp(ptoken, DAT_01199a50[action][DAT_011977d8[m].iSequenceType],
-                                                BSStringLength(DAT_01199a50[action][DAT_011977d8[m].iSequenceType])))
+                                if (!fnv::crt::strnicmp(ptoken, ::PTR_s_Start_01199a50[action][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
+                                                ::FUN_0044a670(::PTR_s_Start_01199a50[action][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType])))
                                 {
                                     if (!panimGroup)
                                     {
@@ -905,30 +869,29 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                                                 TESAnimGroup::AnimGroup(eanimMove, eanimWeapon, m, bpowerArmor));
                                     }
                                     if (time > -1.0)
-                                        panimGroup->SetActionTime(action, time);
-                                    if (DAT_011977d8[m].iSequenceType == 1 && apSequence->GetCycleType())
+                                        reinterpret_cast<::FUN_005f3740_shell *>((panimGroup))->FUN_005f3740(action, time);
+                                    if ((*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType == 1 && reinterpret_cast<::ActorMover *>((void *)(apSequence))->GetCurrentMoveModeType())
                                     {
-                                        if (DAT_011977d8[m].iLoopType != 1)
+                                        if ((*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iLoopType != 1)
                                         {
-                                            _FNV_Warning("ANIMATION: '%s' should be a looping animation.", apModelName);
+                                            ::FUN_005b5e40();
                                             bshowWarning = true;
                                         }
                                     }
-                                    else if (DAT_011977d8[m].iSequenceType != 1 && !apSequence->GetCycleType())
+                                    else if ((*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType != 1 && !reinterpret_cast<::ActorMover *>((void *)(apSequence))->GetCurrentMoveModeType())
                                     {
-                                        _FNV_Warning("ANIMATION: '%s' should NOT be a looping animation.", apModelName);
+                                        ::FUN_005b5e40();
                                         bshowWarning = true;
                                     }
                                     iactionIndex++;
                                     break;
                                 }
-                                if (iactionIndex == 5 || DAT_011977d8[m].m_iPadding[iactionIndex] == -1)
+                                if (iactionIndex == 5 || (*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].m_iPadding[iactionIndex] == -1)
                                 {
                                     char* cr = strchr(ptoken, '\r');
                                     if (cr)
                                         *cr = 0;
-                                    _FNV_Warning("ANIMATION: Bad note string \"%s\" frame %d in \"%s\".", ptoken,
-                                                 TruncateFloatToInt(time * 30.0), apModelName);
+                                    ::FUN_005b5e40();
                                     if (cr)
                                         *cr = '\r';
                                     bshowWarning = true;
@@ -942,8 +905,7 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                         }
                         if (m == 245)
                         {
-                            _FNV_Warning("ANIMATION: AnimGroup unable to find sequence '%s' in model '%s'.",
-                                         (const char*)apSequence->GetName(), apModelName);
+                            ::FUN_005b5e40();
                             bshowWarning = true;
                             ptoken = 0;
                             n = numKeys;
@@ -960,7 +922,7 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
             panimGroup->SetSoundsFromSequence(apSequence);
             ANIM_GROUP_ACTION estartAction = (ANIM_GROUP_ACTION)0;
             ANIM_GROUP_ACTION eendAction = (ANIM_GROUP_ACTION)1;
-            switch (DAT_011977d8[panimGroup->GetType()].iSequenceType)
+            switch ((*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[panimGroup->GetType()].iSequenceType)
             {
             case 7:
                 eendAction = (ANIM_GROUP_ACTION)4;
@@ -972,8 +934,8 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                 eendAction = (ANIM_GROUP_ACTION)3;
                 break;
             case 5:
-                if (panimGroup->GetActionTime(2) < panimGroup->GetActionTime(1))
-                    panimGroup->SetActionTime(2, panimGroup->GetActionTime(1));
+                if (reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(2) < reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(1))
+                    reinterpret_cast<::FUN_005f3740_shell *>((panimGroup))->FUN_005f3740(2, reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(1));
                 eendAction = (ANIM_GROUP_ACTION)4;
                 break;
             case 6:
@@ -983,10 +945,10 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                 eendAction = (ANIM_GROUP_ACTION)2;
                 break;
             case 2:
-                if (panimGroup->GetActionTime(1) < panimGroup->GetActionTime(0))
-                    panimGroup->SetActionTime(1, panimGroup->GetActionTime(0));
-                if (panimGroup->GetActionTime(2) <= panimGroup->GetActionTime(1))
-                    panimGroup->SetActionTime(2, panimGroup->GetActionTime(3));
+                if (reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(1) < reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(0))
+                    reinterpret_cast<::FUN_005f3740_shell *>((panimGroup))->FUN_005f3740(1, reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(0));
+                if (reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(2) <= reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(1))
+                    reinterpret_cast<::FUN_005f3740_shell *>((panimGroup))->FUN_005f3740(2, reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(3));
                 eendAction = (ANIM_GROUP_ACTION)3;
                 break;
             case 3:
@@ -994,25 +956,22 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                 eendAction = (ANIM_GROUP_ACTION)2;
                 break;
             }
-            if (panimGroup->GetActionTime(eendAction) <= panimGroup->GetActionTime(estartAction))
+            if (reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(eendAction) <= reinterpret_cast<::FUN_005f3780_shell *>((panimGroup))->FUN_005f3780(estartAction))
             {
-                _FNV_Warning("ANIMATION: (%s) End frame is less than or equal to Start frame in \"%s\".",
-                             DAT_011977d8[panimGroup->GetType()].pName, apModelName);
+                ::FUN_005b5e40();
                 bshowWarning = true;
             }
             if (panimGroup->m_ucBlendCount && (panimGroup->m_ucBlendInCount || panimGroup->m_ucBlendOutCount))
             {
-                _FNV_Warning("ANIMATION: (%s) too many blend values in \"%s\". Blend %d, BlendIn %d, BlendOut %d",
-                             DAT_011977d8[panimGroup->GetType()].pName, apModelName, panimGroup->m_ucBlendCount,
-                             panimGroup->m_ucBlendInCount, panimGroup->m_ucBlendOutCount);
+                ::FUN_005b5e40();
                 bshowWarning = true;
             }
         }
     }
 
-    FUN_0043b2b0(false);
+    ::FUN_0043b2b0(false);
     if (bshowWarning)
-        _FNV_Warning("ANIMATION: Animation group note problem. See %s file.", TESFile::IsTempIDLoadable());
+        ::FUN_005b5e40();
     return panimGroup;
 }
 }  // namespace fnv_005f3a20
@@ -1139,3 +1098,5 @@ Vec3* Holder::GetVec(Vec3* out)
     *out = m_vec;
     return out;
 }
+
+#include "generated/data/fallout_shared/tesanimgroup.inc"

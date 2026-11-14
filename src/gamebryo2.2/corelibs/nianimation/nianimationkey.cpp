@@ -5,15 +5,21 @@
 // UpdateSlotStates - recursive tree walk over 3-child state nodes with a float test
 // and a dispatch-table callback.
 
-extern unsigned char DAT_011f3758[];
+#include "NiAnimationKeyTables.h"
+#include <cstdint>
+#include "fnv/decl/ChannelState.h"
+#include "fnv/decl/FUN_00a6db50_V.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 typedef void(__cdecl* SlotCallback)(float, void**, int*);
-extern SlotCallback DAT_011f3810[];
 
 struct SlotState
 {
     float m00;
     unsigned int unk04[4];
-    void* m14[3];
+    unsigned int m14[3];
     int m20[3];
     unsigned char m2c[3];
     unsigned char unk2F;
@@ -23,7 +29,7 @@ struct SlotState
 
 // For each of three slots, recursively updates the slot's callback state and stores the result, then invokes the slot's callback with a5 and a6.
 // @fnv 0x00a3d930
-void __cdecl UpdateSlotStates(int aiSlotGroup, int a2, void** apSlotData, int* apiState, float afValueA, float afValueB)
+void __cdecl UpdateSlotStates(int aiSlotGroup, intptr_t a2, void** apSlotData, int* apiState, float afValueA, float afValueB)
 {
     if (a2 == 4)
     {
@@ -32,28 +38,28 @@ void __cdecl UpdateSlotStates(int aiSlotGroup, int a2, void** apSlotData, int* a
         do
         {
             unsigned char idx = (unsigned char)i;
-            void* pSlotData = pSlot->m14[idx];
+            unsigned int uiSlotCount = pSlot->m14[idx];
             int iSlotIndex = pSlot->m20[idx];
             void* volatile savedC = pSlot->m30[idx];
-            a2 = (int)pSlotData;
-            void* pResult = pSlotData;
-            if (pSlotData != 0)
+            int iCount = (int)uiSlotCount;
+            unsigned int pResult = uiSlotCount;
+            if (uiSlotCount != 0)
             {
-                UpdateSlotStates(0, iSlotIndex, (void**)(void*)&savedC, &a2, afValueA, afValueB);
-                pResult = (void*)a2;
+                UpdateSlotStates(0, iSlotIndex, (void**)(void*)&savedC, &iCount, afValueA, afValueB);
+                pResult = (unsigned int)iCount;
             }
             pSlot->m30[idx] = savedC;
             pSlot->m14[idx] = pResult;
             pSlot->m20[idx] = iSlotIndex;
             pSlot->m3c[idx] = 0;
-            pSlot->m2c[idx] = DAT_011f3758[iSlotIndex];
+            pSlot->m2c[idx] = NiAnimationKeyTables::g_keySizes[iSlotIndex];
             i++;
         } while (i < 3);
         return;
     }
 
     aiSlotGroup = aiSlotGroup * 3;
-    SlotCallback pCallback = DAT_011f3810[a2 + aiSlotGroup * 2];
+    SlotCallback pCallback = NiAnimationKeyTables::Get<void (*)(float, void **, int *)>(NiAnimationKeyTables::kAt011f3810, a2 + aiSlotGroup * 2);
     if (*apiState == 1)
     {
         float* pfValue = (float*)*apSlotData;
@@ -68,18 +74,14 @@ void __cdecl UpdateSlotStates(int aiSlotGroup, int a2, void** apSlotData, int* a
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManager _g_memoryManager;
 
 struct Inner_00a6db50
 {
-    void Set(float, float, float, float);
 };
 
 struct DerivedSlotState : SlotState
 {
-    void SetChannelValues(void*, int, int, void*, int, int, void*, int, int);
 };
 
 struct RefSlotState
@@ -91,11 +93,9 @@ struct RefSlotState
 typedef void* (*AllocCallback)(int count);
 typedef void (*CopyCallback)(void* dst, void* src);
 
-extern AllocCallback DAT_011f3930[];
-extern CopyCallback DAT_011f39c0[];
 
 // @fnv 0x00a3d630
-void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float afMax, void** apOut, int* apiOutCount)
+void FUN_00a3d630(int a1, intptr_t a2, void* apData, intptr_t aiCount, float afMin, float afMax, void** apOut, int* apiOutCount)
 {
     if (a2 == 4)
     {
@@ -109,17 +109,17 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
             unsigned char idx = (unsigned char)uiIndex;
             unsigned int m20 = state->m20[idx];
             local_m20[uiIndex] = m20;
-            FUN_00a3d630(0, m20, state->m30[idx], (int)state->m14[idx], afMin, afMax, &local_bufs[uiIndex],
+            FUN_00a3d630(0, m20, state->m30[idx], (intptr_t)state->m14[idx], afMin, afMax, &local_bufs[uiIndex],
                          &local_counts[uiIndex]);
         }
 
         SlotState* pNewState;
-        RefSlotState* ref = (RefSlotState*)_g_memoryManager.Allocate(sizeof(RefSlotState));
+        RefSlotState* ref = (RefSlotState*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(sizeof(RefSlotState));
         if (ref)
         {
             ref->refCount = 1;
             pNewState = &ref->state;
-            ((Inner_00a6db50*)&pNewState->unk04)->Set(0.0f, 0.0f, 0.0f, 0.0f);
+            reinterpret_cast<::FUN_00a6db50_V *>((((Inner_00a6db50*)&pNewState->unk04)))->Set(0.0f, 0.0f, 0.0f, 0.0f);
             pNewState->m14[0] = 0;
             pNewState->m14[1] = 0;
             pNewState->m14[2] = 0;
@@ -143,15 +143,14 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
 
         *apOut = pNewState;
         *apiOutCount = 1;
-        ((DerivedSlotState*)*apOut)
-            ->SetChannelValues(local_bufs[0], local_counts[0], local_m20[0], local_bufs[1], local_counts[1],
+        reinterpret_cast<::ChannelState *>((((DerivedSlotState*)*apOut)))->SetChannelValues(local_bufs[0], local_counts[0], local_m20[0], local_bufs[1], local_counts[1],
                                local_m20[1], local_bufs[2], local_counts[2], local_m20[2]);
         return;
     }
 
     unsigned int idx = a1 * 6 + a2;
     *apiOutCount = 0;
-    unsigned char stride = DAT_011f3758[idx];
+    unsigned char stride = NiAnimationKeyTables::g_keySizes[idx];
     unsigned int i;
     for (i = 0; i < (unsigned int)aiCount; ++i)
     {
@@ -166,9 +165,9 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
 
     if (*apiOutCount != 0)
     {
-        AllocCallback alloc_func = DAT_011f3930[idx];
+        AllocCallback alloc_func = NiAnimationKeyTables::Get<void *(*)(int)>(NiAnimationKeyTables::kAt011f3930, idx);
         *apOut = alloc_func(*apiOutCount);
-        CopyCallback copy_func = DAT_011f39c0[idx];
+        CopyCallback copy_func = NiAnimationKeyTables::Get<void (*)(void *, void *)>(NiAnimationKeyTables::kAt011f39c0, idx);
         for (i = 0, *apiOutCount = 0; i < (unsigned int)aiCount; ++i)
         {
             char* src = (char*)apData + i * stride;
@@ -189,3 +188,5 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
         *apOut = 0;
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc"

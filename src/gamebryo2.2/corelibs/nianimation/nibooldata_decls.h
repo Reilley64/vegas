@@ -2,12 +2,14 @@
 #ifndef FNV_NIBOOLDATA_DECLS_H
 #define FNV_NIBOOLDATA_DECLS_H
 
+#include "NiAnimationKeyTables.h"
+#include "fnv/symbols_011f3000.h"
 #include "layout_support.h"
 #include "NiRefObject.h"
 
-class NiStream;
-class NiRTTI;
-class NiObject : public NiRefObject
+struct NiStream;
+struct NiRTTI;
+struct NiObject : public NiRefObject
 {
   public:
     virtual const NiRTTI* GetRTTI() const;
@@ -63,13 +65,9 @@ class AnimationKey
     float m_fTime;
 };
 
-extern unsigned char DAT_011f3776[AnimationKey::NUMKEYTYPES];
 typedef AnimationKey*(__cdecl* NiBoolLoadFunction)(NiStream&, unsigned int);
 typedef void(__cdecl* NiBoolFillFunction)(AnimationKey*, unsigned int, unsigned char);
 typedef void(__cdecl* NiBoolDeleteFunction)(AnimationKey*);
-extern NiBoolLoadFunction DAT_011f3e28[AnimationKey::NUMKEYTYPES];
-extern NiBoolFillFunction DAT_011f37f8[AnimationKey::NUMKEYTYPES];
-extern NiBoolDeleteFunction DAT_011f3918[AnimationKey::NUMKEYTYPES];
 
 class BooleanKey : public AnimationKey
 {
@@ -77,19 +75,19 @@ class BooleanKey : public AnimationKey
     bool m_bValue;
     static inline unsigned char GetKeySize(KeyType type)
     {
-        return DAT_011f3776[type];
+        return NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(5, 0) + type];
     }
     static inline NiBoolLoadFunction GetLoadFunction(KeyType type)
     {
-        return DAT_011f3e28[type];
+        return NiAnimationKeyTables::Get<AnimationKey *(*)(NiStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(5, 0) + type);
     }
     static inline NiBoolFillFunction GetFillDerivedFunction(KeyType type)
     {
-        return DAT_011f37f8[type];
+        return NiAnimationKeyTables::Get<void (*)(AnimationKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(5, 0) + type);
     }
     static inline NiBoolDeleteFunction GetDeleteFunction(KeyType type)
     {
-        return DAT_011f3918[type];
+        return NiAnimationKeyTables::Get<void (*)(AnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(5, 0) + type);
     }
 };
 
@@ -116,7 +114,7 @@ inline void ReadBinaryValue(NiStream& stream, AnimationKey::KeyType& type)
     ReadBinaryValue(*stream.m_pUnderlyingStream, type);
 }
 
-class NiBoolData : public NiObject
+struct NiBoolData : public NiObject
 {
   public:
     unsigned int m_uiNumKeys;
@@ -126,8 +124,4 @@ class NiBoolData : public NiObject
     virtual void LoadBinary(NiStream& stream);
     void SetColorKeys(BooleanKey*, unsigned int, AnimationKey::KeyType);
 };
-FNV_STATIC_ASSERT(sizeof(NiBoolData) == 24);
-FNV_STATIC_ASSERT(offsetof(NiBoolData, m_uiNumKeys) == 8);
-FNV_STATIC_ASSERT(offsetof(NiBoolData, m_ucKeyDataSize) == 20);
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
 #endif

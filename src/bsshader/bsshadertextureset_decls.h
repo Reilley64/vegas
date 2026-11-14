@@ -2,6 +2,7 @@
 #ifndef BSSHADERTEXTURESET_DECLS_H
 #define BSSHADERTEXTURESET_DECLS_H
 
+#include "fnv/symbols_00aa1000.h"
 class BSShaderProperty
 {
   public:
@@ -44,6 +45,5 @@ template <> class NiPointer<NiTexture>
     }
 };
 
-void __cdecl NiFree(void* memory);
 
 #endif

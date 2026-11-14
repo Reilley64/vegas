@@ -1,6 +1,7 @@
 // src/gamebryo2.2/corelibs/nicollision/niboxcapsuleintersector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niboxcapsuleintersector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00eb5000.h"
 struct Vector3
 {
     float x, y, z;
@@ -45,7 +46,6 @@ struct Struct3C
     Struct24 bounds;
 };
 
-float sub_eb50f0(Struct24* b, Struct60* t, float* res, int* u1, int* u2, int* u3);
 
 struct TestClass
 {
@@ -75,7 +75,7 @@ float TestClass::FUN_00eb38f0(const Vector3& a1, const Vector3& a2, float afScal
     boundsCopy.min += vOffset;
 
     float res;
-    return sub_eb50f0(&boundsCopy, &dataCopy, &res, &unk44, &unk48, &unk4c) * unk40 - 1.0;
+    return ::FUN_00eb50f0((const ::S00eb50f0_Seg *)(::Struct24 *)(&boundsCopy), (const ::OrientedBox *)(::Struct60 *)(&dataCopy), &res, (float *)(int *)(&unk44), (float *)(int *)(&unk48), (float *)(int *)(&unk4c)) * unk40 - 1.0;
 }
 
 struct V3

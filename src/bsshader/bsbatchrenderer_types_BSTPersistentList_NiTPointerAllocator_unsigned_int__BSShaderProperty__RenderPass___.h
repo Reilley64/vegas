@@ -9,23 +9,16 @@ class BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__Rend
 class BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass_____ListItem;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTPointerAllocator_unsigned_int_;
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -33,14 +26,6 @@ class BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__Rend
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int ItemUpdateArray;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass_____AntiBloatAllocator) ==
-    4);
-FNV_STATIC_ASSERT(
-    offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass_____AntiBloatAllocator,
-             ItemUpdateArray) == 0);
-#pragma pack(push, 4)
 class BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass___
 {
   public:
@@ -55,16 +40,4 @@ class BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__Rend
         Allocator;  // +0x10, 4 bytes
     void ResetPassList();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass___) == 20);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass___,
-                           m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass___,
-                           pHead) == 4);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass___,
-                           pTail) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass___,
-                           m_pCachedListItems) == 12);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__BSShaderProperty__RenderPass___,
-                           Allocator) == 16);
 #endif

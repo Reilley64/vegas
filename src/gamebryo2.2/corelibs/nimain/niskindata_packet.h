@@ -1,6 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niskindata_packet.h: declares SkinMapContext, SkinBoneContainer, NiSkinData
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
 {
   public:

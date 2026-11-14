@@ -1,6 +1,46 @@
 // src/fallout/ai/arrowprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/arrowprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_0085f810_shell.h"
+#include "fnv/decl/FUN_008cc6d0_class.h"
+#include "fnv/decl/FUN_008d0240_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/fnv_005de0f0__FUN_005de0f0_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_011e0000.h"
+#include <xmmintrin.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSMultiBoundSphere.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_004ae6a0_shell.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00632c30_Class.h"
+#include "fnv/decl/FUN_00632c60_Class.h"
+#include "fnv/decl/FUN_008cd6a0_Class.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/Holder_cffa0.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S632.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/bhkFilter.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_0056d000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_008cf000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 class MobileObject
 {
   public:
@@ -142,15 +182,11 @@ class MobileObject
     virtual void Unk_87();
     virtual void Unk_88();
     virtual bool Unk_89();
-    bool FUN_00440d80();
 };
 
 class Projectile : public MobileObject
 {
   public:
-    MobileObject* FUN_0085f810();
-    void FUN_008d0240();
-    void FUN_008cc6d0(int a);
 };
 
 class ArrowProjectile : public Projectile
@@ -158,15 +194,13 @@ class ArrowProjectile : public Projectile
 };
 
 struct ProjectileNode;
-bool __fastcall FUN_008256d0(ProjectileNode* node);
-ProjectileNode* __fastcall FUN_00726070(ProjectileNode* node);
-void __fastcall FUN_00470470(ProjectileNode* node);
+bool FUN_008256d0(ProjectileNode* node);
 
 struct ProjectileNode
 {
-    Projectile** FUN_006815c0();
 };
 
+class ActorPackageContext;
 class BaseProcess
 {
   public:
@@ -599,29 +633,31 @@ class BaseProcess
     virtual void Unk_1AA();
     virtual void Unk_1AB();
     virtual ProjectileNode* Unk_1AC();
-    int FUN_0045cd60();
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
 };
 
 class Actor : public MobileObject
 {
   public:
-    BaseProcess* GetCurrentProcess();
 };
 
 struct ActorList
 {
-    unsigned int FUN_005be5c0(int type);
-    unsigned int FUN_005de0f0(int type);
-    MobileObject* FUN_00968670(unsigned int i);
 };
 
 class ProcessLists
 {
   public:
-    ActorList* FUN_00717e50();
+};
+struct Vec3
+{
+    float x, y, z;
+    Vec3 ApplyScaled(float f);
+public:
+    Vec3();
 };
 
-extern ProcessLists DAT_011e0e80;
 
 // @fnv 0x008cddd0
 void FUN_008cddd0(MobileObject* owner, bool bFlag)
@@ -634,7 +670,7 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
     if (owner->Unk_40())
     {
         Actor* pActor = (Actor*)owner;
-        BaseProcess* process = pActor->GetCurrentProcess();
+        BaseProcess* process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()));
         if (process)
         {
             if (process->Unk_1AC())
@@ -642,33 +678,33 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                 ProjectileNode* node = process->Unk_1AC();
                 while (node && !FUN_008256d0(node))
                 {
-                    Projectile* projectile = *node->FUN_006815c0();
+                    Projectile* projectile = *((::Projectile **)(((::Vec3 *)(void *)(node))));
                     if (projectile)
                     {
-                        if (projectile->FUN_0085f810() == owner)
+                        if (((::MobileObject *)(reinterpret_cast<::FUN_0085f810_shell *>((projectile))->FUN_0085f810())) == owner)
                         {
-                            projectile->FUN_008d0240();
-                            if (!projectile->FUN_00440d80())
+                            reinterpret_cast<::FUN_008d0240_Class *>((projectile))->FUN_008d0240();
+                            if (!reinterpret_cast<::FUN_00440d80_shell *>((projectile))->FUN_00440d80())
                             {
                                 if (bFlag)
                                     projectile->Unk_31(1);
                                 else
-                                    projectile->FUN_008cc6d0(3);
+                                    reinterpret_cast<::FUN_008cc6d0_class *>((projectile))->FUN_008cc6d0(3);
                             }
                         }
-                        if (projectile->FUN_00440d80())
+                        if (reinterpret_cast<::FUN_00440d80_shell *>((projectile))->FUN_00440d80())
                             projectile->Unk_73(0, 1);
                     }
-                    node = FUN_00726070(node);
+                    node = ((::ProjectileNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                 }
-                FUN_00470470(process->Unk_1AC());
+                reinterpret_cast<::FileMatchList *>((process->Unk_1AC()))->RemoveAll();
             }
-            if (process->FUN_0045cd60() == 0)
+            if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
             {
                 bHigh = true;
                 bLow = false;
             }
-            else if (process->FUN_0045cd60() == 1)
+            else if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 1)
             {
                 bHigh = false;
                 bLow = true;
@@ -679,19 +715,19 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
     if (bHigh)
     {
         MobileObject* object = 0;
-        for (unsigned int i = 0; i < DAT_011e0e80.FUN_00717e50()->FUN_005be5c0(0); i++)
+        for (unsigned int i = 0; i < reinterpret_cast<::FUN_005be5c0_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0(0); i++)
         {
             bool bStopped = false;
-            object = DAT_011e0e80.FUN_00717e50()->FUN_00968670(i);
+            object = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670(i)));
             if (object->Unk_89())
             {
                 ArrowProjectile* arrow = dynamic_cast<ArrowProjectile*>(object);
                 if (arrow)
                 {
-                    if (arrow->FUN_0085f810() == owner)
+                    if (((::MobileObject *)(reinterpret_cast<::FUN_0085f810_shell *>((arrow))->FUN_0085f810())) == owner)
                     {
-                        arrow->FUN_008d0240();
-                        if (!object->FUN_00440d80())
+                        reinterpret_cast<::FUN_008d0240_Class *>((arrow))->FUN_008d0240();
+                        if (!reinterpret_cast<::FUN_00440d80_shell *>((object))->FUN_00440d80())
                         {
                             if (bFlag)
                             {
@@ -700,11 +736,11 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                             }
                             else
                             {
-                                arrow->FUN_008cc6d0(3);
+                                reinterpret_cast<::FUN_008cc6d0_class *>((arrow))->FUN_008cc6d0(3);
                             }
                         }
                     }
-                    if (arrow->FUN_00440d80())
+                    if (reinterpret_cast<::FUN_00440d80_shell *>((arrow))->FUN_00440d80())
                         arrow->Unk_73(0, 1);
                 }
             }
@@ -714,29 +750,281 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
     if (bLow)
     {
         MobileObject* object = 0;
-        for (unsigned int i = DAT_011e0e80.FUN_00717e50()->FUN_005de0f0(1);
-             i < DAT_011e0e80.FUN_00717e50()->FUN_005be5c0(1); i++)
+        for (unsigned int i = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005de0f0(1);
+             i < reinterpret_cast<::FUN_005be5c0_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0(1); i++)
         {
             bool bStopped = false;
-            object = DAT_011e0e80.FUN_00717e50()->FUN_00968670(i);
+            object = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670(i)));
             if (object->Unk_89())
             {
                 ArrowProjectile* arrow = dynamic_cast<ArrowProjectile*>(object);
                 if (arrow)
                 {
-                    if (arrow->FUN_0085f810() == owner)
+                    if (((::MobileObject *)(reinterpret_cast<::FUN_0085f810_shell *>((arrow))->FUN_0085f810())) == owner)
                     {
-                        arrow->FUN_008d0240();
-                        if (!object->FUN_00440d80())
+                        reinterpret_cast<::FUN_008d0240_Class *>((arrow))->FUN_008d0240();
+                        if (!reinterpret_cast<::FUN_00440d80_shell *>((object))->FUN_00440d80())
                         {
                             arrow->Unk_31(1);
                             bStopped = true;
                         }
                     }
-                    if (arrow->FUN_00440d80())
+                    if (reinterpret_cast<::FUN_00440d80_shell *>((arrow))->FUN_00440d80())
                         arrow->Unk_73(0, 1);
                 }
             }
         }
     }
+}
+
+
+struct __declspec(align(16)) Vec4
+{
+    __m128 quad;
+    Vec4();
+};
+
+
+struct Filter
+{
+    int v;
+    Filter();
+};
+
+struct Shape;
+struct EObj;
+struct WorldObj
+{
+    virtual void slot00();
+    virtual void slot01();
+    virtual void slot02();
+    virtual void slot03();
+    virtual void slot04();
+    virtual void slot05();
+    virtual void slot06();
+    virtual void slot07();
+    virtual void slot08();
+    virtual void slot09();
+    virtual void slot0a();
+    virtual void slot0b();
+    virtual void slot0c();
+    virtual void slot0d();
+    virtual void slot0e();
+    virtual void slot0f();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot1a();
+    virtual void slot1b();
+    virtual void slot1c();
+    virtual void slot1d();
+    virtual void slot1e();
+    virtual void slot1f();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot2a();
+    virtual void slot2b();
+    virtual void slot2c();
+    virtual void slot2d();
+    virtual void slot2e();
+    virtual void slot2f();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual void slot37();
+    virtual void slot38();
+    virtual void slot39();
+    virtual void slot3a();
+    virtual void slot3b();
+    virtual void slot3c();
+    virtual void GetTransform(EObj*);
+    Filter FUN_0043b4f0();
+};
+
+struct CollObj
+{
+};
+
+
+struct EObj
+{
+    struct RawVector
+    {
+        __m128 quad;
+    };
+    RawVector storage[4];
+    EObj();
+    void FUN_00cb2240(void* g, void* f);
+};
+
+struct GObj
+{
+    struct RawVector
+    {
+        __m128 quad;
+    };
+    RawVector storage[4];
+    GObj(EObj* e);
+};
+
+
+struct CSub
+{
+    __m128 quad;
+};
+
+struct __declspec(align(16)) CObj
+{
+    CSub m0;
+    CSub m1;
+    unsigned int flags20, filter24;
+};
+
+struct Sub2;
+struct DObj;
+struct ResObj
+{
+};
+
+struct Sub2
+{
+    bool value;
+};
+
+struct __declspec(align(16)) DObj
+{
+    float normalX, normalY, normalZ, normalW;
+    float fraction;
+    int m_uiExtraInfo, unk18, unk1c;
+    unsigned int shapeKeys[8];
+    void* rootCollidable;
+};
+
+struct Shape
+{
+};
+
+class NiAVObject;
+class NiNode
+{
+  public:
+    unsigned int FUN_0043b480();
+public:
+    ::NiAVObject *GetAt(unsigned int);
+};
+
+struct P1Obj
+{
+    virtual void slot00();
+    virtual void slot01();
+    virtual void slot02();
+    virtual NiNode* getNode();
+};
+
+// @fnv 0x008cfbc0
+void* __cdecl FUN_008cfbc0(void* p1, Vec3 a, Vec3 b, float* p4, bool p5)
+{
+    bool flag = false;
+    if (p1)
+    {
+        CollObj* coll = ((::CollObj *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(p1))));
+        if (coll)
+        {
+            WorldObj* world = ((::WorldObj *)(::fnv_006fa820::FUN_006fa820((const char *)(coll))));
+            Shape* shape = world ? ((::Shape *)(reinterpret_cast<::FUN_004ae6a0_shell *>((world))->FUN_004ae6a0())) : 0;
+            if (shape)
+            {
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::Filter &)(world->FUN_0043b4f0()))->FUN_0043b4d0() == 8)
+                {
+                    if (reinterpret_cast<::bhkFilter *>((void *)&(const ::Filter &)(world->FUN_0043b4f0()))->FUN_006240b0() != 0x12)
+                    {
+                        if (reinterpret_cast<::bhkFilter *>((void *)&(const ::Filter &)(world->FUN_0043b4f0()))->FUN_006240b0() != 0x13)
+                        {
+                            if (!p5 || reinterpret_cast<::bhkFilter *>((void *)&(const ::Filter &)(world->FUN_0043b4f0()))->FUN_006240b0() != 1)
+                            {
+                                Vec4 va;
+                                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&va)), (const ::fnv_004a3e00::NiPoint3 &)(a));
+                                Vec4 vb;
+                                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&vb)), (const ::fnv_004a3e00::NiPoint3 &)((const ::Vec3 &)((*(::Vec3 *)(reinterpret_cast<::Point3Offset *>(&(a))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(b.ApplyScaled(*p4)), {}))))));
+                                CObj oc;
+                                reinterpret_cast<::S632 *>(&(oc))->FUN_00632ca0();
+                                DObj od;
+                                ::FUN_004a3d20((void *)&(od));
+                                EObj oe;
+                                if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_01267e64))), (::NiAVObject *)(coll)))
+                                {
+                                    CollObj* scaledColl = coll;
+                                    if (!reinterpret_cast<::Holder_cffa0 *>((world))->FUN_008cffa0() || reinterpret_cast<::BSMultiBoundSphere *>((scaledColl))->GetRadius() == 1.0)
+                                    {
+                                        ::FromHK((*(::hkTransform *)(&oe)), (*(const ::NiTransform *)(((void *)(::FUN_00461130((intptr_t)(((P1Obj*)p1))))))));
+                                        if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012683c8))), (::NiAVObject *)(world)))
+                                        {
+                                            WorldObj* transformedWorld = world;
+                                            EObj of;
+                                            GObj og(&oe);
+                                            reinterpret_cast<::FUN_008cd6a0_Class *>(&(of))->FUN_008cd6a0(((void *)(reinterpret_cast<::BGSCameraPath *>((transformedWorld))->GetShotList())),
+                                                            ((void *)(reinterpret_cast<::TESTopicInfo *>((transformedWorld))->GetAddTopicList())));
+                                            oe.FUN_00cb2240(&og, &of);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        world->GetTransform(&oe);
+                                    }
+                                }
+                                else
+                                {
+                                    world->GetTransform(&oe);
+                                }
+                                reinterpret_cast<::FUN_00c7f690_cls *>(&(oc.m0))->FUN_00c7f690((const ::S_00c7f690_M *)(::EObj *)(&oe), (const ::S_00c7f690_V *)(::Vec4 *)(&va));
+                                reinterpret_cast<::FUN_00c7f690_cls *>(&(oc.m1))->FUN_00c7f690((const ::S_00c7f690_M *)(::EObj *)(&oe), (const ::S_00c7f690_V *)(::Vec4 *)(&vb));
+                                Sub2 bt;
+                                reinterpret_cast<::FUN_00632c30_Class *>((((::ResObj *)(::FUN_004ae750((void *)(shape))))))->ForwardToV8(&bt, &oc, &od);
+                                Sub2 bt2;
+                                if (reinterpret_cast<::FUN_005609f0_shell *>((((::Sub2 *)(reinterpret_cast<::FUN_00632c60_Class *>(&(od))->FUN_00632c60((::CalleeObj *)(::Sub2 *)(&bt2))))))->FUN_005609f0())
+                                {
+                                    *p4 *= od.fraction;
+                                    flag = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        NiNode* node = ((P1Obj*)p1)->getNode();
+        if (node)
+        {
+            unsigned int i;
+            for (i = 0; i < node->FUN_0043b480(); i++)
+            {
+                void* childItem = ((void *)(node->GetAt(i)));
+                void* r = FUN_008cfbc0(childItem, a, b, p4, p5);
+                if (r)
+                    return r;
+            }
+        }
+    }
+    if (flag)
+        return p1;
+    return 0;
 }

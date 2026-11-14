@@ -3,6 +3,15 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00ddcdd0
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/CD2210World.h"
+#include "fnv/decl/Candidate.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_0103c000.h"
 unsigned int FUN_00ddcdd0(unsigned int auiValue, unsigned int auiIndex, unsigned int auiFieldValue)
 {
     return (auiValue & ~(0x1f << (auiIndex * 5))) | (auiFieldValue << (auiIndex * 5));
@@ -46,8 +55,6 @@ struct DDCC60Listener
 
 struct DDCC60World
 {
-    __declspec(nothrow) void removeListener(DDCC60Listener* listener);
-    __declspec(nothrow) void removeReference();
 };
 
 struct FUN_00ddcc60 : DDCC60ReferencedObject, DDCC60Action, DDCC60Listener
@@ -63,27 +70,12 @@ FUN_00ddcc60::~FUN_00ddcc60()
 {
     if (m_pOwningWorld)
     {
-        m_pOwningWorld->removeListener(this);
-        m_pOwningWorld->removeReference();
+        reinterpret_cast<::CD2210World *>((m_pOwningWorld))->RemoveListener((::CD2210Listener *)(::DDCC60Listener *)(this));
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pOwningWorld))->FUN_00c905b0();
         m_pOwningWorld = 0;
     }
 }
 
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -95,17 +87,16 @@ struct CpuObject
 // @fnv 0x00ddcd70
 CpuObject* CpuObject::DestroyOrFree(unsigned int flags)
 {
-    FUN_00ddcc60();
+    reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
 
 extern double DAT_010cd5a8;
-extern double DAT_0101ff40;
 // Scans 31 candidate angles computed from index and returns the first index whose candidate is >= angle, decremented when angle is positive and not equal.
 // @fnv 0x00ddce10
 int FindAngleIndex(float angle)
@@ -126,7 +117,6 @@ int FindAngleIndex(float angle)
     return index;
 }
 
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB);
 
 class __declspec(novtable) BDDCCB0ReferencedObject
 {
@@ -151,8 +141,6 @@ class BDDCCB0WorldAddedListener;
 class BDDCCB0PhysicsContext : public BDDCCB0ReferencedObject, public BDDCCB0ProcessContext
 {
   public:
-    void AddWorldAddedListener(BDDCCB0WorldAddedListener* pkListener);
-    void RetainReference();
 };
 
 template <class T> class BDDCCB0Array
@@ -208,7 +196,7 @@ FUN_00ddccb0_cls::FUN_00ddccb0_cls(const BDDCCB0Array<BDDCCB0ProcessContext*>& k
     int iSize = kContexts.GetLogicalSize();
     for (int i = 0; i < iSize; i++)
     {
-        if (FUN_00cb0fa0("Physics", kContexts[i]->getType()) == 0)
+        if (::fnv_00cb0fa0::FUN_00cb0fa0("Physics", kContexts[i]->getType()) == 0)
         {
             m_pkContext = static_cast<BDDCCB0PhysicsContext*>(kContexts[i]);
             break;
@@ -217,8 +205,8 @@ FUN_00ddccb0_cls::FUN_00ddccb0_cls(const BDDCCB0Array<BDDCCB0ProcessContext*>& k
 
     if (m_pkContext)
     {
-        m_pkContext->AddWorldAddedListener(this);
-        m_pkContext->RetainReference();
+        reinterpret_cast<::Candidate *>((m_pkContext))->FindOrAddPointer(this);
+        reinterpret_cast<::FUN_00c90510_class *>((m_pkContext))->FUN_00c90510();
     }
 }
 
@@ -289,7 +277,6 @@ DDCE80Bool __cdecl AreZDiffering(const DDCE80Point& a, const DDCE80Point& b)
 #include <math.h>
 namespace fnv_00ddd040 {
 extern "C" double __cdecl fabs(double);
-extern double DAT_0103c7c8;
 struct S_V
 {
     __m128 q;
@@ -315,7 +302,7 @@ unsigned char* __cdecl IsDotProductBelowThreshold(unsigned char* out, S_P a, S_P
     _mm_store_ss(&d, vSum);
     d = (float)fabs(d);
     unsigned char r;
-    if (d < DAT_0103c7c8)
+    if (d < ::DAT_0103c7c8)
     {
         r = 1;
     }
@@ -337,7 +324,7 @@ struct FUN_00ddcc40
 FUN_00ddcc40::~FUN_00ddcc40()
 {}
 
-struct Base1
+struct FnvHavok00ddcd50_Base1
 {
 // @fnv 0x00ddcd50
     virtual void FUN_00ddcd50();
@@ -349,16 +336,16 @@ struct Base1
     int unk18;
     int unk1c;
 };
-struct Base2
+struct FnvHavok00ddcd50_Base2
 {
     virtual void FUN_00ddcd50();
 };
-struct Derived : Base1, Base2
+struct FnvHavok00ddcd50_Derived : FnvHavok00ddcd50_Base1, FnvHavok00ddcd50_Base2
 {
-    Derived();
+    FnvHavok00ddcd50_Derived();
     virtual void FUN_00ddcd50();
 };
-Derived::Derived()
+FnvHavok00ddcd50_Derived::FnvHavok00ddcd50_Derived()
 {}
 
 // FUN_00ddcd60 : MSVC this-adjusting thunk  (sub ecx, 0x08 ; jmp <impl>)
@@ -388,4 +375,80 @@ Own_00ddcd60* make_00ddcd60()
 {
     static Own_00ddcd60 o;
     return &o;
+}
+
+// Moved from hkpworldviewerbase_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00ddc000.h"
+int FindAngleIndex(float angle);
+
+#include "fnv/symbols_simd.h"
+
+struct __declspec(align(16)) hkVector4
+{
+    union
+    {
+        struct
+        {
+            float x, y, z, w;
+        };
+        __m128 q;
+    };
+    __forceinline const float& operator()(int i) const
+    {
+        return (&x)[i];
+    }
+};
+static __forceinline float dot3(__m128 a, __m128 b)
+{
+    __m128 product = _mm_mul_ps(a, b);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
+    float r;
+    _mm_store_ss(&r, _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), sum));
+    return r;
+}
+struct Hit
+{
+    bool value;
+    __forceinline Hit(bool b) : value(b)
+    {}
+};
+// @fnv 0x00ddd0b0
+Hit __cdecl FUN_00ddd0b0(const hkVector4& start, const hkVector4& end, int planeCount, const hkVector4* planes,
+                         float* first, float* last)
+{
+    hkVector4 a = start;
+    hkVector4 b = end;
+    const __m128& ONE = (*reinterpret_cast<const __m128 *>((void *)&::DAT_010ec7f0));
+    for (int i = 0; i < planeCount; ++i)
+    {
+        hkVector4 plane = planes[i];
+        float w = plane(3);
+        float da = w + dot3(plane.q, a.q);
+        float db = w + dot3(b.q, plane.q);
+        if (da >= 0.0f && db >= 0.0f)
+        {
+            return Hit(false);
+        }
+        if (da * db < 0.0f)
+        {
+            float fraction = da / (da - db);
+            __m128 t = _mm_load_ss(&fraction);
+            t = _mm_shuffle_ps(t, t, 0);
+            __m128 p = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(ONE, t), a.q),
+                                                      _mm_mul_ps(t, b.q));
+            if (da > 0.0f)
+                a.q = p;
+            else
+                b.q = p;
+        }
+    }
+    __m128 origin = start.q;
+    __m128 direction = _mm_sub_ps(end.q, origin);
+    float lengthSquared = dot3(direction, direction);
+    float firstFraction = dot3(_mm_sub_ps(a.q, origin), direction) / lengthSquared;
+    float lastFraction = dot3(_mm_sub_ps(b.q, origin), direction) / lengthSquared;
+    *first = firstFraction;
+    *last = lastFraction;
+    return Hit(true);
 }

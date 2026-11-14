@@ -1,18 +1,16 @@
 // fallout_shared/region system/tesregiondatalandscape_decls.h: declares TESFile, TESTexture, TESRegionData, TESRegionDataLandscape
 
-void* __cdecl operator new(unsigned int) throw();
-void __cdecl operator delete(void*);
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/TESFullName.h"
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
 };
 class TESTexture
 {
   public:
     virtual ~TESTexture();
     TESTexture();
-    void AssignTextureName(const char*);
     static void ReadTextureData(TESTexture*, TESFile*);
     char data[8];
 };

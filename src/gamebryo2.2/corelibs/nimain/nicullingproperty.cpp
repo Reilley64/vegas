@@ -2,35 +2,43 @@
 // src/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/FUN_00a5c200.h"
+#include "fnv/decl/FUN_00a62a40_this.h"
+#include "fnv/decl/NiSingleShaderMaterialLibrary.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a5d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5d20;
 
 // @fnv 0x00a8f520
 GlobalObjectO2_00a7b610* __cdecl FUN_00a8f520()
 {
-    return &g_011f5d20;
+    return &::g_011f5d20;
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a8fce0_shell
 {
-    void* __thiscall FUN_00a8fce0();
 };
-extern int DAT_011f5e40;
 
 // Allocates a 0x14-byte BSFadeNode, runs its constructor, and stores the resulting pointer in DAT_011f5e40 (or 0 if allocation fails).
 // @fnv 0x00a8fd80
 void __cdecl FUN_00a8fd80()
 {
-    void* p = BSFadeNode::operator new(0x14);
+    void* p = ::operator new(0x14);
     if (p)
     {
         FUN_00a8fce0_shell* pFadeNode = reinterpret_cast<FUN_00a8fce0_shell*>(p);
-        DAT_011f5e40 = (int)pFadeNode->FUN_00a8fce0();
+        DAT_011f5e40 = (intptr_t)((void *)(reinterpret_cast<::NiSingleShaderMaterialLibrary *>((pFadeNode))->FUN_00a8fce0()));
     }
     else
     {
@@ -39,6 +47,7 @@ void __cdecl FUN_00a8fd80()
 }
 
 extern int DAT_0109f68c;
+struct NiStream;
 struct NiProperty
 {
     NiProperty();
@@ -49,6 +58,8 @@ struct NiProperty
     int m_iFourthElementInteger;
     int m_usTrailingValue;
     unsigned short m_flags;
+public:
+    void LoadBinary(::NiStream &);
 };
 struct CloningProcess
 {
@@ -57,22 +68,21 @@ struct CloningProcess
 struct NiCullingProperty : NiProperty
 {
     NiCullingProperty* FUN_00a8f530(CloningProcess& kCloning);
-    void __thiscall FUN_00a5d7a0(NiCullingProperty* p, CloningProcess& kCloning);
 };
 // Allocates a NiCullingProperty, initialises its vtable and flags, runs the cloning routine, then copies m_flags and returns it.
 // @fnv 0x00a8f530
 NiCullingProperty* NiCullingProperty::FUN_00a8f530(CloningProcess& kCloning)
 {
-    NiCullingProperty* p = static_cast<NiCullingProperty*>(BSFadeNode::operator new(0x1c));
+    NiCullingProperty* p = static_cast<NiCullingProperty*>(::operator new(0x1c));
     if (p)
     {
-        p->NiProperty::NiProperty();
+        new ((void *)(p)) struct ::FUN_00a5c200();
         p->m_flags &= 0xfffe;
         p->m_vtbl = &DAT_0109f68c;
     }
     else
         p = 0;
-    FUN_00a5d7a0(p, kCloning);
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)p, (::fnv_00a5c290::CloningProcess *)&kCloning);
     p->m_flags = m_flags;
     return p;
 }
@@ -91,36 +101,33 @@ struct NiStream
 };
 struct NiProperty
 {
-    virtual void __thiscall LoadBinary(NiStream&);
+    virtual void LoadBinary(NiStream&);
     char _pad[0x14];
 };
 struct NiCullingProperty : NiProperty
 {
     unsigned short m_usFlags;
-    void __thiscall FUN_00a8f650(NiStream&);
+    void FUN_00a8f650(NiStream&);
 };
 // Calls NiProperty::LoadBinary then reads 2 bytes from the stream into m_usFlags, advancing the stream position.
 // @fnv 0x00a8f650
-void __thiscall NiCullingProperty::FUN_00a8f650(NiStream& stream)
+void NiCullingProperty::FUN_00a8f650(NiStream& stream)
 {
-    NiProperty::LoadBinary(stream);
+    reinterpret_cast<::NiProperty *>(this)->LoadBinary((::NiStream &)(stream));
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
     unsigned int size = 2;
     input->m_iPos += input->m_pfnRead(input, &m_usFlags, 2, &size, 1);
 }
 }  // namespace fnv_00a8f650
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
-extern "C" void __fastcall FUN_00a5c200(void*);
+
 extern int DAT_0109f68c;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 struct NiPropertyMem;
 struct NiPropertyVTable
 {
     void* reserved;
-    void(__thiscall* dispose)(NiPropertyMem*);
+    void(* dispose)(NiPropertyMem*);
 };
 struct NiPropertyMem
 {
@@ -174,7 +181,7 @@ void __cdecl CreateCullingProperty()
     NiPropertyMem* fresh;
     if (allocated)
     {
-        FUN_00a5c200(allocated);
+        new ((void *)(allocated)) struct ::FUN_00a5c200();
         allocated->flags &= 0xfffe;
         allocated->vtable = &DAT_0109f68c;
         fresh = allocated;
@@ -183,7 +190,7 @@ void __cdecl CreateCullingProperty()
     {
         fresh = 0;
     }
-    g_011f5d20.cullingProperty = fresh;
+    ::g_011f5d20.cullingProperty = fresh;
 }
 
 struct NiRefCountedObj
@@ -193,7 +200,6 @@ struct NiRefCountedObj
     long m_iRefCount;
 };
 
-extern NiRefCountedObj* DAT_011f5d28;
 
 // If the global ref-counted object exists, decrements its reference count, destroys it when the count reaches zero, and clears the global pointer.
 // @fnv 0x00a8f620
@@ -284,14 +290,12 @@ class BA8F690StringArray
 {
   public:
     virtual ~BA8F690StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -306,15 +310,11 @@ class BA8F690StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcA8F690Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
-char* __cdecl FUN_00a7d370(const char* pcName, bool bValue);
 
 class BA8F690Property
 {
   public:
-    void BaseGetViewerStrings(BA8F690StringArray* pkStrings);
     void GetViewerStrings(BA8F690StringArray* pkStrings);
 
     int unk00;
@@ -330,28 +330,26 @@ class BA8F690Property
 // @fnv 0x00a8f690
 void BA8F690Property::GetViewerStrings(BA8F690StringArray* pkStrings)
 {
-    BaseGetViewerStrings(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_pcA8F690Name));
+    reinterpret_cast<::FUN_00a62a40_this *>(this)->AppendString((::StrArr *)(pkStrings));
+    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f5d20))));
     bool bCulled = (m_ucFlags & 1) != 0;
     pkStrings->Add(FUN_00a7d370("bCulled", bCulled));
 }
 
 extern int DAT_0109f68c;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates a NiProperty, clears the low bit of the 0x18 field, sets the vtable to DAT_0109f68c, and returns it.
 // @fnv 0x00a8f580
 NiProperty* __cdecl CreateProperty()
 {
-    NiProperty* pProperty = (NiProperty*)BSFadeNode::operator new(0x1c);
+    NiProperty* pProperty = (NiProperty*)::operator new(0x1c);
     if (pProperty)
     {
         new (pProperty) NiProperty();
-        *(unsigned short*)((char*)pProperty + 0x18) &= 0xFFFE;
+        pProperty->m_flags &= 0xFFFE;
         *(void**)pProperty = (void*)&DAT_0109f68c;
         return pProperty;
     }
     return 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nicullingproperty.inc"

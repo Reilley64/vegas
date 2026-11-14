@@ -2,12 +2,22 @@
 #ifndef NAVMESH_UTIL_DECLS_H
 #define NAVMESH_UTIL_DECLS_H
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-namespace std {
-float abs(float);
-}
-class NiPoint3
+#include "fnv/bs_simple_array_ushort.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_005582d0_shell.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
+#include "fnv/decl/FUN_0068f1d0_shell.h"
+#include "fnv/decl/FUN_0068f2c0_shell.h"
+#include "fnv/decl/FUN_00691570_shell.h"
+#include "fnv/decl/FUN_006a0840_shell.h"
+#include "fnv/symbols_00558000.h"
+#include "fnv/symbols_0069b000.h"
+#include <cmath>
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -15,11 +25,9 @@ class NiPoint3
     NiPoint3 operator-(const NiPoint3&) const;
     NiPoint3 Cross(const NiPoint3&) const;
     NiPoint3 CrossProduct(const NiPoint3&) const;
-    void ComputeMagnitude();
-    float DotProduct(const NiPoint3&) const;
-    float FUN_00589850() const;
-    float GetSquaredXYLength() const;
     static const NiPoint3 ZERO;
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
 };
 bool FUN_006b9cf0(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, float&, float, float);
 class NavMesh;
@@ -47,14 +55,13 @@ class NavMeshTriangleHandle
 {
   public:
     unsigned short m_usIndex;
-    void Set(const NavMeshEdgeData&);
 };
 class NavMeshPOVData
 {
   public:
     NavMeshTriangleHandle m_kFirstEdge, m_kSecondEdge;
 };
-template <class T, int N = 1024> class BSSimpleArray
+template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
     void* vtable;
@@ -100,18 +107,10 @@ class NavMeshVertexMap
     unsigned int count;
     NavMeshVertexMap(unsigned int);
     ~NavMeshVertexMap();
-    void* GetFirstPos();
-    bool FUN_0069b4d0(TwoIntRecord, NavMeshVertexEdgeData*&);
-    void SetKeyValue(TwoIntRecord, NavMeshVertexEdgeData*);
-    void GetNextEntry(void*&, TwoIntRecord&, NavMeshVertexEdgeData*&);
 };
 class NavMeshTriangle
 {
   public:
-    unsigned short FUN_005582d0(int);
-    unsigned short FUN_0068f2c0(int);
-    bool IsEdgeFlagSet(int);
-    void FUN_00691570(unsigned int);
 };
 struct NavMeshEdgeVertexPair
 {
@@ -139,25 +138,39 @@ template <class T> class NiPointer
     NiPointer(const NiPointer&);
     ~NiPointer();
 };
+struct NiPoint3;
+class NavMeshVertex;
+class EdgeExtraInfo;
+class NavMeshTriangleDoorPortal;
+class NavMeshStaticAvoidNode;
+class NavMeshInfo;
 class NavMesh
 {
   public:
-    unsigned char prefix[0x68];
-    BSSimpleArray<NavMeshClosedDoorInfo> m_kClosedDoorInfo;
-    BSSimpleArray<unsigned short> m_kIndexList;
-    NiTPointerMap<unsigned int, unsigned int> POVPointerArray;
-    BSSimpleArray<unsigned short> m_kAdditionalIndexList;
-    void InitializeNavMeshData();
-    unsigned int FUN_00558200();
+    unsigned char prefix[0x28];
+    BSSimpleArray<NavMeshVertex> Vertices;                         // +0x28
+    BSSimpleArray<NavMeshTriangle> Triangles;                      // +0x38
+    BSSimpleArray<EdgeExtraInfo> m_kEdgeExtraInfo;                 // +0x48
+    BSSimpleArray<NavMeshTriangleDoorPortal> m_kDoorPortals;       // +0x58
+    BSSimpleArray<NavMeshClosedDoorInfo> m_kClosedDoorInfo;        // +0x68
+    BSSimpleArray<unsigned short> m_kIndexList;                    // +0x78
+    NiTPointerMap<unsigned int, unsigned int> POVPointerArray;     // +0x88
+    BSSimpleArray<unsigned short> m_kAdditionalIndexList;          // +0x98
+    unsigned char m_kGrid[0x28];                                   // +0xA8
+    BSSimpleArray<void*> m_kObstacleUndoData;                      // +0xD0
+    void* pTriangleToObstacleMap;                                  // +0xE0
+    BSSimpleArray<unsigned short> m_kAdditionalData;               // +0xE4
+    BSSimpleArray<NavMeshStaticAvoidNode> m_kStaticAvoidNodes;     // +0xF4
+    NavMeshInfo* m_pNavigationMesh;                                // +0x104
     NavMeshTriangle* GetTriangle(unsigned short);
-    const NiPoint3& FUN_0068f0a0(unsigned short);
     NavMeshEdgeVertexPair FUN_0068f040(unsigned short, int);
     NiPoint3 FUN_00697290(unsigned short);
-    void FUN_006987d0(const NiPointer<ObstacleData>&, const NiPoint3&, BSSimpleArray<unsigned short>*);
     NiPoint3 GetPlaneNormal(unsigned short);
     bool AddDoorObstacle(unsigned int, ObstacleData*);
     NavMeshClosedDoorInfo* GetClosedDoorInfo(unsigned short);
     bool FindHeightOnTriangle(unsigned short, const NiPoint3&, float&, float, float);
+public:
+    ::NiPoint3 GetNavMeshData(unsigned short);
 };
 #endif
 class SineCosine
@@ -165,7 +178,6 @@ class SineCosine
   public:
     float sine, cosine;
     SineCosine operator-(const SineCosine&) const;
-    float FUN_006a0840() const;
 };
 class CircularArc
 {

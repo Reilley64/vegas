@@ -2,13 +2,54 @@
 // src/fallout/ai/combat/combatprocedureevade.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureevade.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_manager_fields.h"
+#include <cstdint>
+#include "fnv/result_slot.h"
+#include "fnv/decl/AA10Menu.h"
+#include "fnv/decl/AvoidWork.h"
+#include "fnv/decl/AvoidanceMap.h"
+#include "fnv/decl/CPStandIn009caae0.h"
+#include "fnv/decl/CombatDialogueHandler.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00507610_Class.h"
+#include "fnv/decl/FUN_00575650_Class.h"
+#include "fnv/decl/FUN_006e2b50_shell.h"
+#include "fnv/decl/FUN_006e2bb0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008ad8f0Class.h"
+#include "fnv/decl/FUN_008b3960_Class.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008df000_shell.h"
+#include "fnv/decl/FUN_009892a0_shell.h"
+#include "fnv/decl/FUN_00996de0_Class.h"
+#include "fnv/decl/FUN_00996ed0_shell.h"
+#include "fnv/decl/FUN_00996ef0_shell.h"
+#include "fnv/decl/FUN_009a0680_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/FUN_009caac0_shell.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_006e29f0__FUN_006e29f0_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00996e20__FUN_00996e20_shell.h"
+#include "fnv/decl/fnv_00996e40__FUN_00996e40_shell.h"
+#include "fnv/decl/fnv_009a1280__CombatLogic.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011f1000.h"
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void*, unsigned int);
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
+  public:
     virtual void LoadGame(BGSLoadFormBuffer*);
 };
 
@@ -25,14 +66,13 @@ struct FUN_009d5ff0_shell : CombatProcedureEvade
 // @fnv 0x009d5ff0
 void FUN_009d5ff0_shell::FUN_009d5ff0(BGSLoadFormBuffer* buffer)
 {
-    CombatProcedure::LoadGame(buffer);
-    buffer->ReadTypedData((void*)((char*)this + 0x10), 4);
-    buffer->ReadTypedData((void*)((char*)this + 0x14), 4);
+    reinterpret_cast<::FUN_00996ef0_shell *>(this)->FUN_00996ef0(buffer);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x10)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x14)), 4);
 }
 
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0(void);
 };
 struct FUN_009d5b40_shell
 {
@@ -44,7 +84,7 @@ extern int DAT_01091984;
 void FUN_009d5b40_shell::FUN_009d5b40(void)
 {
     *reinterpret_cast<int**>(this) = &DAT_01091984;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 
 struct FUN_009ca680
@@ -69,7 +109,6 @@ FUN_009d5ad0::FUN_009d5ad0(int aiLocation)
     iLocation = aiLocation;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_009d5b10_shell : FUN_009d5b40_shell
 {
     void* DestroyIfFlagged(unsigned int flags);
@@ -79,21 +118,21 @@ void* FUN_009d5b10_shell::DestroyIfFlagged(unsigned int flags)
 {
     FUN_009d5b40();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-struct Actor
+class TESActorBase;
+class Actor
 {
-    void StopMoving();
+public:
+    ::TESActorBase *GetActorBase();
 };
 struct FUN_009cc4d0_shell
 {
-    Actor* FUN_00996de0();
 };
 struct CombatProcedureEngageTarget
 {
-    void FUN_00996e40();
 };
 struct FUN_009d5b60_shell : CombatProcedureEvade
 {
@@ -103,17 +142,15 @@ struct FUN_009d5b60_shell : CombatProcedureEvade
 // @fnv 0x009d5b60
 void FUN_009d5b60_shell::StopAndEngageTarget()
 {
-    reinterpret_cast<FUN_009cc4d0_shell*>(this)->FUN_00996de0()->StopMoving();
-    reinterpret_cast<CombatProcedureEngageTarget*>(this)->FUN_00996e40();
+    reinterpret_cast<::FUN_008b3ab0_shell *>((((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>((reinterpret_cast<FUN_009cc4d0_shell*>(this)))->FUN_00996de0()))))->FUN_008b3ab0();
+    reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>((reinterpret_cast<CombatProcedureEngageTarget*>(this)))->FUN_00996e40();
 }
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 struct CombatProcedure_SaveHelper
 {
-    void SaveGame(BGSSaveFormBuffer*);
 };
 struct FUN_009d5fb0_shell : CombatProcedureEvade
 {
@@ -123,19 +160,19 @@ struct FUN_009d5fb0_shell : CombatProcedureEvade
 // @fnv 0x009d5fb0
 void FUN_009d5fb0_shell::SaveEvadeProcedure(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    ((CombatProcedure_SaveHelper*)this)->SaveGame(apSaveGameBuffer);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0x10), 4, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0x14), 4, 0);
+    reinterpret_cast<::FUN_00996ed0_shell *>((((CombatProcedure_SaveHelper*)this)))->SaveToBuffer(apSaveGameBuffer);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x10), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x14), 4, 0);
 }
 
-struct TESObjectREFR;
-class NiPoint3
+class TESObjectREFR;
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3();
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     int unk00;
@@ -153,7 +190,8 @@ class PathingLocation
     ~PathingLocation();
 };
 struct EvadeActor;
-class PathingRequest
+template <class, unsigned int> class BSSimpleArray;
+struct PathingRequest
 {
   public:
     int unk00;
@@ -203,14 +241,9 @@ class PathingRequest
     int unkb0;
 
     ~PathingRequest();
-    void InitFromActor(EvadeActor*);
-    void SetInitialPathHeading(float);
-    void SetCantOpenDoors(bool);
-    void FUN_00507610(float);
-    void FUN_008df000();
     void SetDestination(PathingLocation*);
-    void FUN_006d61e0(int);
-    void SetByteAtOffset9B(bool);
+public:
+    void SetAvoidNodeArray(::BSSimpleArray<void *, 1024> *);
 };
 class PathingRequestFlee : public PathingRequest
 {
@@ -430,130 +463,108 @@ struct EvadeActor
     virtual void slot173();
     virtual void slot174();
     virtual float GetRadius(int);
-    EvadeActorBase* FUN_004181e0();
     bool FUN_008b3840(NiPoint3*);
     bool FUN_008bb630(PathingRequest*);
-    bool FUN_008b3b90();
-    bool FUN_008b3960();
-    bool FUN_008b3bb0();
-    EvadeWorldLocation FUN_00575650();
 };
 struct EvadeController
 {
-    void FUN_009a1280(int);
-    void ClearAndDeletePointer();
-    void HandleMenuEvent(const EvadeWorldLocation*, int);
 };
 struct EvadeMovement
 {
-    int FUN_009892a0(EvadeActor*, NiPoint3*, float, int, int);
-    int BuildAvoidNodes(EvadeActor*, int);
 };
 struct EvadeContext
 {
-    EvadeController* FUN_00586150();
-    EvadeMovement* FUN_004fb070();
 };
 struct EvadeProcedure
 {
     int unk00;
     EvadeContext* context;
     int unk08, unk0c, state, location;
-    EvadeActor* FUN_00996de0();
-    void FUN_00996e20(int);
-    void FUN_009caac0(const char*);
-    void SetState();
     void UpdateFleeState();
 };
 struct EvadeManager
 {
-    void FUN_00983970(EvadeContext*, int, int, int);
 };
-extern EvadeManager* DAT_011f1708;
 struct EvadeSearchResult
 {
-    int BuildAvoidanceNodes();
 };
 struct EvadeSearch
 {
-    EvadeSearchResult* FUN_00825c00(NiPoint3*, EvadeActor*, float);
 };
-extern EvadeSearch* DAT_011f1958;
 struct EvadeSetting
 {
-    float* FUN_00403e20();
 };
-extern EvadeSetting DAT_011cea80;
-extern float DAT_0101e704, DAT_01012054, DAT_01050b98;
 extern const char DAT_01091a08[], DAT_010919e8[], DAT_010919c8[];
 
 // @fnv 0x009d5b90
 void EvadeProcedure::UpdateFleeState()
 {
-    EvadeActor* actor = FUN_00996de0();
-    EvadeController* pController = context->FUN_00586150();
+    EvadeActor* actor = ((::EvadeActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
+    EvadeController* pController = ((::EvadeController *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()));
     switch (state)
     {
     case 0: {
         NiPoint3 actorPosition = *actor->GetPosition();
         PathingRequestFlee fleeRequest;
-        fleeRequest.InitFromActor(actor);
-        fleeRequest.SetInitialPathHeading(actor->GetRadius(0));
+        reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>(&(fleeRequest))->InitFromActor((::Actor *)(actor));
+        reinterpret_cast<::FUN_006e2bb0_shell *>(&(fleeRequest))->SetInitialPathHeading(actor->GetRadius(0));
         if (actor->IsCreature())
-            fleeRequest.SetCantOpenDoors(actor->FUN_004181e0()->data.CanSwim());
-        int destination = 0;
+            reinterpret_cast<::FUN_006e2b50_shell *>(&(fleeRequest))->SetCantOpenDoors(((::EvadeActorBase *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))->data.CanSwim());
+        intptr_t destination = 0;
         switch (location)
         {
         case 14: {
-            DAT_011f1708->FUN_00983970(context, 2, 5, 1);
-            fleeRequest.FUN_00507610(DAT_0101e704);
+            reinterpret_cast<::CombatDialogueHandler *>(((*reinterpret_cast<::EvadeManager * *>(&::CombatAssessment::DAT_011f1708))))->FUN_00983970((::CombatController *)(context), 2, 5, 1);
+            reinterpret_cast<::FUN_00507610_Class *>(&(fleeRequest))->FUN_00507610(DAT_0101e704);
             NiPoint3 targetPosition;
             if (!actor->FUN_008b3840(&targetPosition))
-                fleeRequest.FUN_008df000();
+                reinterpret_cast<::FUN_008df000_shell *>(&(fleeRequest))->FUN_008df000();
             else
-                fleeRequest.SetDestination(&PathingLocation(targetPosition, (TESObjectREFR*)actor));
-            destination = DAT_011f1958->FUN_00825c00(&actorPosition, actor, DAT_01012054)->BuildAvoidanceNodes();
-            destination = context->FUN_004fb070()->FUN_009892a0(actor, &actorPosition, DAT_01050b98, destination, 0);
+                fleeRequest.SetDestination(&ResultSlot(PathingLocation(targetPosition, (TESObjectREFR*)actor)));
+            destination = ((intptr_t)(reinterpret_cast<::AvoidanceMap *>((((::EvadeSearchResult *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::EvadeSearch * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))))->BuildAvoidanceNodes({}, {}, {})));
+            destination = ((intptr_t)(reinterpret_cast<::FUN_009892a0_shell *>((((::EvadeMovement *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()))))->FUN_009892a0((::AvoidMember9892 *)(actor), (const ::Pos9892 *)(::NiPoint3 *)(&actorPosition), DAT_01050b98, (::PathingAvoidNodeArray *)(destination), (::AvoidMember9892 *)(0))));
             break;
         }
         case 10:
         case 12:
-            fleeRequest.FUN_00507610(*DAT_011cea80.FUN_00403e20());
-            fleeRequest.FUN_008df000();
-            destination = context->FUN_004fb070()->BuildAvoidNodes(actor, 0);
+            reinterpret_cast<::FUN_00507610_Class *>(&(fleeRequest))->FUN_00507610(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::EvadeSetting *>(&::originalRuntimeFloatSetting438)))))));
+            reinterpret_cast<::FUN_008df000_shell *>(&(fleeRequest))->FUN_008df000();
+            destination = ((intptr_t)(reinterpret_cast<::AvoidWork *>((((::EvadeMovement *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()))))->BuildAvoidNodes((::AvoidActor *)(actor), (::PathingAvoidNodeArray *)(0))));
             break;
         }
-        fleeRequest.FUN_006d61e0(destination);
-        fleeRequest.SetByteAtOffset9B(true);
+        reinterpret_cast<::PathingRequest *>(&(fleeRequest))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(destination));
+        reinterpret_cast<::FUN_008ad8f0Class *>(&(fleeRequest))->SetByteAtOffset9B(true);
         if (!actor->FUN_008bb630(&fleeRequest))
         {
-            FUN_009caac0(DAT_01091a08);
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(DAT_01091a08));
             break;
         }
         state = 1;
-        FUN_00996e20(3);
+        reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(3);
         break;
     }
     case 1:
-        if (actor->FUN_008b3b90())
+        if (reinterpret_cast<::FUN_008b3b90_shell *>((actor))->FUN_008b3b90())
         {
-            if (!actor->FUN_008b3960())
+            if (!reinterpret_cast<::FUN_008b3960_Class *>((actor))->FUN_008b3960())
             {
                 switch (location)
                 {
                 case 12:
-                    pController->FUN_009a1280(0);
+                    reinterpret_cast<::fnv_009a1280::CombatLogic *>((pController))->FUN_009a1280(0);
                     break;
                 }
             }
-            pController->ClearAndDeletePointer();
-            FUN_009caac0(actor->FUN_008b3960() ? DAT_010919e8 : DAT_010919c8);
+            reinterpret_cast<::FUN_009a0680_shell *>((pController))->ClearAndDeletePointer();
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor))->FUN_008b3960() ? DAT_010919e8 : DAT_010919c8));
         }
-        else if (actor->FUN_008b3bb0())
+        else if (((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
         {
-            pController->HandleMenuEvent(&actor->FUN_00575650(), location);
-            SetState();
+            reinterpret_cast<::AA10Menu *>((pController))->HandleMenuEvent((intptr_t)(&(*(::EvadeWorldLocation *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})))), location);
+            reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
         }
         break;
     }
 }
+
+#include "generated/data/fallout/ai/combat/combatprocedureevade.inc"

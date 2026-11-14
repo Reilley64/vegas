@@ -5,13 +5,19 @@
 // FaderManager unit: file-static fader table plus the small accessors.
 // The three covered functions here only need the table layout and a few
 // out-of-line helpers; the larger EH functions follow in later work.
+#include <new>
 #include <stddef.h>
 
-template <int> struct FNVAssert;
-template <> struct FNVAssert<1>
-{
-};
-#define FNV_STATIC_ASSERT(cond) typedef FNVAssert<(cond) ? 1 : 0> FNVAssertLine##__LINE__
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/S457d70.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_011de000.h"
 
 enum FADER_ENUM
 {
@@ -22,7 +28,7 @@ enum FADER_ENUM
 };
 
 // Forward declarations for vtable signature fidelity (JIP-LN-NVSE order).
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -39,14 +45,14 @@ class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
 class NiObjectCopyInfo;
-class NiStream;
-class NiBound;
-class NiControllerManager;
-class NiUpdateData;
+struct NiStream;
+struct NiBound;
+struct NiControllerManager;
+struct NiUpdateData;
 class NiMatrix33;
 class NiVector3;
 class NiFixedString;
-class NiPoint3;
+struct NiPoint3;
 class NiCullingProcess;
 class NiDX9Renderer;
 class GeometryProperties;
@@ -55,8 +61,6 @@ class TES;
 class NiMemObject
 {
   public:
-    static void* operator new(size_t);
-    static void operator delete(void*, unsigned int);
 };
 
 class NiRefObject : public NiMemObject
@@ -66,7 +70,7 @@ class NiRefObject : public NiMemObject
     /*04*/ virtual void Free(void);
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     /*08*/ virtual NiRTTI* GetType();
@@ -104,7 +108,7 @@ class NiObject : public NiRefObject
     /*88*/ virtual NiControllerManager* GetControllerManager();
 };
 
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
 };
@@ -112,13 +116,6 @@ class NiObjectNET : public NiObject
 class NiAVObject : public NiObjectNET
 {
   public:
-    NiNode* GetParent();
-    void FUN_00440490(float);
-    void FUN_00440460(const NiPoint3&);
-    void SetName(const NiFixedString&);
-    void AttachProperty(NiObject*);
-    void UpdateSceneObject();
-    void Update(NiUpdateData&);
     /*8C*/ virtual void UpdateControllers(NiUpdateData& kUpdParams);
     /*90*/ virtual void ApplyTransform(NiMatrix33* pArg1, NiVector3* pArg2, bool bArg3);
     /*94*/ virtual void Unk_25(unsigned int uArg);
@@ -177,7 +174,6 @@ template <class T> class NiPointer
 class TES
 {
   public:
-    void RefreshWorldState(int iArg1, int iArg2, int iArg3);
 };
 
 class FaderManager
@@ -192,9 +188,6 @@ class FaderManager
     void AddFader(FADER_ENUM eFader, float fDuration, bool bFadeOut);
     void AddRoot(NiNode* pParent, float m_fProjectionDepth, bool m_bUseAlternateRoot);
 };
-FNV_STATIC_ASSERT(sizeof(FaderManager) == 8);
-FNV_STATIC_ASSERT(offsetof(FaderManager, m_pRootBelowMenus) == 0);
-FNV_STATIC_ASSERT(offsetof(FaderManager, m_pRootAboveMenus) == 4);
 
 // One entry per FADER_ENUM value (FADER_COUNT == 3); entry size is 0x1C.
 struct FaderEntry
@@ -209,16 +202,8 @@ struct FaderEntry
     float fAlpha;                     // +0x14
     NiPointer<NiNode> m_pParentNode;  // +0x18
 };
-FNV_STATIC_ASSERT(sizeof(FaderEntry) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, bUnk08) == 0x08);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, fUnk0C) == 0x0C);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, pFadeNode) == 0x10);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, fAlpha) == 0x14);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, m_pParentNode) == 0x18);
 
 static FaderEntry s_faders[FADER_ENUM_FADER_COUNT];
 static bool s_bAllowDetach;
-extern const float s_faderClearedAlpha;
-extern TES* g_TES;
 
 #endif

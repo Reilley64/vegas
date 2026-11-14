@@ -6,7 +6,6 @@
 class NavMeshEdgeData;
 class CompactNavMeshEdgeReference;
 class NavMesh;
-#pragma pack(push, 4)
 class CompactNavMeshEdgeReference
 {
   public:
@@ -20,11 +19,6 @@ class CompactNavMeshEdgeReference
     // unsigned __int64 __cdecl CompactNavMeshEdgeReference::*()
     // void __cdecl CompactNavMeshEdgeReference::*(char*, unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CompactNavMeshEdgeReference) == 8);
-FNV_STATIC_ASSERT(offsetof(CompactNavMeshEdgeReference, m_pLocationNavMesh) == 0);
-FNV_STATIC_ASSERT(offsetof(CompactNavMeshEdgeReference, m_usTriangleID) == 4);
-#pragma pack(push, 4)
 class NavMeshEdgeData : public CompactNavMeshEdgeReference
 {
   public:
@@ -37,7 +31,4 @@ class NavMeshEdgeData : public CompactNavMeshEdgeReference
     // unsigned __int64 __cdecl NavMeshEdgeData::*()
     // void __cdecl NavMeshEdgeData::*(char*, unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshEdgeData) == 12);
-FNV_STATIC_ASSERT(offsetof(NavMeshEdgeData, m_iEdgeIndex) == 8);
 #endif

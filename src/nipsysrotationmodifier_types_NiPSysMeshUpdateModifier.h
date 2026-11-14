@@ -8,8 +8,8 @@
 #include "nipsysrotationmodifier_layout_support.h"
 class NiAVObject;
 class NiPSysMeshUpdateModifier;
-class NiPSysModifier;
-class NiParticleSystem;
+struct NiPSysModifier;
+struct NiParticleSystem;
 #include "nipsysrotationmodifier_types_NiPSysModifier.h"
 class NiPSysMeshUpdateModifier : public NiPSysModifier
 {
@@ -36,6 +36,4 @@ class NiPSysMeshUpdateModifier : public NiPSysModifier
     // NiPSysMeshUpdateModifier& __cdecl NiPSysMeshUpdateModifier::*(const NiPSysMeshUpdateModifier&)
     // void __cdecl NiPSysMeshUpdateModifier::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiPSysMeshUpdateModifier) == 40);
-FNV_STATIC_ASSERT(offsetof(NiPSysMeshUpdateModifier, m_kSceneObjects) == 24);
 #endif

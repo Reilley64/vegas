@@ -2,15 +2,10 @@
 // src/havok/physics/vehicle/suspension/default/hkpvehicledefaultsuspensionclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/suspension/default/hkpvehicledefaultsuspensionclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
+#include "fnv/symbols_00c90000.h"
 
 __declspec(align(16)) struct VecElem
 {
@@ -26,8 +21,7 @@ struct VecList
     unsigned int m_uCapBits;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, VecList* list, unsigned int elemSize);
+
 
 struct FUN_00e3afb0_cls
 {
@@ -47,10 +41,10 @@ struct FUN_00e3afb0_cls
 void FUN_00e3afb0_cls::Push(const __m128* apFirst, const __m128* apSecond, float afValue)
 {
     VecList* list = &m_kNode;
-    AllocHolder* holder = FUN_00c85750();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (list->m_iArrayLength == (int)(list->m_uCapBits & 0x3fffffffu))
     {
-        ResizeAudioStream(holder->m_pAllocator, list, sizeof(VecElem));
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(list), sizeof(VecElem));
     }
     VecElem* slot = &list->m_pData[list->m_iArrayLength];
     list->m_iArrayLength++;
@@ -61,28 +55,6 @@ void FUN_00e3afb0_cls::Push(const __m128* apFirst, const __m128* apSecond, float
 }
 
 namespace fnv_00dfbff0 {
-struct DFBFF0Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
-
-struct DFBFF0MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    DFBFF0Allocator* m_pStreamAllocator;
-
-    DFBFF0Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-extern "C" DFBFF0MemoryRouter& __cdecl FUN_00c85750();
 
 struct FUN_00dfbff0
 {
@@ -92,10 +64,10 @@ struct FUN_00dfbff0
     FUN_00dfbff0();
     virtual ~FUN_00dfbff0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, size_t nbytes)
     {
         FUN_00dfbff0* b = static_cast<FUN_00dfbff0*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 

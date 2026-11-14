@@ -16,7 +16,7 @@ class TESCombatStyle : public TESForm
 float TESCombatStyle::UpdateCombatStyle()
 {
     return ((float*)this)[0] * ((float*)this)[0] + ((float*)this)[1] * ((float*)this)[1] +
-           ((float*)this)[2] * ((float*)this)[2];
+           (*(float*)&this->m_uiFormFlags) * (*(float*)&this->m_uiFormFlags);
 }
 
 #endif

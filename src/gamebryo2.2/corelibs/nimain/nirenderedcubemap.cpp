@@ -2,13 +2,23 @@
 // src/gamebryo2.2/corelibs/nimain/nirenderedcubemap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nirenderedcubemap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/FUN_00a5c240_shell.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a8f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011ab000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01270000.h"
 struct FUN_00ee8220_shell
 {
-    void* __thiscall FUN_00ee8220();
+    void* FUN_00ee8220();
 };
 
 // @fnv 0x00ee8220
-void* __thiscall FUN_00ee8220_shell::FUN_00ee8220()
+void* FUN_00ee8220_shell::FUN_00ee8220()
 {
     void* p = *(void**)(this + 0x4C);
     return *(void**)((char*)p + 8);
@@ -16,48 +26,33 @@ void* __thiscall FUN_00ee8220_shell::FUN_00ee8220()
 
 struct FUN_00ee8230_shell
 {
-    int __thiscall FUN_00ee8230();
+    int FUN_00ee8230();
 };
 
 // @fnv 0x00ee8230
-int __thiscall FUN_00ee8230_shell::FUN_00ee8230()
+int FUN_00ee8230_shell::FUN_00ee8230()
 {
     int* p = *(int**)((char*)this + 0x4c);
     return *(int*)((char*)p + 0xc);
 }
 
-extern "C" void* DAT_012708e4;
 
 // @fnv 0x00ee82a0
 void* __cdecl FUN_00ee82a0()
 {
-    return &DAT_012708e4;
+    return &(*reinterpret_cast<void * *>(&::g_012708e4));
 }
 
-void __cdecl operator delete(void* p, size_t size);
-void* __cdecl operator new(size_t);
 struct NiRenderedCubeMap
 {
     virtual ~NiRenderedCubeMap();
-    void __thiscall FUN_00ee82b0();
 };
 struct NiRenderedCubeMap_shell : NiRenderedCubeMap
 {
-    void* __thiscall FUN_00ee8440(unsigned int flags);
+    void* FUN_00ee8440(unsigned int flags);
 };
-// Calls FUN_00ee82b0, then frees this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x00ee8440
-void* __thiscall NiRenderedCubeMap_shell::FUN_00ee8440(unsigned int flags)
-{
-    FUN_00ee82b0();
-    if (flags & 1)
-        operator delete(this, 0x64);
-    return this;
-}
-
 extern "C" void _ReadWriteBarrier(void);
 #include <string.h>
-extern int DAT_0109b944;
 extern int DAT_0110102c;
 struct NiProperty
 {
@@ -78,11 +73,10 @@ struct Mid_ee8240 : NiProperty
         m_iB = 3;
         m_iC = 2;
         m_iD = 0;
-        FUN_00a5f7b0();
+        ::FUN_00a5f7b0((intptr_t)this);
         m_i30 = 0;
         _ReadWriteBarrier();
     }
-    void FUN_00a5f7b0() throw();
     int m_iA;
     int m_iB;
     int m_iC;
@@ -126,7 +120,6 @@ struct Item
 {
     virtual ~Item();
 };
-extern int DAT_0109b944;
 struct Obj
 {
     virtual void baseSlot() = 0;
@@ -156,9 +149,16 @@ struct Obj
     Ref* ref60;
     Ref* end64;
     void FUN_00ee82b0();
-    void FUN_00a5f800();
-    void DestroyFogProperty();
 };
+// Calls FUN_00ee82b0, then frees this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x00ee8440
+void* NiRenderedCubeMap_shell::FUN_00ee8440(unsigned int flags)
+{
+    reinterpret_cast<::Obj *>(this)->FUN_00ee82b0();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x64);
+    return this;
+}
 // Releases the six Ref pointers and item24, resets the vtable to DAT_0109b944, then calls FUN_00a5f800 and DestroyFogProperty.
 // @fnv 0x00ee82b0
 void Obj::FUN_00ee82b0()
@@ -175,11 +175,11 @@ void Obj::FUN_00ee82b0()
     Ref* p = ref30;
     if (p && InterlockedDecrement((volatile long*)p + 1) == 0)
         p->slot1();
-    *(int*)this = (int)&DAT_0109b944;
+    *(intptr_t*)this = (intptr_t)&DAT_0109b944;
     if (item24)
         delete item24;
-    FUN_00a5f800();
-    DestroyFogProperty();
+    ::FUN_00a5f800((::TextureListView *)this);
+    reinterpret_cast<::FUN_00a5c240_shell *>(this)->DestroyFogProperty();
 }
 
 struct S_00ee8330_RefObject
@@ -200,7 +200,6 @@ struct S_00ee8330_RefObject
 
 struct S_00ee8330_Buffer : S_00ee8330_RefObject
 {
-    static S_00ee8330_Buffer* Create(unsigned int uiWidth, unsigned int uiHeight);
 };
 
 template <class T> struct S_00ee8330_Ptr
@@ -227,9 +226,6 @@ struct S_00ee8330_FormatPrefs
     int m_eMipFlag;
 };
 
-extern bool DAT_011f4ac0;
-extern int DAT_011ab3c8;
-extern bool DAT_011ab3c4;
 
 struct S_00ee8330_Renderer;
 
@@ -242,7 +238,6 @@ inline bool S_00ee8330_IsPowerOf2(unsigned int ui)
 
 struct S_00ee8330_CubeMap
 {
-    static void* operator new(size_t n);
     S_00ee8330_CubeMap() throw();
     virtual ~S_00ee8330_CubeMap();
     int unk04;
@@ -367,7 +362,7 @@ S_00ee8330_CubeMap* S_00ee8330_CubeMap::FUN_00ee8330(unsigned int uiFaceSize, S_
     pkThis->m_kTextureFormatPreferences = kPrefs;
 
     for (unsigned int ui = 0; ui < 6; ui++)
-        pkThis->m_kFaceBuffers[ui] = S_00ee8330_Buffer::Create(uiFaceSize, uiFaceSize);
+        pkThis->m_kFaceBuffers[ui] = ((::S_00ee8330_Buffer *)(::CreateObjA8F260(uiFaceSize, uiFaceSize)));
 
     pkThis->m_b41 = DAT_011f4ac0;
     pkThis->m_i44 = DAT_011ab3c8;

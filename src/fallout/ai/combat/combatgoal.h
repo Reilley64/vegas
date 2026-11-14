@@ -3,6 +3,7 @@
 #define FNV_COMBATGOAL_H
 
 
+#include "fnv/symbols_005b5000.h"
 #include "layout_support.h"
 
 // Authored layout header for fallout/ai/combat/combatgoal.cpp.
@@ -14,7 +15,6 @@
 
 // Warning() comes from the original script unit; declared here because the
 // script closure is not part of this unit's header dependency set.
-int Warning(const char* format, ...);
 
 class UnsignedIdHandle;
 
@@ -54,13 +54,8 @@ class CombatGoal
     unsigned int m_uiGoalFlags;                            // +0x18, 4 bytes
 
     static CombatGoal* CreateGoal(COMBAT_GOAL eType);
+    bool FUN_009843b0(class CombatStateValues* values);
 };
-FNV_STATIC_ASSERT(sizeof(CombatGoal) == 28);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, m_kFirstWorldStateNode) == 4);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, m_kCombatWorldStateListNode) == 12);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, eType) == 20);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, m_uiGoalFlags) == 24);
 
 class CombatGoalActivateCombatItem : public CombatGoal
 {

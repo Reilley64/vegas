@@ -1,6 +1,47 @@
 // fallout_shared/packagedatauseweapon.cpp: TESUseWeaponPackageData, UseWeaponActorPackageData, DelStandIn, UseWeaponLoader and more (16 functions)
 
+#include <cstdint>
+#include "fnv/decl/C80720Target.h"
+#include "fnv/decl/DurationData.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00421b40_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0067ca10_cls.h"
+#include "fnv/decl/FUN_0067d970_Class.h"
+#include "fnv/decl/FUN_0067fb60_shell.h"
+#include "fnv/decl/FUN_0067fbe0_cls.h"
+#include "fnv/decl/FUN_0067fc50_shell.h"
+#include "fnv/decl/FUN_006801a0_shell.h"
+#include "fnv/decl/FUN_00680830_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_006807b0_Target.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
+#include "fnv/decl/fnv_0067f6c0__FUN_0067f6c0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_01068000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011ca000.h"
 #include "packagedatauseweapon_decls.h"
+#include "packagelocation_package.h"
 
 // @fnv 0x0067d1c0
 void TESUseWeaponPackageData::InitItem(TESForm* item)
@@ -8,20 +49,20 @@ void TESUseWeaponPackageData::InitItem(TESForm* item)
     LocationDescriptor* package = reinterpret_cast<LocationDescriptor*>(item);
     bool initializeTarget;
     {
-        LocationDescriptor* location = reinterpret_cast<LocationDescriptor*>(package->SetLocRef());
+        LocationDescriptor* location = reinterpret_cast<::TESPackage*>(item)->pPackageLocation;
         initializeTarget = true;
-        if (!m_pUseTarget && location && reinterpret_cast<TESObjectREFR*>(location)->GetBoundingRadius() == 0)
+        if (!m_pUseTarget && location && reinterpret_cast<::DurationData *>((reinterpret_cast<TESObjectREFR*>(location)))->FUN_00678ca0() == 0)
         {
             TESObjectREFR* reference = location->GetLocationReference();
             if (reference)
             {
-                TESBoundObject* object = reference->GetObjectReference();
+                TESBoundObject* object = ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
                 if (object == DAT_011ca244 || object == DAT_011ca248)
                 {
-                    ExtraDataList* extra = reference->GetExtraData();
+                    ExtraDataList* extra = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()));
                     if (extra)
                     {
-                        TESObjectREFR* target = extra->GetTargetObjectReference();
+                        TESObjectREFR* target = reinterpret_cast<::FUN_00421b40_shell *>((extra))->FUN_00421b40();
                         if (target)
                         {
                             m_pUseTarget = new PackageTargetRecord;
@@ -35,8 +76,8 @@ void TESUseWeaponPackageData::InitItem(TESForm* item)
         }
         if (m_pUseTarget && initializeTarget)
             m_pUseTarget->InitItem(item);
-        unsigned int weaponID = reinterpret_cast<unsigned int>(pWeapon);
-        pWeapon = dynamic_cast<TESObjectWEAP*>(TESForm::GetFormByID(weaponID));
+        unsigned int weaponID = (unsigned int)reinterpret_cast<std::uintptr_t>(pWeapon);
+        pWeapon = dynamic_cast<TESObjectWEAP*>(::FUN_004839c0(weaponID));
     }
 }
 
@@ -45,27 +86,6 @@ void TESUseWeaponPackageData::InitItem(TESForm* item)
 void UseWeaponActorPackageData::SetReferenceTarget(TESObjectREFR* reference)
 {
     m_pUseTarget = m_pUseTarget == reference ? 0 : m_pUseTarget;
-}
-
-void __cdecl Deallocate(void*);
-namespace p07 {
-struct DtorStandIn
-{
-    void FUN_0083dec0();
-};
-struct DelStandIn
-{
-    void* DestroyIfFlagged(unsigned int flags);
-};
-// Runs the destructor on this, then frees this via Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x0067cb40
-void* DelStandIn::DestroyIfFlagged(unsigned int flags)
-{
-    ((DtorStandIn*)this)->FUN_0083dec0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 }
 
 struct FUN_00670b30
@@ -104,15 +124,34 @@ FUN_0067ccd0_cls::~FUN_0067ccd0_cls()
     data = 0;
 }
 
+namespace fnv_0067cb40 {
+namespace p07 {
+struct DtorStandIn
+{
+};
+struct DelStandIn
+{
+    void* DestroyIfFlagged(unsigned int flags);
+};
+// Runs the destructor on this, then frees this via Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x0067cb40
+void* DelStandIn::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0067ccd0_cls *>((((DtorStandIn*)this)))->FUN_0067ccd0_cls::~FUN_0067ccd0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+}
+}  // namespace fnv_0067cb40
+
 struct BGSLoadFormBuffer;
 
 struct FUN_00680830_impl
 {
-    void __thiscall FUN_00680830(BGSLoadFormBuffer*);
 };
 struct FUN_0067fc50_impl
 {
-    void __thiscall ResolveObject(BGSLoadFormBuffer*);
 };
 
 struct FUN_0067d8b0_shell
@@ -128,38 +167,28 @@ struct FUN_0067d8b0_shell
 void FUN_0067d8b0_shell::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (m04)
-        ((FUN_00680830_impl*)m04)->FUN_00680830(apLoadGameBuffer);
+        reinterpret_cast<::FUN_00680830_shell *>((((FUN_00680830_impl*)m04)))->FUN_00680830(apLoadGameBuffer);
     if (m08)
-        ((FUN_0067fc50_impl*)m08)->ResolveObject(apLoadGameBuffer);
+        reinterpret_cast<::FUN_0067fc50_shell *>((((FUN_0067fc50_impl*)m08)))->ResolveObject((std::intptr_t)(apLoadGameBuffer));
 }
 
 struct FUN_0067da20_shell
 {
+    const void* pVtable;
+    int iValue;
     void ResetValue(int arg);
 };
 
 // @fnv 0x0067da20
 void FUN_0067da20_shell::ResetValue(int arg)
 {
-    *(int*)((char*)this + 4) = 0;
+    iValue = 0;
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_0067d990_shell
 {
-    void __thiscall InitVTableAndInit();
-    void* __thiscall FUN_0067d990(unsigned int);
+    void* FUN_0067d990(unsigned int);
 };
-// Calls InitVTableAndInit, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x0067d990
-void* __thiscall FUN_0067d990_shell::FUN_0067d990(unsigned int flags)
-{
-    InitVTableAndInit();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_0067cfc0_shell : TESUseWeaponPackageData
 {
     bool FUN_0067cfc0(TESPackageData* apCompare);
@@ -172,13 +201,10 @@ struct FUN_00680220_shell
 
 struct FUN_0067f600_shell
 {
-    bool IsDifferentFrom(void* target);
 };
 
 void* FUN_00ec43fb(void* object, unsigned int flags, char* typeInfo1, char* typeInfo2, int reserved);
-float __cdecl FUN_00408860(float value);
 
-extern char DAT_0119bdec;
 extern char DAT_0119bf00;
 
 // Compares this use-weapon package data against apCompare field by field, returning true when any field differs or the cast fails.
@@ -186,7 +212,7 @@ extern char DAT_0119bf00;
 bool FUN_0067cfc0_shell::FUN_0067cfc0(TESPackageData* apCompare)
 {
     TESUseWeaponPackageData* pOtherData =
-        static_cast<TESUseWeaponPackageData*>(FUN_00ec43fb(apCompare, 0, &DAT_0119bdec, &DAT_0119bf00, 0));
+        static_cast<TESUseWeaponPackageData*>(FUN_00ec43fb(apCompare, 0, &(*reinterpret_cast<char *>(&::DAT_0119bdec)), &DAT_0119bf00, 0));
 
     if (!pOtherData)
         return true;
@@ -206,8 +232,7 @@ bool FUN_0067cfc0_shell::FUN_0067cfc0(TESPackageData* apCompare)
 
     if (this->m_pTargetLocation)
     {
-        if (reinterpret_cast<FUN_0067f600_shell*>(this->m_pTargetLocation)
-                ->IsDifferentFrom(static_cast<void*>(pOtherData->m_pTargetLocation)))
+        if (reinterpret_cast<::fnv_0067f600::FUN_0067f600_shell *>((reinterpret_cast<FUN_0067f600_shell*>(this->m_pTargetLocation)))->IsDifferentFrom((::LocationDescriptor *)(void *)(static_cast<void*>(pOtherData->m_pTargetLocation))))
             return true;
     }
     else if (pOtherData->m_pTargetLocation)
@@ -251,9 +276,6 @@ bool FUN_0067cfc0_shell::FUN_0067cfc0(TESPackageData* apCompare)
     return false;
 }
 
-void* memset(void*, int, unsigned int);
-bool __cdecl FUN_00401500();
-void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 
 struct FUN_006802f0_shell
 {
@@ -262,7 +284,6 @@ struct FUN_006802f0_shell
 
 struct PackageLocationSave
 {
-    void Save(int);
 };
 
 struct FlaggedValueData
@@ -280,7 +301,6 @@ struct FlaggedValueData
     float m_fValue2;
     unsigned int m_uiIntegerValue;
 
-    void FUN_0067ca10();
 };
 
 struct FUN_0067d350_shell
@@ -309,7 +329,7 @@ void FUN_0067d350_shell::FUN_0067d350()
 {
     FlaggedValueData saveData;
 
-    memset(&saveData, 0, 0x18);
+    ::FUN_00403d30(&saveData, 0, 0x18);
 
     saveData.m_bFlag1 = this->m_bFlag1;
     saveData.m_bFlag2 = this->m_bFlag2;
@@ -323,21 +343,21 @@ void FUN_0067d350_shell::FUN_0067d350()
     saveData.m_fValue1 = this->m_fValue1;
     saveData.m_fValue2 = this->m_fValue2;
 
-    saveData.m_uiIntegerValue = this->pWeapon ? this->pWeapon->GetFormID() : 0;
+    saveData.m_uiIntegerValue = this->pWeapon ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this->pWeapon))->FUN_0084e3a0())) : 0;
 
-    if (FUN_00401500())
-        saveData.FUN_0067ca10();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_0067ca10_cls *>(&(saveData))->FUN_0067ca10();
 
-    AppendChunk(0x33574b50, &saveData, 0x18);
+    ::AppendChunk(0x33574b50, &saveData, 0x18);
 
-    if (FUN_00401500())
-        saveData.FUN_0067ca10();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_0067ca10_cls *>(&(saveData))->FUN_0067ca10();
 
     if (this->m_pUseTarget)
         reinterpret_cast<FUN_006802f0_shell*>(this->m_pUseTarget)->FUN_006802f0(0x32445450);
 
     if (this->m_pTargetLocation)
-        reinterpret_cast<PackageLocationSave*>(this->m_pTargetLocation)->Save(0x32444c50);
+        reinterpret_cast<::fnv_0067f6c0::FUN_0067f6c0_shell *>((reinterpret_cast<PackageLocationSave*>(this->m_pTargetLocation)))->FUN_0067f6c0(0x32444c50);
 }
 
 struct B67CC20Color
@@ -412,7 +432,6 @@ FUN_0067cc20::FUN_0067cc20(B67CC20Color kColor, B67CC20Info kInfo, B67CC20Range 
 
 // Copy the optional extra data from another object: create ours on demand, or drop it when the source is null.
 
-void* __cdecl operator new(unsigned int uiSize);
 
 class D470Source;
 
@@ -421,7 +440,6 @@ class D470ExtraData
   public:
     D470ExtraData();
     ~D470ExtraData();
-    void CopyFrom(D470Source* pkSource);
 
     int unk00;
     int unk04;
@@ -445,7 +463,7 @@ void D470Owner::SetExtraData(D470Source* pkSource)
     {
         if (!m_pExtraData)
             m_pExtraData = new D470ExtraData;
-        m_pExtraData->CopyFrom(pkSource);
+        reinterpret_cast<::FUN_006801a0_shell *>((m_pExtraData))->FUN_006801a0((::PackageTargetRecord *)(pkSource));
     }
     else
     {
@@ -456,14 +474,10 @@ void D470Owner::SetExtraData(D470Source* pkSource)
 
 struct BGSLoadFormBuffer
 {
-    void FUN_00864980(void* destination, unsigned int size);
-    unsigned int FUN_008648a0();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
 struct PackageTargetObj : PackageTargetRecord
 {
     PackageTargetObj();
-    void FUN_006807b0(BGSLoadFormBuffer*);
 };
 struct PackageLocationObj
 {
@@ -471,7 +485,6 @@ struct PackageLocationObj
     unsigned int location;
     unsigned int radius;
     PackageLocationObj();
-    void FUN_0067fbe0(BGSLoadFormBuffer*);
 };
 struct UseWeaponLoader : TESUseWeaponPackageData
 {
@@ -481,60 +494,65 @@ struct UseWeaponLoader : TESUseWeaponPackageData
 // @fnv 0x0067d6b0
 void UseWeaponLoader::LoadUseWeaponData(BGSLoadFormBuffer* buffer)
 {
-    buffer->FUN_00864980(&m_bFlag1, 1);
-    buffer->FUN_00864980(&m_bFlag2, 1);
-    buffer->FUN_00864980(&m_bFlag3, 1);
-    buffer->FUN_00864980(&m_bFlag4, 1);
-    buffer->FUN_00864980(&m_bFlag5, 1);
-    buffer->FUN_00864980(&m_bFlag6, 1);
-    buffer->FUN_00864980(&m_usValue1, 2);
-    buffer->FUN_00864980(&m_usValue2, 2);
-    buffer->FUN_00864980(&m_usValue3, 2);
-    buffer->FUN_00864980(&m_fValue1, 4);
-    buffer->FUN_00864980(&m_fValue2, 4);
-    pWeapon = dynamic_cast<TESObjectWEAP*>(FUN_004839c0(buffer->FUN_008648a0()));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlag1), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlag2), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlag3), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlag4), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlag5), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlag6), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_usValue1), 2);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_usValue2), 2);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_usValue3), 2);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fValue1), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fValue2), 4);
+    pWeapon = dynamic_cast<TESObjectWEAP*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
     bool hasTarget;
     bool hasLocation = false;
-    buffer->FUN_00864980(&hasLocation, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&hasLocation), 1);
     if (hasLocation)
     {
         m_pUseTarget = new PackageTargetObj;
-        static_cast<PackageTargetObj*>(m_pUseTarget)->FUN_006807b0(buffer);
+        reinterpret_cast<::S_006807b0_Target *>((static_cast<PackageTargetObj*>(m_pUseTarget)))->FUN_006807b0((::S_006807b0_Stream *)(buffer));
     }
     hasTarget = false;
-    buffer->FUN_00864980(&hasTarget, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&hasTarget), 1);
     if (hasTarget)
     {
         m_pTargetLocation = reinterpret_cast<LocationDescriptor*>(new PackageLocationObj);
-        reinterpret_cast<PackageLocationObj*>(m_pTargetLocation)->FUN_0067fbe0(buffer);
+        reinterpret_cast<::FUN_0067fbe0_cls *>((reinterpret_cast<PackageLocationObj*>(m_pTargetLocation)))->FUN_0067fbe0((::PackageLoadStream *)(buffer));
     }
 }
 
-extern int DAT_01068a88;
 
 struct FUN_0067d9c0_cls
 {
     void* m_vptr;
-    void Init();
     void InitVTableAndInit();
 };
+// Calls InitVTableAndInit, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x0067d990
+void* FUN_0067d990_shell::FUN_0067d990(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0067d9c0_cls *>(this)->InitVTableAndInit();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0067d9c0
 void FUN_0067d9c0_cls::InitVTableAndInit()
 {
     m_vptr = &DAT_01068a88;
-    Init();
+    reinterpret_cast<::FUN_0067d970_Class *>(this)->FUN_0067d970();
 }
 
 void* FUN_00ec43fb(void* object, unsigned int flags, char* typeInfo1, char* typeInfo2, int reserved);
-extern char DAT_0119bdec;
 extern char DAT_0119bf00;
 
 struct Target_Stub : PackageTargetRecord
 {
     Target_Stub();
     ~Target_Stub();
-    void CopyFrom(PackageTargetRecord*);
 };
 
 struct TargetLocation_Stub
@@ -544,7 +562,6 @@ struct TargetLocation_Stub
     int unk08;
     TargetLocation_Stub();
     ~TargetLocation_Stub();
-    void CopyFrom(LocationDescriptor*, bool);
 };
 
 struct UseWeaponPackageData_Shell : TESUseWeaponPackageData
@@ -557,7 +574,7 @@ struct UseWeaponPackageData_Shell : TESUseWeaponPackageData
 void UseWeaponPackageData_Shell::FUN_0067cd90(TESPackageData* apSource)
 {
     TESUseWeaponPackageData* target =
-        (TESUseWeaponPackageData*)FUN_00ec43fb(apSource, 0, &DAT_0119bdec, &DAT_0119bf00, 0);
+        (TESUseWeaponPackageData*)FUN_00ec43fb(apSource, 0, &(*reinterpret_cast<char *>(&::DAT_0119bdec)), &DAT_0119bf00, 0);
     if (!target)
     {
         return;
@@ -569,7 +586,7 @@ void UseWeaponPackageData_Shell::FUN_0067cd90(TESPackageData* apSource)
     if (target->m_pUseTarget)
     {
         this->m_pUseTarget = new Target_Stub();
-        ((Target_Stub*)this->m_pUseTarget)->CopyFrom(target->m_pUseTarget);
+        reinterpret_cast<::FUN_006801a0_shell *>((((Target_Stub*)this->m_pUseTarget)))->FUN_006801a0(target->m_pUseTarget);
     }
 
     this->pWeapon = target->pWeapon;
@@ -580,7 +597,7 @@ void UseWeaponPackageData_Shell::FUN_0067cd90(TESPackageData* apSource)
     if (target->m_pTargetLocation)
     {
         this->m_pTargetLocation = (LocationDescriptor*)new TargetLocation_Stub();
-        ((TargetLocation_Stub*)this->m_pTargetLocation)->CopyFrom(target->m_pTargetLocation, false);
+        reinterpret_cast<::LocationDescriptor *>((((TargetLocation_Stub*)this->m_pTargetLocation)))->Copy(target->m_pTargetLocation, false);
     }
 
     this->m_bFlag1 = target->m_bFlag1;
@@ -596,19 +613,15 @@ void UseWeaponPackageData_Shell::FUN_0067cd90(TESPackageData* apSource)
     this->m_fValue2 = target->m_fValue2;
 }
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
-    void SaveData(void*, unsigned int, int);
-    void FUN_00865df0(void*, int);
 };
 struct TargetSave
 {
-    void SaveToBuffer(BGSSaveFormBuffer*);
 };
 struct LocationSave
 {
-    void FUN_0067fb60(BGSSaveFormBuffer*);
 };
 struct WorkerWeapon : TESUseWeaponPackageData
 {
@@ -617,26 +630,26 @@ struct WorkerWeapon : TESUseWeaponPackageData
 // @fnv 0x0067d550
 void WorkerWeapon::FUN_0067d550(BGSSaveFormBuffer* buffer)
 {
-    buffer->SaveData(&m_bFlag1, 1, 0);
-    buffer->SaveData(&m_bFlag2, 1, 0);
-    buffer->SaveData(&m_bFlag3, 1, 0);
-    buffer->SaveData(&m_bFlag4, 1, 0);
-    buffer->SaveData(&m_bFlag5, 1, 0);
-    buffer->SaveData(&m_bFlag6, 1, 0);
-    buffer->SaveData(&m_usValue1, 2, 0);
-    buffer->SaveData(&m_usValue2, 2, 0);
-    buffer->SaveData(&m_usValue3, 2, 0);
-    buffer->SaveData(&m_fValue1, 4, 0);
-    buffer->SaveData(&m_fValue2, 4, 0);
-    buffer->FUN_00865df0(pWeapon, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bFlag1, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bFlag2, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bFlag3, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bFlag4, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bFlag5, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bFlag6, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_usValue1, 2, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_usValue2, 2, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_usValue3, 2, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fValue1, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fValue2, 4, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pWeapon), 0);
     bool p = m_pUseTarget;
-    buffer->SaveData(&p, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&p, 1, 0);
     if (p)
-        ((TargetSave*)m_pUseTarget)->SaveToBuffer(buffer);
+        reinterpret_cast<::C80720Target *>((((TargetSave*)m_pUseTarget)))->SaveToBuffer((::C80720SaveBuffer *)(buffer));
     bool bHasLocation = m_pTargetLocation;
-    buffer->SaveData(&bHasLocation, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&bHasLocation, 1, 0);
     if (bHasLocation)
-        ((LocationSave*)m_pTargetLocation)->FUN_0067fb60(buffer);
+        reinterpret_cast<::FUN_0067fb60_shell *>((((LocationSave*)m_pTargetLocation)))->FUN_0067fb60((::LocationInputStream *)(buffer));
 }
 
 class FUN_0067ad20_Class
@@ -692,3 +705,5 @@ FUN_0067cb70::FUN_0067cb70(Data67CB kData, int iParam)
     m_kData.m_f0C = kData.m_f0C;
     m_kData.m_f10 = kData.m_f10;
 }
+
+#include "generated/data/fallout_shared/packagedatauseweapon.inc"

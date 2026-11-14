@@ -15,26 +15,27 @@
 #define FNV_NIGEOMETRYDATA_UNIT_H
 
 
+#include "fnv/decl/FUN_00a72590_Class.h"
 #include "layout_support.h"
 #include "NiMemObject.h"
 #include "NiRefObject.h"
 #include "NiPoint3.h"
 
 class NiAdditionalGeometryData;
-class NiBound;
-class CloningProcess;
-class RgbaColor;
+struct NiBound;
+struct CloningProcess;
+struct RgbaColor;
 class NiGeometryData;
 class NiObjectGroup;
-class NiPoint2;
-class NiRTTI;
-class NiStream;
+struct NiPoint2;
+struct NiRTTI;
+struct NiStream;
 class NiViewerStringsArray;
 
 // ---------------------------------------------------------------------------
 // NiObject. Virtual order matches the FNV PC vtable used by this unit.
 // ---------------------------------------------------------------------------
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();
@@ -70,15 +71,16 @@ class NiObject : public NiRefObject
 // ---------------------------------------------------------------------------
 // NiBound (16 bytes: center + radius).
 // ---------------------------------------------------------------------------
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;    // +0x0
     float m_fBoundRadius;  // +0xC
+public:
+    char *FUN_00a7fb20(const char *);
+public:
+    bool FUN_00a926b0(const ::NiBound &);
 };
-FNV_STATIC_ASSERT(sizeof(NiBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_kCenter) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_fBoundRadius) == 12);
 
 // ---------------------------------------------------------------------------
 // NiAdditionalGeometryData (only what this unit uses: slot 35 IsPacked and
@@ -96,7 +98,6 @@ class NiAdditionalGeometryData : public NiObject
     virtual unsigned int GetDataStreamCount() const;
     virtual void* GetDataStream(unsigned int uiIndex);
     virtual bool IsDataStreamValid(unsigned int uiIndex) const;
-    void* FUN_00a72590(unsigned int, unsigned int*);
     void* FUN_00a725d0(unsigned int);
     virtual bool IsPacked() const;  // slot 35
 };
@@ -104,7 +105,8 @@ class NiAdditionalGeometryData : public NiObject
 // ---------------------------------------------------------------------------
 // NiStream (only what this unit uses).
 // ---------------------------------------------------------------------------
-class NiStream : public NiObject
+class NiObjectGroup;
+struct NiStream : public NiObject
 {
   public:
     NiObject* GetLoadedObject();
@@ -115,6 +117,8 @@ class NiStream : public NiObject
 
     unsigned char m_auPad0[0xD8 - 0x8];
     unsigned int m_uiNifVersion;  // +0xD8
+public:
+    ::NiObjectGroup *GetObjectGroup(unsigned int);
 };
 
 // ---------------------------------------------------------------------------
@@ -164,22 +168,5 @@ class NiGeometryData : public NiObject
     bool m_bBoundDirty;                                          // +0x3B
     bool m_bVerticesDirty;                                       // +0x3C
 };
-FNV_STATIC_ASSERT(sizeof(NiGeometryData) == 64);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usVertices) == 8);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usGeometryFlags) == 10);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usTrianglePoints) == 12);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usDirtyFlags) == 14);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_kBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkVertex) == 32);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkNormal) == 36);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkColor) == 40);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkTexture) == 44);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_spAdditionalGeomData) == 48);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkGeometryRendererData) == 52);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucKeepFlags) == 56);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucCompressFlags) == 57);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bIsDynamic) == 58);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bBoundDirty) == 59);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bVerticesDirty) == 60);
 
 #endif

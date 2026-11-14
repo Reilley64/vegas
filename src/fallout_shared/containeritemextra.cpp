@@ -1,5 +1,24 @@
 // fallout_shared/containeritemextra.cpp: ContainerItemExtra, TESLeveledList (9 functions)
 
+#include "fnv/decl/Class005a6b10.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0046dce0_class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "containeritemextra_leveledlist.h"
 #include "layout_support.h"
 #include "TESForm.h"
@@ -18,11 +37,9 @@ struct ContainerItemExtraFileData
     unsigned int m_cRank;
     float m_fHealth;
 
-    void Endian();
 };
 
 // members without the member functions matched in this unit.
-#pragma pack(push, 4)
 class ContainerItemExtra
 {
   public:
@@ -41,13 +58,6 @@ class ContainerItemExtra
     void Copy(ContainerItemExtra* other);
     bool IsDefault();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ContainerItemExtra) == 12);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_pForm) == 0);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_pGlobal) == 4);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_cRank) == 4);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_uiRankFlags) == 4);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_fHealth) == 8);
 
 // Initializes the form pointer and union member to null and sets the float value to 1.0.
 // @fnv 0x0040e690
@@ -64,12 +74,12 @@ bool ContainerItemExtra::Load(TESFile* file)
     bool loaded = false;
     if (file)
     {
-        if (file->GetChunkID() == kContainerItemExtraChunk)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == kContainerItemExtraChunk)
         {
             ContainerItemExtraFileData fileData;
-            file->GetChunkData(&fileData, sizeof(fileData));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&fileData), sizeof(fileData));
             if (file->IsEndianConversionRequired())
-                fileData.Endian();
+                reinterpret_cast<::Class005a6b10 *>(&(fileData))->FUN_005a6b10();
             m_pForm = fileData.m_pForm;
             m_uiRankFlags = fileData.m_cRank;
             m_fHealth = fileData.m_fHealth;
@@ -139,8 +149,6 @@ struct FUN_0040eb90_shell : public ContainerItemExtra
     void FUN_0040eb90(float);
 };
 
-float __cdecl FUN_00404010(float, float);
-float __cdecl FUN_0040ebd0(float, float);
 
 // @fnv 0x0040eb90
 void FUN_0040eb90_shell::FUN_0040eb90(float afHealthPerc)
@@ -158,8 +166,6 @@ struct Holder0040e9f0
     void WriteToChunk();
 };
 
-bool FUN_00401500();
-void AppendChunk(int, void*, int);
 
 // @fnv 0x0040e6c0
 void Holder0040e9f0::WriteToChunk()
@@ -172,11 +178,11 @@ void Holder0040e9f0::WriteToChunk()
 
     if (this->m_pForm != 0)
     {
-        fileData.m_pForm = reinterpret_cast<TESForm*>(this->m_pForm->GetFormID());
+        fileData.m_pForm = reinterpret_cast<TESForm*>(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this->m_pForm))->FUN_0084e3a0())));
 
         m_pGlobal = this->GetValueIfFormType42();
         if (m_pGlobal != 0)
-            fileData.m_cRank = reinterpret_cast<TESForm*>(m_pGlobal)->GetFormID();
+            fileData.m_cRank = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(m_pGlobal)))->FUN_0084e3a0()));
         else
             fileData.m_cRank = this->m_cRank;
     }
@@ -188,11 +194,11 @@ void Holder0040e9f0::WriteToChunk()
 
     fileData.m_fHealth = this->m_fHealth;
 
-    if (FUN_00401500())
-        fileData.Endian();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::Class005a6b10 *>(&(fileData))->FUN_005a6b10();
 
-    AppendChunk(kContainerItemExtraChunk, &fileData, 0xc);
+    ::AppendChunk(kContainerItemExtraChunk, &fileData, 0xc);
 
-    if (FUN_00401500())
-        fileData.Endian();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::Class005a6b10 *>(&(fileData))->FUN_005a6b10();
 }

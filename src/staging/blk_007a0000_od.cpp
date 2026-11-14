@@ -1,19 +1,63 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses the constructor from T*
+// and the destructor.
+#define FNV_KEEPS_OWN_NIPOINTER
 
 // src/staging/blk_007a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BSStringTChar.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004ede90_Class.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_007a3ac0_ListBox.h"
+#include "fnv/decl/FUN_007a7700_Menu.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/Flt.h"
+#include "fnv/decl/GO.h"
+#include "fnv/decl/HighlightList.h"
+#include "fnv/decl/ItemCounter.h"
+#include "fnv/decl/ListScrollHost.h"
+#include "fnv/decl/ListStandIn.h"
+#include "fnv/decl/ScriptPool.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/Target007a4780.h"
+#include "fnv/decl/Tile.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/VLList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_007a54d0__ClearListBox.h"
+#include "fnv/decl/fnv_007a6a50__FUN_007a6a50_shell.h"
+#include "fnv/decl/fnv_007a71b0__FUN_007a71b0_cls.h"
+#include "fnv/decl/fnv_007a73e0__HighlightList.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/xEntryMenu.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00721000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01075000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_007a1400_class
 {
+    char pad00[0x30];
+    int unk30;
     void FUN_007a1400(int flags);
 };
 
 // @fnv 0x007a1400
 void FUN_007a1400_class::FUN_007a1400(int flags)
 {
-    if (*(int*)((char*)this + 0x30) & flags)
-        *(int*)((char*)this + 0x30) ^= flags;
+    if (this->unk30 & flags)
+        this->unk30 ^= flags;
 }
 
 struct FUN_007a1430_Class
@@ -31,24 +75,24 @@ void FUN_007a1430_Class::SetFlag(unsigned char value)
 
 struct Unk65
 {
-    void FUN_0065de30(int);
+    void FUN_0065de30(const void*);
 };
 
 struct Unk65a
 {
-    Unk65* __thiscall FUN_007ab230(Unk65* other);
+    Unk65* FUN_007ab230(Unk65* other);
 };
 
 // @fnv 0x007ab230
-Unk65* __thiscall Unk65a::FUN_007ab230(Unk65* other)
+Unk65* Unk65a::FUN_007ab230(Unk65* other)
 {
-    other->FUN_0065de30((int)this);
+    other->FUN_0065de30(this);
     return other;
 }
 
 extern "C" void* __cdecl DAT_01075794;
 
-struct NavMeshInfo;
+class NavMeshInfo;
 
 struct AX
 {
@@ -70,7 +114,6 @@ FUN_007ab590* FUN_007ab590::DeserializeFromFile()
 }
 
 namespace fnv_007ab610 {
-extern int DAT_010757a8;
 struct AX
 {
     void FUN_006b3eb0(unsigned int, unsigned int);
@@ -79,67 +122,56 @@ struct AX
 // @fnv 0x007ab610
 AX* AX::FUN_007ab610()
 {
-    *(int*)this = (int)&DAT_010757a8;
+    *(void**)this = &::DAT_010757a8;
     FUN_006b3eb0(0, 0);
     return this;
 }
 }  // namespace fnv_007ab610
 
-extern int DAT_010757a8;
 
 struct GlobalObject_00869f00
 {
-    void __thiscall Clear(bool);
-    void __thiscall FUN_007ab670();
+    void FUN_007ab670();
 };
 
-void __thiscall GlobalObject_00869f00::Clear(bool)
-{}
-
 // @fnv 0x007ab670
-void __thiscall GlobalObject_00869f00::FUN_007ab670()
+void GlobalObject_00869f00::FUN_007ab670()
 {
-    *(int*)this = (int)&DAT_010757a8;
-    Clear(true);
+    *(void**)this = &DAT_010757a8;
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
 struct FUN_007adcc0_class
 {
+    char pad00[0x75d];
+    unsigned char unk75d;
     void SetAllow(bool abAllow);
 };
 
 // @fnv 0x007adcc0
 void FUN_007adcc0_class::SetAllow(bool abAllow)
 {
-    ((unsigned char*)this)[0x75d] = abAllow;
+    this->unk75d = abAllow;
 }
 
 struct FUN_007b8f10_Class
 {
-    unsigned int __thiscall GetField630();
+    char pad00[0x630];
+    unsigned int unk630;
+    unsigned int GetField630();
 };
 
 // @fnv 0x007b8f10
-unsigned int __thiscall FUN_007b8f10_Class::GetField630()
+unsigned int FUN_007b8f10_Class::GetField630()
 {
-    return *(unsigned int*)((char*)this + 0x630);
+    return this->unk630;
 }
 
 struct GlobalObject_007ab590
 {
     ~GlobalObject_007ab590();
-    void* __thiscall FUN_007ab5c0(unsigned int flags);
+    void* FUN_007ab5c0(unsigned int flags);
 };
-
-// Runs the destructor and, if flags has bit 0 set, frees the object with operator delete, then returns this.
-// @fnv 0x007ab5c0
-void* __thiscall GlobalObject_007ab590::FUN_007ab5c0(unsigned int flags)
-{
-    GlobalObject_007ab590::~GlobalObject_007ab590();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
 
 void __cdecl FUN_00730490(char*, int);
 
@@ -147,19 +179,18 @@ struct FUN_007b52a0_class
 {
     char* m_ptr;
     unsigned short m_uiItemCount;
-    void __thiscall FUN_007b52a0();
+    void FUN_007b52a0();
 };
 
 // @fnv 0x007b52a0
-void __thiscall FUN_007b52a0_class::FUN_007b52a0()
+void FUN_007b52a0_class::FUN_007b52a0()
 {
     if (m_ptr)
         FUN_00730490(m_ptr, m_uiItemCount + 1);
 }
 
-struct EffectSetting
+class EffectSetting
 {
-    EffectSetting* GetLight();
 };
 struct MapMenu_007a1880
 {
@@ -167,21 +198,20 @@ struct MapMenu_007a1880
     EffectSetting* pEffect;
     bool bEffectChanged;
 };
-extern MapMenu_007a1880* DAT_011da368;
 // @fnv 0x007a1880
 void __cdecl FUN_007a1880(EffectSetting* effect)
 {
-    if (DAT_011da368)
+    if ((*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368)))
     {
-        EffectSetting* previous = DAT_011da368->pEffect;
-        DAT_011da368->pEffect = effect;
-        while (DAT_011da368->pEffect && DAT_011da368->pEffect->GetLight())
-            DAT_011da368->pEffect = DAT_011da368->pEffect->GetLight();
-        DAT_011da368->bEffectChanged = previous != DAT_011da368->pEffect;
+        EffectSetting* previous = (*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368))->pEffect;
+        (*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368))->pEffect = effect;
+        while ((*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368))->pEffect && ((::EffectSetting *)(reinterpret_cast<::FUN_004fd380_shell *>(((*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368))->pEffect))->FUN_004fd380())))
+            (*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368))->pEffect = ((::EffectSetting *)(reinterpret_cast<::FUN_004fd380_shell *>(((*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368))->pEffect))->FUN_004fd380()));
+        (*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368))->bEffectChanged = previous != (*reinterpret_cast<::MapMenu_007a1880 * *>(&::DAT_011da368))->pEffect;
     }
 }
 
-struct NavMeshInfo;
+class NavMeshInfo;
 struct NavMeshInfo4
 {
     NavMeshInfo* m_pObjectInfo;
@@ -208,7 +238,6 @@ struct FUN_007a8030_Class
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    unsigned int FUN_007a8030(int);
     virtual void FUN_007a8030_v5(int);
 };
 
@@ -221,7 +250,7 @@ struct FUN_007a62b0_Class : FUN_007a8030_Class
 // @fnv 0x007a62b0
 void FUN_007a62b0_Class::FUN_007a62b0()
 {
-    FUN_007a8030_v5(FUN_007a8030(0) - 1);
+    FUN_007a8030_v5(reinterpret_cast<::ItemCounter *>(this)->FUN_007a8030() - 1);
 }
 
 struct BSS
@@ -233,15 +262,15 @@ struct BSS
 // @fnv 0x007a86b0
 BSS* BSS::FUN_007a86b0(unsigned int flags)
 {
-    this->BSS::~BSS();
+    reinterpret_cast<::BSStringTChar *>((this))->BSStringTChar::~BSStringTChar();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct BSSimpleArrayActor
 {
-    void __thiscall Clear(bool);
+    void Clear(bool);
 };
 void* __cdecl DAT_01075794;
 
@@ -250,12 +279,21 @@ struct FUN_007ab5f0_class : BSSimpleArrayActor
     void* m_data;
     void FUN_007ab5f0();
 };
+// Runs the destructor and, if flags has bit 0 set, frees the object with operator delete, then returns this.
+// @fnv 0x007ab5c0
+void* GlobalObject_007ab590::FUN_007ab5c0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_007ab5f0_class *>(this)->FUN_007ab5f0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x007ab5f0
 void FUN_007ab5f0_class::FUN_007ab5f0()
 {
     m_data = &DAT_01075794;
-    Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
 struct GlobalObject_007ab610
@@ -267,23 +305,21 @@ struct GlobalObject_007ab610
 // @fnv 0x007ab640
 void* GlobalObject_007ab610::FUN_007ab640(unsigned int flags)
 {
-    this->GlobalObject_007ab610::~GlobalObject_007ab610();
+    reinterpret_cast<::GlobalObject_00869f00 *>((this))->FUN_007ab670();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-extern int DAT_011dea14;
 
 // @fnv 0x007a1480
-int __cdecl FUN_007a1480()
+intptr_t __cdecl FUN_007a1480()
 {
     return DAT_011dea14;
 }
 
 struct NavMeshPayload
 {
-    bool Equals(int mode);
 };
 struct NavMeshListNode
 {
@@ -292,22 +328,20 @@ struct NavMeshListNode
     unsigned int m_uiContentCount;
     NavMeshListNode* m_next;
     NavMeshListNode(NavMeshPayload* payload);
-    bool IsNotEqual(int mode);
-    void FUN_00418900(NavMeshPayload* payload);
     void FUN_007a19a0(NavMeshPayload* payload);
 };
 // @fnv 0x007a19a0
 void NavMeshListNode::FUN_007a19a0(NavMeshPayload* payload)
 {
-    if (payload->Equals(0))
+    if (reinterpret_cast<::Flt *>((payload))->Equals(0))
         return;
     NavMeshListNode* current = this;
     while (current->m_next)
         current = current->m_next;
-    if (current->IsNotEqual(0))
+    if (reinterpret_cast<::GO *>((current))->IsNotEqual(0))
         current->m_next = new NavMeshListNode(payload);
     else
-        current->FUN_00418900(payload);
+        reinterpret_cast<::SoundPlaybackHandle *>((current))->operator=((*(const ::SoundPlaybackHandle *)(payload)));
 }
 
 struct FUN_0046ffb0
@@ -319,17 +353,15 @@ struct FUN_007a28c0
 {
     virtual ~FUN_007a28c0();
     FUN_0046ffb0 member;
-    void ClearEntries();
 };
 
-void __cdecl FUN_007211c0(FUN_007a28c0* object);
 
 // Calls ClearEntries, then passes this to FUN_007211c0 as part of destruction.
 // @fnv 0x007a28c0
 FUN_007a28c0::~FUN_007a28c0()
 {
-    ClearEntries();
-    FUN_007211c0(this);
+    reinterpret_cast<::xEntryMenu *>(this)->ClearEntries();
+    ::fnv_007211c0::FUN_007211c0((int *)(::FUN_007a28c0 *)(this));
 }
 
 class SubObj
@@ -343,18 +375,16 @@ class FUN_007a37b0
 {
   public:
     virtual void unk00();
-    void Cleanup();
     SubObj m_sub;
     ~FUN_007a37b0();
 };
 
-void __cdecl ReleaseObject(FUN_007a37b0* p);
 
 // @fnv 0x007a37b0
 FUN_007a37b0::~FUN_007a37b0()
 {
-    Cleanup();
-    ReleaseObject(this);
+    reinterpret_cast<::FUN_007a3ac0_ListBox *>(this)->FUN_007a3ac0();
+    ::fnv_007211c0::FUN_007211c0((int *)(::FUN_007a37b0 *)(this));
 }
 
 class FUN_007a4470_sub
@@ -368,18 +398,16 @@ class FUN_007a4470_cls
 {
   public:
     virtual ~FUN_007a4470_cls();
-    void Step();
     FUN_007a4470_sub m_04;
 };
 
-void __cdecl FUN_007211c0(FUN_007a4470_cls* p);
 
 // Calls Step, then passes this to FUN_007211c0 during destruction.
 // @fnv 0x007a4470
 FUN_007a4470_cls::~FUN_007a4470_cls()
 {
-    Step();
-    FUN_007211c0(this);
+    reinterpret_cast<::Target007a4780 *>(this)->FUN_007a4780();
+    ::fnv_007211c0::FUN_007211c0((int *)(::FUN_007a4470_cls *)(this));
 }
 
 struct FUN_007a51c0_m4
@@ -388,21 +416,19 @@ struct FUN_007a51c0_m4
     ~FUN_007a51c0_m4();
 };
 
-void __cdecl FUN_007211c0(void* p);
 
 struct FUN_007a51c0_cls
 {
     virtual ~FUN_007a51c0_cls();
     FUN_007a51c0_m4 m_04;
 
-    void FUN_007a54d0();
 };
 
 // @fnv 0x007a51c0
 FUN_007a51c0_cls::~FUN_007a51c0_cls()
 {
-    FUN_007a54d0();
-    FUN_007211c0(this);
+    reinterpret_cast<::fnv_007a54d0::ClearListBox *>(this)->FUN_007a54d0();
+    ::fnv_007211c0::FUN_007211c0((int *)(void *)(this));
 }
 
 struct FUN_007a6220_class
@@ -414,16 +440,15 @@ struct FUN_007a6220_class
     virtual void FUN_007a6220_v5();
     virtual void FUN_007a6220_v6(int value);
 
-    int __thiscall GetUnfilteredCount(int value);
 
-    void __thiscall FUN_007a6220();
+    void FUN_007a6220();
 };
 
 // Calls GetUnfilteredCount with 0, subtracts 1 from the result, and passes it to FUN_007a6220_v6.
 // @fnv 0x007a6220
-void __thiscall FUN_007a6220_class::FUN_007a6220()
+void FUN_007a6220_class::FUN_007a6220()
 {
-    FUN_007a6220_v6(GetUnfilteredCount(0) - 1);
+    FUN_007a6220_v6(((int)(reinterpret_cast<::fnv_007a6a50::FUN_007a6a50_shell *>(this)->GetUnfilteredCount())) - 1);
 }
 
 // FUN_007a6250 : thiscall member, no stack args.
@@ -438,7 +463,6 @@ struct SpawnedObject
     virtual void v04();
     virtual void v05(int value);
 
-    int FUN_007a71b0(int mode);
 
     void FUN_007a6250();
 };
@@ -447,12 +471,11 @@ struct SpawnedObject
 // @fnv 0x007a6250
 void SpawnedObject::FUN_007a6250()
 {
-    this->v05(this->FUN_007a71b0(0) - 1);
+    this->v05(reinterpret_cast<::fnv_007a71b0::FUN_007a71b0_cls *>((this))->FUN_007a71b0() - 1);
 }
 
 struct SceneThing
 {
-    void __thiscall FUN_00700320(unsigned int flags, unsigned int index);
 };
 
 struct SceneInner
@@ -469,8 +492,6 @@ struct SceneHolder
 
 struct SceneNodeRef
 {
-    SceneHolder* FUN_006815c0();
-    SceneNodeRef* FUN_00726070();
 };
 
 struct FUN_007a80e0_cls
@@ -486,9 +507,6 @@ struct FUN_007a80e0_cls
     unsigned short unk1e;
     float m_20;
 
-    void AccumulateTileHeight(SceneThing* thing);
-    void FUN_007a8580();
-    void UpdateHighlight();
     void InitSceneNodes();
 };
 
@@ -497,17 +515,17 @@ void FUN_007a80e0_cls::InitSceneNodes()
 {
     this->m_1c = 0;
     this->m_20 = 0.0f;
-    for (SceneNodeRef* pNodeRef = this ? (SceneNodeRef*)((char*)this + 4) : 0;
-         pNodeRef != 0 && pNodeRef->FUN_006815c0()->m_00 != 0; pNodeRef = pNodeRef->FUN_00726070())
+    for (SceneNodeRef* pNodeRef = this ? (SceneNodeRef*)&this->unk04 : 0;
+         pNodeRef != 0 && ((::SceneHolder *)(new ((void *)(pNodeRef)) ::Vec3()))->m_00 != 0; pNodeRef = ((::SceneNodeRef *)(reinterpret_cast<::Callees *>((pNodeRef))->FUN_00726070())))
     {
-        if (pNodeRef->FUN_006815c0()->m_00->m_flag08 == 0)
+        if (((::SceneHolder *)(new ((void *)(pNodeRef)) ::Vec3()))->m_00->m_flag08 == 0)
         {
-            pNodeRef->FUN_006815c0()->m_00->m_00->FUN_00700320(0xfac, this->m_1c++);
-            this->AccumulateTileHeight(pNodeRef->FUN_006815c0()->m_00->m_00);
+            reinterpret_cast<::Tile *>((((::SceneHolder *)(new ((void *)(pNodeRef)) ::Vec3()))->m_00->m_00))->Set(0xfac, this->m_1c++);
+            reinterpret_cast<::VLList *>((this))->AccumulateTileHeight((::VLTile *)(((::SceneHolder *)(new ((void *)(pNodeRef)) ::Vec3()))->m_00->m_00));
         }
     }
-    this->FUN_007a8580();
-    this->UpdateHighlight();
+    reinterpret_cast<::ListScrollHost *>((this))->FUN_007a8580();
+    reinterpret_cast<::HighlightList *>((this))->UpdateHighlight_007a8260();
 }
 
 // Sub-object with an out-of-line destructor (shared by every member below).
@@ -518,7 +536,6 @@ class ManagedSubObject
     ~ManagedSubObject();
 };
 
-extern "C" void __cdecl FUN_00401030(void* p);
 
 class FUN_007a8960_cls : public ManagedSubObject
 {
@@ -542,7 +559,7 @@ class FUN_007a8960_cls : public ManagedSubObject
 FUN_007a8960_cls::~FUN_007a8960_cls()
 {
     void* p = m_08;
-    FUN_00401030(p);
+    ::FUN_00401030(p);
     m_08 = 0;
 }
 
@@ -654,32 +671,27 @@ struct FUN_007ac9f0 : Base7ac9f0
 FUN_007ac9f0::FUN_007ac9f0()
 {}
 
-extern "C" const double DAT_01012060;
 struct ActiveEffectEntry
 {
-    float FUN_00a011b0(unsigned int id);
-    void FUN_00a012d0(unsigned int id, float value, bool update);
 };
 struct ActiveEffectCollection
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     float rate;
-    int FUN_00559450();
-    ActiveEffectEntry*** FUN_0057cbe0(int* iterator);
     void FUN_007b4530(int amount);
 };
 // @fnv 0x007b4530
 void ActiveEffectCollection::FUN_007b4530(int amount)
 {
-    if (rate <= DAT_01012060)
+    if (rate <= ::_DAT_01012060)
         return;
-    int it = FUN_00559450();
+    int it = ::FUN_00559450((int *)this);
     while (it)
     {
-        ActiveEffectEntry* pEffect = **FUN_0057cbe0(&it);
-        float fAmount = pEffect->FUN_00a011b0(4002);
+        ActiveEffectEntry* pEffect = **((::ActiveEffectEntry ***)(reinterpret_cast<::ListStandIn *>(this)->FUN_0057cbe0((int **)(int *)(&it))));
+        float fAmount = reinterpret_cast<::TileListBoxCalls *>((pEffect))->GetFloat(4002);
         fAmount = (float)amount * rate + fAmount;
-        pEffect->FUN_00a012d0(4002, fAmount, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((pEffect))->FUN_00a012d0(4002, fAmount, true);
     }
 }
 
@@ -704,24 +716,21 @@ struct FUN_0049fa80_Result
 
 struct FUN_007b5330_Class
 {
-    FUN_0049fa80_Result* __thiscall FUN_0049fa80();
-    void __thiscall InsertBefore(int arg1, FUN_0049fa80_Result* arg2);
-    void __thiscall FUN_007b5330(int arg1, int* arg2);
+    void FUN_007b5330(intptr_t arg1, int* arg2);
 };
 
 // Gets a result object, stores the int pointed to by arg2 into its unk08 field, then passes it with arg1 to InsertBefore.
 // @fnv 0x007b5330
-void __thiscall FUN_007b5330_Class::FUN_007b5330(int arg1, int* arg2)
+void FUN_007b5330_Class::FUN_007b5330(intptr_t arg1, int* arg2)
 {
-    FUN_0049fa80_Result* result = this->FUN_0049fa80();
+    FUN_0049fa80_Result* result = ((::FUN_0049fa80_Result *)(reinterpret_cast<::ScriptPool *>((this))->FUN_0049fa80()));
     result->unk08 = *arg2;
-    this->InsertBefore(arg1, result);
+    reinterpret_cast<::FUN_004ede90_Class *>((this))->InsertBefore((void *)(arg1), (void **)(result));
 }
 
 namespace q72 {
 struct Target
 {
-    void FUN_00700320(int id, int idx);
 };
 struct Item
 {
@@ -733,21 +742,17 @@ struct SL
 {
     Item* item;
     SL* next;
-    Item*& FUN_006815c0();
-    SL* FUN_00726070();
 };
 struct Head
 {
     int m_iWordAt00;
 };
-struct Menu : Head, SL
+class Menu : public Head, public SL
 {
+  public:
     char pad0c[0x10];
     unsigned short m_usElementCount;
     float m_fValue;
-    void AccumulateTileHeight(Target* t);
-    void FUN_007a7700();
-    void FUN_007a73e0();
     void FUN_007a7260();
 };
 // @fnv 0x007a7260
@@ -755,15 +760,15 @@ void Menu::FUN_007a7260()
 {
     m_usElementCount = 0;
     m_fValue = 0.0f;
-    for (SL* it = this; it && it->FUN_006815c0(); it = it->FUN_00726070())
+    for (SL* it = this; it && ((::q72::Item *)(new ((void *)(it)) ::Vec3())); it = ((::q72::SL *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
     {
-        if (!it->FUN_006815c0()->m_bSkip)
+        if (!((::q72::Item *)(new ((void *)(it)) ::Vec3()))->m_bSkip)
         {
-            it->FUN_006815c0()->m_pFlagTarget->FUN_00700320(0xfac, m_usElementCount++);
-            AccumulateTileHeight(it->FUN_006815c0()->m_pFlagTarget);
+            reinterpret_cast<::Tile *>((((::q72::Item *)(new ((void *)(it)) ::Vec3()))->m_pFlagTarget))->Set(0xfac, m_usElementCount++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(((::q72::Item *)(new ((void *)(it)) ::Vec3()))->m_pFlagTarget));
         }
     }
-    FUN_007a7700();
-    FUN_007a73e0();
+    reinterpret_cast<::FUN_007a7700_Menu *>(this)->FUN_007a7700();
+    reinterpret_cast<::fnv_007a73e0::HighlightList *>(this)->FUN_007a73e0();
 }
 }

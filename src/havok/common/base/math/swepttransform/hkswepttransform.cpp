@@ -2,27 +2,11 @@
 // src/havok/common/base/math/swepttransform/hkswepttransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/swepttransform/hkswepttransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv_simd.h"
+#include "fnv/decl/RotationRows.h"
 #include "havok/hkSweptTransform.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    __m128 _mm_mul_ss(__m128 a, __m128 b);
-    __m128 _mm_rsqrt_ss(__m128 a);
-    __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-    __m128 _mm_andnot_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
-    __m128 _mm_set_ss(float a);
-    __m128 _mm_set_ps1(float a);
-}
 
 static const __declspec(align(16)) float g_quadOne[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 
@@ -75,7 +59,6 @@ struct hkRotationq
     hkVector4q m_kColumn1;
     hkVector4q m_kColumn2;
 
-    void FUN_00cb2d90(const hkQuaternionq& q);
     __forceinline const hkVector4q& getColumn(int i) const
     {
         return (&m_kColumn0)[i];
@@ -115,14 +98,14 @@ class hkSweptTransformq
 // @fnv 0x00cf22d0
 void hkSweptTransformq::Evaluate(float time, hkTransformq& transformOut) const
 {
-    float t = (time - m_vCenterOfMass0.m_vComponents.m128_f32[3]) * m_vCenterOfMass1.m_vComponents.m128_f32[3];
+    float t = (time - fnv_simd_as<float>(m_vCenterOfMass0.m_vComponents)[3]) * fnv_simd_as<float>(m_vCenterOfMass1.m_vComponents)[3];
     hkVector4q t4;
     t4.m_vComponents = _mm_set_ps1(t);
 
     hkQuaternionq q;
     q.m_vec.setInterpolate4(m_qRotation0.m_vec, m_qRotation1.m_vec, t4);
     q.normalize();
-    transformOut.m_rotation.FUN_00cb2d90(q);
+    reinterpret_cast<::RotationRows *>(&(transformOut.m_rotation))->FUN_00cb2d90((void *)&(q));
 
     transformOut.m_vTranslation.setInterpolate4(m_vCenterOfMass0, m_vCenterOfMass1, t4);
     hkVector4q centerShift;
@@ -131,19 +114,14 @@ void hkSweptTransformq::Evaluate(float time, hkTransformq& transformOut) const
 }
 
 namespace fnv_00cf2410 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
+
+
 struct Swept_00cf2410_Sub
 {
     void FUN_00cf2280(__m128 const* a, __m128 const* b);
 };
 struct Swept_00cf2410_Cb
 {
-    void FUN_00cb2d90(void* p);
 };
 struct Swept_00cf2410
 {
@@ -188,8 +166,8 @@ struct Swept_00cf2410
 // @fnv 0x00cf2410
 void Swept_00cf2410::FUN_00cf2410(__m128 const& position, __m128 const& rotation)
 {
-    ((Swept_00cf2410_Sub*)((char*)this + 0x40))->FUN_00cf2280(&position, &rotation);
-    ((Swept_00cf2410_Cb*)this)->FUN_00cb2d90(const_cast<__m128*>(&rotation));
+    ((Swept_00cf2410_Sub*)&this->unk40)->FUN_00cf2280(&position, &rotation);
+    reinterpret_cast<::RotationRows *>((((Swept_00cf2410_Cb*)this)))->FUN_00cb2d90(const_cast<__m128*>(&rotation));
     m_vContactPosition = position;
     m_inverseTime = 1.0f;
     m_vVector = _mm_setzero_ps();

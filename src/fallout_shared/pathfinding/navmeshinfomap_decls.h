@@ -1,9 +1,25 @@
+#include "AutoMemContext.h"
 
 // NavMeshInfoMap: bounding-box verification and loaded-info initialization.
 // NavMeshBounds, BSSimpleArray 16, NiTPointerMap 16) with layout asserts.
 
+#include <cstdint>
 #include <stddef.h>
 #include <malloc.h>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_006b4b50_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_009a3000.h"
 class TESFile;
 class TESObjectREFR;
 class NavMesh;
@@ -19,27 +35,14 @@ template <int N> struct EndianSizeTag
 {
     char value;
 };
-void BSEndian(unsigned int*, EndianSizeTag<4>);
-void BSEndian(int*, EndianSizeTag<4>);
-void* operator new(unsigned int);
-void operator delete(void*);
 class MemoryManager
 {
   public:
-    static void* Allocate(unsigned int);
 };
-void FNV_DeleteBuffer(void*);
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 #define NULL 0
 
-#pragma pack(push, 4)
 
 class NavMeshBounds
 {
@@ -64,9 +67,8 @@ template <class T, unsigned int Growth> class BSSimpleArray
     template <unsigned int Other> void CopyTo(BSSimpleArray<T, Other>*);
     template <class U> unsigned int Find(U&, unsigned int, bool(__cdecl*)(U&, U&));
 };
-typedef char BSSimpleArrayCheck[sizeof(BSSimpleArray<NavMeshInfo*, 1024>) == 16 ? 1 : -1];
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -88,20 +90,14 @@ class NavMeshInfo
     BSSimpleArray<TESObjectREFR*, 1024> doors;    // +0x44
     void* m_pLocationNavMesh;                     // +0x54
     NavMeshBounds* pBounds;                       // +0x58
-    NavMeshBounds* GetBounds();
     NavMeshInfo();
     ~NavMeshInfo();
-    void LoadNavMeshInfo(char*, TESFile*, int);
     void LoadSerializedData(char*, TESFile*, int);
-    bool AcquireNavMesh(class NavMeshPtr&);
+    bool AcquireNavMesh(struct NavMeshPtr&);
     void CopyTo(NavMeshInfo*);
     void SetNavMesh(NavMesh*);
-    class TESObjectCELL* GetInteriorCell();
-    unsigned int GetNavMeshID();
     void ReleaseNavMesh();
 };
-typedef char NavMeshInfoCheckSize[sizeof(NavMeshInfo) == 92 ? 1 : -1];
-typedef char NavMeshInfoCheckBounds[offsetof(NavMeshInfo, pBounds) == 0x58 ? 1 : -1];
 
 template <class K, class V> class NiTMapItem
 {
@@ -130,7 +126,6 @@ template <class K, class V> class NiTPointerMap
     void* GetFirstPos();
     void GetNext(void*& pPos, unsigned int& uiKey, void*& val);
 };
-typedef char NiTMapCheck[sizeof(NiTPointerMap<unsigned int, void*>) == 16 ? 1 : -1];
 
 typedef BSSimpleArray<NavMeshInfo*, 1024> NavMeshInfoArray;
 
@@ -148,6 +143,8 @@ struct InnerCounts
     unsigned int uiValid;
 };
 
+class TESFile;
+template <class> class NiTLargePrimitiveArray;
 class TESForm
 {
   public:
@@ -231,13 +228,11 @@ class TESForm
     virtual bool SetEditorID_AtRuntime(const char*);
     unsigned char data[20];
     TESForm();
-    unsigned int GetFormID();
-    void LoadRecordHeader(TESFile*);
-    void SetFormType(ENUM_FORM_ID);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int id);
+public:
+    ::TESFile *GetFile(int);
+public:
+    static ::NiTLargePrimitiveArray< ::TESForm *> *ms_pAllForms;
 };
-typedef char TESFormCheck[sizeof(TESForm) == 24 ? 1 : -1];
 
 class NavMeshInfoMap : public TESForm
 {
@@ -251,50 +246,42 @@ class NavMeshInfoMap : public TESForm
     unsigned char pad3D[3];
     NavMeshInfoMap();
     bool Load(TESFile*);
-    NavMeshInfo* FUN_00693d70(unsigned int);
+    NavMeshInfo* FUN_00693d70(std::uintptr_t);
     bool ValidateNavMeshInfoArrays();
     void InitItem();
     void InsertNavMeshInfo(NavMeshInfo* info);
 };
-typedef char NavMeshInfoMapCheck[sizeof(NavMeshInfoMap) == 64 ? 1 : -1];
-typedef char NavMeshInfoMapCheckCell[offsetof(NavMeshInfoMap, m_kNavMeshInfoArraysByWorldspace) == 0x2C ? 1 : -1];
 
-#pragma pack(pop)
 
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool IsEndianConversionRequired();
     bool NextChunk();
+public:
+    bool IsMasterFile();
 };
 class TESObjectREFR : public TESForm
 {
 };
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
-class NavMeshPtr : public NiPointer<NavMesh>
+#include "fnv/ni_pointer.h"
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:
     NavMeshPtr();
     ~NavMeshPtr();
-    NavMesh* GetPtr();
 };
 typedef BSSimpleArray<TESObjectREFR*, 1024> NavMeshDoorArray;
 
+class TESObjectCELL;
 class TESWorldSpace : public TESForm
 {
   public:
     bool GetSmallWorld();
+public:
+    ::TESObjectCELL *GetCellByKey(unsigned int);
 };
 unsigned int FUN_006b7b30(NavMeshInfo*);
-bool FUN_009a3830(NavMeshInfo*&, NavMeshInfo*&);
 
 // Keep the accepted InitItem spelling while recovering the vector member.
 #define approxZ m_kNavMeshPosition.z

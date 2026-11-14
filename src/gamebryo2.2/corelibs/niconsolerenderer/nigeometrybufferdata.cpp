@@ -1,6 +1,11 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nigeometrybufferdata.cpp: NiGeometryBufferData, RendererData, NiSlotSetE8E (8 functions)
 
 #include <cstddef>
+#include <cstring>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nigeometrybufferdata.h"
 
 // @fnv 0x00e8eee0
@@ -20,27 +25,25 @@ struct FUN_00e8f0f0_shell : public NiGeometryBufferData
     void DestroyGeometryBufferData();
 };
 
-extern void* NiGeometryBufferData_vtable;
 extern int DAT_010f0170;
-void __cdecl _NiFreeAlias(void*);
 
 struct UnknownVtable08
 {
-    void(__thiscall* pfn0)(void*);
-    void(__thiscall* pfn1)(void*);
-    void(__thiscall* pfn2)(void*);
-    void(__thiscall* pfn3)(void*);
-    void(__thiscall* pfn4)(void*);
-    void(__thiscall* pfn5)(void*);
-    void(__thiscall* pfn6)(void*);
-    void(__thiscall* pfn7)(void*, void*, unsigned int);
+    void(* pfn0)(void*);
+    void(* pfn1)(void*);
+    void(* pfn2)(void*);
+    void(* pfn3)(void*);
+    void(* pfn4)(void*);
+    void(* pfn5)(void*);
+    void(* pfn6)(void*);
+    void(* pfn7)(void*, void*, unsigned int);
 };
 
 struct UnknownComVtable
 {
-    void(__stdcall* QueryInterface)(void*, void*, void**);
-    unsigned long(__stdcall* AddRef)(void*);
-    unsigned long(__stdcall* Release)(void*);
+    void(* QueryInterface)(void*, void*, void**);
+    unsigned long(* AddRef)(void*);
+    unsigned long(* Release)(void*);
 };
 
 struct UnknownComObj
@@ -51,29 +54,29 @@ struct UnknownComObj
 // @fnv 0x00e8f0f0
 void FUN_00e8f0f0_shell::DestroyGeometryBufferData()
 {
-    *reinterpret_cast<void**>(this) = &NiGeometryBufferData_vtable;
+    *reinterpret_cast<void**>(this) = &(*reinterpret_cast<void * *>(&::NiGeometryBufferData_vtable));
 
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08))
+    if (*reinterpret_cast<void**>(&this->m_pkOwnerGroup))
     {
-        for (unsigned int i = 0; i < *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x20); ++i)
+        for (unsigned int i = 0; i < this->m_uiRegisterStreamCount; ++i)
         {
-            void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08);
+            void* p = *reinterpret_cast<void**>(&this->m_pkOwnerGroup);
             (*reinterpret_cast<UnknownVtable08**>(p))->pfn7(p, this, i);
         }
     }
 
-    UnknownComObj* pIB = *reinterpret_cast<UnknownComObj**>(reinterpret_cast<char*>(this) + 0x34);
+    UnknownComObj* pIB = *reinterpret_cast<UnknownComObj**>(&this->m_pkIndexBuffer);
     if (pIB)
     {
         pIB->lpVtbl->Release(pIB);
-        *reinterpret_cast<UnknownComObj**>(reinterpret_cast<char*>(this) + 0x34) = 0;
+        *reinterpret_cast<UnknownComObj**>(&this->m_pkIndexBuffer) = 0;
     }
 
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x30) = 0;
-    _NiFreeAlias(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28));
-    _NiFreeAlias(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x24));
+    this->m_uiPrimitiveCount = 0;
+    ::FUN_00aa10f0(*reinterpret_cast<void**>(&this->m_ppkVertexBuffers));
+    ::FUN_00aa10f0(*reinterpret_cast<void**>(&this->m_puiVertexStrides));
 
-    UnknownComObj* pDecl = *reinterpret_cast<UnknownComObj**>(reinterpret_cast<char*>(this) + 0x10);
+    UnknownComObj* pDecl = *reinterpret_cast<UnknownComObj**>(&this->m_pkVertexDeclaration);
     if (pDecl)
     {
         pDecl->lpVtbl->Release(pDecl);
@@ -85,29 +88,24 @@ void FUN_00e8f0f0_shell::DestroyGeometryBufferData()
 namespace fnv_00e8f170 {
 struct FUN_00e8f0f0_shell
 {
-    void __thiscall DestroyGeometryBufferData();
 };
 struct MemoryManager
 {
-    void __thiscall _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 // Calls the object's destructor, then frees the object via g_memoryManager when _flags has bit 0 set, and returns _this.
 // @fnv 0x00e8f170
-void* __fastcall FUN_00e8f170(void* _this, int, unsigned int auiFlags)
+void* FUN_00e8f170(void* _this, int, unsigned int auiFlags)
 {
-    ((FUN_00e8f0f0_shell*)_this)->DestroyGeometryBufferData();
+    reinterpret_cast<::FUN_00e8f0f0_shell *>((((FUN_00e8f0f0_shell*)_this)))->DestroyGeometryBufferData();
     if (auiFlags & 1)
-        g_memoryManager._DeallocateAlias(_this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e8f170::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(_this);
     return _this;
 }
 }  // namespace fnv_00e8f170
 
 struct P03MM
 {
-    void _DeallocateAlias(void*);
 };
-extern P03MM g_memoryManager;
 extern int DAT_010f0170;
 struct RendererData
 {
@@ -119,15 +117,15 @@ void* RendererData::FUN_00e8ee80(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_010f0170;
     if (auiFlags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
 struct IUnk_00e8f010
 {
-    virtual void __stdcall f0();
-    virtual void __stdcall f1();
-    virtual unsigned long __stdcall Release();
+    virtual void f0();
+    virtual void f1();
+    virtual unsigned long Release();
 };
 struct C_00e8f010
 {
@@ -149,9 +147,9 @@ void C_00e8f010::FUN_00e8f010(int a)
 
 struct FakeCOM_00e8f040
 {
-    virtual void __stdcall Dummy() = 0;
-    virtual void __stdcall AddRef() = 0;
-    virtual void __stdcall Release() = 0;
+    virtual void Dummy() = 0;
+    virtual void AddRef() = 0;
+    virtual void Release() = 0;
 };
 struct Holder_00e8f040
 {
@@ -175,18 +173,12 @@ void Holder_00e8f040::SetComPointer(FakeCOM_00e8f040* apCom)
     unkC = 0;
 }
 
-void* NiMallocE8E(unsigned int uiSize);
-void NiFreeE8E(void* pvMem);
-extern "C" void* __cdecl MemMoveE8E(void* pvDest, const void* pvSrc, unsigned int uiSize);
-extern "C" void* __cdecl MemSetE8E(void* pvDest, int iValue, unsigned int uiSize);
 
 class NiMemManagerE8E
 {
   public:
-    void Deallocate(void* pvMem);
 };
 
-extern NiMemManagerE8E g_kMemManagerE8E;
 
 class NiSlotSetE8E;
 
@@ -228,13 +220,13 @@ void NiSlotSetE8E::FUN_00e8ef10(unsigned int uiNewSize)
     if (uiNewSize == m_uiSize)
         return;
 
-    void** ppvNewSlots = (void**)NiMallocE8E(uiNewSize * sizeof(void*));
-    unsigned int* puiNewFlags = (unsigned int*)NiMallocE8E(uiNewSize * sizeof(unsigned int));
+    void** ppvNewSlots = (void**)::FUN_00aa1070(uiNewSize * sizeof(void*));
+    unsigned int* puiNewFlags = (unsigned int*)::FUN_00aa1070(uiNewSize * sizeof(unsigned int));
 
     if (uiNewSize < m_uiSize)
     {
-        MemMoveE8E(ppvNewSlots, m_ppvSlots, uiNewSize * sizeof(void*));
-        MemMoveE8E(puiNewFlags, m_puiFlags, uiNewSize * sizeof(unsigned int));
+        std::memmove(ppvNewSlots, m_ppvSlots, uiNewSize * sizeof(void*));
+        std::memmove(puiNewFlags, m_puiFlags, uiNewSize * sizeof(unsigned int));
         if (m_pkListener)
         {
             for (unsigned int i = uiNewSize; i < m_uiSize; i++)
@@ -243,14 +235,14 @@ void NiSlotSetE8E::FUN_00e8ef10(unsigned int uiNewSize)
     }
     else
     {
-        MemMoveE8E(ppvNewSlots, m_ppvSlots, m_uiSize * sizeof(void*));
-        MemMoveE8E(puiNewFlags, m_puiFlags, m_uiSize * sizeof(unsigned int));
-        MemSetE8E(ppvNewSlots + m_uiSize, 0, (uiNewSize - m_uiSize) * sizeof(void*));
-        MemSetE8E(puiNewFlags + m_uiSize, 0, (uiNewSize - m_uiSize) * sizeof(unsigned int));
+        std::memmove(ppvNewSlots, m_ppvSlots, m_uiSize * sizeof(void*));
+        std::memmove(puiNewFlags, m_puiFlags, m_uiSize * sizeof(unsigned int));
+        std::memset(ppvNewSlots + m_uiSize, 0, (uiNewSize - m_uiSize) * sizeof(void*));
+        std::memset(puiNewFlags + m_uiSize, 0, (uiNewSize - m_uiSize) * sizeof(unsigned int));
     }
 
-    g_kMemManagerE8E.Deallocate(m_ppvSlots);
-    NiFreeE8E(m_puiFlags);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiMemManagerE8E *>(&::g_memoryManager))))->FUN_00aa4060(m_ppvSlots);
+    ::FUN_00aa10f0(m_puiFlags);
     m_ppvSlots = ppvNewSlots;
     m_puiFlags = puiNewFlags;
     m_uiSize = uiNewSize;

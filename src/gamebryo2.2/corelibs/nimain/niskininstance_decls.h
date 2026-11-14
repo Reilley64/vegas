@@ -1,10 +1,13 @@
 // gamebryo2.2/corelibs/nimain/niskininstance_decls.h: declares NiObject, NiStream, NiSkinInstance
 #pragma once
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-class NiStream;
-class NiObject
+#include <windows.h>
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/symbols_00aa1000.h"
+struct NiStream;
+struct NiObject
 {
   public:
     virtual ~NiObject();
@@ -13,15 +16,12 @@ class NiObject
     virtual void LoadBinary(NiStream&);
     virtual void LinkObject(NiStream&);
 };
-class NiStream
+struct NiStream
 {
   public:
     char padding[0xd8];
     unsigned int m_uiNifVersion;
-    void ResetStreamState();
-    unsigned int ReadUnsignedInteger();
     NiObject* GetLoadedObject();
-    unsigned int GetLinkID();
 };
 template <class T> class NiPointer
 {
@@ -40,7 +40,6 @@ template <class T> class NiPointer
         }
     }
 };
-void* _NiMalloc(unsigned int);
 class NiSkinInstance : public NiObject
 {
   public:

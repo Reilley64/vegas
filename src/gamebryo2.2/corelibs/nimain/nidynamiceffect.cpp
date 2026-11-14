@@ -1,11 +1,35 @@
 // gamebryo2.2/corelibs/nimain/nidynamiceffect.cpp: EffectObject, FNVEffect (7 functions)
 
+#include "fnv/decl/A5a260Object.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a5a390_shell.h"
+#include "fnv/decl/FUN_00a5ad00_shell.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a68e30_shell.h"
+#include "fnv/decl/LoadObject.h"
+#include "fnv/decl/LoadedNode.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a5a900__Obj00a5a900.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_0043a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nidynamiceffect_decls.h"
 
 // @fnv 0x00a68ea0
 void NiDynamicEffect::LoadBinary(NiStream& stream)
 {
-    NiAVObject::LoadBinary(stream);
+    reinterpret_cast<::LoadObject *>(this)->FUN_00a5a510((::LoadStream &)(stream));
     if (stream.m_uiNifVersion >= 0x0a010066)
     {
         unsigned char on;
@@ -19,20 +43,20 @@ void NiDynamicEffect::LoadBinary(NiStream& stream)
         for (int i = 0; i < count; ++i)
         {
             unsigned int linkID;
-            ReadBinaryValue(stream, linkID);
+            ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(linkID));
         }
     }
     if (stream.m_uiNifVersion >= 0x0a00010e)
-        stream.ReadUnsignedInteger();
+        reinterpret_cast<::S_00a64670_Foo *>(&(stream))->FUN_00a64670();
 }
 
 // @fnv 0x00a69070
 void NiDynamicEffect::LinkObject(NiStream& stream)
 {
-    NiAVObject::LinkObject(stream);
+    reinterpret_cast<::LoadedNode *>(this)->ReadFromStream((::LoadedStream *)&(stream));
     if (stream.m_uiNifVersion >= 0x0a00010e)
     {
-        unsigned int count = stream.GetLinkID();
+        unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>(&(stream))->FUN_00a63460();
         while (count--)
         {
             NiNode* node = reinterpret_cast<NiNode*>(stream.GetLoadedObject());
@@ -60,31 +84,28 @@ NiDynamicEffect::NiDynamicEffect()
     m_iIndex = InterlockedIncrement(&DAT_011a9b58);
 }
 
-void __fastcall FUN_00a5a390(void*);
-void __fastcall FUN_00a68e30(void*);
 struct BSShaderLightingProperty
 {
     void ClearLights();
 };
-void __cdecl _delete(void*, unsigned int);
 
 extern const void* vftable_NiDynamicEffect;
 
 struct FUN_00a69390_shell : public NiDynamicEffect
 {
-    void* __thiscall DestroyNiDynamicEffect(unsigned int flags);
+    void* DestroyNiDynamicEffect(unsigned int flags);
 };
 
 // @fnv 0x00a69390
-void* __thiscall FUN_00a69390_shell::DestroyNiDynamicEffect(unsigned int flags)
+void* FUN_00a69390_shell::DestroyNiDynamicEffect(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = &vftable_NiDynamicEffect;
-    FUN_00a68e30(this);
+    reinterpret_cast<::FUN_00a68e30_shell *>((this))->FUN_00a68e30();
     reinterpret_cast<BSShaderLightingProperty*>(reinterpret_cast<char*>(this) + 0xb8)->ClearLights();
     reinterpret_cast<BSShaderLightingProperty*>(reinterpret_cast<char*>(this) + 0xac)->ClearLights();
-    FUN_00a5a390(this);
+    reinterpret_cast<::FUN_00a5a390_shell *>((this))->FUN_00a5a390();
     if (flags & 1)
-        _delete(this, 0xc4);
+        ::FUN_00aa1460(this, 0xc4);
     return this;
 }
 
@@ -96,14 +117,12 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char* const&);
     unsigned int Add(char* const& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
     void SetAtInline(unsigned int uiIndex, char* element)
@@ -133,20 +152,15 @@ struct StrArr
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
         SetAtInline(uiIndex, element);
         return uiIndex;
     }
 };
 struct FUN_00a5ea70_t
 {
-    void FUN_00a5ad00(StrArr*);
 };
-int NiSprintf(char*, unsigned int, const char*, ...);
-char* FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
-extern const char* const g_011f4a28_arg1;
-struct NiNode;
+class NiNode;
 struct Zx3ListNode
 {
     Zx3ListNode* m_pkNext;
@@ -176,8 +190,8 @@ struct Zx3Effect : public NiAVObject
 // @fnv 0x00a69140
 void Zx3Effect::FUN_00a69140(StrArr* pkStrings)
 {
-    ((FUN_00a5ea70_t*)this)->FUN_00a5ad00(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_011f4a28_arg1));
+    reinterpret_cast<::FUN_00a5ad00_shell *>((((FUN_00a5ea70_t*)this)))->FUN_00a5ad00((::Stream *)(pkStrings));
+    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4988))));
     if (m_uiAffectedCount)
     {
         Zx3ListNode* kPos = m_pkAffectedHead;
@@ -204,8 +218,7 @@ void Zx3Effect::FUN_00a69140(StrArr* pkStrings)
 
 struct EffectObject : NiDynamicEffect
 {
-    void __thiscall FUN_00a5a900(NiStream* stream);
-    void __thiscall SaveToStream(NiStream* stream);
+    void SaveToStream(NiStream* stream);
 };
 static __forceinline unsigned int WriteBytes(NiBinaryStream* output, const void* bytes, unsigned int length)
 {
@@ -214,15 +227,15 @@ static __forceinline unsigned int WriteBytes(NiBinaryStream* output, const void*
     output->m_uiStreamFlags += written;
     return written;
 }
-typedef void(__thiscall* SaveLinkedObject)(NiStream*, NiNode*);
+typedef void(* SaveLinkedObject)(NiStream*, NiNode*);
 static __forceinline void WriteLinkedObject(NiStream* stream, NiNode*& object)
 {
     ((SaveLinkedObject*)stream->m_ppVirtualMethodTable)[12](stream, object);
 }
 // @fnv 0x00a68f80
-void __thiscall EffectObject::SaveToStream(NiStream* stream)
+void EffectObject::SaveToStream(NiStream* stream)
 {
-    FUN_00a5a900(stream);
+    reinterpret_cast<::fnv_00a5a900::Obj00a5a900 *>(this)->FUN_00a5a900((*(::fnv_00a5a900::NiStream *)(stream)));
     unsigned char enabled = m_bEffectEnabled;
     NiBinaryStream* output = stream->m_pBackingStream;
     WriteBytes(output, &enabled, 1);
@@ -250,14 +263,13 @@ static inline NiNode* GetNext(NiTListItem<NiNode*>*& node)
 class FNVEffect : public NiDynamicEffect
 {
   public:
-    bool __thiscall FUN_00a5a260(FNVEffect* other);
-    bool __thiscall FUN_00a68d80(FNVEffect* other);
+    bool FUN_00a68d80(FNVEffect* other);
 };
 // Returns false if counts differ or paired entries differ in nullness; otherwise returns true if FUN_00a5a260 succeeds.
 // @fnv 0x00a68d80
-bool __thiscall FNVEffect::FUN_00a68d80(FNVEffect* other)
+bool FNVEffect::FUN_00a68d80(FNVEffect* other)
 {
-    if (!FUN_00a5a260(other))
+    if (!reinterpret_cast<::A5a260Object *>(this)->FUN_00a5a260((::A5a260CompareBase *)(other)))
         return false;
     if (m_kEffectTargetNodes.m_kItemCount.m_uiCount != other->m_kEffectTargetNodes.m_kItemCount.m_uiCount)
         return false;
@@ -293,3 +305,5 @@ bool __thiscall FNVEffect::FUN_00a68d80(FNVEffect* other)
     }
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nidynamiceffect.inc"

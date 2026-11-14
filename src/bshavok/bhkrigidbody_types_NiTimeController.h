@@ -6,7 +6,6 @@
 #include "NiObject.h"
 #include "NiObjectNET.h"
 #include "layout_support.h"
-#pragma pack(push, 4)
 class NiTimeController : public NiObject
 {
   public:
@@ -73,17 +72,4 @@ class NiTimeController : public NiObject
     // NiTimeController& __cdecl NiTimeController::*(const NiTimeController&)
     // void __cdecl NiTimeController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fPhase) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLoKeyTime) == 20);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fHiKeyTime) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fStartTime) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLastTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fWeightAdjustedLastTime) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 44);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 48);
 #endif

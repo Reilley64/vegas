@@ -2,16 +2,27 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202760;
 
 // @fnv 0x00c2baa0
+#include "NiAnimationKeyTables.h"
+#include <cstdint>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c2baa0()
 {
-    return &g_01202760;
+    return &(*reinterpret_cast<void * *>(&::g_01202760));
 }
 
-extern void(__cdecl* DAT_011f38a0[])(void*);
-extern unsigned char DAT_011f3758[];
 struct FUN_00c2bb70_shell
 {
     char _0[8];
@@ -25,10 +36,10 @@ struct FUN_00c2bb70_shell
 void FUN_00c2bb70_shell::FUN_00c2bb70(void* keys, unsigned int numKeys, int type)
 {
     if (m_pKeyArray)
-        DAT_011f38a0[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, m_eRequestType)(m_pKeyArray);
     if (keys && numKeys)
     {
-        m_ucKeyDataSize = DAT_011f3758[type];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[type];
         m_pKeyArray = keys;
         m_uiNumKeys = numKeys;
         m_eRequestType = type;
@@ -42,15 +53,13 @@ void FUN_00c2bb70_shell::FUN_00c2bb70(void* keys, unsigned int numKeys, int type
     }
 }
 
-struct AnimationKey;
+class AnimationKey;
 extern int DAT_010bfd54;
-extern void(__cdecl* DAT_011f38a0[])(void*);
-extern void(__cdecl* DAT_011f3918[])(AnimationKey*);
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
-void __cdecl _delete(void*, unsigned int);
 struct NiPSysEmitterCtlrData
 {
     void* Destroy(unsigned int);
@@ -61,13 +70,13 @@ void* NiPSysEmitterCtlrData::Destroy(unsigned int flags)
     void* pkKeys = *(void**)((char*)this + 0xc);
     *(void**)this = (void*)&DAT_010bfd54;
     if (pkKeys)
-        DAT_011f38a0[*(int*)((char*)this + 0x10)](pkKeys);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, *(int*)((char*)this + 0x10))(pkKeys);
     pkKeys = *(void**)((char*)this + 0x1c);
     if (pkKeys)
-        DAT_011f3918[*(int*)((char*)this + 0x20)]((AnimationKey*)pkKeys);
-    ((NiRefObject*)this)->NiRefObject::~NiRefObject();
+        NiAnimationKeyTables::Get<void (*)(AnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(5, 0) + (*(int*)((char*)this + 0x20)))((AnimationKey*)pkKeys);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
-        _delete(this, 0x28);
+        ::FUN_00aa1460(this, 0x28);
     return this;
 }
 
@@ -79,8 +88,6 @@ struct StrArr
     unsigned short _1;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
 struct FUN_00c2bf00_shell
@@ -95,10 +102,6 @@ struct FUN_00c2bf00_shell
     void AppendBirthRateKeys(StrArr* pkStrings);
 };
 
-void __stdcall AppendCameraPathEntries(StrArr*);
-void* __cdecl _FUN_00a7d330(void*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
-char* __cdecl FUN_00a7d5e0(char const*, char const*);
 
 // @fnv 0x00c2bf00
 void FUN_00c2bf00_shell::AppendBirthRateKeys(StrArr* pkStrings)
@@ -107,23 +110,23 @@ void FUN_00c2bf00_shell::AppendBirthRateKeys(StrArr* pkStrings)
     char* pcValue;
     char* pcKeyTypeName;
 
-    AppendCameraPathEntries(pkStrings);
+    reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
 
-    pcValue = (char*)_FUN_00a7d330(g_01202760);
+    pcValue = (char*)((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202760))))));
     uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usCapacity)
     {
-        pkStrings->SetSize(pkStrings->m_usGrowBy + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + uiIndex);
     }
-    pkStrings->SetAt(uiIndex, pcValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcValue);
 
     pcValue = FUN_00a7d510("Num Birth Rate Keys", m_uiValueAtOffset8);
     uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usCapacity)
     {
-        pkStrings->SetSize(pkStrings->m_usGrowBy + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + uiIndex);
     }
-    pkStrings->SetAt(uiIndex, pcValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcValue);
 
     switch (m_iBirthRateKeyIndex)
     {
@@ -141,21 +144,21 @@ void FUN_00c2bf00_shell::AppendBirthRateKeys(StrArr* pkStrings)
         break;
     }
 
-    pcValue = FUN_00a7d5e0("Birth Rate Key Type", pcKeyTypeName);
+    pcValue = ::fnv_00a7d5e0::FUN_00a7d5e0("Birth Rate Key Type", pcKeyTypeName);
     uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usCapacity)
     {
-        pkStrings->SetSize(pkStrings->m_usGrowBy + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + uiIndex);
     }
-    pkStrings->SetAt(uiIndex, pcValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcValue);
 
     pcValue = FUN_00a7d510("Num Emitter Active Keys", m_uiNumFloatKeys);
     uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usCapacity)
     {
-        pkStrings->SetSize(pkStrings->m_usGrowBy + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + uiIndex);
     }
-    pkStrings->SetAt(uiIndex, pcValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcValue);
 }
 
 struct S_00c2bab0
@@ -173,16 +176,14 @@ struct S_00c2bab0
     unsigned int unk20;
     unsigned char m_ucKeySize2;
 
-    bool IsSameAs(S_00c2bab0* other);
     bool Equals(S_00c2bab0* other);
 };
 
-extern bool(__cdecl* DAT_011f3ae0[])(unsigned char*, unsigned char*);
 
 // @fnv 0x00c2bab0
 bool S_00c2bab0::Equals(S_00c2bab0* other)
 {
-    if (!IsSameAs(other))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(other)))
         return false;
 
     if (other->m_uiNumKeys != m_uiNumKeys)
@@ -197,7 +198,7 @@ bool S_00c2bab0::Equals(S_00c2bab0* other)
     if (other->m_ucKeyDataSize != m_ucKeyDataSize)
         return false;
 
-    bool(__cdecl * pfnCompare)(unsigned char*, unsigned char*) = DAT_011f3ae0[m_eRequestType];
+    bool(__cdecl * pfnCompare)(unsigned char*, unsigned char*) = NiAnimationKeyTables::Get<bool (*)(unsigned char *, unsigned char *)>(NiAnimationKeyTables::kAt011f3ae0, m_eRequestType);
 
     for (unsigned int i = 0; i < m_uiNumKeys; ++i)
     {
@@ -220,8 +221,6 @@ bool S_00c2bab0::Equals(S_00c2bab0* other)
     return true;
 }
 
-extern void(__cdecl* DAT_011f38a0[])(void*);
-extern unsigned char DAT_011f3758[];
 struct AnimationKeyTrack
 {
     void* vtable;
@@ -240,10 +239,10 @@ struct AnimationKeyTrack
 void AnimationKeyTrack::FUN_00c2bbd0(void* keys, unsigned int numKeys, int type)
 {
     if (m_pKeyArray)
-        DAT_011f38a0[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, m_eRequestType)(m_pKeyArray);
     if (keys && numKeys)
     {
-        unsigned char size = DAT_011f3758[type + 30];
+        unsigned char size = NiAnimationKeyTables::g_keySizes[type + 30];
         m_ucKeyDataSize = size;
         m_pKeyArray = keys;
         m_uiNumKeys = numKeys;
@@ -277,7 +276,7 @@ class NiBinaryStream
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     unsigned char m_aucData[0x250];
@@ -295,14 +294,11 @@ template <class T> inline void ReadBinaryValue(NiStream& kStream, T& value)
 }
 
 typedef void(__cdecl* KeyLoadFn)(NiStream& kStream, void* pkKeys, unsigned int uiNumKeys);
-extern KeyLoadFn DAT_011f3a50[];
-extern KeyLoadFn DAT_011f3ac8[];
 
 class NiObjectStub
 {
   public:
     virtual ~NiObjectStub();
-    void LoadBinary(NiStream& kStream);
 };
 
 class NiPSysEmitterCtlrDataStub : public NiObjectStub
@@ -320,26 +316,26 @@ class NiPSysEmitterCtlrDataStub : public NiObjectStub
     void FUN_00c2bdf0(NiStream& kStream);
 };
 
-// Loads the emitter controller data from kStream: key count and keys via DAT_011f3a50, then a loop reading values via DAT_011f3ac8.
+// Loads the emitter controller data from kStream: key count and keys via key function table kAt011f3a50, then a loop reading values via its row for content 5.
 // @fnv 0x00c2bdf0
 void NiPSysEmitterCtlrDataStub::FUN_00c2bdf0(NiStream& kStream)
 {
-    NiObjectStub::LoadBinary(kStream);
+    ::FUN_00a89af0((intptr_t)this);
 
-    ReadBinaryValue(kStream, m_uiValueAtOffset8);
+    ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(m_uiValueAtOffset8));
     if (m_uiValueAtOffset8 > 0)
     {
-        ReadBinaryValue(kStream, m_iBirthRateKeyIndex);
-        DAT_011f3a50[m_iBirthRateKeyIndex](kStream, m_pFloatKeys, m_uiValueAtOffset8);
+        ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(m_iBirthRateKeyIndex));
+        NiAnimationKeyTables::Get<void (*)(NiStream &, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, m_iBirthRateKeyIndex)(kStream, m_pFloatKeys, m_uiValueAtOffset8);
     }
 
-    ReadBinaryValue(kStream, m_uiNumFloatKeys);
+    ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(m_uiNumFloatKeys));
     for (unsigned int ui = 0; ui < m_uiNumFloatKeys; ui++)
     {
         if (m_uiNumFloatKeys > 0)
         {
-            ReadBinaryValue(kStream, m_uiNumVisibilityKeys);
-            DAT_011f3ac8[m_uiNumVisibilityKeys](kStream, m_pVisibilityKeys, m_uiNumFloatKeys);
+            ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(m_uiNumVisibilityKeys));
+            NiAnimationKeyTables::Get<void (*)(NiStream &, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(5, 0) + m_uiNumVisibilityKeys)(kStream, m_pVisibilityKeys, m_uiNumFloatKeys);
         }
     }
 }
@@ -540,46 +536,38 @@ enum KeyType
     NUMKEYTYPES
 };
 
-struct AnimationKey;
+class AnimationKey;
 struct TimedAnimationKey;
 
-extern void*(__cdecl* DAT_011f3db0[])(NiStreamView&, unsigned int);
-extern void(__cdecl* DAT_011f3780[])(void*, unsigned int, unsigned char);
-extern unsigned char DAT_011f3758[];
-extern void*(__cdecl* DAT_011f3e28[])(NiStreamView&, unsigned int);
-extern void(__cdecl* DAT_011f37f8[])(void*, unsigned int, unsigned char);
-extern unsigned char DAT_011f3776[];
 
 typedef void*(__cdecl* CreateFunction)(NiStreamView&, unsigned int);
 typedef void(__cdecl* FillDerivedValsFunction)(void*, unsigned int, unsigned char);
 inline CreateFunction GetCreate1(KeyType e)
 {
-    return DAT_011f3db0[e];
+    return NiAnimationKeyTables::Get<void *(*)(NiStreamView &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, e);
 }
 inline FillDerivedValsFunction GetFill1(KeyType e)
 {
-    return DAT_011f3780[e];
+    return NiAnimationKeyTables::Get<void (*)(void *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, e);
 }
 inline unsigned char GetKeySize1(KeyType e)
 {
-    return DAT_011f3758[e];
+    return NiAnimationKeyTables::g_keySizes[e];
 }
 inline CreateFunction GetCreate2(KeyType e)
 {
-    return DAT_011f3e28[e];
+    return NiAnimationKeyTables::Get<void *(*)(NiStreamView &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(5, 0) + e);
 }
 inline FillDerivedValsFunction GetFill2(KeyType e)
 {
-    return DAT_011f37f8[e];
+    return NiAnimationKeyTables::Get<void (*)(void *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(5, 0) + e);
 }
 inline unsigned char GetKeySize2(KeyType e)
 {
-    return DAT_011f3776[e];
+    return NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(5, 0) + e];
 }
-void __stdcall ReadGroup(NiStreamView&);
 struct FUN_00c2bc90_shell : FUN_00c2bb70_shell
 {
-    void FUN_00c2bbd0(void*, unsigned int, int);
     void FUN_00c2bc90(NiStreamView& kStream);
 };
 
@@ -587,7 +575,7 @@ struct FUN_00c2bc90_shell : FUN_00c2bb70_shell
 // @fnv 0x00c2bc90
 void FUN_00c2bc90_shell::FUN_00c2bc90(NiStreamView& kStream)
 {
-    ReadGroup(kStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&kStream);
 
     unsigned int uiNumBirthRateKeys;
     ReadBinaryValue(kStream, uiNumBirthRateKeys);
@@ -619,6 +607,8 @@ void FUN_00c2bc90_shell::FUN_00c2bc90(NiStreamView& kStream)
         void* pkKeys = cf(kStream, uiNumEmitterActiveKeys);
         FillDerivedValsFunction pfnFill = GetFill2(eType);
         pfnFill(pkKeys, uiNumEmitterActiveKeys, ucSize);
-        FUN_00c2bbd0(pkKeys, uiNumEmitterActiveKeys, eType);
+        reinterpret_cast<::AnimationKeyTrack *>(this)->FUN_00c2bbd0(pkKeys, uiNumEmitterActiveKeys, eType);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.inc"

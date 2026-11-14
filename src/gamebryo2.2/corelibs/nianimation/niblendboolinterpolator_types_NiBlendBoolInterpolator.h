@@ -2,15 +2,15 @@
 #ifndef FNV_NIBLENDBOOLINTERPOLATOR_H
 #define FNV_NIBLENDBOOLINTERPOLATOR_H
 
+#include "fnv/decl/FUN_00a37260_shell.h"
 #include "layout_support.h"
 #include "NiObject.h"
 class NiBlendBoolInterpolator;
 class NiBlendInterpolator;
 class NiBlendInterpolator__InterpArrayItem;
 class NiInterpolator;
-class NiObjectNET;
-class NiStream;
-#pragma pack(push, 4)
+struct NiObjectNET;
+struct NiStream;
 class NiInterpolator : public NiObject
 {
   public:
@@ -31,10 +31,6 @@ class NiInterpolator : public NiObject
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
-#pragma pack(push, 4)
 class NiBlendInterpolator : public NiInterpolator
 {
   public:
@@ -102,24 +98,7 @@ class NiBlendInterpolator : public NiInterpolator
     NiBlendInterpolator(bool, float, unsigned char);
     virtual void LoadBinary(NiStream&);
     bool IsEqual(NiObject*);
-    void NormalizeWeights();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBlendInterpolator) == 48);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_uiObjectFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_ucArraySize) == 13);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_ucInterpCount) == 14);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_ucSingleIdx) == 15);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_cHighPriority) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_cNextHighPriority) == 17);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_pInterpArray) == 20);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_pSingleInterpolator) == 24);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fWeightThreshold) == 28);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fSingleInterpolatorTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fHighSumOfWeights) == 36);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fNextHighSumOfWeights) == 40);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fTrailingValue) == 44);
-#pragma pack(push, 4)
 class NiBlendBoolInterpolator : public NiBlendInterpolator
 {
   public:
@@ -147,9 +126,5 @@ class NiBlendBoolInterpolator : public NiBlendInterpolator
     virtual void LoadBinary(NiStream&);
     virtual bool Update(float, NiObjectNET*, bool&);
     bool UpdateAccumulatedTransform(float, NiObjectNET*, bool&);
-    bool UpdateSingleInterpolator(float, NiObjectNET*, bool&);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBlendBoolInterpolator) == 52);
-FNV_STATIC_ASSERT(offsetof(NiBlendBoolInterpolator, m_bBoolValue) == 48);
 #endif

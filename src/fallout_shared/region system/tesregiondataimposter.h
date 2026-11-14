@@ -7,7 +7,7 @@ class TESForm;
 class TESObjectREFR;
 class TESTopic;
 class TESGrass;
-class QuantityData;
+struct QuantityData;
 
 template <class T> class BSSimpleList
 {
@@ -36,7 +36,6 @@ class TESTopicInfoData
     BSSimpleList<TESTopic*>* GetLinkToList();
 };
 
-#pragma pack(push, 4)
 class TESRegionDataImposter
 {
   public:
@@ -45,6 +44,5 @@ class TESRegionDataImposter
 
     bool AddImposter(TESObjectREFR* ref);
 };
-#pragma pack(pop)
 
 #endif

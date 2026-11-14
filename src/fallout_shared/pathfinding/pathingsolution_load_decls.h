@@ -3,7 +3,7 @@
 #define FNV_PATHINGSOLUTION_LOAD_DECLS_H
 
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     void** m_ppVirtualMethodTable;

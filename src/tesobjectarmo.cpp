@@ -1,37 +1,77 @@
 // tesobjectarmo.cpp: TESObjectARMO, ArmorSerializer, ArmorCopy, TESObjectARMOFoley and more (15 functions)
 
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_0047a380_shell.h"
+#include "fnv/decl/FUN_00480610_shell.h"
+#include "fnv/decl/FUN_00484bf0_shell.h"
+#include "fnv/decl/FUN_00485e00_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00512810_holder.h"
+#include "fnv/decl/FUN_00535aa0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/PC7d.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047b560__FUN_0047b560_shell.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e9b0__TESValueForm.h"
+#include "fnv/decl/fnv_0048e9e0__TESValueForm.h"
+#include "fnv/decl/fnv_0048ea10__TESValueForm.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/decl/form_load_legacy__TESFormLoadProxy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesobjectarmo_decls.h"
 #include "tesobjectarmo_load.h"
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-int __cdecl Warning(const char*, ...);
-
 // @fnv 0x00512e10
 void TESObjectARMO::ResetFormData()
 {
     memset(&data, 0, sizeof(data));
     m_bUsesSoundList = false;
     m_pSoundSourceArmor = 0;
-    SetCastingType(MagicSystem__CastingType_CONSTANT_EFFECT);
-}
-
-// Returns 1 for heavy armor, 2 for medium armor, otherwise 0.
-// @fnv 0x00514410
-unsigned char TESObjectARMO::GetArmorType()
-{
-    if (GetIsHeavyArmor())
-        return 1;
-    if (GetIsMediumArmor())
-        return 2;
-    return 0;
+    reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((*(int *)&(const ::MagicSystem__CastingType &)(MagicSystem__CastingType_CONSTANT_EFFECT)));
 }
 
 // @fnv 0x00512e60
 void TESObjectARMO::InitItem()
 {
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
     if (!m_kBipedModelForm.m_uiBipedModelFlags)
-        Warning("MASTERFILE: Armor '%s' needs to have biped slots selected in the editor.", GetName());
+        ::FUN_005b5e40();
     TESScriptableForm::InitItem(this);
     TESEnchantableForm::InitItem(this);
     BGSDestructibleObjectForm::InitItem(this);
@@ -41,17 +81,17 @@ void TESObjectARMO::InitItem()
     BGSPickupPutdownSounds::InitItem(this);
     if (!m_bUsesSoundList && m_pSoundSourceArmor)
     {
-        m_pSoundSourceArmor = static_cast<TESObjectARMO*>(GetFormByID((unsigned int)m_pSoundSourceArmor));
+        m_pSoundSourceArmor = static_cast<TESObjectARMO*>(::FUN_004839c0(static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(m_pSoundSourceArmor))));
     }
     else if (m_bUsesSoundList && m_pPickupPutdownSoundList)
     {
         BSSimpleList<SoundDescriptor*>* soundList = m_pPickupPutdownSoundList;
-        while (soundList && soundList->GetItem())
+        while (soundList && soundList->m_item)
         {
-            SoundDescriptor* sound = soundList->GetItem();
-            soundList = soundList->GetNext();
+            SoundDescriptor* sound = soundList->m_item;
+            soundList = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((soundList))->FUN_00726070()));
             if (sound->SoundAssetTmp)
-                sound->SoundAssetTmp = (TESSound*)GetFormByID((unsigned int)sound->SoundAssetTmp);
+                sound->SoundAssetTmp = (TESSound*)::FUN_004839c0(static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(sound->SoundAssetTmp)));
         }
     }
     SetInitializationState(true);
@@ -61,19 +101,19 @@ void TESObjectARMO::InitItem()
 // @fnv 0x00512fd0
 bool TESObjectARMO::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 24)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     int chunk;
-    while (chunk = file->GetChunkID())
+    while (chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
         switch (chunk)
         {
         case 'DIDE': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 512);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 512);
             SetEditorID_AtRuntime(name);
             break;
         }
@@ -81,12 +121,12 @@ bool TESObjectARMO::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 'LLUF':
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 'IRCS': {
             unsigned int uiScriptFormID = 0;
             file->GetChunkData(&uiScriptFormID);
-            SetScript((Script*)uiScriptFormID);
+            TESScriptableForm::m_pFormScript = reinterpret_cast<Script*>(static_cast<std::uintptr_t>(uiScriptFormID));
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -94,49 +134,49 @@ bool TESObjectARMO::Load(TESFile* file)
         case 'MTIE': {
             unsigned int uiEnchantmentFormID = 0;
             file->GetChunkData(&uiEnchantmentFormID);
-            SetFormEnchanting((EnchantmentItem*)uiEnchantmentFormID);
+            TESEnchantableForm::m_pEnchantment = reinterpret_cast<EnchantmentItem*>(static_cast<std::uintptr_t>(uiEnchantmentFormID));
             break;
         }
         case 'MANA':
         case 'TMAE': {
             unsigned short usEnchantmentAmount = 0;
-            ((TESFileChunkData16*)file)->GetChunkData(&usEnchantmentAmount);
+            reinterpret_cast<::FUN_00472840_impl *>((((TESFileChunkData16*)file)))->ReadChunkData(&usEnchantmentAmount);
             SetFormEnchantmentAmount(usEnchantmentAmount);
             break;
         }
         case 'TDMB': {
-            if (((TESFileFormVersion*)file)->GetFormVersion() < 11)
+            if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 11)
             {
                 TESObjectARMOOldBipedModel oldBipedModel;
-                file->GetChunkData(&oldBipedModel, sizeof(oldBipedModel));
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&oldBipedModel), sizeof(oldBipedModel));
                 if (file->IsEndianConversionRequired())
-                    oldBipedModel.FUN_00512810();
+                    reinterpret_cast<::FUN_00512810_holder *>(&(oldBipedModel))->FUN_00512810();
                 m_kBipedModelForm.m_ucBipedModelData = oldBipedModel.flags;
                 m_kBipedModelForm.m_uiBipedModelFlags = oldBipedModel.slots;
             }
             else
             {
-                file->GetChunkData(&m_kBipedModelForm, sizeof(m_kBipedModelForm));
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_kBipedModelForm), sizeof(m_kBipedModelForm));
                 if (file->IsEndianConversionRequired())
-                    m_kBipedModelForm.Endian();
+                    reinterpret_cast<::fnv_00503210::Unk *>(&(m_kBipedModelForm))->FUN_00503210();
             }
             m_kBipedModelForm.m_ucBipedModelData &= ~16;
             break;
         }
         case 'TCMB': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
             m_kFaceGenModel.SetModelFilePath(name);
             break;
         }
         case 'LDOM': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
             bipedModel[0].SetModelFilePath(name);
             break;
         }
         case 'TDOM':
-            TESModel::LoadTextureSwapData(&bipedModel[0], file);
+            ::FUN_004893e0(&bipedModel[0], file);
             break;
         case 'SDOM':
             TESModelTextureSwap::ReadTextureSwapChunk(&bipedModel[0], file);
@@ -148,97 +188,97 @@ bool TESObjectARMO::Load(TESFile* file)
             TESModel::LoadModelData(&bipedModel[1], file);
             break;
         case '2DOM': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
             worldModel[0].SetModelFilePath(name);
             break;
         }
         case 'T2OM':
-            TESModel::LoadTextureSwapData(&worldModel[0], file);
+            ::FUN_004893e0(&worldModel[0], file);
             break;
         case 'S2OM':
             TESModelTextureSwap::ReadTextureSwapChunk(&worldModel[0], file);
             break;
         case 'NOCI': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
-            ((TESTexture1024*)&m_kIcon[0])->SetTexture(name);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
+            reinterpret_cast<::TESFullName *>((((TESTexture1024*)&m_kIcon[0])))->SetFullName(name);
             break;
         }
         case 'OCIM': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
-            messageIcon[0].SetMessageIconTextureName(name);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
+            reinterpret_cast<::FUN_0047a380_shell *>(&(messageIcon[0]))->FUN_0047a380((char *)(name));
             break;
         }
         case '2CIM': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
-            messageIcon[1].SetMessageIconTextureName(name);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
+            reinterpret_cast<::FUN_0047a380_shell *>(&(messageIcon[1]))->FUN_0047a380((char *)(name));
             break;
         }
         case '3DOM': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
             bipedModel[1].SetModelFilePath(name);
             break;
         }
         case 'T3OM':
-            TESModel::LoadTextureSwapData(&bipedModel[1], file);
+            ::FUN_004893e0(&bipedModel[1], file);
             break;
         case 'S3OM':
             TESModelTextureSwap::ReadTextureSwapChunk(&bipedModel[1], file);
             break;
         case '4DOM': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
             worldModel[1].SetModelFilePath(name);
             break;
         }
         case 'T4OM':
-            TESModel::LoadTextureSwapData(&worldModel[1], file);
+            ::FUN_004893e0(&worldModel[1], file);
             break;
         case 'S4OM':
             TESModelTextureSwap::ReadTextureSwapChunk(&worldModel[1], file);
             break;
         case '2OCI': {
-            char* name = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(name, 0);
-            ((TESTexture1024*)&m_kIcon[1])->SetTexture(name);
+            char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 0);
+            reinterpret_cast<::TESFullName *>((((TESTexture1024*)&m_kIcon[1])))->SetFullName(name);
             break;
         }
         case 'TSED':
         case 'DTSD':
-            BGSDestructibleObjectForm::LoadDestructibleData(this, file);
+            ::FUN_004781e0(this, file);
             break;
         case 'LPER': {
             unsigned int uiListFormID = 0;
             file->GetChunkData(&uiListFormID);
-            SetRepairList((BGSListForm*)uiListFormID);
+            BGSRepairItemList::pListForm = reinterpret_cast<BGSListForm*>(static_cast<std::uintptr_t>(uiListFormID));
             break;
         }
         case 'LPIB': {
             unsigned int uiListFormID = 0;
             file->GetChunkData(&uiListFormID);
-            SetBipedModelList((BGSListForm*)uiListFormID);
+            BGSBipedModelList::pListForm = reinterpret_cast<BGSListForm*>(static_cast<std::uintptr_t>(uiListFormID));
             break;
         }
         case 'PYTE': {
             unsigned int uiEquipType = 0;
             file->GetChunkData(&uiEquipType);
-            SetEquipType((BGSEquipType__EQUIP_TYPE)uiEquipType);
+            m_eEquipType = (BGSEquipType__EQUIP_TYPE)uiEquipType;
             break;
         }
         case 'MANY': {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            SetPickupSound((TESSound*)sound);
+            m_pPickupSound = reinterpret_cast<TESSound*>(static_cast<std::uintptr_t>(sound));
             break;
         }
         case 'MANZ': {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            SetPutdownSound((TESSound*)sound);
+            m_pPutdownSound = reinterpret_cast<TESSound*>(static_cast<std::uintptr_t>(sound));
             break;
         }
         case 'MANB': {
@@ -255,7 +295,7 @@ bool TESObjectARMO::Load(TESFile* file)
             {
                 unsigned int formID = 0;
                 file->GetChunkData(&formID);
-                m_pSoundSourceArmor = (TESObjectARMO*)formID;
+                m_pSoundSourceArmor = reinterpret_cast<TESObjectARMO*>(static_cast<std::uintptr_t>(formID));
             }
             break;
         }
@@ -265,41 +305,41 @@ bool TESObjectARMO::Load(TESFile* file)
                 if (!m_pPickupPutdownSoundList)
                     m_pPickupPutdownSoundList = new BSSimpleList<SoundDescriptor*>;
                 SoundDescriptor* sound = new SoundDescriptor;
-                ReadTypedData(file, sound, sizeof(SoundDescriptor));
+                reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, sound, sizeof(SoundDescriptor));
                 if (file->IsEndianConversionRequired())
-                    sound->Endian();
+                    reinterpret_cast<::TESForm *>((sound))->ClearData();
                 m_pPickupPutdownSoundList->AddHead(sound);
             }
             break;
         }
         case 'ATAD': {
-            unsigned int added = GetDataSizeAdjustment();
-            if (file->GetChunkSize() - added == 2)
+            unsigned int added = reinterpret_cast<::FUN_00486620_shell *>(this)->FUN_00486620();
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() - added == 2)
             {
                 TESObjectARMOOldData oldArmoData;
                 memset(&oldArmoData, 0, sizeof(oldArmoData));
-                ReadTypedData(file, &oldArmoData, sizeof(oldArmoData));
+                reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &oldArmoData, sizeof(oldArmoData));
                 if (file->IsEndianConversionRequired())
-                    oldArmoData.FUN_00512810();
+                    reinterpret_cast<::FUN_00512810_holder *>(&(oldArmoData))->FUN_00512810();
                 memcpy(&data, &oldArmoData, sizeof(oldArmoData));
                 data.cFlags = 0;
             }
             else
             {
-                ReadTypedData(file, 0, 0);
+                reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, 0, 0);
             }
             break;
         }
         case 'MAND': {
             memset(&data, 0, sizeof(data));
-            file->GetChunkData(&data, sizeof(data));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&data), sizeof(data));
             if (file->IsEndianConversionRequired())
-                data.FUN_00535aa0();
+                reinterpret_cast<::FUN_00535aa0_Class *>(&(data))->FUN_00535aa0();
             break;
         }
         }
         if (chunk == 'ATAD' && file->IsEndianConversionRequired())
-            data.FUN_00535aa0();
+            reinterpret_cast<::FUN_00535aa0_Class *>(&(data))->FUN_00535aa0();
         if (!file->NextChunk())
             break;
     }
@@ -310,11 +350,21 @@ struct FUN_00514450_shell : public TESBipedModelForm
 {
     bool FUN_00514450();
 };
+// Returns 1 for heavy armor, 2 for medium armor, otherwise 0.
+// @fnv 0x00514410
+unsigned char TESObjectARMO::GetArmorType()
+{
+    if (GetIsHeavyArmor())
+        return 1;
+    if (reinterpret_cast<::FUN_00514450_shell *>((void *)this)->FUN_00514450())
+        return 2;
+    return 0;
+}
 
 // @fnv 0x00514450
 bool FUN_00514450_shell::FUN_00514450()
 {
-    return *((unsigned char*)this + 8) & 8;
+    return this->m_kBipedModelForm.m_ucBipedModelData & 8;
 }
 
 struct FUN_00484bf0
@@ -339,15 +389,13 @@ struct FUN_00514470
 unsigned short FUN_00514470::GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += m_00.GetSaveSize(aiFlags);
-    isize += ((FUN_0048e9b0*)((char*)this + 0x58))->GetSaveSize(aiFlags);
+    isize += reinterpret_cast<::FUN_00484bf0_shell *>(&(m_00))->FUN_00484bf0(aiFlags);
+    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)&this->m_58[87])))->FUN_0048e9b0(aiFlags);
     return isize;
 }
 
 struct FUN_0051b070_shell
 {
-    void FUN_00484c20(unsigned int);
-    void FUN_0048e9e0(unsigned int);
 };
 struct FUN_00516040_shell
 {
@@ -360,33 +408,31 @@ struct FUN_00516040_shell
 // @fnv 0x00516040
 void FUN_00516040_shell::FUN_00516040(unsigned int aiFlags)
 {
-    m0.FUN_00484c20(aiFlags);
-    m58.FUN_0048e9e0(aiFlags);
+    reinterpret_cast<::PC7d *>(&(m0))->FUN_00484c20(aiFlags);
+    reinterpret_cast<::fnv_0048e9e0::TESValueForm *>(&(m58))->FUN_0048e9e0(aiFlags);
 }
 
 struct TESFormStub
 {
-    void __thiscall FUN_00484c50(unsigned int, unsigned int);
 };
 
 struct TESValueFormStub
 {
-    void __thiscall FUN_0048ea10(unsigned int, unsigned int);
 };
 
 struct FUN_00516070_shell
 {
     char _pad[0x58];
     TESValueFormStub m_valueStub;
-    void __thiscall FUN_00516070(unsigned int, unsigned int);
+    void FUN_00516070(unsigned int, unsigned int);
 };
 
 // Forwards both arguments to TESFormStub::FUN_00484c50 on this object, then to m_valueStub.FUN_0048ea10.
 // @fnv 0x00516070
-void __thiscall FUN_00516070_shell::FUN_00516070(unsigned int a1, unsigned int a2)
+void FUN_00516070_shell::FUN_00516070(unsigned int a1, unsigned int a2)
 {
-    reinterpret_cast<TESFormStub*>(this)->FUN_00484c50(a1, a2);
-    m_valueStub.FUN_0048ea10(a1, a2);
+    reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((reinterpret_cast<TESFormStub*>(this)))->FUN_00484c50(a1, a2);
+    reinterpret_cast<::fnv_0048ea10::TESValueForm *>(&(m_valueStub))->FUN_0048ea10(a1, a2);
 }
 
 struct B1_4fe
@@ -396,8 +442,9 @@ struct B1_4fe
     char pad[0x2c];
 };
 namespace stand {
-struct TESFullName
+class TESFullName
 {
+  public:
     virtual void f0();
     TESFullName();
     ~TESFullName();
@@ -443,8 +490,9 @@ struct TESBipedModelForm
     ~TESBipedModelForm();
     char pad[0xd8];
 };
-struct BGSDestructibleObjectForm
+class BGSDestructibleObjectForm
 {
+  public:
     virtual void f0();
     BGSDestructibleObjectForm();
     ~BGSDestructibleObjectForm();
@@ -480,11 +528,9 @@ struct BGSPickupPutdownSounds
 }
 struct SoundPlaybackHandle
 {
-    void SetFormType(int);
 };
 struct FUN_005129f0_ARMO
 {
-    void ResetFormData();
 };
 struct FUN_005129f0 : public B1_4fe,
                       public stand::TESFullName,
@@ -511,8 +557,8 @@ struct FUN_005129f0 : public B1_4fe,
 // @fnv 0x005129f0
 FUN_005129f0::FUN_005129f0()
 {
-    ((SoundPlaybackHandle*)this)->SetFormType(0x18);
-    ((FUN_005129f0_ARMO*)this)->ResetFormData();
+    reinterpret_cast<::FUN_004f15a0_shell *>((((SoundPlaybackHandle*)this)))->FUN_004f15a0(0x18);
+    reinterpret_cast<::TESObjectARMO *>((((FUN_005129f0_ARMO*)this)))->ResetFormData();
 }
 
 struct FUN_0050e9f0 : public TESBoundObject
@@ -576,14 +622,8 @@ class FUN_00512bd0 : public FUN_0050e9f0,
 FUN_00512bd0::~FUN_00512bd0()
 {}
 
-bool FUN_00401500();
-void AppendChunk(unsigned int, void*, unsigned int);
-void FUN_00485910(unsigned int, unsigned int);
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
-    void FUN_00485680();
-    void FUN_00485e00();
 };
 struct FUN_00487010_shell
 {
@@ -599,11 +639,9 @@ struct FUN_0047bd70_shell
 };
 struct S_00480610
 {
-    void InitBipedModel();
 };
 struct S_00477f20
 {
-    void FUN_00477f20();
 };
 struct S0047b8a0
 {
@@ -619,16 +657,12 @@ struct FUN_00479350_shell
 };
 struct FUN_0047b560_holder
 {
-    void LogFormIDs();
 };
 struct RefObj
 {
-    unsigned int _ref_0084e3a0();
 };
 struct FoleyNode : BSSimpleList<SoundDescriptor*>
 {
-    SoundDescriptor*& FUN_006815c0();
-    FoleyNode* FUN_00726070();
 };
 struct FUN_00513d60
 {
@@ -636,7 +670,6 @@ struct FUN_00513d60
     unsigned char soundType;
     int value;
     FUN_00513d60();
-    void FUN_00483710();
 };
 struct ArmorSerializer
 {
@@ -667,60 +700,57 @@ struct ArmorSerializer
 // @fnv 0x00513d90
 void ArmorSerializer::Save()
 {
-    ((FUN_004855a0_shell*)this)->FUN_004855a0();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_shell*)this)))->FUN_004855a0();
     ((FUN_00487010_shell*)&fullName)->FUN_00487010();
     ((S_0048cca0*)&scriptable)->FUN_0048cca0();
     ((FUN_0047bd70_shell*)&enchantable)->FUN_0047bd70();
-    ((S_00480610*)&biped)->InitBipedModel();
-    ((S_00477f20*)&destructible)->FUN_00477f20();
+    reinterpret_cast<::FUN_00480610_shell *>((((S_00480610*)&biped)))->InitBipedModel();
+    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)&destructible)))->FUN_00477f20();
     ((S0047b8a0*)&repairList)->FUN_0047b8a0();
     ((FUN_00474d60_shell*)&modelList)->FUN_00474d60();
     ((FUN_00479350_shell*)&equipType)->FUN_00479350();
-    ((FUN_0047b560_holder*)&pickupSounds)->LogFormIDs();
-    ((FUN_004855a0_shell*)this)->FUN_00485e00();
-    if (FUN_00401500())
-        data.FUN_00535aa0();
-    AppendChunk(0x4d414e44, &data, sizeof(data));
-    if (FUN_00401500())
-        data.FUN_00535aa0();
-    FUN_00485910(0x4d414e42, m_bUsesSoundList ? 1 : 0);
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)&pickupSounds)))->LogFormIDs();
+    reinterpret_cast<::FUN_00485e00_shell *>((((FUN_004855a0_shell*)this)))->FUN_00485e00();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00535aa0_Class *>(&(data))->FUN_00535aa0();
+    ::AppendChunk(0x4d414e44, &data, sizeof(data));
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00535aa0_Class *>(&(data))->FUN_00535aa0();
+    ::FUN_00485910(0x4d414e42, m_bUsesSoundList ? 1 : 0);
     if (!m_bUsesSoundList)
     {
         if (m_pSoundSourceArmor)
         {
-            unsigned int formID = ((RefObj*)m_pSoundSourceArmor)->_ref_0084e3a0();
-            FUN_00485910(0x4d414e54, formID);
+            unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((RefObj*)m_pSoundSourceArmor)))->FUN_0084e3a0()));
+            ::FUN_00485910(0x4d414e54, formID);
         }
     }
     else if (m_pPickupPutdownSoundList)
     {
         FoleyNode* node = (FoleyNode*)m_pPickupPutdownSoundList;
-        while (node && node->FUN_006815c0())
+        while (node && node->m_item)
         {
-            SoundDescriptor* sound = node->FUN_006815c0();
-            node = node->FUN_00726070();
+            SoundDescriptor* sound = node->m_item;
+            node = ((::FoleyNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             if (sound && sound->SoundAssetTmp)
             {
                 FUN_00513d60 saved;
-                saved.formID = ((RefObj*)sound->SoundAssetTmp)->_ref_0084e3a0();
+                saved.formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((RefObj*)sound->SoundAssetTmp)))->FUN_0084e3a0()));
                 saved.soundType = sound->layoutPadding4[0];
                 saved.value = sound->eType;
-                if (FUN_00401500())
-                    saved.FUN_00483710();
-                AppendChunk(0x4d414e53, &saved, sizeof(saved));
-                if (FUN_00401500())
-                    saved.FUN_00483710();
+                if (((bool)(::FUN_00401500())))
+                    reinterpret_cast<::TESForm *>(&(saved))->ClearData();
+                ::AppendChunk(0x4d414e53, &saved, sizeof(saved));
+                if (((bool)(::FUN_00401500())))
+                    reinterpret_cast<::TESForm *>(&(saved))->ClearData();
             }
         }
     }
-    ((FUN_004855a0_shell*)this)->FUN_00485680();
+    reinterpret_cast<::Holder *>((((FUN_004855a0_shell*)this)))->FUN_00485680();
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct ArmorCopy : TESObjectARMO
 {
-    void CopyBase(TESForm*);
     void CopyArmorData(TESForm* form);
 };
 // @fnv 0x00513fa0
@@ -734,18 +764,18 @@ void ArmorCopy::CopyArmorData(TESForm* form)
     SoundDescriptor* sound;
     if (!source3)
         return;
-    CopyBase(form);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(form);
     data = source3->data;
     if (m_bUsesSoundList && m_pPickupPutdownSoundList)
     {
         node_ = m_pPickupPutdownSoundList;
-        while (node_ && node_->GetItem())
+        while (node_ && node_->m_item)
         {
-            sound = node_->GetItem();
-            operator delete(sound);
-            node_ = node_->GetNext();
+            sound = node_->m_item;
+            ::FUN_00401030(sound);
+            node_ = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((node_))->FUN_00726070()));
         }
-        m_pPickupPutdownSoundList->RemoveAll();
+        reinterpret_cast<::FileMatchList *>((m_pPickupPutdownSoundList))->RemoveAll();
         delete m_pPickupPutdownSoundList;
     }
     m_bUsesSoundList = source3->m_bUsesSoundList;
@@ -757,10 +787,10 @@ void ArmorCopy::CopyArmorData(TESForm* form)
         if (source3->m_pPickupPutdownSoundList)
         {
             iter = source3->m_pPickupPutdownSoundList;
-            while (iter && iter->GetItem())
+            while (iter && iter->m_item)
             {
-                original9 = iter->GetItem();
-                iter = iter->GetNext();
+                original9 = iter->m_item;
+                iter = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
                 if (original9 && original9->SoundAssetTmp)
                 {
                     copy7 = new SoundDescriptor;
@@ -772,7 +802,6 @@ void ArmorCopy::CopyArmorData(TESForm* form)
     }
 }
 
-unsigned int DialogueRandom();
 
 class TESObjectARMOFoley : public TESObjectARMO
 {
@@ -792,8 +821,8 @@ TESSound* TESObjectARMOFoley::GetFoleySound(int eType)
                                   : (m_pSoundSourceArmor ? m_pSoundSourceArmor->m_pPickupPutdownSoundList : 0);
     while (pFoleyList && !pFoleyList->IsEmpty() && !pkSound)
     {
-        pkFoley = pFoleyList->GetItem();
-        pFoleyList = pFoleyList->GetNext();
+        pkFoley = pFoleyList->m_item;
+        pFoleyList = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((pFoleyList))->FUN_00726070()));
         if (pkFoley->SoundAssetTmp && pkFoley->eType == eType && (int)(DialogueRandom() & 0x63) < pkFoley->layoutPadding4[0])
             pkSound = pkFoley->SoundAssetTmp;
     }
@@ -811,7 +840,6 @@ FUN_00512ba0::~FUN_00512ba0()
 #include <string.h>
 struct ArmorCompare : TESObjectARMO
 {
-    bool FUN_00485270(TESObjectARMO* other);
     bool IsDifferentFrom(TESForm* form);
 };
 // Returns true if form is not an armor or differs in base compare, data, sound source armor, or pickup/putdown sound list entries.
@@ -821,7 +849,7 @@ bool ArmorCompare::IsDifferentFrom(TESForm* form)
     TESObjectARMO* pOther = dynamic_cast<TESObjectARMO*>(form);
     if (!pOther)
         return true;
-    if (FUN_00485270(pOther))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pOther)))
         return true;
     if (memcmp(&data, &pOther->data, 12))
         return true;
@@ -835,27 +863,27 @@ bool ArmorCompare::IsDifferentFrom(TESForm* form)
     else
     {
         if (pOther->m_pPickupPutdownSoundList && m_pPickupPutdownSoundList &&
-            pOther->m_pPickupPutdownSoundList->GetItem() == m_pPickupPutdownSoundList->GetItem())
+            pOther->m_pPickupPutdownSoundList->m_item == m_pPickupPutdownSoundList->m_item)
         {
             BSSimpleList<SoundDescriptor*>* pCurrent = m_pPickupPutdownSoundList;
-            while (pCurrent && pCurrent->GetItem())
+            while (pCurrent && pCurrent->m_item)
             {
                 bool bFound = false;
                 BSSimpleList<SoundDescriptor*>* search = pOther->m_pPickupPutdownSoundList;
-                while (search && search->GetItem())
+                while (search && search->m_item)
                 {
-                    if (pCurrent->GetItem()->SoundAssetTmp == search->GetItem()->SoundAssetTmp &&
-                        pCurrent->GetItem()->layoutPadding4[0] == search->GetItem()->layoutPadding4[0] &&
-                        pCurrent->GetItem()->eType == search->GetItem()->eType)
+                    if (pCurrent->m_item->SoundAssetTmp == search->m_item->SoundAssetTmp &&
+                        pCurrent->m_item->layoutPadding4[0] == search->m_item->layoutPadding4[0] &&
+                        pCurrent->m_item->eType == search->m_item->eType)
                     {
                         bFound = true;
                         break;
                     }
-                    search = search->GetNext();
+                    search = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((search))->FUN_00726070()));
                 }
                 if (!bFound)
                     return true;
-                pCurrent = pCurrent->GetNext();
+                pCurrent = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((pCurrent))->FUN_00726070()));
             }
         }
         else

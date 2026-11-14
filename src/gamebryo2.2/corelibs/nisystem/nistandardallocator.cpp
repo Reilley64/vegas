@@ -3,7 +3,18 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // Swaps two adjacent ints at a and b when the pointers differ.
+#include <cstdint>
+#include <cstring>
 // @fnv 0x00aa3530
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00aa3760_cls.h"
+#include "fnv/decl/FUN_00aa3810_cls.h"
+#include "fnv/decl/MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/PointerCountProcessor.h"
+#include "fnv/ni_allocator.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
 void __cdecl SwapIntPairs(int* paiFirst, int* paiSecond)
 {
     if (paiFirst != paiSecond)
@@ -21,21 +32,19 @@ struct P03MM
 {
     void Deallocate(void*);
 };
-extern P03MM g_memoryManager;
 
 // @fnv 0x00aa3370
-void __stdcall FUN_00aa3370(void* apBlock, int e, unsigned int s)
+void NiStandardAllocator::Free(void* apBlock, int e, unsigned int s)
 {
     if (apBlock)
     {
         if (e == 0x10)
             apBlock = (char*)apBlock - *(unsigned char*)((char*)apBlock - 1);
-        g_memoryManager.Deallocate(apBlock);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(apBlock);
     }
 }
 
 namespace fnv_00aa3430 {
-extern int DAT_011f622c;
 
 struct P03MM
 {
@@ -43,26 +52,21 @@ struct P03MM
 };
 
 P03MM g_memoryManager;
-
-struct NiStandardAllocator
-{
-    void* __thiscall NiStandardObjectAllocHelper(unsigned int);
-};
+}  // namespace fnv_00aa3430
 
 // @fnv 0x00aa3430
-void __cdecl AllocateStandardAllocator()
+void NiStandardAllocator::Initialize()
 {
-    void* p = g_memoryManager.Allocate(0x10080);
+    void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00aa3430::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x10080);
     if (p)
     {
-        DAT_011f622c = (int)((NiStandardAllocator*)p)->NiStandardObjectAllocHelper(0x6400);
+        ::fnv_00aa3430::DAT_011f622c = (intptr_t)((void *)(reinterpret_cast<::FUN_00aa3760_cls *>(p)->InitEntries(0x6400)));
     }
     else
     {
-        DAT_011f622c = 0;
+        ::fnv_00aa3430::DAT_011f622c = 0;
     }
 }
-}  // namespace fnv_00aa3430
 
 // Reads four bytes from pMemory into an unsigned int and returns it.
 // @fnv 0x00aa3090
@@ -82,13 +86,10 @@ unsigned int __cdecl ReadUInt32(void* pMemory)
 
 struct SmallAlloc
 {
-    void __thiscall FUN_00aa3830(void* p, unsigned int s);
 };
-extern SmallAlloc* DAT_011f622c;
 unsigned int __cdecl ReadUInt32(void* p);
-void __cdecl FreeAllocatorBlock(void* p);
 // @fnv 0x00aa3150
-void __stdcall FUN_00aa3150(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
+void NiStandardAllocator::Deallocate(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
 {
     if (pvMemory)
     {
@@ -101,22 +102,20 @@ void __stdcall FUN_00aa3150(void* pvMemory, int aiAllocationType, unsigned int s
             }
         }
         if (stSizeInBytes <= 0x100)
-            DAT_011f622c->FUN_00aa3830(pvMemory, stSizeInBytes);
+            reinterpret_cast<::PointerCountProcessor *>(((*reinterpret_cast<::SmallAlloc * *>(&::fnv_00aa3430::DAT_011f622c))))->FUN_00aa3830(pvMemory, stSizeInBytes);
         else
-            FreeAllocatorBlock(pvMemory);
+            ::fnv_00aa1190::FreeAllocatorBlock(pvMemory);
     }
 }
 
 // Stand-ins for the two callees of the original function.
-//   0x00aa3810 : __thiscall member, one 4-byte stack argument, returns a pointer.
+//   0x00aa3810 : member, one 4-byte stack argument, returns a pointer.
 //   0x00aa1130 : __cdecl, two 4-byte arguments (count, type), returns a pointer.
 // The names are deliberately different from the ones in the unit file so that the
 // checker binds the call relocations to the addresses found in the original bytes.
 struct MemPool
 {
-    void* __thiscall FUN_00aa3810_x(unsigned int s);
 };
-void* __cdecl FUN_00aa1130_x(int count, int type);
 
 // A 4-byte object that is written as a dword and read back one byte at a time.
 // The ARRAY member is what keeps the object in memory: with four named byte
@@ -131,9 +130,11 @@ union Pun
 // 0x00aa30c0: writes a 4-byte count into a buffer obtained from the memory
 // manager, when the record is a 4-byte type and the caller's flag is clear.
 // @fnv 0x00aa30c0
-unsigned char* __stdcall FUN_00aa30c0(unsigned int* pCount, int* pType, int eType, unsigned char bFlag, int a4, int a5,
-                                      int a6)
+void* NiStandardAllocator::Allocate(unsigned int& sizeInBytes, unsigned int& alignment, int eType, bool bFlag,
+                                    const char* a4, int a5, const char* a6)
 {
+    unsigned int* pCount = &sizeInBytes;
+    unsigned int* pType = &alignment;
     bool bWriteCount = false;
     unsigned char* pBuffer = 0;
 
@@ -151,11 +152,11 @@ unsigned char* __stdcall FUN_00aa30c0(unsigned int* pCount, int* pType, int eTyp
 
     if (eType != 7 && eType != 8 && *pCount <= 0x100 && *pType == 4)
     {
-        pBuffer = (unsigned char*)((MemPool*)DAT_011f622c)->FUN_00aa3810_x(*pCount);
+        pBuffer = (unsigned char*)((void *)(reinterpret_cast<::FUN_00aa3810_cls *>((((MemPool*)(*reinterpret_cast<::SmallAlloc * *>(&::fnv_00aa3430::DAT_011f622c)))))->FUN_00aa3810(*pCount)));
     }
     else
     {
-        pBuffer = (unsigned char*)FUN_00aa1130_x(*pCount, *pType);
+        pBuffer = (unsigned char*)::FUN_00aa1130(*pCount, *pType);
     }
 
     if (pBuffer && bWriteCount)
@@ -175,9 +176,7 @@ unsigned char* __stdcall FUN_00aa30c0(unsigned int* pCount, int* pType, int eTyp
     return pBuffer;
 }
 
-extern P03MM g_memoryManager;
 
-extern SmallAlloc* DAT_011f622c;
 
 struct AA3460Pool
 {
@@ -262,18 +261,14 @@ struct AA3460Pools
         }
     }
 
-    static void operator delete(void* pvMem)
-    {
-        g_memoryManager.Deallocate(pvMem);
-    }
 };
 
 // Deletes the AA3460Pools object at DAT_011f622c and clears the pointer.
 // @fnv 0x00aa3460
-void __cdecl DestroySmallAllocPools()
+void NiStandardAllocator::Shutdown()
 {
-    delete reinterpret_cast<AA3460Pools*>(DAT_011f622c);
-    DAT_011f622c = 0;
+    delete reinterpret_cast<AA3460Pools*>((*reinterpret_cast<::SmallAlloc * *>(&::fnv_00aa3430::DAT_011f622c)));
+    (*reinterpret_cast<::SmallAlloc * *>(&::fnv_00aa3430::DAT_011f622c)) = 0;
 }
 
 struct FUN_00aa34b0_entry
@@ -356,24 +351,11 @@ fwd_body:
 
 unsigned int __cdecl ReadUInt32(void* pMemory);
 void* __cdecl FUN_00aa1250(void* pvMemory, unsigned int stSizeInBytes, unsigned int stAlignment);
-extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int n);
-
-struct StdAllocator
-{
-    virtual ~StdAllocator();
-    virtual void* Allocate(unsigned int& stSizeInBytes, unsigned int& stAlignment, int aiAllocationType,
-                           bool bProvideAccurateSizeOnDeallocate, const char* pcFile, int iLine,
-                           const char* pcFunction);
-    virtual void Deallocate(void* pvMemory, int aiAllocationType, unsigned int stSizeinBytes);
-    void* FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment, int aiAllocationType,
-                       bool bProvideAccurateSizeOnDeallocate, unsigned int stSizeCurrent, const char* pcFile, int iLine,
-                       const char* pcFunction);
-};
-
 // @fnv 0x00aa31b0
-void* StdAllocator::FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment,
-                                 int aiAllocationType, bool bProvideAccurateSizeOnDeallocate,
-                                 unsigned int stSizeCurrent, const char* pcFile, int iLine, const char* pcFunction)
+void* NiStandardAllocator::Reallocate(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment,
+                                      int aiAllocationType, bool bProvideAccurateSizeOnDeallocate,
+                                      unsigned int stSizeCurrent, const char* pcFile, int iLine,
+                                      const char* pcFunction)
 {
     if (aiAllocationType != 10 && aiAllocationType != 8 && stSizeCurrent == (unsigned int)-1 &&
         !bProvideAccurateSizeOnDeallocate)
@@ -429,21 +411,21 @@ void* StdAllocator::FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, un
 
 struct MM
 {
-    void* FUN_00aa4150(void* pvMem, unsigned int uiSize);
 };
-extern MM _g_memoryManager;
-void* _fnv_zlib_memset(void* pvDest, int iValue, int iCount);
 
 // Allocates memory via the memory manager, applying alignment for type 0xe and zeroing the returned block.
 // @fnv 0x00aa33a0
-void* __stdcall FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* pucAlign, int iType, int iUnk,
-                             int iUnkCur, int iUnkValue, int iNewUnk, int iTmpUnk)
+void* NiStandardAllocator::Realloc(void* pvMem, unsigned int& sizeInBytes, unsigned int& alignment, int iType,
+                                   bool iUnk, unsigned int iUnkCur, const char* iUnkValue, int iNewUnk,
+                                   const char* iTmpUnk)
 {
+    unsigned int* puiSize = &sizeInBytes;
+    unsigned char* pucAlign = reinterpret_cast<unsigned char*>(&alignment);
     void* pNewMem;
     if (iType != 0xe)
     {
         unsigned int uiSize = *puiSize;
-        pNewMem = _g_memoryManager.FUN_00aa4150(pvMem, uiSize);
+        pNewMem = reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->Reallocate(pvMem, uiSize);
     }
     else
     {
@@ -452,8 +434,8 @@ void* __stdcall FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* 
         if (pvMem)
         {
             pvMem = (char*)pvMem - ((unsigned char*)pvMem)[-1];
-            pNewMem = _g_memoryManager.FUN_00aa4150(pvMem, ucAlign + uiSize);
-            unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(unsigned int)pNewMem);
+            pNewMem = reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->Reallocate(pvMem, ucAlign + uiSize);
+            unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(uintptr_t)pNewMem);
             pNewMem = (char*)pNewMem + ucOffset;
             ((unsigned char*)pNewMem)[-1] = ucOffset;
         }
@@ -462,12 +444,11 @@ void* __stdcall FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* 
             pNewMem = 0;
         }
     }
-    return _fnv_zlib_memset(pNewMem, 0, *puiSize);
+    return std::memset(pNewMem, 0, *puiSize);
 }
 
 #include <windows.h>
 void __cdecl FreeAlignedBlock(void*);
-void __cdecl FreeAllocatorBlock(void*);
 struct FUN_00aa3560
 {
     char _pad0[8];
@@ -486,37 +467,40 @@ struct FUN_00aa3560
 FUN_00aa3560::~FUN_00aa3560()
 {
     for (unsigned int i = 0; i < m_cnt; ++i)
-        FreeAllocatorBlock(m_ptr[i].p);
+        ::fnv_00aa1190::FreeAllocatorBlock(m_ptr[i].p);
     FreeAlignedBlock(m_ptr);
     DeleteCriticalSection(&m_cs);
 }
 
 struct MMHeap
 {
-    void* FUN_00aa3e40(unsigned int uiSize);
 };
 
 // Allocates and zeroes a block, applying the requested alignment when iType is 0xd.
 // @fnv 0x00aa3300
-void* __stdcall FUN_00aa3300(unsigned int puiSize, unsigned char* pucAlign, int iType, int iUnk, int iUnkCur,
-                             int iUnkValue, int iNewUnk)
+void* NiStandardAllocator::Alloc(unsigned int& sizeInBytes, unsigned int& alignment, int iType, bool iUnk,
+                                 const char* iUnkCur, int iUnkValue, const char* iNewUnk)
 {
-    MMHeap* pkHeap = (MMHeap*)&_g_memoryManager;
+    uintptr_t puiSize = reinterpret_cast<uintptr_t>(&sizeInBytes);
+    unsigned char* pucAlign = reinterpret_cast<unsigned char*>(&alignment);
+    MMHeap* pkHeap = (MMHeap*)&(*reinterpret_cast<::MM *>(&::g_memoryManager));
     void* pvNew;
     if (iType != 0xd)
     {
         unsigned int uiSize = *(unsigned int*)puiSize;
-        pvNew = pkHeap->FUN_00aa3e40(uiSize);
+        pvNew = reinterpret_cast<::MemoryManagerStandIn *>((pkHeap))->FUN_00aa3e40(uiSize);
     }
     else
     {
         unsigned int uiSize = *(unsigned int*)puiSize;
         unsigned char ucAlign = *pucAlign;
-        pvNew = pkHeap->FUN_00aa3e40(ucAlign + uiSize);
-        unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(unsigned int)pvNew);
+        pvNew = reinterpret_cast<::MemoryManagerStandIn *>((pkHeap))->FUN_00aa3e40(ucAlign + uiSize);
+        unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(uintptr_t)pvNew);
         pvNew = (char*)pvNew + ucOffset;
         ((unsigned char*)pvNew)[-1] = ucOffset;
     }
     puiSize = *(unsigned int*)puiSize;
-    return _fnv_zlib_memset(pvNew, 0, puiSize);
+    return std::memset(pvNew, 0, puiSize);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/nistandardallocator.inc"

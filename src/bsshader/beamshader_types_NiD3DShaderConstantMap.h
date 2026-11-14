@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_NID3DSHADERCONSTANTMAP_H
 #define FNV_NID3DSHADERCONSTANTMAP_H
+#include <cstddef>
 
 #include "layout_support.h"
 #include "NiRefObject.h"
@@ -19,7 +20,6 @@ enum NiGPUProgram__ProgramType
     NiGPUProgram__ProgramType_PROGRAM_PIXEL = 2,
     NiGPUProgram__ProgramType_PROGRAM_MAX = 3
 };
-#pragma pack(push, 4)
 class NiShaderConstantMap : public NiRefObject
 {
   public:
@@ -41,10 +41,6 @@ class NiShaderConstantMap : public NiRefObject
     // void __cdecl NiShaderConstantMap::*()
     // NiShaderConstantMap& __cdecl NiShaderConstantMap::*(const NiShaderConstantMap&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShaderConstantMap) == 12);
-FNV_STATIC_ASSERT(offsetof(NiShaderConstantMap, m_iProgramType) == 8);
-#pragma pack(push, 4)
 class NiD3DShaderConstantMap : public NiShaderConstantMap
 {
   public:
@@ -58,7 +54,6 @@ class NiD3DShaderConstantMap : public NiShaderConstantMap
     Direct3DDeviceInterface* m_pD3DDevice;  // +0x38, 4 bytes
     GraphicsRenderer* m_pShaderObject;      // +0x3C, 4 bytes
     ShaderPassRenderer* m_pRenderState;     // +0x40, 4 bytes
-    static void* operator new(unsigned int) throw();
     NiD3DShaderConstantMap(GraphicsRenderer*, unsigned int);
     // IsExactKindOf
     // DynamicCast
@@ -88,14 +83,4 @@ class NiD3DShaderConstantMap : public NiShaderConstantMap
     // unsigned int __cdecl NiD3DShaderConstantMap::*(unsigned int, NiShaderConstantMapEntry*, unsigned int)
     // NiD3DShaderConstantMap& __cdecl NiD3DShaderConstantMap::*(const NiD3DShaderConstantMap&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderConstantMap) == 68);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_kEntries) == 12);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_kDefinedEntries) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_bHasChanges) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_pShaderProgram) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_uiErrorCode) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_pD3DDevice) == 56);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_pShaderObject) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_pRenderState) == 64);
 #endif

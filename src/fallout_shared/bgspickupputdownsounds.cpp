@@ -1,5 +1,25 @@
 // fallout_shared/bgspickupputdownsounds.cpp: TESIcon, BGSPickupPutdownSounds (8 functions)
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "bgspickupputdownsounds_decls.h"
 #include "bgspickupputdownsounds_types_BGSPickupPutdownSounds.h"
 
@@ -17,63 +37,59 @@ void BGSPickupPutdownSounds::InitItem(TESForm* owner)
         TESFile* file;
     } initData;
 
-    initData.formID = (unsigned int)m_pPickupSound;
+    initData.formID = (unsigned int)(std::uintptr_t)m_pPickupSound;
     initData.file = owner ? owner->GetFile(-1) : 0;
 
     if (initData.formID)
     {
-        TESForm::RemapFormIDForFile(initData.formID, initData.file);
-        m_pPickupSound = dynamic_cast<TESSound*>(GetFormByID(initData.formID));
+        ::ResolveFormID((unsigned int *)&(initData.formID), initData.file);
+        m_pPickupSound = dynamic_cast<TESSound*>(::FUN_004839c0(initData.formID));
         if (!m_pPickupSound)
         {
             if (owner)
             {
                 if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find pickup sound (%08X) for owner object \"%s\".", initData.formID,
-                            owner->GetName());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find pickup sound  (%08X) for owner object (%08X).", initData.formID,
-                            owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
             {
-                Warning("MASTERFILE: Unable to find pickup sound  (%08X) for unknown owner.", initData.formID);
+                ::FUN_005b5e40();
             }
         }
     }
 
-    initData.formID = (unsigned int)m_pPutdownSound;
+    initData.formID = (unsigned int)(std::uintptr_t)m_pPutdownSound;
     if (initData.formID)
     {
-        TESForm::RemapFormIDForFile(initData.formID, initData.file);
-        m_pPutdownSound = dynamic_cast<TESSound*>(GetFormByID(initData.formID));
+        ::ResolveFormID((unsigned int *)&(initData.formID), initData.file);
+        m_pPutdownSound = dynamic_cast<TESSound*>(::FUN_004839c0(initData.formID));
         if (!m_pPutdownSound)
         {
             if (owner)
             {
                 if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find putdown sound (%08X) for owner object \"%s\".", initData.formID,
-                            owner->GetName());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find putdown sound  (%08X) for owner object (%08X).",
-                            initData.formID, owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
             {
-                Warning("MASTERFILE: Unable to find putdown sound  (%08X) for unknown owner.", initData.formID);
+                ::FUN_005b5e40();
             }
         }
     }
 }
 
 extern int DAT_0101abd8;
-void __fastcall FUN_0047b540(void* pThis);
+void FUN_0047b540(void* pThis);
 
 // Initialises the BaseFormComponent base, installs the vtable from DAT_0101abd8, calls FUN_0047b540, and returns pThis.
 // @fnv 0x0047b4f0
-void* __fastcall FUN_0047b4f0(BaseFormComponent* apComponent)
+void* FUN_0047b4f0(BaseFormComponent* apComponent)
 {
-    apComponent->BaseFormComponent::BaseFormComponent();
+    ::FUN_00402d30((int *)(apComponent));
     *(int**)apComponent = &DAT_0101abd8;
     FUN_0047b540(apComponent);
     return apComponent;
@@ -83,15 +99,15 @@ struct BGSMenuIcon;
 struct BGSMessageIcon;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct Script;
-struct TESBoundObject;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class Script;
+class TESBoundObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -113,9 +129,9 @@ struct BGSClipRoundsForm : public BaseFormComponent
     unsigned char m_ucClipRounds;
     char _pad_5[3];
 };
-typedef char _sizecheck_BGSClipRoundsForm[sizeof(BGSClipRoundsForm) == 8 ? 1 : -1];
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -131,7 +147,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESScriptableForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -150,7 +165,6 @@ struct TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     char _pad_9[3];
 };
-typedef char _sizecheck_TESScriptableForm[sizeof(TESScriptableForm) == 12 ? 1 : -1];
 struct TESWeightForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -159,12 +173,10 @@ struct TESWeightForm : public BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
     static float GetWeightForForm(TESForm*, bool);
-    float GetWeightForForm();
     void SetFormWeight(float);
     void* __vecDelDtor(unsigned int);
     float fWeight;
 };
-typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct BGSEquipType : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -180,7 +192,6 @@ struct BGSEquipType : public BaseFormComponent
     static void GenerateDefaultMenuIcons();
     int m_eEquipType;
 };
-typedef char _sizecheck_BGSEquipType[sizeof(BGSEquipType) == 8 ? 1 : -1];
 struct FUN_0047b540_shell : public BGSClipRoundsForm
 {
     void FUN_0047b540();
@@ -193,21 +204,17 @@ void FUN_0047b540_shell::FUN_0047b540()
     *(int*)((char*)this + 8) = 0;
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
-    void SetFlags(unsigned int);
 };
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct CombatNode
 {
-    unsigned int FUN_00726070();
 };
 struct FUN_0047b5d0_cls
 {
@@ -220,20 +227,17 @@ void FUN_0047b5d0_cls::FUN_0047b5d0(BaseFormComponent* component)
     BGSPickupPutdownSounds* source = dynamic_cast<BGSPickupPutdownSounds*>(component);
     if (!source)
         return;
-    ((TESRaceForm*)this)->Initialize(((CombatNode*)source)->FUN_00726070());
-    ((TESObjectREFR*)this)->SetFlags(((ArrSI*)source)->GetFlags());
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((std::uintptr_t)(reinterpret_cast<::Callees *>((((CombatNode*)source)))->FUN_00726070()))));
+    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)this)))->AssignLandTexture((::TESLandTexture *)(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)source)))->GetName()))));
 }
 
 namespace fnv_0047b560 {
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct ItemList
 {
-    void* GetItem();
 };
-extern "C" void __cdecl FUN_00485910(int, int);
 struct FUN_0047b560_shell : public TESForm
 {
     void LogFormIDs();
@@ -241,15 +245,15 @@ struct FUN_0047b560_shell : public TESForm
 // @fnv 0x0047b560
 void FUN_0047b560_shell::LogFormIDs()
 {
-    if (((ItemList*)this)->GetItem())
+    if (reinterpret_cast<::Callees *>((((ItemList*)this)))->FUN_00726070())
     {
-        unsigned int id = ((TESForm*)((ItemList*)this)->GetItem())->GetFormID();
-        FUN_00485910(0x4d414e59, id);
+        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)reinterpret_cast<::Callees *>((((ItemList*)this)))->FUN_00726070())))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e59, id);
     }
-    if (((ArrSI*)this)->GetFlags())
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))
     {
-        unsigned int id = ((TESForm*)((ArrSI*)this)->GetFlags())->GetFormID();
-        FUN_00485910(0x4d414e5a, id);
+        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e5a, id);
     }
 }
 }  // namespace fnv_0047b560
@@ -257,12 +261,10 @@ void FUN_0047b560_shell::LogFormIDs()
 namespace fnv_0047b630 {
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_0047b630_shell
 {
-    unsigned int FUN_00726070();
     bool IsSamePickupPutdownSounds(BaseFormComponent* component);
 };
 
@@ -273,8 +275,8 @@ bool FUN_0047b630_shell::IsSamePickupPutdownSounds(BaseFormComponent* component)
     BGSPickupPutdownSounds* pickup = dynamic_cast<BGSPickupPutdownSounds*>(component);
     if (pickup == 0)
         return true;
-    if (FUN_00726070() != reinterpret_cast<FUN_0047b630_shell*>(pickup)->FUN_00726070() ||
-        reinterpret_cast<ArrSI*>(this)->GetFlags() != reinterpret_cast<ArrSI*>(pickup)->GetFlags())
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_0047b630_shell*>(pickup)))->FUN_00726070())) ||
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pickup)))->GetName())))
         return true;
     return false;
 }

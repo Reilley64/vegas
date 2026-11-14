@@ -2,20 +2,20 @@
 #ifndef IOMANAGER_DECLS_H
 #define IOMANAGER_DECLS_H
 
-class IOManager
+#include "fnv/decl/FUN_0043cc80_shell.h"
+#include "fnv/decl/FUN_0043d6b0_shell.h"
+#include "fnv/decl/FUN_0043dbb0_shell.h"
+#include "fnv/decl/FUN_0043dc30_shell.h"
+#include "fnv/decl/fnv_0043dc10__FUN_0043dc10_shell.h"
+#include "fnv/symbols_01202000.h"
+struct IOManager
 {
   public:
     void SubmitTask();
-    void FUN_0043d6b0(IOManager* task);
 };
-extern IOManager* DAT_01202d98;
 class IOTask
 {
   public:
     void GenerateKey();
-    unsigned short FUN_0043dc10();
-    unsigned char GetPriority();
-    unsigned int InitScriptRunLockTask();
-    void SetKey(char, unsigned int, unsigned char, unsigned short);
 };
 #endif

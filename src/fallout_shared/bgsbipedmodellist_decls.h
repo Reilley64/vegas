@@ -2,6 +2,11 @@
 #ifndef BGSBIPEDMODELLIST_DECLS_H
 #define BGSBIPEDMODELLIST_DECLS_H
 
+#include "fnv/decl/FUN_00480d50_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 enum ENUM_FORM_ID
 {
     kArmor = 24,
@@ -90,23 +95,10 @@ class TESForm
     virtual const char* GetName();
     ENUM_FORM_ID GetFormType() const;
     TESFile* GetFile(int);
-    unsigned int GetFormID();
-    static TESForm* GetFormByID(unsigned int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
 };
 class BGSPerkEntry;
-template <class T> class BSSimpleList
-{
-  public:
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-};
+#include "fnv/bs_simple_list.h"
 class BGSCameraShot;
-template <> class BSSimpleList<BGSCameraShot*>
-{
-  public:
-    bool IsEmpty();
-};
 class PerkEntryConditionSet;
 class BGSCameraPath
 {
@@ -117,13 +109,13 @@ class BGSCameraPath
 class BGSListForm : public TESForm
 {
 };
+class TESForm;
 class TESBipedModelForm
 {
   public:
-    static TESBipedModelForm* GetFormAsBipedModel(TESForm*);
-    void FUN_00480d50(bool);
+public:
+    static ::TESBipedModelForm *GetFormAsBipedModel(const ::TESForm *);
 };
-int Warning(const char*, ...);
 extern char DAT_0101a5f0[], DAT_0101a5a0[], DAT_0101a558[], DAT_0101a4d8[];
 
 class BGSBipedModelList

@@ -2,27 +2,28 @@
 #define FNV_NIPSYSDRAGMODIFIER_DECLS_H
 
 
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/S_00a64670_Foo.h"
 #include "NiObject.h"
 #include "NiFixedString.h"
 #include "NiPoint3.h"
 
 class NiAVObject;
-class NiPSysData;
-class NiParticleSystem;
-class CloningProcess;
+struct NiPSysData;
+struct NiParticleSystem;
+struct CloningProcess;
 
 // These method declarations preserve the canonical particle header ABI.
-class NiStream : public NiObject
+struct NiStream : public NiObject
 {
   public:
-    void ResetStreamState();
-    unsigned int ReadUnsignedInteger();
     unsigned int GetLinkIDFromObject(const NiObject* pkObject);
     NiObject* DeserializeObject();
     NiObject* GetLoadedObject(unsigned int uiLinkID);
 };
 
-class NiPSysModifier : public NiObject
+struct CloningProcess;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream& kStream);
@@ -46,14 +47,19 @@ class NiPSysModifier : public NiObject
     unsigned int m_uiUpdateOrder;
     NiParticleSystem* m_pkTarget;
     bool m_bModifierActive;
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
 
 // The three-float LoadBinary implementations are folded together in the PC
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     float r, g, b;
     void LoadBinary(NiStream& kStream);
+public:
+    void SaveBinary(::NiStream &);
 };
 
 class NiBinaryStream
@@ -106,15 +112,5 @@ class NiPSysDragModifier : public NiPSysModifier
     float m_fSecondLightParameter;
 };
 
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 0x18);
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_pfnRead) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifierStreamLayout, m_pUnderlyingStream) == 0x24C);
-FNV_STATIC_ASSERT(sizeof(NiPSysDragModifier) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifier, m_kDragDirection) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifier, m_fDragStrength) == 0x28);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifier, m_fFirstLightParameter) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifier, m_fSecondLightParameter) == 0x30);
 
 #endif

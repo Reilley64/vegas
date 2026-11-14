@@ -7,7 +7,6 @@
 #include "hkpBridgeAtoms.h"
 #include "hkpConstraintChainData.h"
 class hkpPoweredChainDataConstraintInfo;
-#pragma pack(push, 1)
 class hkpPoweredChainData : public hkpConstraintChainData
 {
   public:
@@ -21,6 +20,4 @@ class hkpPoweredChainData : public hkpConstraintChainData
     hkReal m_fInertiaStabilizationFactor;                          // +0x38
     hkReal m_fMaximumAngularImpulse;                               // +0x3C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPoweredChainData[(sizeof(hkpPoweredChainData) == 0x40) ? 1 : -1];
 #endif

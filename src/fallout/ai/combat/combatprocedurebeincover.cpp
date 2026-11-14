@@ -2,6 +2,52 @@
 // src/fallout/ai/combat/combatprocedurebeincover.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedurebeincover.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
+#include "fnv/decl/ActorCombatGroup.h"
+#include "fnv/decl/CombatProcedureEx.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00480100_shell.h"
+#include "fnv/decl/FUN_00480160_shell.h"
+#include "fnv/decl/FUN_005407b0_Class.h"
+#include "fnv/decl/FUN_008854d0_.h"
+#include "fnv/decl/FUN_008a88f0_cls.h"
+#include "fnv/decl/FUN_008b3960_Class.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008b3c90_class.h"
+#include "fnv/decl/FUN_0097fa50_Class.h"
+#include "fnv/decl/FUN_00996e00_shell.h"
+#include "fnv/decl/FUN_00998a30_shell.h"
+#include "fnv/decl/FUN_0099ccd0_shell.h"
+#include "fnv/decl/FUN_009a03d0_cls.h"
+#include "fnv/decl/FUN_009a0600_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/FUN_009caac0_shell.h"
+#include "fnv/decl/FUN_009d3390_cls.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S_008a8840.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_008a8870__HA.h"
+#include "fnv/decl/fnv_008b3880__FUN_008b3880_target.h"
+#include "fnv/decl/fnv_00996e20__FUN_00996e20_shell.h"
+#include "fnv/decl/fnv_00996e40__FUN_00996e40_shell.h"
+#include "fnv/decl/fnv_00996ea0__MyProc.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_0097b000.h"
+#include "fnv/symbols_0097f000.h"
+#include "fnv/symbols_009a9000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
@@ -10,19 +56,19 @@ struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESFullName;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESFullName;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESTexture;
+class TESObjectREFR;
+class TESTexture;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -34,24 +80,21 @@ struct blob12
 {
     char b[12];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESAttributes : public BaseFormComponent
 {
     virtual void InitializeComponent();
     virtual void ClearComponent();
-    unsigned int Save(void*);
     unsigned int Load(void*);
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
-    unsigned int GetAttributeDataSize();
-    unsigned char GetAttributeValue(int);
     void SetAttributeValue(int, unsigned char, bool);
     unsigned char GetAttributeStrength();
     unsigned char GetPerception();
@@ -76,7 +119,6 @@ struct TESAttributes : public BaseFormComponent
     char cAttribute[7];
     char _pad_b[1];
 };
-typedef char _sizecheck_TESAttributes[sizeof(TESAttributes) == 12 ? 1 : -1];
 struct FUN_009d2510_shell : public TESAttributes
 {
     unsigned int FUN_009d2510();
@@ -88,12 +130,11 @@ unsigned int FUN_009d2510_shell::FUN_009d2510()
     return 7;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_009d2520_shell
 {
-    void __thiscall FUN_009d2550();
-    void* __thiscall FUN_009d2520(unsigned int flags);
+    void FUN_009d2550();
+    void* FUN_009d2520(unsigned int flags);
 };
 
 // Calls FUN_009d2550, then deletes this object if bit 0 of flags is set, and returns this.
@@ -102,83 +143,80 @@ void* FUN_009d2520_shell::FUN_009d2520(unsigned int flags)
 {
     FUN_009d2550();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-extern "C" float __cdecl RandomFloat(float, float);
 
 struct FUN_009d32e0_shell
 {
-    float __thiscall GetRandomFloatInRange();
+    float GetRandomFloatInRange();
 };
 
 // Returns a random float between the two floats stored at offsets 0x20 and 0x24 of this object.
 // @fnv 0x009d32e0
-float __thiscall FUN_009d32e0_shell::GetRandomFloatInRange()
+float FUN_009d32e0_shell::GetRandomFloatInRange()
 {
-    return RandomFloat(*(float*)(this + 0x20), *(float*)(this + 0x24));
+    return ::RandomFloat(*(float*)(this + 0x20), *(float*)(this + 0x24));
 }
 
-float __cdecl RandomFloat(float, float);
 
 struct FUN_009d3310_shell
 {
-    float __thiscall GetRandomFloat();
+    float GetRandomFloat();
+    unsigned int pad00[0xa];
+    float unk28;
+    float unk2c;
 };
 
 // Returns a random float between the two float values stored at offsets 0x28 and 0x2c of this object.
 // @fnv 0x009d3310
-float __thiscall FUN_009d3310_shell::GetRandomFloat()
+float FUN_009d3310_shell::GetRandomFloat()
 {
-    return RandomFloat(*(float*)((char*)this + 0x28), *(float*)((char*)this + 0x2c));
+    return ::RandomFloat(this->unk28, this->unk2c);
 }
 
-float __cdecl RandomFloat(float, float);
 
 struct TESCombatStyle
 {
     char pad[0x30];
     float m_fMinimum;
     float m_fMaximum;
-    float __thiscall GetRandomValue();
+    float GetRandomValue();
+public:
+    float UpdateCombatStyle();
 };
 
 // Returns a random float between the combat style's two stored float fields.
 // @fnv 0x009d3340
-float __thiscall TESCombatStyle::GetRandomValue()
+float TESCombatStyle::GetRandomValue()
 {
-    return RandomFloat(m_fMinimum, m_fMaximum);
+    return ::RandomFloat(m_fMinimum, m_fMaximum);
 }
 
 struct FUN_009ca6c0_shell
 {
-    void __thiscall FUN_009ca6c0();
 };
 extern "C" int DAT_010910f4;
 
 // @fnv 0x009d2550
-void __thiscall FUN_009d2520_shell::FUN_009d2550()
+void FUN_009d2520_shell::FUN_009d2550()
 {
     *reinterpret_cast<void**>(this) = &DAT_010910f4;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 
-struct Actor
+class Actor
 {
-    void StopMoving();
 };
 struct TESAmmoInitCalls
 {
-    Actor* GetFieldBC();
 };
-struct CombatProcedure
+class CombatProcedure
 {
-    void RunProcedure();
 };
 struct CombatProcedureEngageTarget
 {
-    void FUN_00996e40();
 };
 struct FUN_009d2570_shell : public CombatProcedure
 {
@@ -189,10 +227,10 @@ struct FUN_009d2570_shell : public CombatProcedure
 // @fnv 0x009d2570
 void FUN_009d2570_shell::StopAttackerAndEngageTarget()
 {
-    Actor* actor = m_pattacker->GetFieldBC();
-    actor->StopMoving();
-    ((CombatProcedureEngageTarget*)this)->FUN_00996e40();
-    RunProcedure();
+    Actor* actor = ((::Actor *)(reinterpret_cast<CombatControllerFields*>(m_pattacker)->pActor));
+    reinterpret_cast<::FUN_008b3ab0_shell *>((actor))->FUN_008b3ab0();
+    reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>((((CombatProcedureEngageTarget*)this)))->FUN_00996e40();
+    reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
 }
 
 struct FUN_00980070_shell
@@ -207,7 +245,7 @@ struct FUN_00996de0_Class
 {
     Actor* FUN_00996de0();
 };
-struct Projectile;
+class Projectile;
 struct FUN_009d33e0_shell : CombatProcedure
 {
     void UpdateCombatProcedure(Projectile* apProjectile);
@@ -219,33 +257,30 @@ void FUN_009d33e0_shell::UpdateCombatProcedure(Projectile* apProjectile)
     {
     case 1:
         ((FUN_008d7f40_shell*)((char*)this + 0x3c))
-            ->FUN_008d7f40(((FUN_009d32e0_shell*)((FUN_00980070_shell*)*(int*)((char*)this + 4))->FUN_00980070())
+            ->FUN_008d7f40(((FUN_009d32e0_shell*)reinterpret_cast<CombatControllerFields*>(*(void**)((char*)this + 4))->pCombatStyle)
                                ->GetRandomFloatInRange());
         break;
     case 2:
-        ((FUN_00996de0_Class*)this)->FUN_00996de0()->StopMoving();
-        RunProcedure();
+        reinterpret_cast<::FUN_008b3ab0_shell *>((((FUN_00996de0_Class*)this)->FUN_00996de0()))->FUN_008b3ab0();
+        reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
         *(int*)((char*)this + 0x10) = 4;
         ((FUN_008d7f40_shell*)((char*)this + 0x4c))
             ->FUN_008d7f40(
-                ((TESCombatStyle*)((FUN_00980070_shell*)*(int*)((char*)this + 4))->FUN_00980070())->GetRandomValue());
+                ((TESCombatStyle*)reinterpret_cast<CombatControllerFields*>(*(void**)((char*)this + 4))->pCombatStyle)->GetRandomValue());
         break;
     }
 }
 
 struct Modifier
 {
-    float GetValue();
 };
 
 struct CTSHelper : public Modifier
 {
-    float GetElapsedTime();
 };
 
 struct FUN_0097fa50_shell : public CTSHelper
 {
-    bool FUN_0097fa50();
 };
 
 enum DEBUGTEXT_LOCATION
@@ -334,7 +369,7 @@ void CombatProcedureBeInCover::DebugText(IDebugText* pDebugText, DEBUGTEXT_LOCAT
 
     case WAITING_BEHIND_COVER:
         pDebugText->Print(aeLocation, aeJustify, str_010914b0);
-        pDebugText->Print(aeLocation, aeJustify, str_01091498, m_waitTimer.GetElapsedTime(), m_waitTimer.GetValue());
+        pDebugText->Print(aeLocation, aeJustify, str_01091498, reinterpret_cast<::FUN_00435e00_t *>(&(m_waitTimer))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(m_waitTimer))->FUN_006b9130());
         break;
 
     case MOVING_OUT:
@@ -343,19 +378,19 @@ void CombatProcedureBeInCover::DebugText(IDebugText* pDebugText, DEBUGTEXT_LOCAT
 
     case WAITING_OUT_OF_COVER:
         pDebugText->Print(aeLocation, aeJustify, str_01091474);
-        pDebugText->Print(aeLocation, aeJustify, str_01091458, m_waitingOutTimer.GetElapsedTime(),
-                          m_waitingOutTimer.GetValue());
-        if (m_targetBlockedTimer.FUN_0097fa50())
+        pDebugText->Print(aeLocation, aeJustify, str_01091458, reinterpret_cast<::FUN_00435e00_t *>(&(m_waitingOutTimer))->FUN_00435e00(),
+                          reinterpret_cast<::TimeoutTimer *>(&(m_waitingOutTimer))->FUN_006b9130());
+        if (reinterpret_cast<::FUN_0097fa50_Class *>(&(m_targetBlockedTimer))->FUN_0097fa50())
         {
-            pDebugText->Print(aeLocation, aeJustify, str_01091434, m_targetBlockedTimer.GetElapsedTime(),
-                              m_targetBlockedTimer.GetValue());
+            pDebugText->Print(aeLocation, aeJustify, str_01091434, reinterpret_cast<::FUN_00435e00_t *>(&(m_targetBlockedTimer))->FUN_00435e00(),
+                              reinterpret_cast<::TimeoutTimer *>(&(m_targetBlockedTimer))->FUN_006b9130());
         }
         break;
 
     case FIRING_OUT_OF_COVER:
         pDebugText->Print(aeLocation, aeJustify, str_01091420);
-        pDebugText->Print(aeLocation, aeJustify, str_01091084, m_firingTimer.GetElapsedTime(),
-                          m_firingTimer.GetValue());
+        pDebugText->Print(aeLocation, aeJustify, str_01091084, reinterpret_cast<::FUN_00435e00_t *>(&(m_firingTimer))->FUN_00435e00(),
+                          reinterpret_cast<::TimeoutTimer *>(&(m_firingTimer))->FUN_006b9130());
         break;
 
     case MOVING_IN:
@@ -368,15 +403,15 @@ void CombatProcedureBeInCover::DebugText(IDebugText* pDebugText, DEBUGTEXT_LOCAT
 
     case HOLDING_GROUND:
         pDebugText->Print(aeLocation, aeJustify, str_010913ec);
-        pDebugText->Print(aeLocation, aeJustify, str_010913c8, m_holdingGroundTimer.GetElapsedTime(),
-                          m_holdingGroundTimer.GetValue());
+        pDebugText->Print(aeLocation, aeJustify, str_010913c8, reinterpret_cast<::FUN_00435e00_t *>(&(m_holdingGroundTimer))->FUN_00435e00(),
+                          reinterpret_cast<::TimeoutTimer *>(&(m_holdingGroundTimer))->FUN_006b9130());
         break;
     }
 
-    if (m_reevaluateTimer.FUN_0097fa50())
+    if (reinterpret_cast<::FUN_0097fa50_Class *>(&(m_reevaluateTimer))->FUN_0097fa50())
     {
-        pDebugText->Print(aeLocation, aeJustify, str_010913a4, m_reevaluateTimer.GetElapsedTime(),
-                          m_reevaluateTimer.GetValue());
+        pDebugText->Print(aeLocation, aeJustify, str_010913a4, reinterpret_cast<::FUN_00435e00_t *>(&(m_reevaluateTimer))->FUN_00435e00(),
+                          reinterpret_cast<::TimeoutTimer *>(&(m_reevaluateTimer))->FUN_006b9130());
     }
 
     pDebugText->Print(aeLocation, aeJustify, str_01091380, m_afFirstVector[0], m_afFirstVector[1], m_afFirstVector[2]);
@@ -431,14 +466,15 @@ struct FUN_009d2440_cls : CoverBaseCls
 FUN_009d2440_cls::FUN_009d2440_cls(void* pLoc) : m_eAnimationState(0), m_pLocation(pLoc)
 {}
 
+struct BGSSaveFormBuffer;
 struct FUN_00996ed0_shell
 {
-    void SaveToBuffer(void* a1);
+public:
+    void SaveToBuffer(::BGSSaveFormBuffer *);
 };
 
 struct FUN_00586150_shell
 {
-    void* FUN_00586150();
 };
 
 struct FUN_0097fb60_shell
@@ -448,12 +484,15 @@ struct FUN_0097fb60_shell
 
 struct FUN_00865e50_shell
 {
-    void FUN_00865e50(void* p, int size, int flags);
+public:
+    void FUN_00865e50(void *, unsigned int, unsigned int);
 };
 
+struct BGSSaveFormBuffer;
 struct FUN_009a5eb0_shell
 {
-    void FUN_009a5eb0(void* a1);
+public:
+    void FUN_009a5eb0(::BGSSaveFormBuffer *);
 };
 
 struct FUN_009d3800_cls
@@ -461,38 +500,35 @@ struct FUN_009d3800_cls
     void FUN_009d3800(void* a1);
 };
 
+class Tile;
+struct BGSLoadFormBuffer
+{
+};
+struct InterfaceManager
+{
+    Tile* FUN_00586150();
+};
 // @fnv 0x009d3800
 void FUN_009d3800_cls::FUN_009d3800(void* a1)
 {
     unsigned char flag;
 
-    ((FUN_00996ed0_shell*)this)->SaveToBuffer(a1);
-    flag = ((FUN_0097fb60_shell*)((FUN_00586150_shell*)*(void**)((char*)this + 4))->FUN_00586150())->GetFieldAtE8() ==
+    ((FUN_00996ed0_shell*)this)->SaveToBuffer((::BGSSaveFormBuffer *)(a1));
+    flag = ((FUN_0097fb60_shell*)((void *)(reinterpret_cast<::InterfaceManager *>((((FUN_00586150_shell*)*(void**)((char*)this + 4))))->FUN_00586150())))->GetFieldAtE8() ==
            *(int*)((char*)this + 0x14);
     ((FUN_00865e50_shell*)a1)->FUN_00865e50((char*)this + 0x10, 4, 0);
     ((FUN_00865e50_shell*)a1)->FUN_00865e50(&flag, 1, 0);
     ((FUN_00865e50_shell*)a1)->FUN_00865e50((char*)this + 0x18, 0xc, 0);
     ((FUN_00865e50_shell*)a1)->FUN_00865e50((char*)this + 0x24, 0xc, 0);
     ((FUN_00865e50_shell*)a1)->FUN_00865e50((char*)this + 0x30, 0xc, 0);
-    ((FUN_009a5eb0_shell*)((char*)this + 0x3c))->FUN_009a5eb0(a1);
-    ((FUN_009a5eb0_shell*)((char*)this + 0x44))->FUN_009a5eb0(a1);
-    ((FUN_009a5eb0_shell*)((char*)this + 0x4c))->FUN_009a5eb0(a1);
-    ((FUN_009a5eb0_shell*)((char*)this + 0x54))->FUN_009a5eb0(a1);
-    ((FUN_009a5eb0_shell*)((char*)this + 0x5c))->FUN_009a5eb0(a1);
-    ((FUN_009a5eb0_shell*)((char*)this + 0x64))->FUN_009a5eb0(a1);
+    ((FUN_009a5eb0_shell*)((char*)this + 0x3c))->FUN_009a5eb0((::BGSSaveFormBuffer *)(a1));
+    ((FUN_009a5eb0_shell*)((char*)this + 0x44))->FUN_009a5eb0((::BGSSaveFormBuffer *)(a1));
+    ((FUN_009a5eb0_shell*)((char*)this + 0x4c))->FUN_009a5eb0((::BGSSaveFormBuffer *)(a1));
+    ((FUN_009a5eb0_shell*)((char*)this + 0x54))->FUN_009a5eb0((::BGSSaveFormBuffer *)(a1));
+    ((FUN_009a5eb0_shell*)((char*)this + 0x5c))->FUN_009a5eb0((::BGSSaveFormBuffer *)(a1));
+    ((FUN_009a5eb0_shell*)((char*)this + 0x64))->FUN_009a5eb0((::BGSSaveFormBuffer *)(a1));
 }
 
-class Tile;
-struct BGSLoadFormBuffer
-{
-    void FUN_00864980(void* apData, unsigned int auiSize);
-};
-struct InterfaceManager
-{
-    Tile* FUN_00586150();
-};
-
-unsigned int __fastcall GetFieldValue(unsigned int* apData);
 struct FUN_00996ef0_shell
 {
     void FUN_00996ef0(BGSLoadFormBuffer* apBuffer);
@@ -500,7 +536,6 @@ struct FUN_00996ef0_shell
 struct FUN_009a5f20_Timer
 {
     char data[8];
-    void FUN_009a5f20(BGSLoadFormBuffer* apBuffer);
 };
 struct FUN_009d38f0_shell : FUN_00996ef0_shell
 {
@@ -526,40 +561,32 @@ void FUN_009d38f0_shell::FUN_009d38f0(BGSLoadFormBuffer* apBuffer)
 {
     FUN_00996ef0(apBuffer);
     bool bHasCover = false;
-    apBuffer->FUN_00864980(&eState, 4);
-    apBuffer->FUN_00864980(&bHasCover, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&eState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&bHasCover), 1);
     if (bHasCover)
         uiCoverLocation = ((FUN_0097fb60_shell*)pManager->FUN_00586150())->GetFieldAtE8();
     else
         uiCoverLocation = GetFieldValue((unsigned int*)pManager->FUN_00586150());
-    apBuffer->FUN_00864980(m_afFirstVector, 0xc);
-    apBuffer->FUN_00864980(m_afSecondVector, 0xc);
-    apBuffer->FUN_00864980(LastPosition, 0xc);
-    kWaitTimer.FUN_009a5f20(apBuffer);
-    kWaitingOutTimer.FUN_009a5f20(apBuffer);
-    kTimer4c.FUN_009a5f20(apBuffer);
-    kTimer54.FUN_009a5f20(apBuffer);
-    kTimer5c.FUN_009a5f20(apBuffer);
-    kTimer64.FUN_009a5f20(apBuffer);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(m_afFirstVector), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(m_afSecondVector), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(LastPosition), 0xc);
+    reinterpret_cast<::TimeoutTimer *>(&(kWaitTimer))->LoadGame(apBuffer);
+    reinterpret_cast<::TimeoutTimer *>(&(kWaitingOutTimer))->LoadGame(apBuffer);
+    reinterpret_cast<::TimeoutTimer *>(&(kTimer4c))->LoadGame(apBuffer);
+    reinterpret_cast<::TimeoutTimer *>(&(kTimer54))->LoadGame(apBuffer);
+    reinterpret_cast<::TimeoutTimer *>(&(kTimer5c))->LoadGame(apBuffer);
+    reinterpret_cast<::TimeoutTimer *>(&(kTimer64))->LoadGame(apBuffer);
 }
 
 struct CoverPoint
 {
     float x, y, z;
     CoverPoint operator-(const CoverPoint&) const;
-    float FUN_004a7290() const;
 };
 struct CoverClock
 {
     int started;
     float duration;
-    bool FUN_0097fa50();
-    bool FUN_008d7f80();
-    void FUN_008d7f40(float);
-    float GetElapsedTime();
-    float GetValue();
-    float FUN_006a7f50();
-    void Reset();
 };
 struct CoverRequest
 {
@@ -738,19 +765,7 @@ struct CoverActor
     virtual void v124();
     virtual const CoverPoint& GetPosition();
 
-    void StopMoving();
-    float FUN_008854d0(bool);
-    float GetActorHeight() const;
-    void* GetWorld();
-    void* GetContainingCell();
-    void SetupPath(CoverRequest&, const CoverPoint&, void*, void*, float, int);
     bool RequestPath(CoverRequest*);
-    bool IsAttacking();
-    float AttackTime();
-    void UpdateAttackState();
-    bool PathFailed();
-    bool PathBuiltFailed();
-    bool PathFinished();
 };
 struct CombatCoverPoint
 {
@@ -780,47 +795,27 @@ struct CombatCoverPoint
     int unk70;
     bool occupied;
     bool CanFire();
-    bool CanRotate();
-    void SetFlag(int);
 };
 struct CoverStamp
 {
     int value;
-    float GetElapsedTime();
-    float FUN_006a7f50();
 };
 struct CoverState
 {
-    bool Validate(CombatCoverPoint*);
-    bool IsGroup();
-    bool CheckPath(const CoverPoint&, const CoverPoint&, CoverActor*, int);
     CoverStamp GetStamp();
-    void End(int);
-    bool IsBlocked();
 };
 struct CoverGroup
 {
-    bool HasLOS(CoverActor*);
 };
 struct CoverStyle
 {
-    float GetRandomFloatInRange();
-    float GetRandomFloat();
-    float GetRandomValue();
 };
 struct CoverManager
 {
-    CoverState* FUN_00586150();
-    CoverGroup* GetGroup();
-    bool FUN_00998a30();
-    CoverStyle* FUN_00980070();
 };
 struct CoverSetting
 {
-    float* Float();
 };
-extern CoverSetting originalRuntimeFloatSetting378, originalRuntimeFloatSetting379;
-void ComputePositions(CoverManager*, CombatCoverPoint*, CoverPoint&, CoverPoint&);
 struct CoverProcedure
 {
     int unk00;
@@ -831,11 +826,6 @@ struct CoverProcedure
     CoverPoint coverPosition, firePosition, lookPosition;
     CoverClock wait, outWait, firing, reevaluate, holding, blocked;
     CoverActor* FUN_00996de0();
-    CoverActor* GetTarget();
-    void Fail(const char*);
-    void ClearLook();
-    void LookAt(const CoverPoint&, unsigned char);
-    void Action(int);
     void UpdateCoverState();
 };
 static const char kCoverLOS[] = "Target has LOS on Cover position";
@@ -843,36 +833,36 @@ static const char kCoverLOS[] = "Target has LOS on Cover position";
 // @fnv 0x009d25b0
 void CoverProcedure::UpdateCoverState()
 {
-    if (!manager->FUN_00586150()->Validate(location))
+    if (!reinterpret_cast<::FUN_009a0600_shell *>((((::CoverState *)(reinterpret_cast<::InterfaceManager *>((manager))->FUN_00586150()))))->FUN_009a0600((::CombatCoverPointData *)(location)))
     {
-        Fail("Cover Location no longer exists");
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cover Location no longer exists"));
         return;
     }
     CoverActor* actor_ = FUN_00996de0();
-    CoverActor* targetTmp = GetTarget();
-    CoverState* combat7 = manager->FUN_00586150();
-    CoverGroup* group7 = manager->GetGroup();
+    CoverActor* targetTmp = ((::CoverActor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
+    CoverState* combat7 = ((::CoverState *)(reinterpret_cast<::InterfaceManager *>((manager))->FUN_00586150()));
+    CoverGroup* group7 = ((::CoverGroup *)(reinterpret_cast<::EffectSetting *>((manager))->GetCastSound()));
     bool evaluatedA = false;
     bool changedVal = false;
     bool canFire4 = location->CanFire();
-    bool active8 = manager->FUN_00998a30();
-    if (!reevaluate.FUN_0097fa50())
-        reevaluate.FUN_008d7f40(1.0f);
-    else if (reevaluate.FUN_008d7f80())
+    bool active8 = reinterpret_cast<::FUN_00998a30_shell *>((manager))->FUN_00998a30();
+    if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(reevaluate))->FUN_0097fa50())
+        reinterpret_cast<::FUN_008d7f40_shell *>(&(reevaluate))->FUN_008d7f40(1.0f);
+    else if (reinterpret_cast<::TimeoutTimer *>(&(reevaluate))->CheckTimer())
     {
-        reevaluate.FUN_008d7f40(1.0f);
+        reinterpret_cast<::FUN_008d7f40_shell *>(&(reevaluate))->FUN_008d7f40(1.0f);
         evaluatedA = true;
         if (state != 0)
         {
-            if (combat7->IsGroup())
+            if (::FUN_0097fb20((::CombatState *)(combat7)))
             {
-                bool reachable4 = combat7->CheckPath(location->direction, coverPosition, targetTmp, 1);
+                bool reachable4 = reinterpret_cast<::FUN_0099ccd0_shell *>((combat7))->FUN_0099ccd0((::Seg99 *)&(location->direction), (::NiPoint3Ex *)&(coverPosition), (::FUN_0099ccd0_Actor *)(targetTmp), 1);
                 if (!reachable4 && state != 7)
                 {
-                    actor_->StopMoving();
-                    ClearLook();
+                    reinterpret_cast<::FUN_008b3ab0_shell *>((actor_))->FUN_008b3ab0();
+                    reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
                     state = 7;
-                    holding.FUN_008d7f40(2.0f);
+                    reinterpret_cast<::FUN_008d7f40_shell *>(&(holding))->FUN_008d7f40(2.0f);
                     changedVal = true;
                 }
             }
@@ -881,8 +871,8 @@ void CoverProcedure::UpdateCoverState()
                 CoverPoint coverPos9 = targetTmp->GetPosition();
                 CoverPoint targetPos = location->position;
                 CoverPoint delta = coverPos9 - targetPos;
-                if (delta.FUN_004a7290() > 589824.0 && group7->HasLOS(targetTmp))
-                    location->SetFlag(1);
+                if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > 589824.0 && ((bool)(reinterpret_cast<::ActorCombatGroup *>((group7))->GetByteAtOffset100((intptr_t)(targetTmp)))))
+                    reinterpret_cast<::FUN_005407b0_Class *>((location))->FUN_005407b0(1);
             }
         }
     }
@@ -890,150 +880,150 @@ void CoverProcedure::UpdateCoverState()
     {
     case 0: {
         location->occupied = false;
-        ComputePositions(manager, location, coverPosition, firePosition);
+        ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(manager), (::fnv_009a9370::CombatCoverPointData *)(location), (::fnv_009a9370::NiPoint3 *)&(coverPosition), (::fnv_009a9370::NiPoint3 *)&(firePosition));
         lookPosition = firePosition;
-        float height = manager->FUN_00998a30() ? actor_->FUN_008854d0(false) : actor_->GetActorHeight();
+        float height = reinterpret_cast<::FUN_00998a30_shell *>((manager))->FUN_00998a30() ? reinterpret_cast<::FUN_008854d0_ *>((actor_))->FUN_008854d0(false) : reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)(actor_))->GetActorHeight();
         lookPosition.z = height * 0.75 + lookPosition.z;
         CoverRequest request;
-        actor_->SetupPath(request, coverPosition, actor_->GetContainingCell(), actor_->GetWorld(), 0.0f, 0);
+        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(coverPosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
         if (!actor_->RequestPath(&request))
         {
-            Fail("Cannot setup path to Cover position");
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to Cover position"));
             return;
         }
         state = 6;
-        if (location->CanRotate())
-            LookAt(lookPosition, 3);
-        Action(3);
+        if (((bool)(reinterpret_cast<::FUN_009d3390_cls *>((location))->FUN_009d3390())))
+            reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((const ::NiPoint3 &)(lookPosition), 3);
+        reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(3);
         break;
     }
     case 1: {
-        if (!actor_->IsAttacking())
+        if (!reinterpret_cast<::fnv_008a8870::HA *>((actor_))->FUN_008a8870())
         {
-            if (combat7->GetStamp().GetElapsedTime() > 0.5 &&
-                actor_->AttackTime() < *originalRuntimeFloatSetting378.Float())
+            if (reinterpret_cast<::FUN_00435e00_t *>((void *)&(const ::CoverStamp &)(combat7->GetStamp()))->FUN_00435e00() > 0.5 &&
+                reinterpret_cast<::FUN_008a88f0_cls *>((actor_))->FUN_008a88f0() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CoverSetting *>(&::originalRuntimeFloatSetting378)))))))
             {
-                actor_->UpdateAttackState();
+                reinterpret_cast<::S_008a8840 *>((actor_))->FUN_008a8840();
             }
-            else if (wait.FUN_008d7f80())
+            else if (reinterpret_cast<::TimeoutTimer *>(&(wait))->CheckTimer())
             {
                 CoverRequest request;
-                actor_->SetupPath(request, firePosition, actor_->GetContainingCell(), actor_->GetWorld(), 0.0f, 0);
+                reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(firePosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                 if (!actor_->RequestPath(&request))
                 {
-                    Fail("Cannot setup path to Fire position");
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to Fire position"));
                     return;
                 }
-                if (location->CanRotate())
-                    ClearLook();
-                LookAt(targetTmp->GetAim(), 1);
+                if (((bool)(reinterpret_cast<::FUN_009d3390_cls *>((location))->FUN_009d3390())))
+                    reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
+                reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((const ::NiPoint3 &)((const ::CoverPoint &)(targetTmp->GetAim())), 1);
                 state = 2;
-                Action(canFire4 && active8 ? 2 : 1);
+                reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(canFire4 && active8 ? 2 : 1);
             }
         }
         break;
     }
     case 2: {
-        if (actor_->PathFailed())
+        if (reinterpret_cast<::FUN_008b3b90_shell *>((actor_))->FUN_008b3b90())
         {
-            Fail(actor_->PathBuiltFailed() ? "Pathing failed while moving out" : "Path Building failed to move out");
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving out" : "Path Building failed to move out"));
             return;
         }
-        if (actor_->PathFinished())
+        if (((bool)(reinterpret_cast<::TeleportableReference *>((actor_))->GetTeleportDestinationForm())))
         {
             state = 3;
-            ClearLook();
-            outWait.FUN_008d7f40(manager->FUN_00980070()->GetRandomFloat());
+            reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(outWait))->FUN_008d7f40(reinterpret_cast<::FUN_009d3310_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloat());
         }
         break;
     }
     case 3: {
         CoverStamp stamp = combat7->GetStamp();
-        if (stamp.FUN_006a7f50() > wait.FUN_006a7f50())
+        if (reinterpret_cast<::CombatTargetTimestamp *>(&(stamp))->FUN_006a7f50() > reinterpret_cast<::CombatTargetTimestamp *>(&(wait))->FUN_006a7f50())
         {
             state = 4;
-            firing.FUN_008d7f40(manager->FUN_00980070()->GetRandomValue());
-            blocked.Reset();
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(firing))->FUN_008d7f40(reinterpret_cast<::TESCombatStyle *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomValue());
+            reinterpret_cast<::TimeoutTimer *>(&(blocked))->FUN_00910b10();
         }
-        else if (outWait.FUN_008d7f80())
+        else if (reinterpret_cast<::TimeoutTimer *>(&(outWait))->CheckTimer())
         {
-            combat7->End(0);
-            Fail("Waited out of cover without firing");
+            reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(0);
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Waited out of cover without firing"));
             return;
         }
-        else if (outWait.GetElapsedTime() > 2.0 && !combat7->IsGroup() && group7->HasLOS(targetTmp))
+        else if (reinterpret_cast<::FUN_00435e00_t *>(&(outWait))->FUN_00435e00() > 2.0 && !::FUN_0097fb20((::CombatState *)(combat7)) && ((bool)(reinterpret_cast<::ActorCombatGroup *>((group7))->GetByteAtOffset100((intptr_t)(targetTmp)))))
         {
-            combat7->End(0);
-            Fail("Waited out of cover and group member has LOS on target");
+            reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(0);
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Waited out of cover and group member has LOS on target"));
             return;
         }
-        if (combat7->IsBlocked())
+        if (((bool)(reinterpret_cast<::FUN_008b3c90_class *>((combat7))->GetByteAtOffset114())))
         {
-            if (!blocked.FUN_0097fa50())
-                blocked.FUN_008d7f40(2.0f);
-            else if (blocked.FUN_008d7f80())
+            if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(blocked))->FUN_0097fa50())
+                reinterpret_cast<::FUN_008d7f40_shell *>(&(blocked))->FUN_008d7f40(2.0f);
+            else if (reinterpret_cast<::TimeoutTimer *>(&(blocked))->CheckTimer())
             {
-                combat7->End(1);
-                Fail("Waited out of cover but was blocked");
+                reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(1);
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Waited out of cover but was blocked"));
                 return;
             }
         }
         break;
     }
     case 4: {
-        float attackTime_ = actor_->AttackTime();
-        if (attackTime_ < *originalRuntimeFloatSetting379.Float() || actor_->IsAttacking() || firing.FUN_008d7f80())
+        float attackTime_ = reinterpret_cast<::FUN_008a88f0_cls *>((actor_))->FUN_008a88f0();
+        if (attackTime_ < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CoverSetting *>(&::originalRuntimeFloatSetting379)))))) || reinterpret_cast<::fnv_008a8870::HA *>((actor_))->FUN_008a8870() || reinterpret_cast<::TimeoutTimer *>(&(firing))->CheckTimer())
         {
             CoverRequest request;
-            actor_->SetupPath(request, coverPosition, actor_->GetContainingCell(), actor_->GetWorld(), 0.0f, 0);
+            reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(coverPosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
             if (!actor_->RequestPath(&request))
             {
-                Fail("Cannot setup path to move back to Cover position");
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to move back to Cover position"));
                 return;
             }
-            Action(canFire4 && active8 ? 2 : 1);
+            reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(canFire4 && active8 ? 2 : 1);
             state = 5;
         }
         break;
     }
     case 5: {
-        if (actor_->PathFailed())
+        if (reinterpret_cast<::FUN_008b3b90_shell *>((actor_))->FUN_008b3b90())
         {
-            Fail(actor_->PathBuiltFailed() ? "Pathing failed while moving in" : "Path Building failed to move in");
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving in" : "Path Building failed to move in"));
             return;
         }
-        if (actor_->PathFinished())
+        if (((bool)(reinterpret_cast<::TeleportableReference *>((actor_))->GetTeleportDestinationForm())))
         {
             state = 1;
-            ClearLook();
-            Action(2);
-            wait.FUN_008d7f40(manager->FUN_00980070()->GetRandomFloatInRange());
+            reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
+            reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloatInRange());
         }
         else
         {
-            float dist9 = (actor_->GetPosition() - coverPosition).FUN_004a7290();
+            float dist9 = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::CoverPoint &)((actor_->GetPosition() - coverPosition)))->UpdateCombatStyle();
             if (dist9 < 1024.0)
             {
                 state = 6;
-                if (location->CanRotate())
-                    LookAt(lookPosition, 3);
-                Action(1);
+                if (((bool)(reinterpret_cast<::FUN_009d3390_cls *>((location))->FUN_009d3390())))
+                    reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((const ::NiPoint3 &)(lookPosition), 3);
+                reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(1);
             }
         }
         break;
     }
     case 6: {
-        if (actor_->PathFailed())
+        if (reinterpret_cast<::FUN_008b3b90_shell *>((actor_))->FUN_008b3b90())
         {
-            Fail(actor_->PathBuiltFailed() ? "Pathing failed while moving in and rotating"
-                                           : "Path Building failed to move in and rotate");
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving in and rotating"
+                                           : "Path Building failed to move in and rotate"));
             return;
         }
-        if (actor_->PathFinished())
+        if (((bool)(reinterpret_cast<::TeleportableReference *>((actor_))->GetTeleportDestinationForm())))
         {
             state = 1;
-            Action(2);
-            wait.FUN_008d7f40(manager->FUN_00980070()->GetRandomFloatInRange());
+            reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloatInRange());
         }
         break;
     }
@@ -1041,33 +1031,35 @@ void CoverProcedure::UpdateCoverState()
         if (evaluatedA && !changedVal)
         {
             CoverRequest request;
-            actor_->SetupPath(request, coverPosition, actor_->GetContainingCell(), actor_->GetWorld(), 0.0f, 0);
+            reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(coverPosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
             if (!actor_->RequestPath(&request))
             {
-                Fail("Cannot setup path to move back to Cover position");
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to move back to Cover position"));
                 return;
             }
-            Action(canFire4 && active8 ? 2 : 1);
+            reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(canFire4 && active8 ? 2 : 1);
             state = 5;
         }
-        else if (holding.FUN_008d7f80())
+        else if (reinterpret_cast<::TimeoutTimer *>(&(holding))->CheckTimer())
         {
-            combat7->End(0);
-            Fail(kCoverLOS);
+            reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(0);
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(kCoverLOS));
             return;
         }
-        else if (holding.GetElapsedTime() > holding.GetValue() / 4.0)
+        else if (reinterpret_cast<::FUN_00435e00_t *>(&(holding))->FUN_00435e00() > reinterpret_cast<::TimeoutTimer *>(&(holding))->FUN_006b9130() / 4.0)
         {
             CoverPoint delta = targetTmp->GetPosition();
             CoverPoint targetPos = actor_->GetPosition();
             CoverPoint actorPos6 = targetPos - delta;
-            if (actorPos6.FUN_004a7290() < 262144.0)
+            if (reinterpret_cast<::TESCombatStyle *>((void *)&(actorPos6))->UpdateCombatStyle() < 262144.0)
             {
-                combat7->End(0);
-                Fail(kCoverLOS);
+                reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(0);
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(kCoverLOS));
             }
         }
         break;
     }
     }
 }
+
+#include "generated/data/fallout/ai/combat/combatprocedurebeincover.inc"

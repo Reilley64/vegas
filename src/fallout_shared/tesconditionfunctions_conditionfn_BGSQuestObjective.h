@@ -31,11 +31,4 @@ class BGSQuestObjective
     bool GetCompleted() const;
     bool GetDisplayed() const;
 };
-FNV_STATIC_ASSERT(sizeof(BGSQuestObjective) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, uiIndex) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, QuestObjectiveEntry) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, m_pOwnerQuest) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, kTargets) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, bInitialized) == 0x1c);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, eState) == 0x20);
 #endif

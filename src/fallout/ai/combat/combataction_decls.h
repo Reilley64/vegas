@@ -2,15 +2,16 @@
 #define FNV_COMBATACTION_DECLS_H
 
 
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* memory);
-int __cdecl Warning(const char* format, ...);
+#include "fnv/symbols_005b5000.h"
 
 class UnsignedIdHandle;
-struct CombatWorldStateListNode
+class CombatWorldStateListNode
 {
+  public:
     UnsignedIdHandle* item;
     CombatWorldStateListNode* next;
+public:
+    ::CombatWorldStateListNode *GetNext();
 };
 
 class CombatAction
@@ -57,7 +58,6 @@ class CombatAction
     COMBAT_ACTION eType;
     unsigned int iFlags;
 };
-typedef char CombatActionSizeCheck[sizeof(CombatAction) == 44 ? 1 : -1];
 
 // Constructor at 0x0097ad10; identity from its PC vtable.
 class CombatActionAttackRanged : public CombatAction

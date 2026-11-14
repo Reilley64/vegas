@@ -6,13 +6,10 @@
 #include "hkBase.h"
 #include "hkpConvexShape.h"
 #include "hkpSingleShapeContainer.h"
-#pragma pack(push, 1)
 class hkpConvexTransformShapeBase : public hkpConvexShape
 {
   public:
     hkpSingleShapeContainer m_pContainedShape;  // +0x14
     hkInt32 m_iChildShapeSize;                  // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConvexTransformShapeBase[(sizeof(hkpConvexTransformShapeBase) == 0x20) ? 1 : -1];
 #endif

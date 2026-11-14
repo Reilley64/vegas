@@ -1,5 +1,11 @@
 // bssystemutilities/bssysinfosystemutility.cpp: BSSysInfoSystemUtility (3 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00af3b50_Class.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
 #include "BSSysInfoSystemUtility.h"
 
 // @fnv 0x00af3b70
@@ -12,27 +18,22 @@ void BSSysInfoSystemUtility::Destroy()
     m_eLanguage = BSSysInfoSystemUtility__LANGUAGE_LANGUAGE_UNKNOWN;
 }
 
-struct MemoryManager
-{
-    void __thiscall Deallocate(void*);
-};
-MemoryManager g_memoryManager;
+// The complete native owner is defined in canonical_memory_manager.cpp.
 
 struct FUN_00af3b50_holder
 {
-    void __thiscall SetVTable();
 };
 
 struct FUN_00af3ba0_shell
 {
-    void* __thiscall FUN_00af3ba0(unsigned int flags);
+    void* FUN_00af3ba0(unsigned int flags);
 };
 
 // @fnv 0x00af3ba0
 void* FUN_00af3ba0_shell::FUN_00af3ba0(unsigned int flags)
 {
-    ((FUN_00af3b50_holder*)this)->SetVTable();
+    reinterpret_cast<::FUN_00af3b50_Class *>((((FUN_00af3b50_holder*)this)))->SetVTable();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }

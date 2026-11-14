@@ -2,20 +2,34 @@
 #ifndef FNV_PLAYERMOVER_DECLS_H
 #define FNV_PLAYERMOVER_DECLS_H
 
+#include <cmath>
+#include "fnv/decl/BSAnimGroupSequence.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_004301b0_shell.h"
+#include "fnv/decl/FUN_0047d3b0_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_0050d4a0_shell.h"
+#include "fnv/decl/FUN_008bbc10_shell.h"
+#include "fnv/decl/fnv_00494390__MovementAnimation.h"
+#include "fnv/decl/fnv_004994f0__FUN_004994f0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_00886b30__A_00886b30.h"
+#include "fnv/decl/fnv_00897910__AnimOwner.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_008b7000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
 class NiControllerSequence;
 class TESAnimGroup;
-class Animation
+struct Animation
 {
   public:
-    unsigned short FUN_004301b0(int);
-    bool GetMovementDelta(NiPoint3*, TESObjectREFR*, bool, bool);
-    NiControllerSequence* GetControllerSequence(int);
-    void BlendOut(int, bool);
 };
 class PlayerMoverControllerState
 {
   public:
-    bool FUN_008b7320();
 };
 class bhkCharacterController
 {
@@ -27,25 +41,18 @@ enum ANIMATION_ACTION
 {
     ANIMATION_ACTION_NONE = -1
 };
+struct Animation;
 class PlayerCharacter : public Actor
 {
   public:
-    Animation* GetAnimation(bool);
-    bool FUN_004eaf60();
-    bool FUN_0050d4a0();
-    bool PlaceAtPosition(NiPoint3&);
-    bhkCharacterController* GetPhysicsCharacterController();
     ANIMATION_ACTION GetAnimAction();
-    float GetScale();
-    bool IsAlert();
-    unsigned short GetAnimGroup(ANIM_GROUP_ENUM, InventoryStackRecord*, bool, Animation*);
+public:
+    ::Animation *GetAnimation(bool) const;
 };
-extern PlayerCharacter* g_thePlayer;
 class Date;
 class PlayerQuestData
 {
   public:
-    Date* GetLogDate();
 };
 class TESTopicInfo
 {
@@ -57,10 +64,12 @@ class LowProcess
   public:
     TESObjectREFR* GetTarget();
 };
+struct LandscapeColorData;
 class TESObjectLAND
 {
   public:
-    bool GetLandHeightAtPosition(const NiPoint3&, float&);
+public:
+    bool FUN_0053f180(const ::LandscapeColorData &, float &);
 };
 union SETTING_VALUE
 {
@@ -69,13 +78,10 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-extern SettingT_GameSettingCollection_ DAT_011cdf28;
 class NiControllerSequence
 {
   public:
-    TESAnimGroup* GetAnimGroup();
 };
 class TESAnimGroup
 {
@@ -85,12 +91,7 @@ class TESAnimGroup
 class TESActorBaseData
 {
   public:
-    unsigned short FUN_0047d3b0();
 };
-namespace std {
-float abs(float);
-}
-float cos(float);
 class PlayerMoverProcess
 {
   public:

@@ -2,25 +2,24 @@
 #ifndef FNV_TESWATERFORM_H
 #define FNV_TESWATERFORM_H
 
+#include "fnv/decl/FUN_0047ff50_class.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
 #include "TESFullName.h"
 #include "TESTexture.h"
 #include "layout_support.h"
-class BGSPlaceableWater;
-class BSRenderedTexture;
-class RgbaColor;
+struct BGSPlaceableWater;
+struct BSRenderedTexture;
+struct RgbaColor;
 class NiTexture;
 class TESAttackDamageForm;
-class TESWaterForm;
+struct TESWaterForm;
 class WaterShaderSettings;
-#pragma pack(push, 4)
 class TESAttackDamageForm : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
-    void FUN_0047ff50(unsigned short);
     unsigned short m_usAttackDamage;  // +0x4, 2 bytes
     unsigned char layoutPadding6[2];
     // TESAttackDamageForm
@@ -34,11 +33,7 @@ class TESAttackDamageForm : public BaseFormComponent
     // TESAttackDamageForm& __cdecl TESAttackDamageForm::*(const TESAttackDamageForm&)
     // void* __cdecl TESAttackDamageForm::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESAttackDamageForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESAttackDamageForm, m_usAttackDamage) == 4);
-#pragma pack(push, 4)
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -64,13 +59,6 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class WaterShaderSettings
 {
   public:
@@ -125,64 +113,11 @@ class WaterShaderSettings
     float m_fWaterParameter5;                  // +0xBC, 4 bytes
     float m_fWaterParameter6;                  // +0xC0, 4 bytes
     void Initialize();
-    void Endian();
     // void __cdecl WaterShaderSettings::*()
     // void __cdecl WaterShaderSettings::*()
     // void __cdecl WaterShaderSettings::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(WaterShaderSettings) == 196);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SplatterSettings) == 0);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fSecondParameter) == 4);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fThirdParameter) == 8);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fFourthSetting) == 12);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatParameterData) == 16);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatParameters) == 20);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatData) == 24);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fEighthParameter) == 28);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, FiveFloatAndTwoUnsignedIntegerRecord) == 32);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, FourFloatAndThreeUnsignedIntegerRecord) == 36);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, FloatColorSettingsRecord) == 40);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, ShaderColorParameterBlock) == 44);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, ColorSettingsRecord) == 48);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_ucSplatterMode) == 52);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SplatterColorSettings) == 56);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SplatterScalarSettings) == 60);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SplatterFloatSettings) == 64);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SplatterParameterSet) == 68);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SplatterTimingSettings) == 72);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatRecordWithGlobals) == 76);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatRecordWithStepAndGlobals) == 80);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatRecordWithStep) == 84);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatFormatBlock) == 88);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatRecordWithUnitValue) == 92);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatParameterSet) == 96);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatParameterCollection) == 100);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatParameterGroup) == 104);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatValues) == 108);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatSet) == 112);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, SevenFloatBlock) == 116);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, WaterFogParameters) == 120);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fWaterFogParameter1) == 124);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fValueBeforeWaterFogSettings) == 128);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, WaterFogSettings) == 132);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, WaterFogParameterData) == 136);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, fUnderwaterFogAmount) == 140);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, fUnderwaterFogDistNear) == 144);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, fUnderwaterFogDistFar) == 148);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, WaterShaderProperties) == 152);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fShininess) == 156);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, WaterShaderParameters) == 160);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, MaterialParametersWithLeadingFloat) == 164);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, MaterialParameters) == 168);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fWaterParameter1) == 172);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fWaterParameter2) == 176);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fWaterParameter3) == 180);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fWaterParameter4) == 184);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fWaterParameter5) == 188);
-FNV_STATIC_ASSERT(offsetof(WaterShaderSettings, m_fWaterParameter6) == 192);
-#pragma pack(push, 4)
-class TESWaterForm : public TESForm, public TESFullName, public TESAttackDamageForm
+struct TESWaterForm : public TESForm, public TESFullName, public TESAttackDamageForm
 {
   public:
     // base TESForm at +0x0, size 24
@@ -220,11 +155,10 @@ class TESWaterForm : public TESForm, public TESFullName, public TESAttackDamageF
     int m_iHealthMagnitude;                    // +0x18C, 4 bytes
     bool m_bResetNoiseTextures;                // +0x190, 1 bytes
     unsigned char layoutPadding191[3];
+    TESWaterForm();
     void ResetFormData();
     virtual void InitItem();
     virtual bool Load(TESFile*);
-    void SetSpellItem(SpellItem*);
-    WaterShaderSettings* FUN_0057eef0();
     // TESWaterForm
     // void __cdecl TESWaterForm::*()
     // void __cdecl TESWaterForm::*()
@@ -316,35 +250,4 @@ class TESWaterForm : public TESForm, public TESFullName, public TESAttackDamageF
     // TESWaterForm& __cdecl TESWaterForm::*(const TESWaterForm&)
     // void __cdecl TESWaterForm::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESWaterForm) == 404);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_bNeedsUpdate) == 44);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_pRenderedTexture) == 48);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_kTextureScrollLayer0) == 52);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_kTextureScrollLayer1) == 68);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_kTextureScrollLayer2) == 84);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_kNoiseMapTexture) == 100);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_ucOpacity) == 112);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, cFlags) == 113);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_kMaterialId) == 116);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_pWaterSound) == 124);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_pWaterForm) == 128);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, Data) == 132);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_apWaterForms) == 328);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_iCurrentTextureSelection1) == 340);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_iCurrentTextureSelection2) == 344);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_uiNoiseFrequencyX) == 348);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_uiNoiseFrequencyY) == 352);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_iNoiseOctaveCount) == 356);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_fNoiseAmplitude) == 360);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_fNoiseLacunarity) == 364);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, fSideOffset) == 368);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_fDistanceScale) == 372);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_pWaterSpell) == 376);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_kNoiseTextureData) == 380);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_pPlaceableAutoWater) == 384);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_pPlaceableWater) == 388);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_iRadiationMagnitude) == 392);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_iHealthMagnitude) == 396);
-FNV_STATIC_ASSERT(offsetof(TESWaterForm, m_bResetNoiseTextures) == 400);
 #endif

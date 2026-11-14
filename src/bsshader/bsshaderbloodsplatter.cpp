@@ -1,15 +1,46 @@
+// Keeps the plain layout view of NiFixedString: this unit holds fixed strings
+// by value. On the shared declaration its object would gain calls of the
+// owner's constructor and destructor.
+#define FNV_KEEPS_PLAIN_NIFIXEDSTRING
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsshaderbloodsplatter.cpp: BSShaderBloodSplatter, BloodShader (17 functions)
 
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BlendOwner.h"
+#include "fnv/decl/E7DE90Owner.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a6fdb0_t.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fe000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_0126f000.h"
 #include "bsshaderbloodsplatter_types_BSShaderBloodSplatter.h"
 #include "bsshaderbloodsplatter_types_BSShaderManager.h"
 #include "bsshaderbloodsplatter_types_NiConsoleShaderDeclaration.h"
 
-extern GraphicsRenderer* g_pkRenderer;
-extern float g_splatterDefaultFirst;
-extern float g_splatterDefaultSecond;
-extern float g_splatterValueA;
 extern char g_splatterWhiteFlashPath[];
-extern char g_splatterWhiteFlashTexture;
 
 struct SplatterFloat4
 {
@@ -22,9 +53,9 @@ struct SplatterFloat4
 // @fnv 0x00b80e70
 BSShader* BSShaderBloodSplatter::CreateShader()
 {
-    NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create(g_pkRenderer, 2, 1);
-    typedef void(__thiscall * Method5)(void*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-    typedef void(__thiscall * Method0)(void*);
+    NiD3DVertexDeclaration* declaration = ::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508))), 2, 1);
+    typedef void(* Method5)(void*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+    typedef void(* Method0)(void*);
     reinterpret_cast<Method5>((*reinterpret_cast<void***>(declaration))[35])(declaration, 0, 0, 0, 2, 0);
     reinterpret_cast<Method5>((*reinterpret_cast<void***>(declaration))[35])(declaration, 1, 7, 5, 1, 0);
     reinterpret_cast<Method0>((*reinterpret_cast<void***>(declaration))[45])(declaration);
@@ -33,7 +64,7 @@ BSShader* BSShaderBloodSplatter::CreateShader()
     reinterpret_cast<Method0>((*reinterpret_cast<void***>(shader))[19])(shader);
     shader->InitializeShaderData();
     shader->ConfigureShaderPass();
-    typedef void(__thiscall * Method1)(void*, void*);
+    typedef void(* Method1)(void*, void*);
     reinterpret_cast<Method0>((*reinterpret_cast<void***>(shader))[71])(shader);
     reinterpret_cast<Method1>((*reinterpret_cast<void***>(shader))[48])(shader, declaration);
     return shader;
@@ -42,7 +73,7 @@ BSShader* BSShaderBloodSplatter::CreateShader()
 // @fnv 0x00b80d30
 BSShaderBloodSplatter::BSShaderBloodSplatter() : BSShader()
 {
-    SplatterFloat4 values = {g_splatterDefaultFirst, g_splatterDefaultFirst, 0.0f, g_splatterDefaultSecond};
+    SplatterFloat4 values = {::DAT_010177e8, ::DAT_010177e8, 0.0f, ::DAT_0101e2bc};
     m_iPassId = 0x17;
     *reinterpret_cast<SplatterFloat4*>(&g_splatterValueA) = values;
     BSShaderManager::GetTexture(g_splatterWhiteFlashPath, true,
@@ -50,6 +81,7 @@ BSShaderBloodSplatter::BSShaderBloodSplatter() : BSShader()
 }
 
 #include "bsshaderbloodsplatter_decls.h"
+#include "fnv/decl/FUN_0068ab80_class.h"
 
 // Configures two NiD3DPass objects with two texture stages each, render states, vertex and pixel shaders, and returns true.
 // @fnv 0x00b807d0
@@ -59,10 +91,10 @@ bool BSShaderBloodSplatter::ConfigureShaderPass()
     for (unsigned int i = 0; i < 2; ++i)
     {
         NiPointer<BeamStage> stage;
-        BeamStage::CreateNewStage(stage);
-        ConfigureBeamStage(stage, i, 3, 2, true);
-        stage->FUN_00e7def0(1);
-        spRenderPass[0].m_pObject->FUN_00e802b0(spRenderPass[0].m_pObject->m_uiStageMask, stage);
+        ::AssignStageFromPool((::StageReturn *&)(stage));
+        ::ConfigureBeamStage(stage, i, 3, 2, true);
+        reinterpret_cast<::E7DEF0TextureStage *>(((stage).operator->()))->FUN_00e7def0(1);
+        reinterpret_cast<::StageSet *>((spRenderPass[0].m_pObject))->FUN_00e802b0(spRenderPass[0].m_pObject->m_uiStageMask, (::Stage321 *)(::BeamStage *)(stage));
     }
     spRenderPass[0].m_pObject->SetRenderState(27, 1, true);
     spRenderPass[0].m_pObject->SetRenderState(7, 0, true);
@@ -78,10 +110,10 @@ bool BSShaderBloodSplatter::ConfigureShaderPass()
     for (unsigned int i = 0; i < 2; ++i)
     {
         NiPointer<BeamStage> stage;
-        BeamStage::CreateNewStage(stage);
-        ConfigureBeamStage(stage, i, 3, 2, true);
-        stage->FUN_00e7def0(1);
-        spRenderPass[1].m_pObject->FUN_00e802b0(spRenderPass[1].m_pObject->m_uiStageMask, stage);
+        ::AssignStageFromPool((::StageReturn *&)(stage));
+        ::ConfigureBeamStage(stage, i, 3, 2, true);
+        reinterpret_cast<::E7DEF0TextureStage *>(((stage).operator->()))->FUN_00e7def0(1);
+        reinterpret_cast<::StageSet *>((spRenderPass[1].m_pObject))->FUN_00e802b0(spRenderPass[1].m_pObject->m_uiStageMask, (::Stage321 *)(::BeamStage *)(stage));
     }
     spRenderPass[1].m_pObject->SetRenderState(27, 1, true);
     spRenderPass[1].m_pObject->SetRenderState(7, 0, true);
@@ -107,37 +139,37 @@ void BSShaderBloodSplatter::InitializeShaderData()
     SplatterShaderInfo vertex;
     vertex.file = "BloodSplatter\\BloodSplatter.v.hlsl";
     vertex.macros[0].Name = 0;
-    fnv_zlib_memset(&vertex.macros[0].Definition, 0, 68);
+    std::memset(&vertex.macros[0].Definition, 0, 17 * sizeof(const char*));
     SplatterShaderInfo pixel;
     pixel.file = "BloodSplatter\\BloodSplatter.p.hlsl";
     pixel.macros[0].Name = 0;
-    fnv_zlib_memset(&pixel.macros[0].Definition, 0, 68);
+    std::memset(&pixel.macros[0].Definition, 0, 17 * sizeof(const char*));
     SplatterShaderInfo flareVertexShader;
     flareVertexShader.file = "BloodSplatter\\BloodSplatter.v.hlsl";
     flareVertexShader.macros[0].Name = "FLARE";
     flareVertexShader.macros[0].Definition = "";
     flareVertexShader.macros[1].Name = 0;
-    fnv_zlib_memset(&flareVertexShader.macros[1].Definition, 0, 60);
+    std::memset(&flareVertexShader.macros[1].Definition, 0, 15 * sizeof(const char*));
     SplatterShaderInfo flarePixelShader;
     flarePixelShader.file = "BloodSplatter\\BloodSplatter.p.hlsl";
     flarePixelShader.macros[0].Name = "FLARE";
     flarePixelShader.macros[0].Definition = "";
     flarePixelShader.macros[1].Name = 0;
-    fnv_zlib_memset(&flarePixelShader.macros[1].Definition, 0, 60);
+    std::memset(&flarePixelShader.macros[1].Definition, 0, 15 * sizeof(const char*));
     char shaderPath[260];
     char outputFile[260];
-    GetShaderPath(vertex.file, shaderPath);
-    sprintf_s(outputFile, 260, "BS.vso");
-    m_spTreeVertexShader[0] = CompileVertexShader(shaderPath, vertex.macros, "vs_1_1", outputFile);
-    GetShaderPath(flareVertexShader.file, shaderPath);
-    sprintf_s(outputFile, 260, "BSF.vso");
-    m_spTreeVertexShader[1] = CompileVertexShader(shaderPath, flareVertexShader.macros, "vs_1_1", outputFile);
-    GetShaderPath(pixel.file, shaderPath);
-    sprintf_s(outputFile, 260, "BS.pso");
-    m_spPixelShaderVariants[0] = CompilePixelShader(shaderPath, pixel.macros, "ps_2_a", outputFile);
-    GetShaderPath(flarePixelShader.file, shaderPath);
-    sprintf_s(outputFile, 260, "BSF.pso");
-    m_spPixelShaderVariants[1] = CompilePixelShader(shaderPath, flarePixelShader.macros, "ps_2_a", outputFile);
+    ::FUN_00be0c00(vertex.file, shaderPath);
+    ::FUN_00406d00(outputFile, 260, "BS.vso");
+    m_spTreeVertexShader[0] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(vertex.macros), "vs_1_1", outputFile)));
+    ::FUN_00be0c00(flareVertexShader.file, shaderPath);
+    ::FUN_00406d00(outputFile, 260, "BSF.vso");
+    m_spTreeVertexShader[1] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(flareVertexShader.macros), "vs_1_1", outputFile)));
+    ::FUN_00be0c00(pixel.file, shaderPath);
+    ::FUN_00406d00(outputFile, 260, "BS.pso");
+    m_spPixelShaderVariants[0] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(shaderPath), (void *)(pixel.macros), (char *)("ps_2_a"), (char *)(outputFile));
+    ::FUN_00be0c00(flarePixelShader.file, shaderPath);
+    ::FUN_00406d00(outputFile, 260, "BSF.pso");
+    m_spPixelShaderVariants[1] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(shaderPath), (void *)(flarePixelShader.macros), (char *)("ps_2_a"), (char *)(outputFile));
 }
 
 // @fnv 0x00b81110
@@ -152,24 +184,30 @@ void BSShaderBloodSplatter::FUN_00b805d0(unsigned int pass)
     switch (pass)
     {
     case 0x2f0:
-        DAT_0126f74c = spRenderPass[1].m_pObject;
+        (*reinterpret_cast<::NiD3DPass * *>(&::DAT_0126f74c)) = spRenderPass[1].m_pObject;
         break;
     case 0x2f1:
-        DAT_0126f74c = spRenderPass[0].m_pObject;
+        (*reinterpret_cast<::NiD3DPass * *>(&::DAT_0126f74c)) = spRenderPass[0].m_pObject;
         break;
     }
 }
 
-// Assigns value to the NiRefObject pointer at offset 0x44, releasing the old reference and incrementing the new one's ref count.
+struct RefSlotView_b80600
+{
+    char pad00[0x44];
+    NiRefObject* m_pObject44;
+};
+
+// Assigns value to the NiRefObject pointer slot m_pObject44, releasing the old reference and incrementing the new one's ref count.
 // @fnv 0x00b80600
 void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
 {
-    NiRefObject** ppSlot = reinterpret_cast<NiRefObject**>(reinterpret_cast<char*>(this) + 0x44);
+    NiRefObject** ppSlot = &reinterpret_cast<RefSlotView_b80600*>(this)->m_pObject44;
     NiRefObject* old = *ppSlot;
     if (old != value)
     {
         if (old && InterlockedDecrement(reinterpret_cast<volatile long*>(&old->m_uiRefCount)) == 0)
-            reinterpret_cast<void(__thiscall*)(void*)>((*reinterpret_cast<void***>(old))[1])(old);
+            reinterpret_cast<void(*)(void*)>((*reinterpret_cast<void***>(old))[1])(old);
         *ppSlot = value;
         if (value)
             InterlockedIncrement(reinterpret_cast<volatile long*>(&value->m_uiRefCount));
@@ -178,33 +216,32 @@ void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
 
 struct FUN_00b807c0_shell
 {
-    int __thiscall FUN_00b807c0(void* a, void* b);
+    void* FUN_00b807c0(void* a, void* b);
 };
 
 // @fnv 0x00b807c0
-int __thiscall FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
+void* FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x28);
+    return reinterpret_cast<BSShaderBloodSplatter*>(this)->m_spShaderDeclaration.m_pObject;
 }
 
-extern int g_011fedc8;
 
 // @fnv 0x00b807b0
 int* __cdecl FUN_00b807b0()
 {
-    return &g_011fedc8;
+    return &(*reinterpret_cast<int *>(&::g_011fedc8));
 }
 
 struct FUN_00b80380_shell
 {
     void FUN_00b80380();
 };
-// Calls the virtual function at vtable slot 74 on this for each of the two pointers stored at this+0x6c and this+0x70.
+// Calls the virtual function at vtable slot 74 on this for each of the two render passes.
 // @fnv 0x00b80380
 void FUN_00b80380_shell::FUN_00b80380()
 {
-    typedef void(__thiscall * Fn)(void*, void*);
-    void** p = (void**)((char*)this + 0x6c);
+    typedef void(* Fn)(void*, void*);
+    void** p = (void**)reinterpret_cast<BSShaderBloodSplatter*>(this)->spRenderPass;
     int n = 2;
     do
     {
@@ -227,22 +264,11 @@ bool FUN_00b80b20_shell::FUN_00b80b20()
     return ConfigureShaderPass();
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct Standin00b80e40
 {
-    void __thiscall FUN_00b80650();
-    void* __thiscall FUN_00b80e40(unsigned int);
+    void FUN_00b80650();
+    void* FUN_00b80e40(unsigned int);
 };
-// Calls FUN_00b80650, then deletes this with size 0x84 when bit 0 of a1 is set, and returns this.
-// @fnv 0x00b80e40
-void* __thiscall Standin00b80e40::FUN_00b80e40(unsigned int auiFlags)
-{
-    FUN_00b80650();
-    if (auiFlags & 1)
-        _delete(this, 0x84);
-    return this;
-}
-
 struct NiPoint3
 {
     float x, y, z;
@@ -262,16 +288,12 @@ struct NiPoint3
     {
         return x * p.x + y * p.y + z * p.z;
     }
-    void ComputeMagnitude();
 };
 
 struct Picker_00b803b0
 {
-    bool FUN_00b5bca0(const NiPoint3& akStart, const NiPoint3& kWorldPosition, NiPoint3& kHit);
 };
-extern Picker_00b803b0* DAT_011f91c8;
 extern float DAT_011fed90;
-extern SplatterFloat4 DAT_011fed94;
 
 struct Camera_00b803b0
 {
@@ -283,7 +305,6 @@ struct Camera_00b803b0
     float m20;  // +0x80
     float m21, m22;
     NiPoint3 m_kWorldTranslate;  // +0x8c
-    bool ProjectPointToScreen(const NiPoint3& kPt, float& fX, float& fY, float& fZ, float fZeroTolerance);
 };
 
 // @fnv 0x00b803b0
@@ -291,16 +312,16 @@ void __cdecl FUN_00b803b0(Camera_00b803b0* pkCamera)
 {
     DAT_011fed90 = 0.0f;
     NiPoint3 kHit;
-    if (DAT_011f91c8->FUN_00b5bca0(pkCamera->m_kWorldTranslate, NiPoint3(pkCamera->m00, pkCamera->m10, pkCamera->m20),
-                                   kHit))
+    if (((bool)(reinterpret_cast<::BlendOwner *>(((*reinterpret_cast<::Picker_00b803b0 * *>(&::DAT_011f91c8))))->FUN_00b5bca0(pkCamera->m_kWorldTranslate, NiPoint3(pkCamera->m00, pkCamera->m10, pkCamera->m20),
+                                   kHit))))
     {
         NiPoint3 kWorldPosition(pkCamera->m00, pkCamera->m10, pkCamera->m20);
         NiPoint3 kDelta = kHit - pkCamera->m_kWorldTranslate;
-        kWorldPosition.ComputeMagnitude();
-        kDelta.ComputeMagnitude();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kDelta))->FUN_004a0c10();
         DAT_011fed90 = kDelta * kWorldPosition;
         float fX, fY, fZ;
-        if (pkCamera->ProjectPointToScreen(kHit, fX, fY, fZ, 1e-05f))
+        if (reinterpret_cast<::FUN_00a6fdb0_t *>((pkCamera))->ProjectPointToScreen(kHit, fX, fY, fZ, 1e-05f))
         {
             if (fX < 0.0f)
                 fX = 0.0f;
@@ -315,7 +336,7 @@ void __cdecl FUN_00b803b0(Camera_00b803b0* pkCamera)
             kResult.y = 2.0 * fY - 1.0f;
             kResult.z = fZ;
             kResult.w = 0.1f;
-            DAT_011fed94 = kResult;
+            (*reinterpret_cast<::SplatterFloat4 *>(&::g_splatterValueA)) = kResult;
         }
         else
         {
@@ -324,7 +345,7 @@ void __cdecl FUN_00b803b0(Camera_00b803b0* pkCamera)
             kResult.y = 0.0f;
             kResult.z = 0.0f;
             kResult.w = 0.1f;
-            DAT_011fed94 = kResult;
+            (*reinterpret_cast<::SplatterFloat4 *>(&::g_splatterValueA)) = kResult;
         }
     }
     else
@@ -334,7 +355,7 @@ void __cdecl FUN_00b803b0(Camera_00b803b0* pkCamera)
         kResult.y = 0.0f;
         kResult.z = 0.0f;
         kResult.w = 0.1f;
-        DAT_011fed94 = kResult;
+        (*reinterpret_cast<::SplatterFloat4 *>(&::g_splatterValueA)) = kResult;
     }
 }
 
@@ -343,17 +364,12 @@ struct FUN_00b80f50_shell : public BSShaderBloodSplatter
     void CreateShaderConstantMaps();
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern char $SG3295[];
-extern char _DAT_010A1E50[];
 extern int DAT_011fedb4;
 extern float DAT_011feda4;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*);
     virtual void v0();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -368,8 +384,9 @@ struct BSFadeNode
     }
 };
 
-struct NiD3DShaderConstantMap : BSFadeNode
+class NiD3DShaderConstantMap : public BSFadeNode
 {
+  public:
     NiD3DShaderConstantMap(void*, int);
     virtual int AddEntry(const char* pcKey, unsigned int uiFlags, unsigned int uiExtra, unsigned int uiShaderRegister,
                          unsigned int uiRegisterCount, const char* pcVariableName, unsigned int uiConstantDataSize,
@@ -402,22 +419,22 @@ template <class T> struct NiPointerS
     }
 };
 
-// Lazily creates the two NiD3DShaderConstantMap objects stored at offsets 0x30 and 0x34 and registers their shader constant entries.
+// Lazily creates the two shader constant maps and registers their shader constant entries.
 // @fnv 0x00b80f50
 void FUN_00b80f50_shell::CreateShaderConstantMaps()
 {
-    NiPointerS<NiD3DShaderConstantMap>& pAlphaMap = *(NiPointerS<NiD3DShaderConstantMap>*)((char*)this + 0x30);
+    NiPointerS<NiD3DShaderConstantMap>& pAlphaMap = *(NiPointerS<NiD3DShaderConstantMap>*)&m_spFirstShaderConstantMap;
     NiPointerS<NiD3DShaderConstantMap>& m_pVertexShaderConstantMap =
-        *(NiPointerS<NiD3DShaderConstantMap>*)((char*)this + 0x34);
+        *(NiPointerS<NiD3DShaderConstantMap>*)&m_spSecondShaderConstantMap;
     if (!pAlphaMap)
     {
-        pAlphaMap = new NiD3DShaderConstantMap(*(void**)((char*)this + 0x18), 2);
+        pAlphaMap = new NiD3DShaderConstantMap(*(void**)&this->m_pShaderObject, 2);
         pAlphaMap->AddEntry("alpha", 0x10000007, 0, 0, 1, $SG3295, 0x10, 4, &DAT_011fedb4, false);
     }
     if (!m_pVertexShaderConstantMap)
     {
-        m_pVertexShaderConstantMap = new NiD3DShaderConstantMap(*(void**)((char*)this + 0x18), 0);
-        m_pVertexShaderConstantMap->AddEntry(_DAT_010A1E50, 0x20000009, 0, 0, 4, 0, 0, 0, 0, false);
+        m_pVertexShaderConstantMap = new NiD3DShaderConstantMap(*(void**)&this->m_pShaderObject, 0);
+        m_pVertexShaderConstantMap->AddEntry(::DAT_010A1E50, 0x20000009, 0, 0, 4, 0, 0, 0, 0, false);
         m_pVertexShaderConstantMap->AddEntry("lightloc", 0x10000007, 0, 4, 1, $SG3295, 0x10, 4, &g_splatterValueA,
                                              false);
         m_pVertexShaderConstantMap->AddEntry("ctrl", 0x10000007, 0, 5, 1, $SG3295, 0x10, 4, &DAT_011feda4, false);
@@ -482,12 +499,11 @@ struct PassRef
     unsigned int unk5c;
     unsigned int unk60;
     unsigned int refs;
-    void FUN_00e80190();
     void Release()
     {
         --refs;
         if (!refs)
-            FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>(this)->DestroyPass();
     }
 };
 struct RefView
@@ -508,6 +524,15 @@ struct FUN_00b80650 : ShaderBase
     NiPointer<NiD3DPixelShader> pixel[2];
     virtual ~FUN_00b80650();
 };
+// Calls FUN_00b80650, then deletes this with size 0x84 when bit 0 of a1 is set, and returns this.
+// @fnv 0x00b80e40
+void* Standin00b80e40::FUN_00b80e40(unsigned int auiFlags)
+{
+    reinterpret_cast<::FUN_00b80650 *>(this)->FUN_00b80650::~FUN_00b80650();
+    if (auiFlags & 1)
+        ::FUN_00aa1460(this, 0x84);
+    return this;
+}
 // Releases the two pass, vertex-shader and pixel-shader references and the white-flash texture, clearing each pointer.
 // @fnv 0x00b80650
 FUN_00b80650::~FUN_00b80650()
@@ -547,8 +572,7 @@ struct FUN_00b80b30_item
 {
     int unk00;
     int unk04;
-    unsigned int m_u08;
-    void ApplyPairToState(void* pValue);
+    void* m_u08;
 };
 
 struct FUN_00b80b30_pass
@@ -642,7 +666,7 @@ struct FUN_00b80b30_sub
     int unk54;
     int unk58;
     int unk5c;
-    int m_arr60[2];
+    void* m_arr60[2];
 };
 
 struct FUN_00b80b30_arg
@@ -655,12 +679,8 @@ struct FUN_00b80b30_arg
 
 struct FUN_00b80b30_mgr
 {
-    void* FUN_00ba3780();
 };
 
-extern FUN_00b80b30_mgr DAT_012005a4;
-extern int DAT_011f91e4;
-extern int DAT_011fedc4;
 
 class FUN_00b80b30_cls
 {
@@ -768,7 +788,7 @@ class FUN_00b80b30_cls
 void FUN_00b80b30_cls::InitPassItems(FUN_00b80b30_arg* apArg)
 {
     FUN_00b80b30_sub* sub = apArg->m_pSub;
-    if (DAT_011f91e4 == 0x2f1)
+    if ((*reinterpret_cast<int *>(&::DAT_011f91e4)) == 0x2f1)
     {
         FUN_00b80b30_pass* pass = m_pPass6c;
         for (unsigned int i = 0; i < 2; i++)
@@ -776,27 +796,27 @@ void FUN_00b80b30_cls::InitPassItems(FUN_00b80b30_arg* apArg)
             FUN_00b80b30_item* item = pass->m_ppItems[i];
             item->m_u08 = sub->m_arr60[i];
             void* value = sub->v51();
-            item->ApplyPairToState(value);
+            reinterpret_cast<::E7DE90Owner *>((item))->ApplyPairToState((std::uintptr_t)(value));
         }
     }
-    else if (DAT_011f91e4 == 0x2f0)
+    else if ((*reinterpret_cast<int *>(&::DAT_011f91e4)) == 0x2f0)
     {
         FUN_00b80b30_pass* pass = m_p70;
         FUN_00b80b30_item* pFirstItem = pass->m_ppItems[0];
         pFirstItem->m_u08 = sub->m_arr60[0];
         void* value0 = sub->v51();
-        pFirstItem->ApplyPairToState(value0);
+        reinterpret_cast<::E7DE90Owner *>((pFirstItem))->ApplyPairToState((std::uintptr_t)(value0));
         FUN_00b80b30_item* pSecondItem = pass->m_ppItems[1];
-        if (DAT_012005a4.FUN_00ba3780())
+        if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(DAT_012005a4))->FUN_00ba3780())))
         {
-            pSecondItem->m_u08 = (unsigned int)DAT_012005a4.FUN_00ba3780();
+            pSecondItem->m_u08 = ((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(DAT_012005a4))->FUN_00ba3780()));
         }
         else
         {
-            pSecondItem->m_u08 = DAT_011fedc4;
+            pSecondItem->m_u08 = (*reinterpret_cast<void * *>(&::g_splatterWhiteFlashTexture));
         }
         void* value1 = sub->v51();
-        pSecondItem->ApplyPairToState(value1);
+        reinterpret_cast<::E7DE90Owner *>((pSecondItem))->ApplyPairToState((std::uintptr_t)(value1));
     }
     v108();
 }
@@ -806,9 +826,6 @@ struct Bound
 {
     float x, y, z, radius;
 };
-extern Bound DAT_011f4288;
-extern unsigned int DAT_011f91e4;
-extern float DAT_011ad874, DAT_011ad878;
 struct WorldTransform
 {
     float r00, r01, r02, r10, r11, r12, r20, r21, r22, x, y, z, scale;
@@ -869,10 +886,8 @@ struct GeomStub
     GeomData* mesh;
     void* properties;
 };
-extern GeomStub** DAT_011f91e0;
 struct RendererStub
 {
-    void FUN_00e6fbb0(WorldTransform*, int);
 };
 struct EffectObject
 {
@@ -966,31 +981,46 @@ struct BloodShader
 // @fnv 0x00b80c20
 void BloodShader::ApplyBloodShader(RenderInput* input)
 {
-    GeomStub* geom = *DAT_011f91e0;
+    GeomStub* geom = *(*reinterpret_cast<::fnv_00b80c20::GeomStub ** *>(&::DAT_011f91e0));
     WorldTransform* transform = &geom->transform;
     Bound* bound = geom->bound;
     if (!bound)
-        bound = &DAT_011f4288;
+        bound = &(*reinterpret_cast<::fnv_00b80c20::Bound *>(&::g_defaultBound));
     void* data = geom->mesh->data;
     void* properties = geom->properties;
-    renderer->FUN_00e6fbb0(transform, 0);
+    reinterpret_cast<::XRenderer *>((renderer))->FUN_00e6fbb0((*(const ::XTransform *)(transform)), 0);
     float value = *input->object->value * input->object->scale;
-    *(float*)&DAT_011fedb4 = value * DAT_011ad878;
-    if (DAT_011f91e4 == 0x2f0)
-        *(float*)&DAT_011fedb4 = DAT_011fed90 * DAT_011ad874 * *(float*)&DAT_011fedb4;
+    *(float*)&DAT_011fedb4 = value * ::DAT_011ad878;
+    if (::DAT_011f91e4 == 0x2f0)
+        *(float*)&DAT_011fedb4 = DAT_011fed90 * ::DAT_011ad874 * *(float*)&DAT_011fedb4;
     ConstantMapView* map = pixelMap;
     if (map)
     {
-        NiD3DPixelShader* shader = DAT_0126f74c->m_spPixelShaderObject.m_pObject;
+        NiD3DPixelShader* shader = (*reinterpret_cast<::NiD3DPass * *>(&::DAT_0126f74c))->m_spPixelShaderObject.m_pObject;
         if (shader)
             map->Apply(shader, geom, properties, 0, data, input, 0, transform, bound, 0, 1);
     }
     map = vertexMap;
     if (map)
     {
-        NiD3DVertexShader* shader = DAT_0126f74c->m_spVertexShaderObject.m_pObject;
+        NiD3DVertexShader* shader = (*reinterpret_cast<::NiD3DPass * *>(&::DAT_0126f74c))->m_spVertexShaderObject.m_pObject;
         if (shader)
             map->Apply(shader, geom, properties, 0, data, input, 0, transform, bound, 0, 1);
     }
 }
 }  // namespace fnv_00b80c20
+
+int* __cdecl FUN_00b807b0();
+
+struct FUN_0068ab60_shell
+{
+    void FUN_0068ab60();
+};
+
+// @fnv 0x0068ab60
+void FUN_0068ab60_shell::FUN_0068ab60()
+{
+    reinterpret_cast<::FUN_0068ab80_class *>(this)->FUN_0068ab80();
+}
+
+#include "generated/data/bsshader/bsshaderbloodsplatter.inc"

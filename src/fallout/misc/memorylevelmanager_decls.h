@@ -1,5 +1,30 @@
 
 // Private declarations inferred from the two packet call sites.
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/FUN_00422320_shell.h"
+#include "fnv/decl/FUN_00422450.h"
+#include "fnv/decl/FUN_00529ea0_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_008b39f0_shell.h"
+#include "fnv/decl/FUN_00904430_Class.h"
+#include "fnv/decl/FUN_00977c70_class.h"
+#include "fnv/decl/FUN_00977c90_class.h"
+#include "fnv/decl/FUN_009c1a50_shell.h"
+#include "fnv/decl/FaceGenModelCache650.h"
+#include "fnv/decl/HighProcessAvoid.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_008982c0__FUN_008982c0_shell.h"
+#include "fnv/decl/fnv_008bcc80__FUN_008bcc80_shell.h"
+#include "fnv/decl/fnv_008c4330__FUN_008c4330_cls.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00878000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011de000.h"
 class TopicInfoArray;
 class ActorReferenceArray
 {
@@ -21,17 +46,12 @@ class ActorReferenceArray
 class TESObjectCELL
 {
   public:
-    static unsigned int InitializeTESResources(ActorReferenceArray::ActorReferenceSetupData&, bool, bool, bool);
 };
 void FUN_00878250(bool);
-void FUN_00878200(ActorReferenceArray::ActorReferenceSetupData&);
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
 class BSFaceGenModelMap
 {
   public:
-    bool FUN_00529ea0();
-    void PurgeUnusedModels(bool);
 };
 class BSFaceGenManager
 {
@@ -41,7 +61,6 @@ class BSFaceGenManager
 class Tile
 {
   public:
-    static Tile* FindMenuById(int);
 };
 
 struct NiPoint3
@@ -51,8 +70,6 @@ struct NiPoint3
 class ExtraDataList
 {
   public:
-    float GetRadius();
-    float FUN_00422450();
 };
 class BaseProcess;
 class TESObjectREFR
@@ -184,23 +201,14 @@ class TESObjectREFR
     virtual void vfn_1ec();
     virtual void vfn_1f0();
     virtual const NiPoint3& GetPos();
-    ExtraDataList* GetExtraData();
-    float GetDistanceToReference(TESObjectREFR*, bool, bool);
 };
 class Actor : public TESObjectREFR
 {
   public:
-    BaseProcess* GetProcess();
-    float FUN_008c4330();
-    bool UpdateActorInventory();
-    bool HasEssentialStatus();
-    void UpdatePlayerStatus(int);
-    void UpdateActorEquipmentState(TESObjectREFR*, float);
 };
 class PlayerCharacter : public Actor
 {
   public:
-    bool FUN_00878340();
 };
 class BaseProcess
 {
@@ -680,16 +688,10 @@ class BaseProcess
     virtual void vfn_760();
     virtual void vfn_764();
     virtual void vfn_768(float);
-    double GetField43C();
-    float GetField440();
-    void FUN_00977c90(float);
-    void AddAvoidArea(Actor*, NiPoint3, float, float, float, TESObjectREFR*, bool);
 };
 class TopicInfoArray
 {
   public:
-    unsigned int FUN_005be5c0(int);
-    Actor* FUN_00968670(unsigned int);
 };
 class TESFile;
 class BGSReconstructFormsInFileMap;
@@ -697,17 +699,14 @@ class BGSReconstructFormsInAllFilesMap
 {
   public:
     void* GetFirstPos();
-    void GetNext(void*&, TESFile*&, BGSReconstructFormsInFileMap*&);
 };
 class TESReputation;
 template <class T> class BSSimpleList;
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESReputation*>* GetTESReputationList();
 };
 class BGSLoadedReferenceCollection;
-extern BGSLoadedReferenceCollection* DAT_011c95c8;
 extern bool DAT_011f12d8;
 union SETTING_VALUE
 {
@@ -716,9 +715,8 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
 };

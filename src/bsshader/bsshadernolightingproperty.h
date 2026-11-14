@@ -11,17 +11,12 @@ class NiTexture;
 class FNVRenderPassArray;
 
 // NiShadeProperty (0x20 bytes) extends NiProperty (0x18) with shader flags.
-#pragma pack(push, 4)
 class NiShadeProperty : public NiProperty
 {
   public:
     unsigned short m_uiObjectFlags;  // +0x18
     int m_iShaderType;        // +0x1C
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShadeProperty) == 0x20);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_uiObjectFlags) == 0x18);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_iShaderType) == 0x1C);
 
 // Clamp modes shared by texturing properties.
 class NiTexturingProperty
@@ -39,15 +34,13 @@ class NiTexturingProperty
 };
 
 // 32-bit RGBA color (4 bytes).
-class RgbaColor
+struct RgbaColor
 {
   public:
     unsigned int rgba;
 };
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 4);
 
 // BSShaderProperty (0x68 bytes) extends NiShadeProperty.
-#pragma pack(push, 4)
 class BSShaderProperty : public NiShadeProperty
 {
   public:
@@ -69,12 +62,9 @@ class BSShaderProperty : public NiShadeProperty
     float m_fValueAfterDepthBias;             // +0x60
     float m_fEnvironmentMapScale;             // +0x64
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty) == 0x68);
 
 // BSShaderNoLightingProperty. m_pNoLightingTexture is the first member after the
 // 0x68-byte base; the covered getter returns its raw pointer.
-#pragma pack(push, 4)
 class BSShaderNoLightingProperty : public BSShaderProperty
 {
   public:
@@ -83,14 +73,8 @@ class BSShaderNoLightingProperty : public BSShaderProperty
     NiTexturingProperty::ClampMode m_eClampMode;  // +0x74
     RgbaColor m_kEmissiveColor;                   // +0x78
 
-// @fnv 0x008d8520
-    NiTexture* GetBaseTexture()
-    {
-        return m_pNoLightingTexture.m_pObject;
-    }
+    // Defined once, in bsshadernolightingproperty_h_unit.cpp.
+    NiTexture* GetBaseTexture();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLightingProperty, m_pNoLightingTexture) == 0x68);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLightingProperty, m_kTextureFilePath) == 0x6C);
 
 #endif

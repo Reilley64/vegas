@@ -2,22 +2,32 @@
 // src/gamebryo2.2/corelibs/nianimation/bsfrustumfovcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bsfrustumfovcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3ec8;
 
 // @fnv 0x00a42e80
+#include <windows.h>
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/FUN_00a57640_shell.h"
+#include "fnv/decl/NiAlphaController.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/StandIn.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
 void* __cdecl FUN_00a42e80()
 {
-    return &g_011f3ec8;
+    return &(*reinterpret_cast<void * *>(&::g_011f3ec8));
 }
 
 struct NiFloatInterpController
 {
-    void Init();
 };
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 extern int DAT_0109780c;
@@ -25,11 +35,11 @@ extern int DAT_0109780c;
 // @fnv 0x00a42ee0
 void* __cdecl FUN_00a42ee0()
 {
-    void* p = BSFadeNode::operator new(0x38);
+    void* p = ::operator new(0x38);
     if (p)
     {
         NiFloatInterpController* pController = static_cast<NiFloatInterpController*>(p);
-        pController->Init();
+        reinterpret_cast<::FUN_00a57640_shell *>((pController))->FUN_00a57640();
         *reinterpret_cast<int**>(pController) = &DAT_0109780c;
         return pController;
     }
@@ -47,17 +57,16 @@ struct NiObjectNET
     virtual void _u1();
     virtual const NiRTTI* GetRTTI();
 };
-extern const char* const g_011f5e6c_arg1;
 // Walks pkTarget's NiRTTI chain and returns true if any entry matches g_011f5e6c_arg1, false otherwise or when pkTarget is null.
 // @fnv 0x00a42d90
-bool __stdcall FUN_00a42d90(NiObjectNET* pkTarget)
+bool FUN_00a42d90(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
         return false;
     const NiRTTI* pkRTTI = pkTarget->GetRTTI();
     while (pkRTTI)
     {
-        if (pkRTTI == (const NiRTTI*)&g_011f5e6c_arg1)
+        if (pkRTTI == (const NiRTTI*)&(*reinterpret_cast<const char *const *>(&::g_011f4a18)))
             return true;
         pkRTTI = pkRTTI->m_pBaseRTTI;
     }
@@ -66,35 +75,28 @@ bool __stdcall FUN_00a42d90(NiObjectNET* pkTarget)
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
-void __stdcall FUN_00a576c0(StrArr*);
-char* __cdecl _FUN_00a7d330(void*);
 
 // @fnv 0x00a42f10
-void __stdcall FUN_00a42f10(StrArr* pkStrings)
+void FUN_00a42f10(StrArr* pkStrings)
 {
-    FUN_00a576c0(pkStrings);
-    char* pcString = _FUN_00a7d330(g_011f3ec8);
+    ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pkStrings));
+    char* pcString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3ec8))));
     unsigned int uiIndex = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 8);
     if (uiIndex >= uiSize)
     {
         unsigned int uiGrow = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(uiGrow + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiGrow + uiIndex);
     }
-    pkStrings->SetAt(uiIndex, pcString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class A42D00Stream
 {
   public:
-    void* GetLoadedObject();
 
     int unk000;
     int unk004;
@@ -158,8 +160,6 @@ class A42D00Interpolator
   public:
     A42D00Interpolator(void* pkData) throw();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     virtual void vfn00();
     virtual void DeleteThis() throw();
@@ -253,7 +253,6 @@ class A42D00InterpPtr
 class A42D00Controller
 {
   public:
-    void LinkObjectBase(A42D00Stream& kStream);
     void LinkInterpolator(A42D00Stream& kStream);
 
     void* m_ppVirtualMethodTable;
@@ -272,40 +271,40 @@ class A42D00Controller
     A42D00InterpPtr m_spControllerInterpolator;
 };
 
-// Links the object base from the stream and, for older file versions, creates an interpolator from the stream data and collapses it.
-// @fnv 0x00a42d00
-void A42D00Controller::LinkInterpolator(A42D00Stream& kStream)
-{
-    LinkObjectBase(kStream);
-    if (kStream.m_uiFileVersion < 0x0A010068)
-    {
-        void* pkData = kStream.GetLoadedObject();
-        m_spControllerInterpolator = new A42D00Interpolator(pkData);
-        m_spControllerInterpolator->Collapse();
-    }
-}
-
+struct NiObject;
 struct NiStream
 {
     int unk000;
     int unk004;
     int unk008;
     int unk00C;
+public:
+    ::NiObject *GetLoadedObject();
 };
+// Links the object base from the stream and, for older file versions, creates an interpolator from the stream data and collapses it.
+// @fnv 0x00a42d00
+void A42D00Controller::LinkInterpolator(A42D00Stream& kStream)
+{
+    reinterpret_cast<struct ::FUN_00a57630 *>(this)->LinkObject((::NiStream &)(kStream));
+    if (kStream.m_uiFileVersion < 0x0A010068)
+    {
+        void* pkData = ((void *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
+        m_spControllerInterpolator = new A42D00Interpolator(pkData);
+        m_spControllerInterpolator->Collapse();
+    }
+}
 
 struct Base840
 {
-    void FUN_00a57c00(NiStream& kStream);
     void FUN_00a44ce0(NiStream& kStream);
 };
 
 // @fnv 0x00a44ce0
 void Base840::FUN_00a44ce0(NiStream& kStream)
 {
-    FUN_00a57c00(kStream);
+    reinterpret_cast<::FUN_00a57c00_shell *>(this)->FUN_00a57c00(kStream);
 }
 
-extern const float DAT_01096324;
 
 struct NiUpdateDataA42D
 {
@@ -330,7 +329,6 @@ class NiAVObjectA42D
 {
   public:
     virtual void vfn_00();
-    void FUN_00a6faf0(const NiFrustumA42D& kFrustum);
     int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30;
     int unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60;
     int unk64, unk68, unk6C, unk70, unk74, unk78, unk7C, unk80, unk84, unk88, unk8C, unk90;
@@ -402,7 +400,6 @@ class NiCameraControllerA42D
 {
   public:
     virtual void vfn_00();
-    bool FUN_00a36250(float fTime);
     void FUN_00a42dc0(NiUpdateDataA42D& kUpdateData);
 
     bool GetManagerControlled() const
@@ -426,36 +423,6 @@ class NiCameraControllerA42D
     NiFloatInterpolatorA42D* m_spControllerInterpolator;
 };
 
-// Updates the camera controller time and, if not skipped, applies the interpolator's value to the target's view frustum bounds.
-// @fnv 0x00a42dc0
-void NiCameraControllerA42D::FUN_00a42dc0(NiUpdateDataA42D& kUpdateData)
-{
-    if (GetManagerControlled())
-    {
-        m_fControllerTime = DAT_01096324;
-    }
-    else if (FUN_00a36250(kUpdateData.m_fTime) &&
-             (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
-    {
-        return;
-    }
-
-    if (m_spControllerInterpolator)
-    {
-        float fValue;
-        if (m_spControllerInterpolator->Update(m_fControllerTime, m_pkTarget, fValue))
-        {
-            NiAVObjectA42D* pkCamera = m_pkTarget;
-            NiFrustumA42D kFrustum = pkCamera->m_kViewFrustum;
-            kFrustum.m_fLeftBound = -fValue;
-            kFrustum.m_fRightBound = fValue;
-            kFrustum.m_fTopBound = fValue * 0.75;
-            kFrustum.m_fBottomBound = fValue * -0.75;
-            pkCamera->FUN_00a6faf0(kFrustum);
-        }
-    }
-}
-
 class CloningProcessObjA42E;
 
 class FUN_00a57640
@@ -473,12 +440,7 @@ class ObjA42E : public FUN_00a57640
     {}
     virtual ~ObjA42E() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
 
-    void FUN_00a57620(ObjA42E* dest, CloningProcessObjA42E& cloning);
     ObjA42E* FUN_00a42e90(CloningProcessObjA42E& cloning);
 };
 
@@ -487,24 +449,56 @@ class ObjA42E : public FUN_00a57640
 ObjA42E* ObjA42E::FUN_00a42e90(CloningProcessObjA42E& cloning)
 {
     ObjA42E* p = new ObjA42E;
-    FUN_00a57620(p, cloning);
+    reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(p), (::CloningProcess &)(cloning));
     return p;
 }
 
-extern void FUN_00a57c10();
 
 // @fnv 0x00a44cf0
 void FUN_00a44cf0()
 {
-    FUN_00a57c10();
+    static_cast<::StandIn *>(nullptr)->FUN_00a57c10({}, {});
 }
 
 #include <math.h>
-struct NiCamera
+struct NiFrustum;
+class NiCamera
 {
+  public:
     float _pad_0[0x38];
     float m_fFieldOfView;
+public:
+    void UpdateViewFrustum(const ::NiFrustum &);
 };
+// Updates the camera controller time and, if not skipped, applies the interpolator's value to the target's view frustum bounds.
+// @fnv 0x00a42dc0
+void NiCameraControllerA42D::FUN_00a42dc0(NiUpdateDataA42D& kUpdateData)
+{
+    if (GetManagerControlled())
+    {
+        m_fControllerTime = DAT_01096324;
+    }
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdateData.m_fTime) &&
+             (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
+    {
+        return;
+    }
+
+    if (m_spControllerInterpolator)
+    {
+        float fValue;
+        if (m_spControllerInterpolator->Update(m_fControllerTime, m_pkTarget, fValue))
+        {
+            NiAVObjectA42D* pkCamera = m_pkTarget;
+            NiFrustumA42D kFrustum = pkCamera->m_kViewFrustum;
+            kFrustum.m_fLeftBound = -fValue;
+            kFrustum.m_fRightBound = fValue;
+            kFrustum.m_fTopBound = fValue * 0.75;
+            kFrustum.m_fBottomBound = fValue * -0.75;
+            reinterpret_cast<::NiCamera *>((pkCamera))->UpdateViewFrustum((const ::NiFrustum &)(kFrustum));
+        }
+    }
+}
 
 struct BSFrustumFOVController : NiFloatInterpController
 {
@@ -519,3 +513,5 @@ void BSFrustumFOVController::GetFieldOfView(float& afOutValue)
     float v = pCamera->m_fFieldOfView;
     afOutValue = atan(v) * 2.0f;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsfrustumfovcontroller.inc"

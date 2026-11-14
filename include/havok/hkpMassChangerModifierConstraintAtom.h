@@ -5,14 +5,10 @@
 
 #include "hkBase.h"
 #include "hkpModifierConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpMassChangerModifierConstraintAtom : public hkpModifierConstraintAtom
 {
   public:
     hkVector4 m_kFactorA;  // +0x20
     hkVector4 m_kFactorB;  // +0x30
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpMassChangerModifierConstraintAtom[(sizeof(hkpMassChangerModifierConstraintAtom) == 0x40) ? 1 : -1];
 #endif

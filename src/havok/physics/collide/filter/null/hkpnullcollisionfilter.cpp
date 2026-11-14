@@ -2,35 +2,37 @@
 // src/havok/physics/collide/filter/null/hkpnullcollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/filter/null/hkpnullcollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpNullCollisionFilter.h"
 
-extern int DAT_0102e388;
-extern int DAT_010c3b80;
-extern int DAT_010c3b8c;
-extern int DAT_010c3b98;
-extern int DAT_010c3bac;
 
+// hkpCollisionFilter's 32-bit layout: hkReferencedObject, then the vtable pointers of its four filter interface bases.
 struct FUN_00cfa860
 {
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
+    const void* m_vtable;                          // +0x0
+    unsigned short m_memSizeAndFlags;              // +0x4
+    short m_referenceCount;                        // +0x6
+    const void* m_collidableCollidableFilterVtable;  // +0x8
+    const void* m_shapeCollectionFilterVtable;     // +0xc
+    const void* m_rayShapeCollectionFilterVtable;  // +0x10
+    const void* m_rayCollidableFilterVtable;       // +0x14
     ~FUN_00cfa860();
 };
 
 // @fnv 0x00cfa860
 FUN_00cfa860::~FUN_00cfa860()
 {
-    *(void**)((char*)this + 0x14) = &DAT_010c3b8c;
-    *(void**)((char*)this + 0x10) = &DAT_010c3bac;
-    *(void**)((char*)this + 0x0c) = &DAT_010c3b98;
-    *(void**)((char*)this + 0x08) = &DAT_010c3b80;
-    *(void**)((char*)this + 0x00) = &DAT_0102e388;
+    m_rayCollidableFilterVtable = &DAT_010c3b8c;
+    m_rayShapeCollectionFilterVtable = &DAT_010c3bac;
+    m_shapeCollectionFilterVtable = &DAT_010c3b98;
+    m_collidableCollidableFilterVtable = &DAT_010c3b80;
+    m_vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
 struct __declspec(align(16)) S_00cfab30_vec
 {
@@ -122,18 +124,14 @@ struct S_00cfab30_this
     int unk30;
     void* unk34;
 
-    void __thiscall RecordAndDispatch(S_00cfab30_object*, S_00cfab30_arg*, void*, void*, void*);
+    void RecordAndDispatch(S_00cfab30_object*, S_00cfab30_arg*, void*, void*, void*);
 };
 
-extern int DAT_0126835c;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" void _ReadWriteBarrier(void);
 extern const char str_010cc668[];
-extern const char str_010c41f8[];
 
 // Records a start timestamp, stores arguments into fields, invokes target_call on arg08 with a local struct, then records an end timestamp.
 // @fnv 0x00cfab30
-void __thiscall S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, S_00cfab30_arg* arg0c, void* apContext,
+void S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, S_00cfab30_arg* arg0c, void* apContext,
                                                    void* arg14, void* arg18)
 {
     S_00cfab30_allocator* allocator;
@@ -141,7 +139,7 @@ void __thiscall S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, 
     volatile unsigned int timestamp;
     S_00cfab30_local local;
 
-    allocator = (S_00cfab30_allocator*)TlsGetValue(DAT_0126835c);
+    allocator = (S_00cfab30_allocator*)TlsGetValue((*reinterpret_cast<int *>(&::DAT_0126835c)));
     record = allocator->next;
 
     if (record < allocator->end)
@@ -157,12 +155,12 @@ void __thiscall S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, 
     unk04 = arg0c;
     unk0c = arg18;
 
-    unk08 = context ? (char*)context + 0x14 : 0;
+    unk08 = context ? (void*)&static_cast<FUN_00cfa860*>(context)->m_rayCollidableFilterVtable : 0;
     _ReadWriteBarrier();
 
     if (arg0c->unk20)
     {
-        void* pContextOffset10 = context ? (char*)context + 0x10 : 0;
+        void* pContextOffset10 = context ? (void*)&static_cast<FUN_00cfa860*>(context)->m_rayShapeCollectionFilterVtable : 0;
         (void* volatile&)unk34 = pContextOffset10;
     }
     else
@@ -175,15 +173,17 @@ void __thiscall S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, 
 
     apTarget->target_call(&local, this, 0);
 
-    allocator = (S_00cfab30_allocator*)TlsGetValue(DAT_0126835c);
+    allocator = (S_00cfab30_allocator*)TlsGetValue((*reinterpret_cast<int *>(&::DAT_0126835c)));
     record = allocator->next;
 
     if (record < allocator->end)
     {
-        record->name = str_010c41f8;
+        record->name = ::DAT_010c41f8;
         _ReadWriteBarrier();
         timestamp = __rdtsc();
         record->timestamp = timestamp;
         allocator->next = record + 1;
     }
 }
+
+#include "generated/data/havok/physics/collide/filter/null/hkpnullcollisionfilter.inc"

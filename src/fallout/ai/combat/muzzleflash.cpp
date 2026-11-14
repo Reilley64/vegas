@@ -2,9 +2,57 @@
 // src/fallout/ai/combat/muzzleflash.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/muzzleflash.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/av_object_fields.h"
+#include "fnv/vats_camera_data_view.h"
+#include <cstdint>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CloneSourceA5d6.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00453700_shell.h"
+#include "fnv/decl/FUN_0045a5e0_shell.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_004fd420_shell.h"
+#include "fnv/decl/FUN_00507e10_shell.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_00978740_shell.h"
+#include "fnv/decl/FUN_009bb8a0_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/P3.h"
+#include "fnv/decl/PlayerCharacter.h"
+#include "fnv/decl/ShadowNode.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/UnkClass25700.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0087ac00__Owner0087ac00.h"
+#include "fnv/decl/fnv_0087ac60__FUN_0087AC60_Holder.h"
+#include "fnv/decl/fnv_009bb7f0__FUN_009bb7f0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00578000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_00716000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
 struct BGSProjectile
 {
-    bool GetFlag(unsigned int) const;
 };
 
 struct FUN_009baf30_shell : BGSProjectile
@@ -15,25 +63,14 @@ struct FUN_009baf30_shell : BGSProjectile
 // @fnv 0x009baf30
 bool FUN_009baf30_shell::HasFlag8() const
 {
-    return GetFlag(8);
+    return reinterpret_cast<::FUN_004fd420_shell *>((void *)this)->FUN_004fd420(8);
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_009badc0_shell
 {
     void FUN_009badc0();
     void* DestroyIfFlagged(unsigned int flags);
 };
-// Calls FUN_009badc0, then if flags has bit 1 set calls Deallocate on this, and returns this.
-// @fnv 0x008d9f70
-void* FUN_009badc0_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_009badc0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 struct BSMultiBoundRoom
 {
     void* FUN_006ab360();
@@ -52,9 +89,7 @@ void* FUN_009baee0_owner::FUN_009baee0()
 
 struct PathingRequest
 {
-    float FUN_00507e10();
 };
-extern double _gModifierZero;
 struct FUN_009bb690_shell
 {
     unsigned char unk0;
@@ -71,17 +106,18 @@ struct FUN_009bb690_shell
 // @fnv 0x009bb690
 void FUN_009bb690_shell::FUN_009bb690()
 {
-    if (unk4 <= _gModifierZero)
+    if (unk4 <= ::_DAT_01012060)
     {
         unk0 = 1;
         unk2 = 1;
-        unk8 = ptr14->FUN_00507e10();
+        unk8 = reinterpret_cast<::FUN_00507e10_shell *>((ptr14))->FUN_00507e10();
     }
 }
 
 class NiNode;
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* pointer;
     NiPointer(T*);
     ~NiPointer();
@@ -89,12 +125,9 @@ template <class T> struct NiPointer
 };
 struct ProjectileData
 {
-    float FUN_00507e10();
 };
-struct Projectile
+class Projectile
 {
-    ProjectileData* FUN_004181e0();
-    unsigned int FUN_00476c90();
 };
 struct FUN_009bacb0
 {
@@ -112,14 +145,14 @@ FUN_009bacb0::FUN_009bacb0(Projectile* projectile, void* pContext) : first(0), s
 {
     first = 0;
     second = 0;
-    data = projectile ? projectile->FUN_004181e0() : 0;
-    handle = projectile ? projectile->FUN_00476c90() : 0;
+    data = projectile ? ((::ProjectileData *)(reinterpret_cast<::Actor *>((projectile))->GetActorBase())) : 0;
+    handle = projectile ? reinterpret_cast<::FUN_00476c90_Class *>((projectile))->FUN_00476c90() : 0;
     context = pContext;
     flagsA = 0;
     flagsB = 0;
     flagsC = 0;
     elapsed = 0.0f;
-    total = data->FUN_00507e10();
+    total = reinterpret_cast<::FUN_00507e10_shell *>((data))->FUN_00507e10();
     UpdateNodePosition(pContext);
 }
 
@@ -130,18 +163,15 @@ struct S_009baf50_Item
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual unsigned int v5();
+    virtual uintptr_t v5();
     int FUN_0048cee0();
 };
 struct S_009baf50_Obj
 {
-    NiNode* FUN_00a5d680();
 };
 struct S_009baf50_Mgr
 {
-    S_009baf50_Obj* FUN_00447080(unsigned int, int, int, int, int, int);
 };
-extern S_009baf50_Mgr* DAT_011c3b3c;
 struct S_009baf50_Vec
 {
     float x, y, z;
@@ -149,52 +179,15 @@ struct S_009baf50_Vec
 };
 struct S_009baf50_Node
 {
-    void FUN_00a5a040();
-    void FUN_00a59c60(const S_009baf50_Vec&);
 };
 struct S_009baf50_Ptr
 {
     NiNode* raw;
-    S_009baf50_Node* FUN_00559450();
 };
-extern float DAT_011c3c08;
 extern double DAT_01090008;
-void __cdecl FUN_0062bc10(S_009baf50_Node*);
-void __cdecl FUN_00a6d2d0(S_009baf50_Node*);
 struct S_009baf50_Self : FUN_009bacb0
 {
-    void* FUN_009baee0();
-    void UpdateMuzzleFlash(void*);
-    void UpdateLightFromChallenge();
 };
-
-// @fnv 0x009baf50
-void FUN_009bacb0::UpdateNodePosition(void* arg)
-{
-    S_009baf50_Item* item = (S_009baf50_Item*)static_cast<S_009baf50_Self*>(this)->FUN_009baee0();
-    if (item)
-    {
-        if (item->FUN_0048cee0())
-        {
-            S_009baf50_Obj* obj = DAT_011c3b3c->FUN_00447080(item->v5(), 0, 1, 0, 0, 0);
-            if (obj)
-            {
-                first = obj->FUN_00a5d680();
-            }
-        }
-    }
-    if (!((S_009baf50_Ptr*)&first)->FUN_00559450())
-        return;
-    FUN_0062bc10(((S_009baf50_Ptr*)&first)->FUN_00559450());
-    static_cast<S_009baf50_Self*>(this)->UpdateMuzzleFlash(arg);
-    static_cast<S_009baf50_Self*>(this)->UpdateLightFromChallenge();
-    FUN_00a6d2d0(((S_009baf50_Ptr*)&first)->FUN_00559450());
-    ((S_009baf50_Ptr*)&first)->FUN_00559450()->FUN_00a5a040();
-    S_009baf50_Vec pos((float)(DAT_011c3c08 - DAT_01090008), 1, 0);
-    ((S_009baf50_Ptr*)&first)->FUN_00559450()->FUN_00a59c60(pos);
-    pos.x = DAT_011c3c08;
-    ((S_009baf50_Ptr*)&first)->FUN_00559450()->FUN_00a59c60(pos);
-}
 
 struct S_009bb080_Sub
 {
@@ -317,27 +310,17 @@ struct S_009bb080_Node
     virtual void vfn4();
     virtual void vfn8();
     virtual void* FUN_vfnc();
-    void FUN_00450f90(bool);
 };
 struct S_009bb080_Ptr
 {
     S_009bb080_Node* node;
-    S_009bb080_Node* FUN_00559450();
 };
 struct S_009bb080_Global
 {
-    int FUN_0044ddc0();
 };
 struct S_009bb080_Path
 {
-    float FUN_00507e10();
 };
-extern S_009bb080_Global DAT_011f2250;
-extern double DAT_01012060;
-extern float DAT_0101e2bc;
-float FUN_00716440();
-void __cdecl FUN_00578060(void*);
-void __cdecl FUN_00578170(void*);
 struct S_009bb080
 {
     unsigned char unk0, unk1, unk2, unk3;
@@ -345,73 +328,28 @@ struct S_009bb080
     S_009bb080_Ptr unkc;
     int unk10;
     S_009bb080_Path* unk14;
-    void UpdateMuzzleFlash(S_009bb080_Base0*);
-    void UpdateLightVisibility();
     void FUN_009bb080(float dt, S_009bb080_Base0* proj);
 };
-// @fnv 0x009bb080
-void S_009bb080::FUN_009bb080(float afDeltaTime, S_009bb080_Base0* proj)
-{
-    S_009bb080_Base0* q;
-    if (!unkc.FUN_00559450())
-        return;
-    UpdateMuzzleFlash(proj);
-    unkc.FUN_00559450()->FUN_00450f90(unk0 == 0);
-    if (unk0 && !unk1)
-    {
-        FUN_00578060(unkc.FUN_00559450()->FUN_vfnc());
-        unk1 = 1;
-    }
-    if (!unk0 && unk1)
-    {
-        FUN_00578170(unkc.FUN_00559450()->FUN_vfnc());
-        unk1 = 0;
-    }
-    if (unk2)
-        UpdateLightVisibility();
-    if (DAT_011f2250.FUN_0044ddc0() == 4 && FUN_00716440() > DAT_01012060)
-    {
-        afDeltaTime = afDeltaTime / FUN_00716440();
-    }
-    else if (proj->FUN_vfn100())
-    {
-        q = proj;
-        if (q->sub.FUN_vfn8(0x33) > 0)
-            afDeltaTime = afDeltaTime / FUN_00716440();
-    }
-    unk4 = unk4 - afDeltaTime;
-    if (unk0)
-    {
-        unk8 = unk8 - afDeltaTime;
-        if (unk8 <= DAT_01012060)
-        {
-            unk8 = unk14->FUN_00507e10();
-            unk4 = DAT_0101e2bc;
-            unk0 = 0;
-            unk2 = 1;
-        }
-    }
-}
-
 struct NiPoint3
 {
     float x, y, z;
-    NiPoint3 FUN_004a0bd0();
-    NiPoint3& FUN_00439180(float);
 };
 struct ThreeByThreeMatrix
 {
     float m[9];
+public:
+    ::ThreeByThreeMatrix Transpose();
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_rot;
     NiPoint3 m_trans;
     float m_vScale;
     NiTransform();
-    ThreeByThreeMatrix FUN_004768c0();
     NiPoint3 FUN_004b4500(NiPoint3*);
-    NiTransform FUN_0062c250(NiTransform*);
+public:
+    ::NiTransform operator*(const ::NiTransform &) const;
 };
 struct NiUpdateData
 {
@@ -423,7 +361,6 @@ struct NiUpdateData
 };
 struct AnimCls
 {
-    float FUN_00453700();
 };
 struct FUN_009611e0_shell
 {
@@ -431,7 +368,6 @@ struct FUN_009611e0_shell
 };
 struct ObjCls
 {
-    NiTransform* FUN_00461130();
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -491,11 +427,9 @@ struct ObjCls
 };
 struct NodeCls
 {
-    NiTransform* FUN_00461130();
 };
 struct ParamCls
 {
-    void* FUN_008d6f30();
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -631,9 +565,6 @@ struct ParamCls
 };
 struct PlayerCls
 {
-    bool FUN_00524d10();
-    void* FUN_00950bb0(bool);
-    AnimCls* FUN_00950a60(bool);
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -757,12 +688,9 @@ struct PlayerCls
     virtual void v120();
     virtual void* v121();
 };
-struct NiAVObject
+class NiAVObject
 {
-    void FUN_00440460(NiPoint3*);
-    void FUN_0043fa80(NiTransform*);
-    void FUN_00440490(float);
-    void FUN_00a59c60(NiUpdateData&);
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -770,25 +698,16 @@ struct NiAVObject
 };
 struct NiPtrC
 {
-    NiAVObject* FUN_00559450();
 };
 struct NodeSrc
 {
-    NodeCls* FUN_00525700(void*);
 };
 struct HolderCls
 {
-    ObjCls* FUN_005497a0();
 };
 struct TaskQ
 {
-    void QueueTaskWithTwoObjects(NiAVObject*, ObjCls*, int, int);
 };
-bool FUN_008c7aa0();
-TaskQ* FUN_004537b0();
-void FUN_00b6bb30(void*, float);
-void FUN_005b5e40(const char*);
-extern PlayerCls* DAT_011dea3c;
 extern unsigned char DAT_011a59bc;
 struct ThisCls
 {
@@ -796,98 +715,11 @@ struct ThisCls
     int m_04;
     int m_08;
     NiPtrC m_0c;
+    void* m_10;
+    void* m_14;
+    void* m_18;
     void UpdateMuzzleFlash(ParamCls*);
 };
-// @fnv 0x009bb240
-void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
-{
-    if (!(m_0c.FUN_00559450() && apParam && apParam->FUN_008d6f30() && apParam->v116()))
-        return;
-    NodeCls* node2 =
-        apParam->v64()
-            ? (NodeCls*)apParam->v131()
-            : (((FUN_009611e0_shell*)this)->FUN_009611e0()
-                   ? (NodeCls*)((NodeSrc*)((FUN_009611e0_shell*)this)->FUN_009611e0())->FUN_00525700(apParam->v116())
-                   : (NodeCls*)0);
-    bool _flag = false;
-    float fResultTmp = 0.0f;
-    if (node2)
-    {
-        NiTransform A_2;
-        ObjCls* target2;
-        if (apParam == (ParamCls*)DAT_011dea3c)
-        {
-            if (!DAT_011dea3c->FUN_00524d10())
-            {
-                target2 = (ObjCls*)DAT_011dea3c->FUN_00950bb0(true);
-            }
-            else
-            {
-                target2 = (ObjCls*)DAT_011dea3c->v116();
-            }
-            NiTransform B;
-            if (target2)
-            {
-                B.m_rot = target2->FUN_00461130()->FUN_004768c0();
-                B.m_vScale = 1.0f / target2->FUN_00461130()->m_vScale;
-                B.m_trans = target2->FUN_00461130()->m_trans.FUN_004a0bd0();
-                B.m_trans = B.FUN_004b4500(&B.m_trans);
-                B.m_trans.FUN_00439180(B.m_vScale);
-            }
-            A_2 = B.FUN_0062c250(node2->FUN_00461130());
-            _flag = true;
-            if (!DAT_011dea3c->FUN_00524d10())
-            {
-                fResultTmp = DAT_011dea3c->FUN_00950a60(true) ? DAT_011dea3c->FUN_00950a60(true)->FUN_00453700() : 0.0f;
-            }
-            else
-            {
-                fResultTmp = DAT_011dea3c->v121() ? ((AnimCls*)DAT_011dea3c->v121())->FUN_00453700() : 0.0f;
-            }
-        }
-        else
-        {
-            A_2 = *node2->FUN_00461130();
-            HolderCls* holder6 = (HolderCls*)apParam->FUN_008d6f30();
-            target2 = holder6->FUN_005497a0();
-        }
-        if (target2)
-        {
-            if (target2 != (void*)((FUN_009611e0_shell*)m_0c.FUN_00559450())->FUN_009611e0())
-            {
-                if (!FUN_008c7aa0())
-                {
-                    target2->v55(m_0c.FUN_00559450(), 1);
-                }
-                else
-                {
-                    FUN_004537b0()->QueueTaskWithTwoObjects(m_0c.FUN_00559450(), target2, 1, 0);
-                }
-                FUN_00b6bb30(m_0c.FUN_00559450()->v3(), 1.0f);
-            }
-        }
-        m_0c.FUN_00559450()->FUN_00440460(&A_2.m_trans);
-        m_0c.FUN_00559450()->FUN_0043fa80(&A_2);
-        m_0c.FUN_00559450()->FUN_00440490(A_2.m_vScale);
-        if (_flag)
-        {
-            if (!FUN_008c7aa0())
-            {
-                NiUpdateData aUpd(fResultTmp, false, false);
-                m_0c.FUN_00559450()->FUN_00a59c60(aUpd);
-            }
-            else
-            {
-                if (DAT_011a59bc)
-                {
-                    FUN_005b5e40("Trying to update a Muzzle Flash when not in the main thread");
-                    DAT_011a59bc = 0;
-                }
-            }
-        }
-    }
-}
-
 struct SpawnedItem;
 struct ProjTarget
 {
@@ -956,7 +788,6 @@ struct ProjTarget
     virtual void v0f8();
     virtual void v0fc();
     virtual bool v100();
-    SpawnedItem* FUN_008d8520();
 };
 struct SpawnedItem
 {
@@ -1397,17 +1228,13 @@ struct SpawnedItem
 };
 struct FUN_00825c00_cls
 {
-    void* FUN_00825c00();
 };
 struct FUN_009611e0_cls
 {
-    unsigned int FUN_009611e0();
 };
 struct FUN_00978740_cls
 {
-    void ActivateMuzzleFlash(Projectile* p, ProjTarget* q);
 };
-extern FUN_00978740_cls DAT_011e0e80;
 
 // @fnv 0x009bb6d0
 void __cdecl FUN_009bb6d0(ProjTarget* pTarget, Projectile* pProjectile)
@@ -1418,12 +1245,12 @@ void __cdecl FUN_009bb6d0(ProjTarget* pTarget, Projectile* pProjectile)
         {
             SpawnedItem* item;
             ProjTarget* node = pTarget;
-            item = node->FUN_008d8520();
+            item = ((::SpawnedItem *)(reinterpret_cast<::BSShaderNoLightingProperty *>((node))->GetBaseTexture()));
             if (item != 0)
             {
                 if (!(item->v6b8() != 0 &&
-                      ((FUN_00825c00_cls*)item->v6b8())->FUN_00825c00() == pProjectile->FUN_004181e0() &&
-                      ((FUN_009611e0_cls*)item->v6b8())->FUN_009611e0() == pProjectile->FUN_00476c90()))
+                      reinterpret_cast<::ThisCls*>(item->v6b8())->m_14 == ((::ProjectileData *)(reinterpret_cast<::Actor *>((pProjectile))->GetActorBase())) &&
+                      ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((FUN_009611e0_cls*)item->v6b8())))->FUN_009611e0())) == reinterpret_cast<::FUN_00476c90_Class *>((pProjectile))->FUN_00476c90()))
                 {
                     item->v6c4();
                     item->v6b4(pProjectile, pTarget);
@@ -1434,26 +1261,183 @@ void __cdecl FUN_009bb6d0(ProjTarget* pTarget, Projectile* pProjectile)
         }
         else
         {
-            DAT_011e0e80.ActivateMuzzleFlash(pProjectile, pTarget);
+            reinterpret_cast<::FUN_00978740_shell *>(&((*reinterpret_cast<::FUN_00978740_cls *>(&::g_011e0e80))))->ActivateMuzzleFlash((::MuzzleOwnerRef *)(pProjectile), (::MuzzleProjectileRef *)(pTarget));
         }
     }
 }
 
 struct TaskQueueInterface
 {
-    static TaskQueueInterface* __cdecl GetInstance();
-    void FUN_0087ac60(unsigned int);
+public:
+    void QueueActorDisarm(bool);
+public:
+    static ::TaskQueueInterface *GetSingleton();
 };
+// @fnv 0x009bb080
+void S_009bb080::FUN_009bb080(float afDeltaTime, S_009bb080_Base0* proj)
+{
+    S_009bb080_Base0* q;
+    if (!((::S_009bb080_Node *)(::FUN_00559450((int *)&(unkc)))))
+        return;
+    reinterpret_cast<::ThisCls *>(this)->UpdateMuzzleFlash((::ParamCls *)(proj));
+    reinterpret_cast<::TaskQueueInterface *>((((::S_009bb080_Node *)(::FUN_00559450((int *)&(unkc))))))->QueueActorDisarm(unk0 == 0);
+    if (unk0 && !unk1)
+    {
+        ::FUN_00578060((::NodeView *)(void *)(((::S_009bb080_Node *)(::FUN_00559450((int *)&(unkc))))->FUN_vfnc()));
+        unk1 = 1;
+    }
+    if (!unk0 && unk1)
+    {
+        ::fnv_00578170::FUN_00578170((::NiNode *)(void *)(((::S_009bb080_Node *)(::FUN_00559450((int *)&(unkc))))->FUN_vfnc()));
+        unk1 = 0;
+    }
+    if (unk2)
+        reinterpret_cast<::FUN_009bb8a0_Class *>(this)->UpdateLightVisibility();
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && FUN_00716440() > ::_DAT_01012060)
+    {
+        afDeltaTime = afDeltaTime / FUN_00716440();
+    }
+    else if (proj->FUN_vfn100())
+    {
+        q = proj;
+        if (q->sub.FUN_vfn8(0x33) > 0)
+            afDeltaTime = afDeltaTime / FUN_00716440();
+    }
+    unk4 = unk4 - afDeltaTime;
+    if (unk0)
+    {
+        unk8 = unk8 - afDeltaTime;
+        if (unk8 <= ::_DAT_01012060)
+        {
+            unk8 = reinterpret_cast<::FUN_00507e10_shell *>((unk14))->FUN_00507e10();
+            unk4 = DAT_0101e2bc;
+            unk0 = 0;
+            unk2 = 1;
+        }
+    }
+}
+// @fnv 0x009baf50
+void FUN_009bacb0::UpdateNodePosition(void* arg)
+{
+    S_009baf50_Item* item = (S_009baf50_Item*)reinterpret_cast<::FUN_009baee0_owner *>((static_cast<S_009baf50_Self*>(this)))->FUN_009baee0();
+    if (item)
+    {
+        if (item->FUN_0048cee0())
+        {
+            S_009baf50_Obj* obj = ((::S_009baf50_Obj *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::S_009baf50_Mgr * *>(&::g_modelLoader))))->FUN_00447080((char *)(item->v5()), 0, 1, 0, 0, 0)));
+            if (obj)
+            {
+                first = ((::NiNode *)(reinterpret_cast<::CloneSourceA5d6 *>((obj))->FUN_00a5d680()));
+            }
+        }
+    }
+    if (!((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first))))))
+        return;
+    ::FUN_0062bc10((::FUN_0062bc10_obj *)(::S_009baf50_Node *)(((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))));
+    reinterpret_cast<::ThisCls *>((static_cast<S_009baf50_Self*>(this)))->UpdateMuzzleFlash((::ParamCls *)(arg));
+    reinterpret_cast<::fnv_009bb7f0::FUN_009bb7f0_shell *>((static_cast<S_009baf50_Self*>(this)))->UpdateLightFromChallenge();
+    ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(::S_009baf50_Node *)(((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))));
+    reinterpret_cast<::FUN_00a5a040_Class *>((((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))))->FUN_00a5a040();
+    S_009baf50_Vec pos((float)(::fnv_00563f30::DAT_011c3c08 - DAT_01090008), 1, 0);
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))))->FUN_00a59c60((std::intptr_t)&(pos));
+    pos.x = ::fnv_00563f30::DAT_011c3c08;
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))))->FUN_00a59c60((std::intptr_t)&(pos));
+}
+// @fnv 0x009bb240
+void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
+{
+    if (!(((::NiAVObject *)(::FUN_00559450((int *)&(m_0c)))) && apParam && ((void *)(reinterpret_cast<::LowProcess *>((apParam))->GetTarget())) && apParam->v116()))
+        return;
+    NodeCls* node2 =
+        apParam->v64()
+            ? (NodeCls*)apParam->v131()
+            : (m_18
+                   ? (NodeCls*)((::NodeCls *)(reinterpret_cast<::UnkClass25700 *>(((NodeSrc*)m_18))->FUN_00525700((::NiAVObject *)(void *)(apParam->v116()))))
+                   : (NodeCls*)0);
+    bool _flag = false;
+    float fResultTmp = 0.0f;
+    if (node2)
+    {
+        NiTransform A_2;
+        ObjCls* target2;
+        if (apParam == (ParamCls*)(*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer)))
+        {
+            if (!::FUN_00524d10((bool *)((*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer)))))
+            {
+                target2 = (ObjCls*)((void *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer))))->FUN_00950bb0(true)));
+            }
+            else
+            {
+                target2 = (ObjCls*)(*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer))->v116();
+            }
+            NiTransform B;
+            if (target2)
+            {
+                B.m_rot = reinterpret_cast<::ThreeByThreeMatrix *>((((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))))->Transpose();
+                B.m_vScale = 1.0f / ((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))->m_vScale;
+                B.m_trans = (*(::NiPoint3 *)(reinterpret_cast<::P3 *>(&(((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))->m_trans))->FUN_004a0bd0({})));
+                B.m_trans = B.FUN_004b4500(&B.m_trans);
+                reinterpret_cast<::MyPoint439180 *>(&(B.m_trans))->FUN_00439180(B.m_vScale);
+            }
+            A_2 = reinterpret_cast<::NiTransform *>(&(B))->operator*((*(const ::NiTransform *)(((::NiTransform *)(::FUN_00461130((intptr_t)(node2)))))));
+            _flag = true;
+            if (!::FUN_00524d10((bool *)((*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer)))))
+            {
+                fResultTmp = ((::AnimCls *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer))))->GetAnimation(true))) ? reinterpret_cast<::FUN_00453700_shell *>((((::AnimCls *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer))))->GetAnimation(true)))))->FUN_00453700() : 0.0f;
+            }
+            else
+            {
+                fResultTmp = (*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer))->v121() ? reinterpret_cast<::FUN_00453700_shell *>((((AnimCls*)(*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer))->v121())))->FUN_00453700() : 0.0f;
+            }
+        }
+        else
+        {
+            A_2 = *((::NiTransform *)(::FUN_00461130((intptr_t)(node2))));
+            HolderCls* holder6 = (HolderCls*)((void *)(reinterpret_cast<::LowProcess *>((apParam))->GetTarget()));
+            target2 = ((::ObjCls *)(reinterpret_cast<::TESObjectCELL *>((holder6))->GetDynamicNode()));
+        }
+        if (target2)
+        {
+            if (target2 != (void*)reinterpret_cast<NiAVObjectFields*>(::FUN_00559450((int *)&(m_0c)))->m_pkParent)
+            {
+                if (!FUN_008c7aa0())
+                {
+                    target2->v55(((::NiAVObject *)(::FUN_00559450((int *)&(m_0c)))), 1);
+                }
+                else
+                {
+                    reinterpret_cast<::fnv_0087ac00::Owner0087ac00 *>((((::TaskQ *)(::TaskQueueInterface::GetSingleton()))))->QueueTaskWithTwoObjects((::fnv_0087ac00::G00559a40 *)(::NiAVObject *)(((::NiAVObject *)(::FUN_00559450((int *)&(m_0c))))), (::fnv_0087ac00::G00559a40 *)(target2), 1, 0);
+                }
+                ::BSShaderRenderUtility::SetAlphaOnNode((::NiNode *)(void *)(((::NiAVObject *)(::FUN_00559450((int *)&(m_0c))))->v3()), 1.0f);
+            }
+        }
+        reinterpret_cast<::FUN_00440460_S *>((((::NiAVObject *)(::FUN_00559450((int *)&(m_0c))))))->FUN_00440460((const ::V3 *)(::NiPoint3 *)(&A_2.m_trans));
+        reinterpret_cast<::FUN_0043fa80_s *>((((::NiAVObject *)(::FUN_00559450((int *)&(m_0c))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&A_2)));
+        reinterpret_cast<::FUN_00440490_shell *>((((::NiAVObject *)(::FUN_00559450((int *)&(m_0c))))))->FUN_00440490(A_2.m_vScale);
+        if (_flag)
+        {
+            if (!FUN_008c7aa0())
+            {
+                NiUpdateData aUpd(fResultTmp, false, false);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::NiAVObject *)(::FUN_00559450((int *)&(m_0c))))))->FUN_00a59c60((std::intptr_t)&(aUpd));
+            }
+            else
+            {
+                if (DAT_011a59bc)
+                {
+                    ::FUN_005b5e40();
+                    DAT_011a59bc = 0;
+                }
+            }
+        }
+    }
+}
 struct ModelLoader
 {
-    void FUN_0045a5e0(const char*);
 };
 struct Loader_S;
-extern Loader_S* g_modelLoader;
-bool __cdecl IsConditionMet();
 struct Calendar
 {
-    unsigned int GetDaysPassed();
 };
 struct Flt
 {
@@ -1465,8 +1449,9 @@ struct GO
     ~GO();
     void operator=(void*);
 };
-struct TESModel
+class TESModel
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1535,7 +1520,7 @@ struct NodeX
     virtual void w55();
     virtual void w56();
     virtual void w57();
-    virtual void Release3D(unsigned int);
+    virtual void Release3D(void*);
 };
 
 struct FUN_009badc0
@@ -1549,8 +1534,16 @@ struct FUN_009badc0
     GO m_pController;
     GO spOther;
     ~FUN_009badc0();
-    void FUN_009bb850();
 };
+// Calls FUN_009badc0, then if flags has bit 1 set calls Deallocate on this, and returns this.
+// @fnv 0x008d9f70
+void* FUN_009badc0_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009badc0 *>(this)->FUN_009badc0::~FUN_009badc0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // For nonzero model length, passes its path to the loader; conditionally calls Release3D or FUN_0087ac60, then clears m_pController.
 // @fnv 0x009badc0
@@ -1558,15 +1551,17 @@ FUN_009badc0::~FUN_009badc0()
 {
     TESModel* m_kModelObjectsItem = (TESModel*)((FUN_009baee0_owner*)this)->FUN_009baee0();
     if (m_kModelObjectsItem->GetModelLength())
-        ((ModelLoader*)g_modelLoader)->FUN_0045a5e0(m_kModelObjectsItem->GetModelFilePath());
-    if (*(Flt*)&m_pController && ((Calendar*)(unsigned int)*(Flt*)&m_pController)->GetDaysPassed())
+        reinterpret_cast<::FUN_0045a5e0_shell *>((((ModelLoader*)(*reinterpret_cast<::Loader_S * *>(&::g_modelLoader)))))->FUN_0045a5e0((char *)(m_kModelObjectsItem->GetModelFilePath()));
+    if (m_pController.p && ((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)m_pController.p)))->FUN_009611e0())))
     {
-        if (!IsConditionMet())
-            ((NodeX*)((Calendar*)(unsigned int)*(Flt*)&m_pController)->GetDaysPassed())
-                ->Release3D(*(Flt*)&m_pController);
+        if (!::FUN_008c7aa0())
+            ((NodeX*)((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)m_pController.p)))->FUN_009611e0())))
+                ->Release3D(m_pController.p);
         else
-            TaskQueueInterface::GetInstance()->FUN_0087ac60(*(Flt*)&m_pController);
+            reinterpret_cast<::fnv_0087ac60::FUN_0087AC60_Holder *>((::TaskQueueInterface::GetSingleton()))->FUN_0087ac60((::fnv_0087ac60::G00559a40 *)(m_pController.p));
     }
     m_pController = 0;
-    FUN_009bb850();
+    reinterpret_cast<::ShadowNode *>(this)->FUN_009bb850();
 }
+
+#include "generated/data/fallout/ai/combat/muzzleflash.inc"

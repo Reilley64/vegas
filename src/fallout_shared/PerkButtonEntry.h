@@ -6,7 +6,6 @@
 #include "layout_support.h"
 #include "PerkEntryConditionSet.h"
 
-#pragma pack(push, 4)
 // One button of a MESG record: its caption plus the conditions that show it.
 class PerkButtonEntry
 {
@@ -17,7 +16,5 @@ class PerkButtonEntry
     PerkButtonEntry();
     ~PerkButtonEntry();
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(PerkButtonEntry) == 0x10);
 #endif

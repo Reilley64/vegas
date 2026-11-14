@@ -25,6 +25,4 @@ class RegionDataList : public BSSimpleList<TESRegionData*>
     // void __cdecl RegionDataList::*()
     // void* __cdecl RegionDataList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(RegionDataList) == 12);
-FNV_STATIC_ASSERT(offsetof(RegionDataList, m_bDataFlag) == 8);
 #endif

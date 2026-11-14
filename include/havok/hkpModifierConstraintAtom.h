@@ -5,8 +5,7 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
-class hkpModifierConstraintAtom : public hkpConstraintAtom
+struct hkpModifierConstraintAtom : public hkpConstraintAtom
 {
   public:
     char pad2[0xE];
@@ -15,6 +14,4 @@ class hkpModifierConstraintAtom : public hkpConstraintAtom
     hkpConstraintAtom* m_pChildAtom;  // +0x14
     hkUint32 m_auiShapeKeys[2];                // +0x18
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpModifierConstraintAtom[(sizeof(hkpModifierConstraintAtom) == 0x20) ? 1 : -1];
 #endif

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKGEOMETRYTRIANGLE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkGeometryTriangle
 {
   public:
@@ -13,6 +12,4 @@ class hkGeometryTriangle
     hkInt32 m_iThirdValue;               // +0x8
     hkInt32 m_iMaterialIndex;  // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkGeometryTriangle[(sizeof(hkGeometryTriangle) == 0x10) ? 1 : -1];
 #endif

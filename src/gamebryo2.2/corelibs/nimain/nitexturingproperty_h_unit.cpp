@@ -1,14 +1,18 @@
 // gamebryo2.2/corelibs/nimain/nitexturingproperty_h_unit.cpp: NiTexturingProperty, AudioLoadTask (1 function)
 
-struct NiTexture;
+#include "fnv/decl/S_0060af60.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+class NiTexture;
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
 };
 
-template <class T> struct NiTArray
+template <class T> class NiTArray
 {
+  public:
     T& GetAt(unsigned int index) const;
     void SetAt(unsigned int index, const T& value);
 };
@@ -39,8 +43,9 @@ class NiTexturingProperty
     void SetBaseMapClampMode(ClampMode mode);
 };
 
-struct NiTexture
+class NiTexture
 {
+  public:
     virtual void UnkVirtual();
 
     int unk04;
@@ -51,7 +56,6 @@ struct NiTexture
     typedef NiTexturingProperty::ClampMode ClampMode;
 
     NiTexture();
-    void SetFilterMode(FilterMode mode);
     void SetClampMode(ClampMode mode);
 };
 
@@ -63,10 +67,10 @@ void NiTexturingProperty::SetBaseMapFilterMode(FilterMode mode)
     if (baseTexture.m_pObject == 0)
     {
         baseTexture.m_pObject = new NiTexture;
-        m_kTextureSwapList.SetAt(0, baseTexture);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kTextureSwapList))->SetAt(0, (char *&)(baseTexture));
     }
 
-    baseTexture.m_pObject->SetFilterMode(mode);
+    reinterpret_cast<::S_0060af60 *>((baseTexture.m_pObject))->FUN_0060af60((*(unsigned short *)&(mode)));
 }
 
 void NiTexturingProperty::SetBaseMapClampMode(ClampMode mode)
@@ -77,7 +81,7 @@ void NiTexturingProperty::SetBaseMapClampMode(ClampMode mode)
     if (baseTexture.m_pObject == 0)
     {
         baseTexture.m_pObject = new NiTexture;
-        m_kTextureSwapList.SetAt(0, baseTexture);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kTextureSwapList))->SetAt(0, (char *&)(baseTexture));
     }
 
     baseTexture.m_pObject->SetClampMode(mode);

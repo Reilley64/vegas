@@ -1,2 +1,24 @@
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "tesenchantableform.h"
+
+// @fnv 0x004be330
+EnchantmentItem* TESEnchantableForm::FindFormEnchantment(TESForm* form)
+{
+    TESEnchantableForm* enchantable = dynamic_cast<TESEnchantableForm*>(form);
+    return enchantable ? (EnchantmentItem*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)enchantable)))->FUN_00726070())) : 0;
+}

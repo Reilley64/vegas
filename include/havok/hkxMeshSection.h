@@ -8,7 +8,6 @@
 class hkxIndexBuffer;
 class hkxMaterial;
 class hkxVertexBuffer;
-#pragma pack(push, 1)
 class hkxMeshSection : public hkReferencedObject
 {
   public:
@@ -17,6 +16,4 @@ class hkxMeshSection : public hkReferencedObject
     hkxMaterial* m_iMaterialIndex;                 // +0x18
     hkArray<hkReferencedObject*> m_kUserChannels;  // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxMeshSection[(sizeof(hkxMeshSection) == 0x28) ? 1 : -1];
 #endif

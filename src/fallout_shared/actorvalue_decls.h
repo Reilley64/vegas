@@ -1,15 +1,44 @@
-// fallout_shared/actorvalue_decls.h: declares TESFile, TESFullNameLoader, BaseFormComponent, TESForm, TESFullName and more
+// fallout_shared/actorvalue_decls.h: declares TESFile, TESFullNameLoader, TESFullName and more
 
+#include <malloc.h>
+#include "fnv/decl/Entry5890.h"
+#include "fnv/decl/FUN_00401290_Class.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00485c10_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Owner5610.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_005d1000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_008a0000.h"
+#include "fnv/symbols_008b9000.h"
+#include "fnv/symbols_008ba000.h"
+#include "fnv/symbols_008c5000.h"
+#include "fnv/symbols_008d5000.h"
+#include "fnv/symbols_011d6000.h"
 #ifndef FNV_ACTORVALUE_DECLS_H
 
 #include <stdarg.h>
 #define FNV_ACTORVALUE_DECLS_H
 #include <stddef.h>
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 class Actor;
 class EffectSetting;
 class TESForm;
@@ -20,37 +49,8 @@ class MediaSet;
 class MediaLocationController;
 class NiNode;
 class TESSound;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    void RemoveAll();
-    void RemoveHead();
-    void Remove(const T& item);
-    void AddTail(const T& item);
-    void AddHead(T& item);
-    void SetItem(const T& item);
-};
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    bool Set(const T* text, unsigned int length);
-    const T* String();
-    BSStringT<T>& operator=(const T*);
-};
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
-FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);
+#include "fnv/bs_simple_list.h"
+#include "fnv/bs_string.h"
 enum ENUM_FORM_ID
 {
     ENUM_FORM_ID_NO_FORM = 0,
@@ -180,21 +180,14 @@ enum ENUM_FORM_ID
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool IsEndianConversionRequired();
-    bool GetChunkData(void* apData, unsigned int auiSize);
-    bool GetChunkData(unsigned int* apData);
     bool NextChunk();
 };
 class TESFullName;
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName* apName, TESFile* apFile);
 };
-extern "C" void* __cdecl _alloca(size_t auiBytes);
 enum CHUNK_ID
 {
     CHUNK_ID_EDID_ID = 0x44494445,
@@ -217,119 +210,8 @@ enum CHUNK_ID
     CHUNK_ID_FNAM_ID = 0x4d414e46
 };
 
-// Source layout: BaseFormComponent. PC corrections are in generate_headers.py.
-class BaseFormComponent
-{
-  public:
-    virtual void Init();
-    virtual void Free();
-    virtual void CopyFromBase(BaseFormComponent* component);
-    virtual bool CompareWithBase(BaseFormComponent* component);
-};
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
-
-// Unit-local declaration extension; copied pack declarations remain otherwise unchanged.
-// Source layout: TESForm. PC corrections are in generate_headers.py.
-class TESForm : public BaseFormComponent
-{
-  public:
-    unsigned char m_ucFormType;             // +0x4
-    unsigned int m_uiFormFlags;             // +0x8
-    unsigned int iFormID;                   // +0xC
-    BSSimpleList<TESFile*> m_kSourceFiles;  // +0x10
-    virtual ~TESForm();
-    virtual void InitializeComponent();
-    virtual void ClearData();
-    virtual bool Unk_07(void);
-    virtual bool Load(TESFile* modInfo);
-    virtual bool Unk_09(void* arg);
-    virtual bool AppendForm(TESFile* modInfo);
-    virtual void SaveForm(void);
-    virtual bool LoadForm2(TESFile* modInfo);
-    virtual void WriteFormInfo(TESFile* modInfo);
-    virtual bool Unk_0E(void* arg);
-    virtual bool Sort(TESForm* form);
-    virtual TESForm* CreateForm(void* arg0, void* mapToAddTo);
-    virtual void Unk_11(void* arg);
-    virtual void MarkAsModified(unsigned int changedFlags);
-    virtual void MarkAsUnmodified(unsigned int changedFlags);
-    virtual unsigned int GetSaveSize(unsigned int changedFlags);
-    virtual void Unk_15(void* arg);
-    virtual void SaveGame(unsigned int changedFlags);
-    virtual void LoadGame(void* arg);
-    virtual void LoadGame2(unsigned int changedFlags);
-    virtual void Unk_19(void* arg);
-    virtual void Unk_1A();
-    virtual void Unk_1B(void* arg0, void* arg1);
-    virtual void Revert(unsigned int changedFlags);
-    virtual void Unk_1D(void* arg);
-    virtual void Unk_1E(void* arg);
-    virtual bool Unk_1F(void* arg);
-    virtual void Unk_20(void* arg);
-    virtual void Unk_21(void* arg);
-    virtual void InitItem(void);
-    virtual unsigned int GetTypeID(void);
-    virtual void GetDebugName(BSStringT<char>* dst);
-    virtual bool IsQuestItem(void);
-    virtual bool Unk_26(void);
-    virtual bool Unk_27(void);
-    virtual bool Unk_28(void);
-    virtual bool Unk_29(bool set);
-    virtual bool Unk_2A(bool set);
-    virtual bool Unk_2B(void);
-    virtual bool Unk_2C(void);
-    virtual bool Unk_2D(void);
-    virtual bool Unk_2E(void);
-    virtual void Unk_2F(bool set);
-    virtual bool Unk_30(void);
-    virtual void MarkForDeletion(bool set);
-    virtual void SetAltered(bool set);
-    virtual void SetQuestItem(bool set);
-    virtual void Unk_34(bool set);
-    virtual void Unk_35(bool set);
-    virtual void Unk_36(bool set);
-    virtual void Unk_37(void);
-    virtual void readOBNDSubRecord(TESFile* modInfo);
-    virtual bool IsActor_InEditor(void);
-    virtual bool IsBoundObject(void);
-    virtual bool Unk_3B(void);
-    virtual bool GetIsReference() const;
-    virtual bool Unk_3D(void);
-    virtual bool Unk_3E(void);
-    virtual bool IsMobileObject() const;
-    virtual bool IsActor();
-    virtual unsigned int Unk_41(void);
-    virtual void CopyFrom(const TESForm* form);
-    virtual bool Compare(TESForm* form);
-    virtual bool CheckFormGRUP(void* arg);
-    virtual void InitFormGRUP(void* dst, void* arg1);
-    virtual bool Unk_46(void);
-    virtual bool Unk_47(void);
-    virtual bool Unk_48(unsigned int formType);
-    virtual bool Unk_49(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
-    virtual void SetRefID(unsigned int refID, bool generateID);
-    virtual char* GetName2(void);
-    virtual char* GetName(void) const;
-    virtual bool SetEditorID_AtRuntime(const char* edid);
-    bool IsFormInitialized() const;
-    TESForm();
-    static TESForm* GetFormByID(unsigned int auiFormID);
-    TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
-    void NotifySaveLoadGameOfFormChange();
-    void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
-};
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
+#include "fnv/base_form_component.h"
+#include "fnv/tes_form.h"
 
 // Source layout: TESFullName. PC corrections are in generate_headers.py.
 class TESFullName : public BaseFormComponent
@@ -337,11 +219,8 @@ class TESFullName : public BaseFormComponent
   public:
     TESFullName();
     ~TESFullName();
-    const char* GetFullName();
     BSStringT<char> m_kName;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 
 class ActorValueInfo;
 class ActorValueOwner;
@@ -465,7 +344,6 @@ enum Index
 }
 
 namespace ActorValue {
-ActorValueInfo* GetActorValueInfo(Index index);
 void LoadActorValueDefinitions();
 }
 typedef float (*ActorValueDeriveCallback)(ActorValueOwner*, ActorValue::Index);
@@ -479,39 +357,7 @@ extern bool DAT_011d6154;
 class Actor
 {
   public:
-    static void UpdateActorConditionValue(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-    static void UpdateMobilityConditionValue(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-    static void HandleActorValueUpdate(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-    static void HandleRadiationValueChange(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
 };
-void FUN_008ba140(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-void SetProcessFlagIfActive(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-void FUN_008b9ea0(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-float FUN_006439d0(ActorValueOwner*, ActorValue::Index);
-float FUN_00643a10(ActorValueOwner*, ActorValue::Index);
-float FUN_00643b10(ActorValueOwner*, ActorValue::Index);
-float FUN_00643a70(ActorValueOwner*, ActorValue::Index);
-void FUN_008b9db0(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-float FUN_00643670(ActorValueOwner*, ActorValue::Index);
-void UpdateActorValueFlag(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-float FUN_00643b50(ActorValueOwner*, ActorValue::Index);
-float FUN_008a0a90(ActorValueOwner*, ActorValue::Index);
-void FUN_008ba270(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-float FUN_00643e40(ActorValueOwner*, ActorValue::Index);
-void FUN_008ba2b0(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-float FUN_00643820(ActorValueOwner*, ActorValue::Index);
-float FUN_00643a50(ActorValueOwner*, ActorValue::Index);
-void FUN_008d53f0(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-float FUN_00643ed0(ActorValueOwner*, ActorValue::Index);
-float FUN_00643bd0(ActorValueOwner*, ActorValue::Index);
-void FUN_008b9ab0(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-void FUN_008b9b10(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-float FUN_008a0cd0(ActorValueOwner*, ActorValue::Index);
-void FUN_008b9cc0(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-void UpdateStageChange(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-void UpdateStageTransition(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-void OnSleepDeprivationStageChanged(ActorValueOwner*, ActorValue::Index, float, float, ActorValueOwner*);
-float FUN_008a0ad0(ActorValueOwner*, ActorValue::Index);
 
 class TESDescription : public BaseFormComponent
 {
@@ -548,18 +394,11 @@ class ActorValueInfo : public TESForm, public TESFullName, public TESDescription
     const char* m_apEnumeratedNames[10];
     ActorValueInfo(int, const char*);
     static unsigned int GetActorValueFormID(ActorValue::Index);
-    void SetFormID(unsigned int, bool);
-    void SetScriptName(const char*);
     virtual bool Load(TESFile* file);
     void SetEnumerated(int count, ...);
 };
-FNV_STATIC_ASSERT(offsetof(ActorValueInfo, m_pName) == 0x38);
-FNV_STATIC_ASSERT(offsetof(ActorValueInfo, m_pDerivedValueFunction) == 0x4c);
 
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
 namespace ActorValue {
-bool GetFlag(Index, unsigned int);
 float ClampValue(Index, float);
 }
 
@@ -594,27 +433,19 @@ class ActorValueOwner
     float GetActorValueFloatByIndex(ActorValue::Index);
     int GetActorValueAsInteger(ActorValue::Index);
 };
-float FUN_00406ce0(float);
 
 namespace ActorValue {
 bool IsDerivedAttribute(Index);
 bool IsAIAttribute(Index);
-bool IsSkill(Index);
 Section GetSection(Index);
 unsigned char ToArrayIndex(int, Index);
 }
-bool FUN_005d1260(ActorValue::Index);
-int MinInt(int, int);
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 class GlobalObject_0066ef90
 {
   public:
     ActorValueInfo* values[77];
     GlobalObject_0066ef90();
 };
-extern GlobalObject_0066ef90 g_011d61c8;
-void* __cdecl operator new(size_t) throw();
-void __cdecl operator delete(void*);
 enum ActorValue__Index
 {
     ActorValue__Index_None = -1

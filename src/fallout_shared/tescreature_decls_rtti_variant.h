@@ -7,7 +7,7 @@ namespace TESDataHandlerTypes {
 class TESFaction;
 }
 class BGSBodyPartData;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 class FormChangeMask
 {
@@ -17,7 +17,7 @@ class FormChangeMask
     operator bool() const;
 };
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int flag);
@@ -55,7 +55,7 @@ class BGSBodyPartData
 class TESCombatStyle;
 class BGSImpactDataSet;
 class BGSListForm;
-class CombatController;
+struct CombatController;
 
 extern "C" const float gCreatureFootWeight;
 extern "C" char gVtable_TESCreature;

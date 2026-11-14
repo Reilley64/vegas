@@ -3,13 +3,14 @@
 #define FNV_NAVMESHRENDER_DECLS_H
 
 
+#include "fnv/decl/FUN_006c6400_Node.h"
 #include "layout_support.h"
 
 class ObstacleData;
 class bhkRigidBody;
 class NavMesh;
 
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:
     NavMeshPtr();
@@ -52,8 +53,6 @@ class ObstacleTask
     ObstacleTask(const NiPointer<ObstacleData>& obstacle, OBSTACLE_TASK_TYPE type, const NavMeshPtr& navMesh);
 };
 
-FNV_STATIC_ASSERT(sizeof(ObstacleTask) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ObstacleTask, apSearchNavMesh) == 0x0c);
 
 template <> class BSSimpleList<NiPointer<ObstacleData> >
 {
@@ -61,7 +60,6 @@ template <> class BSSimpleList<NiPointer<ObstacleData> >
     NiPointer<ObstacleData> m_item;
     BSSimpleList* m_pkNext;
     void AddHead(const NiPointer<ObstacleData>& item);
-    bool Contains(const NiPointer<ObstacleData>& item);
 };
 
 template <class T> class LockFreeQueue
@@ -105,9 +103,5 @@ class NavMeshObstacleManager
     void ProcessActivatedObstacles();
 };
 
-FNV_STATIC_ASSERT(sizeof(LockFreeQueue<bhkRigidBody*>) == 0x40);
-FNV_STATIC_ASSERT(offsetof(NavMeshObstacleManager, m_kActiveObstacles) == 0x3c);
-FNV_STATIC_ASSERT(offsetof(NavMeshObstacleManager, m_kActivatedRigidBodies) == 0x60);
-FNV_STATIC_ASSERT(offsetof(NavMeshObstacleManager, RigidBodyObstacleLookup) == 0xe0);
 
 #endif

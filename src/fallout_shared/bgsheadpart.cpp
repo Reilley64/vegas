@@ -1,44 +1,56 @@
 // fallout_shared/bgsheadpart.cpp: BGSHeadPart, Deleter, HeadPartInit (13 functions)
 
-extern "C" void ref_004013e0();
-extern "C" void ref_0048aa80();
-extern "C" void ref_00624700();
+#include <new>
+#include <malloc.h>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00471d60_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_005e6c60_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/MessageHandler.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/TESModel.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkLiquidAction.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_004721d0__FUN_004721d0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/S00485110.h"
 extern "C" void ref_008256d0();
-extern "C" void ref_006815c0();
-extern "C" void ref_00484e60();
-extern "C" void ref_00485d50();
-extern "C" void ref_004839c0();
-extern "C" void ref_00ec43fb();
-extern "C" void ref_0084e3a0();
-extern "C" void ref_005b5e40();
-extern "C" void ref_00905330();
-extern "C" void ref_00726070();
 extern "C" void ref_0063f7b0();
 extern "C" void ref_00726c60();
-extern "C" void ref_00484ab0();
-extern "C" void ref_00472660();
 extern "C" void ref_00485110();
-extern "C" void ref_004726b0();
-extern "C" void ref_00401660();
-extern "C" void ref_00ec5ec0();
-extern "C" void ref_00472890();
-extern "C" void ref_00487050();
-extern "C" void ref_004892d0();
-extern "C" void ref_00403570();
 extern "C" void ref_0048a7b0();
-extern "C" void ref_004727f0();
 extern "C" void ref_005e7790();
-extern "C" void ref_004726f0();
-extern "C" void ref_00ec408c();
 extern "C" unsigned char data_011863b8[];
-extern "C" unsigned char data_01183028[];
 extern "C" unsigned char data_010465ec[];
-extern "C" unsigned char data_011c16bc[];
 
 enum ENUM_FORM_ID
 {
     kBGSHeadPart = 9
 };
+class TESFile;
 class TESFile;
 class TESForm
 {
@@ -46,10 +58,15 @@ class TESForm
     TESForm();
     virtual ~TESForm()
     {}
-    void SetFormType(ENUM_FORM_ID);
 
   private:
     unsigned char formData[20];
+public:
+    bool GetInitialized() const;
+public:
+    void SetInitializationState(bool);
+public:
+    ::TESFile *GetFile(int);
 };
 class TESFullName
 {
@@ -61,6 +78,7 @@ class TESFullName
   private:
     unsigned char nameData[8];
 };
+class TESForm;
 class TESModelTextureSwap
 {
   public:
@@ -70,6 +88,8 @@ class TESModelTextureSwap
 
   private:
     unsigned char modelData[28];
+public:
+    void InitItem(::TESForm *);
 };
 class BGSHeadPart;
 template <class T> class BSSimpleList
@@ -93,6 +113,8 @@ class BGSHeadPart : public TESForm, public TESFullName, public TESModelTextureSw
     unsigned char cFlags;
     unsigned char padding[3];
     BSSimpleList<BGSHeadPart*> m_kExtraParts;
+public:
+    void AddExtraPart(::BGSHeadPart *);
 };
 
 // @fnv 0x005e7440
@@ -104,7 +126,7 @@ void BGSHeadPart::ResetFormData()
 // @fnv 0x005e72c0
 BGSHeadPart::BGSHeadPart() : TESForm(), TESFullName(), TESModelTextureSwap(), m_kExtraParts()
 {
-    SetFormType(kBGSHeadPart);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(kBGSHeadPart)));
     ResetFormData();
 }
 
@@ -112,12 +134,13 @@ struct BSFile;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct TESBitArrayFile;
-struct TESObjectCELL;
+class TESObjectCELL;
 struct _FILETIME;
 struct _SYSTEMTIME;
 struct _WIN32_FIND_DATAA;
-struct TESFile
+class TESFile
 {
+  public:
     bool CreateTES(char*, char*, int);
     bool CreateTES(int);
     bool OpenTESFile(char*, char*, int, bool);
@@ -136,10 +159,8 @@ struct TESFile
     void SetFormCount(int);
     int GetFileLanguage();
     void SetFileLanguage(int);
-    float GetFileVersion();
     void SetFileVersion(float);
     bool IsValidFileVersion();
-    unsigned int GetFORMSize();
     char* GetPath();
     char* GetFilename();
     unsigned int GetFileSize();
@@ -180,18 +201,13 @@ struct TESFile
     void SetGroupMode(bool);
     void TESRewindChunk();
     bool NextForm(bool);
-    bool HasNextForm();
     void RewindForm();
-    int GetTESForm();
     unsigned int GetOffset();
     unsigned int GetOffsetChunk();
-    bool SetOffset(unsigned int);
     bool SetOffsetChunk(unsigned int);
     int GetFormAtOffset(unsigned int);
     unsigned int CopyCurrentFormToBuffer(void*, unsigned int);
-    int ReadCurrentForm();
     bool NextChunk();
-    unsigned int GetChunkSize();
     bool GetChunkData(unsigned short*);
     bool GetChunkData(short*);
     bool GetChunkData(float*);
@@ -215,7 +231,6 @@ struct TESFile
     void SetAltered(bool);
     bool GetAltered();
     void SetActive(bool);
-    bool GetActive();
     void SetLittleEndian(bool);
     bool GetLittleEndian();
     bool QEndian();
@@ -235,14 +250,12 @@ struct TESFile
     int GetLastFileError();
     FormRecordHeader* GetFormData();
     unsigned int GetID();
-    unsigned short GetFormVersion();
     bool TakeOwnership();
     static bool TakeFileOwnership(char*);
     static unsigned short GetFileFormVersion();
     void SetCached(bool);
     void SetCaching(bool);
     void ResetWithCachedFile();
-    bool GetCached();
     bool GetCaching();
     unsigned int GetMasterCount();
     unsigned int GetFlags();
@@ -320,13 +333,10 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_005e7530_shell : public BGSHeadPart
 {
     bool FUN_005e7530(TESFile*);
 };
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct TESForm_vtable_helper : public BGSHeadPart
 {
@@ -483,19 +493,19 @@ struct TESForm_vtable_helper : public BGSHeadPart
 // @fnv 0x005e7530
 bool FUN_005e7530_shell::FUN_005e7530(TESFile* apFile)
 {
-    if (apFile->GetTESForm() != 9)
+    if (reinterpret_cast<::FUN_00472660_shell *>((apFile))->FUN_00472660() != 9)
         return false;
 
-    ((void(__thiscall*)(TESForm*, TESFile*))ref_00485110)(this, apFile);
+    ((void(*)(TESForm*, TESFile*))ref_00485110)(this, apFile);
 
     int chunkid;
-    while ((chunkid = apFile->ReadCurrentForm()) != 0)
+    while ((chunkid = reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0()) != 0)
     {
         switch (chunkid)
         {
         case 0x44494445: {
-            char* pMessage = (char*)_alloca(apFile->GetChunkSize());
-            apFile->GetChunkData(pMessage, 0x200);
+            char* pMessage = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pMessage), 0x200);
             ((TESForm_vtable_helper*)this)->v75(pMessage);
             break;
         }
@@ -503,29 +513,29 @@ bool FUN_005e7530_shell::FUN_005e7530(TESFile* apFile)
             ((TESForm_vtable_helper*)this)->v54(apFile);
             break;
         case 0x4C4C5546:
-            ((void(__cdecl*)(TESFullName*, TESFile*))ref_00487050)(this, apFile);
+            ((void(__cdecl*)(TESFullName*, TESFile*))((void (&)())::ReadFullName))(this, apFile);
             break;
         case 0x4C444F4D:
         case 0x44444F4D:
         case 0x44534F4D:
         case 0x54444F4D:
-            ((void(__cdecl*)(TESModelTextureSwap*, TESFile*))ref_004892d0)(this, apFile);
+            ((void(__cdecl*)(TESModelTextureSwap*, TESFile*))((void (&)())::TESModel::LoadModelData))(this, apFile);
             break;
         case 0x53444F4D: {
-            unsigned int isize = apFile->GetChunkSize();
+            unsigned int isize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
             void* pdata = _alloca(isize);
-            apFile->GetChunkData(pdata, isize);
-            ((void(__thiscall*)(TESModelTextureSwap*, void*, unsigned int, unsigned int))ref_0048a7b0)(
-                (TESModelTextureSwap*)((char*)this + 0x24), pdata, isize, apFile->GetFormVersion());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pdata), isize);
+            ((void(*)(TESModelTextureSwap*, void*, unsigned int, unsigned int))ref_0048a7b0)(
+                static_cast<TESModelTextureSwap *>(this), pdata, isize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((apFile))->FUN_00403570());
             break;
         }
         case 0x41544144:
-            apFile->GetChunkData(&cFlags, 1);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&cFlags), 1);
             break;
         case 0x4D414E48: {
             unsigned int itempint = 0;
             apFile->GetChunkData(&itempint);
-            ((void(__thiscall*)(BGSHeadPart*, unsigned int))ref_005e7790)(this, itempint);
+            ((void(*)(BGSHeadPart*, unsigned int))ref_005e7790)(this, itempint);
             break;
         }
         }
@@ -550,62 +560,45 @@ void* FUN_00624700_shell::FUN_00624700()
 struct List_005e7480
 {
     bool FUN_008256d0();
-    BGSHeadPart*& FUN_006815c0();
-    List_005e7480* FUN_00726070();
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct S_0048a520
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
-void FUN_004858f0(unsigned int, unsigned char);
-void FUN_00485910(unsigned int, unsigned int);
 struct FUN_005e7480_t : public BGSHeadPart
 {
     void InitializeHeadPart();
-    void FUN_004855a0();
-    void FUN_00485680();
-    unsigned int FUN_0084e3a0();
-    List_005e7480* FUN_00624700();
 };
 // @fnv 0x005e7480
 void FUN_005e7480_t::InitializeHeadPart()
 {
     BSSimpleList<BGSHeadPart*>* pCurrentElementNext;
-    FUN_004855a0();
-    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)->FUN_00487010();
-    reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x24)
-        ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     FUN_004858f0(0x41544144, cFlags);
-    pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(FUN_00624700());
+    pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::List_005e7480 *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700())));
     while (pCurrentElementNext && !reinterpret_cast<List_005e7480*>(pCurrentElementNext)->FUN_008256d0())
     {
         unsigned int itempint;
         BGSHeadPart* ppart;
-        ppart = reinterpret_cast<List_005e7480*>(pCurrentElementNext)->FUN_006815c0();
-        pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(reinterpret_cast<List_005e7480*>(pCurrentElementNext)->FUN_00726070());
-        itempint = static_cast<FUN_005e7480_t*>(ppart)->FUN_0084e3a0();
-        FUN_00485910(0x4d414e48, itempint);
+        ppart = ((::BGSHeadPart *)((void *)(reinterpret_cast<List_005e7480*>(pCurrentElementNext))));
+        pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::List_005e7480 *)(reinterpret_cast<::Callees *>((reinterpret_cast<List_005e7480*>(pCurrentElementNext)))->FUN_00726070())));
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((static_cast<FUN_005e7480_t*>(ppart)))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e48, itempint);
     }
-    FUN_00485680();
+    reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 
 struct List_009e03e0
 {
-    void RemoveAll();
     bool FUN_008256d0();
-    BGSHeadPart*& FUN_006815c0();
-    List_009e03e0* FUN_00726070();
 };
 struct FUN_005e78f0_t : public BGSHeadPart
 {
     void FUN_005e78f0(TESForm* apCopy);
-    void FUN_004851b0(TESForm*);
-    List_009e03e0* FUN_00624700();
-    void FUN_005e7790(BGSHeadPart*);
 };
 // @fnv 0x005e78f0
 void FUN_005e78f0_t::FUN_005e78f0(TESForm* apCopy)
@@ -615,31 +608,26 @@ void FUN_005e78f0_t::FUN_005e78f0(TESForm* apCopy)
     pSourcePart = dynamic_cast<BGSHeadPart*>(apCopy);
     if (!pSourcePart)
         return;
-    FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(apCopy);
     cFlags = pSourcePart->cFlags;
     pCurrentElementNext = 0;
-    FUN_00624700()->RemoveAll();
-    pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(static_cast<FUN_005e78f0_t*>(pSourcePart)->FUN_00624700());
+    reinterpret_cast<::FileMatchList *>((((::List_009e03e0 *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700()))))->RemoveAll();
+    pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::List_009e03e0 *)(reinterpret_cast<::FUN_00624700_shell *>((static_cast<FUN_005e78f0_t*>(pSourcePart)))->FUN_00624700())));
     while (pCurrentElementNext && !reinterpret_cast<List_009e03e0*>(pCurrentElementNext)->FUN_008256d0())
     {
-        BGSHeadPart* ppart = reinterpret_cast<List_009e03e0*>(pCurrentElementNext)->FUN_006815c0();
-        pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(reinterpret_cast<List_009e03e0*>(pCurrentElementNext)->FUN_00726070());
-        FUN_005e7790(ppart);
+        BGSHeadPart* ppart = ((::BGSHeadPart *)((void *)(reinterpret_cast<List_009e03e0*>(pCurrentElementNext))));
+        pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::List_009e03e0 *)(reinterpret_cast<::Callees *>((reinterpret_cast<List_009e03e0*>(pCurrentElementNext)))->FUN_00726070())));
+        reinterpret_cast<::BGSHeadPart *>(this)->AddExtraPart(ppart);
     }
 }
 
 struct LH
 {
-    bool IsInList(BGSHeadPart* const&) const;
     bool FUN_008256d0();
-    BGSHeadPart*& FUN_006815c0();
-    LH* FUN_00726070();
 };
 struct FUN_005e79a0_t : public BGSHeadPart
 {
     bool FUN_005e79a0(TESForm* apCompare);
-    bool FUN_00485270(TESForm*);
-    LH* FUN_00624700();
 };
 // @fnv 0x005e79a0
 bool FUN_005e79a0_t::FUN_005e79a0(TESForm* apCompare)
@@ -649,16 +637,16 @@ bool FUN_005e79a0_t::FUN_005e79a0(TESForm* apCompare)
     pcomp = dynamic_cast<BGSHeadPart*>(apCompare);
     if (!pcomp)
         return true;
-    if (FUN_00485270(pcomp))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(pcomp))
         return true;
     if ((char)pcomp->cFlags != (char)cFlags)
         return true;
-    pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(static_cast<FUN_005e79a0_t*>(pcomp)->FUN_00624700());
+    pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::LH *)(reinterpret_cast<::FUN_00624700_shell *>((static_cast<FUN_005e79a0_t*>(pcomp)))->FUN_00624700())));
     while (pCurrentElementNext && !reinterpret_cast<LH*>(pCurrentElementNext)->FUN_008256d0())
     {
-        BGSHeadPart* ppart = reinterpret_cast<LH*>(pCurrentElementNext)->FUN_006815c0();
-        pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(reinterpret_cast<LH*>(pCurrentElementNext)->FUN_00726070());
-        if (!FUN_00624700()->IsInList(ppart))
+        BGSHeadPart* ppart = ((::BGSHeadPart *)((void *)(reinterpret_cast<LH*>(pCurrentElementNext))));
+        pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::LH *)(reinterpret_cast<::Callees *>((reinterpret_cast<LH*>(pCurrentElementNext)))->FUN_00726070())));
+        if (!reinterpret_cast<::RefList *>((void *)(((::LH *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700()))))->FUN_005f65d0((void **)&(ppart)))
             return true;
     }
     return false;
@@ -668,21 +656,10 @@ struct DtorCaller
 {
     void FUN_005e73a0();
 };
-void _Deallocate(void*);
 struct Deleter
 {
     void* Destroy(unsigned int);
 };
-// Calls FUN_005e73a0 on this, frees this when flags has bit 1 set, and returns this.
-// @fnv 0x005e7370
-void* Deleter::Destroy(unsigned int flags)
-{
-    ((DtorCaller*)this)->FUN_005e73a0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Base5a
 {
     virtual ~Base5a();
@@ -707,13 +684,22 @@ struct FUN_005e73a0 : public Base5a, public FUN_00591300, public TESModelTexture
     unsigned char padding[3];
     ListX m_kExtraParts;
 };
+// Calls FUN_005e73a0 on this, frees this when flags has bit 1 set, and returns this.
+// @fnv 0x005e7370
+void* Deleter::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005e73a0 *>((((DtorCaller*)this)))->FUN_005e73a0::~FUN_005e73a0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x005e73a0
 FUN_005e73a0::~FUN_005e73a0()
 {
     FUN_005e7460();
 }
 
-// FUN_005e6600: real destructor (__thiscall, no params) of a class with:
+// FUN_005e6600: real destructor (, no params) of a class with:
 //   - a polymorphic base at offset 0 (total size 8, its dtor at 0x5e6470)
 //   - a member object at offset 8 whose dtor is 0x5aa1a0
 //   - a destructor body calling this->FUN_005e6c60(0)
@@ -721,7 +707,6 @@ FUN_005e73a0::~FUN_005e73a0()
 struct FUN_005e6470
 {
     virtual ~FUN_005e6470();
-    void FUN_005e6c60(int);
     int unk04;
 };
 
@@ -740,7 +725,7 @@ struct FUN_005e6600 : FUN_005e6470
 // @fnv 0x005e6600
 FUN_005e6600::~FUN_005e6600()
 {
-    this->FUN_005e6c60(0);
+    reinterpret_cast<::FUN_005e6c60_shell *>((this))->FUN_005e6c60((const char *)(0));
 }
 
 // FUN_005e7a60 : thiscall member returning a flag bit of the head-part data.
@@ -778,32 +763,23 @@ unsigned char FUN_005e7a60_cls::FUN_005e7a60()
 
 struct HeadPartListOperations
 {
-    void FUN_00470470();
 };
 
 // @fnv 0x005e7460
 void FUN_005e73a0::FUN_005e7460()
 {
-    reinterpret_cast<HeadPartListOperations*>(reinterpret_cast<FUN_00624700_shell*>(this)->FUN_00624700())
-        ->FUN_00470470();
+    reinterpret_cast<::FileMatchList *>((reinterpret_cast<HeadPartListOperations*>(reinterpret_cast<FUN_00624700_shell*>(this)->FUN_00624700())))->RemoveAll();
 }
 
 struct HeadPartList
 {
     bool IsEmpty();
-    BGSHeadPart*& GetItemRef();
-    HeadPartList* GetNext();
     void RemoveHead();
     void SetItem(BGSHeadPart* const&);
-    void Remove(BGSHeadPart* const&);
 };
 struct TexSwapStub : public TESModelTextureSwap
 {
-    void InitItem(TESForm*);
 };
-void LinkFormID(unsigned int*, TESFile*);
-TESForm* LookupFormByID(unsigned int);
-void FNV_Warning(const char*, ...);
 struct HeadPartInit : public TESForm, public TESFullName, public TexSwapStub
 {
     virtual void pad01()
@@ -957,11 +933,7 @@ struct HeadPartInit : public TESForm, public TESFullName, public TexSwapStub
     virtual void pad75()
     {}
     virtual const char* GetEditorID();
-    bool GetInitialized() const;
     TESFile* GetFile(int);
-    unsigned int GetFormID();
-    void SetInitializationState(int);
-    HeadPartList* GetExtraParts();
     unsigned char cFlags;
     unsigned char ucPad31;
     unsigned char ucPad32;
@@ -974,24 +946,23 @@ struct HeadPartInit : public TESForm, public TESFullName, public TexSwapStub
 // @fnv 0x005e77b0
 void HeadPartInit::FUN_005e77b0()
 {
-    if (GetInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    TexSwapStub::InitItem(this);
-    HeadPartList* pIter = GetExtraParts();
+    reinterpret_cast<::TESModelTextureSwap *>(this)->InitItem(this);
+    HeadPartList* pIter = ((::HeadPartList *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700()));
     HeadPartList* pPrev = 0;
     while (pIter && !pIter->IsEmpty())
     {
-        unsigned int auiFormId = (unsigned int)pIter->GetItemRef();
-        LinkFormID(&auiFormId, GetFile(-1));
-        BGSHeadPart* m_pModel = dynamic_cast<BGSHeadPart*>(LookupFormByID(auiFormId));
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)((::BGSHeadPart *)((void *)(pIter)));
+        ::ResolveFormID(&auiFormId, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
+        BGSHeadPart* m_pModel = dynamic_cast<BGSHeadPart*>(::FUN_004839c0(auiFormId));
         if (!m_pModel)
         {
-            FNV_Warning("Unable to find extra part (%08X) for head part '%s' (%08X).", auiFormId, GetEditorID(),
-                        GetFormID());
+            ::FUN_005b5e40();
             if (pPrev)
             {
-                pPrev->Remove((BGSHeadPart*)auiFormId);
-                pIter = pPrev->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)((const ::BGSHeadPart *const &)((BGSHeadPart*)(std::uintptr_t)auiFormId)));
+                pIter = ((::HeadPartList *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else
             {
@@ -1002,8 +973,45 @@ void HeadPartInit::FUN_005e77b0()
         {
             pIter->SetItem(m_pModel);
             pPrev = pIter;
-            pIter = pIter->GetNext();
+            pIter = ((::HeadPartList *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
-    SetInitializationState(1);
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }
+
+extern "C" void ref_00ec43fb();
+
+extern "C" void ref_00ec5ec0();
+
+extern "C" void ref_00ec408c();
+
+// sub ecx,0x24; jmp target == MSVC adjustor thunk: Derived overrides a virtual that both of its
+// bases declare, so the second base's vtable gets a thunk that moves `this` back by the size of
+// the first base (vptr + 8 ints = 0x24).
+struct PrimaryBase_005e7a80
+{
+    virtual void FUN_005e7a80();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct SecondaryBase_005e7a80
+{
+    virtual void FUN_005e7a80();
+};
+
+struct Derived_005e7a80 : PrimaryBase_005e7a80, SecondaryBase_005e7a80
+{
+    Derived_005e7a80();
+// @fnv 0x005e7a80
+    virtual void FUN_005e7a80();
+};
+
+Derived_005e7a80::Derived_005e7a80()
+{}

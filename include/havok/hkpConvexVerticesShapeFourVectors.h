@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPCONVEXVERTICESSHAPEFOURVECTORS_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpConvexVerticesShapeFourVectors
 {
   public:
@@ -12,7 +11,4 @@ class hkpConvexVerticesShapeFourVectors
     hkVector4 m_uiY;  // +0x10
     hkVector4 m_uiZ;  // +0x20
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpConvexVerticesShapeFourVectors[(sizeof(hkpConvexVerticesShapeFourVectors) == 0x30) ? 1 : -1];
 #endif

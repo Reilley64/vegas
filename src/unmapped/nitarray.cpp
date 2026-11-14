@@ -1,51 +1,90 @@
+#include <cstdint>
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/ActiveArray.h"
+#include "fnv/decl/C89AC0_Owner.h"
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a413d0_cls.h"
+#include "fnv/decl/FUN_00e891f0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/decl/Obj_00c89b60.h"
+#include "fnv/decl/Owner_9bf0.h"
+#include "fnv/decl/S_00e86f40_Arr.h"
+#include "fnv/decl/This00e7de30.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b79000.h"
+#include "fnv/symbols_00b7c000.h"
+#include "fnv/symbols_00c1d000.h"
+#include "fnv/symbols_00e89000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 struct NiD3DShaderFactory
 {
     void UpdateShaderMaterialCache(void*);
-    void FUN_00e94050(void*);
 };
+
+struct MaterialDeviceView;
 
 struct NiD3DRenderState
 {
+    char pad0000[0xf8];
+    NiD3DShaderFactory m_kShaderFactory;
+    char pad00f9[0x10f8 - 0xf9];
+    MaterialDeviceView* m_pkDevice;
     void FUN_00e87980(void*);
 };
 
-// Forwards p to the shader factory at offset 0xf8, then passes the pointer at 0x10f8 to its second method.
-// @fnv 0x00e87980
-void NiD3DRenderState::FUN_00e87980(void* apData)
+struct C89C80_Source
 {
-    ((NiD3DShaderFactory*)((char*)this + 0xf8))->UpdateShaderMaterialCache(apData);
-    ((NiD3DShaderFactory*)((char*)this + 0xf8))->FUN_00e94050(*(void**)((char*)this + 0x10f8));
-}
+    char pad00[0xc];
+    ::C89AC0_Child* m_pChild;
+    int m_10;
+    int m_14;
+    int m_18;
+    unsigned char m_1c;
+};
 
-struct FUN_009ba5f0_shell
+struct C89C80_Dest
 {
-    void SetChildObject(int);
+    char pad00[8];
+    unsigned int m_08;
+    int m_0c;
+    int m_10;
 };
 
 struct FUN_00c89c80_obj
 {
-    void CopyFromSource(unsigned int uiMaxSize);
+    char pad00[8];
+    C89C80_Source* m_pSource;
+    void CopyFromSource(std::uintptr_t auDest);
 };
 
 // @fnv 0x00c89c80
-void FUN_00c89c80_obj::CopyFromSource(unsigned int pDest)
+void FUN_00c89c80_obj::CopyFromSource(std::uintptr_t auDest)
 {
-    if (this && *(void**)((char*)this + 8))
+    C89C80_Dest* pDest = reinterpret_cast<C89C80_Dest*>(auDest);
+    if (this && m_pSource)
     {
-        void* p = *(void**)((char*)this + 8);
-        ((FUN_009ba5f0_shell*)pDest)->SetChildObject(*(int*)((char*)p + 0xc));
-        *(int*)((char*)pDest + 0xc) = *(int*)((char*)p + 0x14);
-        *(int*)((char*)pDest + 0x10) = *(int*)((char*)p + 0x18);
-        *(unsigned int*)((char*)pDest + 8) = *(unsigned char*)((char*)p + 0x1c);
+        C89C80_Source* p = m_pSource;
+        reinterpret_cast<::C89AC0_Owner *>(pDest)->SetChildObject(p->m_pChild);
+        pDest->m_0c = p->m_14;
+        pDest->m_10 = p->m_18;
+        pDest->m_08 = p->m_1c;
     }
     else
     {
-        ((FUN_009ba5f0_shell*)pDest)->SetChildObject(0);
-        *(int*)((char*)pDest + 0xc) = 0;
-        *(int*)((char*)pDest + 0x10) = 0;
+        reinterpret_cast<::C89AC0_Owner *>(pDest)->SetChildObject((::C89AC0_Child *)(0));
+        pDest->m_0c = 0;
+        pDest->m_10 = 0;
     }
 }
 
@@ -54,17 +93,12 @@ struct MemoryManager
     void* Allocate(unsigned int auiSize) throw();
 };
 
-extern MemoryManager DAT_011f6238;
 
 struct KeyPair
 {
     void* m_pFirst;
     void* m_pSecond;
 
-    static void* operator new(unsigned int auiSize) throw()
-    {
-        return DAT_011f6238.Allocate(auiSize);
-    }
 
     KeyPair(void* apFirst, void* apSecond) throw() : m_pFirst(apFirst), m_pSecond(apSecond)
     {}
@@ -72,14 +106,13 @@ struct KeyPair
 
 struct FUN_00a41520_cls
 {
-    int unk00;
-    int unk04;
+    void* vfptr;
+    KeyPair** m_pBase;
     unsigned short m_uCapacity;
     unsigned short m_uCount;
     unsigned short m_u0c;
     unsigned short m_uGrowStep;
 
-    int FindPairIndex(void* apFirst, void* apSecond);
     void FUN_00a90180(unsigned int auiNewSize);
     void FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry);
 
@@ -89,7 +122,7 @@ struct FUN_00a41520_cls
 // @fnv 0x00a41520
 bool FUN_00a41520_cls::FUN_00a41520(void* apFirst, void* apSecond)
 {
-    if (FindPairIndex(apFirst, apSecond) == -1)
+    if (reinterpret_cast<::FUN_00a413d0_cls *>(this)->FindPairIndex(reinterpret_cast<std::uintptr_t>(apFirst), reinterpret_cast<std::uintptr_t>(apSecond)) == -1)
     {
         KeyPair* pEntry = new KeyPair(apFirst, apSecond);
 
@@ -104,18 +137,13 @@ bool FUN_00a41520_cls::FUN_00a41520(void* apFirst, void* apSecond)
 
 struct MM
 {
-    void __thiscall Deallocate(void*);
 };
-extern MM g_memoryManager;
 class NiNode;
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* ptr;
     ~NiPointer();
-    static void __cdecl operator delete[](void* memory)
-    {
-        g_memoryManager.Deallocate(memory);
-    }
 };
 // Deletes the array of NiPointer<NiNode> objects pointed to by buffer when buffer is non-null.
 // @fnv 0x00b7ce30
@@ -125,8 +153,6 @@ void __cdecl DeleteNiNodePointerArray(NiPointer<NiNode>* pNodePointerArray)
         delete[] pNodePointerArray;
 }
 
-void* __cdecl FUN_00aa1070(unsigned int auiSize);
-void __cdecl FUN_00aa10f0(void* apMemory);
 
 struct S_Interface
 {
@@ -147,31 +173,31 @@ void FUN_00a41520_cls::FUN_00a90180(unsigned int auiNewSize)
     {
         for (unsigned short i = (unsigned short)auiNewSize; i < m_uCount; i++)
         {
-            if (((KeyPair**)unk04)[i] != 0)
+            if (m_pBase[i] != 0)
             {
-                ((KeyPair**)unk04)[i] = 0;
+                m_pBase[i] = 0;
                 m_u0c += 0xffff;
             }
         }
         m_uCount = (unsigned short)auiNewSize;
     }
 
-    KeyPair** oldEntries = (KeyPair**)unk04;
+    KeyPair** oldEntries = m_pBase;
     m_uCapacity = (unsigned short)auiNewSize;
 
     if (auiNewSize > 0)
     {
-        unk04 = (int)S_Interface::Allocate(m_uCapacity);
+        m_pBase = S_Interface::Allocate(m_uCapacity);
 
         for (unsigned short i = 0; i < m_uCount; i++)
-            ((KeyPair**)unk04)[i] = oldEntries[i];
+            m_pBase[i] = oldEntries[i];
 
         for (unsigned short j = m_uCount; j < m_uCapacity; j++)
-            ((KeyPair**)unk04)[j] = 0;
+            m_pBase[j] = 0;
     }
     else
     {
-        unk04 = 0;
+        m_pBase = 0;
     }
 
     FUN_00aa10f0(oldEntries);
@@ -193,7 +219,7 @@ void FUN_00a41520_cls::FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry)
     {
         if (*appEntry != 0)
         {
-            KeyPair** pEntries = (KeyPair**)unk04;
+            KeyPair** pEntries = m_pBase;
             if (pEntries[auiIndex] == 0)
             {
                 m_u0c++;
@@ -201,7 +227,7 @@ void FUN_00a41520_cls::FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry)
         }
         else
         {
-            KeyPair** pEntries = (KeyPair**)unk04;
+            KeyPair** pEntries = m_pBase;
             if (pEntries[auiIndex] != 0)
             {
                 unsigned short minusOne = 0xffff;
@@ -209,13 +235,12 @@ void FUN_00a41520_cls::FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry)
             }
         }
     }
-    KeyPair** store = (KeyPair**)unk04;
+    KeyPair** store = m_pBase;
     store[auiIndex] = *appEntry;
 }
 
 struct C89CD0Target
 {
-    void process(void* arg);
 };
 
 struct C89CD0Holder
@@ -235,13 +260,12 @@ void C89CD0Holder::ProcessTarget(void* arg)
     {
         C89CD0Target* pkTarget = pkHolder->m_pkTarget;
         if (pkTarget)
-            pkTarget->process(arg);
+            reinterpret_cast<::Obj_00c89b60 *>((pkTarget))->FUN_00c89b60((::Ref_00c89b60 *)(arg));
     }
 }
 
 struct Target
 {
-    void FUN_00c89bf0(void* apArg);
 };
 
 struct FUN_00c89cf0_cls
@@ -259,12 +283,10 @@ void FUN_00c89cf0_cls::DispatchToTarget(void* apArg)
     if (this != 0)
     {
         if (m_pFlagTarget != 0)
-            m_pFlagTarget->FUN_00c89bf0(apArg);
+            reinterpret_cast<::Owner_9bf0 *>((m_pFlagTarget))->FUN_00c89bf0((::Object_9bf0 *)(apArg));
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class NiRefObjectA47
 {
@@ -333,8 +355,6 @@ template <class T> class NiPointerA47
 
 typedef NiPointerA47<NiRefObjectA47> NiObjectPtrA47;
 
-NiObjectPtrA47* __cdecl FUN_00c1d790(unsigned int auiCount);
-void __cdecl ReleaseObjectArray(NiObjectPtrA47* pkArray);
 
 class NiTObjectArrayA47
 {
@@ -348,6 +368,7 @@ class NiTObjectArrayA47
     unsigned short m_usGrowBy;
 
     void FUN_00a47770(unsigned int uiMaxSize);
+    void FUN_0060bef0(uintptr_t uiMaxSize);
 };
 
 // Resizes the object array to uiMaxSize, releasing surplus elements and reallocating m_pBase while preserving existing entries.
@@ -362,7 +383,7 @@ void NiTObjectArrayA47::FUN_00a47770(unsigned int uiMaxSize)
     {
         for (i = (unsigned short)uiMaxSize; i < m_usSize; i++)
         {
-            if (m_pBase[i] != NiObjectPtrA47(0))
+            if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::NiPointerA47< ::NiRefObjectA47> &)(m_pBase[i]))->IsNotEqual((const ::DummyStruct_00631820 &)((const ::NiPointerA47< ::NiRefObjectA47> &)(NiObjectPtrA47(0)))))
             {
                 m_pBase[i] = 0;
                 m_usESize--;
@@ -375,7 +396,7 @@ void NiTObjectArrayA47::FUN_00a47770(unsigned int uiMaxSize)
     m_usMaxSize = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        m_pBase = FUN_00c1d790(m_usMaxSize);
+        m_pBase = ((::NiPointerA47< ::NiRefObjectA47> *)(::sc1d790::FUN_00c1d790(m_usMaxSize)));
         for (i = 0; i < m_usSize; i++)
             m_pBase[i] = pSaveBase[i];
         for (i = m_usSize; i < m_usMaxSize; i++)
@@ -385,12 +406,9 @@ void NiTObjectArrayA47::FUN_00a47770(unsigned int uiMaxSize)
     {
         m_pBase = 0;
     }
-    ReleaseObjectArray(pSaveBase);
+    ::ReleaseObjectArray((::Obj00a47600 **)(pSaveBase));
 }
 
-extern char* DAT_0109b220;
-extern long DAT_011f4400;
-void __cdecl RemoveGlobalConstant(char** name);
 
 struct S_00e87690_Str
 {
@@ -421,12 +439,11 @@ struct S_00e87690_Obj
 
 struct S_00e87690_Com
 {
-    virtual long __stdcall v0() throw();
-    virtual long __stdcall v1() throw();
-    virtual long __stdcall Release() throw();
+    virtual long v0() throw();
+    virtual long v1() throw();
+    virtual long Release() throw();
 };
 
-void __cdecl DeleteNiNodePointerArray(void* buffer) throw();
 
 struct S_00e87690_Arr
 {
@@ -439,7 +456,7 @@ struct S_00e87690_Arr
     void FUN_00b799c0() throw();
     ~S_00e87690_Arr() throw()
     {
-        DeleteNiNodePointerArray(data);
+        ::DeleteNiNodePointerArray((::NiPointer< ::NiNode> *)(data));
     }
 };
 
@@ -447,7 +464,7 @@ struct S_00e87690_Base
 {
     virtual ~S_00e87690_Base() throw()
     {
-        InterlockedDecrement(&DAT_011f4400);
+        InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
     long refs;
     int unk08;
@@ -479,7 +496,7 @@ FUN_00e87690::~FUN_00e87690() throw()
             if ((p->flags & 0xf0000000) == 0x40000000)
             {
                 S_00e87690_Str k(p->name);
-                RemoveGlobalConstant(&k.h);
+                ::RemoveGlobalConstant((const ::NiFixedString *)(char **)(&k.h));
             }
             if (!InterlockedDecrement(&p->refs))
                 p->v1();
@@ -493,7 +510,7 @@ FUN_00e87690::~FUN_00e87690() throw()
         {
             InterlockedIncrement(&p->refs);
             if ((p->flags & 0xf0000000) == 0x40000000)
-                RemoveGlobalConstant(&p->name.h);
+                ::RemoveGlobalConstant((const ::NiFixedString *)(char **)(&p->name.h));
             if (!InterlockedDecrement(&p->refs))
                 p->v1();
         }
@@ -515,7 +532,6 @@ struct NiRefObj
 
 struct FUN_00e87800_obj
 {
-    int FUN_00e87800(NiRefObj** appObj);
 };
 
 struct FUN_00e878c0_cls
@@ -537,29 +553,6 @@ struct FUN_00e878c0_cls
 
     int FUN_00e878c0(NiRefObj* apObj);
 };
-
-// Holds a reference on apObj while calling FUN_00e87800 on the sub-object at unk0c; sets m_34 to 0x30 if it returns -1, and returns m_34.
-// @fnv 0x00e878c0
-int FUN_00e878c0_cls::FUN_00e878c0(NiRefObj* apObj)
-{
-    NiRefObj* pObj = apObj;
-    *(NiRefObj* volatile*)&apObj = pObj;
-    if (pObj != 0)
-    {
-        InterlockedIncrement(&pObj->m_iObjectReferenceCount);
-    }
-    FUN_00e87800_obj* sub = (FUN_00e87800_obj*)&unk0c;
-    bool failed = sub->FUN_00e87800(&apObj) == -1;
-    if (pObj != 0 && InterlockedDecrement(&pObj->m_iObjectReferenceCount) == 0)
-    {
-        pObj->v04();
-    }
-    if (failed)
-    {
-        m_34 = 0x30;
-    }
-    return m_34;
-}
 
 namespace fnv_00e87920 {
 struct NiRefObj
@@ -618,7 +611,6 @@ int FUN_00e87920_cls::FUN_00e87920(NiRefObj* apObj)
 }
 }  // namespace fnv_00e87920
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 struct NiPoint2
 {
@@ -628,63 +620,54 @@ struct NiPoint2
 
 struct TextureMapTransform
 {
-    int unk00;
-    int unk04;
-    float unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
+    NiPoint2 m_kTranslate;
+    float m_fRotate;
+    NiPoint2 m_kScale;
+    NiPoint2 m_kCenter;
     int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
+    float m_afMatrix[9];
+    int m_eMethod;
 
-    static void* operator new(size_t size) throw()
-    {
-        return DAT_011f6238.Allocate(size);
-    }
     TextureMapTransform(const NiPoint2& kTranslate, float m_fRotation, const NiPoint2& kScale,
                        const NiPoint2& kTargetCenter, int eMethod) throw();
 
     NiPoint2 GetTranslate() const
     {
-        return *(NiPoint2*)((char*)this + 0);
+        return m_kTranslate;
     }
     float GetRotate() const
     {
-        return *(float*)((char*)this + 8);
+        return m_fRotate;
     }
     NiPoint2 GetScale() const
     {
-        return *(NiPoint2*)((char*)this + 0xc);
+        return m_kScale;
     }
     NiPoint2 GetNavMeshData() const
     {
-        return *(NiPoint2*)((char*)this + 0x14);
+        return m_kCenter;
     }
     int GetTransformMethod() const
     {
-        return *(int*)((char*)this + 0x44);
+        return m_eMethod;
     }
+};
+
+struct NiTextureRefView
+{
+    void* vfptr;
+    long m_iRefCount;
 };
 
 struct NiTexturePtr
 {
-    void* m_pObject;
+    NiTextureRefView* m_pObject;
     NiTexturePtr() : m_pObject(0)
     {}
     NiTexturePtr(const NiTexturePtr& kPtr) : m_pObject(kPtr.m_pObject)
     {
         if (m_pObject)
-            InterlockedIncrement((long volatile*)((char*)m_pObject + 4));
+            InterlockedIncrement((long volatile*)&m_pObject->m_iRefCount);
     }
 };
 
@@ -719,7 +702,6 @@ NiTexturingProperty::Map::Map(const Map& kMap) throw() : m_usFlags(kMap.m_usFlag
 }
 
 #include <string.h>
-void __cdecl FUN_00ec61c0(void* apDst, int aiValue, unsigned int auiSize);
 
 struct FUN_004eba20
 {
@@ -790,7 +772,7 @@ template <class T> struct TFixedArray
     TFixedArray(unsigned int uiSize) : m_uiSize(uiSize), unk0c(0)
     {
         m_pData = (T*)FUN_00aa1070(uiSize * sizeof(T));
-        FUN_00ec61c0(m_pData, 0, m_uiSize * sizeof(T));
+        std::memset(m_pData, 0, m_uiSize * sizeof(T));
     }
     virtual ~TFixedArray();
 };
@@ -836,6 +818,14 @@ FUN_00b8a9e0::FUN_00b8a9e0() : m_24(0), m_28(0), m_3c(0), m_40(0), m_44(0), m_48
 }
 
 #include <windows.h>
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_009a4ef0_Class.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/symbols_004b0000.h"
+#include "fnv/symbols_005e0000.h"
 struct S_00c1e9a0_RefObject
 {
     virtual void v0();
@@ -899,7 +889,6 @@ template <class T> struct S_00c1e9a0_Ptr
 typedef S_00c1e9a0_Ptr<S_00c1e9a0_RefObject> S_00c1e9a0_RefPtr;
 
 S_00c1e9a0_RefPtr* FUN_00c1d740(unsigned int ItemUpdateArray);
-void ReleaseObjectArray(S_00c1e9a0_RefPtr* pBase);
 
 struct S_00c1e9a0_Array
 {
@@ -948,30 +937,30 @@ void S_00c1e9a0_Array::FUN_00c1e9a0(unsigned int uiMaxSize)
     {
         m_pBase = 0;
     }
-    ReleaseObjectArray(pSaveBase);
+    ::ReleaseObjectArray((::Obj00a47600 **)(pSaveBase));
 }
 
-void __cdecl FUN_00aa1460(void* apSelf, unsigned int auiSize);
-void __cdecl RemoveGlobalConstant(void** appRef);
 
 struct FUN_00e7de30_cls
 {
-    void FUN_00e7de30();
 };
 
 struct FUN_00e891f0_cls
 {
-    void FUN_00e891f0();
-    void ClearFields();
 };
 
 struct GlobalRefOwner
 {
-    void FindOrAdd(void* apRef);
 };
-extern GlobalRefOwner* DAT_0126f6cc;
 
-struct RefHolder
+// Header in front of a global string table entry's characters.
+struct GlobalStringHeader
+{
+    long m_iRefCount;
+    unsigned int m_uiLength;
+};
+
+struct StringRefHolder
 {
     int unk00;
     int unk04;
@@ -986,7 +975,7 @@ struct FUN_00e7ecd0_cls
     int m_0c;
     FUN_00e891f0_cls* m_10;
     int m_14;
-    RefHolder* m_18;
+    StringRefHolder* m_18;
     int unk1C;
     int unk20;
     int unk24;
@@ -1018,28 +1007,28 @@ void FUN_00e7ecd0_cls::FUN_00e7ecd0()
 
     if (m_5f == 0)
     {
-        ((FUN_00e7de30_cls*)this)->FUN_00e7de30();
+        reinterpret_cast<::This00e7de30 *>((((FUN_00e7de30_cls*)this)))->FUN_00e7de30();
         FUN_00aa1460(this, 0x68);
         return;
     }
 
     FUN_00e891f0_cls* obj = m_10;
     m_08 = 0;
-    obj->FUN_00e891f0();
-    m_10->ClearFields();
+    reinterpret_cast<::FUN_00e891f0_Class *>((obj))->FUN_00e891f0();
+    ::ClearFields((void *)(m_10));
 
-    RefHolder* holder = m_18;
+    StringRefHolder* holder = m_18;
     if (holder != 0)
     {
         if (holder->m_08 != DAT_0109b220)
         {
-            InterlockedIncrement((LONG*)((char*)holder->m_08 - 8));
+            InterlockedIncrement(&(reinterpret_cast<GlobalStringHeader*>(holder->m_08) - 1)->m_iRefCount);
         }
         ref = holder->m_08;
-        RemoveGlobalConstant(&ref);
+        ::RemoveGlobalConstant((const ::NiFixedString *)(void **)(&ref));
         if (ref != DAT_0109b220)
         {
-            InterlockedDecrement((LONG*)((char*)ref - 8));
+            InterlockedDecrement(&(reinterpret_cast<GlobalStringHeader*>(ref) - 1)->m_iRefCount);
         }
     }
 
@@ -1051,7 +1040,7 @@ void FUN_00e7ecd0_cls::FUN_00e7ecd0()
     m_5e = 0;
 
     ref = this;
-    DAT_0126f6cc->FindOrAdd(&ref);
+    reinterpret_cast<::ActiveArray *>(((*reinterpret_cast<::GlobalRefOwner * *>(&::DAT_0126f6cc))))->FindOrAdd((*(void *const *)(&ref)));
 }
 
 struct S_00e87510_RefObject
@@ -1104,8 +1093,6 @@ struct S_00e87510_Ptr
     }
 };
 
-S_00e87510_Ptr* AllocateGOArray(unsigned int auiCount);
-void __cdecl DeleteNiNodePointerArray(S_00e87510_Ptr* pArray);
 
 struct S_00e87510_Array
 {
@@ -1144,7 +1131,7 @@ void S_00e87510_Array::Resize(unsigned int uiMaxSize)
     m_usMaxSize = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        m_pBase = AllocateGOArray(m_usMaxSize);
+        m_pBase = ((::S_00e87510_Ptr *)(::AllocateGOArray(m_usMaxSize)));
         for (i = 0; i < m_usSize; i++)
             m_pBase[i] = pSaveBase[i];
         for (i = m_usSize; i < m_usMaxSize; i++)
@@ -1155,7 +1142,7 @@ void S_00e87510_Array::Resize(unsigned int uiMaxSize)
         m_pBase = 0;
     }
 
-    DeleteNiNodePointerArray(pSaveBase);
+    ::DeleteNiNodePointerArray((::NiPointer< ::NiNode> *)(pSaveBase));
 }
 
 struct S_00e98aa0_RefObj
@@ -1206,8 +1193,6 @@ void S_00e98aa0_Holder::SetObject(S_00e98aa0_RefObj* apRefObj)
     m_sp4 = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 class NiRefObjectX
 {
@@ -1277,13 +1262,12 @@ class NiTArrayX
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void FUN_00c1e9a0(unsigned int uiMaxSize);
     void Set(unsigned int uiIndex, const ElemPtr& element);
 
     unsigned int SetAtGrow(unsigned int uiIndex, const ElemPtr& element)
     {
         if (uiIndex >= m_usMaxSize)
-            FUN_00c1e9a0(uiIndex + m_usGrowBy);
+            reinterpret_cast<::S_00c1e9a0_Array *>(this)->FUN_00c1e9a0(uiIndex + m_usGrowBy);
         Set(uiIndex, element);
         return uiIndex;
     }
@@ -1363,7 +1347,7 @@ struct MaterialDeviceMethods
     void* MultiplyTransform;
     void* SetViewport;
     void* GetViewport;
-    long(__stdcall* SetMaterial)(MaterialDeviceView* device, const void* material);
+    long(* SetMaterial)(MaterialDeviceView* device, const void* material);
 };
 
 struct MaterialDeviceView
@@ -1377,6 +1361,13 @@ struct MaterialUploadState
     bool dirty;
     void FUN_00e94050(MaterialDeviceView* device);
 };
+// Forwards p to the shader factory, then passes the device to the factory's material upload.
+// @fnv 0x00e87980
+void NiD3DRenderState::FUN_00e87980(void* apData)
+{
+    m_kShaderFactory.UpdateShaderMaterialCache(apData);
+    reinterpret_cast<::MaterialUploadState *>(&m_kShaderFactory)->FUN_00e94050(m_pkDevice);
+}
 
 // @fnv 0x00e94050
 void MaterialUploadState::FUN_00e94050(MaterialDeviceView* device)
@@ -1397,10 +1388,30 @@ struct ShaderConstantEntryArray
     unsigned short effective;
     unsigned short grow;
 
-    void Resize(unsigned int newCapacity);
-    void FUN_00e86f40(unsigned int index, void* element);
     unsigned int FUN_00e87800(const ElemPtr& element);
 };
+// Holds a reference on apObj while calling FUN_00e87800 on the sub-object at unk0c; sets m_34 to 0x30 if it returns -1, and returns m_34.
+// @fnv 0x00e878c0
+int FUN_00e878c0_cls::FUN_00e878c0(NiRefObj* apObj)
+{
+    NiRefObj* pObj = apObj;
+    *(NiRefObj* volatile*)&apObj = pObj;
+    if (pObj != 0)
+    {
+        InterlockedIncrement(&pObj->m_iObjectReferenceCount);
+    }
+    FUN_00e87800_obj* sub = (FUN_00e87800_obj*)&unk0c;
+    bool failed = ((int)(reinterpret_cast<::ShaderConstantEntryArray *>((sub))->FUN_00e87800((*(const ::NiPtrX< ::NiRefObjectX> *)(&apObj))))) == -1;
+    if (pObj != 0 && InterlockedDecrement(&pObj->m_iObjectReferenceCount) == 0)
+    {
+        pObj->v04();
+    }
+    if (failed)
+    {
+        m_34 = 0x30;
+    }
+    return m_34;
+}
 
 // Stores element in the first null slot, else grows the array if full and appends it, returning its index; returns -1 for a null element.
 // @fnv 0x00e87800
@@ -1419,7 +1430,107 @@ unsigned int ShaderConstantEntryArray::FUN_00e87800(const ElemPtr& element)
     }
     unsigned int oldCount = count;
     if (oldCount >= capacity)
-        Resize(grow + oldCount);
-    FUN_00e86f40(oldCount, (void*)&element);
+        reinterpret_cast<::S_00e87510_Array *>(this)->Resize(grow + oldCount);
+    reinterpret_cast<::S_00e86f40_Arr *>(this)->FUN_00e86f40(oldCount, (*(const ::NiPointer< ::NiShaderConstantMapEntry> *)((void*)&element)));
     return oldCount;
+}
+
+struct RefHolder
+{
+    void* m_pObject;
+    RefHolder(const RefHolder& apOther);
+    ~RefHolder();
+    operator void*() const;
+};
+
+struct RefList
+{
+    RefHolder& GetAt(unsigned int auiIndex);
+    unsigned int Add(const RefHolder& apRef);
+};
+
+// @fnv 0x00869420
+void __cdecl FUN_00869420(RefList* apSource, RefList* apTarget)
+{
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((void *)(apSource))->GetShortAtOffsetA(); i = i + 1)
+    {
+        RefHolder spRef(apSource->GetAt(i));
+        if (spRef)
+        {
+            apTarget->Add(spRef);
+        }
+    }
+}
+
+// @fnv 0x0060bef0
+void NiTObjectArrayA47::FUN_0060bef0(uintptr_t uiMaxSize)
+{
+    if (uiMaxSize == m_usMaxSize)
+        return;
+
+    unsigned short i;
+    if (uiMaxSize < m_usSize)
+    {
+        for (i = (unsigned short)uiMaxSize; i < m_usSize; i++)
+        {
+            if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::NiPointerA47< ::NiRefObjectA47> &)(m_pBase[i]))->IsNotEqual((const ::DummyStruct_00631820 &)((const ::NiPointerA47< ::NiRefObjectA47> &)(NiObjectPtrA47(0)))))
+            {
+                m_pBase[i] = NiObjectPtrA47(0);
+                m_usESize--;
+            }
+        }
+        m_usSize = (unsigned short)uiMaxSize;
+    }
+
+    NiObjectPtrA47* pSaveBase = m_pBase;
+    m_usMaxSize = (unsigned short)uiMaxSize;
+    if (uiMaxSize > 0)
+    {
+        m_pBase = ((::NiPointerA47< ::NiRefObjectA47> *)(::FUN_005e0ba0(m_usMaxSize)));
+        for (i = 0; i < m_usSize; i++)
+            m_pBase[i] = pSaveBase[i];
+        for (i = m_usSize; i < m_usMaxSize; i++)
+            m_pBase[i] = NiObjectPtrA47(0);
+    }
+    else
+    {
+        m_pBase = 0;
+    }
+    ::FUN_004b0220(reinterpret_cast<std::intptr_t>(pSaveBase));
+}
+
+namespace fnv_009a5a70 {
+struct ItemList
+{
+};
+struct SpawnedObject
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
+    SpawnedObject();
+    ~SpawnedObject();
+};
+struct FUN_009a5a70_cls
+{
+    void FUN_009a5a70(ItemList* list);
+};
+// @fnv 0x009a5a70
+void FUN_009a5a70_cls::FUN_009a5a70(ItemList* list)
+{
+    unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((list))->FUN_00864a60()));
+    for (unsigned int index = 0; index < count; ++index)
+    {
+        bool failed = false;
+        SpawnedObject* object = new SpawnedObject;
+        unsigned int output;
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((list))->FUN_008648e0(&output);
+        reinterpret_cast<::FUN_00537e90 *>((object))->SetQuantity(output);
+        reinterpret_cast<::FUN_009a4ef0_Class *>((object))->FUN_009a4ef0((::BGSLoadFormBuffer *)(list));
+        if (output == 0)
+            failed = true;
+        if (!failed)
+            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(output, reinterpret_cast<std::uintptr_t>(object));
+        else
+            delete object;
+    }
+}
 }

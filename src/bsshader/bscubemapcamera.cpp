@@ -1,9 +1,28 @@
 // src/bsshader/bscubemapcamera.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bscubemapcamera.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <windows.h>
 #include <math.h>
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-__declspec(dllimport) int __stdcall InterlockedDecrement(long*);
+#include "fnv/decl/BSRenderStateManager.h"
+#include "fnv/decl/BSRenderedTexture.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Cam_bd7620.h"
+#include "fnv/decl/EffectManager975.h"
+#include "fnv/decl/FUN_004a0f60_cls.h"
+#include "fnv/decl/FUN_004a0fd0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/H.h"
+#include "fnv/decl/ImageSpaceShaderParam.h"
+#include "fnv/decl/S694a0.h"
+#include "fnv/decl/ViewCamera.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00b71000.h"
+#include "fnv/symbols_00b97000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f9000.h"
+extern int(* DAT_00fdf1c0)(void*);
 struct RefObject
 {
     virtual void slot0();
@@ -120,7 +139,6 @@ struct RenderTexture : TextureRef
     int unk028;
     int unk02c;
     Ptr<Cube> cube;
-    void* FUN_00b6b260();
 };
 struct Color
 {
@@ -431,15 +449,13 @@ struct FUN_00a69400
     Plane planes[6];
     unsigned activePlanes;
     FUN_00a69400(void*);
-    void FUN_00a694a0(void*);
 };
-extern "C" void* DAT_0101e2ec;
 struct CleanupRef
 {
     struct Methods
     {
-        void(__thiscall* slot0)(CleanupRef*);
-        void(__thiscall* destroy)(CleanupRef*);
+        void(* slot0)(CleanupRef*);
+        void(* destroy)(CleanupRef*);
     };
     Methods* methods;
     long refs;
@@ -477,10 +493,9 @@ struct S00bd7bb0_Cull : FUN_00a69400
         unk0c0 = 0;
         ref = 0;
     }
-    void FUN_004a0f60();
     ~S00bd7bb0_Cull()
     {
-        FUN_004a0f60();
+        reinterpret_cast<::FUN_004a0f60_cls *>(this)->FUN_004a0f60_cls::~FUN_004a0f60_cls();
     }
     void ClearRef()
     {
@@ -495,7 +510,6 @@ struct S00bd7bb0_Cull : FUN_00a69400
                 DAT_00fdf1c0(&ref->refs);
         }
     }
-    void FUN_004a0fd0(Scene*);
 };
 struct TextureArrayFields
 {
@@ -528,30 +542,15 @@ struct GlobalObjectO2_00b8a9e0
     RenderStateFields renderStates;
     GlobalObjectO2_00b8a9e0();
     ~GlobalObjectO2_00b8a9e0();
-    void FUN_00b8ab10(int, int);
-    void FUN_00b8a760(int, float, float, float, float);
 };
 inline void S00bd7bb0_SetRow(GlobalObjectO2_00b8a9e0& p, int row, float x, const float& y)
 {
-    p.FUN_00b8a760(row, x, y, 0.0f, 0.0f);
+    reinterpret_cast<::H *>(&(p))->SetFloat4At(row, x, y, 0.0f, 0.0f);
 }
 struct ImageSpaceManager
 {
-    void FUN_00b975f0(int, NiRenderer*, void*, RenderTexture*, GlobalObjectO2_00b8a9e0*, int);
 };
-extern NiRenderer* DAT_011f9508;
-extern int DAT_011a9bd0, DAT_011a9bd4, DAT_011a9bd8, DAT_011a9bdc;
-extern unsigned DAT_011f91b8;
-extern void* DAT_011f9520;
-extern ImageSpaceManager* DAT_011f91ac;
 extern int DAT_011ff9f0;
-void FUN_00b6b8d0(unsigned, void*);
-void FUN_00b6bee0(void*, void*, S00bd7bb0_Cull*);
-void FUN_00b6c0d0(void*, Scene*, int);
-void FUN_00b71360(unsigned, Water*, float);
-void FUN_00b97fa0(int, int);
-void FUN_00b97ff0(int, int, int);
-void FUN_00b6b790();
 inline float Sin(float x)
 {
     return (float)sin(x);
@@ -642,9 +641,6 @@ struct Camera
     Ptr<Water> water;
     void* sceneData;
     Ptr<Scene> scene;
-    void FUN_00bd7200(int);
-    void FUN_00a59c60(UpdateData&);
-    void CullScene(Water*);
     void FUN_00bd7bb0(int);
 };
 // For each selected face, selects the cube face, may update and cull the scene, then calls the image-space manager for supported faces.
@@ -653,26 +649,26 @@ void Camera::FUN_00bd7bb0(int aiFace)
 {
     UpdateData updateData;
     Color savedColor;
-    *(int*)&savedColor.channels[0] = DAT_011a9bd0;
+    *(int*)&savedColor.channels[0] = (*reinterpret_cast<int *>(&::DAT_011a9bd0));
     *(int*)&savedColor.channels[1] = DAT_011a9bd4;
     *(int*)&savedColor.channels[2] = DAT_011a9bd8;
     *(int*)&savedColor.channels[3] = DAT_011a9bdc;
     unsigned short mask = 0;
-    DAT_011f9508->GetColor(savedColor);
+    ::DAT_011f9508->GetColor(savedColor);
     if (scene->mode == Scene::special)
     {
         mask = water->mask;
         Color c(4096.0f, 4096.0f, 4096.0f, 1.0f);
-        DAT_011f9508->SetColor(c);
+        ::DAT_011f9508->SetColor(c);
     }
     for (int face = 0; face < 6; ++face)
     {
         if (aiFace != -1 && face != aiFace)
             continue;
-        FUN_00bd7200(face);
+        reinterpret_cast<::ViewCamera *>(this)->FUN_00bd7200(face);
         Cube* cube = target ? target->cube : (const Ptr<Cube>&)Ptr<Cube>();
         cube->Select(face);
-        FUN_00b6b8d0(7, target->FUN_00b6b260());
+        ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>(((target).operator->()))->GetGroup()))));
         unsigned bit = 0;
         switch (face)
         {
@@ -703,7 +699,7 @@ void Camera::FUN_00bd7bb0(int aiFace)
             updateData.flag2 = false;
             updateData.flag3 = false;
             updateData.flag4 = false;
-            FUN_00a59c60(updateData);
+            reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((std::intptr_t)&(updateData));
             if (DAT_011f91b8 != 7)
             {
                 if (sceneData)
@@ -718,10 +714,10 @@ void Camera::FUN_00bd7bb0(int aiFace)
                     scene->flag = true;
                     S00bd7bb0_Cull cull(0);
                     cull.camera = this;
-                    cull.FUN_00a694a0(&unk0dc);
-                    cull.FUN_004a0fd0(scene);
-                    FUN_00b6bee0(this, sceneData, &cull);
-                    FUN_00b6c0d0(this, scene, 0);
+                    reinterpret_cast<::S694a0 *>(&(cull))->FUN_00a694a0(&unk0dc);
+                    reinterpret_cast<::FUN_004a0fd0_shell *>(&(cull))->FUN_004a0fd0((::NiNode *)(::Scene *)(scene));
+                    ::FUN_00b6bee0(this, sceneData, (::BSShaderAccumulator *)(::S00bd7bb0_Cull *)(&cull));
+                    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(void *)(this), (::BSShaderAccumulator *)(::Scene *)(scene), 0);
                     cull.ClearRef();
                     if (held)
                     {
@@ -733,51 +729,53 @@ void Camera::FUN_00bd7bb0(int aiFace)
             }
             else if (water)
             {
-                FUN_00b71360(0, water, 1.0f);
+                ::FUN_00b71360(0, (::FUN_00b71360_water *)(::Water *)(water), 1.0f);
                 target = water.value->texture;
-                CullScene(water);
+                reinterpret_cast<::Cam_bd7620 *>(this)->CullScene((::Scene_bd7620 *)(::Water *)(water));
             }
         }
-        FUN_00b97fa0(1, 1);
-        FUN_00b97ff0(6, 7, 0);
-        void* destination = DAT_011f9520;
+        ::BSRenderStateManager::SetDepthBufferEnabled(1, (::BSRENDERSTATE_LOCK)(1));
+        ::AddToTwoCounters(6, 7, 0);
+        void* destination = (*reinterpret_cast<void * *>(&::DAT_011f9520));
         GlobalObjectO2_00b8a9e0 imageSpaceParams;
         ImageSpaceManager* manager = DAT_011f91ac;
-        NiRenderer* renderer = DAT_011f9508;
-        imageSpaceParams.FUN_00b8ab10(2, 0);
+        NiRenderer* renderer = ::DAT_011f9508;
+        reinterpret_cast<::ImageSpaceShaderParam *>(&(imageSpaceParams))->AllocateShaderConstants(2, 0);
         switch (face)
         {
         case 1: {
-            imageSpaceParams.FUN_00b8a760(0, Cos(1.5707963267948966), Sin(1.5707963267948966), 0.0f, 0.0f);
-            imageSpaceParams.FUN_00b8a760(1, -Sin(1.5707963267948966), Cos(1.5707963267948966), 0.0f, 0.0f);
-            manager->FUN_00b975f0(47, renderer, destination, target, &imageSpaceParams, 0);
+            reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(0, Cos(1.5707963267948966), Sin(1.5707963267948966), 0.0f, 0.0f);
+            reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(1, -Sin(1.5707963267948966), Cos(1.5707963267948966), 0.0f, 0.0f);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         case 0: {
-            imageSpaceParams.FUN_00b8a760(0, Cos(4.7123889923095703), Sin(4.7123889923095703), 0.0f, 0.0f);
-            imageSpaceParams.FUN_00b8a760(1, -Sin(4.7123889923095703), Cos(4.7123889923095703), 0.0f, 0.0f);
-            manager->FUN_00b975f0(47, renderer, destination, target, &imageSpaceParams, 0);
+            reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(0, Cos(4.7123889923095703), Sin(4.7123889923095703), 0.0f, 0.0f);
+            reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(1, -Sin(4.7123889923095703), Cos(4.7123889923095703), 0.0f, 0.0f);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         case 3: {
-            imageSpaceParams.FUN_00b8a760(0, Cos(3.1415927410125732), Sin(3.1415927410125732), 0.0f, 0.0f);
-            imageSpaceParams.FUN_00b8a760(1, -Sin(3.1415927410125732), Cos(3.1415927410125732), 0.0f, 0.0f);
-            manager->FUN_00b975f0(47, renderer, destination, target, &imageSpaceParams, 0);
+            reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(0, Cos(3.1415927410125732), Sin(3.1415927410125732), 0.0f, 0.0f);
+            reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(1, -Sin(3.1415927410125732), Cos(3.1415927410125732), 0.0f, 0.0f);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         case 2: {
-            imageSpaceParams.FUN_00b8a760(0, Cos(0.0), Sin(0.0), 0.0f, 0.0f);
-            imageSpaceParams.FUN_00b8a760(1, -Sin(0.0), Cos(0.0), 0.0f, 0.0f);
-            manager->FUN_00b975f0(47, renderer, destination, target, &imageSpaceParams, 0);
+            reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(0, Cos(0.0), Sin(0.0), 0.0f, 0.0f);
+            reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(1, -Sin(0.0), Cos(0.0), 0.0f, 0.0f);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         case 4:
-            manager->FUN_00b975f0(47, renderer, destination, target, &imageSpaceParams, 0);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         --DAT_011ff9f0;
-        FUN_00b97fa0(0, 0);
-        FUN_00b6b790();
+        ::BSRenderStateManager::SetDepthBufferEnabled(0, (::BSRENDERSTATE_LOCK)(0));
+        ::BSRenderedTexture::EndAllAndResetRendererState();
     }
-    DAT_011f9508->SetColor(savedColor);
+    ::DAT_011f9508->SetColor(savedColor);
 }
+
+#include "generated/data/bsshader/bscubemapcamera.inc"

@@ -1,5 +1,11 @@
 // bssystemutilities/bscachedrivesystemutility.cpp: BSCacheDriveSystemUtility (3 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00af3900_Class.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
 #include "BSCacheDriveSystemUtility.h"
 
 // @fnv 0x00af3940
@@ -26,20 +32,17 @@ void FUN_00af3920_shell::FUN_00af3920()
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct Host03950
 {
-    void FUN_00af3900();
     void* ReleaseIfFlagged(unsigned int);
 };
 // Calls FUN_00af3900, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00af3950
 void* Host03950::ReleaseIfFlagged(unsigned int flags)
 {
-    FUN_00af3900();
+    reinterpret_cast<::FUN_00af3900_Class *>(this)->FUN_00af3900();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }

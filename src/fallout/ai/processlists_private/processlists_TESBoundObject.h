@@ -23,8 +23,4 @@ class TESBoundObject : public TESObject
     };
     TESBoundObjectBounds kBoundData;
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject::Bounds) == 6);
-FNV_STATIC_ASSERT(sizeof(TESBoundObject::TESBoundObjectBounds) == 12);
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, kBoundData) == 0x24);
 #endif

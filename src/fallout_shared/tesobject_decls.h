@@ -1,5 +1,50 @@
 // fallout_shared/tesobject_decls.h: declares BGSDehydrationStage, TESResponse, TESObjectREFR, TESFile, TESBoundPoint and more
 
+#include <new>
+#include <malloc.h>
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/BSXFlags_shell.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_0040e500_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0047cdb0_shell.h"
+#include "fnv/decl/FUN_004aad00_shell.h"
+#include "fnv/decl/FUN_0050d4a0_shell.h"
+#include "fnv/decl/FUN_00510360_Class.h"
+#include "fnv/decl/FUN_00510380_Class.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00929240_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/LightCreation__LightForm.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047ce10__OwnerShell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00ad8100__FUN_00ad8100_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_0050e000.h"
+#include "fnv/symbols_00511000.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00518000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011df000.h"
 class TESObject;
 class TESFormList;
 class SpellItem;
@@ -13,7 +58,6 @@ class BGSDehydrationStage
 class TESResponse
 {
   public:
-    void SetSpeakerIdle(TESIdleForm*);
 };
 class TESBoundObject;
 class BipedAnim;
@@ -145,31 +189,24 @@ class TESObjectREFR
     virtual BipedAnim* GetBipedAnim();
     virtual void refrSlot123();
     virtual void SetBipedAnim(BipedAnim*);
-    TESBoundObject* GetObjectReference();
-    bool HasLeveledCreatureCalced();
-    bool FUN_00477ba0();
-    void FUN_00693ef0(bool);
+public:
+    const char *GetModelFilePath();
 };
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    bool GetChunkData(void*, unsigned int);
     bool IsEndianConversionRequired();
 };
 class TESBoundPoint
 {
   public:
     short a[3];
-    void FUN_0050e8b0(const TESBoundPoint&);
 };
 const TESBoundPoint& GetActorValueShortVector();
 class TESObjectBound
 {
   public:
     TESBoundPoint min, max;
-    void FUN_0050e9c0();
-    void FUN_0050ed30();
 };
 class TESObjectREFR;
 class NiAVObject;
@@ -391,58 +428,33 @@ class TESFormList
     TESObject* m_pFirstObject;
     TESObject* m_pSecondObject;
     void* pOwner;
-    TESObject* FUN_00510360(TESObject*);
-    TESObject* GetTerrainMinLevel(TESObject*);
-    TESObject* AddToObjectList(TESObject* object);
     TESObject* InsertObjectAfter(TESObject* object, TESObject* after);
 };
 
 class InterfaceManager
 {
   public:
-    void FUN_00984f60(unsigned int);
 };
-template <class T> class BSSimpleList
-{
-  public:
-    BSSimpleList<T>* GetNext();
-};
-extern BSSimpleList<BGSPerkEntry*>* g_dataHandler;
+#include "fnv/bs_simple_list.h"
 
+enum ENUM_FORM_ID;
 class TESForm
 {
   public:
-    unsigned int GetFormID();
+public:
+    ::ENUM_FORM_ID GetFormType() const;
+public:
+    void SetCollisionDisabled(bool);
 };
 class TESObjectSTAT;
 class TESObjectDOOR;
 class TESModel
 {
   public:
-    static unsigned int GetModelLength(TESObject*);
-    static const char* GetModelFilePath(TESObject*);
     unsigned int GetModelLength() const;
 };
-int FUN_00404dc0(const char*, const char*);
-extern TESObjectDOOR* DAT_011ca258;
-extern TESObjectSTAT* DAT_011ca220;
-extern TESObjectSTAT* DAT_011ca250;
-extern TESObjectSTAT* DAT_011ca25c;
-extern TESObjectSTAT* DAT_011ca260;
-extern TESObjectSTAT* DAT_011ca254;
-extern TESObjectSTAT* DAT_011ca224;
-extern TESObjectSTAT* DAT_011ca26c;
-extern TESBoundObject* DAT_011ca244;
-extern TESBoundObject* DAT_011ca248;
-extern TESObjectSTAT* DAT_011ca24c;
-extern TESObjectSTAT* DAT_011ca230;
-extern TESObjectSTAT* DAT_011ca264;
-extern TESObjectSTAT* DAT_011ca228;
-extern TESObjectSTAT* DAT_011ca22c;
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -452,9 +464,9 @@ class NiUpdateData
 };
 class NiFixedString;
 class NiTimeController;
-class NiRTTI;
+struct NiRTTI;
 class NiExtraData;
-class CloningProcess;
+struct CloningProcess;
 class NiAVObject
 {
   public:
@@ -463,34 +475,27 @@ class NiAVObject
     virtual void avSlot2();
     virtual void avSlot3();
     virtual NiNode* GetAsNiNode();
-    void SetName(const NiFixedString&);
-    NiAVObject* CloneObject(CloningProcess&);
-    NiTimeController* GetController(const NiRTTI*);
     NiExtraData* GetExtraData(const NiFixedString&);
-    bool AddExtraData(const NiFixedString&, NiExtraData*);
-    void UpdateSceneObject();
-    void Update(NiUpdateData&);
 };
+class NiAVObject;
 class NiNode : public NiAVObject
 {
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class SceneObjectLookup
 {
   public:
-    static NiAVObject* GetObjectByName(NiAVObject*, const char*);
 };
 class BipedAnim
 {
   public:
     char data[0x2b4];
     BipedAnim(TESObjectREFR*, NiNode*);
-    void InitBoneSlots(NiNode*);
 };
 class TESActorBaseData
 {
   public:
-    bool GetUsesLeveledTemplate();
-    void SetTemplateReference(TESObjectREFR*);
 };
 class TESCreature : public TESBoundObject
 {
@@ -499,45 +504,31 @@ class TESCreature : public TESBoundObject
     NiNode* Create3DModel(TESObjectREFR*);
 };
 
-class NiObjectNET
+struct NiObjectNET
 {
   public:
-    void ReplaceControllers(NiTimeController*);
 };
 class NiTimeController
 {
 };
-class NiRTTI
+struct NiRTTI
 {
 };
 class GlobalObject_00a7b610
 {
 };
-extern GlobalObject_00a7b610 g_011dfeac;
-class NiFixedString
-{
-  public:
-    unsigned int handle;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
-const NiFixedString& FUN_00448a80();
+#include "fnv/native_fixed_string.h"
 class TESSound
 {
   public:
-    const char* FUN_00511840();
 };
 class TESChallenge
 {
   public:
-    TESForm* GetFormTwo();
 };
-class BSAudio
+struct BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
-    bool FUN_005bb4d0();
-    void Precache(const char*, unsigned int, void*);
 };
 union SETTING_VALUE
 {
@@ -546,28 +537,22 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
     char data[12];
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting35;
 class BGSAcousticSpace
 {
   public:
-    void SetNoonSound(TESSound*);
 };
 class TESObjectDoorController : public NiTimeController
 {
   public:
     char data[0x38];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     TESObjectDoorController();
-    void FUN_00929240(float);
     virtual void doorCtrlSlot0();
     virtual void doorCtrlSlot1();
     virtual void doorCtrlSlot2();
@@ -613,20 +598,14 @@ class NiExtraData
 {
   public:
     char data[0x10];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     NiExtraData();
-    void FUN_00519230(bool, bool);
 };
 class TESObjectDOOR : public TESBoundObject
 {
   public:
     NiNode* Create3DModel(TESObjectREFR*);
-    bool FUN_00517fa0();
-    static void UpdateDoorNode(NiAVObject*);
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 template <class T> class NiPointer
 {
@@ -645,10 +624,8 @@ class BGSCameraPath
 class PlayerCharacter
 {
   public:
-    bool FUN_0050d4a0();
-    float GetScale();
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     unsigned int a, b, c, d, e, f, g;
@@ -659,8 +636,6 @@ class BSFadeNode : public NiNode
 {
   public:
     char data[0xe0];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     BSFadeNode();
 };
 class NiLight;
@@ -670,5 +645,4 @@ class TESObjectLIGH : public TESBoundObject
     char lightData[12];
     TESModel model;
     NiNode* Create3DModel(TESObjectREFR*);
-    NiLight* CreateLight(TESObjectREFR*, NiAVObject*, bool);
 };

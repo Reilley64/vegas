@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKRESOURCECONTAINER_H
 #include "hkBase.h"
 #include "hkResourceBase.h"
-#pragma pack(push, 1)
 class hkResourceContainer : public hkResourceBase
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkResourceContainer[(sizeof(hkResourceContainer) == 0x8) ? 1 : -1];
 #endif

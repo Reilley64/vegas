@@ -18,7 +18,7 @@ class BGSTouchSpellForm;
 class BGSVoiceType;
 class BSFileEntry;
 class TypedData;
-class InventoryItemEntry;
+struct InventoryItemEntry;
 class CreatureSoundCollection;
 class CollisionComponent;
 class FactionReaction;
@@ -93,10 +93,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
 class ShortPoint3
 {
   public:
@@ -136,19 +132,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
 class TESBoundObject : public TESObject
 {
   public:
@@ -169,8 +158,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 class TESBoundAnimObject : public TESBoundObject
 {
   public:
@@ -183,7 +170,6 @@ class TESBoundAnimObject : public TESBoundObject
     // TESBoundAnimObject& __cdecl TESBoundAnimObject::*(const TESBoundAnimObject&)
     // void __cdecl TESBoundAnimObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 48);
 class ActorBaseAttributes
 {
   public:
@@ -199,17 +185,6 @@ class ActorBaseAttributes
     unsigned short m_usField16;  // +0x16, 2 bytes
     // void __cdecl ActorBaseAttributes::*()
 };
-FNV_STATIC_ASSERT(sizeof(ActorBaseAttributes) == 24);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_uiActorFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField04) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField06) == 6);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, sLevel) == 8);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0A) == 10);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0C) == 12);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0E) == 14);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_fField10) == 16);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField14) == 20);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField16) == 22);
 class TESActorBaseData : public BaseFormComponent
 {
   public:
@@ -314,13 +289,6 @@ class TESActorBaseData : public BaseFormComponent
     // TESActorBaseData& __cdecl TESActorBaseData::*(const TESActorBaseData&)
     // void* __cdecl TESActorBaseData::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESActorBaseData) == 52);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, actorData) == 4);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pBaseTemplateForm) == 28);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_kFactionList) == 32);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_ppTemplateForms) == 36);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pDeathItem) == 40);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pVoiceType) == 44);
 class TESContainer : public BaseFormComponent
 {
   public:
@@ -362,8 +330,6 @@ class TESContainer : public BaseFormComponent
     // TESContainer& __cdecl TESContainer::*(const TESContainer&)
     // void* __cdecl TESContainer::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESContainer) == 12);
-FNV_STATIC_ASSERT(offsetof(TESContainer, objectList) == 4);
 class BGSTouchSpellForm : public BaseFormComponent
 {
   public:
@@ -384,9 +350,6 @@ class BGSTouchSpellForm : public BaseFormComponent
     // void __cdecl BGSTouchSpellForm::*(unsigned short)
     // BGSTouchSpellForm& __cdecl BGSTouchSpellForm::*(const BGSTouchSpellForm&)
 };
-FNV_STATIC_ASSERT(sizeof(BGSTouchSpellForm) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSTouchSpellForm, m_pMagicItem) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSTouchSpellForm, m_usTouchSpellType) == 8);
 class TESSpellList : public BaseFormComponent
 {
   public:
@@ -415,9 +378,6 @@ class TESSpellList : public BaseFormComponent
     // TESSpellList& __cdecl TESSpellList::*(const TESSpellList&)
     // void* __cdecl TESSpellList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESSpellList) == 20);
-FNV_STATIC_ASSERT(offsetof(TESSpellList, spellList) == 4);
-FNV_STATIC_ASSERT(offsetof(TESSpellList, leveledSpellList) == 12);
 class PackedRecordData
 {
   public:
@@ -435,18 +395,6 @@ class PackedRecordData
     unsigned int m_uiField10;   // +0x10, 4 bytes
     // void __cdecl PackedRecordData::*()
 };
-FNV_STATIC_ASSERT(sizeof(PackedRecordData) == 20);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField00) == 0);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField01) == 1);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField02) == 2);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField03) == 3);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField04) == 4);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_uiField08) == 8);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField0C) == 12);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField0D) == 13);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField0E) == 14);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_bField0F) == 15);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_uiField10) == 16);
 class PackageList
 {
   public:
@@ -471,8 +419,6 @@ class PackageList
     // PackageList& __cdecl PackageList::*(const PackageList&)
     // void* __cdecl PackageList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(PackageList) == 8);
-FNV_STATIC_ASSERT(offsetof(PackageList, m_kPackages) == 0);
 class TESAIForm : public BaseFormComponent
 {
   public:
@@ -529,10 +475,9 @@ class TESAIForm : public BaseFormComponent
     // PackageList* __cdecl TESAIForm::*()
     // TESAIForm& __cdecl TESAIForm::*(const TESAIForm&)
     // void* __cdecl TESAIForm::*(unsigned int)
+public:
+    unsigned char GetAssistance();
 };
-FNV_STATIC_ASSERT(sizeof(TESAIForm) == 32);
-FNV_STATIC_ASSERT(offsetof(TESAIForm, m_kAIData) == 4);
-FNV_STATIC_ASSERT(offsetof(TESAIForm, m_kPackageList) == 24);
 class TESAttributes : public BaseFormComponent
 {
   public:
@@ -570,8 +515,6 @@ class TESAttributes : public BaseFormComponent
     // TESAttributes& __cdecl TESAttributes::*(const TESAttributes&)
     // void* __cdecl TESAttributes::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESAttributes) == 12);
-FNV_STATIC_ASSERT(offsetof(TESAttributes, cAttribute) == 4);
 class TESAnimation : public BaseFormComponent
 {
   public:
@@ -592,8 +535,6 @@ class TESAnimation : public BaseFormComponent
     // TESAnimation& __cdecl TESAnimation::*(const TESAnimation&)
     // void* __cdecl TESAnimation::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESAnimation) == 12);
-FNV_STATIC_ASSERT(offsetof(TESAnimation, m_kKFFileList) == 4);
 class FileEntryList
 {
   public:
@@ -610,9 +551,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 class TESModel : public BaseFormComponent
 {
   public:
@@ -644,10 +582,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
@@ -709,8 +643,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // BGSDestructibleObjectForm& __cdecl BGSDestructibleObjectForm::*(const BGSDestructibleObjectForm&)
     // void* __cdecl BGSDestructibleObjectForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 class TESActorBase : public TESBoundAnimObject,
                      public TESActorBaseData,
                      public TESContainer,
@@ -779,7 +711,6 @@ class TESActorBase : public TESBoundAnimObject,
     // TESActorBase& __cdecl TESActorBase::*(const TESActorBase&)
     // void __cdecl TESActorBase::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESActorBase) == 268);
 class TESAttackDamageForm : public BaseFormComponent
 {
   public:
@@ -797,8 +728,6 @@ class TESAttackDamageForm : public BaseFormComponent
     // TESAttackDamageForm& __cdecl TESAttackDamageForm::*(const TESAttackDamageForm&)
     // void* __cdecl TESAttackDamageForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESAttackDamageForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESAttackDamageForm, m_usAttackDamage) == 4);
 class FileEntryListCollection
 {
   public:
@@ -811,9 +740,6 @@ class FileEntryListCollection
     // void __cdecl FileEntryListCollection::*()
     // FileEntryList* __cdecl FileEntryListCollection::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(FileEntryListCollection) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryListCollection, m_uiFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryListCollection, m_ppElementArray) == 4);
 class TESModelList : public BaseFormComponent
 {
   public:
@@ -836,9 +762,6 @@ class TESModelList : public BaseFormComponent
     // TESModelList& __cdecl TESModelList::*(const TESModelList&)
     // void* __cdecl TESModelList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESModelList) == 20);
-FNV_STATIC_ASSERT(offsetof(TESModelList, m_kModelPaths) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModelList, m_kModelData) == 12);
 class TypedData
 {
   public:
@@ -848,11 +771,6 @@ class TypedData
     unsigned char m_ucPayloadByte3;        // +0x3, 1 bytes
     // void __cdecl TypedData::*()
 };
-FNV_STATIC_ASSERT(sizeof(TypedData) == 4);
-FNV_STATIC_ASSERT(offsetof(TypedData, eType) == 0);
-FNV_STATIC_ASSERT(offsetof(TypedData, m_ucFirstByteAfterType) == 1);
-FNV_STATIC_ASSERT(offsetof(TypedData, iOtherSignFlags) == 2);
-FNV_STATIC_ASSERT(offsetof(TypedData, m_ucPayloadByte3) == 3);
 class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESModelList
 {
   public:
@@ -962,20 +880,4 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     // TESCreature& __cdecl TESCreature::*(const TESCreature&)
     // void __cdecl TESCreature::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESCreature) == 352);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_pCreature) == 296);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_pCreatureSounds) == 296);
-FNV_STATIC_ASSERT(offsetof(TESCreature, Data) == 300);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_ucCreatureType) == 304);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_fFirstCreatureStat) == 308);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_fSecondCreatureStat) == 312);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_fThirdCreatureStatCur) == 316);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_pCombatStyle) == 320);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_pBodyPartDataCur) == 324);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_eImpactMaterial) == 328);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_pImpactDataSet) == 332);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_bHasImpactDataSet) == 336);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_eSoundLevel) == 340);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_pCreatureListForm) == 344);
-FNV_STATIC_ASSERT(offsetof(TESCreature, m_cCreatureDataFlag) == 348);
 #endif

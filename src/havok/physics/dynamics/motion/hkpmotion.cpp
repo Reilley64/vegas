@@ -2,49 +2,52 @@
 // src/havok/physics/dynamics/motion/hkpmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/hkpmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_00c86660_cls.h"
+#include "fnv/decl/hkSweptTransformq.h"
+#include "fnv/symbols_00cf2000.h"
 #include "havok/hkpMotion.h"
 
-extern "C" void __cdecl SetMotionState(void*, void*);
 
-struct FUN_00c86400_Class
+struct FUN_00c86400_Class : hkpMotion
 {
-    void __thiscall FUN_00c86400(void* a);
+    void FUN_00c86400(void* a);
 };
 
 // @fnv 0x00c86400
-void __thiscall FUN_00c86400_Class::FUN_00c86400(void* a)
+void FUN_00c86400_Class::FUN_00c86400(void* a)
 {
-    SetMotionState(a, (char*)this + 0x10);
+    ::SetMotionState((const ::MotionMat4 *)(a), (::MotionState_cls *)(void *)(&m_kMotionState));
 }
 
-struct FUN_00c86420_Class
+struct FUN_00c86420_Class : hkpMotion
 {
-    void __thiscall FUN_00c86420(char a);
+    void FUN_00c86420(char a);
 };
 // @fnv 0x00c86420
-void __thiscall FUN_00c86420_Class::FUN_00c86420(char a)
+void FUN_00c86420_Class::FUN_00c86420(char a)
 {
-    ((char*)this)[0xbe] = a;
+    m_kMotionState.m_uiDeactivationClass = (hkUint8)a;
 }
 
-struct FUN_00c86480_Class
+struct FUN_00c86480_Class : hkpMotion
 {
-    void __thiscall FUN_00c86480(float v);
+    void FUN_00c86480(float v);
 };
 // @fnv 0x00c86480
-void __thiscall FUN_00c86480_Class::FUN_00c86480(float v)
+void FUN_00c86480_Class::FUN_00c86480(float v)
 {
-    *(float*)((char*)this + 0xcc) = v;
+    reinterpret_cast<float*>(&m_kInertiaAndMassInv)[3] = v;
 }
 
 struct FUN_00c86330_Class
 {
-    void __thiscall FUN_00c86330(float mass);
+    void FUN_00c86330(float mass);
 };
 
 // Computes the inverse of mass (0 if mass is 0) and passes it to the virtual function at vtable slot 4.
 // @fnv 0x00c86330
-void __thiscall FUN_00c86330_Class::FUN_00c86330(float mass)
+void FUN_00c86330_Class::FUN_00c86330(float mass)
 {
     float invMass;
     if (mass == 0.0f)
@@ -56,50 +59,48 @@ void __thiscall FUN_00c86330_Class::FUN_00c86330(float mass)
         invMass = 1.0f / mass;
     }
     void** vtbl = *(void***)this;
-    void(__thiscall * fn)(void*, float) = (void(__thiscall*)(void*, float))vtbl[4];
+    void(* fn)(void*, float) = (void(*)(void*, float))vtbl[4];
     fn(this, invMass);
 }
 
 extern "C" void __cdecl FUN_00cf20d0(void*, void*);
-struct FUN_00c863a0_Class
+struct FUN_00c863a0_Class : hkpMotion
 {
-    void __thiscall FUN_00c863a0(void* a);
+    void FUN_00c863a0(void* a);
 };
 // @fnv 0x00c863a0
-void __thiscall FUN_00c863a0_Class::FUN_00c863a0(void* a)
+void FUN_00c863a0_Class::FUN_00c863a0(void* a)
 {
-    FUN_00cf20d0(a, (char*)this + 0x10);
+    FUN_00cf20d0(a, &m_kMotionState);
 }
 
-extern "C" void __cdecl FUN_00cf2160(void*, void*);
 
-struct FUN_00c863c0_Class
+struct FUN_00c863c0_Class : hkpMotion
 {
-    void __thiscall FUN_00c863c0(void* a);
+    void FUN_00c863c0(void* a);
 };
 
 // @fnv 0x00c863c0
-void __thiscall FUN_00c863c0_Class::FUN_00c863c0(void* a)
+void FUN_00c863c0_Class::FUN_00c863c0(void* a)
 {
-    FUN_00cf2160(a, (char*)this + 0x10);
+    ::FUN_00cf2160((uintptr_t)(a), (uintptr_t)(&m_kMotionState));
 }
 
 extern void __cdecl FUN_00cf1f80(void*, void*, void*);
 
-struct FUN_00c863e0_Class
+struct FUN_00c863e0_Class : hkpMotion
 {
-    void __thiscall FUN_00c863e0(void* param1, void* param2);
+    void FUN_00c863e0(void* param1, void* param2);
 };
 
 // @fnv 0x00c863e0
 void FUN_00c863e0_Class::FUN_00c863e0(void* pFirst, void* pSecond)
 {
-    FUN_00cf1f80(pFirst, pSecond, static_cast<void*>(reinterpret_cast<char*>(this) + 0x10));
+    FUN_00cf1f80(pFirst, pSecond, static_cast<void*>(&m_kMotionState));
 }
 
 struct FUN_00cf22d0_Class
 {
-    void __thiscall Evaluate(float value, void* result);
 };
 
 struct FUN_00c86490_Class
@@ -107,33 +108,24 @@ struct FUN_00c86490_Class
     char pad[0x50];
     FUN_00cf22d0_Class sweptTransform;
 
-    void __thiscall SweepTransform(float value, void* result);
+    void SweepTransform(float value, void* result);
 };
 
 // @fnv 0x00c86490
 void FUN_00c86490_Class::SweepTransform(float value, void* result)
 {
-    sweptTransform.Evaluate(value, result);
+    reinterpret_cast<::hkSweptTransformq *>(&(sweptTransform))->Evaluate(value, (*(::hkTransformq *)(result)));
 }
 
 int __cdecl ApplyDelta(int, int);
 // @fnv 0x00c86380
-int __fastcall FUN_00c86380(unsigned int registerArg0, unsigned int registerArg1, unsigned int arg0)
+int FUN_00c86380(unsigned int registerArg0, unsigned int registerArg1, unsigned int arg0)
 {
     unsigned int callResult0 = (unsigned int)ApplyDelta((int)arg0, (int)(registerArg0 + 16u));
     return (int)callResult0;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 struct hkVector4C864F
 {
@@ -209,13 +201,7 @@ void hkpMotionC864F::ApplyImpulse(const hkVector4C864F& kImpulse)
 }
 
 namespace fnv_00c86530 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4C865
 {
@@ -345,37 +331,33 @@ FUN_00c86530::FUN_00c86530(const hkVector4C865& kPosition, const hkQuaternionC86
 }  // namespace fnv_00c86530
 
 namespace fnv_00c86610 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 struct Motion_00c86660
 {
-    void __thiscall FUN_00c86660(void* a);
 };
 struct Motion_00c86610
 {
     Motion_00c86610();
-    void __thiscall FUN_00c86610(Motion_00c86610* dst);
+    void FUN_00c86610(Motion_00c86610* dst);
 };
 // Copies the embedded Motion_00c86660 member and the two __m128 blocks plus one byte from this to dst.
 // @fnv 0x00c86610
-void __thiscall Motion_00c86610::FUN_00c86610(Motion_00c86610* apDest)
+void Motion_00c86610::FUN_00c86610(Motion_00c86610* apDest)
 {
-    ((Motion_00c86660*)((char*)apDest + 0x10))->FUN_00c86660((char*)this + 0x10);
-    *(__m128*)((char*)apDest + 0xd0) = *(__m128*)((char*)this + 0xd0);
-    *(__m128*)((char*)apDest + 0xe0) = *(__m128*)((char*)this + 0xe0);
-    ((unsigned char*)apDest + 9)[0] = ((unsigned char*)this + 9)[0];
+    hkpMotion* dst = reinterpret_cast<hkpMotion*>(apDest);
+    const hkpMotion* src = reinterpret_cast<const hkpMotion*>(this);
+    reinterpret_cast<::FUN_00c86660_cls *>(&dst->m_kMotionState)->FUN_00c86660((const ::FUN_00c86660_cls *)(const void *)(&src->m_kMotionState));
+    dst->m_kTranslationalVelocity = src->m_kTranslationalVelocity;
+    dst->m_kAngularVelocity = src->m_kAngularVelocity;
+    dst->m_ucDeactivationIntegrateCounter = src->m_ucDeactivationIntegrateCounter;
 }
 }  // namespace fnv_00c86610
 
 struct FUN_00c864b0_Class
 {
-    void __thiscall FUN_00c864b0(const float* a);
+    void FUN_00c864b0(const float* a);
 };
 // @fnv 0x00c864b0
-void __thiscall FUN_00c864b0_Class::FUN_00c864b0(const float* apVector)
+void FUN_00c864b0_Class::FUN_00c864b0(const float* apVector)
 {
     __m128 v = *(const __m128*)apVector;
     *((__m128*)(this + 0xd0)) = v;
@@ -385,15 +367,14 @@ struct FUN_00c864d0_Class
 {
     char m_e0[0xe0];
     __m128 m_f0e0;
-    void __thiscall CopyFrom(__m128* v);
+    void CopyFrom(__m128* v);
 };
 // @fnv 0x00c864d0
-void __thiscall FUN_00c864d0_Class::CopyFrom(__m128* apSource)
+void FUN_00c864d0_Class::CopyFrom(__m128* apSource)
 {
     m_f0e0 = *apSource;
 }
 
-extern "C" void _mm_store_ss(float*, __m128);
 
 struct MotionMassView : hkpMotionC864F
 {

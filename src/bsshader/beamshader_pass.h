@@ -2,11 +2,16 @@
 #ifndef BEAMSHADER_PASS_H
 #define BEAMSHADER_PASS_H
 
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/LightSlots.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e7e000.h"
 #include "NiRefObject.h"
 class BeamTextureState
 {
   public:
-    void FUN_00e890c0(unsigned int, unsigned int, unsigned int, bool);
 };
 class BeamStage
 {
@@ -22,10 +27,8 @@ class BeamStage
     void DecRefCount()
     {
         if (--refs == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
-    void ReturnToPool();
-    static void CreateNewStage(NiPointer<BeamStage>&);
 };
 class D3DRenderStateGroup
 {
@@ -78,12 +81,11 @@ class NiD3DPass
     }
     void DestroyPass();
     static void CreateD3DPass(NiPointer<NiD3DPass>&);
-    void FUN_00e802b0(unsigned int, BeamStage*);
     void SetRenderState(unsigned int a, unsigned int b, bool c)
     {
         if (!group)
             group = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-        group->SetRenderState(a, b, c);
+        reinterpret_cast<::StateGroup *>((group))->SetNodeValue(a, b, c);
     }
 };
 class BeamPassPointer
@@ -121,7 +123,6 @@ class BeamStagePointer
             object->DecRefCount();
     }
 };
-void ConfigureBeamStage(BeamStage*, unsigned int, unsigned int, unsigned int, bool);
 class BeamPassShader
 {
   public:

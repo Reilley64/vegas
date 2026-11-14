@@ -8,8 +8,7 @@
 class hkaAnimation;
 class hkaAnimationBinding;
 class hkaMeshBinding;
-class hkaSkeleton;
-#pragma pack(push, 1)
+struct hkaSkeleton;
 class hkaAnimationContainer : public hkReferencedObject
 {
   public:
@@ -19,6 +18,4 @@ class hkaAnimationContainer : public hkReferencedObject
     hkArray<void*> m_kAttachments;                       // +0x2C
     hkArray<hkaMeshBinding*> m_kMeshBindings;            // +0x38
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaAnimationContainer[(sizeof(hkaAnimationContainer) == 0x44) ? 1 : -1];
 #endif

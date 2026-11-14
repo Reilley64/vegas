@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nianimation/nicolorinterpolator_decls.h: declares AnimationKey, NiMemObject, NiColorData, NiColorInterpolator
+#include <new>
 #ifndef FNV_NICOLORINTERPOLATOR_DECLS_H
 #define FNV_NICOLORINTERPOLATOR_DECLS_H
 
@@ -19,8 +20,6 @@ class ColorAnimationKey;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiColorData : public NiMemObject
 {

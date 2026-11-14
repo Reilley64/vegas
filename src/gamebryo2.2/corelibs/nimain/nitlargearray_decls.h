@@ -2,14 +2,15 @@
 #ifndef NITLARGEARRAY_DECLS_H
 #define NITLARGEARRAY_DECLS_H
 
+#include <windows.h>
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 #include "TESForm.h"
 #include "TESTopicInfo.h"
 #include "NiFixedString.h"
 #include "NiRefObject.h"
 #include "MemoryManager.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-NiFixedString* __cdecl FUN_00a63ae0(unsigned int count);
-extern MemoryManager g_memoryManager;
 
 class ActorCombatGroup;
 template <> class NiTMallocInterface<ActorCombatGroup*>
@@ -44,7 +45,6 @@ template <> class NiTLargeArray<NiFixedString, NiTNewInterface<NiFixedString> >
     void RemoveAll();
     void SetSize(unsigned int size);
 };
-extern NiFixedString EmptyFS;
 
 template <> class NiTMallocInterface<unsigned int>
 {

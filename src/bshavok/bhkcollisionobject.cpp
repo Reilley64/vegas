@@ -1,2 +1,2 @@
 
-#include "bhkcollisionobject.h"
+#include "bhkcollisionobject_decls.h"

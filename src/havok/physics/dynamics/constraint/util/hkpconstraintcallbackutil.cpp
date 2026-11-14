@@ -3,13 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
-extern DWORD DAT_0126835c;
-extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 extern const char str_010d3824[];
-extern const char str_010c41f8[];
 
-unsigned __int64 __cdecl __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 struct ProfRec
 {
@@ -73,7 +70,7 @@ void __cdecl FUN_00d85ef0(ListenerOwner* pOwner)
     int i = (int)pArr->m_wCount - 1;
     if (i >= 0)
     {
-        LPVOID(WINAPI * pfnTls)(DWORD) = DAT_00fdf044;
+        LPVOID(WINAPI * pfnTls)(DWORD) = TlsGetValue;
         do
         {
             if (pArr->m_ppItems[i] != 0)
@@ -94,7 +91,7 @@ void __cdecl FUN_00d85ef0(ListenerOwner* pOwner)
                 cur = pBuf->m_pCur;
                 if (cur < pBuf->m_pRecordEnd)
                 {
-                    cur->m_pName = str_010c41f8;
+                    cur->m_pName = ::DAT_010c41f8;
                     _ReadWriteBarrier();
                     ticks[1] = (DWORD)__rdtsc();
                     cur->m_iTick = ticks[1];
@@ -107,3 +104,5 @@ void __cdecl FUN_00d85ef0(ListenerOwner* pOwner)
     }
     FUN_00d85d40(pArr);
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/util/hkpconstraintcallbackutil.inc"

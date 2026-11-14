@@ -6,13 +6,10 @@
 #include "hkBase.h"
 #include "hkpConstraintData.h"
 #include "hkpHingeLimitsDataAtoms.h"
-#pragma pack(push, 1)
 class hkpHingeLimitsData : public hkpConstraintData
 {
   public:
     char padC[0x4];
     hkpHingeLimitsDataAtoms m_kBridgeAtoms;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpHingeLimitsData[(sizeof(hkpHingeLimitsData) == 0xA0) ? 1 : -1];
 #endif

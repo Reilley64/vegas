@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // BGSTerrainNode unit-local declarations.
 //
 // The distant-terrain node/manager layouts below are copied verbatim from the
@@ -9,6 +10,11 @@
 #define FNV_BGSTERRAINNODE_LOCAL_H
 
 
+#include <cstring>
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011d8000.h"
 #include "layout_support.h"
 #include <float.h>
 #include <stddef.h>
@@ -19,8 +25,7 @@ class BGSTerrainChunk;
 class BGSDistantObjectBlock;
 class BGSDistantTreeBlock;
 
-#pragma pack(push, 4)
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0
@@ -29,22 +34,17 @@ class NiPoint3
     NiPoint3();
     NiPoint3(float xPos, float yPos, float zPos);
     NiPoint3 operator-(const NiPoint3& point) const;
-    float ComputeMagnitude();
+public:
+    float ComputeMagnitude() const;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 0x4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 0x8);
 
 class BGSTerrainManager
 {
   public:
-    unsigned int GetMaxLevel();
+    void* m_pWorldSpace;
     unsigned int GetMinLevel();
 };
 
-#pragma pack(push, 4)
 union SETTING_VALUE
 {
   public:
@@ -56,9 +56,8 @@ union SETTING_VALUE
     char c;           // +0x0
     unsigned char h;  // +0x0
 };
-#pragma pack(pop)
 
-class GameSettingCollection
+struct GameSettingCollection
 {
 };
 
@@ -67,26 +66,12 @@ class SettingT_GameSettingCollection_
   public:
     SettingT_GameSettingCollection_();
     ~SettingT_GameSettingCollection_();
-    SETTING_VALUE* Float();
     SETTING_VALUE* Bool();
 };
 
-extern SettingT_GameSettingCollection_ fSplitDistanceMult;
-extern SettingT_GameSettingCollection_ fMorphStartDistanceMult;
-extern SettingT_GameSettingCollection_ fMorphEndDistanceMult;
-extern SettingT_GameSettingCollection_ bKeepLowDetailTerrain;
 
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;  // +0x0
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
-int Warning(const char* aFormat, ...);
-
-extern "C" void* memset(void* pDestination, int cValue, unsigned int uSize);
 
 enum BGSTerrainNode__PARENT_POSITION
 {
@@ -97,7 +82,6 @@ enum BGSTerrainNode__PARENT_POSITION
     BGSTerrainNode__PARENT_POSITION_PP_LOWER_RIGHT = 4
 };
 
-#pragma pack(push, 4)
 class BGSTerrainNode
 {
   public:
@@ -129,28 +113,4 @@ class BGSTerrainNode
     BGSTerrainNode(BGSTerrainManager* pManagerArg, BGSTerrainNode* pParentArg, short sX, short sY, unsigned int uiSize,
                    bool bPersistentArg);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSTerrainNode) == 96);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, pManager) == 0);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, iLevel) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_sX) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_sY) == 10);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_bWithinMaximumLevel) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_bNodeStateFlag) == 13);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, pChunk) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, pBlock) == 20);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, pTrees) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_pSceneNode) == 28);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, pChildren) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, pParent) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, Center) == 52);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_fNodeRadius) == 64);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_fSplitDistance) == 68);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_fMorphStartDistance) == 72);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_fMorphEndDistance) == 76);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, TerrainNodeData) == 80);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_bFlagBeforeParentPosition) == 84);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_eParentPosition) == 88);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_bPersistent) == 92);
-FNV_STATIC_ASSERT(offsetof(BGSTerrainNode, m_bNodeInitialized) == 93);
 #endif

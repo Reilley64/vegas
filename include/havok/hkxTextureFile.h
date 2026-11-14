@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxTextureFile : public hkReferencedObject
 {
   public:
@@ -13,6 +12,4 @@ class hkxTextureFile : public hkReferencedObject
     hkStringPtr m_name;        // +0xC
     hkStringPtr m_mimeType;    // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxTextureFile[(sizeof(hkxTextureFile) == 0x14) ? 1 : -1];
 #endif

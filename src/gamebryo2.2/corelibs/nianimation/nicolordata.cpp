@@ -1,15 +1,34 @@
 // gamebryo2.2/corelibs/nianimation/nicolordata.cpp: NiColorData, NiColorDataHack, NiColorDataA3D (9 functions)
 
+#include "NiAnimationKeyTables.h"
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/NiObjectD510.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_0102d000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nicolordata_decls.h"
 
 // @fnv 0x00a3d210
 void NiColorData::SetColorKeys(ColorAnimationKey* keys, unsigned int count, AnimationKey::KeyType type)
 {
     if (m_pKeyArray)
-        DAT_011f38e8[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(ColorAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(3, 0) + m_eRequestType)(m_pKeyArray);
     if (keys && count)
     {
-        m_ucKeyDataSize = DAT_011f376a[type];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(3, 0) + type];
         m_pKeyArray = keys;
         m_uiNumKeys = count;
         m_eRequestType = type;
@@ -28,21 +47,18 @@ struct FUN_00a3d120_shell : public NiColorData
     void DestroyColorData();
 };
 
-extern void(__cdecl* DAT_011f38e8[])(ColorAnimationKey*);
-extern const void* vftable_NiColorData;
 
 // @fnv 0x00a3d120
 void FUN_00a3d120_shell::DestroyColorData()
 {
-    *(const void**)this = &vftable_NiColorData;
+    *(const void**)this = &(*reinterpret_cast<const void * *>(&::fnv_00a3d150::vftable_NiColorData));
     if (m_pKeyArray)
     {
-        DAT_011f38e8[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(ColorAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(3, 0) + m_eRequestType)(m_pKeyArray);
     }
     this->NiObject::~NiObject();
 }
 
-void __cdecl UpdateSlotStates(int, int, void*, unsigned int*, float, float);
 struct NiColorDataHack
 {
     char _pad[8];
@@ -55,31 +71,28 @@ struct NiColorDataHack
 void NiColorDataHack::FUN_00a3d0e0(float afValue1, float afValue2)
 {
     void* pkKeys = m_pKeyArray;
-    UpdateSlotStates(3, m_eRequestType, &pkKeys, &m_uiNumKeys, afValue1, afValue2);
+    ::UpdateSlotStates(3, m_eRequestType, (void **)(void *)(&pkKeys), (int *)(unsigned int *)(&m_uiNumKeys), afValue1, afValue2);
     m_pKeyArray = pkKeys;
 }
 
 namespace fnv_00a3d150 {
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a5d3a0_standin
 {
-    void FUN_00a5d3a0();
 };
 
-extern int vftable_NiColorData;
 
 // Allocates a 0x18-byte object, runs its constructor, installs the NiColorData vtable and zeroes three int fields at offsets 8, 0xc and 0x10.
 // @fnv 0x00a3d150
 void* CreateNiColorData()
 {
-    char* p = (char*)A51BF0Base::operator new(0x18);
+    char* p = (char*)::operator new(0x18);
     if (p)
     {
-        ((FUN_00a5d3a0_standin*)p)->FUN_00a5d3a0();
+        new ((void *)(((FUN_00a5d3a0_standin*)p))) struct ::FUN_00a5d3a0();
         *(void**)p = (void*)&vftable_NiColorData;
         *(int*)(p + 8) = 0;
         *(int*)(p + 0xc) = 0;
@@ -90,8 +103,6 @@ void* CreateNiColorData()
 }
 }  // namespace fnv_00a3d150
 
-extern bool __stdcall IsSameAs(NiObject*);
-extern bool(__cdecl* DAT_011f3b28[])(ColorAnimationKey*, ColorAnimationKey*);
 
 struct FUN_00a3d190_shell : public NiColorData
 {
@@ -101,7 +112,7 @@ struct FUN_00a3d190_shell : public NiColorData
 // @fnv 0x00a3d190
 bool FUN_00a3d190_shell::FUN_00a3d190(NiColorData* other)
 {
-    if (!IsSameAs(other))
+    if (!reinterpret_cast<::A5d470Class *>((other))->IsSameAs({}))
         return false;
     if (m_uiNumKeys != other->m_uiNumKeys)
         return false;
@@ -109,7 +120,7 @@ bool FUN_00a3d190_shell::FUN_00a3d190(NiColorData* other)
         return false;
     if (m_ucKeyDataSize != other->m_ucKeyDataSize)
         return false;
-    bool(__cdecl * pfnKeyCompare)(ColorAnimationKey*, ColorAnimationKey*) = DAT_011f3b28[m_eRequestType];
+    bool(__cdecl * pfnKeyCompare)(ColorAnimationKey*, ColorAnimationKey*) = NiAnimationKeyTables::Get<bool (*)(ColorAnimationKey *, ColorAnimationKey *)>(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(3, 0) + m_eRequestType);
     for (unsigned int i = 0; i < m_uiNumKeys; ++i)
     {
         ColorAnimationKey* kOther = (ColorAnimationKey*)((char*)other->m_pKeyArray + m_ucKeyDataSize * i);
@@ -317,12 +328,10 @@ enum KeyTypeA3D
 };
 
 typedef NiColorKeyA3D*(__cdecl* CreateFunctionA3D)(A3D370Stream& kStream, unsigned int uiNumKeys);
-extern CreateFunctionA3D g_apfnColorKeyCreateA3D[];
 
 class NiObjectA3D
 {
   public:
-    void LoadBinary(A3D370Stream& kStream);
 };
 
 class NiColorDataA3D : public NiObjectA3D
@@ -336,7 +345,7 @@ class NiColorDataA3D : public NiObjectA3D
 // @fnv 0x00a3d370
 void NiColorDataA3D::FUN_00a3d370(A3D370Stream& kStream)
 {
-    NiObjectA3D::LoadBinary(kStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(kStream));
 
     unsigned int uiNumKeys;
     A3D370LoadBinary(kStream, uiNumKeys);
@@ -344,7 +353,7 @@ void NiColorDataA3D::FUN_00a3d370(A3D370Stream& kStream)
     {
         KeyTypeA3D eType;
         A3D370LoadEnum(kStream, eType);
-        CreateFunctionA3D cf = g_apfnColorKeyCreateA3D[eType];
+        CreateFunctionA3D cf = NiAnimationKeyTables::Get<NiColorKeyA3D *(*)(A3D370Stream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(3, 0) + eType);
         NiColorKeyA3D* pkKeys = cf(kStream, uiNumKeys);
         SetColorKeys(pkKeys, uiNumKeys, eType);
     }
@@ -511,9 +520,7 @@ struct S_a3d410_Stream
 };
 struct S_a3d410_Base
 {
-    void FUN_00a89af0(S_a3d410_Stream* s);
 };
-extern void(__cdecl* DAT_011f3a98[])(S_a3d410_Stream*, int, unsigned);
 inline void S_a3d410_BinLoad(S_a3d410_Istr* i, void* dst, unsigned bytes)
 {
     unsigned comp = bytes;
@@ -532,24 +539,21 @@ struct FUN_00a3d410_cls : S_a3d410_Base
     unsigned unk10;
     void LoadFromStream(S_a3d410_Stream* s);
 };
-// Calls the base loader, reads a count into unk8, and if positive reads unk10 and dispatches DAT_011f3a98[unk10] with unkc and the count.
+// Calls the base loader, reads a count into unk8, and if positive reads unk10 and dispatches key function table kAt011f3a50, content 3, at unk10 with unkc and the count.
 // @fnv 0x00a3d410
 void FUN_00a3d410_cls::LoadFromStream(S_a3d410_Stream* pStream)
 {
-    FUN_00a89af0(pStream);
+    ::FUN_00a89af0((intptr_t)this);
     unsigned& n = unk8;
     S_a3d410_Load(pStream, n);
     if (n > 0)
     {
         S_a3d410_Load(pStream, unk10);
-        DAT_011f3a98[unk10](pStream, unkc, n);
+        NiAnimationKeyTables::Get<void (*)(S_a3d410_Stream *, int, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(3, 0) + unk10)(pStream, unkc, n);
     }
 }
 
-extern void* DAT_011f3750;
 
-void* __cdecl FUN_00a7d330(void* p);
-void* __cdecl FUN_00a7d510(const char* s, void* p);
 
 struct FUN_00a3d490_arr
 {
@@ -559,8 +563,6 @@ struct FUN_00a3d490_arr
     unsigned short m_usElementCount;  // +0xa
     unsigned short unk0c;             // +0xc
     unsigned short m_usGrow;          // +0xe
-    void FUN_0096ad30(unsigned int newCap);
-    void FUN_0096ae90(unsigned int index, void** item);
 };
 
 class FUN_00a3d490_cls
@@ -569,33 +571,30 @@ class FUN_00a3d490_cls
     unsigned int unk00;
     unsigned int unk04;
     void* m_p08;  // +0x8
-    void AppendCameraPathEntries(FUN_00a3d490_arr* a);
     void FUN_00a3d490(FUN_00a3d490_arr* arr);
 };
 
 // @fnv 0x00a3d490
 void FUN_00a3d490_cls::FUN_00a3d490(FUN_00a3d490_arr* arr)
 {
-    AppendCameraPathEntries(arr);
-    void* item = FUN_00a7d330(DAT_011f3750);
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(arr));
+    void* item = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3750))))));
     unsigned int index = arr->m_usElementCount;
     if (index >= arr->m_usCap)
     {
-        arr->FUN_0096ad30(index + arr->m_usGrow);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(index + arr->m_usGrow);
     }
-    arr->FUN_0096ae90(index, &item);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, (*(char * *)(&item)));
 
-    item = FUN_00a7d510("m_uiNumKeys", m_p08);
+    item = ((void *)(::FUN_00a7d510("m_uiNumKeys", (uintptr_t)(m_p08))));
     index = arr->m_usElementCount;
     if (index >= arr->m_usCap)
     {
-        arr->FUN_0096ad30(index + arr->m_usGrow);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(index + arr->m_usGrow);
     }
-    arr->FUN_0096ae90(index, &item);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, (*(char * *)(&item)));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class NiRefObjectD27
 {
@@ -662,8 +661,6 @@ class NiDataD27 : public NiRefObjectD27
     void SetData(int iFirst, int iSecond, int iCount) throw();
 };
 
-void __cdecl BuildDataD27(int iType, int iCount, void* pvSource, unsigned int uiElementCount, float fFirst,
-                          float fSecond, int* piFirst, int* piSecond) throw();
 
 class FUN_00a3d270_cls
 {
@@ -674,7 +671,6 @@ class FUN_00a3d270_cls
     void* m_pvSource;
     int m_iArrayLength;
 
-    void CreateData(NiPointerD27<NiDataD27>& spScreenData) throw();
     void BuildAndSetData(float fFirst, float fSecond, NiPointerD27<NiDataD27>& spResult);
 };
 
@@ -683,14 +679,16 @@ class FUN_00a3d270_cls
 void FUN_00a3d270_cls::BuildAndSetData(float fFirst, float fSecond, NiPointerD27<NiDataD27>& spResult)
 {
     NiPointerD27<NiDataD27> spCreated;
-    CreateData(spCreated);
+    reinterpret_cast<::NiObjectD510 *>(this)->FUN_00a5d510((::NiPointerD510 &)(spCreated));
     NiPointerD27<NiDataD27> spScreenData = spCreated;
     if (m_uiNum > 0)
     {
         int iFirst = 0;
         int iSecond = 0;
-        BuildDataD27(3, m_iArrayLength, m_pvSource, m_uiNum, fFirst, fSecond, &iFirst, &iSecond);
+        ::FUN_00a3d630(3, m_iArrayLength, m_pvSource, m_uiNum, fFirst, fSecond, (void **)(int *)(&iFirst), &iSecond);
         spScreenData->SetData(iFirst, iSecond, m_iArrayLength);
     }
     spResult = spScreenData;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nicolordata.inc"

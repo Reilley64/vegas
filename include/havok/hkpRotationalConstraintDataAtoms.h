@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpAngConstraintAtom.h"
 #include "hkpSetLocalRotationsConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpRotationalConstraintDataAtoms
 {
   public:
@@ -14,6 +13,4 @@ class hkpRotationalConstraintDataAtoms
     hkpAngConstraintAtom m_vAngularConstraint;             // +0x70
     char pad74[0xC];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpRotationalConstraintDataAtoms[(sizeof(hkpRotationalConstraintDataAtoms) == 0x80) ? 1 : -1];
 #endif

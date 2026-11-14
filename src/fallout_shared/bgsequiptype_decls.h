@@ -13,11 +13,7 @@ class TESForm
     ENUM_FORM_ID GetFormType() const;
 };
 class BGSPerkEntry;
-template <class T> class BSSimpleList
-{
-  public:
-    BSSimpleList<T>* GetNext();
-};
+#include "fnv/bs_simple_list.h"
 class BGSEquipType
 {
   public:

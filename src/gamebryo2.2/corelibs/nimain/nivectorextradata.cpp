@@ -2,12 +2,24 @@
 // src/gamebryo2.2/corelibs/nimain/nivectorextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nivectorextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int g_011f5e84;
 
 // @fnv 0x00a92070
+#include <cstdint>
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/decl/ExtraDataStrings.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a7b300_shell.h"
+#include "fnv/decl/FUN_00a7b330_shell.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 int* __cdecl FUN_00a92070()
 {
-    return &g_011f5e84;
+    return &(*reinterpret_cast<int *>(&::g_011f5e84));
 }
 
 struct NiObject
@@ -45,27 +57,25 @@ struct Holder00a92080
 {
     void* FUN_00a92080(unsigned int);
 };
-void __cdecl FUN_00a7b300();
-void __cdecl _delete(void*, unsigned int);
 extern int DAT_0109fb94;
 // @fnv 0x00a92080
 void* Holder00a92080::FUN_00a92080(unsigned int flags)
 {
     *(void**)this = (void*)&DAT_0109fb94;
-    FUN_00a7b300();
+    static_cast<::FUN_00a7b300_shell *>(nullptr)->FUN_00a7b300();
     if (flags & 1)
-        _delete(this, 0x1c);
+        ::FUN_00aa1460(this, 0x1c);
     return this;
 }
 
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
-    void FUN_00a7b2e0();
-    void FUN_00a7b330(void*, void*);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct CloningProcess
 {
@@ -79,10 +89,10 @@ struct FUN_00a920b0_shell : NiVectorExtraData
 // @fnv 0x00a920b0
 NiObject* FUN_00a920b0_shell::FUN_00a920b0(CloningProcess& kCloning)
 {
-    NiVectorExtraData* pkObject = (NiVectorExtraData*)BSFadeNode::operator new(sizeof(NiVectorExtraData));
+    NiVectorExtraData* pkObject = (NiVectorExtraData*)::operator new(sizeof(NiVectorExtraData));
     if (pkObject)
     {
-        ((NiExtraData*)pkObject)->FUN_00a7b2e0();
+        reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)pkObject)))->FUN_00a7b2e0();
         *(void**)pkObject = (void*)&DAT_0109fb94;
         pkObject->m_afVectorComponents[0] = pkObject->m_afVectorComponents[1] = pkObject->m_afVectorComponents[2] =
             pkObject->m_afVectorComponents[3] = 0.0f;
@@ -91,7 +101,7 @@ NiObject* FUN_00a920b0_shell::FUN_00a920b0(CloningProcess& kCloning)
     {
         pkObject = 0;
     }
-    ((NiExtraData*)this)->FUN_00a7b330(pkObject, &kCloning);
+    reinterpret_cast<::FUN_00a7b330_shell *>((((NiExtraData*)this)))->FUN_00a7b330((::NiBinaryExtraData *)(pkObject), (::CloningProcess *)(void *)(&kCloning));
     pkObject->m_afVectorComponents[0] = m_afVectorComponents[0];
     pkObject->m_afVectorComponents[1] = m_afVectorComponents[1];
     pkObject->m_afVectorComponents[2] = m_afVectorComponents[2];
@@ -107,21 +117,14 @@ struct StrArr
     unsigned short m_pAuxiliaryObject;
     unsigned short m_uiCapacity;
 
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, char*& pcString);
 };
 
 typedef StrArr A89C70StringArray;
 
 struct A89C70Base
 {
-    void GetViewerStrings(A89C70StringArray* apViewerStrings);
 };
 
-char* __cdecl _FUN_00a7d330(char* pString);
-void* __cdecl _NiMalloc(unsigned int uiSize);
-int __cdecl _NiSprintf(char* pBuffer, unsigned int uiSize, const char* pFormat, double EntryPointTwoValueFunctionData,
-                       double fSecondFunctionValue, double fValue3, double fValue4);
 
 struct FUN_00a92290_shell : NiVectorExtraData
 {
@@ -131,30 +134,30 @@ struct FUN_00a92290_shell : NiVectorExtraData
 // @fnv 0x00a92290
 void FUN_00a92290_shell::FUN_00a92290(StrArr* pStringArray)
 {
-    reinterpret_cast<A89C70Base*>(this)->GetViewerStrings(pStringArray);
+    reinterpret_cast<::ExtraDataStrings *>((reinterpret_cast<A89C70Base*>(this)))->FUN_00a7b580(pStringArray);
 
-    char* pcVectorString = _FUN_00a7d330(reinterpret_cast<char*>(g_011f5e84));
+    char* pcVectorString = ::FUN_00a7d330(reinterpret_cast<char*>((*reinterpret_cast<intptr_t *>(&::g_011f5e84))));
 
     unsigned int uiIndex = pStringArray->m_uiPosition;
     unsigned int ItemUpdateArray = pStringArray->m_uiCount;
     if (uiIndex >= ItemUpdateArray)
     {
-        pStringArray->SetSize(static_cast<unsigned int>(pStringArray->m_uiCapacity) + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pStringArray))->SetSize(static_cast<unsigned int>(pStringArray->m_uiCapacity) + uiIndex);
     }
-    pStringArray->SetAt(uiIndex, pcVectorString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStringArray))->SetAt(uiIndex, pcVectorString);
 
-    pcVectorString = static_cast<char*>(_NiMalloc(0x37));
+    pcVectorString = static_cast<char*>(::FUN_00aa1070(0x37));
 
-    _NiSprintf(pcVectorString, 0x37, "Vector = (%5.3f,%5.3f,%5.3f,%5.3f)", m_afVectorComponents[0],
+    ::NiSprintf(pcVectorString, 0x37, "Vector = (%5.3f,%5.3f,%5.3f,%5.3f)", m_afVectorComponents[0],
                m_afVectorComponents[1], m_afVectorComponents[2], m_afVectorComponents[3]);
 
     uiIndex = pStringArray->m_uiPosition;
     ItemUpdateArray = pStringArray->m_uiCount;
     if (uiIndex >= ItemUpdateArray)
     {
-        pStringArray->SetSize(static_cast<unsigned int>(pStringArray->m_uiCapacity) + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pStringArray))->SetSize(static_cast<unsigned int>(pStringArray->m_uiCapacity) + uiIndex);
     }
-    pStringArray->SetAt(uiIndex, pcVectorString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStringArray))->SetAt(uiIndex, pcVectorString);
 }
 
 struct S_00a921f0_File
@@ -322,7 +325,7 @@ struct S_00a921f0_Stream
     int unk240;
     int unk244;
     int unk248;
-    int unk24c;
+    intptr_t unk24c;
     S_00a921f0_File* m_pFile;
 };
 
@@ -334,14 +337,13 @@ static __forceinline void S_00a921f0_SaveFloat(S_00a921f0_Stream& s, const float
 class FUN_00a921f0_cls : public NiVectorExtraData
 {
   public:
-    void Callee7b2c0(S_00a921f0_Stream& s);
     void SaveToStream(S_00a921f0_Stream& s);
 };
 
 // @fnv 0x00a921f0
 void FUN_00a921f0_cls::SaveToStream(S_00a921f0_Stream& aStream)
 {
-    Callee7b2c0(aStream);
+    reinterpret_cast<::FUN_00a7b2c0_shell *>(this)->FUN_00a7b2c0((::NiStream &)(aStream));
     S_00a921f0_SaveFloat(aStream, &m_afVectorComponents[0]);
     S_00a921f0_SaveFloat(aStream, &m_afVectorComponents[1]);
     S_00a921f0_SaveFloat(aStream, &m_afVectorComponents[2]);
@@ -366,24 +368,22 @@ struct S_00a92110_File
 struct FUN_00a59be0_tmp
 {
     float v[3];
-    void FUN_00a59be0(S_00a921f0_Stream* s);
 };
 
 class FUN_00a92110_cls : public NiVectorExtraData
 {
   public:
-    void FUN_00a7b4a0(S_00a921f0_Stream* s);
     void FUN_00a92110(S_00a921f0_Stream* s);
 };
 
 // @fnv 0x00a92110
 void FUN_00a92110_cls::FUN_00a92110(S_00a921f0_Stream* s)
 {
-    FUN_00a7b4a0(s);
+    reinterpret_cast<::NiExtraData *>(this)->LoadBinary((*(::NiStream *)(s)));
     if ((unsigned int)s->unk0d8 < 0x500000e)
     {
         FUN_00a59be0_tmp tmp;
-        tmp.FUN_00a59be0(s);
+        reinterpret_cast<::NiColor *>(&(tmp))->LoadBinary((*(::NiStream *)(s)));
         m_afVectorComponents[0] = tmp.v[0];
         m_afVectorComponents[1] = tmp.v[1];
         m_afVectorComponents[2] = tmp.v[2];

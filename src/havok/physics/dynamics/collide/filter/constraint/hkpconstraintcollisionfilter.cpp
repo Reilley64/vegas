@@ -2,11 +2,33 @@
 // src/havok/physics/dynamics/collide/filter/constraint/hkpconstraintcollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/constraint/hkpconstraintcollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/DEF1E0PairCounter.h"
+#include "fnv/decl/FUN_00c91120.h"
+#include "fnv/decl/FUN_00c91140_Class.h"
+#include "fnv/decl/FUN_00c913b0_Class.h"
+#include "fnv/decl/FUN_00c9c390_Class.h"
+#include "fnv/decl/FUN_00d87bf0.h"
+#include "fnv/decl/HashCls.h"
+#include "havok/hkpPairCollisionFilterPairMap.h"
+#include "fnv/decl/WorldWithPending.h"
+#include "fnv/decl/hkMapCB1E.h"
+#include "fnv/symbols_00c9c000.h"
+#include "fnv/symbols_00cc1000.h"
+#include "fnv/symbols_00cfd000.h"
+// hkpConstraintCollisionFilter's hkpConstraintListener base sits at +0x40 (x86 layout).
+static const int kConstraintListenerOffset = 0x40;
+static inline char* filterOfConstraintListener(void* listener)
+{
+    return static_cast<char*>(listener) - kConstraintListenerOffset;
+}
+
 struct VtableObject
 {
     virtual void v0();
-    virtual void v1(int value);
-    virtual void v2(int value);
+    virtual void v1(const void* value);
+    virtual void v2(const void* value);
 };
 struct Owner
 {
@@ -26,13 +48,13 @@ struct Owner
     int unk34;
     int unk38;
     int unk3c;
-    void FUN_00d87c20(int value, bool mode);
+    void FUN_00d87c20(const void* value, bool mode);
 };
 // Calls v2(value) on the VtableObject at this+0x40 when mode is true, otherwise calls v1(value).
 // @fnv 0x00d87c20
-void Owner::FUN_00d87c20(int value, bool mode)
+void Owner::FUN_00d87c20(const void* value, bool mode)
 {
-    VtableObject* p = (VtableObject*)((char*)this + 0x40);
+    VtableObject* p = (VtableObject*)((char*)this + kConstraintListenerOffset);
     if (mode)
         p->v2(value);
     else
@@ -102,15 +124,17 @@ struct hkBool
         m_cBooleanValue = (char)b;
     }
 };
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     void* m_pCollisionShape;
 };
 struct hkpCollidable : hkpCdBody
 {
 };
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     virtual ~hkReferencedObject();
     int m_usMemSizeAndFlags;
 };
@@ -167,9 +191,6 @@ struct hkpWorld
     hkBool m_bBlockExecutingPendingOperations;
     int unkA0;
     int m_iPendingOperationQueueCount;
-    void FUN_00c91120();
-    void FUN_00c91140();
-    void ProcessPair(hkpEntity* a, hkpEntity* b);
     __forceinline void lockCriticalOperations()
     {
         m_iCriticalOperationsLockCount++;
@@ -180,9 +201,9 @@ struct hkpWorld
         if (m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations.m_cBooleanValue)
         {
             if (m_iPendingOperationCount)
-                FUN_00c91120();
+                reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-                FUN_00c91140();
+                reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
         }
     }
 };
@@ -241,7 +262,6 @@ struct S_00d87e30_Listener
 };
 struct S_00d87e30 : S_00d87e30_Base, S_00d87e30_Listener
 {
-    int DecrementPairCount(hkpEntity* a, hkpEntity* b);
     virtual void ProcessCollisionEvent(S_00d87e30_Event* pEvent);
 };
 // Validates the event's two entities and collision filter, then locks the world, dispatches the collision pair, and unlocks it.
@@ -254,7 +274,7 @@ void S_00d87e30::ProcessCollisionEvent(S_00d87e30_Event* pEvent)
         return;
     hkpEntity* a = pEvent->m_pEntityA;
     hkpEntity* b = pEvent->m_pEntityB;
-    if (DecrementPairCount(a, b) > 0)
+    if (reinterpret_cast<::DEF1E0PairCounter *>(this)->DecrementPairCount(a, b) > 0)
         return;
     if (m_pCollisionFilter &&
         !m_pCollisionFilter->IsCollisionEnabled(a->m_kCollidable, b->m_kCollidable).m_cBooleanValue)
@@ -263,7 +283,7 @@ void S_00d87e30::ProcessCollisionEvent(S_00d87e30_Event* pEvent)
     if (!world)
         return;
     world->lockCriticalOperations();
-    world->ProcessPair(a, b);
+    reinterpret_cast<::FUN_00c913b0_Class *>((world))->ProcessPair(a, b);
     world->unlockAndAttemptToExecutePendingOperations();
 }
 
@@ -362,18 +382,13 @@ struct D
     unsigned char unk9F;
     int unkA0;
     int m_ia4;
-    void CleanupFirst();
-    void CleanupSecond();
 };
 
 class Cls40
 {
   public:
-    int CheckPair(B* b, C* c);
 };
 
-int __cdecl CallA(void* a, void* b);
-void __cdecl CallB(void* p);
 
 class FUN_00d87d70_cls
 {
@@ -402,13 +417,13 @@ void FUN_00d87d70_cls::FUN_00d87d70(A* p)
     {
         return;
     }
-    if (((Cls40*)((char*)this - 0x40))->CheckPair(b, p->m_iThirdValue) != 1)
+    if (reinterpret_cast<::HashCls *>(((Cls40*)filterOfConstraintListener(this)))->InsertPair(b, p->m_iThirdValue) != 1)
     {
         return;
     }
     C* pC = p->m_iThirdValue;
     B* pB = p->m_kPointB;
-    void* pResult = (void*)CallA(&pB->m_iB10, &pC->m_iC10);
+    void* pResult = ::FindEntryValue((::LinkNode *)(void *)(&pB->m_iB10), (::LinkNode *)(void *)(&pC->m_iC10));
     if (pResult == 0)
     {
         return;
@@ -419,7 +434,7 @@ void FUN_00d87d70_cls::FUN_00d87d70(A* p)
         return;
     }
     d->m_i94 += 1;
-    CallB(pResult);
+    ::FUN_00cc1160((::Owner *)(pResult));
     d->m_i94 -= 1;
     if (d->m_i94 != 0)
     {
@@ -431,7 +446,7 @@ void FUN_00d87d70_cls::FUN_00d87d70(A* p)
     }
     if (d->m_i8c != 0)
     {
-        d->CleanupFirst();
+        reinterpret_cast<::FUN_00c91120 *>((d))->ExecutePendingOperations();
     }
     if (d->m_ia4 != 1)
     {
@@ -441,13 +456,13 @@ void FUN_00d87d70_cls::FUN_00d87d70(A* p)
     {
         return;
     }
-    d->CleanupSecond();
+    reinterpret_cast<::FUN_00c91140_Class *>((d))->FUN_00c91140();
 }
 
 struct S_00d87f60_Arg
 {
     struct S_00d87f60_Obj* unk00;
-    int unk04;
+    void* unk04;
 };
 struct S_00d87f60_Flag
 {
@@ -465,12 +480,11 @@ struct S_00d87f60_Data
 {
     char unk00;
     void* unk04;
-    int unk08;
+    void* unk08;
     char unk0c;
 };
 struct S_00d87f60_Base
 {
-    void FUN_00d87c20(int, S_00d87f60_Flag);
 };
 struct S_00d87f60_Obj
 {
@@ -512,7 +526,6 @@ struct S_00d87f60_Obj
     int unk8c;
     int unk90;
     int unk94;
-    void FUN_00c91160(S_00d87f60_Data*);
 };
 struct S_00d87f60
 {
@@ -527,27 +540,20 @@ void S_00d87f60::FUN_00d87f60(S_00d87f60_Arg* arg)
     {
         S_00d87f60_Data d;
         d.unk00 = 0x23;
-        d.unk04 = (char*)this - 0x40;
+        d.unk04 = filterOfConstraintListener(this);
         d.unk08 = arg->unk04;
         d.unk0c = 0;
-        obj->FUN_00c91160(&d);
+        reinterpret_cast<::WorldWithPending *>((obj))->FUN_00c91160();
     }
     else
     {
-        ((S_00d87f60_Base*)((char*)this - 0x40))->FUN_00d87c20(arg->unk04, S_00d87f60_Flag(0));
+        reinterpret_cast<::Owner *>(((S_00d87f60_Base*)filterOfConstraintListener(this)))->FUN_00d87c20(arg->unk04, (*(bool *)&(const ::S_00d87f60_Flag &)(S_00d87f60_Flag(0))));
     }
 }
 
-typedef void(__thiscall* SlotFn)(void* self, void* arg);
+typedef void(* SlotFn)(void* self, void* arg);
 struct Sub_b1297
 {
-    int GetCount();
-    void* GetItem(int index);
-};
-struct Thing_b1297
-{
-    int unk00;
-    void Init();
 };
 struct Proxy_b1297
 {
@@ -618,9 +624,7 @@ struct WorldOpTask
     int unk24;
     int unk28;
     int unk2C;
-    Thing_b1297 m_30;
-    int unk34;
-    int unk38;
+    hkpPairFilterMap m_30;
     int unk3C;
     Sec_b1297 m_40;
     void FUN_00d87ca0(Arg_b1297* a1);
@@ -630,7 +634,7 @@ struct WorldOpTask
 // @fnv 0x00d87ca0
 void WorldOpTask::FUN_00d87ca0(Arg_b1297* a1)
 {
-    this->m_30.Init();
+    m_30.clear();
     ListE_b1297* pList = &a1->m_28;
     for (int pass = 0; pass < 2; ++pass)
     {
@@ -640,9 +644,9 @@ void WorldOpTask::FUN_00d87ca0(Arg_b1297* a1)
             for (int k = 0; k < pElem->m_4c; ++k)
             {
                 Sub_b1297* pSub = pElem->m_48[k];
-                int iCount = pSub->GetCount();
+                int iCount = ::FUN_00c9c380((void *)(pSub), {});
                 for (int j = 0; j < iCount; ++j)
-                    this->m_40.v1(pSub->GetItem(j));
+                    this->m_40.v1(((void *)(reinterpret_cast<::FUN_00c9c390_Class *>((pSub))->GetEntry(j))));
             }
         }
         pList = &a1->m_34;
@@ -651,7 +655,7 @@ void WorldOpTask::FUN_00d87ca0(Arg_b1297* a1)
 
 // sub ecx,0x14; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
-struct PrimaryBase
+struct FnvHavok00d87fc0_PrimaryBase
 {
     virtual void FUN_00d87fc0();
     int unk04;
@@ -660,19 +664,19 @@ struct PrimaryBase
     int unk10;
 };
 
-struct SecondaryBase
+struct FnvHavok00d87fc0_SecondaryBase
 {
     virtual void FUN_00d87fc0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d87fc0_Derived : FnvHavok00d87fc0_PrimaryBase, FnvHavok00d87fc0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d87fc0_Derived();
 // @fnv 0x00d87fc0
     virtual void FUN_00d87fc0();
 };
 
-Derived::Derived()
+FnvHavok00d87fc0_Derived::FnvHavok00d87fc0_Derived()
 {}
 
 struct D87FD0Primary
@@ -790,7 +794,7 @@ struct Owner_d87f00;
 struct Pair_d87f00
 {
     Obj_d87f00* m_pHeadNode;
-    unsigned int m_iSecondInteger;
+    void* m_iSecondInteger;
 };
 
 struct Event_d87f00
@@ -799,7 +803,7 @@ struct Event_d87f00
     unsigned char unk01;
     unsigned short unk02;
     void* m_ptr;
-    unsigned int m_val;
+    void* m_val;
     unsigned char m_flag;
     unsigned char unk0D;
     unsigned char unk0E;
@@ -859,12 +863,10 @@ struct Obj_d87f00
     unsigned int unk90;
     unsigned int m_94;
 
-    void FUN_00c91160(Event_d87f00* apEvent);
 };
 
 struct Owner_d87f00
 {
-    void FUN_00d87c20(unsigned int aValue, Flag_d87f00 aFlag);
 };
 
 struct S_00d87f00
@@ -881,48 +883,36 @@ void S_00d87f00::FUN_00d87f00(Pair_d87f00* apPair)
     if (obj->m_94 != 0)
     {
         Event_d87f00 ev;
-        ev.m_ptr = (char*)this - 0x40;
+        ev.m_ptr = filterOfConstraintListener(this);
         ev.m_kind = 0x23;
         ev.m_val = apPair->m_iSecondInteger;
         ev.m_flag = 1;
-        obj->FUN_00c91160(&ev);
+        reinterpret_cast<::WorldWithPending *>((obj))->FUN_00c91160();
     }
     else
     {
         Flag_d87f00 f(1);
-        reinterpret_cast<Owner_d87f00*>((char*)this - 0x40)->FUN_00d87c20(apPair->m_iSecondInteger, f);
+        reinterpret_cast<::Owner *>((reinterpret_cast<Owner_d87f00*>(filterOfConstraintListener(this))))->FUN_00d87c20(apPair->m_iSecondInteger, (*(bool *)&(const ::Flag_d87f00 &)(f)));
     }
 }
 
-struct ConstraintFilterMemory
-{
-    virtual void unknown00() = 0;
-    virtual void unknown04() = 0;
-    virtual void Release(void* object, unsigned int bytes) = 0;
-};
-struct BSAudio
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-    ConstraintFilterMemory* allocator;
-};
-BSAudio* FUN_00c85750();
+
 struct ConstraintFilterDeleteReceiver
 {
     unsigned int unk00;
     unsigned short size4, unk06;
-    void FUN_00d87bf0();
     ConstraintFilterDeleteReceiver* FUN_00d88000(unsigned int flags);
 };
-// Calls FUN_00d87bf0, then if flags has bit 0 set, releases this object via the BSAudio allocator using size4 bytes, and returns this.
+// Calls FUN_00d87bf0, then if flags has bit 0 set, releases this object via the hkMemoryRouter allocator using size4 bytes, and returns this.
 // @fnv 0x00d88000
 ConstraintFilterDeleteReceiver* ConstraintFilterDeleteReceiver::FUN_00d88000(unsigned int flags)
 {
-    FUN_00d87bf0();
+    reinterpret_cast<::FUN_00d87bf0 *>(this)->FUN_00d87bf0::~FUN_00d87bf0();
     if (flags & 1u)
     {
-        BSAudio* audio = FUN_00c85750();
+        hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
         unsigned int bytes = size4;
-        audio->allocator->Release(this, bytes);
+        audio->m_heap->blockFree(this, bytes);
     }
     return this;
 }

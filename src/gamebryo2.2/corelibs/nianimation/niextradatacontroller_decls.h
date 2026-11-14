@@ -2,25 +2,24 @@
 #ifndef NIEXTRADATACONTROLLER_DECLS_H
 #define NIEXTRADATACONTROLLER_DECLS_H
 
-class NiFixedString
-{
-  public:
-    const char* data;
-};
-class NiStream
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/native_fixed_string.h"
+struct NiStream
 {
   public:
     char padding[0xd8];
     unsigned int version;
-    void ReadFixedString(NiFixedString&);
-    void ReadStringTableEntry(NiFixedString&);
 };
+struct CloningProcess;
 class NiSingleInterpController
 {
   public:
     virtual void Reserved();
     char padding[0x34];
     void LoadBinary(NiStream&);
+public:
+    void ProcessClone(::CloningProcess &);
 };
 class NiPSysModifierCtlr : public NiSingleInterpController
 {

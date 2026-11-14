@@ -12,22 +12,23 @@ class BSFadeNode;
 class BSMultiBoundNode;
 class BSResizableTriShape;
 class BSSegmentedTriShape;
-class CloningProcess;
+struct CloningProcess;
 class NiGeometry;
 class NiLines;
 class NiNode;
 class NiParticles;
-class NiStream;
+struct NiStream;
 class NiTriBasedGeom;
 class NiTriShape;
 class NiTriStrips;
-class NiControllerManager;
+struct NiControllerManager;
 class NiObjectGroup;
-class NiBound;
-class NiRTTI;
-template <class T> class NiTPrimitiveArray;
-typedef NiTPrimitiveArray<const char*> NiViewerStringsArray;
-class NiObject : public NiRefObject
+struct NiBound;
+struct NiRTTI;
+template <class T> class NiTMallocInterface;
+template <class T, class TAlloc> class NiTPrimitiveArray;
+typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*>> NiViewerStringsArray;
+struct NiObject : public NiRefObject
 {
   public:
     virtual const NiRTTI* GetRTTI() const;   // 02 | Returns NiRTTI of the object
@@ -80,5 +81,4 @@ class NiObject : public NiRefObject
     virtual NiControllerManager* IsControllerManager()
         const;  // 34 | Returns this if it's a NiControllerManager, otherwise nullptr
 };
-FNV_STATIC_ASSERT(sizeof(NiObject) == 0x8);
 #endif

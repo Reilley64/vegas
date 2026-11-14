@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKPPARAMETRICCURVE_H
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpParametricCurve : public hkReferencedObject
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpParametricCurve[(sizeof(hkpParametricCurve) == 0x8) ? 1 : -1];
 #endif

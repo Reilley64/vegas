@@ -2,54 +2,42 @@
 // src/havok/physics/utilities/deprecated/disableentity/hkpdisableentitycollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/deprecated/disableentity/hkpdisableentitycollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00e46900.h"
+#include "fnv/decl/HostC9C6.h"
 #include "havok/hkpDisableEntityCollisionFilter.h"
 
 // @fnv 0x00e467b0
-void __stdcall FUN_00e467b0(char* flag, int a, int b)
+void FUN_00e467b0(char* flag, int a, int b)
 {
     *flag = 1;
 }
 
 // @fnv 0x00e46780
-void __stdcall FUN_00e46780(unsigned char* flag, int p2, int p3, int p4, int p5, int p6)
+void FUN_00e46780(unsigned char* flag, int p2, int p3, int p4, int p5, int p6)
 {
     *flag = 1;
 }
 
 // @fnv 0x00e46790
-void __stdcall FUN_00e46790(char* flag, int a, int b, int c, int d)
+void FUN_00e46790(char* flag, int a, int b, int c, int d)
 {
     *flag = 1;
 }
 
 // @fnv 0x00e467a0
-void __stdcall FUN_00e467a0(char* flag, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+void FUN_00e467a0(char* flag, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     *flag = 1;
 }
 
-void* __cdecl FUN_00c85750(void);
 
 struct FUN_00e46900_Obj
 {
-    void FUN_00e46900();
 };
 
-struct FUN_00dff930_Alloc
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08(void* p, int n);
-};
 
-struct FUN_00dff930_Mgr
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00dff930_Alloc* m_10;
-};
 
 struct FUN_00dff930_class : hkpDisableEntityCollisionFilter
 {
@@ -59,18 +47,18 @@ struct FUN_00dff930_class : hkpDisableEntityCollisionFilter
 // @fnv 0x00dff930
 void* FUN_00dff930_class::FUN_00dff930(unsigned char uiFlags)
 {
-    reinterpret_cast<FUN_00e46900_Obj*>(this)->FUN_00e46900();
+    reinterpret_cast<::FUN_00e46900 *>((reinterpret_cast<FUN_00e46900_Obj*>(this)))->FUN_00e46900::~FUN_00e46900();
     if (uiFlags & 1)
     {
-        FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(FUN_00c85750());
-        mgr->m_10->slot08(this, m_usMemSizeAndFlags);
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        mgr->m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
 }
 
 // Empty function that takes an unsigned int argument and does nothing.
 // @fnv 0x00e467c0
-void __stdcall FUN_00e467c0(unsigned int a1)
+void FUN_00e467c0(unsigned int a1)
 {}
 
 struct hkBoolE467
@@ -195,7 +183,6 @@ class hkpEntityListenerE46;
 class hkpEntityE46
 {
   public:
-    void FUN_00c9c670(hkpEntityListenerE46* listener);
 };
 
 class hkpCollisionFilterE46
@@ -225,7 +212,6 @@ class hkpEntityListenerE46
 class hkpDisableEntityCollisionFilterE46 : public hkpCollisionFilterE46, public hkpEntityListenerE46
 {
   public:
-    hkBoolE46 FUN_00e46820(hkpEntityE46* entity);
     virtual void FUN_00e46880(hkpEntityE46* entity);
 };
 
@@ -235,32 +221,33 @@ void hkpDisableEntityCollisionFilterE46::FUN_00e46880(hkpEntityE46* entity)
 {
     if (entity)
     {
-        FUN_00e46820(entity);
-        entity->FUN_00c9c670(this);
+        char wasRemoved;
+        reinterpret_cast<::FnvDisabledCollisionFilter *>(this)->FUN_00e46820(&wasRemoved, reinterpret_cast<hkpEntity*>(entity));
+        reinterpret_cast<::HostC9C6 *>((entity))->FUN_00c9c670(this);
     }
 }
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
-struct PrimaryBase
+struct FnvHavok00dff960_PrimaryBase
 {
     virtual void FUN_00dff960();
     int unk04;
 };
 
-struct SecondaryBase
+struct FnvHavok00dff960_SecondaryBase
 {
     virtual void FUN_00dff960();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00dff960_Derived : FnvHavok00dff960_PrimaryBase, FnvHavok00dff960_SecondaryBase
 {
-    Derived();
+    FnvHavok00dff960_Derived();
 // @fnv 0x00dff960
     virtual void FUN_00dff960();
 };
 
-Derived::Derived()
+FnvHavok00dff960_Derived::FnvHavok00dff960_Derived()
 {}
 
 namespace fnv_00dff970 {

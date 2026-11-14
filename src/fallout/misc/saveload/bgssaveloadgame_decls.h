@@ -4,6 +4,16 @@
 
 // TESForm (all PC virtuals) comes from the canonical TESForm.h; TESDataHandler, TESObjectCELL and the NiTPointerMap
 // template come from the canonical layout_support.h.
+#include <cstdint>
+#include "fnv/decl/BGSSaveLoadChangesMap.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00570f00__FUN_00570f00_shell.h"
+#include "fnv/decl/fnv_00893340__FUN_00893340_shell.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_011c3000.h"
 #include "layout_support.h"
 #include "TESForm.h"
 class BaseProcess;
@@ -14,39 +24,27 @@ class FormChangeMask
 {
   public:
     unsigned int flags;
-    unsigned int FUN_00559450();
+public:
+    static ::FormChangeMask HasFormChanged(::FormChangeMask, ::FormChangeMask, int, bool);
 };
+class TESActorBase;
 class Actor
 {
   public:
-    BaseProcess* GetProcess();
-    void UpdateActorMovementState(bool);
+public:
+    ::TESActorBase *GetActorBase();
 };
 // TESDataHandler members the canonical (API-only) layout_support.h class does not declare yet; called through a cast
 // of g_dataHandler (same address).
 class TESDataHandlerSaveLoad
 {
   public:
-    bool FormIDExists(unsigned int);
-    unsigned int GetNextID();
-    TESFile* GetCompiledFileByIndex(int);
-    unsigned char GetCompiledFileCount();
 };
-extern TESDataHandler* g_dataHandler;
 class FormChangeRecord
 {
   public:
     FormChangeMask flags;
     FormChangeMask savedFlags;
-};
-class BGSSaveLoadChangesMap
-{
-  public:
-    bool ContainsChangeFlags(unsigned int, FormChangeMask);
-    void AddFormChangeFlags(unsigned int, FormChangeMask);
-    bool ClearChangeFlags(unsigned int, FormChangeMask);
-    bool HasFormChanges(unsigned int);
-    FormChangeRecord* FUN_009a4250(unsigned int);
 };
 // The canonical NiTPointerMap template has no RemoveAll; the <unsigned int, unsigned int> instance used here declares it.
 template <> class NiTPointerMap<unsigned int, unsigned int>
@@ -59,40 +57,49 @@ class BGSReconstructFormsInAllFilesMap
   public:
     BGSReconstructFormsInAllFilesMap();
     virtual ~BGSReconstructFormsInAllFilesMap();
-    unsigned int data[12];
+    unsigned int data04[3];
+    unsigned int unk10[4];
+    unsigned int data20[5];
     void BuildMap();
     void* GetFirstPos();
-    void GetNext(void*&, TESFile*&, BGSReconstructFormsInFileMap*&);
-    unsigned int FUN_00849c80();
     TESForm* FUN_00849ca0(unsigned int);
+public:
+    void Clear();
 };
 class BGSSaveLoadReferencesMap
 {
   public:
     void LoadCellReferences(TESObjectCELL*, BGSReconstructFormsInAllFilesMap*);
+public:
+    void Clear();
 };
-class BGSSaveLoadGame
+class LoadGameSubBufferQueue;
+struct BGSSaveLoadGame
 {
   public:
     BGSSaveLoadChangesMap* m_pFormChangesMap;
-    unsigned int unused[3];
+    unsigned int unused04;
+    void* unk08;
+    unsigned int unused0c;
     BGSSaveLoadReferencesMap* m_pReferencesMap;
-    unsigned char pad14[0x248 - 0x14];
+    LoadGameSubBufferQueue* unk14;
+    unsigned int pad18[2];
+    void* unk20;
+    unsigned int pad24[4];
+    BGSReconstructFormsInAllFilesMap unk34;
+    unsigned char pad68[0x244 - 0x68];
+    unsigned int unk244;
     unsigned char m_ucSaveLoadState;
     unsigned char GetLoadState();
     bool ContainsReference(unsigned int);
     bool HasFormChangeFlags(TESForm*, FormChangeMask);
-    bool GetAllowChanges();
     bool IsFormChanged(TESForm*);
     void ClearFormChangeFlags(TESForm*, FormChangeMask);
     bool ShouldSaveForm(TESForm*, bool);
     void NotifyFormIDChanged(TESForm*, FormChangeMask, bool);
     void HasFormChanges(TESForm*);
     void ClearFormChanges();
-    bool FUN_0042ce10();
     void LoadForm(TESForm*);
-    void FUN_00849c00(bool);
     void FormReconstructionMap(TESObjectCELL*);
-    void DeleteForm(TESForm*);
 };
 #endif

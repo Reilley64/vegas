@@ -1,6 +1,10 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/GeomNormals.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00a7e000.h"
 class NiPoint3_S
 {
   public:
@@ -26,8 +30,6 @@ class NiPoint3_S
     }
 };
 
-__declspec(noalias) void FUN_00525340(NiPoint3_S& kPt);
-void NormalizePoints(NiPoint3_S* pkV, unsigned int uiElementCount, unsigned int uiStride);
 
 class S_00a8ab40_NiTriStripsData
 {
@@ -55,15 +57,13 @@ class S_00a8ab40_NiTriStripsData
     unsigned short* m_pusStripLengths;  // 0x48
     unsigned short* m_pusStripLists;    // 0x4c
 
-    void EnsureNormals(int aiNumVertices);
-    void FUN_00a67090(int aiNumVertices);
     void GenerateNormals();
 };
 
 // @fnv 0x00a8ab40
 void S_00a8ab40_NiTriStripsData::GenerateNormals()
 {
-    EnsureNormals(1);
+    reinterpret_cast<::GeomNormals *>(this)->EnsureNormals(1);
 
     unsigned short* pusStripList = m_pusStripLists;
     for (unsigned short usStrip = 0; usStrip < m_usStrips; usStrip++)
@@ -93,7 +93,7 @@ void S_00a8ab40_NiTriStripsData::GenerateNormals()
             NiPoint3_S kEdge1 = kVertex1 - kVertex0;
             NiPoint3_S kEdge2 = kVertex2 - kVertex1;
             NiPoint3_S kNormal = kEdge1.Cross(kEdge2);
-            FUN_00525340(kNormal);
+            ::FUN_00525340((float *)&(kNormal));
 
             m_pkNormal[usIndex0] += kNormal;
             m_pkNormal[usIndex1] += kNormal;
@@ -102,6 +102,6 @@ void S_00a8ab40_NiTriStripsData::GenerateNormals()
         pusStripList += m_pusStripLengths[usStrip];
     }
 
-    NormalizePoints(m_pkNormal, m_usVertices, sizeof(NiPoint3_S));
-    FUN_00a67090(2);
+    ::NormalizePoints((::NiPoint3 *)(m_pkNormal), m_usVertices, sizeof(NiPoint3_S));
+    reinterpret_cast<::NiGeometryData *>(this)->SetDirtyFlags(2);
 }

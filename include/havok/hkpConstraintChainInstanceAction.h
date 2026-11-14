@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkpAction.h"
 class hkpConstraintChainInstance;
-#pragma pack(push, 1)
 class hkpConstraintChainInstanceAction : public hkpAction
 {
   public:
     hkpConstraintChainInstance* m_pConstraintChainInstance;  // +0x18
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConstraintChainInstanceAction[(sizeof(hkpConstraintChainInstanceAction) == 0x1C) ? 1 : -1];
 #endif

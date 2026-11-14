@@ -2,12 +2,13 @@
 #ifndef FNV_BGSDEHYDRATIONSTAGE_H
 #define FNV_BGSDEHYDRATIONSTAGE_H
 
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 class SpellItem;
 #include "layout_support.h"
 #include "TESForm.h"
 class BGSDehydrationStage;
 class StageRecordData;
-#pragma pack(push, 4)
 class StageRecordData
 {
   public:
@@ -21,14 +22,7 @@ class FUN_005a71d0 : public StageRecordData
 {
   public:
     FUN_005a71d0();
-    void FUN_00462230();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(StageRecordData) == 8);
-FNV_STATIC_ASSERT(sizeof(FUN_005a71d0) == 8);
-FNV_STATIC_ASSERT(offsetof(StageRecordData, m_uiStageIndex) == 0);
-FNV_STATIC_ASSERT(offsetof(StageRecordData, m_pSpell) == 4);
-#pragma pack(push, 4)
 class BGSDehydrationStage : public TESForm
 {
   public:
@@ -65,12 +59,6 @@ class BGSDehydrationStage : public TESForm
     BGSDehydrationStage();
     void InitItem();
     bool Load(TESFile* file);
-    unsigned int FUN_00441110();
     void FUN_0050f9a0(SpellItem* spell);
-    void* FUN_00500940(unsigned int size);
-    void FUN_004861f0(TESFile* file, void* data);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDehydrationStage) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSDehydrationStage, data) == 24);
 #endif

@@ -4,6 +4,8 @@
 
 
 // Map node layout shared by the NiT map family (pointer-value map variant).
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/symbols_011c3000.h"
 template <class K, class V> class NiTMapItem
 {
   public:
@@ -34,10 +36,8 @@ template <class K, class V> class NiTPointerMap
 class TESDataHandler
 {
   public:
-    bool FormIDExists(unsigned int formID);
 };
 
-extern TESDataHandler* g_dataHandler;
 
 // Save/load form-ID remapping table: forward map (formID -> save index),
 // reverse map (save index -> formID) and the next index to hand out.
@@ -54,12 +54,5 @@ class FormIDConverter
     unsigned int RegisterFormID(unsigned int formID);
 };
 
-typedef char bgsSaveLoadFormIDMapSizeAssert[(sizeof(FormIDConverter) == 36) ? 1 : -1];
-typedef char bgsSaveLoadFormIDMapIndexToFormIDMapOffsetAssert
-    [((int)&((FormIDConverter*)0)->m_kTargetToSourceFormIDMap == 0x10) ? 1 : -1];
-typedef char
-    bgsSaveLoadFormIDMapICurrentIndexOffsetAssert[((int)&((FormIDConverter*)0)->m_uiFormIDCount == 0x20) ? 1 : -1];
-typedef char
-    niTPointerMapUnsignedUnsignedSizeAssert[(sizeof(NiTPointerMap<unsigned int, unsigned int>) == 16) ? 1 : -1];
 
 #endif

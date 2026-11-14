@@ -3,7 +3,6 @@
 #define FNV_SKY_LOCAL_TYPES_H
 // Unit-local supersets of canonical leaf types (same layout; see sky_packet.h). Included before the canonical
 // headers, which sky_packet.h then includes with these names renamed away.
-#pragma pack(push, 4)
 template <class T> class NiPointer
 {
   public:
@@ -16,11 +15,12 @@ template <class T> class NiPointer
     bool operator==(T*) const;
     bool operator!=(T*) const;
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3(float, float, float);
+public:
+    static const ::NiPoint3 ZERO;
 };
-#pragma pack(pop)
 #endif

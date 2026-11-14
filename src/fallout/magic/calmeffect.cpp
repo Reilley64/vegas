@@ -2,25 +2,37 @@
 // src/fallout/magic/calmeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/calmeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct ActiveEffect
+#include "fnv/active_effect_fields.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/StandIn00806200.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_009807d0__CombatController.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00649000.h"
+class ActiveEffect
 {
-    void Dispel(bool);
 };
-struct MagicCaster
+class MagicCaster
 {
 };
 struct CalmEffect : ActiveEffect
 {
-    bool __thiscall FUN_0080ba50(MagicCaster*);
-    bool __thiscall ClearCasterIfMatch(MagicCaster*);
+    bool FUN_0080ba50(MagicCaster*);
 };
 // Calls ClearCasterIfMatch on the caster; if it returns true, dispels the effect and returns that result.
 // @fnv 0x0080ba50
-bool __thiscall CalmEffect::FUN_0080ba50(MagicCaster* caster)
+bool CalmEffect::FUN_0080ba50(MagicCaster* caster)
 {
-    bool result = ClearCasterIfMatch(caster);
+    bool result = reinterpret_cast<::StandIn00806200 *>(this)->ClearCasterIfMatch(caster);
     if (result)
-        Dispel(true);
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
     return result;
 }
 
@@ -41,14 +53,13 @@ struct FUN_0080a930_shell : ActiveEffect
 FUN_0080a900* FUN_0080a930_shell::FUN_0080a930()
 {
     FUN_0080a900* presult =
-        new FUN_0080a900(*(void**)((char*)this + 0x28), *(void**)((char*)this + 8), *(void**)((char*)this + 0xc));
-    ((void(__thiscall*)(void*, void*))(*(void***)this)[17])(this, presult);
+        new FUN_0080a900(reinterpret_cast<ActiveEffectFields*>(this)->caster, reinterpret_cast<ActiveEffectFields*>(this)->spell, reinterpret_cast<ActiveEffectFields*>(this)->effect);
+    ((void(*)(void*, void*))(*(void***)this)[17])(this, presult);
     return presult;
 }
 
 struct FUN_00483710_Class
 {
-    void FUN_00483710();
 };
 
 struct FUN_0080abf0_Target
@@ -324,13 +335,12 @@ struct FUN_0080abf0_Target
 
 struct FUN_00822b40_Class
 {
-    FUN_0080abf0_Target* FUN_00822b40();
 };
 
 struct ValueModifierEffect
 {
-    void ApplyEffect();
-    FUN_00822b40_Class* FUN_0059bb30();
+public:
+    void Update(float);
 };
 
 struct FUN_0080abf0_Effect : ValueModifierEffect
@@ -341,11 +351,11 @@ struct FUN_0080abf0_Effect : ValueModifierEffect
 // @fnv 0x0080abf0
 void FUN_0080abf0_Effect::FUN_0080abf0()
 {
-    ApplyEffect();
-    FUN_0080abf0_Target* target = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
+    reinterpret_cast<::Cls *>(this)->ApplyEffect();
+    FUN_0080abf0_Target* target = ((::FUN_00822b40_Class *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::FUN_0080abf0_Target *)(reinterpret_cast<::MagicTarget *>((((::FUN_00822b40_Class *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (target && target->v428())
     {
-        target->v428()->FUN_00483710();
+        reinterpret_cast<::TESForm *>((target->v428()))->ClearData();
     }
 }
 
@@ -542,17 +552,12 @@ struct FUN_0080a9e0_Effect
 
 struct FUN_0080a9e0_Caster
 {
-    FUN_0080a9e0_Effect* FUN_00822b40();
 };
 
 struct FUN_0080a9e0_Helper
 {
-    bool FUN_00493bb0();
-    float GetFloatAtOffset1C();
-    unsigned short FUN_0087f9f0();
 };
 
-bool __cdecl FUN_006494d0(unsigned short a, float b);
 
 struct FUN_0080a9e0_cls
 {
@@ -563,11 +568,11 @@ struct FUN_0080a9e0_cls
 bool FUN_0080a9e0_cls::FUN_0080a9e0(MagicCaster* caster)
 {
     FUN_0080a9e0_Effect* pEffect;
-    pEffect = (caster != 0) ? ((FUN_0080a9e0_Caster*)caster)->FUN_00822b40() : 0;
-    if (pEffect != 0 && !pEffect->vf08B(false) && !pEffect->vf0BA() && ((FUN_0080a9e0_Helper*)pEffect)->FUN_00493bb0())
+    pEffect = (caster != 0) ? ((::FUN_0080a9e0_Effect *)(reinterpret_cast<::MagicTarget *>((((FUN_0080a9e0_Caster*)caster)))->GetOwnerActor())) : 0;
+    if (pEffect != 0 && !pEffect->vf08B(false) && !pEffect->vf0BA() && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((FUN_0080a9e0_Helper*)pEffect)))->FUN_00493bb0())))
     {
-        if (FUN_006494d0(((FUN_0080a9e0_Helper*)pEffect)->FUN_0087f9f0(),
-                         ((FUN_0080a9e0_Helper*)this)->GetFloatAtOffset1C()))
+        if (::FUN_006494d0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((FUN_0080a9e0_Helper*)pEffect)))->FUN_0087f9f0(),
+                         ::GetFloatAtOffset1C((char *)(((FUN_0080a9e0_Helper*)this)))))
         {
             return true;
         }
@@ -577,7 +582,6 @@ bool FUN_0080a9e0_cls::FUN_0080a9e0(MagicCaster* caster)
 
 struct FUN_0080aa90_Ret
 {
-    void StopActorMoving();
 };
 
 struct FUN_0080aa90_Obj
@@ -853,14 +857,11 @@ struct FUN_0080aa90_Obj
 
 struct FUN_0080aa90_Holder
 {
-    FUN_0080aa90_Obj* FUN_00822b40();
 };
 
 class FUN_0080aa90_cls
 {
   public:
-    void FUN_0082c000();
-    FUN_0080aa90_Holder* FUN_0059bb30();
 
     void FUN_0080aa90();
 };
@@ -871,13 +872,13 @@ void FUN_0080aa90_cls::FUN_0080aa90()
 {
     FUN_0080aa90_Obj* pObject;
 
-    FUN_0082c000();
-    pObject = FUN_0059bb30() != 0 ? FUN_0059bb30()->FUN_00822b40() : 0;
+    reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
+    pObject = ((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0 ? ((::FUN_0080aa90_Obj *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (pObject != 0)
     {
         if (pObject->Virt266() != 0)
         {
-            pObject->Virt266()->StopActorMoving();
+            reinterpret_cast<::fnv_009807d0::CombatController *>((pObject->Virt266()))->StopActorMoving();
         }
     }
 }
@@ -1152,15 +1153,10 @@ struct FUN_0080ab10_obj
     virtual void v264();
     virtual void v265();
     virtual FUN_0080ab10_obj* v266();
-    unsigned char FUN_0047c850();
-    FUN_0080ab10_obj* FUN_00822b40();
 };
 
 struct FUN_0080ab10_cls
 {
-    void FUN_0082c660(float);
-    void FUN_00804210(int);
-    FUN_0080ab10_obj* FUN_0059bb30();
     void FUN_0080ab10(float a1);
 };
 
@@ -1169,14 +1165,14 @@ void FUN_0080ab10_cls::FUN_0080ab10(float afValue)
 {
     unsigned char flag;
     FUN_0080ab10_obj* obj;
-    this->FUN_0082c660(afValue);
-    obj = (this->FUN_0059bb30() != 0) ? this->FUN_0059bb30()->FUN_00822b40() : 0;
+    reinterpret_cast<::ValueModifierEffect *>((this))->Update(afValue);
+    obj = (((::FUN_0080ab10_obj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0) ? ((::FUN_0080ab10_obj *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080ab10_obj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (obj != 0)
     {
-        flag = (obj != 0 && obj->v266() != 0) ? obj->v266()->FUN_0047c850() : (unsigned char)1;
+        flag = (obj != 0 && obj->v266() != 0) ? ((unsigned char)(reinterpret_cast<::FUN_0047c850 *>((obj->v266()))->EvaluateCondition())) : (unsigned char)1;
         if (obj->v139(0) || obj->v186() || !flag)
         {
-            this->FUN_00804210(0);
+            reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((this))->FUN_00804210(0);
         }
     }
 }

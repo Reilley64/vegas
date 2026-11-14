@@ -3,12 +3,13 @@
 #define FNV_CREATURE_DECLS_H
 
 
-class BGSLoadFormBuffer;
+#include "fnv/decl/FUN_00494300_shell.h"
+#include "fnv/decl/fnv_00897910__AnimOwner.h"
+struct BGSLoadFormBuffer;
 class InventoryStackRecord;
-class Animation
+struct Animation
 {
   public:
-    short GetGroupSection(unsigned short);
 };
 class CreatureAnimationAccess
 {
@@ -237,6 +238,7 @@ class ActorValueOwner
     virtual float GetCurrentActorValue(unsigned int actorValue);
 };
 
+class TESActorBase;
 class Actor
 {
   public:
@@ -249,6 +251,8 @@ class Actor
     unsigned char m_padA8[0x98];
     unsigned int m_uiActorFlags;
     unsigned char m_pad144[0x70];
+public:
+    ::TESActorBase *GetActorBase();
 };
 
 class Creature : public Actor

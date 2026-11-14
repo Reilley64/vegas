@@ -2,14 +2,28 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysairfieldairfrictionctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysairfieldairfrictionctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int g_012027b8;
 
 // @fnv 0x00c307c0
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include "fnv/decl/FUN_00c32d80.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c1b0f0__FUN_00c1b0f0_cls.h"
+#include "fnv/decl/fnv_00c31530__NiPSysModifierCtlrRuntime.h"
+#include "fnv/symbols_00a41000.h"
+#include "fnv/symbols_00a44000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_01202000.h"
 int* __cdecl FUN_00c307c0()
 {
-    return &g_012027b8;
+    return &(*reinterpret_cast<int *>(&::g_012027b8));
 }
 
+struct NiStream;
 struct NiPSysModifierFloatCtlr
 {
     NiPSysModifierFloatCtlr();
@@ -18,11 +32,17 @@ struct NiPSysModifierFloatCtlr
     void GetTargetValue(float& rfValue);
     NiPSysModifierFloatCtlr* m_pkTarget;
     float m_fValue;
+public:
+    void LinkObject(::NiStream &);
 };
 
-struct NiPSysAirFieldAirFrictionCtlr : NiPSysModifierFloatCtlr
+struct CloningProcess;
+class NiPSysAirFieldAirFrictionCtlr : public NiPSysModifierFloatCtlr
 {
+  public:
     void FUN_00c307d0(float& rfValue);
+public:
+    void CopyMemberData(::NiPSysAirFieldAirFrictionCtlr *, ::CloningProcess &);
 };
 
 // @fnv 0x00c307d0
@@ -40,11 +60,12 @@ struct StrArr
     unsigned short _pad1;
     unsigned short m_usGrow;
 };
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     char _pad[8];
     unsigned short m_usAlloc;
     unsigned short m_usSize;
@@ -53,32 +74,28 @@ template <class T, class A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl _FUN_00a7d330(int);
 // @fnv 0x00c30880
-void __stdcall FUN_00c30880(StrArr* pkStrings)
+void FUN_00c30880(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
-    char* pcStr = _FUN_00a7d330(g_012027b8);
+    char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_012027b8))));
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiAlloc = pkStrings->m_usAlloc;
     typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > Arr;
     if (uiSize >= uiAlloc)
     {
-        ((Arr*)pkStrings)->SetSize(uiSize + ((Arr*)pkStrings)->m_usGrow);
+        reinterpret_cast<::ViewerStrings *>((((Arr*)pkStrings)))->SetSize(uiSize + ((Arr*)pkStrings)->m_usGrow);
     }
-    ((Arr*)pkStrings)->SetAt(uiSize, pcStr);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((Arr*)pkStrings)))->SetAt(uiSize, pcStr);
 }
 
 struct NiObjectNET;
 struct BaseStandIn
 {
-    bool IsTargetParticleSystem(NiObjectNET*);
 };
 struct NiPSysModifier;
 struct PsStandIn
 {
-    NiPSysModifier* FUN_00c1b0f0(void*);
 };
 struct NiObjectNET : PsStandIn
 {
@@ -95,7 +112,6 @@ struct GlobalObjectO2_00a7b610
     int unk00;
     int unk04;
 };
-extern GlobalObjectO2_00a7b610 g_012027a8;
 struct FUN_00c306f0_class : BaseStandIn
 {
     bool HasModifierAfter(NiObjectNET*);
@@ -103,15 +119,15 @@ struct FUN_00c306f0_class : BaseStandIn
 // @fnv 0x00c306f0
 bool FUN_00c306f0_class::HasModifierAfter(NiObjectNET* target)
 {
-    if (!IsTargetParticleSystem(target))
+    if (!reinterpret_cast<::fnv_00c31530::NiPSysModifierCtlrRuntime *>(this)->IsTargetParticleSystem((::fnv_00c31530::NiParticleSystemRuntime *)(target)))
         return false;
-    NiPSysModifier* modifier = target->FUN_00c1b0f0((char*)this + 0x38);
+    NiPSysModifier* modifier = ((::NiPSysModifier *)(reinterpret_cast<::fnv_00c1b0f0::FUN_00c1b0f0_cls *>((target))->FUN_00c1b0f0((unsigned int *)(void *)((char*)this + 0x38))));
     if (!modifier)
         return false;
     NiPSysModifier* item = modifier->GetNextModifier();
     while (item)
     {
-        if (item == (NiPSysModifier*)&g_012027a8)
+        if (item == (NiPSysModifier*)&::g_012027a8)
             return true;
         item = item->next;
     }
@@ -130,7 +146,7 @@ struct WorkerAirFriction : NiPSysAirFieldAirFrictionCtlr
     int unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     int unk2c, unk30, unk34, unk38;
     WorkerTarget* target;
-    void __thiscall FUN_00c307e0(volatile float value);
+    void FUN_00c307e0(volatile float value);
 };
 // Clamps value to [0,1] and stores it in target->targetValue.
 // @fnv 0x00c307e0
@@ -145,11 +161,10 @@ void WorkerAirFriction::FUN_00c307e0(float value)
     pTarget->targetValue = clamped;
 }
 
-extern "C" char g_010c06e4;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
 
-class SpawnedObject
+
+struct SpawnedObject
 {
   public:
     void* m_vtbl;
@@ -169,31 +184,29 @@ class SpawnedObject
     unsigned int unk38;
     unsigned int unk3c;
 
-    void FUN_00c32d80();
 };
 
 class FUN_00c30830_cls
 {
   public:
-    void FUN_00c32de0(SpawnedObject* obj, unsigned int arg);
-    SpawnedObject* CreateSpawnedObject(unsigned int arg);
+    SpawnedObject* CreateSpawnedObject(uintptr_t arg);
 };
 
 // Allocates a 0x40-byte SpawnedObject, initialises it, passes it to FUN_00c32de0 with arg, and returns it.
 // @fnv 0x00c30830
-SpawnedObject* FUN_00c30830_cls::CreateSpawnedObject(unsigned int arg)
+SpawnedObject* FUN_00c30830_cls::CreateSpawnedObject(uintptr_t arg)
 {
     SpawnedObject* obj = (SpawnedObject*)FUN_00aa13e0(0x40);
     if (obj != 0)
     {
-        obj->FUN_00c32d80();
+        new ((void *)(obj)) ::FUN_00c32d80();
         obj->m_vtbl = (void*)&g_010c06e4;
     }
     else
     {
         obj = 0;
     }
-    this->FUN_00c32de0(obj, arg);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>((this))->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(obj), (*(::CloningProcess *)(arg)));
     return obj;
 }
 
@@ -208,27 +221,29 @@ void __cdecl FUN_00c29e80(NiPSysModifierCtlr* a1, int a2, NiStream& a3)
     LoadBinaryWithVersionCheck(a1, a2, a3);
 }
 
-extern "C" void __cdecl FUN_00a44cd0();
 
 // @fnv 0x00c29f80
 void __cdecl FUN_00c29f80()
 {
-    FUN_00a44cd0();
+    ::FUN_00a44cd0();
 }
 
-void __cdecl FUN_00c32e10();
 
 // @fnv 0x00c2b450
 void __cdecl FUN_00c2b450()
 {
-    FUN_00c32e10();
+    static_cast<::NiPSysModifierFloatCtlr *>(nullptr)->LinkObject(*(::NiStream *)nullptr);
 }
 
-void __cdecl FUN_00a41220();
-// @fnv 0x00c2b8a0
-void __cdecl FUN_00c2b8a0()
+struct FUN_00c2b8a0_shell
 {
-    FUN_00a41220();
+    void FUN_00c2b8a0(::NiStream& kStream);
+};
+
+// @fnv 0x00c2b8a0
+void FUN_00c2b8a0_shell::FUN_00c2b8a0(::NiStream& kStream)
+{
+    reinterpret_cast<::FUN_00a41220_shell *>(this)->FUN_00a41220(kStream);
 }
 
 bool __cdecl FUN_00c32df0(int, int);

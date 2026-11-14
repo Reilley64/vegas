@@ -2,46 +2,40 @@
 // src/fallout_shared/packagedataambush.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedataambush.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl _Deallocate(void*);
+#include <cstdint>
+#include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
+#include "fnv/decl/fnv_0067f6c0__FUN_0067f6c0_shell.h"
+#include "fnv/decl/p07__DelStandIn.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0119b000.h"
 struct FUN_0067ad90_shell
 {
-    void __thiscall FUN_0067adc0();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
-// Calls FUN_0067adc0, then frees this with _Deallocate when flags has bit 1 set, and returns this.
-// @fnv 0x0067ad90
-void* __thiscall FUN_0067ad90_shell::Destroy(unsigned int flags)
-{
-    FUN_0067adc0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
-void __cdecl FUN_004856d0(int);
 struct LocationDescriptor
 {
-    void __thiscall Save(int);
+public:
+    void Copy(::LocationDescriptor *, bool);
 };
 struct FUN_0067afc0_shell
 {
     void* base;
     LocationDescriptor* m_pSaveObject;
-    void __thiscall SaveWithTag();
+    void SaveWithTag();
 };
 // @fnv 0x0067afc0
-void __thiscall FUN_0067afc0_shell::SaveWithTag()
+void FUN_0067afc0_shell::SaveWithTag()
 {
     FUN_004856d0(0x4d414b50);
     if (m_pSaveObject)
-        m_pSaveObject->Save(0x32444c50);
+        reinterpret_cast<::fnv_0067f6c0::FUN_0067f6c0_shell *>((m_pSaveObject))->FUN_0067f6c0(0x32444c50);
 }
 
 class Sub_0067adc0
 {
   public:
     unsigned int m_00;
-    int Release(unsigned int flags);
 };
 
 class Base_0067adc0
@@ -56,6 +50,15 @@ class FUN_0067adc0_cls : public Base_0067adc0
     Sub_0067adc0* m_04;
     virtual ~FUN_0067adc0_cls();
 };
+// Calls FUN_0067adc0, then frees this with _Deallocate when flags has bit 1 set, and returns this.
+// @fnv 0x0067ad90
+void* FUN_0067ad90_shell::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0067adc0_cls *>(this)->FUN_0067adc0_cls::~FUN_0067adc0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor releases the Sub_0067adc0 object stored in m_04 by calling Release(1) if it is non-null.
 // @fnv 0x0067adc0
@@ -65,12 +68,10 @@ FUN_0067adc0_cls::~FUN_0067adc0_cls()
     Sub_0067adc0* tmp;
     copy = m_04;
     tmp = copy;
-    tmp != 0 ? tmp->Release(1) : 0;
+    tmp != 0 ? ((std::intptr_t)(reinterpret_cast<::p07::DelStandIn *>((tmp))->FUN_00670b30(1))) : 0;
 }
 
-extern int DAT_0119bdec;
 extern int DAT_0119bdc8;
-void* __cdecl operator new(unsigned int size);
 struct PackageRecord
 {
     int unk00;
@@ -81,8 +82,6 @@ struct AmbushLocation
 {
     int unk00, unk04, unk08;
     AmbushLocation();
-    void* FUN_00670b30(int release);
-    void FUN_0067f4d0(void* source, int flags);
 };
 struct PackageOwner
 {
@@ -101,13 +100,13 @@ void PackageOwner::SetLocationFromPackage(int aiPackageId)
         {
             AmbushLocation* pAllocatedPath = location04;
             AmbushLocation* pOldLocation = pAllocatedPath;
-            pOldLocation ? pOldLocation->FUN_00670b30(1) : 0;
+            pOldLocation ? reinterpret_cast<::p07::DelStandIn *>((pOldLocation))->FUN_00670b30(1) : 0;
             location04 = 0;
         }
         if (record->location04)
         {
             location04 = new AmbushLocation();
-            location04->FUN_0067f4d0(record->location04, 0);
+            reinterpret_cast<::LocationDescriptor *>((location04))->Copy((::LocationDescriptor *)(record->location04), 0);
         }
     }
 }
@@ -117,7 +116,6 @@ void PackageOwner::SetLocationFromPackage(int aiPackageId)
 class AF50Location
 {
   public:
-    bool IsDifferent(AF50Location* pkOther);
 };
 
 class TESPackageData
@@ -145,7 +143,7 @@ bool TESAmbushPackageData::FUN_0067af50(TESPackageData* pkOtherData)
 
     if (m_pkLocation)
     {
-        if (m_pkLocation->IsDifferent(pkOther->m_pkLocation))
+        if (reinterpret_cast<::fnv_0067f600::FUN_0067f600_shell *>((m_pkLocation))->IsDifferentFrom((::LocationDescriptor *)(pkOther->m_pkLocation)))
             return true;
     }
     else if (pkOther->m_pkLocation)

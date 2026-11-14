@@ -2,6 +2,9 @@
 #ifndef NAVMESHINFO_DECLS_H
 #define NAVMESHINFO_DECLS_H
 
+#include "fnv/decl/FUN_0069dfb0_class.h"
+#include "fnv/symbols_0068f000.h"
+#include "fnv/symbols_00690000.h"
 class NavMesh;
 class NiNode;
 template <class T> class NiPointer
@@ -10,7 +13,7 @@ template <class T> class NiPointer
     T* m_ptr;
     T* operator->() const;
 };
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
 };
 class NavMeshInfo
@@ -18,22 +21,19 @@ class NavMeshInfo
   public:
     char pad[0x54];
     NavMesh* m_pLocationNavMesh;
-    bool FUN_0068f320() const;
     bool ResolveNavMesh(NavMeshPtr&);
 };
-void __cdecl ProcessWithScopedRef(NavMeshPtr&, NavMesh*);
 class PathingLocationData
 {
   public:
-    bool HasNonZeroAtOffset54();
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     char pad[0x10];
     PathingLocationData* data;
     char pad2[0x10];
     unsigned short triangle;
-    bool HasValidTriangle();
+    bool HasValidTriangle_006dd6a0();
 };
 #endif

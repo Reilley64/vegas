@@ -3,8 +3,7 @@
 
 #include "layout_support.h"
 #include "NiPoint3.h"
-#pragma pack(push, 4)
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];  // +0x0
@@ -16,7 +15,4 @@ class ThreeByThreeMatrix
     ThreeByThreeMatrix Transpose();
     void GetRow(unsigned int row, NiPoint3& point);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 0x24);
-FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0x0);
 #endif

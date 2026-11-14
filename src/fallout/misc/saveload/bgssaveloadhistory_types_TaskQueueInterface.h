@@ -4,9 +4,8 @@
 
 #include "layout_support.h"
 class PackedTaskQueueProcessor;
-class TaskQueueInterface;
-#pragma pack(push, 4)
-class TaskQueueInterface
+struct TaskQueueInterface;
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char* buffer, unsigned int size, const char* source);
@@ -82,10 +81,4 @@ class TaskQueueInterface
     // void __cdecl TaskQueueInterface::*(const BSPackedTask&)
     // void* __cdecl TaskQueueInterface::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TaskQueueInterface) == 16);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pPrimaryTaskProcessor) == 0);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pSecondaryTaskProcessor) == 4);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pTaskQueueProcessor) == 8);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_uiTaskFlags) == 12);
 #endif

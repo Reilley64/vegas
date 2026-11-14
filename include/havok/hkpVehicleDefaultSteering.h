@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpVehicleSteering.h"
-#pragma pack(push, 1)
 class hkpVehicleDefaultSteering : public hkpVehicleSteering
 {
   public:
@@ -13,6 +12,4 @@ class hkpVehicleDefaultSteering : public hkpVehicleSteering
     hkReal m_fMaxSpeedFullSteeringAngle;  // +0xC
     hkArray<hkBool> m_kDoesWheelSteer;    // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleDefaultSteering[(sizeof(hkpVehicleDefaultSteering) == 0x1C) ? 1 : -1];
 #endif

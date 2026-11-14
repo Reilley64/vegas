@@ -2,6 +2,11 @@
 // src/havok/common/base/memory/router/hkmemoryrouter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/router/hkmemoryrouter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
+#include <cstdint>
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00c85690_Allocator
 {
     virtual void unk00();
@@ -11,14 +16,14 @@ struct FUN_00c85690_Allocator
 struct FUN_00c85690_Header
 {
     FUN_00c85690_Allocator* allocator;
-    unsigned int size;
+    uintptr_t size;
     int unk08;
     int unk0C;
 };
 
 // Allocates size plus a header from allocator, stores size and allocator in the header, and returns the pointer past the header.
 // @fnv 0x00c85690
-void* __cdecl AllocateWithHeader(FUN_00c85690_Allocator* allocator, unsigned int size)
+void* __cdecl AllocateWithHeader(FUN_00c85690_Allocator* allocator, uintptr_t size)
 {
     FUN_00c85690_Header* header = (FUN_00c85690_Header*)allocator->Allocate(size + sizeof(FUN_00c85690_Header));
     header->size = size;
@@ -111,50 +116,33 @@ void FUN_00c856c0(FNV_Dispatch* owner, char* data)
     owner->unk08(header, size);
 }
 
-struct TargetClass
+struct ReturnType
 {
-    int m_f00;
-    int m_f04;
-    int m_f08;
-    int m_f0c;
-    int m_f10;
-    int m_f14;
-    int m_f18;
-    int m_f1c;
-
-    TargetClass* Clear();
+    int unk00;
+    unsigned short unk04;
 };
 
-// @fnv 0x00c85770
-TargetClass* TargetClass::Clear()
+struct Pool
 {
-    m_f00 = 0;
-    m_f04 = 0;
-    m_f08 = 0;
-    m_f0c = 0;
-    m_f10 = 0;
-    m_f14 = 0;
-    m_f18 = 0;
-    m_f1c = 0;
-    return this;
+    virtual void unk00();
+    virtual ReturnType* Alloc(unsigned int nbytes);
+};
+
+struct Holder
+{
+};
+
+
+// @fnv 0x0056d280
+ReturnType* __cdecl FUN_0056d280(unsigned int nbytes)
+{
+    ReturnType* result;
+    {
+        Pool* pool = ((::Pool *)(reinterpret_cast<::MagicCaster_shell *>((static_cast<Holder*>(::FUN_00c85750())))->FUN_0044edb0()));
+        result = pool->Alloc(nbytes);
+    }
+    result->unk04 = (unsigned short)nbytes;
+    return result;
 }
 
-#include <windows.h>
-extern DWORD g_01268108;
-
-// @fnv 0x00c85730
-void __cdecl SetThreadLocalValue(void* apValue)
-{
-    TlsSetValue(g_01268108, apValue);
-}
-
-namespace fnv_00c85760 {
-// Global TLS slot index used by the thread-local accessor.
-extern DWORD g_dwTlsIndex;
-
-// @fnv 0x00c85760
-void* FUN_00c85760()
-{
-    return TlsGetValue(g_dwTlsIndex);
-}
-}  // namespace fnv_00c85760
+#include "generated/data/havok/common/base/memory/router/hkmemoryrouter.inc"

@@ -2,16 +2,16 @@
 #ifndef NISHADERCONSTANTMAPENTRY_DECLS_H
 #define NISHADERCONSTANTMAPENTRY_DECLS_H
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern volatile long DAT_011f4400;
-extern unsigned char kVtbl_NiRefObject;
+#include <windows.h>
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0109b000.h"
 extern unsigned char kVtbl_NiShaderConstantMapEntry;
 class NiFixedString
 {
   public:
     char* m_kHandle;
 };
-extern NiFixedString EmptyFS;
 class NiShaderConstantMapEntry
 {
   public:

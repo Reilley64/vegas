@@ -1,3 +1,4 @@
+#include "fnv/symbols_00c85000.h"
 
 // src/havok/common/scenedata/attributes/hkxsparselyanimatedboolclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxsparselyanimatedboolclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -10,20 +11,20 @@ struct hkMemoryAllocator
 };
 struct NineIntegerRecord
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocator* m_pStreamAllocator;
     hkMemoryAllocator& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-NineIntegerRecord* FUN_00c85750();
 
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
@@ -34,7 +35,7 @@ struct hkReferencedObject
     void operator delete(void* p)
     {
         hkReferencedObject* b = static_cast<hkReferencedObject*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        static_cast<NineIntegerRecord*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

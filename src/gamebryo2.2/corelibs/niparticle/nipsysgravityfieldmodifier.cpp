@@ -2,19 +2,38 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysgravityfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysgravityfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/C32060EmitterModifier.h"
+#include "fnv/decl/FUN_00c31ff0.h"
+#include "fnv/decl/FUN_00c32120_cls.h"
+#include "fnv/decl/NiPSysFieldModifierImpl.h"
+#include "fnv/decl/NiPSysParticle.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/S_00c322b0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_01017000.h"
 struct NiStream
 {
     void GetLoadedObject();
 };
 
+struct NiStream;
 struct NiColor
 {
     void SaveBinary(NiStream&);
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct NiPSysFieldModifier
 {
-    void SaveBinary(NiStream&);
 };
 
 struct NiPSysGravityFieldModifier : NiPSysFieldModifier
@@ -26,23 +45,20 @@ struct NiPSysGravityFieldModifier : NiPSysFieldModifier
 // @fnv 0x00c267f0
 void NiPSysGravityFieldModifier::FUN_00c267f0(NiStream& stream)
 {
-    NiPSysFieldModifier::SaveBinary(stream);
+    reinterpret_cast<::NiPSysFieldModifierImpl *>(this)->FUN_00c321f0(stream);
     ((NiColor*)(this + 0x30))->SaveBinary(stream);
 }
 
 extern "C"
 {
-    extern const void* g_01202708;
 }
 
 // @fnv 0x00c2a9b0
 const void* __cdecl FUN_00c2a9b0()
 {
-    return &g_01202708;
+    return &(*reinterpret_cast<const void * *>(&::g_01202708));
 }
 
-void __cdecl FUN_00c31750(void);
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00c2a9c0_Holder
 {
     void* DestroyIfFlagged(unsigned int);
@@ -51,9 +67,9 @@ struct FUN_00c2a9c0_Holder
 // @fnv 0x00c2a9c0
 void* FUN_00c2a9c0_Holder::DestroyIfFlagged(unsigned int auiFlags)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (auiFlags & 1)
-        _delete(this, 0x48);
+        ::FUN_00aa1460(this, 0x48);
     return this;
 }
 
@@ -68,11 +84,13 @@ struct NiPoint3
     float x;
     float y;
     float z;
-    void ComputeMagnitude();
+public:
+    char *FUN_00a59af0(const char *);
+public:
+    float ComputeMagnitude() const;
 };
 struct BSFadeNode
 {
-    void* __cdecl operator new(unsigned int);
 };
 struct CtorHelper
 {
@@ -80,37 +98,40 @@ struct CtorHelper
 };
 struct CopyHelper
 {
-    void FUN_00c32020(NiPSysGravityFieldModifier*, CloningProcess&);
 };
 struct CloneHelper
 {
     NiObject* Clone(CloningProcess&);
 };
+struct FUN_004a0c10_s
+{
+    float x, y, z;
+    void FUN_004a0c10();
+};
 // @fnv 0x00c2ac50
 NiObject* CloneHelper::Clone(CloningProcess& kCloning)
 {
     NiPSysGravityFieldModifier* pkObject;
-    void* pMemory = BSFadeNode::operator new(0x48);
+    void* pMemory = ::operator new(0x48);
     if (pMemory)
         pkObject = ((CtorHelper*)pMemory)->Ctor();
     else
         pkObject = 0;
-    ((CopyHelper*)this)->FUN_00c32020(pkObject, kCloning);
+    reinterpret_cast<::NiPSysParticle *>((((CopyHelper*)this)))->FUN_00c32020((::NiPSysParticle *)(pkObject), (::CloningProcess *)&(kCloning));
     *(NiPoint3*)((char*)pkObject + 0x30) = *(NiPoint3*)((char*)this + 0x30);
     *(NiPoint3*)((char*)pkObject + 0x3c) = *(NiPoint3*)((char*)this + 0x30);
-    ((NiPoint3*)((char*)pkObject + 0x3c))->ComputeMagnitude();
+    reinterpret_cast<::FUN_004a0c10_s *>((((NiPoint3*)((char*)pkObject + 0x3c))))->FUN_004a0c10();
     return (NiObject*)pkObject;
 }
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 // @fnv 0x00c2aa50
 NiPSysGravityFieldModifier* __cdecl CreateGravityFieldModifier()
 {
-    void* memory = A51BF0Base::operator new(0x48);
+    void* memory = ::operator new(0x48);
     if (memory != 0)
         return reinterpret_cast<CtorHelper*>(memory)->Ctor();
 
@@ -122,7 +143,6 @@ struct S_00c26db0_Vec
     int unk00;
     int unk04;
     int unk08;
-    char FUN_00439090(const S_00c26db0_Vec* other);
 };
 struct S_00c26db0_Base
 {
@@ -138,7 +158,6 @@ struct S_00c26db0_Base
     int unk24;
     int unk28;
     int unk2c;
-    bool FUN_00c32060(S_00c26db0_Base* other);
 };
 struct S_00c26db0_Obj : S_00c26db0_Base
 {
@@ -148,19 +167,17 @@ struct S_00c26db0_Obj : S_00c26db0_Base
 // @fnv 0x00c26db0
 char S_00c26db0_Obj::FUN_00c26db0(S_00c26db0_Obj* other)
 {
-    if (!FUN_00c32060(other))
+    if (!reinterpret_cast<::C32060EmitterModifier *>(this)->FUN_00c32060((::C32060Object *)(other)))
         return 0;
-    return !other->m_v.FUN_00439090(&m_v);
+    return !((char)(reinterpret_cast<::NiPlane *>(&(other->m_v))->operator==((*(const ::NiPlane *)(&m_v)))));
 }
 
-extern "C" float DAT_011a9478;
 extern "C" float DAT_011a947c;
 extern "C" float DAT_011a9480;
 extern "C" int DAT_010bf2ac;
 
 struct GravityBaseCtor
 {
-    void FUN_00c31ff0();
 };
 
 struct GravityFieldLayout
@@ -175,29 +192,26 @@ struct GravityFieldLayout
 // @fnv 0x00c2a9e0
 NiPSysGravityFieldModifier* CtorHelper::Ctor()
 {
-    reinterpret_cast<GravityBaseCtor*>(this)->FUN_00c31ff0();
+    new ((void *)(reinterpret_cast<GravityBaseCtor*>(this))) ::FUN_00c31ff0();
     GravityFieldLayout* fields = reinterpret_cast<GravityFieldLayout*>(this);
     fields->vfptr = &DAT_010bf2ac;
-    NiPoint3 direction = {-DAT_011a9478, -DAT_011a947c, -DAT_011a9480};
+    NiPoint3 direction = {-(*reinterpret_cast<float *>(&::DAT_011a9478)), -DAT_011a947c, -DAT_011a9480};
     fields->originalDirection = direction;
     fields->normalizedDirection = direction;
-    fields->normalizedDirection.ComputeMagnitude();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(fields->normalizedDirection))->FUN_004a0c10();
     return reinterpret_cast<NiPSysGravityFieldModifier*>(this);
 }
 
 struct FUN_00c2aa70_Base : NiPSysFieldModifier
 {
-    void LoadBinary(NiStream& s);
 };
 
 struct FUN_00c2aa70_Vec : NiPoint3
 {
-    void LoadBinary(NiStream& s);
 };
 
 struct FUN_00c2aa70_Unit
 {
-    void FUN_004a0c10();
 };
 
 struct FUN_00c2aa70_Class : NiPSysGravityFieldModifier
@@ -209,21 +223,20 @@ struct FUN_00c2aa70_Class : NiPSysGravityFieldModifier
 // @fnv 0x00c2aa70
 void FUN_00c2aa70_Class::FUN_00c2aa70(NiStream& aStream)
 {
-    ((FUN_00c2aa70_Base*)this)->LoadBinary(aStream);
+    reinterpret_cast<::FUN_00c32120_cls *>((((FUN_00c2aa70_Base*)this)))->LoadFromStream((::StreamOwner *)&(aStream));
     FUN_00c2aa70_Vec* a = (FUN_00c2aa70_Vec*)((char*)this + 0x30);
-    a->LoadBinary(aStream);
+    reinterpret_cast<::NiColor *>((a))->LoadBinary(aStream);
     volatile unsigned int* src = (volatile unsigned int*)((char*)this + 0x30);
     src[0] = src[0];
     src[1] = src[1];
     src[2] = src[2];
     NiPoint3* b = (NiPoint3*)((char*)this + 0x3c);
     *b = *(NiPoint3*)a;
-    ((FUN_00c2aa70_Unit*)b)->FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>((((FUN_00c2aa70_Unit*)b)))->FUN_004a0c10();
 }
 
 struct FUN_00c322b0_Obj
 {
-    void __thiscall FUN_00c322b0(NiStream* stream);
 };
 
 struct FUN_00c2af80_Array
@@ -235,8 +248,6 @@ struct FUN_00c2af80_Array
     unsigned short unk0C;
     unsigned short unk0E;
 
-    void __thiscall FUN_0096ad30(unsigned int size);
-    void __thiscall FUN_0096ae90(unsigned int index, void** item);
 };
 
 struct FUN_00a59af0_Point
@@ -245,36 +256,34 @@ struct FUN_00a59af0_Point
     float y;
     float z;
 
-    void* __thiscall FUN_00a59af0(const char* value);
 };
 
-void* __cdecl FUN_00a7d330(void* value);
 
 struct FUN_00c2af80_Obj
 {
-    void __thiscall FUN_00c2af80(NiStream* stream);
+    void FUN_00c2af80(NiStream* stream);
 };
 
 // @fnv 0x00c2af80
-void __thiscall FUN_00c2af80_Obj::FUN_00c2af80(NiStream* stream)
+void FUN_00c2af80_Obj::FUN_00c2af80(NiStream* stream)
 {
-    reinterpret_cast<FUN_00c322b0_Obj*>(this)->FUN_00c322b0(stream);
+    reinterpret_cast<::S_00c322b0 *>((reinterpret_cast<FUN_00c322b0_Obj*>(this)))->FUN_00c322b0((::S_00c322b0_Arr *)(stream));
 
     FUN_00c2af80_Array* array = reinterpret_cast<FUN_00c2af80_Array*>(stream);
 
-    void* item = FUN_00a7d330(const_cast<void*>(g_01202708));
+    void* item = ((void *)(::FUN_00a7d330((const char *)(void *)(const_cast<void*>((*reinterpret_cast<const void * *>(&::g_01202708)))))));
 
     unsigned int count = array->unk0A;
     if (count >= array->unk08)
-        array->FUN_0096ad30(array->unk0E + count);
-    array->FUN_0096ae90(count, &item);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(array->unk0E + count);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(count, (*(char * *)(&item)));
 
-    item = reinterpret_cast<FUN_00a59af0_Point*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00a59af0("Direction");
+    item = ((void *)(reinterpret_cast<::NiPoint3 *>((reinterpret_cast<FUN_00a59af0_Point*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_00a59af0("Direction")));
 
     count = array->unk0A;
     if (count >= array->unk08)
-        array->FUN_0096ad30(array->unk0E + count);
-    array->FUN_0096ae90(count, &item);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(array->unk0E + count);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(count, (*(char * *)(&item)));
 }
 
 struct Vec3
@@ -308,7 +317,6 @@ struct Vec3
         z += p.z;
         return *this;
     }
-    void Unitize();
 };
 inline Vec3 operator*(float s, const Vec3& p)
 {
@@ -327,13 +335,15 @@ struct ThreeByThreeMatrix
                     m[2][0] * p.x + m[2][1] * p.y + m[2][2] * p.z);
     }
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     Vec3 m_kTranslation;
     float m_fScale;
     NiTransform operator*(const NiTransform& t) const;
-    void InvertInto(NiTransform& out) const;
+public:
+    void CalculateInverse(::NiTransform &);
 };
 struct NiAVObjectStub
 {
@@ -435,13 +445,13 @@ void GravityFieldStub::ApplyGravityToParticles(float fTime, NiPSysDataStub* pkDa
     NiTransform kInv;
     {
         NiTransform kPSys = m_pkTarget->m_kWorldSpaceTransform;
-        kPSys.InvertInto(kInv);
+        reinterpret_cast<::NiTransform *>((void *)&(kPSys))->CalculateInverse(kInv);
     }
     Vec3 kAccel;
     {
         NiTransform kX = kInv * kField;
         Vec3 kDirection = kX.m_kOrientation * m_kLightVector;
-        kDirection.Unitize();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kDirection))->FUN_004a0c10();
         kDirection *= m_fInfluence;
         kAccel = kDirection;
     }
@@ -519,7 +529,6 @@ struct Transform141
     Matrix141 rotation;
     Point141 translation;
     float scale;
-    void FUN_004b4880(Transform141*) const;
     Transform141 FUN_0062c250(const Transform141&) const;
 };
 struct Node141
@@ -608,10 +617,8 @@ struct Field141
     int unk34;
     int unk38;
     Point141 direction;
-    void ApplyGravityToParticles(float, Data141*);
     void ApplyForceToParticles(float, Data141*);
 };
-float FUN_00404010(float, float);
 // Applies a directional force to particles within the field, scaling by strength, time delta, and optional distance attenuation or volume radius.
 // @fnv 0x00c2acb0
 void Field141::ApplyForceToParticles(float time, Data141* data)
@@ -620,7 +627,7 @@ void Field141::ApplyForceToParticles(float time, Data141* data)
         return;
     if (!volume && attenuation == 0)
     {
-        ApplyGravityToParticles(time, data);
+        reinterpret_cast<::GravityFieldStub *>(this)->ApplyGravityToParticles(time, (::NiPSysDataStub *)(data));
         return;
     }
     Transform141 fieldWorld;
@@ -628,7 +635,7 @@ void Field141::ApplyForceToParticles(float time, Data141* data)
     Transform141 inverse;
     {
         Transform141 world = owner->world;
-        world.FUN_004b4880(&inverse);
+        reinterpret_cast<::NiTransform *>((void *)&(world))->CalculateInverse((*(::NiTransform *)(&inverse)));
     }
     {
         Transform141 world = inverse.FUN_0062c250(fieldWorld);
@@ -662,3 +669,24 @@ void Field141::ApplyForceToParticles(float time, Data141* data)
         }
     }
 }
+
+
+// @fnv 0x004a0c10
+void FUN_004a0c10_s::FUN_004a0c10()
+{
+    float len = reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3*)this)))->ComputeMagnitude();
+    if (len > ::DAT_01017cf8)
+    {
+        float inv = 1.0f / len;
+        x *= inv;
+        y *= inv;
+        z *= inv;
+    }
+    else
+    {
+        x = 0.0f;
+        y = 0.0f;
+        z = 0.0f;
+    }
+}
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysgravityfieldmodifier.inc"

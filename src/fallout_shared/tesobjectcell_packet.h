@@ -2,12 +2,36 @@
 #ifndef TESOBJECTCELL_PACKET_H
 #define TESOBJECTCELL_PACKET_H
 
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_004120b0_shell.h"
+#include "fnv/decl/FUN_00418660_shell.h"
+#include "fnv/decl/FUN_00421c30_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00541000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
 struct TESRecordHeader;
 class TESFile
 {
   public:
     char pad[0x240];
     TESRecordHeader* GetRecordHeader();
+public:
+    bool IsEndianConversionRequired();
+public:
+    unsigned int GetOffset();
+public:
+    bool IsMasterFile();
+public:
+    bool NextChunk();
+public:
+    bool IsGroupOpen();
+public:
+    ::TESFile *GetParentTESFile();
 };
 class PlayerMover
 {
@@ -23,38 +47,66 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
+class NiAVObject;
 class NiAVObject;
 class NiNode
 {
   public:
-    NiAVObject* FUN_0043b4a0(int index);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class TESImageSpaceModifier;
 template <class T> class BSSimpleList;
+class TESFile;
+class TESForm;
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESImageSpaceModifier*>* GetTESImageSpaceModifierList();
+public:
+    bool ConstructObject(::TESFile *, bool, ::TESForm *, bool);
 };
 class BGSEncounterZone;
+class BGSTerrainManager;
+class TESFile;
+class TESObjectCELL;
 class TESWorldSpace
 {
   public:
-    BGSEncounterZone* FindEncounterZone() const;
+public:
+    static bool IsFormIDOwnedByFile(unsigned int, ::TESFile *);
+public:
+    ::BGSTerrainManager *GetWorldTerrainManager();
+public:
+    ::TESObjectCELL *GetCellAtGridPosition(int, int);
 };
 class TESForm;
 class NiNode;
+class NiExtraData;
+class NiFixedString;
+struct NiPoint3;
 class NiAVObject
 {
   public:
-    NiNode* GetParent();
+public:
+    ::NiPoint3 &FUN_0043c490();
+public:
+    void EnsureWorldBound();
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
+class BSExtraData;
+struct ExtraRadioData;
 class TESObjectREFR
 {
   public:
-    static BGSEncounterZone* FindEncounterZone();
+    static BGSEncounterZone* GetDefaultEncounterZone();
+public:
+    ::BSExtraData *GetExtraData(unsigned char) const;
+public:
+    ::ExtraRadioData *GetExtraRadioData();
+public:
+    float GetScale();
 };
 class DoorCell
 {
@@ -68,25 +120,28 @@ class TESSound
     unsigned char field45;
     unsigned char GetField45();
 };
-extern unsigned int DAT_011ca438;
 class GarbageCollectorObjectPtr
 {
   public:
     NiAVObject* operator->() const;
 };
-class GlobalObject_00633c90 : public GarbageCollectorObjectPtr
+struct GlobalObject_00633c90 : public GarbageCollectorObjectPtr
 {
 };
 extern GlobalObject_00633c90 g_011deda4;
 struct InteriorCellData
 {
-    char pad[0x20];
+    char pad[0x4];
+    unsigned int unk04;
+    int unk08;
+    float unk0c;
+    float unk10;
+    char pad14[0xc];
     float clipDist;
 };
 class CellLightingTemplate
 {
   public:
-    float FUN_009a9350();
 };
 template <class T> class BSSimpleList
 {
@@ -98,31 +153,44 @@ template <class T> class BSSimpleList
     void RemoveAll();
 };
 class BGSPerkEntry;
+class TESObjectREFR;
+template <> class BSSimpleList<TESObjectREFR*>
+{
+  public:
+    TESObjectREFR* item;
+    BSSimpleList* next;
+    BSSimpleList();
+    ~BSSimpleList();
+    bool FUN_008256d0();
+    void AddHead(TESObjectREFR* const& item);
+};
 class BGSLoadedReferenceCollection
 {
   public:
-    void FUN_00526f20(BGSPerkEntry* reference);
+public:
+    void FUN_005270b0(::TESObjectREFR *);
 };
-extern BGSLoadedReferenceCollection* DAT_011c95c8;
 class ActorCause;
 class BSExtraData;
 class BaseExtraList
 {
   public:
     char data[0x20];
-    BSExtraData* GetExtraData(unsigned char type);
 };
+struct InventoryChanges;
 class ExtraDataList : public BaseExtraList
 {
   public:
-    void RemoveNonPersistentCellData();
-    BGSEncounterZone* FindEncounterZone() const;
-    TESForm* GetOwner();
+public:
+    ::InventoryChanges *GetContainerChangeData();
 };
 class RecursiveSpinLock
 {
   public:
-    void Lock(const char* name);
+    volatile unsigned int m_uiOwningThreadID;
+    unsigned int m_uiRecursionCount;
+public:
+    void FUN_0040fba0();
 };
 class ExteriorCellData
 {
@@ -131,19 +199,37 @@ class ExteriorCellData
     int y;
 };
 class TESWorldSpace;
+class TESRegionList;
+class BGSLightingTemplate;
 class TESObjectCELL
 {
   public:
-    char padToExtraData[0x24];
+    char padToExtraData[0x18];
+    void* kFullName[3];  // +0x18, the TESFullName base
     unsigned char field24;
-    char padToExtraData2[3];
+    unsigned char ucCellFlags25;
+    char padToExtraData2[2];
     ExtraDataList extraDataList;
     void* cellData;
-    char padToRefListLock[0x34];
+    void* unk4c;
+    char pad50[0x14];
+    void* unk64;
+    char pad68[0x14];
+    void* unk7c;
     RecursiveSpinLock refListLock;
-    char padToWorldSpace[0x3f];
+    char padToWorldSpace[0x20];
+    unsigned short unka8;
+    char padaa[2];
+    void* kObjectList[2];  // +0xAC, a BSSimpleList of references
+    void* pCellNode;       // +0xB4
+    void* unkb8;
+    void* unkbc;
     TESWorldSpace* worldSpace;
-    char padToUnknownDC[0x18];
+    void* pRenderData;     // +0xC4
+    float fUnkC8;
+    unsigned char aucUnkCC[8];
+    void* pPortalGraph;    // +0xD4, a NiPointer
+    BGSLightingTemplate* pLightingTemplate;  // +0xD8
     unsigned int unknownDC;
     char padToField210[0x130];
     unsigned char field210;
@@ -159,7 +245,6 @@ class TESObjectCELL
     unsigned char FUN_00542d20();
     void* FUN_005454d0();
     void ClearAudioMarkers();
-    ExteriorCellData* GetExteriorData();
     int GetCellGridX();
     int GetCellGridY();
     bool HasCellExtraData();
@@ -169,17 +254,20 @@ class TESObjectCELL
     void ClearData();
     void SetLightingTemplate(void* value);
     int GetCellStandValue();
-    InteriorCellData* GetInteriorData();
     bool FUN_00558b80(int mask);
     CellLightingTemplate* GetLightingTemplate();
     float GetInteriorLightValue();
     BSSimpleList<BGSPerkEntry*>* FUN_009604f0();
-    void CellRefLockLeave();
     void ClearCellReferenceList();
     NiAVObject* GetCellChildAt(int index);
     NiAVObject* GetDynamicNode();
-    NiNode* FUN_00545cb0();
     BGSEncounterZone* FindEncounterZone() const;
+public:
+    ::TESRegionList *GetRegionList(bool);
+public:
+    void RemoveNonPersistentRefs();
+    void FUN_005571a0(bool active);
+    bool FUN_005434d0(struct FormGroupQuery* group);
 };
 
 #endif

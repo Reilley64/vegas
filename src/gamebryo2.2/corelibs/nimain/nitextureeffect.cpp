@@ -1,6 +1,45 @@
 
 // gamebryo2.2/corelibs/nimain/nitextureeffect.cpp
 // NiTextureEffect: static texture-type string table init.
+// Keeps the plain layout view of NiFixedString: this unit holds fixed strings
+// by value. On the shared declaration its object would gain calls of the
+// owner's constructor and destructor.
+#define FNV_KEEPS_PLAIN_NIFIXEDSTRING
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/EffectObject.h"
+#include "fnv/decl/FNVEffect.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a59a90_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a69a60_Owner.h"
+#include "fnv/decl/FUN_00a6ff10_StandIn.h"
+#include "fnv/decl/FloatMatrix3.h"
+#include "fnv/decl/NiBound.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiDynamicEffect.h"
+#include "fnv/decl/NiLight.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiSphere.h"
+#include "fnv/decl/S_00a59a30_Matrix3.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/Zx3Effect.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a69000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a92000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_0109f000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f5000.h"
 #include "nitextureeffect.h"
 
 NiFixedString NiTextureEffect::ms_kTextureEffectNames[4];
@@ -13,7 +52,7 @@ void NiTextureEffect::InitializePoint3()
     if (pcOld != "ProjectedLight")
     {
         ms_kTextureEffectNames[0].m_kHandle = NiGlobalStringTable::AddString("ProjectedLight");
-        if (pcOld != EmptyFS.m_kHandle)
+        if (pcOld != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((LONG*)(pcOld - 8));
     }
 
@@ -21,7 +60,7 @@ void NiTextureEffect::InitializePoint3()
     if (pcOld != "ProjectedShadow")
     {
         ms_kTextureEffectNames[1].m_kHandle = NiGlobalStringTable::AddString("ProjectedShadow");
-        if (pcOld != EmptyFS.m_kHandle)
+        if (pcOld != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((LONG*)(pcOld - 8));
     }
 
@@ -29,7 +68,7 @@ void NiTextureEffect::InitializePoint3()
     if (pcOld != "EnvironmentMap")
     {
         ms_kTextureEffectNames[2].m_kHandle = NiGlobalStringTable::AddString("EnvironmentMap");
-        if (pcOld != EmptyFS.m_kHandle)
+        if (pcOld != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((LONG*)(pcOld - 8));
     }
 
@@ -37,22 +76,21 @@ void NiTextureEffect::InitializePoint3()
     if (pcOld != "FogMap")
     {
         ms_kTextureEffectNames[3].m_kHandle = NiGlobalStringTable::AddString("FogMap");
-        if (pcOld != EmptyFS.m_kHandle)
+        if (pcOld != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((LONG*)(pcOld - 8));
     }
 }
 
-extern int g_011f5e94;
 
 // @fnv 0x00a927d0
 int* __cdecl FUN_00a927d0()
 {
-    return &g_011f5e94;
+    return &(*reinterpret_cast<int *>(&::g_011f5e94));
 }
 
-extern long DAT_011f5ea0;
-extern long DAT_011f5ea4;
-extern long DAT_011f5ea8;
+extern intptr_t DAT_011f5ea0;
+extern intptr_t DAT_011f5ea4;
+extern intptr_t DAT_011f5ea8;
 
 struct FUN_00a928b0_shell : NiTextureEffect
 {
@@ -67,36 +105,35 @@ void FUN_00a928b0_shell::ClearFixedStrings()
     if (pOldHandle != 0)
     {
         arr[0].m_kHandle = NiGlobalStringTable::AddString(0);
-        if (pOldHandle != EmptyFS.m_kHandle)
+        if (pOldHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long*)(pOldHandle - 8));
     }
     pOldHandle = (char*)DAT_011f5ea0;
     if (pOldHandle != 0)
     {
-        DAT_011f5ea0 = (long)NiGlobalStringTable::AddString(0);
-        if (pOldHandle != EmptyFS.m_kHandle)
+        DAT_011f5ea0 = (intptr_t)NiGlobalStringTable::AddString(0);
+        if (pOldHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long*)(pOldHandle - 8));
     }
     pOldHandle = (char*)DAT_011f5ea4;
     if (pOldHandle != 0)
     {
-        DAT_011f5ea4 = (long)NiGlobalStringTable::AddString(0);
-        if (pOldHandle != EmptyFS.m_kHandle)
+        DAT_011f5ea4 = (intptr_t)NiGlobalStringTable::AddString(0);
+        if (pOldHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long*)(pOldHandle - 8));
     }
     pOldHandle = (char*)DAT_011f5ea8;
     if (pOldHandle != 0)
     {
-        DAT_011f5ea8 = (long)NiGlobalStringTable::AddString(0);
-        if (pOldHandle != EmptyFS.m_kHandle)
+        DAT_011f5ea8 = (intptr_t)NiGlobalStringTable::AddString(0);
+        if (pOldHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long*)(pOldHandle - 8));
     }
 }
 
-class NiStream;
+struct NiStream;
 struct FUN_00a6ff10_holder
 {
-    bool FUN_00a6ff10(NiStream&);
 };
 struct RegHolder54
 {
@@ -130,7 +167,7 @@ struct FUN_00a92a30_shell : NiTextureEffect
 // @fnv 0x00a92a30
 bool FUN_00a92a30_shell::FUN_00a92a30(NiStream& kStream)
 {
-    if (!((FUN_00a6ff10_holder*)this)->FUN_00a6ff10(kStream))
+    if (!reinterpret_cast<::FUN_00a6ff10_StandIn *>((((FUN_00a6ff10_holder*)this)))->FUN_00a6ff10(kStream))
         return false;
     RegHolder54* pkObj = *(RegHolder54**)((char*)this + 0x124);
     if (pkObj)
@@ -139,8 +176,6 @@ bool FUN_00a92a30_shell::FUN_00a92a30(NiStream& kStream)
 }
 
 namespace fnv_00a929d0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct NiObject
 {
     volatile long m_iObjectReferenceCount;
@@ -165,7 +200,7 @@ struct FUN_00a929d0_Holder : NiDynamicEffect
 // @fnv 0x00a929d0
 void FUN_00a929d0_Holder::FUN_00a929d0(NiStream& kStream)
 {
-    NiDynamicEffect::LinkObject(kStream);
+    reinterpret_cast<::NiDynamicEffect *>(this)->LinkObject((::NiStream &)(kStream));
     NiObject* pkObj = kStream.GetLoadedObject();
     NiObject* pOld = m_pObject;
     if (pOld != pkObj)
@@ -179,13 +214,9 @@ void FUN_00a929d0_Holder::FUN_00a929d0(NiStream& kStream)
 }
 }  // namespace fnv_00a929d0
 
-extern int DAT_0109fd0c;
-extern float DAT_011a9448[32];
-extern float DAT_011a946c;
 
 struct FUN_00a92710_base
 {
-    void Init();
 };
 
 struct Mat3x3
@@ -196,12 +227,11 @@ struct Mat3x3
 struct Sub16
 {
     float m[4];
-    void Init(float*, float);
 };
 
 struct FUN_00a92710_cls : FUN_00a92710_base
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     unsigned char m_unk04[0x99];
     unsigned char m_9d;
     unsigned char m_unk9e[0x26];
@@ -231,19 +261,19 @@ struct FUN_00a92710_cls : FUN_00a92710_base
 void* FUN_00a92710_cls::FUN_00a92710()
 {
     FUN_00a92710_base* base = reinterpret_cast<FUN_00a92710_base*>(this);
-    base->Init();
-    m_vptr00 = (int)&DAT_0109fd0c;
-    m_mat1 = *(Mat3x3*)&DAT_011a9448[0];
+    new ((void *)(base)) ::NiDynamicEffect();
+    m_vptr00 = (intptr_t)&(*reinterpret_cast<int *>(&::fnv_00a92bd0::DAT_0109fd0c));
+    m_mat1 = *(Mat3x3*)&(*reinterpret_cast<float (*)[32]>(&::DAT_011a9448))[0];
     m_e8 = 0.0f;
     m_ec = 0.0f;
     m_f0 = 0.0f;
-    m_mat2 = *(Mat3x3*)&DAT_011a9448[0];
+    m_mat2 = *(Mat3x3*)&(*reinterpret_cast<float (*)[32]>(&::DAT_011a9448))[0];
     m_118 = 0.0f;
     m_11c = 0.0f;
     m_120 = 0.0f;
     m_124 = 0;
-    m_sub1.Init(&DAT_011a946c, 0.0f);
-    m_sub2.Init(&DAT_011a946c, 0.0f);
+    new ((void *)&(m_sub1)) ::NiPlane((*(const ::NiPoint3 *)(&(*reinterpret_cast<float *>(&::DAT_011a946c)))), 0.0f);
+    new ((void *)&(m_sub2)) ::NiPlane((*(const ::NiPoint3 *)(&(*reinterpret_cast<float *>(&::DAT_011a946c)))), 0.0f);
     m_128 = 0;
     m_130 = 0;
     m_134 = 0;
@@ -253,7 +283,6 @@ void* FUN_00a92710_cls::FUN_00a92710()
     return this;
 }
 
-int __cdecl FUN_00aa1360(const char*, const char*);
 
 struct TexTypeAccess : NiTextureEffect
 {
@@ -268,7 +297,7 @@ bool FixedSame(const char* pcTable, const char* pcKey)
     if (pcTable == pcKey)
         return true;
     if (pcKey != 0 && pcTable != 0)
-        return FUN_00aa1360(pcTable, pcKey) == 0;
+        return ::NiStricmp(pcTable, pcKey) == 0;
     return false;
 }
 
@@ -288,19 +317,17 @@ bool FindTexTypeIndex(const NiFixedString& kType, unsigned int& uiType)
 }
 
 namespace fnv_00a92bd0 {
-extern "C" void* DAT_0109fd0c;
 
 struct RegistrationManager
 {
     void** vtable;
     void Deregister(void* object)
     {
-        typedef void(__thiscall * Function)(RegistrationManager*, void*);
+        typedef void(* Function)(RegistrationManager*, void*);
         Function callback = reinterpret_cast<Function>(vtable[62]);
         callback(this, object);
     }
 };
-extern RegistrationManager* DAT_011f4748;
 
 struct RefCounted
 {
@@ -310,18 +337,16 @@ struct RefCounted
     {
         if (InterlockedDecrement(&m_uiRefCount) == 0)
         {
-            typedef void(__thiscall * DeleteFunction)(RefCounted*);
+            typedef void(* DeleteFunction)(RefCounted*);
             reinterpret_cast<DeleteFunction>(vtable[1])(this);
         }
     }
 };
 
-void __cdecl FUN_00aa1460(void* object, unsigned int size);
 
 struct TextureEffectMatch
 {
     void** m_ppVirtualMethodTable;
-    void DestroyDynamicEffect();
     TextureEffectMatch* FUN_00a92bd0(unsigned int flags);
 };
 
@@ -329,14 +354,14 @@ struct TextureEffectMatch
 TextureEffectMatch* TextureEffectMatch::FUN_00a92bd0(unsigned int flags)
 {
     m_ppVirtualMethodTable = reinterpret_cast<void**>(&DAT_0109fd0c);
-    if (DAT_011f4748)
-        DAT_011f4748->Deregister(this);
+    if ((*reinterpret_cast<::fnv_00a92bd0::RegistrationManager * *>(&::NiRenderer::ms_pRenderer)))
+        (*reinterpret_cast<::fnv_00a92bd0::RegistrationManager * *>(&::NiRenderer::ms_pRenderer))->Deregister(this);
     RefCounted* resource = *reinterpret_cast<RefCounted**>(reinterpret_cast<char*>(this) + 0x124);
     if (resource)
         resource->DecRefCount();
-    DestroyDynamicEffect();
+    ::DestroyDynamicEffect((::NiDynamicEffect *)this);
     if (flags & 1)
-        FUN_00aa1460(this, 0x15c);
+        ::FUN_00aa1460(this, 0x15c);
     return this;
 }
 }  // namespace fnv_00a92bd0
@@ -364,22 +389,18 @@ int SearchObject::FUN_00a92ef0(unsigned int arg0)
 class SubCmpA
 {
   public:
-    bool Equal(void* other);
 };
 class SubCmpB
 {
   public:
-    bool Equal(void* other);
 };
 class SubCmpC
 {
   public:
-    bool Equal(void* other);
 };
 class FUN_00a93040_cls
 {
   public:
-    bool FUN_00a68d80(FUN_00a93040_cls* other);
     bool FUN_00a93040(FUN_00a93040_cls* other);
     unsigned int unk_000;
     unsigned int unk_004;
@@ -468,15 +489,15 @@ class FUN_00a93040_cls
 // @fnv 0x00a93040
 bool FUN_00a93040_cls::FUN_00a93040(FUN_00a93040_cls* other)
 {
-    if (FUN_00a68d80(other) != 0 && reinterpret_cast<SubCmpA*>(&other->unk_0c4)->Equal(&unk_0c4) != 0 &&
-        reinterpret_cast<SubCmpB*>(&other->unk_0e8)->Equal(&unk_0e8) == 0 && other->m_128 == m_128 &&
+    if (reinterpret_cast<::FNVEffect *>(this)->FUN_00a68d80((::FNVEffect *)(other)) != 0 && reinterpret_cast<::ThreeByThreeMatrix *>((reinterpret_cast<SubCmpA*>(&other->unk_0c4)))->operator==((*(const ::ThreeByThreeMatrix *)(&unk_0c4))) != 0 &&
+        reinterpret_cast<::NiPlane *>((reinterpret_cast<SubCmpB*>(&other->unk_0e8)))->operator==((*(const ::NiPlane *)(&unk_0e8))) == 0 && other->m_128 == m_128 &&
         other->m_12c == m_12c && other->m_130 == m_130 && other->m_134 == m_134 && other->m_138 == m_138 &&
-        reinterpret_cast<SubCmpC*>(&other->unk_13c)->Equal(&unk_13c) == 0)
+        reinterpret_cast<::NiBound *>((reinterpret_cast<SubCmpC*>(&other->unk_13c)))->FUN_00a926b0((*(const ::NiBound *)(&unk_13c))) == 0)
         return true;
     return false;
 }
 
-class NiStream;
+struct NiStream;
 struct NiObjectStub;
 
 struct NiBinaryStreamStub
@@ -501,7 +522,7 @@ template <class T> inline void StreamSaveBinary(NiBinaryStreamStub& kStream, con
     kStream.BinaryWrite(&kValue, sizeof(T), &uiSize, 1);
 }
 
-class NiStream
+struct NiStream
 {
   public:
     virtual void v00();
@@ -670,17 +691,14 @@ class NiStream
 struct NiMatrix3Stub
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void SaveBinary(NiStream& kStream);
 };
 struct NiPoint3Stub
 {
     float x, y, z;
-    void SaveBinary(NiStream& kStream);
 };
 struct NiPlaneStub
 {
     float x, y, z, d;
-    void SaveBinary(NiStream& kStream);
 };
 
 struct NiDynamicEffectStub
@@ -734,7 +752,6 @@ struct NiDynamicEffectStub
     int unkb8;
     int unkbc;
     int unkc0;
-    void SaveBinary(NiStream& kStream);
 };
 
 struct TexEffectSaver : NiDynamicEffectStub
@@ -758,9 +775,9 @@ struct TexEffectSaver : NiDynamicEffectStub
 // @fnv 0x00a932f0
 void TexEffectSaver::FUN_00a932f0(NiStream& kStream)
 {
-    NiDynamicEffectStub::SaveBinary(kStream);
-    m_kModelProjMat.SaveBinary(kStream);
-    m_kModelProjTrans.SaveBinary(kStream);
+    reinterpret_cast<::EffectObject *>(this)->SaveToStream((::NiStream *)&(kStream));
+    reinterpret_cast<::FUN_00a59a90_cls *>(&(m_kModelProjMat))->ReadMatrixFromStream((void *)&(kStream));
+    reinterpret_cast<::NiColor *>(&(m_kModelProjTrans))->SaveBinary(kStream);
     StreamSaveBinary(*kStream.m_pBackingStream, m_eTextureFiltering);
     StreamSaveBinary(*kStream.m_pBackingStream, m_eTextureClamping);
     StreamSaveBinary(*kStream.m_pBackingStream, m_eTextureType);
@@ -768,24 +785,21 @@ void TexEffectSaver::FUN_00a932f0(NiStream& kStream)
     kStream.SaveLinkID(m_spSourceTexture);
     bool bClip = m_bClippingPlaneEnable;
     StreamSaveBinary(*kStream.m_pBackingStream, bClip);
-    m_kModelPlane.SaveBinary(kStream);
+    reinterpret_cast<::NiSphere *>(&(m_kModelPlane))->SaveBinary(kStream);
 }
 
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 // @fnv 0x00a929b0
 void* __cdecl FUN_00a929b0()
 {
-    FUN_00a92710_cls* obj = (FUN_00a92710_cls*)NiMemObject::operator new(0x15c);
+    FUN_00a92710_cls* obj = (FUN_00a92710_cls*)::operator new(0x15c);
     if (obj)
         return obj->FUN_00a92710();
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct TextureRef
 {
     virtual void Destroy();
@@ -874,14 +888,13 @@ struct TextureEffectCandidate
     bool field_138;
     unsigned field_13c, field_140, field_144, field_148;
     Plane4 vector_14c;
-    void FUN_00a68d40(TextureEffectCandidate*, void*);
     void CopyTo(TextureEffectCandidate*, void*);
 };
 // Copies this candidate into dest via FUN_00a68d40, then copies the texture reference (with refcount add/release), matrix, vectors and trailing fields.
 // @fnv 0x00a92f10
 void TextureEffectCandidate::CopyTo(TextureEffectCandidate* dest, void* context)
 {
-    FUN_00a68d40(dest, context);
+    reinterpret_cast<::NiLight *>(this)->CopyMemberData((::NiLight *)(dest), (*(::CloningProcess *)(context)));
     TextureRef* oldTexture = dest->texture_124;
     if (oldTexture != texture_124)
     {
@@ -913,38 +926,27 @@ struct StrArr
     unsigned short size;
     unsigned short count;
     unsigned short growBy;
-    void SetSize(unsigned int newSize);
-    void SetAt(unsigned int index, char*& value);
     void Add(char* value)
     {
         unsigned int index = size;
         if (index >= capacity)
-            SetSize(index + growBy);
-        SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 };
 struct DynamicEffectViewer : NiDynamicEffectStub
 {
-    void FUN_00a69140(StrArr& strings);
 };
 struct MatrixViewer : NiMatrix3Stub
 {
-    char* ToString(const char* name);
 };
 struct PointViewer : NiPoint3Stub
 {
-    char* FUN_00a59af0(const char* name);
 };
 struct PlaneViewer : NiPlaneStub
 {
-    char* FUN_00a69a60(const char* name);
 };
-char* __cdecl FUN_00a7d330(const char* name);
-char* __cdecl FUN_00a92a60(const char* name, int value);
-char* __cdecl BuildFilterModeString(const char* name, int value);
 char* __cdecl BuildTextureAddressModeString(const char* name, int value);
-char* __cdecl BuildProjectionModeString(const char* name, int value);
-char* __cdecl FUN_00a7d370(const char* name, bool value);
 struct TextureEffectViewer : DynamicEffectViewer
 {
     MatrixViewer modelProjMat;
@@ -963,17 +965,17 @@ struct TextureEffectViewer : DynamicEffectViewer
 // @fnv 0x00a93400
 void TextureEffectViewer::AppendToStrings(StrArr& strings)
 {
-    FUN_00a69140(strings);
-    strings.Add(FUN_00a7d330(reinterpret_cast<const char*>(g_011f5e94)));
-    strings.Add(modelProjMat.ToString("m_kModelProjMat"));
-    strings.Add(modelProjTrans.FUN_00a59af0("m_kModelProjTrans"));
-    strings.Add(FUN_00a92a60("m_eTextureMode", textureMode));
-    strings.Add(BuildFilterModeString("m_eFilter", filter));
+    reinterpret_cast<::Zx3Effect *>(this)->FUN_00a69140((::StrArr *)&(strings));
+    strings.Add(FUN_00a7d330(reinterpret_cast<const char*>((*reinterpret_cast<intptr_t *>(&::g_011f5e94)))));
+    strings.Add(reinterpret_cast<::FloatMatrix3 *>(&(modelProjMat))->ToString("m_kModelProjMat"));
+    strings.Add(reinterpret_cast<::NiPoint3 *>(&(modelProjTrans))->FUN_00a59af0("m_kModelProjTrans"));
+    strings.Add(::FUN_00a92a60("m_eTextureMode", textureMode));
+    strings.Add(::BuildFilterModeString("m_eFilter", filter));
     strings.Add(BuildTextureAddressModeString("m_eClamp", clamp));
-    strings.Add(FUN_00a92a60("m_eTextureMode", textureMode));
-    strings.Add(BuildProjectionModeString("m_eCoordMode", coordMode));
+    strings.Add(::FUN_00a92a60("m_eTextureMode", textureMode));
+    strings.Add(::fnv_00a92b00::BuildProjectionModeString("m_eCoordMode", coordMode));
     strings.Add(FUN_00a7d370("m_bPlaneEnable", planeEnable));
-    strings.Add(modelPlane.FUN_00a69a60("m_kModelPlane"));
+    strings.Add(reinterpret_cast<::FUN_00a69a60_Owner *>(&(modelPlane))->FUN_00a69a60("m_kModelPlane"));
 }
 
 struct ProjectionPoint
@@ -1110,27 +1112,22 @@ struct NiStreamL
     unsigned int m_uiNifVersion;
     int unk0dc[0x5c];
     NiBinaryStreamL* m_pUnderlyingStream;
-    unsigned int ResetStreamState();
 };
 struct NiMatrix3L
 {
     float m[9];
-    void LoadBinary(NiStreamL& kStream);
 };
 struct NiPoint3L
 {
     float x, y, z;
-    void LoadBinary(NiStreamL& kStream);
 };
 struct NiPlaneL
 {
     float x, y, z, d;
-    void LoadBinary(NiStreamL& kStream);
 };
 struct NiDynamicEffectL
 {
     int unk00[0x31];
-    void LoadBinary(NiStreamL& kStream);
 };
 struct TexEffectLoader : NiDynamicEffectL
 {
@@ -1150,18 +1147,18 @@ struct TexEffectLoader : NiDynamicEffectL
 // @fnv 0x00a93140
 void TexEffectLoader::FUN_00a93140(NiStreamL& kStream)
 {
-    NiDynamicEffectL::LoadBinary(kStream);
-    m_kModelProjMat.LoadBinary(kStream);
-    m_kModelProjTrans.LoadBinary(kStream);
+    reinterpret_cast<::NiDynamicEffect *>(this)->LoadBinary((::NiStream &)(kStream));
+    reinterpret_cast<::S_00a59a30_Matrix3 *>(&(m_kModelProjMat))->LoadFromStream((::S_00a59a30_Stream &)(kStream));
+    reinterpret_cast<::NiColor *>(&(m_kModelProjTrans))->LoadBinary((::NiStream &)(kStream));
     StreamLoadEnum(*kStream.m_pUnderlyingStream, m_eTextureFiltering);
     StreamLoadEnum(*kStream.m_pUnderlyingStream, m_eTextureClamping);
     StreamLoadEnum(*kStream.m_pUnderlyingStream, m_eTextureType);
     StreamLoadEnum(*kStream.m_pUnderlyingStream, m_eCoordGenType);
-    kStream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
     char bClip;
     StreamLoadBinary(*kStream.m_pUnderlyingStream, bClip);
     m_bClippingPlaneEnable = bClip != 0;
-    m_kModelPlane.LoadBinary(kStream);
+    reinterpret_cast<::NiSphere *>(&(m_kModelPlane))->LoadBinary((::NiStream &)(kStream));
     if (kStream.m_uiNifVersion < 0x0a030004)
     {
         short sPS2;
@@ -1178,7 +1175,6 @@ void TexEffectLoader::FUN_00a93140(NiStreamL& kStream)
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
 };
 class NiCloningProcessA93;
 namespace a93 {
@@ -1186,10 +1182,6 @@ class FUN_00a92710
 {
   public:
     FUN_00a92710() throw();
-    static void* operator new(unsigned int n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;
@@ -1282,7 +1274,6 @@ class FUN_00a92710
 class NiTextureEffectA93
 {
   public:
-    void CopyTo(a93::FUN_00a92710* pkClone, NiCloningProcessA93& kCloning);
     a93::FUN_00a92710* Clone(NiCloningProcessA93& kCloning);
 };
 // Allocates a new a93::FUN_00a92710 object, copies this NiTextureEffectA93 into it via CopyTo, and returns the new object.
@@ -1290,19 +1281,17 @@ class NiTextureEffectA93
 a93::FUN_00a92710* NiTextureEffectA93::Clone(NiCloningProcessA93& kCloning)
 {
     a93::FUN_00a92710* pkObject = new a93::FUN_00a92710;
-    CopyTo(pkObject, kCloning);
+    reinterpret_cast<::TextureEffectCandidate *>(this)->CopyTo((::TextureEffectCandidate *)(pkObject), (void *)&(kCloning));
     return pkObject;
 }
 
 #include <string.h>
-extern "C" void* __cdecl _NiMalloc(unsigned int);
-int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 
 // @fnv 0x00a92a60
 char* __cdecl FUN_00a92a60(const char* pPrefix, unsigned int eMode)
 {
     unsigned int uiLen = strlen(pPrefix) + 0x19;
-    char* pString = static_cast<char*>(_NiMalloc(uiLen));
+    char* pString = static_cast<char*>(::FUN_00aa1070(uiLen));
     switch (eMode)
     {
     case 0:
@@ -1324,35 +1313,35 @@ char* __cdecl FUN_00a92a60(const char* pPrefix, unsigned int eMode)
 namespace fnv_00a92b00 {
 extern "C"
 {
-    void* __cdecl NiMalloc(unsigned int);
-    int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 }
 // Allocates a buffer and formats pPrefix with a projection mode name selected by eMode into it.
 // @fnv 0x00a92b00
 char* __cdecl BuildProjectionModeString(const char* pPrefix, int eMode)
 {
     unsigned int uiLen = strlen(pPrefix) + 25;
-    char* pString = (char*)NiMalloc(uiLen);
+    char* pString = (char*)::FUN_00aa1070(uiLen);
     switch (eMode)
     {
     case 0:
-        NiSprintf(pString, uiLen, "%s = WORLD_PARALLEL", pPrefix);
+        ::NiSprintf(pString, uiLen, "%s = WORLD_PARALLEL", pPrefix);
         return pString;
     case 1:
-        NiSprintf(pString, uiLen, "%s = WORLD_PERSPECTIVE", pPrefix);
+        ::NiSprintf(pString, uiLen, "%s = WORLD_PERSPECTIVE", pPrefix);
         return pString;
     case 2:
-        NiSprintf(pString, uiLen, "%s = SPHERE_MAP", pPrefix);
+        ::NiSprintf(pString, uiLen, "%s = SPHERE_MAP", pPrefix);
         return pString;
     case 3:
-        NiSprintf(pString, uiLen, "%s = SPECULAR_CUBE_MAP", pPrefix);
+        ::NiSprintf(pString, uiLen, "%s = SPECULAR_CUBE_MAP", pPrefix);
         return pString;
     case 4:
-        NiSprintf(pString, uiLen, "%s = DIFFUSE_CUBE_MAP", pPrefix);
+        ::NiSprintf(pString, uiLen, "%s = DIFFUSE_CUBE_MAP", pPrefix);
         return pString;
     default:
-        NiSprintf(pString, uiLen, "%s = UNKNOWN!!!", pPrefix);
+        ::NiSprintf(pString, uiLen, "%s = UNKNOWN!!!", pPrefix);
         return pString;
     }
 }
 }  // namespace fnv_00a92b00
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitextureeffect.inc"

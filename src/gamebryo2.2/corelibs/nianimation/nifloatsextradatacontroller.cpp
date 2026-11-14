@@ -1,35 +1,52 @@
 
+#include <cstdint>
 #include <windows.h>
 // src/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3fcc;
 
 // @fnv 0x00a4ef60
+#include <new>
+#include <cstring>
+#include "fnv/decl/FUN_00a38ef0_Class.h"
+#include "fnv/decl/FUN_00a3c390.h"
+#include "fnv/decl/FUN_00a3c500_shell.h"
+#include "fnv/decl/FUN_00a57130_shell.h"
+#include "fnv/decl/FUN_00a572d0.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a89020_cls.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
 void* __cdecl FUN_00a4ef60()
 {
-    return &g_011f3fcc;
+    return &(*reinterpret_cast<void * *>(&::g_011f3fcc));
 }
 
-int* __fastcall InitTimeController(int*);
 extern int DAT_0109928c;
-extern int EmptyFS;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a4f000
 int* __cdecl FUN_00a4f000()
 {
-    int* p = static_cast<int*>(BSFadeNode::operator new(0x48));
+    int* p = static_cast<int*>(::operator new(0x48));
     if (p)
     {
         InitTimeController(p);
-        p[0] = reinterpret_cast<int>(&DAT_0109928c);
+        p[0] = reinterpret_cast<intptr_t>(&DAT_0109928c);
         p[0x10] = 0xffffffff;
-        p[0x11] = EmptyFS;
+        p[0x11] = (*reinterpret_cast<int *>(&::DAT_0109b220));
         return p;
     }
     return 0;
@@ -37,11 +54,9 @@ int* __cdecl FUN_00a4f000()
 
 struct ExtraStub
 {
-    float GetValueAt(int);
 };
 struct InterpStub
 {
-    InterpStub* FUN_00a3c390(float);
 };
 struct FUN_00a4ef70_shell
 {
@@ -53,9 +68,9 @@ struct FUN_00a4ef70_shell
 // @fnv 0x00a4ef70
 InterpStub* FUN_00a4ef70_shell::CreateInterpStub(unsigned short usIndex)
 {
-    InterpStub* p = (InterpStub*)BSFadeNode::operator new(0x18);
+    InterpStub* p = (InterpStub*)::operator new(0x18);
     if (p)
-        return p->FUN_00a3c390(e->GetValueAt(idx));
+        return ((::InterpStub *)(new ((void *)(p)) ::FUN_00a3c390(reinterpret_cast<::FUN_00a89020_cls *>((e))->GetValueAt(idx))));
     return 0;
 }
 
@@ -63,9 +78,12 @@ struct CloningProcess
 {
     void* m_pCloneMap;
 };
+struct NiStream;
 struct NiPSysModifierCtlr
 {
     void CopyMemberData(NiPSysModifierCtlr*, CloningProcess&);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct NiFloatsExtraDataController : NiPSysModifierCtlr
 {
@@ -78,13 +96,13 @@ struct NiFloatsExtraDataController : NiPSysModifierCtlr
 // @fnv 0x00a4efb0
 NiFloatsExtraDataController* NiFloatsExtraDataController::FUN_00a4efb0(CloningProcess& kCloning)
 {
-    NiFloatsExtraDataController* pkObject = static_cast<NiFloatsExtraDataController*>(BSFadeNode::operator new(0x48));
+    NiFloatsExtraDataController* pkObject = static_cast<NiFloatsExtraDataController*>(::operator new(0x48));
     if (pkObject)
     {
         InitTimeController(reinterpret_cast<int*>(pkObject));
         *reinterpret_cast<int**>(pkObject) = &DAT_0109928c;
         *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x40) = -1;
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x44) = EmptyFS;
+        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x44) = (*reinterpret_cast<int *>(&::DAT_0109b220));
     }
     else
     {
@@ -113,7 +131,6 @@ struct NiStream
 struct Base00
 {
     char _00[0x40];
-    void FUN_00a57130(NiStream&);
 };
 struct NiFloatsExtraDataController : Base00
 {
@@ -124,7 +141,7 @@ struct NiFloatsExtraDataController : Base00
 // @fnv 0x00a4f1a0
 void NiFloatsExtraDataController::FUN_00a4f1a0(NiStream& stream)
 {
-    FUN_00a57130(stream);
+    reinterpret_cast<::FUN_00a57130_shell *>(this)->FUN_00a57130((::NiStream &)(stream));
     NiBinaryStream* __restrict input = stream.m_pBackingStream;
     unsigned int size = 4;
     input->position += input->read(input, &m_fCurrentValue, 4, &size, 1);
@@ -137,14 +154,11 @@ struct GlobalObjectO2_00a7b610
 {
     char x;
 };
-extern GlobalObjectO2_00a7b610 g_011f3738;
 struct NiObject
 {
-    NiObject* DynamicCast(const NiRTTI*);
 };
 struct PoseInterpStub
 {
-    void SetFloatValue(float);
 };
 struct NiInterpolator : NiObject
 {
@@ -154,7 +168,6 @@ struct NiFloatInterpolator : PoseInterpStub
 };
 struct Unk89020
 {
-    float GetValueAt(int);
 };
 struct NiFloatsExtraDataController
 {
@@ -171,8 +184,8 @@ void NiFloatsExtraDataController::ApplyInterpolatorValue(NiInterpolator* pkInter
     if (!pkInterp)
         pkFloatInterp = 0;
     else
-        pkFloatInterp = (NiFloatInterpolator*)pkInterp->DynamicCast((const NiRTTI*)&g_011f3738);
-    pkFloatInterp->SetFloatValue(unk3c->GetValueAt(unk40));
+        pkFloatInterp = (NiFloatInterpolator*)((::fnv_00a4f080::NiObject *)(reinterpret_cast<::NiObject *>((pkInterp))->DynamicCast((const ::NiRTTI *)(const ::fnv_00a4f080::NiRTTI *)((const NiRTTI*)&(*reinterpret_cast<::fnv_00a4f080::GlobalObjectO2_00a7b610 *>(&::g_011f3738))))));
+    reinterpret_cast<::FUN_00a3c500_shell *>((pkFloatInterp))->SetFloatValue(reinterpret_cast<::FUN_00a89020_cls *>((unk3c))->GetValueAt(unk40));
 }
 }  // namespace fnv_00a4f080
 
@@ -194,12 +207,10 @@ struct NiStream
     unsigned int m_uiNifVersion;
     char _pad1[0x170];
     NiBinaryStream* m_pUnderlyingStream;
-    void ResetStreamState();
 };
 struct NiPSysModifierCtlr
 {
     char _pad[0x40];
-    void LoadBinary(NiStream&);
 };
 struct NiFloatsExtraDataController : NiPSysModifierCtlr
 {
@@ -209,14 +220,13 @@ struct NiFloatsExtraDataController : NiPSysModifierCtlr
 // @fnv 0x00a4f150
 void NiFloatsExtraDataController::FUN_00a4f150(NiStream& kStream)
 {
-    NiPSysModifierCtlr::LoadBinary(kStream);
+    reinterpret_cast<::NiPSysModifierCtlr *>(this)->LoadBinary((::NiStream &)(kStream));
     kStream.m_pUnderlyingStream->ReadFloat(m_fValue);
     if (kStream.m_uiNifVersion < 0x0A010068)
-        kStream.ResetStreamState();
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }
 }  // namespace fnv_00a4f150
 
-extern "C" void* g_011f3fcc;
 extern int DAT_01099270;
 
 struct StreamStub
@@ -227,13 +237,9 @@ struct StreamStub
     unsigned short unk0A;
     unsigned short unk0C;
     unsigned short unk0E;
-    void FUN_0096ad30(unsigned int offset);
-    void FUN_0096ae90(unsigned int index, void** result);
 };
 
-void __stdcall FUN_00a57420(StreamStub* stream);
-void* __cdecl FUN_00a7d330(void* source);
-void* __cdecl FUN_00a7d4d0(int* name, void* object);
+void FUN_00a57420(StreamStub* stream);
 
 struct ControllerStub
 {
@@ -249,28 +255,22 @@ struct ControllerStub
 void ControllerStub::FUN_00a4f1e0(StreamStub* stream)
 {
     FUN_00a57420(stream);
-    void* value = FUN_00a7d330(g_011f3fcc);
+    void* value = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3fcc))))));
     unsigned int index = stream->unk0A;
     if (index >= stream->unk08)
-        stream->FUN_0096ad30(index + stream->unk0E);
-    stream->FUN_0096ae90(index, &value);
-    value = FUN_00a7d4d0(&DAT_01099270, unk40);
+        reinterpret_cast<::ViewerStrings *>((stream))->SetSize(index + stream->unk0E);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((stream))->SetAt(index, (*(char * *)(&value)));
+    value = ((void *)(::FUN_00a7d4d0((const char *)(int *)(&DAT_01099270), (intptr_t)(unk40))));
     index = stream->unk0A;
     if (index >= stream->unk08)
-        stream->FUN_0096ad30(index + stream->unk0E);
-    stream->FUN_0096ae90(index, &value);
+        reinterpret_cast<::ViewerStrings *>((stream))->SetSize(index + stream->unk0E);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((stream))->SetAt(index, (*(char * *)(&value)));
 }
 
-extern char* DAT_0109b220;
-extern "C" unsigned int __cdecl strlen(const char*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiGlobalStringTable
 {
     static char* AddString(const char*);
 };
-void* __cdecl NiMalloc(unsigned int);
-void __cdecl NiFree(void*);
-char* __cdecl FUN_00a305b0(char*, unsigned int, const char*, char*, int);
 
 struct FixedString
 {
@@ -309,15 +309,14 @@ char* StrHolder::GetFormattedString()
     if (prefix)
     {
         unsigned int size = strlen(prefix) + 0xf;
-        char* buf = (char*)NiMalloc(size);
-        FUN_00a305b0(buf, size, "%s[%d]", prefix, m_iIndex);
+        char* buf = (char*)::FUN_00aa1070(size);
+        ::NiSprintf(buf, size, "%s[%d]", prefix, m_iIndex);
         m_str = buf;
-        NiFree(buf);
+        ::FUN_00aa10f0(buf);
     }
     return m_str.m_pString;
 }
 
-extern float DAT_01096324;
 struct SplineEvaluationState
 {
     virtual void Reserved0();
@@ -377,7 +376,8 @@ struct SplineEvaluationState
 };
 struct NiFloatsExtraData
 {
-    void SetValue(int index, float value);
+public:
+    bool SetValue(const unsigned int, float);
 };
 struct FloatController
 {
@@ -392,7 +392,6 @@ struct FloatController
     unsigned int unk38;
     NiFloatsExtraData* extraData;
     int index;
-    bool FUN_00a36250(float time);
     bool IsManaged() const
     {
         return ((unsigned char)(flags >> 5) & 1) != 0;
@@ -405,9 +404,9 @@ void FloatController::FUN_00a4f0c0(float* updateData)
 {
     if (IsManaged())
     {
-        lastTime = DAT_01096324;
+        lastTime = ::DAT_01096324;
     }
-    else if (FUN_00a36250(*updateData))
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(*updateData))
     {
         if (!interpolator || !interpolator->AlwaysUpdate())
             return;
@@ -421,8 +420,9 @@ void FloatController::FUN_00a4f0c0(float* updateData)
 }
 
 namespace fnv_00c312f0 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();
@@ -435,13 +435,10 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 
-extern int EmptyFS;
 
 struct NiTransformController
 {
-    void CopyMemberData(NiTransformController* pkDest, void* kCloning);
 };
 
 struct NiFloatsExtraDataController : NiTransformController
@@ -455,14 +452,14 @@ struct NiFloatsExtraDataController : NiTransformController
 // @fnv 0x00c312f0
 void NiFloatsExtraDataController::FUN_00c312f0(NiFloatsExtraDataController* pkDest, void* kCloning)
 {
-    NiTransformController::CopyMemberData(pkDest, kCloning);
+    reinterpret_cast<::FUN_00a38ef0_Class *>(this)->FUN_00a38ef0((::FUN_00a38ef0_Class *)(pkDest), (*(::CloningProcess *)(kCloning)));
     char* pcName = m_kName.m_kHandle;
     if (pkDest->m_kName.m_kHandle != pcName)
     {
-        if (pcName != (char*)EmptyFS)
+        if (pcName != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedIncrement((volatile long*)(pcName - 8));
         char* pcOldName = pkDest->m_kName.m_kHandle;
-        if (pcOldName != (char*)EmptyFS)
+        if (pcOldName != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedDecrement((volatile long*)(pcOldName - 8));
         pkDest->m_kName.m_kHandle = pcName;
     }
@@ -473,7 +470,6 @@ extern int DAT_0109928c;
 
 struct BaseController
 {
-    void FUN_00a572d0();
 };
 
 struct MyController : BaseController
@@ -518,7 +514,6 @@ struct MyController : BaseController
     MyController* FUN_00a4f040(unsigned int destroyFlag);
 };
 
-void __cdecl FUN_00aa1460(void*, unsigned int);
 
 // Releases shared storage, calls FUN_00a572d0, and frees this when destroyFlag bit 0 is set.
 // @fnv 0x00a4f040
@@ -535,7 +530,7 @@ MyController* MyController::FUN_00a4f040(unsigned int destroyFlag)
         InterlockedDecrement((long volatile*)(storage - 8));
     }
 
-    this->FUN_00a572d0();
+    reinterpret_cast<class ::FUN_00a572d0 *>((this))->FUN_00a572d0::~FUN_00a572d0();
 
     if ((destroyFlag & 1) != 0)
     {
@@ -545,3 +540,5 @@ MyController* MyController::FUN_00a4f040(unsigned int destroyFlag)
 
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.inc"

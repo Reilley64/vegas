@@ -2,23 +2,49 @@
 // src/fallout_shared/pathfinding/navmeshsearchflee.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/navmeshsearchflee.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void _Deallocate(void*);
 
+#include "fnv_result_slot.h"
+#include "fnv/decl/AvoidNodeList.h"
+#include "fnv/decl/DoorAccessData.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_0068f230_shell.h"
+#include "fnv/decl/FUN_00691140_shell.h"
+#include "fnv/decl/FUN_006a94f0_shell.h"
+#include "fnv/decl/FUN_006a9520_Class.h"
+#include "fnv/decl/FUN_006a9560_Class.h"
+#include "fnv/decl/FUN_006c9900_shell.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_009962d0_class.h"
+#include "fnv/decl/GetCenterX_006a6eb0.h"
+#include "fnv/decl/MeshX.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESObjectDOOR.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/_Dummy_0069e390.h"
+#include "fnv/decl/fnv_006dc990__Sdc990.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_011d6000.h"
 struct FUN_006a9290_shell
 {
-    void FUN_006a92c0();
     void* DestroyIfFlagged(unsigned int flags);
 };
-
-// Calls FUN_006a92c0, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x006a9290
-void* FUN_006a9290_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_006a92c0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 extern int DAT_0106b87c;
 struct NavMeshSearch
@@ -43,15 +69,17 @@ FUN_006ab410::FUN_006ab410()
 
 class NavMesh;
 class NavMeshTriangleEdgeReference;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
-    float GetSquaredXYLength() const;
-    float FUN_004a7290() const;
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* m_pObject;
@@ -68,7 +96,6 @@ class NavMeshTriangleReference
   public:
     NavMesh* m_pLocationNavMesh;
     unsigned short m_usTriangleIdentifier;
-    NiPoint3 FUN_006a6eb0() const;
 };
 template <class N, class L> class AStarNode
 {
@@ -77,26 +104,19 @@ template <class N, class L> class AStarNode
     N kNode;
     const N& FUN_00413f40() const;
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     bool FindNavMeshTriangle(NavMeshPtr&, unsigned short&);
-    NiPoint3 FUN_005c3420() const;
 };
 class PathingAvoidNodeArray
 {
   public:
-    float GetAvoidanceAtPoint(NiPoint3&);
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
-    PathingLocation* FUN_006a9540();
-    PathingLocation* GetOrigin();
-    float GetFloatAtOffsetB0() const;
-    PathingAvoidNodeArray* GetString() const;
 };
-extern double _gModifierZero;
 
 class NavMeshSearchFlee
 {
@@ -106,14 +126,13 @@ class NavMeshSearchFlee
     unsigned int pad205c[9];
     bool bHasDestination;
     NiPoint3 kDestination;
-    const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* GetFieldAt2050();
     bool IsNodeValid(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode);
 };
 
 // @fnv 0x006a9a70
 bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode)
 {
-    PathingLocation* pdest = pRequest->FUN_006a9540();
+    PathingLocation* pdest = ((::PathingLocation *)(::FUN_006a9540((char *)(pRequest))));
     float fscore;
     if (bHasDestination)
     {
@@ -121,34 +140,33 @@ bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, Na
         unsigned short sgoalTri;
         if (pdest->FindNavMeshTriangle(spmeshPtr, sgoalTri))
         {
-            const NavMeshTriangleReference* thisNode = &apNode->FUN_00413f40();
-            if ((unsigned int)thisNode->m_pLocationNavMesh == *(Flt*)&spmeshPtr &&
+            const NavMeshTriangleReference* thisNode = &(*(const ::NavMeshTriangleReference *)(reinterpret_cast<::TESTopicInfoData *>((void *)(apNode))->GetLinkToList()));
+            if ((std::uintptr_t)thisNode->m_pLocationNavMesh == *(Flt*)&spmeshPtr &&
                 thisNode->m_usTriangleIdentifier == sgoalTri)
                 return true;
         }
     }
-    if (apNode == GetFieldAt2050())
+    if (apNode == ((const ::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *)(reinterpret_cast<::FUN_009962d0_class *>(this)->GetFieldAt2050())))
         return false;
-    NiPoint3 nodeCenter = apNode->kNode.FUN_006a6eb0();
-    float fsqrLength = (pRequest->GetOrigin()->FUN_005c3420() - nodeCenter).GetSquaredXYLength();
-    if (fsqrLength < pRequest->GetFloatAtOffsetB0() * pRequest->GetFloatAtOffsetB0())
+    NiPoint3 nodeCenter = (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(apNode->kNode))->FUN_006a6eb0({})));
+    float fsqrLength = reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>()) - nodeCenter)))->GetSquaredXYLength();
+    if (fsqrLength < reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pRequest))->GetFloatAtOffsetB0() * reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pRequest))->GetFloatAtOffsetB0())
         return false;
     if (bHasDestination)
     {
         NiPoint3 destinationVec = kDestination - nodeCenter;
-        NiPoint3 originDestinationVec = pRequest->GetOrigin()->FUN_005c3420() - kDestination;
-        if (originDestinationVec.FUN_004a7290() < destinationVec.FUN_004a7290())
+        NiPoint3 originDestinationVec = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(pRequest))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>()) - kDestination;
+        if (reinterpret_cast<::TESCombatStyle *>((void *)&(originDestinationVec))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)&(destinationVec))->UpdateCombatStyle())
             return false;
     }
     fscore = 0.0f;
-    if (pRequest->GetString())
-        fscore = pRequest->GetString()->GetAvoidanceAtPoint(nodeCenter);
-    return fscore <= _gModifierZero;
+    if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString())))
+        fscore = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString()))))->SumNodeValues((std::intptr_t)&(nodeCenter));
+    return fscore <= ::_DAT_01012060;
 }
 
 struct Pt
 {
-    float Length() const;
 };
 
 struct P3 : public Pt
@@ -157,10 +175,16 @@ struct P3 : public Pt
     P3 operator-(const P3&) const;
 };
 
+class NavMeshClosedDoorInfo;
+class NavMeshTriangle;
 class NavMesh
 {
   public:
     P3 GetNavMeshData(unsigned short);
+public:
+    ::NavMeshTriangle *GetTriangle(unsigned short);
+public:
+    ::NavMeshClosedDoorInfo *GetClosedDoorInfo(unsigned short);
 };
 
 void FUN_005330e0(float&, float, float);
@@ -203,7 +227,7 @@ void FUN_006a9580_shell::SetNodeFleeCost(AStarNode<NavMeshTriangleReference, Nav
     reinterpret_cast<FUN_006a9580_NodeLayout*>(apNode)->m_fCenterZ = center.z;
 
     P3 avoidVector = center - kAvoidVector;
-    float fcost = fFleeRange - avoidVector.Length();
+    float fcost = fFleeRange - reinterpret_cast<::NiPoint3 *>((void *)&(avoidVector))->ComputeMagnitude();
 
     FUN_005330e0(fcost, 0.0f, fFleeRange);
 
@@ -227,6 +251,15 @@ struct FUN_006a92c0_cls : public AStarSearchBase
     virtual void v01();
     virtual ~FUN_006a92c0_cls();
 };
+// Calls FUN_006a92c0, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x006a9290
+void* FUN_006a9290_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006a92c0_cls *>(this)->::FUN_006a92c0_cls::~FUN_006a92c0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x006a92c0
 FUN_006a92c0_cls::~FUN_006a92c0_cls()
@@ -238,60 +271,52 @@ struct FleeStartNode : NavMeshTriangleReference
 };
 struct FleePath
 {
-    bool FUN_0076b610();
-    const NavMeshTriangleReference* GetLastElement();
 };
 struct FleeLocation : PathingLocation
 {
-    bool FUN_006a9520();
 };
 struct FleeRequest : PathingRequest
 {
-    bool GetByteAtOffset9B();
 };
 struct FleeAvoidNodes : PathingAvoidNodeArray
 {
-    float FUN_006dc9f0(NiPoint3&, P3&);
 };
-extern const NiPoint3 NiPoint3_ZERO;
-float FUN_0040ebd0(float, float);
 struct FleeSearch : FUN_006a9580_shell
 {
     bool bHasDestination;
     NiPoint3 kDestination;
-    unsigned int FUN_006a94f0(NavMesh*, unsigned short);
     AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* FUN_006a7c90(unsigned int, const FleeStartNode*,
                                                                                     float);
     bool FUN_006a7d60(FleePath*, unsigned int, bool);
-    bool StartFleeSearch(FleeRequest*, const FleeStartNode*, FleePath*, unsigned int);
+    bool StartFleeSearch(FleeRequest*, const FleeStartNode*, FleePath*, std::uintptr_t);
 };
 // @fnv 0x006a92e0
-bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* start, FleePath* path, unsigned int limit)
+bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* start, FleePath* path, std::uintptr_t limit)
 {
     pRequest = request;
     reinterpret_cast<FleeStartNode&>(pad205c) = *start;
-    NiPoint3 a = request->GetOrigin()->FUN_005c3420();
-    reinterpret_cast<NiPoint3&>(kAvoidVector) = NiPoint3_ZERO;
-    fFleeRange = request->GetFloatAtOffsetB0();
-    if (static_cast<FleeRequest*>(pRequest)->GetString())
-        static_cast<FleeAvoidNodes*>(static_cast<FleeRequest*>(pRequest)->GetString())->FUN_006dc9f0(a, kAvoidVector);
+    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(request))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
+    reinterpret_cast<NiPoint3&>(kAvoidVector) = ::NiPoint3::ZERO;
+    fFleeRange = reinterpret_cast<::FUN_006d2c20_Class *>((void *)(request))->GetFloatAtOffsetB0();
+    if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(static_cast<FleeRequest*>(pRequest)))->GetString())))
+        reinterpret_cast<::AvoidNodeList *>((static_cast<FleeAvoidNodes*>(((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(static_cast<FleeRequest*>(pRequest)))->GetString())))))->FUN_006dc9f0(a, (::NiPoint3 &)(kAvoidVector));
     AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* p =
-        FUN_006a7c90(FUN_006a94f0(start->m_pLocationNavMesh, start->m_usTriangleIdentifier), start, 0.0f);
+        FUN_006a7c90(reinterpret_cast<::FUN_006a94f0_shell *>(this)->FUN_006a94f0(start->m_pLocationNavMesh, start->m_usTriangleIdentifier), start, 0.0f);
     SetNodeFleeCost(p, start->m_pLocationNavMesh, start->m_usTriangleIdentifier);
-    if (!static_cast<FleeLocation*>(request->FUN_006a9540())->FUN_006a9520())
+    if (!reinterpret_cast<::FUN_006a9520_Class *>((static_cast<FleeLocation*>(((::PathingLocation *)(::FUN_006a9540((char *)(request)))))))->FUN_006a9520())
     {
         bHasDestination = true;
-        kDestination = static_cast<FleeRequest*>(pRequest)->FUN_006a9540()->FUN_005c3420();
+        kDestination = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::FUN_006a9540((char *)(static_cast<FleeRequest*>(pRequest)))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     }
-    bool h = FUN_006a7d60(path, limit, static_cast<FleeRequest*>(pRequest)->GetByteAtOffset9B());
-    if (!h && !path->FUN_0076b610())
+    bool h = FUN_006a7d60(path, limit, ((bool)(reinterpret_cast<::FUN_006a9560_Class *>((static_cast<FleeRequest*>(pRequest)))->GetByteAtOffset9B())));
+    if (!h && !reinterpret_cast<::FUN_0076b610_Class *>((path))->FUN_0076b610())
     {
-        const NavMeshTriangleReference* f = path->GetLastElement();
-        NiPoint3 eb = f->FUN_006a6eb0();
-        float s = static_cast<FleeRequest*>(pRequest)->GetFloatAtOffsetB0() * 0.5;
+        const NavMeshTriangleReference* f = ((const ::NavMeshTriangleReference *)&(::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(path))));
+        NiPoint3 eb = (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)(f))->FUN_006a6eb0({})));
+        float s = reinterpret_cast<::FUN_006d2c20_Class *>((void *)(static_cast<FleeRequest*>(pRequest)))->GetFloatAtOffsetB0() * 0.5;
         s = FUN_0040ebd0(s, 256.0f);
         NiPoint3 i = a - eb;
-        if (i.FUN_004a7290() > s * s)
+        if (reinterpret_cast<::TESCombatStyle *>((void *)&(i))->UpdateCombatStyle() > s * s)
             h = true;
     }
     return h;
@@ -302,24 +327,15 @@ struct Vector3
 {
     float x, y, z;
     Vector3 operator-(const Vector3&) const;
-    void Normalize();
-    float Length() const;
-    float Dot(const Vector3&) const;
 };
-extern const NiPoint3 pathingrequestZero;
 extern float g_doorCost;
-extern double g_positionWeight;
 extern double g_destinationWeight;
 struct Threshold
 {
-    float* Float();
 };
-extern Threshold g_threshold;
-float __cdecl FUN_00404010(float, float);
 struct Mesh;
 struct MeshTriangle
 {
-    bool FUN_00691140(unsigned int);
 };
 struct EdgeInfo
 {
@@ -327,38 +343,25 @@ struct EdgeInfo
 };
 struct DoorBase
 {
-    bool FUN_00518000();
 };
 struct Door
 {
-    DoorBase* FUN_007af430();
 };
 struct DoorLockX
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     DoorLockX(Door*);
     ~DoorLockX();
-    bool FUN_00502450(void*, Door*, bool*);
 };
 struct Mesh
 {
-    bool FindAdjacentEdge(unsigned short, int, Mesh**, unsigned short*, int*);
-    EdgeInfo* FUN_0068f230(unsigned short, int);
-    MeshTriangle* FUN_005582f0(unsigned short);
-    unsigned int* FUN_00699af0(unsigned short);
     Vector3 FUN_00558220(unsigned short);
 };
-Door* __cdecl FUN_004839c0(unsigned int);
 struct AvoidPoints
 {
-    float SumNodeValues(Vector3&);
 };
 struct Request
 {
-    AvoidPoints* GetString() const;
-    bool FUN_0073cb80() const;
-    void* FUN_006c9900();
-    float GetFloatAtOffset68() const;
 };
 struct Node
 {
@@ -377,11 +380,9 @@ struct NodeGeometry
 {
     Mesh* edgeData;
     unsigned short triangle;
-    Vector3 FUN_006a6eb0() const;
 };
 struct NodeArray
 {
-    void FUN_007cb2e0(Node*&);
 };
 enum SearchResult
 {
@@ -393,9 +394,7 @@ struct Search : FUN_006a9580_shell
 {
     bool hasDestination;
     Vector3 destination;
-    unsigned int FUN_006a94f0();
     SearchResult FUN_006a7e00(unsigned int, Mesh*, unsigned short, float, Node**);
-    void SetNodeFleeCost(Node*, Mesh*, unsigned short);
     bool ExpandNode(Node*, NodeArray*);
 };
 // @fnv 0x006a9620
@@ -403,13 +402,13 @@ bool Search::ExpandNode(Node* node, NodeArray* output)
 {
     // Local names preserve the required compiler stack layout.
     Vector3 position;  // Normalized avoidance direction.
-    Vector3 direction = ((NodeGeometry*)&node->edgeData)->FUN_006a6eb0();
-    AvoidPoints* avoid = ((Request*)pRequest)->GetString();
-    position = *(const Vector3*)&pathingrequestZero;
+    Vector3 direction = (*(::Vector3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)(((NodeGeometry*)&node->edgeData)))->FUN_006a6eb0({})));
+    AvoidPoints* avoid = ((::AvoidPoints *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(((Request*)pRequest)))->GetString()));
+    position = *(const Vector3*)&::NiPoint3::ZERO;
     if (avoid)
     {
         position = *(Vector3*)&kAvoidVector - direction;
-        position.Normalize();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(position))->FUN_004a0c10();
     }
     if (!_finite(node->cost))
     {
@@ -421,66 +420,68 @@ bool Search::ExpandNode(Node* node, NodeArray* output)
         Mesh* edgeData;
         unsigned short triangle;
         int mesh;
-        if (node->edgeData->FindAdjacentEdge(node->triangle, edge, &edgeData, &triangle, &mesh))
+        if (reinterpret_cast<::MeshX *>((node->edgeData))->FindAdjacentEdge(node->triangle, edge, (::MeshX **)(::Mesh **)(&edgeData), &triangle, &mesh))
         {
-            EdgeInfo* next = node->edgeData->FUN_0068f230(node->triangle, edge);
+            EdgeInfo* next = ((::EdgeInfo *)(reinterpret_cast<::FUN_0068f230_shell *>((node->edgeData))->FUN_0068f230(node->triangle, edge)));
             if (next && next->type == 1)
                 continue;
             float delta = 1.0f;
-            if (edgeData->FUN_005582f0(triangle)->FUN_00691140(0x1000))
+            if (reinterpret_cast<::FUN_00691140_shell *>((((::MeshTriangle *)(reinterpret_cast<::NavMesh *>((edgeData))->GetTriangle(triangle)))))->FUN_00691140(0x1000))
             {
-                if (((Request*)pRequest)->FUN_0073cb80())
+                if (reinterpret_cast<::DoorAccessData *>((void *)(((Request*)pRequest)))->ReadState98())
                     continue;
                 else
                 {
-                    unsigned int door = *edgeData->FUN_00699af0(triangle);
-                    Door* id = FUN_004839c0(door);
+                    unsigned int door = *((unsigned int *)(reinterpret_cast<::NavMesh *>((edgeData))->GetClosedDoorInfo(triangle)));
+                    Door* id = ((::Door *)(::FUN_004839c0(door)));
                     if (id)
                     {
                         DoorLockX result(id);
-                        void* lock = ((Request*)pRequest)->FUN_006c9900();
+                        void* lock = ((void *)(reinterpret_cast<::FUN_006c9900_shell *>((((Request*)pRequest)))->FUN_006c9900()));
                         bool actor;
-                        if (!result.FUN_00502450(lock, id, &actor))
+                        if (!reinterpret_cast<::DoorAccessData *>(&(result))->CanUnlockDoor((const ::PathingActorData *)(lock), (::TESObjectREFR *)(id), (*(bool *)(&actor))))
                             continue;
-                        if (id->FUN_007af430()->FUN_00518000())
+                        if (reinterpret_cast<::TESObjectDOOR *>((((::DoorBase *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((id))->FUN_007af430()))))->IsTeleportDoor())
                             delta = 100.0f;
                     }
                 }
             }
-            if (((Request*)pRequest)->GetFloatAtOffset68() > *g_threshold.Float() &&
-                edgeData->FUN_005582f0(triangle)->FUN_00691140(0x10))
+            if (::GetFloatAtOffset68((const char *)(((Request*)pRequest))) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Threshold *>(&::originalRuntimeFloatSetting1308)))))) &&
+                reinterpret_cast<::FUN_00691140_shell *>((((::MeshTriangle *)(reinterpret_cast<::NavMesh *>((edgeData))->GetTriangle(triangle)))))->FUN_00691140(0x10))
                 continue;
             Node* neighbour;
             // Adjacent triangle centre and displacement from the current node.
             Vector3 multiplier = edgeData->FUN_00558220(triangle);
             Vector3 cost = multiplier - direction;
             // Accumulated path cost.
-            float extra = cost.Length() * delta + node->cost;
+            float extra = reinterpret_cast<::FUN_00589850_Class *>((void *)&(cost))->FUN_00589850() * delta + node->cost;
             if (avoid)
             {
-                extra += ((Request*)pRequest)->GetString()->SumNodeValues(multiplier);
+                extra += reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::AvoidPoints *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(((Request*)pRequest)))->GetString()))))->SumNodeValues((std::intptr_t)&(multiplier));
                 Vector3 penalty = cost;
-                penalty.Normalize();
-                float travel = FUN_00404010(0.0f, penalty.Dot(position));
-                extra += travel * g_positionWeight;
+                reinterpret_cast<::FUN_004a0c10_s *>(&(penalty))->FUN_004a0c10();
+                float travel = FUN_00404010(0.0f, reinterpret_cast<::FUN_004b6190_shell *>((void *)&(penalty))->DotProduct((void *)&(position)));
+                extra += travel * ::CombatWeapons::DAT_0106b798;
             }
             if (hasDestination)
             {
-                float distance = (multiplier - destination).Length();
+                float distance = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::Vector3 &)((multiplier - destination)))->FUN_00589850();
                 extra += distance * 10.0;
             }
-            switch (FUN_006a7e00(FUN_006a94f0(), edgeData, triangle, extra, &neighbour))
+            switch (FUN_006a7e00(reinterpret_cast<::FUN_006a94f0_shell *>(this)->FUN_006a94f0({}, {}), edgeData, triangle, extra, &neighbour))
             {
             case 0:
-                SetNodeFleeCost(neighbour, edgeData, triangle);
+                reinterpret_cast<::FUN_006a9580_shell *>(this)->SetNodeFleeCost((::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *)(neighbour), (::NavMesh *)(edgeData), triangle);
             case 1:
                 neighbour->parentMesh = node->edgeData;
                 neighbour->parentTriangle = node->triangle;
                 neighbour->parentEdge = edge;
-                output->FUN_007cb2e0(neighbour);
+                reinterpret_cast<::FUN_00438690 *>((output))->FUN_007cb2e0((unsigned int *)&(neighbour));
                 break;
             }
         }
     }
     return true;
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmeshsearchflee.inc"

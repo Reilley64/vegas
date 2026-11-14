@@ -2,13 +2,13 @@
 #ifndef NI2DBUFFER_DECLS_H
 #define NI2DBUFFER_DECLS_H
 
+#include "fnv/symbols_011f6000.h"
 class NiPixelFormat;
 struct NiRTTI
 {
     const char* name;
     const NiRTTI* parent;
 };
-extern NiRTTI DAT_011f603c;
 class Ni2DBuffer
 {
   public:
@@ -39,7 +39,7 @@ class Ni2DBuffer
     void* rendererData;
     bool CreateRendererData(const NiPixelFormat&, MultiSamplePreference);
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;

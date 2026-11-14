@@ -2,27 +2,32 @@
 // src/havok/physics/collide/shape/misc/bv/hkpbvshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/bv/hkpbvshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpBvShape.h"
 
-extern int DAT_010c6fb0;
-extern int DAT_010c6fd0;
 struct DDCC60World
 {
-    void __thiscall removeReference();
 };
 struct FUN_00c9d8c0
 {
     int* vtbl;
     DDCC60World* m_pContainedShape;
-    FUN_00c9d8c0* __thiscall doWork(int flags);
+    FUN_00c9d8c0* doWork(int flags);
 };
 // @fnv 0x00c9d8c0
-FUN_00c9d8c0* __thiscall FUN_00c9d8c0::doWork(int flags)
+FUN_00c9d8c0* FUN_00c9d8c0::doWork(int flags)
 {
     DDCC60World* pOldWorld = m_pContainedShape;
     vtbl = (int*)&DAT_010c6fd0;
     if (pOldWorld)
-        pOldWorld->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pOldWorld))->FUN_00c905b0();
     vtbl = (int*)&DAT_010c6fb0;
     return this;
 }
@@ -55,7 +60,6 @@ void FUN_00c9d970_class::DispatchShapeMethod7(int value, float currentTime, void
 
 struct FUN_00c9d930StandIn
 {
-    void FUN_00c9d930();
 };
 
 struct MemoryManagerStandIn
@@ -65,39 +69,29 @@ struct MemoryManagerStandIn
     virtual void Free(void* object, unsigned short flags) = 0;
 };
 
-struct hkpBvShapeStandIn
+struct hkpBvShapeStandIn : hkpBvShape
 {
     hkpBvShapeStandIn* Destroy(int flags);
 };
 
+struct BvMemoryRouter
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    MemoryManagerStandIn* m_pStreamAllocator;
+};
+
 void* _D1A0E0GetMemoryRouter();
 
-// Calls FUN_00c9d930 on this, then if flags has bit 0 set, frees this through the memory router's manager using the object flags at offset 4, and returns this.
-// @fnv 0x00c9db30
-hkpBvShapeStandIn* hkpBvShapeStandIn::Destroy(int flags)
-{
-    reinterpret_cast<FUN_00c9d930StandIn*>(this)->FUN_00c9d930();
-
-    if (flags & 1)
-    {
-        void* router = _D1A0E0GetMemoryRouter();
-        unsigned short objectFlags = *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(this) + 4);
-        void* manager = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(router) + 0x10);
-
-        reinterpret_cast<MemoryManagerStandIn*>(manager)->Free(this, objectFlags);
-    }
-
-    return this;
-}
-
 // @fnv 0x00c9d8b0
-int __stdcall FUN_00c9d8b0(int a1)
+int FUN_00c9d8b0(int a1)
 {
     return -1;
 }
 
 extern int DAT_010c6fec;
-extern int DAT_01268910;
 
 struct C9D8F0Callback
 {
@@ -117,7 +111,6 @@ struct C9D8F0Shape
     int field14;
     void* m_pContainedShape;
 
-    void FUN_00c90360(C9D8F0Callback* callback, void* typeInfo);
     void NotifyCallback(C9D8F0Callback* callback, int flags);
 };
 
@@ -125,7 +118,7 @@ struct C9D8F0Shape
 void C9D8F0Shape::NotifyCallback(C9D8F0Callback* callback, int flags)
 {
     callback->method3(&DAT_010c6fec, m_pContainedShape, 0);
-    FUN_00c90360(callback, &DAT_01268910);
+    reinterpret_cast<::FunctionContext *>(this)->FUN_00c90360(callback, &(*reinterpret_cast<int *>(&::g_01268910)));
 }
 
 struct hkpBvShapeContainerView : hkpBvShape
@@ -140,9 +133,7 @@ hkpSingleShapeContainer* hkpBvShapeContainerView::FUN_00c9d920()
 }
 
 extern int DAT_010c6ff8;
-extern int DAT_010c6fd0;
 struct Shape_00c9d990;
-void __fastcall FUN_00c90510(Shape_00c9d990*);
 struct FUN_00c9d990
 {
     void* vtable;
@@ -165,16 +156,11 @@ FUN_00c9d990::FUN_00c9d990(Shape_00c9d990* apBoundingVolume, Shape_00c9d990* chi
     vtable = &DAT_010c6ff8;
     containerVtable = &DAT_010c6fd0;
     child = childShape;
-    FUN_00c90510(childShape);
-    FUN_00c90510(boundingVolume);
+    reinterpret_cast<::FUN_00c90510_class *>((childShape))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((boundingVolume))->FUN_00c90510();
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
-extern unsigned long DAT_0126835c;
 extern const char str_010c7024[];
-extern const char str_010c41f8[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 struct Rs_c9d9e0_Cmd
 {
@@ -245,11 +231,10 @@ char* Rs_c9d9e0_Self::FUN_00c9d9e0(char* ret, int a, Rs_c9d9e0_Input* o)
     o->m_iValueAtOffset04--;
     if (*ret)
         o->unk00[o->m_iValueAtOffset04 + 8] = 0;
-    static_cast<Rs_c9d9e0_Stream*>(TlsGetValue(DAT_0126835c))->timer(str_010c41f8);
+    static_cast<Rs_c9d9e0_Stream*>(TlsGetValue(DAT_0126835c))->timer(::DAT_010c41f8);
     return ret;
 }
 
-extern unsigned long DAT_0126835c;
 struct hkMonitorCommand_c9da80
 {
     const char* m_pName;
@@ -330,15 +315,30 @@ void FUN_00c9da80_cls::FUN_00c9da80(const void* pkInput, const hkpCdBody_c9da80&
 
 struct BvShapeReference
 {
-    void __thiscall FUN_00c905b0() throw();
 };
 
-extern int DAT_0102e388;
 
 struct BvShapeReleaseView : hkpBvShape
 {
     void FUN_00c9d930();
 };
+// Calls FUN_00c9d930 on this, then if flags has bit 0 set, frees this through the memory router's manager using the object flags at offset 4, and returns this.
+// @fnv 0x00c9db30
+hkpBvShapeStandIn* hkpBvShapeStandIn::Destroy(int flags)
+{
+    reinterpret_cast<::BvShapeReleaseView *>((reinterpret_cast<FUN_00c9d930StandIn*>(this)))->FUN_00c9d930();
+
+    if (flags & 1)
+    {
+        BvMemoryRouter* router = static_cast<BvMemoryRouter*>(_D1A0E0GetMemoryRouter());
+        unsigned short objectFlags = m_usMemSizeAndFlags;
+        MemoryManagerStandIn* manager = router->m_pStreamAllocator;
+
+        manager->Free(this, objectFlags);
+    }
+
+    return this;
+}
 
 // Releases the held shape reference and the contained shape (if non-null), rewriting the object's two vtable pointers to fixed addresses around the calls.
 // @fnv 0x00c9d930
@@ -347,14 +347,16 @@ void BvShapeReleaseView::FUN_00c9d930()
     hkpBvShape* self = (hkpBvShape*)this;
 
     BvShapeReference* bv = (BvShapeReference*)self->m_pBvShapeReference;
-    *(int*)self = (int)&DAT_010c6ff8;
-    bv->FUN_00c905b0();
+    *reinterpret_cast<const void**>(self) = &DAT_010c6ff8;
+    reinterpret_cast<::hkReferencedObjectC905 *>((bv))->FUN_00c905b0();
 
     BvShapeReference* child = (BvShapeReference*)self->m_pContainedShape.m_pContainedShape;
-    *(int*)&self->m_pContainedShape = (int)&DAT_010c6fd0;
+    *reinterpret_cast<const void**>(&self->m_pContainedShape) = &DAT_010c6fd0;
     if (child)
-        child->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((child))->FUN_00c905b0();
 
-    *(int*)self = (int)&DAT_0102e388;
-    *(int*)&self->m_pContainedShape = (int)&DAT_010c6fb0;
+    *reinterpret_cast<const void**>(self) = &::DAT_0102e388;
+    *reinterpret_cast<const void**>(&self->m_pContainedShape) = &DAT_010c6fb0;
 }
+
+#include "generated/data/havok/physics/collide/shape/misc/bv/hkpbvshape.inc"

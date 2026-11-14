@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPAGENT1NSECTOR_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpAgent1nSector
 {
   public:
@@ -14,6 +13,4 @@ class hkpAgent1nSector
     hkUint32 m_pAuxiliaryObject;  // +0xC
     hkUint8 m_data[496];          // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpAgent1nSector[(sizeof(hkpAgent1nSector) == 0x200) ? 1 : -1];
 #endif

@@ -10,6 +10,14 @@
 // Still unit-local (no canonical header): TESClimate, TESWeather, SkyObject, Sky, Clouds, Precipitation, NiColor,
 // Renderer, BGSLoadGameBuffer, and the SettingT<GameSettingCollection>::Float accessor.
 // first-definition-wins type index shows them (not the renamed canonical text).
+#include "fnv/decl/FUN_0063ef00_Class.h"
+#include "fnv/decl/PrecipS.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011dd000.h"
 #include "sky_local_types.h"
 #define NiPointer FNV_NiPointer_Canonical
 #define NiPoint3 FNV_NiPoint3_Canonical
@@ -17,19 +25,17 @@
 #include "../../../include/NiPoint3.h"
 #undef NiPoint3
 #undef NiPointer
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == sizeof(FNV_NiPoint3_Canonical));
 #include "../../../include/TESForm.h"
 #include "../../../include/AutoMemContext.h"
 #include "../../../include/SETTING_VALUE.h"
 class TESForm_SkyExt : public TESForm
 {
   public:
-    static TESForm* GetFormByID(unsigned int);
 };
-class TESClimate : public TESForm
+struct TESClimate : public TESForm
 {
 };
-class Sky;
+struct Sky;
 class SkyObject
 {
   public:
@@ -38,7 +44,7 @@ class SkyObject
     virtual void vfn_8();
     virtual void Update(Sky*, float);
 };
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
@@ -56,41 +62,32 @@ class Clouds
 {
   public:
     void ClearCloudLayers();
-    void FUN_0063a610();
 };
 class Precipitation
 {
   public:
-    void FlushAll();
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
-    bool FUN_0063ef00();
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     virtual unsigned char GetVersion();
-    unsigned int ReadFormIdentifier();
-    void ReadDataBlock(void*, unsigned int);
 };
 class NiAVObject;
 class SkySound;
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT : public SettingT_GameSettingCollection_
 {
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting76;
-extern NiColor DAT_011a9b7c;
-void* operator new(unsigned int);
-class Sky
+struct Sky
 {
   public:
     virtual ~Sky();
@@ -116,13 +113,10 @@ class Sky
     void *field11c, *field120, *field124, *field128;
     float field12c, field130, field134;
     Sky();
-    void FUN_0063a030(bool);
     void LoadGame(BGSLoadGameBuffer*);
     void Update(float);
     void UpdateHDRValues();
     void SetCurrentClimate(TESClimate*, bool);
-    void FUN_0063c9f0();
-    void ResetWeather();
     void UpdateColors();
     void FUN_0063bce0();
     void UpdateWeatherTransition(float);

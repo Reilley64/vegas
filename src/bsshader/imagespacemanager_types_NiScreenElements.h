@@ -12,7 +12,7 @@ class NiAVObject;
 class NiCollisionObject;
 class NiGeometry;
 class NiGeometryData;
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class NiPropertyState;
 class NiScreenElements;
@@ -29,23 +29,16 @@ class NiTransform;
 class NiTriBasedGeom;
 class NiTriShape;
 class FourComponentNumericValue;
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -53,12 +46,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____Ant
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator) ==
-                  4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
   public:
@@ -83,12 +70,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
     // NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::*(const NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
@@ -117,9 +98,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_NiPointer_NiProperty___
     : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
@@ -130,9 +108,6 @@ class NiTPointerList_NiPointer_NiProperty___
     // NiTPointerList<NiPointer<NiProperty> >& __cdecl NiTPointerList<NiPointer<NiProperty> >::*(const NiTPointerList<NiPointer<NiProperty> >&)
     // void* __cdecl NiTPointerList<NiPointer<NiProperty> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_NiPointer_NiProperty___) == 12);
-#pragma pack(push, 4)
 class FourComponentNumericValue
 {
   public:
@@ -151,17 +126,6 @@ class FourComponentNumericValue
         unsigned int u[4];  // +0x0, 16 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FourComponentNumericValue) == 16);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_afComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_auiComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, x) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, y) == 4);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, z) == 8);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, w) == 12);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, v) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, u) == 0);
-#pragma pack(push, 4)
 class NiPoint4
 {
   public:
@@ -189,12 +153,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint4) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_kComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_afExtents) == 0);
-#pragma pack(push, 4)
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes
@@ -205,10 +164,6 @@ class ThreeByThreeMatrix
     // operator*
     // Inverse
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 48);
-FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
-#pragma pack(push, 4)
 class NiTransform
 {
   public:
@@ -225,12 +180,6 @@ class NiTransform
     // void __cdecl NiTransform::*(NiStream&)
     // void __cdecl NiTransform::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTransform) == 64);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kOrientation) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kTranslation) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_fScale) == 60);
-#pragma pack(push, 4)
 class NiAVObject : public NiObjectNET
 {
   public:
@@ -351,16 +300,6 @@ class NiAVObject : public NiObjectNET
     // NiAVObject& __cdecl NiAVObject::*(const NiAVObject&)
     // void __cdecl NiAVObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiAVObject) == 192);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_pParentNode) == 24);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_spCollisionObject) == 28);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kWorldBound) == 32);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, SceneGraphObject) == 36);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_uiObjectFlags) == 48);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kLocalTransform) == 64);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kWorldSpaceTransform) == 128);
-#pragma pack(push, 4)
 class NiPropertyState
 {
   public:
@@ -387,10 +326,6 @@ class NiPropertyState
     // NiZBufferProperty* __cdecl NiPropertyState::*()
     // void* __cdecl NiPropertyState::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPropertyState) == 28);
-FNV_STATIC_ASSERT(offsetof(NiPropertyState, m_spProperties) == 0);
-#pragma pack(push, 4)
 class NiGeometry : public NiAVObject
 {
   public:
@@ -452,14 +387,6 @@ class NiGeometry : public NiAVObject
     // NiGeometry& __cdecl NiGeometry::*(const NiGeometry&)
     // void __cdecl NiGeometry::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGeometry) == 240);
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_kPropertyState) == 192);
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_spGeometryData) == 220);
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_spSkinningInstance) == 224);
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_pGeometryShader) == 228);
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_uiGeometryShaderFlags) == 232);
-#pragma pack(push, 4)
 class NiTriBasedGeom : public NiGeometry
 {
   public:
@@ -482,9 +409,6 @@ class NiTriBasedGeom : public NiGeometry
     // NiTriBasedGeom& __cdecl NiTriBasedGeom::*(const NiTriBasedGeom&)
     // void __cdecl NiTriBasedGeom::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTriBasedGeom) == 240);
-#pragma pack(push, 4)
 class NiTriShape : public NiTriBasedGeom
 {
   public:
@@ -508,9 +432,6 @@ class NiTriShape : public NiTriBasedGeom
     // NiTriShape& __cdecl NiTriShape::*(const NiTriShape&)
     // void __cdecl NiTriShape::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTriShape) == 240);
-#pragma pack(push, 4)
 class NiScreenElements : public NiTriShape
 {
   public:
@@ -565,6 +486,4 @@ class NiScreenElements : public NiTriShape
     // NiScreenElements& __cdecl NiScreenElements::*(const NiScreenElements&)
     // void __cdecl NiScreenElements::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiScreenElements) == 240);
 #endif

@@ -1,7 +1,41 @@
 // bsshader/watershader.cpp: WaterShader, MaterialShader, WaterShaderLoader, WaterShaderReleaser and more (12 functions)
 
+// Keeps the plain layout view of NiFixedString: this unit holds fixed strings
+// by value. On the shared declaration its object would gain calls of the
+// owner's constructor and destructor.
+#define FNV_KEEPS_PLAIN_NIFIXEDSTRING
+#include <cstdint>
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/BSShaderBloodSplatter.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00b79000.h"
+#include "fnv/symbols_00b98000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_011ff000.h"
+#include "fnv/symbols_0126f000.h"
 #include "watershader_decls.h"
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 #pragma intrinsic(memset)
 
 // Creates the vertex and pixel shader constant maps once, registers their constants and stores the resulting handles in globals.
@@ -15,12 +49,12 @@ void WaterShader::UpdateShaderConstants()
         NiD3DShaderConstantMap* vertexMap = new NiD3DShaderConstantMap(m_pShaderObject, 0);
         m_spSecondShaderConstantMap = vertexMap;
         m_spSecondShaderConstantMap.m_pObject->vfn_68("WorldViewProjTranspose", 0x20000009, 0, "", 0, 0, 0, false);
-        DAT_011ff4a0 = m_spSecondShaderConstantMap.m_pObject->vfn_70("WorldViewProjTranspose");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4a0)) = m_spSecondShaderConstantMap.m_pObject->vfn_70("WorldViewProjTranspose");
         m_spSecondShaderConstantMap.m_pObject->vfn_68("WorldTranspose", 0x20000009, 4, "", 0, 0, 0, false);
-        DAT_011ff4a4 = m_spSecondShaderConstantMap.m_pObject->vfn_70("WorldTranspose");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4a4)) = m_spSecondShaderConstantMap.m_pObject->vfn_70("WorldTranspose");
         m_spSecondShaderConstantMap.m_pObject->vfn_8("CommonData", 0x10000009, 0, 8, 3, "", 0x30, 4, DAT_011ff548,
                                                      false);
-        DAT_011ff4a8 = m_spSecondShaderConstantMap.m_pObject->vfn_70("CommonData");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4a8)) = m_spSecondShaderConstantMap.m_pObject->vfn_70("CommonData");
     }
     if (!m_spFirstShaderConstantMap.m_pObject)
     {
@@ -28,21 +62,21 @@ void WaterShader::UpdateShaderConstants()
         m_spFirstShaderConstantMap = pixelMap;
         m_spFirstShaderConstantMap.m_pObject->vfn_8("CommonData", 0x10000009, 0, 1, 7, "", 0x70, 4, DAT_011ff588,
                                                     false);
-        DAT_011ff4ac = m_spFirstShaderConstantMap.m_pObject->vfn_70("CommonData");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4ac)) = m_spFirstShaderConstantMap.m_pObject->vfn_70("CommonData");
         m_spFirstShaderConstantMap.m_pObject->vfn_8("VarAmounts", 0x10000007, 0, 8, 1, "", 0x10, 4, DAT_011ff5f8,
                                                     false);
-        DAT_011ff4b0 = m_spFirstShaderConstantMap.m_pObject->vfn_70("VarAmounts");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4b0)) = m_spFirstShaderConstantMap.m_pObject->vfn_70("VarAmounts");
         m_spFirstShaderConstantMap.m_pObject->vfn_8("FogData", 0x1000000c, 0, 9, 2, "", 0x20, 4, DAT_011ff608, false);
-        DAT_011ff4b4 = m_spFirstShaderConstantMap.m_pObject->vfn_70("FogData");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4b4)) = m_spFirstShaderConstantMap.m_pObject->vfn_70("FogData");
         m_spFirstShaderConstantMap.m_pObject->vfn_8("DepthData", 0x10000007, 0, 11, 1, "", 0x10, 4, DAT_011ff628,
                                                     false);
-        DAT_011ff4b8 = m_spFirstShaderConstantMap.m_pObject->vfn_70("DepthData");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4b8)) = m_spFirstShaderConstantMap.m_pObject->vfn_70("DepthData");
         m_spFirstShaderConstantMap.m_pObject->vfn_8("SunLightData", 0x1000000c, 0, 12, 2, "", 0x20, 4, DAT_011ff638,
                                                     false);
-        DAT_011ff4bc = m_spFirstShaderConstantMap.m_pObject->vfn_70("SunLightData");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4bc)) = m_spFirstShaderConstantMap.m_pObject->vfn_70("SunLightData");
         m_spFirstShaderConstantMap.m_pObject->vfn_8("LightData", 0x10000009, 0, 14, 17, "", 0x110, 4, DAT_011ff658,
                                                     false);
-        DAT_011ff4c0 = m_spFirstShaderConstantMap.m_pObject->vfn_70("LightData");
+        (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011ff4c0)) = m_spFirstShaderConstantMap.m_pObject->vfn_70("LightData");
     }
     m_uiMemoryContext.Restore(threadState);
 }
@@ -58,49 +92,25 @@ WaterShader::WaterShader()
     WaterShaderTextures = 0;
     DAT_011ff370 = this;
     DAT_011ff104 = false;
-    DAT_011ff103 = false;
+    (*reinterpret_cast<bool *>(&::DAT_011ff103)) = false;
     DAT_011ff102 = false;
     DAT_011ff458 = RgbaColor(0.0f, 0.0f, 0.0f, 0.0f);
-    if (fnv_particle_shader_renderer_level <= 2)
+    if (::DAT_011f91c0 <= 2)
         DAT_011ff100 = false;
-    memset(&DAT_011ff118, 0, sizeof(DAT_011ff118.count) + sizeof(DAT_011ff118.active));
-    memset(&DAT_011ff110, 0, sizeof(DAT_011ff110.frame) + sizeof(DAT_011ff110.flags));
-}
-
-// Builds a vertex declaration with four entries, creates and initializes a WaterShader, assigns the declaration, and returns the shader.
-// @fnv 0x00b86de0
-BSShader* WaterShader::CreateShader()
-{
-    WaterShaderThreadState* threadState = WaterShaderGetThreadState();
-    WaterShaderMemContext m_uiMemoryContext(threadState, 29);
-    NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create(DAT_011f9508, 4, 1);
-    declaration->SetEntry(0, 0, 0, 2, 0);
-    declaration->SetEntry(1, 3, 3, 2, 0);
-    declaration->SetEntry(2, 5, 4, 4, 0);
-    declaration->SetEntry(3, 7, 5, 1, 0);
-    declaration->vfn_b4();
-    WaterShader* shader = new WaterShader;
-    shader->Initialize();
-    shader->InitializeShaderData();
-    shader->InitWaterPasses();
-    shader->vfn_11c();
-    shader->UseShaderDeclaration(declaration);
-    m_uiMemoryContext.Restore(threadState);
-    return shader;
+    memset(&(*reinterpret_cast<::WaterShaderUpdateState *>(&::DAT_011ff118)), 0, sizeof((*reinterpret_cast<::WaterShaderUpdateState *>(&::DAT_011ff118)).count) + sizeof((*reinterpret_cast<::WaterShaderUpdateState *>(&::DAT_011ff118)).active));
+    memset(&(*reinterpret_cast<::WaterShaderFrameState *>(&::DAT_011ff110)), 0, sizeof((*reinterpret_cast<::WaterShaderFrameState *>(&::DAT_011ff110)).frame) + sizeof((*reinterpret_cast<::WaterShaderFrameState *>(&::DAT_011ff110)).flags));
 }
 
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011ff498;
 
 // @fnv 0x00b827b0
 GlobalObjectO2_00a7b610* __cdecl FUN_00b827b0()
 {
-    return &g_011ff498;
+    return &::g_011ff498;
 }
 
-extern "C" void __cdecl _delete(void*, int);
 
 struct FUN_00b86db0_shell
 {
@@ -114,13 +124,10 @@ void* FUN_00b86db0_shell::FUN_00b86db0(int aiFlags)
     extern void __cdecl FUN_00b824b0();
     FUN_00b824b0();
     if (aiFlags & 1)
-        _delete(this, 0x250);
+        ::FUN_00aa1460(this, 0x250);
     return this;
 }
 
-extern unsigned int DAT_011f91e4;
-void __cdecl FUN_00b98480(int, int);
-void __cdecl _FUN_00b98070(int, int);
 struct FUN_00b86b80_inner
 {
     unsigned char _0[0x24];
@@ -135,23 +142,20 @@ struct FUN_00b86b80_arg
 };
 // Reads the global mode and the inner object's flags and byte, calling FUN_00b98480 or _FUN_00b98070 depending on the mode and flag checks.
 // @fnv 0x00b86b80
-void __stdcall FUN_00b86b80(FUN_00b86b80_arg* apArg)
+void FUN_00b86b80(FUN_00b86b80_arg* apArg)
 {
     FUN_00b86b80_inner* pInner = apArg->m_p;
     unsigned int mode = DAT_011f91e4;
     if (pInner && (pInner->m_flags & 0x10000) > 0)
-        FUN_00b98480(0, 0);
+        ::FUN_00b98480(0, 0);
     if (mode != 0x288 && mode != 0x289 && pInner->m_b60 != 0)
-        _FUN_00b98070(0, 0);
+        ::UpdateRendererStateCount(0, 0);
 }
 
 struct WaterPassOps
 {
-    void FUN_00b79950(NiD3DVertexShader*);
-    void FUN_00b80600(NiD3DPixelShader*);
 };
 
-extern unsigned int DAT_11ff120;
 extern unsigned int DAT_11ff124;
 extern unsigned int DAT_11ff128;
 extern unsigned int DAT_11ff12c;
@@ -229,8 +233,6 @@ struct Ref112
     virtual void DeleteThis();
     long refs;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Stage112
 {
     unsigned int unk00;
@@ -258,13 +260,11 @@ struct Stage112
     unsigned int unk58;
     unsigned int unk5c;
     int count;
-    void FUN_00e7def0(unsigned int);
-    void FUN_00e7ecd0();
     void Release()
     {
         --count;
         if (!count)
-            FUN_00e7ecd0();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 struct StagePtr112
@@ -280,9 +280,7 @@ struct StagePtr112
 };
 struct WaterConstantState
 {
-    void SetNodeValue(unsigned int, unsigned int, unsigned int);
 };
-extern WaterConstantState* __cdecl FUN_00e7f5d0();
 struct Pass112
 {
     unsigned int unk00;
@@ -290,7 +288,7 @@ struct Pass112
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
-    void* stages;
+    unsigned int stages;
     unsigned int unk18;
     unsigned int unk1c;
     unsigned int unk20;
@@ -309,17 +307,12 @@ struct Pass112
     unsigned int unk54;
     unsigned int unk58;
     Ref112* vertex;
-    void FUN_00e802b0(void*, Stage112*);
-    void FUN_00b80040(unsigned int, unsigned int, unsigned int);
 };
-extern void __cdecl FUN_00e804d0(Pass112**);
-extern void __cdecl AssignStageFromPool(Stage112**);
-extern void __cdecl ConfigureBeamStage(Stage112*, unsigned int, unsigned int, unsigned int, unsigned int);
 static __forceinline void AssignPassConstant(Pass112* pass, unsigned int index, unsigned int kind, unsigned int stages)
 {
     if (!pass->map)
-        pass->map = FUN_00e7f5d0();
-    pass->map->SetNodeValue(index, kind, stages);
+        pass->map = ((::WaterConstantState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->map))->SetNodeValue(index, kind, stages);
 }
 static __forceinline void AssignRef112(Ref112*& dst, Ref112* src)
 {
@@ -353,28 +346,28 @@ bool Water112::InitWaterPasses()
         Pass112** slot = (Pass112**)&spRenderPass[iPass];
         if ((*slot) == 0)
         {
-            FUN_00e804d0(slot);
+            ::NiD3DPass::CreateD3DPass((*(::NiPointer< ::NiD3DPass> *)(slot)));
             StagePtr112 declaration;
-            AssignStageFromPool(&declaration.p);
-            ConfigureBeamStage(declaration.p, 0, 3, 2, 1);
-            declaration.p->FUN_00e7def0(1);
-            (*slot)->FUN_00e802b0((*slot)->stages, declaration.p);
-            AssignStageFromPool(&declaration.p);
-            ConfigureBeamStage(declaration.p, 1, 3, 2, 1);
-            declaration.p->FUN_00e7def0(1);
-            (*slot)->FUN_00e802b0((*slot)->stages, declaration.p);
-            AssignStageFromPool(&declaration.p);
-            ConfigureBeamStage(declaration.p, 2, 1, 2, 1);
-            declaration.p->FUN_00e7def0(1);
-            (*slot)->FUN_00e802b0((*slot)->stages, declaration.p);
-            AssignStageFromPool(&declaration.p);
-            ConfigureBeamStage(declaration.p, 3, 1, 2, 1);
-            declaration.p->FUN_00e7def0(1);
-            (*slot)->FUN_00e802b0((*slot)->stages, declaration.p);
-            AssignStageFromPool(&declaration.p);
-            ConfigureBeamStage(declaration.p, 4, 3, 2, 1);
-            declaration.p->FUN_00e7def0(1);
-            (*slot)->FUN_00e802b0((*slot)->stages, declaration.p);
+            ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
+            ::ConfigureBeamStage((::BeamStage *)(declaration.p), 0, 3, 2, 1);
+            reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
+            ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
+            ::ConfigureBeamStage((::BeamStage *)(declaration.p), 1, 3, 2, 1);
+            reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
+            ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
+            ::ConfigureBeamStage((::BeamStage *)(declaration.p), 2, 1, 2, 1);
+            reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
+            ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
+            ::ConfigureBeamStage((::BeamStage *)(declaration.p), 3, 1, 2, 1);
+            reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
+            ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
+            ::ConfigureBeamStage((::BeamStage *)(declaration.p), 4, 3, 2, 1);
+            reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
             AssignPassConstant(*slot, 0x0f, 1, 1);
             AssignPassConstant(*slot, 0x18, 0, 1);
             AssignPassConstant(*slot, 0x19, 5, 1);
@@ -383,7 +376,7 @@ bool Water112::InitWaterPasses()
                 if (iPass != 0x24 && iPass != 0x48 && iPass != 0x25 && iPass != 0x49)
                 {
                     AssignPassConstant(*slot, 0x1b, 1, 1);
-                    (*slot)->FUN_00b80040(5, 6, 0);
+                    reinterpret_cast<::NiD3DPass *>(((*slot)))->SetAlphaBlendMode(5, 6, 0);
                 }
                 else
                 {
@@ -418,7 +411,7 @@ bool Water112::InitWaterPasses()
     }
     AssignRef112(((Pass112*)spRenderPass[0].m_pObject)->vertex, (Ref112*)m_spVertexShader1.m_pObject);
     AssignRef112(((Pass112*)spRenderPass[0].m_pObject)->pixel, (Ref112*)m_aspPixelShaders[0].m_pObject);
-    DAT_11ff120 = 0x3e;
+    (*reinterpret_cast<unsigned int *>(&::DAT_011ff120)) = 0x3e;
     AssignRef112(((Pass112*)spRenderPass[1].m_pObject)->vertex, (Ref112*)m_spVertexShader1.m_pObject);
     AssignRef112(((Pass112*)spRenderPass[1].m_pObject)->pixel, (Ref112*)m_aspPixelShaders[1].m_pObject);
     DAT_11ff124 = 0x3e;
@@ -567,83 +560,82 @@ bool Water112::InitWaterPasses()
     AssignRef112(((Pass112*)spRenderPass[49].m_pObject)->pixel, (Ref112*)m_aspPixelShaders[11].m_pObject);
     DAT_11ff1e4 = 0x1e;
     AssignRef112(((Pass112*)spRenderPass[50].m_pObject)->vertex, (Ref112*)m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[50].m_pObject)->FUN_00b80600(m_aspPixelShaders[12].m_pObject);
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[50].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[12].m_pObject));
     DAT_11ff1e8 = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[51].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[51].m_pObject)->FUN_00b80600(m_aspPixelShaders[13].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[51].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[51].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[13].m_pObject));
     DAT_11ff1ec = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[52].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[52].m_pObject)->FUN_00b80600(m_aspPixelShaders[14].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[52].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[52].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[14].m_pObject));
     DAT_11ff1f0 = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[53].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[53].m_pObject)->FUN_00b80600(m_aspPixelShaders[15].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[53].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[53].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[15].m_pObject));
     DAT_11ff1f4 = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[54].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[54].m_pObject)->FUN_00b80600(m_aspPixelShaders[16].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[54].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[54].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[16].m_pObject));
     DAT_11ff1f8 = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[55].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[55].m_pObject)->FUN_00b80600(m_aspPixelShaders[17].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[55].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[55].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[17].m_pObject));
     DAT_11ff1fc = 0x3e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[56].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[56].m_pObject)->FUN_00b80600(m_aspPixelShaders[18].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[56].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[56].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[18].m_pObject));
     DAT_11ff200 = 0x3e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[57].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[57].m_pObject)->FUN_00b80600(m_aspPixelShaders[19].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[57].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[57].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[19].m_pObject));
     DAT_11ff204 = 0x3e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[58].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[58].m_pObject)->FUN_00b80600(m_aspPixelShaders[20].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[58].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[58].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[20].m_pObject));
     DAT_11ff208 = 0x3e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[59].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[59].m_pObject)->FUN_00b80600(m_aspPixelShaders[21].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[59].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[59].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[21].m_pObject));
     DAT_11ff20c = 0x2e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[60].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[60].m_pObject)->FUN_00b80600(m_aspPixelShaders[22].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[60].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[60].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[22].m_pObject));
     DAT_11ff210 = 0x2e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[61].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[61].m_pObject)->FUN_00b80600(m_aspPixelShaders[23].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[61].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[61].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[23].m_pObject));
     DAT_11ff214 = 0x2e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[62].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[62].m_pObject)->FUN_00b80600(m_aspPixelShaders[24].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[62].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[62].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[24].m_pObject));
     DAT_11ff218 = 0x2e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[63].m_pObject)->FUN_00b79950(m_spVertexShader1.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[63].m_pObject)->FUN_00b80600(m_aspPixelShaders[25].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[63].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader1.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[63].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[25].m_pObject));
     DAT_11ff21c = 0x1e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[64].m_pObject)->FUN_00b79950(m_spVertexShader1.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[64].m_pObject)->FUN_00b80600(m_aspPixelShaders[26].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[64].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader1.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[64].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[26].m_pObject));
     DAT_11ff220 = 0x1e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[65].m_pObject)->FUN_00b79950(m_spVertexShader1.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[65].m_pObject)->FUN_00b80600(m_aspPixelShaders[27].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[65].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader1.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[65].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[27].m_pObject));
     DAT_11ff224 = 0x1e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[66].m_pObject)->FUN_00b79950(m_spVertexShader1.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[66].m_pObject)->FUN_00b80600(m_aspPixelShaders[28].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[66].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader1.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[66].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[28].m_pObject));
     DAT_11ff228 = 0x1e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[67].m_pObject)->FUN_00b79950(m_spVertexShader1.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[67].m_pObject)->FUN_00b80600(m_aspPixelShaders[29].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[67].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader1.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[67].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[29].m_pObject));
     DAT_11ff228 = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[68].m_pObject)->FUN_00b79950(m_spVertexShader1.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[68].m_pObject)->FUN_00b80600(m_aspPixelShaders[30].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[68].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader1.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[68].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[30].m_pObject));
     DAT_11ff230 = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[69].m_pObject)->FUN_00b79950(m_spVertexShader1.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[69].m_pObject)->FUN_00b80600(m_aspPixelShaders[31].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[69].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader1.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[69].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[31].m_pObject));
     DAT_11ff234 = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[70].m_pObject)->FUN_00b79950(m_spVertexShader1.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[70].m_pObject)->FUN_00b80600(m_aspPixelShaders[32].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[70].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader1.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[70].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[32].m_pObject));
     DAT_11ff238 = 0xe;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[71].m_pObject)->FUN_00b79950(m_spVertexShader2.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[71].m_pObject)->FUN_00b80600(m_aspPixelShaders[35].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[71].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader2.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[71].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[35].m_pObject));
     DAT_11ff23c = 0;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[72].m_pObject)->FUN_00b79950(m_spVertexShader3.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[72].m_pObject)->FUN_00b80600(m_aspPixelShaders[36].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[72].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader3.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[72].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[36].m_pObject));
     DAT_11ff240 = 0x4e;
-    reinterpret_cast<WaterPassOps*>(spRenderPass[73].m_pObject)->FUN_00b79950(m_spVertexShader3.m_pObject);
-    reinterpret_cast<WaterPassOps*>(spRenderPass[73].m_pObject)->FUN_00b80600(m_aspPixelShaders[37].m_pObject);
+    ::FUN_00b79950((char *)(reinterpret_cast<WaterPassOps*>(spRenderPass[73].m_pObject)), 0, (::NiRefObject *)(m_spVertexShader3.m_pObject));
+    reinterpret_cast<::BSShaderBloodSplatter *>((reinterpret_cast<WaterPassOps*>(spRenderPass[73].m_pObject)))->FUN_00b80600((::NiRefObject *)(m_aspPixelShaders[37].m_pObject));
     DAT_11ff244 = 0x4e;
     return true;
 }
 
 struct TextureReceiver
 {
-    void* FUN_004bc320(int);
 };
 struct TextureBinding
 {
@@ -667,9 +659,6 @@ struct ShaderState
     int unk20;
     TextureBindings* bindings;
 };
-extern ShaderState* DAT_0126f74c;
-extern TextureReceiver* DAT_011f943c;
-extern void* DAT_011f9510;
 struct MaterialProperties
 {
     int unk00;
@@ -837,7 +826,7 @@ struct MaterialShader
 void MaterialShader::BindMaterialTextures(ShaderArgument* argument)
 {
     unsigned int mode = DAT_011f91e4;
-    ShaderState* state = DAT_0126f74c;
+    ShaderState* state = (*reinterpret_cast<::ShaderState * *>(&::DAT_0126f74c));
     MaterialProperties* properties = argument->properties;
     state->bindings->slots[0]->texture = 0;
     state->bindings->slots[1]->texture = 0;
@@ -849,28 +838,28 @@ void MaterialShader::BindMaterialTextures(ShaderArgument* argument)
         if (properties->texture13C && properties->flag80)
         {
             TextureBinding* target = state->bindings->slots[0];
-            target->texture = properties->texture13C->FUN_004bc320(0);
+            target->texture = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>((properties->texture13C))->FUN_004bc320(0)));
         }
         else
-            state->bindings->slots[0]->texture = DAT_011f9510;
+            state->bindings->slots[0]->texture = (*reinterpret_cast<void * *>(&::DAT_011f9510));
         if (DAT_011f943c && properties->flag81)
         {
             TextureBinding* target = state->bindings->slots[1];
-            target->texture = DAT_011f943c->FUN_004bc320(0);
+            target->texture = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>((DAT_011f943c))->FUN_004bc320(0)));
         }
         if (properties->texture138)
         {
             TextureBinding* target = state->bindings->slots[2];
-            target->texture = properties->texture138->FUN_004bc320(0);
+            target->texture = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>((properties->texture138))->FUN_004bc320(0)));
         }
         else
-            state->bindings->slots[2]->texture = DAT_011f9510;
+            state->bindings->slots[2]->texture = (*reinterpret_cast<void * *>(&::DAT_011f9510));
         if (properties->flag60 && properties->texture148)
             state->bindings->slots[3]->texture = properties->texture148;
         if (properties->texture144 && properties->flag63)
         {
             TextureBinding* target = state->bindings->slots[4];
-            target->texture = properties->texture144->FUN_004bc320(0);
+            target->texture = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>((properties->texture144))->FUN_004bc320(0)));
         }
         v66();
     }
@@ -886,7 +875,7 @@ class D3DPassB824B0
     void DecRefCount()
     {
         if (--m_uiRefCount == 0)
-            DeleteThis();
+            reinterpret_cast<::NiD3DPass *>(this)->DestroyPass();
     }
     void DeleteThis();
     int unk00;
@@ -929,9 +918,6 @@ struct ShaderConstantB824B0
     float z;
     float w;
 };
-extern const ShaderConstantB824B0 g_kZeroConstantB824B0;
-extern ShaderConstantB824B0 g_akVertexConstantsB824B0[11];
-extern ShaderConstantB824B0 g_akPixelConstantsB824B0[31];
 class ShaderBaseB824B0
 {
   public:
@@ -992,9 +978,9 @@ FUN_00b824b0::~FUN_00b824b0()
     for (unsigned int i = 0; i < 38; ++i)
         m_aspWaterPixelShaders[i] = 0;
     for (int i = 0; i < 11; ++i)
-        g_akVertexConstantsB824B0[i] = g_kZeroConstantB824B0;
+        g_akVertexConstantsB824B0[i] = (*reinterpret_cast<const ::ShaderConstantB824B0 *>(&::DAT_011a9bd0));
     for (int i = 0; i < 31; ++i)
-        g_akPixelConstantsB824B0[i] = g_kZeroConstantB824B0;
+        g_akPixelConstantsB824B0[i] = (*reinterpret_cast<const ::ShaderConstantB824B0 *>(&::DAT_011a9bd0));
 }
 
 struct WaterShaderDesc
@@ -1021,7 +1007,7 @@ inline void InitWaterVertexBase(WaterShaderDesc& desc)
     desc.kMacros[0].Definition = 0;
     desc.kMacros[1].Name = 0;
     desc.kMacros[1].Definition = 0;
-    fnv_zlib_memset(&desc.kMacros[2], 0, 56);
+    std::memset(&desc.kMacros[2], 0, 14 * sizeof(const char*));
 }
 
 inline void InitWaterVertexVariant(WaterShaderDesc& desc, const char* macro)
@@ -1030,7 +1016,7 @@ inline void InitWaterVertexVariant(WaterShaderDesc& desc, const char* macro)
     desc.kMacros[0].Name = macro;
     desc.kMacros[0].Definition = "";
     desc.kMacros[1].Name = 0;
-    fnv_zlib_memset(&desc.kMacros[1].Definition, 0, 60);
+    std::memset(&desc.kMacros[1].Definition, 0, 15 * sizeof(const char*));
 }
 
 class WaterShaderMemScope
@@ -1055,6 +1041,27 @@ class WaterShaderLoader : public WaterShader
   public:
     void FUN_00b827c0();
 };
+// Builds a vertex declaration with four entries, creates and initializes a WaterShader, assigns the declaration, and returns the shader.
+// @fnv 0x00b86de0
+BSShader* WaterShader::CreateShader()
+{
+    WaterShaderThreadState* threadState = WaterShaderGetThreadState();
+    WaterShaderMemContext m_uiMemoryContext(threadState, 29);
+    NiD3DVertexDeclaration* declaration = ::FUN_00e76700(DAT_011f9508, 4, 1);
+    declaration->SetEntry(0, 0, 0, 2, 0);
+    declaration->SetEntry(1, 3, 3, 2, 0);
+    declaration->SetEntry(2, 5, 4, 4, 0);
+    declaration->SetEntry(3, 7, 5, 1, 0);
+    declaration->vfn_b4();
+    WaterShader* shader = new WaterShader;
+    shader->Initialize();
+    reinterpret_cast<::WaterShaderLoader *>((shader))->FUN_00b827c0();
+    reinterpret_cast<::Water112 *>((shader))->InitWaterPasses();
+    shader->vfn_11c();
+    shader->UseShaderDeclaration(declaration);
+    m_uiMemoryContext.Restore(threadState);
+    return shader;
+}
 
 // @fnv 0x00b827c0
 void WaterShaderLoader::FUN_00b827c0()
@@ -1063,21 +1070,21 @@ void WaterShaderLoader::FUN_00b827c0()
 
     WaterShaderScratch scratch;
     InitWaterVertexBase(scratch.kVertexDelta);
-    GetShaderPath(scratch.kVertexDelta.pcFile, scratch.acFile);
-    sprintf_s(scratch.acName, 0x104, "WATER000.vso");
-    m_spVertexShader1 = CompileVertexShader(scratch.acFile, scratch.kVertexDelta.kMacros, "vs_1_1", scratch.acName);
+    ::FUN_00be0c00(scratch.kVertexDelta.pcFile, scratch.acFile);
+    ::FUN_00406d00(scratch.acName, 0x104, "WATER000.vso");
+    m_spVertexShader1 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(scratch.acFile, (::_D3DXMACRO *)(scratch.kVertexDelta.kMacros), "vs_1_1", scratch.acName)));
 
     InitWaterVertexVariant(scratch.kVertexVc, "VERTEX_COLORS");
-    GetShaderPath(scratch.kVertexVc.pcFile, scratch.acFile);
-    sprintf_s(scratch.acName, 0x104, "WATER001.vso");
-    m_spVertexShader2 = CompileVertexShader(scratch.acFile, scratch.kVertexVc.kMacros, "vs_1_1", scratch.acName);
+    ::FUN_00be0c00(scratch.kVertexVc.pcFile, scratch.acFile);
+    ::FUN_00406d00(scratch.acName, 0x104, "WATER001.vso");
+    m_spVertexShader2 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(scratch.acFile, (::_D3DXMACRO *)(scratch.kVertexVc.kMacros), "vs_1_1", scratch.acName)));
 
     InitWaterVertexVariant(scratch.kVertexLighting, "LIGHTING");
-    GetShaderPath(scratch.kVertexLighting.pcFile, scratch.acFile);
-    sprintf_s(scratch.acName, 0x104, "WATER002.vso");
-    m_spVertexShader3 = CompileVertexShader(scratch.acFile, scratch.kVertexLighting.kMacros, "vs_1_1", scratch.acName);
+    ::FUN_00be0c00(scratch.kVertexLighting.pcFile, scratch.acFile);
+    ::FUN_00406d00(scratch.acName, 0x104, "WATER002.vso");
+    m_spVertexShader3 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(scratch.acFile, (::_D3DXMACRO *)(scratch.kVertexLighting.kMacros), "vs_1_1", scratch.acName)));
 
-    int iLevel = fnv_particle_shader_renderer_level;
+    int iLevel = ::DAT_011f91c0;
     const char* pcProfile = "ps_2_0";
     if (iLevel >= 7)
         pcProfile = "ps_3_0";
@@ -1089,10 +1096,10 @@ void WaterShaderLoader::FUN_00b827c0()
         pcProfile = "ps_2_0";
 
     if (iLevel > 4)
-        sprintf_s(scratch.acPixelFile, 0x100, "water\\2_ab\\p\\water.p.hlsl");
+        ::FUN_00406d00(scratch.acPixelFile, 0x100, "water\\2_ab\\p\\water.p.hlsl");
     else
-        sprintf_s(scratch.acPixelFile, 0x100, "water\\2_0\\p\\water.p.hlsl");
-    sprintf_s(scratch.acLightingFile, 0x100, "water\\2_ab\\p\\waterlighting.p.hlsl");
+        ::FUN_00406d00(scratch.acPixelFile, 0x100, "water\\2_0\\p\\water.p.hlsl");
+    ::FUN_00406d00(scratch.acLightingFile, 0x100, "water\\2_ab\\p\\waterlighting.p.hlsl");
 
     WaterShaderDesc kPixel[38] = {
         {scratch.acPixelFile, {"WATER", "", "REFLECTIONS", "", "REFRACTIONS", "", "DEPTH", "", "FOG", "", 0}},
@@ -1146,24 +1153,23 @@ void WaterShaderLoader::FUN_00b827c0()
     {
         if (kPixel[i].pcFile)
         {
-            GetShaderPath(kPixel[i].pcFile, scratch.acFile);
-            sprintf_s(scratch.acName, 0x104, "WATER%03i.pso", i);
-            m_aspPixelShaders[i] = CompilePixelShader(scratch.acFile, kPixel[i].kMacros, pcProfile, scratch.acName);
+            ::FUN_00be0c00(kPixel[i].pcFile, scratch.acFile);
+            ::FUN_00406d00(scratch.acName, 0x104, "WATER%03i.pso", i);
+            m_aspPixelShaders[i] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(scratch.acFile), (void *)(kPixel[i].kMacros), (char *)(pcProfile), (char *)(scratch.acName));
         }
     }
 }
 
 struct WaterShaderReleaser : WaterShader
 {
-    void ReleaseBase();
     void FUN_00b861c0();
 };
 
 // @fnv 0x00b861c0
 void WaterShaderReleaser::FUN_00b861c0()
 {
-    ReleaseBase();
-    InitWaterPasses();
+    reinterpret_cast<::WaterShaderLoader *>(this)->FUN_00b827c0();
+    reinterpret_cast<::Water112 *>(this)->InitWaterPasses();
 }
 
 struct WaterVec3
@@ -1596,7 +1602,6 @@ struct WaterGeometry
 
 struct WaterTransformSink
 {
-    void FUN_00e6fbb0(void*, int);
 };
 
 struct WaterProgram
@@ -1801,29 +1806,18 @@ struct WaterFog
     float power;
 };
 
-extern WaterGeometry** DAT_011f91e0;
 
-extern WaterVec4 DAT_011fa2a0, DAT_011f4288;
 
-extern WaterVec3 DAT_011f474c;
 
-extern unsigned char DAT_011f91c4;
 
-extern double DAT_01020758;
 
-extern const double DAT_01012070;
 
 extern float DAT_011ff108;
 
-WaterFog* FUN_00b55520(int);
 
-void UpdateRendererStateCount(int, int);
 
-void FUN_00b98180(int, int, unsigned int, int);
 
-void FUN_00b980c0(int, int, int, int);
 
-void AddToSlot(unsigned int, int);
 
 extern WaterVec4 DAT_011ff598;
 
@@ -1835,9 +1829,7 @@ extern WaterVec4 DAT_011ff618;
 
 extern WaterVec4 DAT_011ff648;
 
-extern WaterVec4 DAT_011ff398;
 
-extern WaterVec4 DAT_011ff3a8;
 
 extern WaterVec4 DAT_011ff568;
 
@@ -1867,7 +1859,7 @@ __forceinline void SetWaterAlpha(WaterMaterial* material, unsigned int mode)
     if (mode == 0x288 || mode == 0x289)
     {
 
-        AddToSlot(material->alpha, 0);
+        ::AddToSlot((void *)(std::uintptr_t)(material->alpha), 0);
 
         return;
     }
@@ -1878,24 +1870,24 @@ __forceinline void SetWaterAlpha(WaterMaterial* material, unsigned int mode)
     if (mode != 0x29a && mode != 0x2ab)
     {
 
-        UpdateRendererStateCount(1, 0);
+        ::UpdateRendererStateCount(1, 0);
 
-        FUN_00b98180(2, 255, material->alpha, 0);
+        ::FUN_00b98180(2, 255, material->alpha, 0);
 
         FUN_00b980c0(0, 0, 3, 0);
 
-        AddToSlot(255, 0);
+        ::AddToSlot((void *)(255), 0);
 
         return;
     }
 
-    UpdateRendererStateCount(1, 0);
+    ::UpdateRendererStateCount(1, 0);
 
-    FUN_00b98180(2, 255, material->alpha, 0);
+    ::FUN_00b98180(2, 255, material->alpha, 0);
 
     FUN_00b980c0(0, 0, 0, 0);
 
-    AddToSlot(255, 0);
+    ::AddToSlot((void *)(255), 0);
 }
 
 // Fills global water shader constants from the material, fog and lights, then calls Setup on the vertex and pixel WaterPrograms.
@@ -1907,24 +1899,24 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
     unsigned int mode = DAT_011f91e4;
 
-    WaterGeometry* geometry = *DAT_011f91e0;
+    WaterGeometry* geometry = *(*reinterpret_cast<::WaterGeometry ** *>(&::DAT_011f91e0));
 
     void* world = &geometry->unk068;
 
     void* bound = geometry->bound;
 
     if (!bound)
-        bound = &DAT_011f4288;
+        bound = &(*reinterpret_cast<::WaterVec4 *>(&::g_defaultBound));
 
     void* properties = geometry->properties->data;
 
     void* geometryData = geometry->geometryData;
 
-    transform->FUN_00e6fbb0(world, 0);
+    reinterpret_cast<::XRenderer *>((transform))->FUN_00e6fbb0((*(const ::XTransform *)(world)), 0);
 
-    WaterVec4 light = DAT_011fa2a0;
+    WaterVec4 light = (*reinterpret_cast<::WaterVec4 *>(&::DAT_011fa2a0));
 
-    WaterVec3 vDifference = WaterVec3(light.x, light.y, light.z) - DAT_011f474c;
+    WaterVec3 vDifference = WaterVec3(light.x, light.y, light.z) - (*reinterpret_cast<::WaterVec3 *>(&::DAT_011f474c));
 
     (*reinterpret_cast<WaterVec4*>(DAT_011ff588)) = WaterVec4(vDifference.x, vDifference.y, vDifference.z, 0);
 
@@ -1940,9 +1932,9 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
     DAT_011ff5d0 = material->amount;
 
-    const float refraction = material->refraction / DAT_01020758;
+    const float refraction = material->refraction / ::DAT_01020758;
 
-    DAT_011ff5d4 = refraction < DAT_01012070 ? 1.0f : refraction;
+    DAT_011ff5d4 = refraction < ::g_01012070 ? 1.0f : refraction;
 
     DAT_011ff5d8 = material->scaleX;
 
@@ -1952,7 +1944,7 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
     DAT_011ff5e4 = DAT_011ff108;
 
-    WaterVec3 vCamera = DAT_011f474c;
+    WaterVec3 vCamera = (*reinterpret_cast<::WaterVec3 *>(&::DAT_011f474c));
 
     DAT_011ff558.x = DAT_011ff5e8.x = vCamera.x;
 
@@ -1962,7 +1954,7 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
     (*reinterpret_cast<WaterVec4*>(DAT_011ff5f8)) = material->color4;
 
-    WaterFog* fog = FUN_00b55520(DAT_011f91c4);
+    WaterFog* fog = ((::WaterFog *)(::FUN_00b55520(DAT_011f91c4)));
 
     if (fog)
     {
@@ -1983,9 +1975,9 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
     (*reinterpret_cast<WaterVec4*>(DAT_011ff628)) = material->color5;
 
-    (*reinterpret_cast<WaterVec4*>(DAT_011ff638)) = DAT_011ff398;
+    (*reinterpret_cast<WaterVec4*>(DAT_011ff638)) = (*reinterpret_cast<::WaterVec4 *>(&::waterLightX));
 
-    DAT_011ff648 = DAT_011ff3a8;
+    DAT_011ff648 = (*reinterpret_cast<::WaterVec4 *>(&::DAT_011ff3a8));
 
     float reflectivity = material->reflectivity;
 
@@ -2024,7 +2016,7 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
                 WaterVec3 position = pointLight->position;
 
-                reinterpret_cast<WaterVec4*>(DAT_011ff658 + 4)[index] =
+                reinterpret_cast<WaterVec4*>(DAT_011ff658)[1 + index] =
                     WaterVec4(position.x, position.y, position.z, pointLight->radius);
 
                 float strength = pointLight->intensity;
@@ -2035,7 +2027,7 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
                 WaterVec3 vScaled = diffuse * material->lightScale;
 
-                reinterpret_cast<WaterVec4*>(DAT_011ff658 + 36)[index] = WaterVec4(vScaled.x, vScaled.y, vScaled.z, 1);
+                reinterpret_cast<WaterVec4*>(DAT_011ff658)[9 + index] = WaterVec4(vScaled.x, vScaled.y, vScaled.z, 1);
 
                 index++;
             }
@@ -2047,7 +2039,7 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
     WaterProgram* vertex = setup->vertex;
     if (vertex)
     {
-        void* shader = reinterpret_cast<WaterRenderContext*>(DAT_0126f74c)->vertexShader;
+        void* shader = reinterpret_cast<WaterRenderContext*>((*reinterpret_cast<::ShaderState * *>(&::DAT_0126f74c)))->vertexShader;
         if (shader)
             vertex->Setup(shader, geometry, geometryData, 0, properties, arg, 0, world, bound, 0, 1);
     }
@@ -2055,8 +2047,10 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
     WaterProgram* pixel = setup->pixel;
     if (pixel)
     {
-        void* shader = reinterpret_cast<WaterRenderContext*>(DAT_0126f74c)->pixelShader;
+        void* shader = reinterpret_cast<WaterRenderContext*>((*reinterpret_cast<::ShaderState * *>(&::DAT_0126f74c)))->pixelShader;
         if (shader)
             pixel->Setup(shader, geometry, geometryData, 0, properties, arg, 0, world, bound, 0, 1);
     }
 }
+
+#include "generated/data/bsshader/watershader.inc"

@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKPWELDINGUTILITY_H
 #define FNV_HAVOK_HKPWELDINGUTILITY_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpWeldingUtility
 {
   public:
@@ -28,6 +27,4 @@ class hkpWeldingUtility
     };
     char pad0[0x1];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpWeldingUtility[(sizeof(hkpWeldingUtility) == 0x1) ? 1 : -1];
 #endif

@@ -2,19 +2,18 @@
 #ifndef FNV_NIOBJECT_UNIT_DECLARATIONS_H
 #define FNV_NIOBJECT_UNIT_DECLARATIONS_H
 
+#include "fnv/decl/NiObject_b.h"
 #include "niobject_nirefobject.h"
 
-class NiRTTI;
+struct NiRTTI;
 
 // Unit-private declaration view. NiObject's supplied canonical layout is
 // NiRefObject with no additional fields. The bundled headers stay unchanged.
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     NiObject* DynamicCast(const NiRTTI* rtti);
-    bool IsKindOfType(const NiRTTI* rtti) const;
 };
 
-typedef char niobject_object_size_check[(sizeof(NiObject) == 8) ? 1 : -1];
 
 #endif

@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKPDEFAULTCONVEXLISTFILTER_H
 #include "hkBase.h"
 #include "hkpConvexListFilter.h"
-#pragma pack(push, 1)
 class hkpDefaultConvexListFilter : public hkpConvexListFilter
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpDefaultConvexListFilter[(sizeof(hkpDefaultConvexListFilter) == 0x8) ? 1 : -1];
 #endif

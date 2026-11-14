@@ -1,10 +1,20 @@
+#include <cstdint>
+#include <cstddef>
 
 // src/bsshader/speedtreebillboardshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/speedtreebillboardshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00b67380.h"
+#include "fnv/decl/SelfStub.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00b66000.h"
+#include "fnv/symbols_01200000.h"
 extern int DAT_010b8330;
-void __fastcall FUN_00b67380(void*);
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00ba8690
 {
@@ -16,7 +26,7 @@ struct FUN_00ba8690
 FUN_00ba8690::FUN_00ba8690(int flags)
 {
     m_p = (void*)&DAT_010b8330;
-    FUN_00b67380(this);
+    reinterpret_cast<struct ::FUN_00b67380 *>((this))->FUN_00b67380::~FUN_00b67380();
     if (flags & 1)
         operator delete((void*)this, 0x104);
 }
@@ -62,20 +72,18 @@ FUN_00ba8630::FUN_00ba8630() : unk58(1)
     unk1C = 0xb;
 }
 
-extern int DAT_0120043c;
 
 // @fnv 0x00ba8680
 int* __cdecl FUN_00ba8680()
 {
-    return &DAT_0120043c;
+    return &(*reinterpret_cast<int *>(&::g_0120043c));
 }
 
-void __stdcall FUN_00b665c0(void* apValue);
 
 // @fnv 0x00ba8670
-bool __stdcall FUN_00ba8670(void* apValue)
+bool FUN_00ba8670(void* apValue)
 {
-    FUN_00b665c0(apValue);
+    ::FUN_00b665c0((std::intptr_t)(apValue));
     return false;
 }
 
@@ -86,7 +94,8 @@ struct ACS00bac
 
 struct A5A040Cls
 {
-    void FUN_00a5a040();
+    char pad00[0x9c];
+    char m_kPropertyState;
 };
 
 struct BA86C0Owner
@@ -139,12 +148,12 @@ struct BA86C0Owner
     int FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3);
 };
 
-// Calls FUN_00a5a040 when pArg+0x9c is null and clears unk58 when *unkAC is zero, then returns 0.
+// Calls FUN_00a5a040 when the address of pArg's property state is null and clears unk58 when *unkAC is zero, then returns 0.
 // @fnv 0x00ba86c0
 int BA86C0Owner::FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3)
 {
-    if ((char*)pArg + 0x9c == 0)
-        pArg->FUN_00a5a040();
+    if (&pArg->m_kPropertyState == 0)
+        reinterpret_cast<::FUN_00a5a040_Class *>((pArg))->FUN_00a5a040();
     if (*unkAC == 0)
         unk58 = 0;
     return 0;
@@ -152,7 +161,6 @@ int BA86C0Owner::FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3)
 
 extern int DAT_010b8330;
 void* __cdecl FUN_00aa13e0(unsigned int size);
-void __cdecl operator delete(void*, unsigned int);
 
 struct SpawnedBase
 {
@@ -226,10 +234,6 @@ struct SpawnedObject : SpawnedBase
     int unkF8;
     int unkFC;
     int unk100;
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     SpawnedObject()
     {
         unk58 = 1;
@@ -239,22 +243,18 @@ struct SpawnedObject : SpawnedBase
 
 struct SpawnerHost
 {
-    void FUN_00b665d0(SpawnedObject* obj, int flags);
-    int* CreateSpawnedObject(int a1);
+    int* CreateSpawnedObject(void* a1);
 };
 
 // Allocates a SpawnedObject, passes it with a1 to FUN_00b665d0, and returns the object as an int pointer.
 // @fnv 0x00ba86f0
-int* SpawnerHost::CreateSpawnedObject(int aiFlags)
+int* SpawnerHost::CreateSpawnedObject(void* aiFlags)
 {
     SpawnedObject* p = new SpawnedObject();
-    this->FUN_00b665d0(p, aiFlags);
+    reinterpret_cast<::SelfStub *>((this))->FUN_00b665d0((char *)(p), aiFlags);
     return (int*)p;
 }
 
-extern int DAT_0120043c;
-void __stdcall FUN_00b690d0(void* p);
-void* __cdecl FUN_00a7d330(int v);
 
 struct ObjHdr
 {
@@ -264,22 +264,20 @@ struct ObjHdr
     unsigned short unkA;
     unsigned short unkC;
     unsigned short unkE;
-    void FUN_0096ad30(int v);
-    void FUN_0096ae90(unsigned int count, void** out);
 };
 
 // @fnv 0x00ba8780
-void __stdcall FUN_00ba8780(ObjHdr* apObj)
+void FUN_00ba8780(ObjHdr* apObj)
 {
     ObjHdr* pObj = apObj;
-    FUN_00b690d0(pObj);
-    void* pValue = FUN_00a7d330(DAT_0120043c);
+    reinterpret_cast<::Target *>((pObj))->FUN_00b690d0({});
+    void* pValue = ((void *)(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_0120043c)))));
     unsigned int count = pObj->unkA;
     if (count >= pObj->unk8)
     {
-        pObj->FUN_0096ad30((int)(pObj->unkE + count));
+        reinterpret_cast<::ViewerStrings *>((pObj))->SetSize((int)(pObj->unkE + count));
     }
-    pObj->FUN_0096ae90(count, &pValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pObj))->SetAt(count, (*(char * *)(&pValue)));
 }
 
 struct S_00b68ed0_Stream;

@@ -1,14 +1,15 @@
 // fallout_shared/bgsvoicetype_decls.h: declares TESFile, TESForm, BGSVoiceType
 #ifndef BGSVOICETYPE_DECLS_H
 #define BGSVOICETYPE_DECLS_H
-extern "C" void* __cdecl _alloca(unsigned int);
+#include <malloc.h>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 class TESFile
 {
   public:
-    int GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool NextChunk();
 };
 class TESForm
@@ -92,8 +93,9 @@ class TESForm
     virtual void vfn_12c();
     virtual void vfn_130();
     virtual bool SetEditorID(const char*);
-    void LoadRecordHeader(TESFile*);
     char formFields[20];
+public:
+    void ClearData();
 };
 class BGSVoiceType : public TESForm
 {

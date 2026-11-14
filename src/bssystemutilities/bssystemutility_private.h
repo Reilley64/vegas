@@ -2,13 +2,28 @@
 #define BSSYSTEMUTILITY_PRIVATE_H
 
 
+#include "runtime/crt.h"
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/FUN_00af2db0_cls.h"
+#include "fnv/decl/FnvEmptyThiscall_Class.h"
+#include "fnv/symbols_00af2000.h"
 class CountingSemaphore
 {
   public:
     volatile int iCount;
     void* hSemaphore;
     int m_iMaximumCount;
-    void Signal();
+};
+
+// The object that BSSystemUtility::Update works on (the function at 0x0078d570 belongs to
+// another class); the pads stand for members not named yet.
+struct ScriptRunGate
+{
+    char pad00[0x30];
+    CountingSemaphore m_kLock;
+    char pad3c[0xc];
+    unsigned char m_bRunning;
+    unsigned char m_bReleasePending;
 };
 
 class BSSystemUtility
@@ -17,7 +32,12 @@ class BSSystemUtility
     virtual void vfn_00();
     virtual void vfn_04();
     virtual void vfn_08();
-    unsigned char storage[0x94];
+    char m_acFilePath[0x80];
+    unsigned int m_ui84;
+    unsigned int m_ui88;
+    unsigned int m_ui8c;
+    unsigned int m_ui90;
+    unsigned char m_b94;
     void Update();
     void Initialize(const char*, const char*, unsigned int);
     void Destroy();
@@ -30,20 +50,22 @@ class IdleSystem
     static IdleSystem& GetRandomGenerator();
     void Idle();
     static void Initialize();
+public:
+    static void Startup();
+public:
+    static void Shutdown();
 };
 
 class NetworkSystemUtility
 {
   public:
     static NetworkSystemUtility& GetRandomGenerator();
-    void UpdateSteamRunningFlag();
 };
 
 class DownloadableContentManager
 {
   public:
     static DownloadableContentManager& GetRandomGenerator();
-    void FUN_00af2c80();
 };
 
 class FNVVTableSlot4
@@ -69,9 +91,6 @@ class FNVVTableSlot8Args
     virtual void vfn_08();
 };
 
-void FUN_00af2370();
-void FUN_00af2360();
-void FUN_00af2750();
 void FUN_00af2760();
 void FUN_00af2d30();
 FNVVTableSlot8* FUN_00af3850();
@@ -82,6 +101,5 @@ FNVVTableSlot8* FUN_00af34f0();
 FNVVTableSlot8* GetInitObj();
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" void __cdecl fnv_CopyFilePath(char*, unsigned int, const char*, unsigned int);
 
 #endif

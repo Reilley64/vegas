@@ -17,22 +17,25 @@
 #define FNV_NIGEOMMORPHERCONTROLLER_UNIT_H
 
 
+#include "fnv/decl/FUN_004a4cc0_shell.h"
+#include "fnv/decl/NiControllerSequence__IDTag.h"
+#include "fnv/symbols_011a9000.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiMemObject.h"
 #include "NiObject.h"
 #include "NiRefObject.h"
 
-class CloningProcess;
-class RgbaColor;
+struct CloningProcess;
+struct RgbaColor;
 class NiColorData;
 class ColorAnimationKey;
 class NiInterpolator;
 class NiMorphData;
-class NiObjectNET;
-class NiPoint3;
-class NiStream;
-class NiUpdateData;
+struct NiObjectNET;
+struct NiPoint3;
+struct NiStream;
+struct NiUpdateData;
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -61,7 +64,8 @@ class AnimationKey
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-#pragma pack(push, 4)
+struct CloningProcess;
+struct NiObjectNET;
 class NiTimeController : public NiObject
 {
   public:
@@ -77,34 +81,34 @@ class NiTimeController : public NiObject
     float m_fControllerTime;                         // +0x28, 4 bytes
     NiObjectNET* m_pkTarget;                         // +0x2C, 4 bytes
     NiPointer<NiTimeController> m_spNextController;  // +0x30, 4 bytes
+public:
+    void ProcessClone(::CloningProcess &);
+public:
+    void SetTarget(::NiObjectNET *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 44);
 
 // NiObjectNET is only needed as an opaque target type here.
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
 };
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-#pragma pack(push, 4)
+struct NiStream;
 class NiInterpController : public NiTimeController
 {
   public:
     static const unsigned short INVALID_INDEX;
 
     void CopyMemberData(NiInterpController* pkClone, CloningProcess& kCloning);
+public:
+    void LoadBinary(::NiStream &);
+public:
+    void LinkObject(::NiStream &);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpController) == 52);
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-#pragma pack(push, 4)
 class NiMorphData : public NiObject
 {
   public:
@@ -133,16 +137,9 @@ class NiMorphData : public NiObject
             return 0;
     }
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiMorphData) == 24);
-FNV_STATIC_ASSERT(offsetof(NiMorphData, m_uiNumTargets) == 8);
-FNV_STATIC_ASSERT(offsetof(NiMorphData, m_pMorphTargets) == 16);
-FNV_STATIC_ASSERT(sizeof(NiMorphData::MorphTarget) == 16);
-FNV_STATIC_ASSERT(offsetof(NiMorphData::MorphTarget, m_kName) == 4);
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-#pragma pack(push, 4)
 class NiGeomMorpherController : public NiInterpController
 {
   public:
@@ -165,14 +162,9 @@ class NiGeomMorpherController : public NiInterpController
     unsigned short GetTargetIndex(const char* pcID) const;
     unsigned short GetTargetIndex(const NiFixedString& kID) const;
     void CopyMemberData(NiGeomMorpherController* pkClone, CloningProcess& kCloning);
-    void SetMorphData(NiMorphData* pkMorphData, bool bCanUpdate);
+public:
+    void ClearInterpolatorArray();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGeomMorpherController) == 68);
-FNV_STATIC_ASSERT(offsetof(NiGeomMorpherController, m_uiObjectFlags) == 52);
-FNV_STATIC_ASSERT(offsetof(NiGeomMorpherController, m_spMorphTargetData) == 56);
-FNV_STATIC_ASSERT(offsetof(NiGeomMorpherController, m_pInterpolatorItems) == 60);
-FNV_STATIC_ASSERT(offsetof(NiGeomMorpherController, m_bNeedsUpdate) == 66);
 
 int NiStricmp(const char* a, const char* b);
 
@@ -182,8 +174,7 @@ int NiStricmp(const char* a, const char* b);
 // out-of-line definitions below stay linker-visible without emitting a
 // second copy of a shared vtable.
 // ---------------------------------------------------------------------------
-#pragma pack(push, 4)
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0
@@ -191,17 +182,10 @@ class RgbaColor
     float b;  // +0x8
     float a;  // +0xC
 
-    bool FUN_004a4cc0(const RgbaColor&) const;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
 
-extern const RgbaColor DAT_011a9430;
 extern bool DAT_011f3724;
 
-#pragma pack(push, 4)
 class NiColorData : public NiObject
 {
   public:
@@ -211,28 +195,18 @@ class NiColorData : public NiObject
     unsigned char m_ucKeyDataSize;         // +0x14
     unsigned char m_aucPad[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiColorData) == 24);
-FNV_STATIC_ASSERT(offsetof(NiColorData, m_uiNumKeys) == 8);
-FNV_STATIC_ASSERT(offsetof(NiColorData, m_eRequestType) == 16);
-FNV_STATIC_ASSERT(offsetof(NiColorData, m_ucKeyDataSize) == 20);
 
-#pragma pack(push, 4)
 class NiInterpolator : public NiObject
 {
   public:
     float m_fLastTime;  // +0x8
 
-    NiInterpolator* FUN_00a5d3f0(CloningProcess& kCloning);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
 
 class NiKeyBasedInterpolator : public NiInterpolator
 {
 };
 
-#pragma pack(push, 4)
 class NiColorInterpolator : public NiKeyBasedInterpolator
 {
   public:
@@ -246,8 +220,5 @@ class NiColorInterpolator : public NiKeyBasedInterpolator
     unsigned char GetColorKeySize(unsigned short) const;
     bool IsColorConstant(unsigned short) const;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(offsetof(NiColorInterpolator, m_kColorValue) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColorInterpolator, m_spColorData) == 28);
 
 #endif

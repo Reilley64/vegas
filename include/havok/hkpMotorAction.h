@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpUnaryAction.h"
-#pragma pack(push, 1)
 class hkpMotorAction : public hkpUnaryAction
 {
   public:
@@ -16,6 +15,4 @@ class hkpMotorAction : public hkpUnaryAction
     hkBool m_bSlotEnabled;       // +0x38
     char pad39[0x7];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMotorAction[(sizeof(hkpMotorAction) == 0x40) ? 1 : -1];
 #endif

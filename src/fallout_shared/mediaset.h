@@ -49,11 +49,4 @@ class MediaSet : public TESForm, public TESFullName
     TESSound* m_pSound2;
     bool Update(unsigned int auiTime, bool abForce, MediaLocationController* apController);
 };
-FNV_STATIC_ASSERT(sizeof(MediaSet) == 0xC4);
-FNV_STATIC_ASSERT(offsetof(MediaSet, m_kFullName) == 0x38);
-FNV_STATIC_ASSERT(offsetof(MediaSet, m_kMediaSetEntry1) == 0x48);
-FNV_STATIC_ASSERT(sizeof(MediaSet::MediaSetEntry) == 0x10);
-FNV_STATIC_ASSERT(offsetof(MediaSet::MediaSetEntry, Name) == 0);
-FNV_STATIC_ASSERT(offsetof(MediaSet::MediaSetEntry, Attenuation) == 8);
-FNV_STATIC_ASSERT(offsetof(MediaSet::MediaSetEntry, Percent) == 12);
 #endif

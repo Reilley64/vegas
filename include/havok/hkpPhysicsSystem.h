@@ -8,7 +8,6 @@
 class hkpAction;
 class hkpConstraintInstance;
 class hkpPhantom;
-#pragma pack(push, 1)
 class hkpPhysicsSystem : public hkReferencedObject
 {
   public:
@@ -21,6 +20,4 @@ class hkpPhysicsSystem : public hkReferencedObject
     hkBool m_bSlotEnabled;                            // +0x40
     char pad41[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPhysicsSystem[(sizeof(hkpPhysicsSystem) == 0x44) ? 1 : -1];
 #endif

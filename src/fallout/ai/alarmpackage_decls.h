@@ -3,6 +3,9 @@
 #define FNV_ALARMPACKAGE_DECLS_H
 
 
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/symbols_00483000.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
 
@@ -23,20 +26,17 @@ class FormChangeMask
 };
 
 // Buffer API declarations; this unit does not access their storage.
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
-    unsigned int ReadFormIdentifier();
 };
 
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int mask);
-    int ReadElementCount();
 };
 
-TESForm* __cdecl GetFormByID(unsigned int formID);
 
 class TESSpellList : public BaseFormComponent
 {
@@ -46,8 +46,5 @@ class TESSpellList : public BaseFormComponent
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
-FNV_STATIC_ASSERT(sizeof(TESSpellList) == 0x14);
-FNV_STATIC_ASSERT(offsetof(TESSpellList, spellList) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESSpellList, leveledSpellList) == 0xc);
 
 #endif

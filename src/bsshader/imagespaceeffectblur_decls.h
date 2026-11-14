@@ -1,20 +1,24 @@
 // bsshader/imagespaceeffectblur_decls.h: declares MemoryManager, ImageSpaceManager, NiTexturingProperty, ImageSpaceShaderParam
 #ifndef IMAGESPACEEFFECTBLUR_DECLS_H
 #define IMAGESPACEEFFECTBLUR_DECLS_H
+#include <cstddef>
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_011f6000.h"
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 extern float DAT_011ae6c8, DAT_011ae6cc;
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
 };
 class ImageSpaceEffect;
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     char pad[8];
@@ -53,10 +57,8 @@ class ImageSpaceEffect
     char prefix[24];
     NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > pEffectParamList;
     NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> > pTextures;
-    void SetTextureArrayCount(int);
-    void SetEffectParamAt(int, int, int);
-    void SetEffectAt(int, ImageSpaceEffect*, ImageSpaceEffectParam*, int);
-    void SetTextureArrayAt(int, int, int, NiTexturingProperty::FilterMode, NiTexturingProperty::FilterMode);
+public:
+    void SetTextureArraySize(int);
 };
 class ImageSpaceEffectFourTexturePass : public ImageSpaceEffect
 {
@@ -66,16 +68,10 @@ class ImageSpaceEffectFourTexturePass : public ImageSpaceEffect
 class ImageSpaceShaderParam : public ImageSpaceEffectParam
 {
   public:
-    char data[0x88];
+    char data[0x56];
+    unsigned char unk56;
+    char pad57[0x31];
     ImageSpaceShaderParam();
-    static __forceinline void* operator new(unsigned int n)
-    {
-        return g_memoryManager.Allocate(n);
-    }
-    static __forceinline void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
     void AllocateShaderConstants(int, int);
     void SetShaderConstantVector4(int, float, float, float, float);
 };

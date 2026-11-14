@@ -1,5 +1,36 @@
 // fallout_shared/tesrecipe.cpp: TESRecipe, TESRecipeCategory (4 functions)
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_005a8040_class.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_0061cc40_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006a9000.h"
 #include "tesrecipe.h"
 #include <malloc.h>
 
@@ -11,14 +42,14 @@ static const char s_kRecipeSubCategoryWarning[] =
 // @fnv 0x005a80a0
 void TESRecipe::ClearData()
 {
-    GetConditions()->InitializeConditionItems();
-    GetIngredientList()->RemoveAll();
-    GetOutputList()->RemoveAll();
-    GetGarbageList()->RemoveAll();
-    SetSkill(-1);
-    SetSkillLevel(0);
-    SetCategory(0);
-    SetSubCategory(0);
+    ((::PerkEntryConditionSet *)(::FUN_006a9540((char *)this)))->InitializeConditionItems();
+    reinterpret_cast<::FileMatchList *>((((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()))))->RemoveAll();
+    reinterpret_cast<::TESRecipe *>(this)->SetRequiredSkill((::ActorValue::Index)(-1));
+    reinterpret_cast<::FUN_0061cc40_shell *>(this)->FUN_0061cc40(0);
+    reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54((int)(0));
+    reinterpret_cast<::LowProcess *>(this)->SetPackageObjectType((int)(0));
 }
 
 // Initializes recipe category, subcategory, and ingredient/output lists by resolving form IDs, then marks the form as initialized.
@@ -32,49 +63,49 @@ void TESRecipe::InitItem()
     BSSimpleList<QuantityData*>* compList;
     unsigned int level;
     unsigned int id;
-    if (static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
-    static_cast<TESConditionInit*>(&RecipeItemProcessor)->InitItem(this);
+    reinterpret_cast<::PerkEntryConditionSet *>((static_cast<TESConditionInit*>(&RecipeItemProcessor)))->InitItem(this);
     level = GetData()->m_iRequiredLevel;
     category = 0;
     id = GetData()->CategoryID;
     if (id)
     {
-        TESForm::RemapFormIDForFile(id, GetFile(-1));
-        category = dynamic_cast<TESRecipeCategory*>(TESFormInitFlag::GetFormByID(id));
+        ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
+        category = dynamic_cast<TESRecipeCategory*>(::FUN_004839c0(id));
         if (!category)
-            Warning(s_kRecipeCategoryWarning, id, GetFormID(), GetName());
+            ::FUN_005b5e40();
         else
-            SetCategory(category);
+            reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54((std::intptr_t)(category));
     }
     category = 0;
     id = GetData()->SubCategoryID;
     if (id)
     {
-        TESForm::RemapFormIDForFile(id, GetFile(-1));
-        category = dynamic_cast<TESRecipeCategory*>(TESFormInitFlag::GetFormByID(id));
+        ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
+        category = dynamic_cast<TESRecipeCategory*>(::FUN_004839c0(id));
         if (!category)
-            Warning(s_kRecipeSubCategoryWarning, id, GetFormID(), GetName());
+            ::FUN_005b5e40();
         else
-            SetSubCategory(category);
+            reinterpret_cast<::LowProcess *>(this)->SetPackageObjectType((std::intptr_t)(category));
     }
-    compList = GetIngredientList();
+    compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
     component = 0;
-    while (compList && compList->GetItem())
+    while (compList && (compList->m_item))
     {
-        component = compList->GetItem();
-        compList = compList->GetNext();
-        form = TESFormInitFlag::GetFormByID(reinterpret_cast<unsigned int>(component->GetItem()));
-        component->SetItem(form);
+        component = (compList->m_item);
+        compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::Callees *>((compList))->FUN_00726070()));
+        form = ::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(((::TESForm *)(reinterpret_cast<::Callees *>((component))->FUN_00726070()))));
+        reinterpret_cast<::CombatProcedure *>((component))->Initialize((::CombatController *)(form));
     }
-    compList = GetOutputList();
+    compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     component = 0;
-    while (compList && compList->GetItem())
+    while (compList && (compList->m_item))
     {
-        component = compList->GetItem();
-        compList = compList->GetNext();
-        item = TESFormInitFlag::GetFormByID(reinterpret_cast<unsigned int>(component->GetItem()));
-        component->SetItem(item);
+        component = (compList->m_item);
+        compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::Callees *>((compList))->FUN_00726070()));
+        item = ::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(((::TESForm *)(reinterpret_cast<::Callees *>((component))->FUN_00726070()))));
+        reinterpret_cast<::CombatProcedure *>((component))->Initialize((::CombatController *)(item));
     }
     SetInitializationState(true);
 }
@@ -83,7 +114,7 @@ void TESRecipe::InitItem()
 // @fnv 0x005a8110
 bool TESRecipe::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     QuantityData* component;
     unsigned int formID;
     bool bOutput;
@@ -91,19 +122,19 @@ bool TESRecipe::Load(TESFile* file)
     ClearData();
     if (formType != 0x6A)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     component = 0;
     formID = 0;
     bOutput = false;
-    while ((chunk = file->GetChunkID()) != 0)
+    while ((chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunk)
         {
         case 0x44494445:  // EDID
         {
-            char* buffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(buffer, 0x200);
+            char* buffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer), 0x200);
             SetEditorID_AtRuntime(buffer);
             break;
         }
@@ -111,15 +142,15 @@ bool TESRecipe::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4C4C5546:  // FULL
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 0x41544144:  // DATA
-            ReadTypedData(file, &data, sizeof(data));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &data, sizeof(data));
             if (file->IsEndianConversionRequired())
-                data.Endian();
+                reinterpret_cast<::FUN_00414220_shell *>(&(data))->FUN_00414220();
             break;
         case 0x41445443:  // CTDA
-            GetConditions()->Load(file);
+            ((::PerkEntryConditionSet *)(::FUN_006a9540((char *)this)))->Load(file);
             break;
         case 0x4C494352:  // RCIL
         {
@@ -127,7 +158,7 @@ bool TESRecipe::Load(TESFile* file)
             component = new QuantityData;
             unsigned int ingredientID = 0;
             file->GetChunkData(&ingredientID);
-            TESForm::RemapFormIDForFile(ingredientID, GetFile(-1));
+            ::ResolveFormID((unsigned int *)&(ingredientID), GetFile(-1));
             formID = ingredientID;
             break;
         }
@@ -137,7 +168,7 @@ bool TESRecipe::Load(TESFile* file)
             component = new QuantityData;
             unsigned int outputID = 0;
             file->GetChunkData(&outputID);
-            TESForm::RemapFormIDForFile(outputID, GetFile(-1));
+            ::ResolveFormID((unsigned int *)&(outputID), GetFile(-1));
             formID = outputID;
             break;
         }
@@ -145,17 +176,17 @@ bool TESRecipe::Load(TESFile* file)
         {
             unsigned int quantity = 0;
             file->GetChunkData(&quantity);
-            component->SetQuantity(quantity);
+            reinterpret_cast<::FUN_00537e90 *>((component))->SetQuantity(quantity);
             break;
         }
         }
-        if (component > 0 && component->GetQuantity() > 0 && formID > 0)
+        if (component && ((unsigned int)(::FUN_00559450((int *)(component)))) > 0 && formID > 0)
         {
-            component->SetItem(reinterpret_cast<TESForm*>(formID));
+            reinterpret_cast<::CombatProcedure *>((component))->Initialize((::CombatController *)(::TESForm *)(reinterpret_cast<TESForm*>(formID)));
             if (bOutput)
-                GetOutputList()->AddTail(component);
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00905820((void *)&(component));
             else
-                GetIngredientList()->AddTail(component);
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))))->FUN_00905820((void *)&(component));
         }
         if (!file->NextChunk())
             break;
@@ -168,19 +199,19 @@ bool TESRecipe::Load(TESFile* file)
 bool TESRecipeCategory::Load(TESFile* file)
 {
     int chunk;
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 0x6B)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
-    while ((chunk = file->GetChunkID()) != 0)
+    while ((chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunk)
         {
         case 0x44494445:  // EDID
         {
-            char* pEditorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(pEditorID, 0x200);
+            char* pEditorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pEditorID), 0x200);
             SetEditorID_AtRuntime(pEditorID);
             break;
         }
@@ -188,12 +219,12 @@ bool TESRecipeCategory::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4C4C5546:  // FULL
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 0x41544144:  // DATA
-            ReadTypedData(file, &data, sizeof(data));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &data, sizeof(data));
             if (file->IsEndianConversionRequired())
-                data.Endian();
+                reinterpret_cast<::TESForm *>(&(data))->ClearData();
             break;
         }
         if (!file->NextChunk())

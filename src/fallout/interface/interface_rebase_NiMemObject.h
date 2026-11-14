@@ -2,9 +2,5 @@
 #ifndef FNV_INTERFACE_REBASE_IFNV_EARLY_FOLDED_FNV_NIMEMOBJECT_H
 #define FNV_INTERFACE_REBASE_IFNV_EARLY_FOLDED_FNV_NIMEMOBJECT_H
 #include "interface_rebase_layout_support.h"
-class NiMemObject
-{
-  public:
-};
-FNV_STATIC_ASSERT(sizeof(NiMemObject) == 0x1);
+#include "fnv/ni_mem_object.h"
 #endif

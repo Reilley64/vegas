@@ -2,12 +2,29 @@
 // src/gamebryo2.2/corelibs/nianimation/bsgrabiknote.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bsgrabiknote.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3ef0;
 
 // @fnv 0x00a44350
+#include <new>
+#include <cstring>
+#include "fnv/decl/BSAnimNote.h"
+#include "fnv/decl/C4BF0AnimNote.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a88c00_shell.h"
+#include "fnv/decl/LoadObj.h"
+#include "fnv/decl/LoaderA44.h"
+#include "fnv/decl/MyStr.h"
+#include "fnv/decl/S00a88bc0.h"
+#include "fnv/decl/TmpNote.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a84000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01047000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_011f3000.h"
 void* __cdecl FUN_00a44350()
 {
-    return &g_011f3ef0;
+    return &(*reinterpret_cast<void * *>(&::g_011f3ef0));
 }
 
 struct FUN_00a44360_shell
@@ -16,15 +33,14 @@ struct FUN_00a44360_shell
 };
 
 void __cdecl FUN_00a44830();
-void __cdecl _delete(void* p, unsigned int size);
 
 // Calls FUN_00a44830, then frees this with _delete when flags has bit 1 set, and returns this.
 // @fnv 0x00a44360
-void* __thiscall FUN_00a44360_shell::Destroy(unsigned int flags)
+void* FUN_00a44360_shell::Destroy(unsigned int flags)
 {
     FUN_00a44830();
     if (flags & 1)
-        _delete(this, 0x1c);
+        ::FUN_00aa1460(this, 0x1c);
     return this;
 }
 
@@ -37,14 +53,13 @@ struct FUN_00a44310_shell
     unsigned int m_10;
     float m_14;
     unsigned int m_18;
-    bool Matches(const void*);
     bool Equals(const void* pOther);
 };
 
 // @fnv 0x00a44310
 bool FUN_00a44310_shell::Equals(const void* pOther)
 {
-    if (Matches(pOther) && m_10 == *(const unsigned int*)((const char*)pOther + 0x10) &&
+    if (reinterpret_cast<::TmpNote *>(this)->Matches((::NiObject *)(pOther)) && m_10 == *(const unsigned int*)((const char*)pOther + 0x10) &&
         m_14 == *(const float*)((const char*)pOther + 0x14) &&
         m_18 == *(const unsigned int*)((const char*)pOther + 0x18))
         return true;
@@ -55,7 +70,6 @@ extern int DAT_01097d34;
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
     void* m_ppVirtualMethodTable;
     int m_auiShapeKeys;
     int m_flags;
@@ -63,16 +77,15 @@ struct BSFadeNode
     int m_pAuxiliaryObject;
     float m_f2;
     int m_pad3;
-    void __thiscall _Call_a5d3a0();
 };
 
 // @fnv 0x00a44380
 void* __cdecl FUN_00a44380()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(28));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(28));
     if (node)
     {
-        node->_Call_a5d3a0();
+        new ((void *)(node)) struct ::FUN_00a5d3a0();
         node->m_f1 = 0.0f;
         node->m_flags = 1;
         node->m_f2 = 0.0f;
@@ -87,18 +100,17 @@ struct NiStream;
 
 struct BSAnimNote_shell
 {
-    char __thiscall FUN_00a84c70(NiStream&);
 };
 
 struct FUN_00a43f10_shell : BSAnimNote_shell
 {
-    bool __thiscall FUN_00a43f10(NiStream&);
+    bool FUN_00a43f10(NiStream&);
 };
 
 // @fnv 0x00a43f10
 bool FUN_00a43f10_shell::FUN_00a43f10(NiStream& arStream)
 {
-    return BSAnimNote_shell::FUN_00a84c70(arStream);
+    return ((char)(::FUN_00a84c70((void *)this)));
 }
 
 struct CloningProcess;
@@ -116,7 +128,7 @@ void* FUN_00a443c0_shell::FUN_00a443c0(CloningProcess* process)
     FUN_00a443c0_shell* node = new FUN_00a443c0_shell;
     if (node)
     {
-        node->_Call_a5d3a0();
+        new ((void *)(node)) struct ::FUN_00a5d3a0();
         node->m_f1 = 0.0f;
         node->m_flags = 1;
         node->m_f2 = 0.0f;
@@ -127,8 +139,8 @@ void* FUN_00a443c0_shell::FUN_00a443c0(CloningProcess* process)
         node = 0;
     ((FUN_00a44850_holder*)this)->CopyMembersStreamAndFields((FUN_00a44850_holder*)node, process);
     *(void**)((char*)node + 0x10) = *(void**)((char*)this + 0x10);
-    *(float*)((char*)node + 0x14) = *(float*)((char*)this + 0x14);
-    *(unsigned int*)((char*)node + 0x18) = *(unsigned int*)((char*)this + 0x18);
+    node->m_f2 = this->m_f2;
+    *(unsigned int*)&node->m_pad3 = *(unsigned int*)&this->m_pad3;
     return node;
 }
 
@@ -309,14 +321,13 @@ struct S_00a44530_Class
     int unk10;
     int unk14;
     int unk18;
-    void __thiscall ReadBinaryFields(S_00a44530_Stream* stream);
-    void __thiscall LoadFromStream(S_00a44530_Stream* stream);
+    void LoadFromStream(S_00a44530_Stream* stream);
 };
 // Calls ReadBinaryFields, then reads three 4-byte values from the stream into unk10, unk14 and unk18.
 // @fnv 0x00a44530
-void __thiscall S_00a44530_Class::LoadFromStream(S_00a44530_Stream* stream)
+void S_00a44530_Class::LoadFromStream(S_00a44530_Stream* stream)
 {
-    ReadBinaryFields(stream);
+    reinterpret_cast<::LoadObj *>(this)->ReadBinaryFields((::LoadStream *)(stream));
     S_00a44530_Load(stream, &unk10);
     S_00a44530_Load(stream, &unk14);
     S_00a44530_Load(stream, &unk18);
@@ -343,7 +354,6 @@ struct StreamOwner
 class FUN_00a445c0_cls
 {
   public:
-    void FUN_00a44a90(StreamOwner* stream);
     void ReadFromStream(StreamOwner* stream);
 
   public:
@@ -364,7 +374,7 @@ static unsigned int StreamReadPart(StreamFile* f, void* buf)
 // @fnv 0x00a445c0
 void FUN_00a445c0_cls::ReadFromStream(StreamOwner* stream)
 {
-    FUN_00a44a90(stream);
+    reinterpret_cast<::LoaderA44 *>(this)->FUN_00a44a90((*(::NiStreamA44 *)(stream)));
     StreamFile* f = stream->m_250;
     f->m_04 += StreamReadPart(f, &m_10);
     f = stream->m_250;
@@ -373,8 +383,6 @@ void FUN_00a445c0_cls::ReadFromStream(StreamOwner* stream)
     f->m_04 += StreamReadPart(f, &m_18);
 }
 
-char* NiGetViewerStr(const char* pcName, const char* pcValue);
-char* FUN_00a7d550(const char* pcName, float fValue);
 
 struct ViewerStrings
 {
@@ -385,13 +393,12 @@ struct ViewerStrings
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
     void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& element);
     unsigned int Add(char* element)
     {
         unsigned int i = m_usSize;
         if (i >= m_usMaxSize)
             SetSize(i + m_usGrowBy);
-        SetAt(i, element);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, element);
         return i;
     }
 };
@@ -402,7 +409,6 @@ struct ArmNoteBase
     void* m_04;
     void* m_08;
     void* m_0c;
-    void BaseGetViewerStrings(ViewerStrings* pkStrings);
 };
 
 struct ArmNote : ArmNoteBase
@@ -417,44 +423,36 @@ struct ArmNote : ArmNoteBase
 // @fnv 0x00a44650
 void ArmNote::FUN_00a44650(ViewerStrings* pkStrings)
 {
-    BaseGetViewerStrings(pkStrings);
+    reinterpret_cast<::C4BF0AnimNote *>(this)->FUN_00a44bf0((::C4BF0StringArray *)(pkStrings));
     switch (m_eArm)
     {
     case 0:
-        pkStrings->Add(NiGetViewerStr("Arm", "Left"));
+        pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Arm", "Left"));
     case 1:
-        pkStrings->Add(NiGetViewerStr("Arm", "Right"));
+        pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Arm", "Right"));
     default:
-        pkStrings->Add(NiGetViewerStr("Arm", ""));
+        pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Arm", ""));
     }
     pkStrings->Add(FUN_00a7d550("Gain", m_fGain));
     switch (m_eAnimationState)
     {
     case 1:
-        pkStrings->Add(NiGetViewerStr("State", "Start"));
+        pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("State", "Start"));
     case 2:
-        pkStrings->Add(NiGetViewerStr("State", "Stop"));
+        pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("State", "Stop"));
     default:
-        pkStrings->Add(NiGetViewerStr("State", "None"));
+        pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("State", "None"));
     }
 }
 
 struct TextKeyHandlerBase
 {
-    bool FUN_00a44930(const char* apTextKey);
 };
 struct S00a44430_Str
 {
     int m_kHandle;
-    void AssignString(const char* apStr);
-    bool FUN_00a88c00(float* apOut);
-    void ReleaseHandle();
 };
-int FUN_00ec8a19(const char*, const char*, int);
-int FUN_00ecc7b0(char*, const char*, int);
 extern const char str_01097dc4[];
-extern const char str_010477f4[];
-extern const char str_010639ec[];
 
 struct S00a44430_Obj : TextKeyHandlerBase
 {
@@ -472,9 +470,9 @@ struct S00a44430_Obj : TextKeyHandlerBase
 // @fnv 0x00a44430
 bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
 {
-    bool bret = FUN_00a44930(apTextKey);
+    bool bret = reinterpret_cast<::BSAnimNote *>(this)->FUN_00a44930((const ::TimedTextEntry *)(apTextKey));
     const char* ptext = (const char*)*(void**)((char*)apTextKey + 4);
-    if (FUN_00ec8a19(ptext, str_01097dc4, 6) == 0)
+    if (std::strncmp(ptext, str_01097dc4, 6) == 0)
     {
         ptext += 6;
         if (*ptext == ' ' && (ptext[1] == 'R' || ptext[1] == 'L'))
@@ -487,19 +485,19 @@ bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
         {
             ++ptext;
             int gainBuf[1];
-            FUN_00ecc7b0((char*)gainBuf, ptext, 4);
+            std::strncpy((char*)gainBuf, ptext, 4);
             S00a44430_Str gainStr;
-            gainStr.AssignString((const char*)gainBuf);
-            if (!gainStr.FUN_00a88c00(&m_14))
+            reinterpret_cast<::MyStr *>(&(gainStr))->AssignString((const char*)gainBuf);
+            if (!reinterpret_cast<::FUN_00a88c00_shell *>(&(gainStr))->FUN_00a88c00(&m_14))
                 bret = false;
             ptext += 4;
-            gainStr.ReleaseHandle();
+            reinterpret_cast<::S00a88bc0 *>(&(gainStr))->ReleaseHandle();
             if (bret && *ptext == ' ')
             {
                 ++ptext;
-                if (FUN_00ec8a19(ptext, str_010477f4, 5) == 0)
+                if (std::strncmp(ptext, (*reinterpret_cast<const char (*)[]>(&::DAT_010477f4)), 5) == 0)
                     m_18 = 1;
-                if (FUN_00ec8a19(ptext, str_010639ec, 4) == 0)
+                if (std::strncmp(ptext, str_010639ec, 4) == 0)
                     m_18 = 2;
             }
         }
@@ -510,3 +508,5 @@ bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
     }
     return bret;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsgrabiknote.inc"

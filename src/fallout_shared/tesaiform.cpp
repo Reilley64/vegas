@@ -1,5 +1,23 @@
 // fallout_shared/tesaiform.cpp: TESAIForm, ActorValue, MyInner, AIFormFlags and more (42 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f6de0_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_0067e4a0_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00824000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesaiform_decls.h"
 
 // @fnv 0x0047ede0
@@ -66,39 +84,12 @@ void TESAIForm::InitializeComponent()
     distance = 0;
     if (!DAT_011c52c0)
     {
-        DAT_011c52a8 = reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting28)->Float()->f;
-        DAT_011c52ac = reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting27)->Float()->f;
-        DAT_011c52b0 = reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011c52fc)->Float()->f;
-        DAT_011c52b4 = reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting26)->Float()->f;
-        DAT_011c52b8 = reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011c52e4)->Float()->f;
+        DAT_011c52a8 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting28)))))->f;
+        DAT_011c52ac = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting27)))))->f;
+        DAT_011c52b0 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011c52fc)))))->f;
+        DAT_011c52b4 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting26)))))->f;
+        DAT_011c52b8 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011c52e4)))))->f;
         DAT_011c52c0 = true;
-    }
-}
-
-// Copies aggression, assistance, confidence, energy, responsibility, service flags, aggro radius and training data from source into this form.
-// @fnv 0x0047f1e0
-void TESAIForm::CopyAISettings(TESAIForm* source)
-{
-    SetAggression(reinterpret_cast<PatrolActorPackageData*>(source)->IsPatrolling(), true);
-    SetAssistance(source->GetAssistance());
-    SetConfidence(source->FUN_004f6de0(), true);
-    SetEnergy(reinterpret_cast<BSAudio*>(source)->FUN_005bb4d0(), true);
-    SetResponsibility(source->GetResponsibility(), true);
-    SetAIMood(source->FUN_0062f2f0());
-    SetHasAggroRadius(reinterpret_cast<ActiveEffect*>(source)->FUN_00705cf0());
-    SetAggroRadius(reinterpret_cast<TimeGlobal*>(source)->GetTimeStamp());
-    SetServiceFlags(reinterpret_cast<TESForm*>(source)->GetFormID(), true);
-    SetTrainingSkill(source->GetTrainingSkill());
-    SetTrainingSkillLevel(reinterpret_cast<ActiveEffect*>(source)->GetByteAtOffset17());
-}
-
-// @fnv 0x0047ee00
-void TESAIForm::SetAggression(unsigned char value, bool flag)
-{
-    aggression = value;
-    if (flag)
-    {
-        DispatchToOuter(8);
     }
 }
 
@@ -108,84 +99,10 @@ unsigned char TESAIForm::GetAssistance()
     return assistance;
 }
 
-// Stores value into assistance and calls DispatchToOuter with 8.
-// @fnv 0x0047ee50
-void TESAIForm::SetAssistance(unsigned char aucAssistance)
-{
-    assistance = aucAssistance;
-    DispatchToOuter(8);
-}
-
-// Stores value into radius and calls DispatchToOuter with 8.
-// @fnv 0x0047ee70
-void TESAIForm::SetHasAggroRadius(bool value)
-{
-    radius = value;
-    DispatchToOuter(8);
-}
-
-// Stores value into distance and calls DispatchToOuter with 8.
-// @fnv 0x0047ee90
-void TESAIForm::SetAggroRadius(unsigned int auiRadius)
-{
-    distance = auiRadius;
-    DispatchToOuter(8);
-}
-
-// @fnv 0x0047eed0
-void TESAIForm::SetConfidence(unsigned char value, bool flag)
-{
-    confidence = value;
-    if (flag)
-    {
-        DispatchToOuter(8);
-    }
-}
-
-// @fnv 0x0047ef00
-void TESAIForm::SetEnergy(unsigned char value, bool flag)
-{
-    energy = value;
-    if (flag)
-    {
-        DispatchToOuter(8);
-    }
-}
-
 // @fnv 0x0047ef30
 unsigned char TESAIForm::GetResponsibility()
 {
     return responsibility;
-}
-
-// @fnv 0x0047ef50
-void TESAIForm::SetResponsibility(unsigned char value, bool flag)
-{
-    responsibility = value;
-    if (flag)
-    {
-        DispatchToOuter(8);
-    }
-}
-
-// @fnv 0x0047ef80
-void TESAIForm::SetAIMood(unsigned char value)
-{
-    if (value < 8)
-    {
-        mood = value;
-        DispatchToOuter(8);
-    }
-}
-
-// @fnv 0x0047efb0
-void TESAIForm::SetServiceFlags(unsigned int value, bool flag)
-{
-    services = value;
-    if (flag)
-    {
-        DispatchToOuter(8);
-    }
 }
 
 // @fnv 0x0047f000
@@ -194,24 +111,6 @@ int TESAIForm::GetTrainingSkill()
     int result;
     result = skill + 0x20;
     return result;
-}
-
-// @fnv 0x0047f020
-void TESAIForm::SetTrainingSkill(int value)
-{
-    if (IsSkill(static_cast<ActorValue::Index>(value)))
-    {
-        skill = static_cast<unsigned char>(value - 0x20);
-    }
-    DispatchToOuter(8);
-}
-
-// Stores the given value into level and calls DispatchToOuter with 8.
-// @fnv 0x0047f090
-void TESAIForm::SetTrainingSkillLevel(unsigned char aucLevel)
-{
-    level = aucLevel;
-    DispatchToOuter(8);
 }
 
 // @fnv 0x0047f0b0
@@ -237,108 +136,40 @@ void TESAIForm::CopyAIDataFromAIDATA(PackedRecordData* source)
     }
 }
 
-struct FUN_0047ee00_class
+struct FUN_0047ee00_class : ::TESAIForm
 {
-    void DispatchToOuter(int);
     void FUN_0047ee00(unsigned char value, bool flag);
 };
-
-// Stores value at offset 4 of this object and, when flag is set, calls DispatchToOuter with 8.
-// @fnv 0x0047ee00
-void FUN_0047ee00_class::FUN_0047ee00(unsigned char value, bool flag)
-{
-    *(unsigned char*)((char*)this + 4) = value;
-    if (flag)
-        DispatchToOuter(8);
-}
 
 struct FUN_0047eed0_shell : public TESAIForm
 {
     void FUN_0047eed0(unsigned char, bool);
 };
 
-// Sets confidence to acConfidence and, when abAddChange is true, calls DispatchToOuter with 8.
-// @fnv 0x0047eed0
-void FUN_0047eed0_shell::FUN_0047eed0(unsigned char acConfidence, bool abAddChange)
-{
-    confidence = acConfidence;
-    if (abAddChange)
-        DispatchToOuter(8);
-}
-
 struct FUN_0047ef00_shell : public TESAIForm
 {
     void FUN_0047ef00(unsigned char, bool);
 };
-
-// Sets the energy field to acEnergy and, when abAddChange is set, calls DispatchToOuter with 8.
-// @fnv 0x0047ef00
-void FUN_0047ef00_shell::FUN_0047ef00(unsigned char acEnergy, bool abAddChange)
-{
-    energy = acEnergy;
-    if (abAddChange)
-        DispatchToOuter(8);
-}
 
 struct FUN_0047ef50_shell : public TESAIForm
 {
     void FUN_0047ef50(unsigned char, bool);
 };
 
-// Sets the responsibility field to acResponsibility and, when abAddChange is true, calls DispatchToOuter with 8.
-// @fnv 0x0047ef50
-void FUN_0047ef50_shell::FUN_0047ef50(unsigned char acResponsibility, bool abAddChange)
-{
-    responsibility = acResponsibility;
-    if (abAddChange)
-        DispatchToOuter(8);
-}
-
 struct FUN_0047ef80_shell : public TESAIForm
 {
     void FUN_0047ef80(unsigned char);
 };
-
-// If acMood is below 8, stores it in mood and calls DispatchToOuter with 8.
-// @fnv 0x0047ef80
-void FUN_0047ef80_shell::FUN_0047ef80(unsigned char acMood)
-{
-    if (acMood < 8)
-    {
-        mood = acMood;
-        DispatchToOuter(8);
-    }
-}
 
 struct FUN_0047efb0_shell : public TESAIForm
 {
     void SetServices(unsigned int, bool);
 };
 
-// Stores aiServeFlags into services and, when abAddChange is set, calls DispatchToOuter(8).
-// @fnv 0x0047efb0
-void FUN_0047efb0_shell::SetServices(unsigned int aiServeFlags, bool abAddChange)
-{
-    services = aiServeFlags;
-    if (abAddChange)
-        DispatchToOuter(8);
-}
-
 struct FUN_0047f020_shell : public TESAIForm
 {
     void SetSkill(int);
 };
-
-// If aeSkill is a skill actor value, stores it minus 0x20 in skill, then calls DispatchToOuter(8).
-// @fnv 0x0047f020
-void FUN_0047f020_shell::SetSkill(int aeSkill)
-{
-    if (ActorValue::IsSkill((ActorValue::Index)aeSkill))
-    {
-        skill = aeSkill - 0x20;
-    }
-    DispatchToOuter(8);
-}
 
 // Returns true when index is between 0x20 and 0x2d inclusive.
 // @fnv 0x0047f060
@@ -357,20 +188,18 @@ class ProcessLists
   public:
     unsigned char* GetLifeStateControlFlag();
 };
-extern ProcessLists g_011c5348;
 
 struct PackageList_Helper
 {
-    void InitItem(TESForm*);
 };
 
 // If the ProcessLists byte is zero, calls InitItem on the conditions object obtained from this, passing apOwner.
 // @fnv 0x0047f4c0
 void FUN_0047f4c0_shell::FUN_0047f4c0(TESForm* apOwner)
 {
-    if (!*g_011c5348.GetLifeStateControlFlag())
+    if (!*(*reinterpret_cast<::ProcessLists *>(&::g_011c5348)).GetLifeStateControlFlag())
     {
-        ((PackageList_Helper*)((BGSCameraPath*)this)->GetConditions())->InitItem(apOwner);
+        reinterpret_cast<::PackageList *>((((PackageList_Helper*)((BGSCameraPath*)this)->GetConditions())))->InitItem(apOwner);
     }
 }
 
@@ -378,23 +207,23 @@ namespace fnv_0047f500 {
 struct BGSIdleCollection;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct MobileObject;
+class MobileObject;
 struct LocationDescriptor;
-struct DurationData;
-struct PackageTargetRecord;
-struct Script;
+class DurationData;
+class PackageTargetRecord;
+class Script;
 struct TESCombatStyle;
-struct PerkEntryConditionSet;
+class PerkEntryConditionSet;
 struct TESEscortPackageData;
-struct TESIdleForm;
-struct TESObjectCELL;
-struct TESObjectREFR;
-struct TESPackage;
+class TESIdleForm;
+class TESObjectCELL;
+class TESObjectREFR;
+class TESPackage;
 struct TESPackageData;
 struct TESPatrolPackageData;
-struct TESTopic;
+class TESTopic;
 struct TESUseWeaponPackageData;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct blob12
 {
     char b[12];
@@ -406,14 +235,13 @@ struct FUN_0047f500_shell : public TESAIForm
 
 struct PackageList_Helper
 {
-    void AddPackage(TESPackage*);
 };
 
 // Adds the given package to the package list obtained from the form's conditions.
 // @fnv 0x0047f500
 void FUN_0047f500_shell::FUN_0047f500(TESPackage* apPack)
 {
-    ((PackageList_Helper*)((BGSCameraPath*)this)->GetConditions())->AddPackage(apPack);
+    reinterpret_cast<::PackageList *>((((PackageList_Helper*)((BGSCameraPath*)this)->GetConditions())))->AddPackage((::TESPackage *)(apPack));
 }
 }  // namespace fnv_0047f500
 
@@ -421,11 +249,27 @@ struct FUN_0062f2f0_shell : public TESAIForm
 {
     unsigned char FUN_0062f2f0();
 };
+// Copies aggression, assistance, confidence, energy, responsibility, service flags, aggro radius and training data from source into this form.
+// @fnv 0x0047f1e0
+void TESAIForm::CopyAISettings(TESAIForm* source)
+{
+    SetAggression(reinterpret_cast<PatrolActorPackageData*>(source)->IsPatrolling(), true);
+    SetAssistance(source->GetAssistance());
+    SetConfidence(((unsigned char)(reinterpret_cast<::FUN_004f6de0_shell *>((source))->FUN_004f6de0())), true);
+    SetEnergy(reinterpret_cast<::FUN_005bb4d0_shell *>((reinterpret_cast<BSAudio*>(source)))->FUN_005bb4d0(), true);
+    SetResponsibility(source->GetResponsibility(), true);
+    SetAIMood(reinterpret_cast<::FUN_0062f2f0_shell *>((source))->FUN_0062f2f0());
+    SetHasAggroRadius(reinterpret_cast<ActiveEffect*>(source)->IsDone());
+    SetAggroRadius(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>(source)))->FUN_00825c00());
+    SetServiceFlags(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(source)))->FUN_0084e3a0())), true);
+    SetTrainingSkill(source->GetTrainingSkill());
+    SetTrainingSkillLevel(((bool)(::GetByteAtOffset17((const char *)(reinterpret_cast<ActiveEffect*>(source))))));
+}
 
 // @fnv 0x0062f2f0
 unsigned char FUN_0062f2f0_shell::FUN_0062f2f0()
 {
-    return *((unsigned char*)this + 8);
+    return this->mood;
 }
 
 extern unsigned int _data_011c16bc;
@@ -444,14 +288,13 @@ struct FUN_0047ec40 : public BFC_s
 {
     char pad[0x14];
     CondS m_kCondition;
-    void InitializeComponent();
     FUN_0047ec40();
     virtual void v();
 };
 // @fnv 0x0047ec40
 FUN_0047ec40::FUN_0047ec40()
 {
-    InitializeComponent();
+    reinterpret_cast<::TESAIForm *>(this)->InitializeComponent();
 }
 
 namespace fnv_0047ecb0 {
@@ -470,14 +313,13 @@ struct FUN_0047ecb0 : public BFC_s
 {
     char pad[0x14];
     CondS m_kCondition;
-    void FreeDataComponent();
     virtual ~FUN_0047ecb0();
 };
 // Destructor that calls FreeDataComponent to release the object's data component.
 // @fnv 0x0047ecb0
 FUN_0047ecb0::~FUN_0047ecb0()
 {
-    FreeDataComponent();
+    reinterpret_cast<::TESAIForm *>(this)->FreeDataComponent();
 }
 }  // namespace fnv_0047ecb0
 
@@ -493,11 +335,11 @@ float __cdecl FUN_0047eeb0(unsigned char a)
 
 struct FUN_0047f7e0_shell
 {
-    unsigned short __thiscall FUN_0047f7e0(unsigned int aiFlags);
+    unsigned short FUN_0047f7e0(unsigned int aiFlags);
 };
 
 // @fnv 0x0047f7e0
-unsigned short __thiscall FUN_0047f7e0_shell::FUN_0047f7e0(unsigned int aiFlags)
+unsigned short FUN_0047f7e0_shell::FUN_0047f7e0(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     if (aiFlags & 8)
@@ -535,26 +377,25 @@ bool FUN_0047efe0_shell::HasFlags(int aiFlags)
 
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void* data, unsigned int size);
 };
 
-TESSaveLoadGame* g_TESSaveLoadGame;
+extern TESSaveLoadGame* g_TESSaveLoadGame;
 
-struct FUN_0047f8c0_shell
+struct FUN_0047f8c0_shell : ::TESAIForm
 {
-    void __thiscall FUN_0047f8c0(unsigned int arg1, unsigned int arg2);
+    void FUN_0047f8c0(unsigned int arg1, unsigned int arg2);
 };
 
 // @fnv 0x0047f8c0
-void __thiscall FUN_0047f8c0_shell::FUN_0047f8c0(unsigned int uiFlags, unsigned int arg2)
+void FUN_0047f8c0_shell::FUN_0047f8c0(unsigned int uiFlags, unsigned int arg2)
 {
     if (uiFlags & 8)
     {
-        g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 4), 1);
-        g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 5), 1);
-        g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 6), 1);
-        g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 7), 1);
-        g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 8), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->aggression), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->confidence), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->energy), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->responsibility), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->mood), 1);
     }
 }
 
@@ -584,6 +425,157 @@ struct MyInner
 {
     void DispatchToOuter(int);
 };
+// @fnv 0x0047ee00
+void TESAIForm::SetAggression(unsigned char value, bool flag)
+{
+    aggression = value;
+    if (flag)
+    {
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+    }
+}
+// Stores value into assistance and calls DispatchToOuter with 8.
+// @fnv 0x0047ee50
+void TESAIForm::SetAssistance(unsigned char aucAssistance)
+{
+    assistance = aucAssistance;
+    reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// Stores value into radius and calls DispatchToOuter with 8.
+// @fnv 0x0047ee70
+void TESAIForm::SetHasAggroRadius(bool value)
+{
+    radius = value;
+    reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// Stores value into distance and calls DispatchToOuter with 8.
+// @fnv 0x0047ee90
+void TESAIForm::SetAggroRadius(unsigned int auiRadius)
+{
+    distance = auiRadius;
+    reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// @fnv 0x0047eed0
+void TESAIForm::SetConfidence(unsigned char value, bool flag)
+{
+    confidence = value;
+    if (flag)
+    {
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+    }
+}
+// @fnv 0x0047ef00
+void TESAIForm::SetEnergy(unsigned char value, bool flag)
+{
+    energy = value;
+    if (flag)
+    {
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+    }
+}
+// @fnv 0x0047ef50
+void TESAIForm::SetResponsibility(unsigned char value, bool flag)
+{
+    responsibility = value;
+    if (flag)
+    {
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+    }
+}
+// @fnv 0x0047ef80
+void TESAIForm::SetAIMood(unsigned char value)
+{
+    if (value < 8)
+    {
+        mood = value;
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+    }
+}
+// @fnv 0x0047efb0
+void TESAIForm::SetServiceFlags(unsigned int value, bool flag)
+{
+    services = value;
+    if (flag)
+    {
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+    }
+}
+// @fnv 0x0047f020
+void TESAIForm::SetTrainingSkill(int value)
+{
+    if (::FUN_0047f060((*(int *)&(const ::ActorValue::Index &)(static_cast<ActorValue::Index>(value)))))
+    {
+        skill = static_cast<unsigned char>(value - 0x20);
+    }
+    reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// Stores the given value into level and calls DispatchToOuter with 8.
+// @fnv 0x0047f090
+void TESAIForm::SetTrainingSkillLevel(unsigned char aucLevel)
+{
+    level = aucLevel;
+    reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// Stores value at offset 4 of this object and, when flag is set, calls DispatchToOuter with 8.
+// @fnv 0x0047ee00
+void FUN_0047ee00_class::FUN_0047ee00(unsigned char value, bool flag)
+{
+    this->aggression = value;
+    if (flag)
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// Sets confidence to acConfidence and, when abAddChange is true, calls DispatchToOuter with 8.
+// @fnv 0x0047eed0
+void FUN_0047eed0_shell::FUN_0047eed0(unsigned char acConfidence, bool abAddChange)
+{
+    confidence = acConfidence;
+    if (abAddChange)
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// Sets the energy field to acEnergy and, when abAddChange is set, calls DispatchToOuter with 8.
+// @fnv 0x0047ef00
+void FUN_0047ef00_shell::FUN_0047ef00(unsigned char acEnergy, bool abAddChange)
+{
+    energy = acEnergy;
+    if (abAddChange)
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// Sets the responsibility field to acResponsibility and, when abAddChange is true, calls DispatchToOuter with 8.
+// @fnv 0x0047ef50
+void FUN_0047ef50_shell::FUN_0047ef50(unsigned char acResponsibility, bool abAddChange)
+{
+    responsibility = acResponsibility;
+    if (abAddChange)
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// If acMood is below 8, stores it in mood and calls DispatchToOuter with 8.
+// @fnv 0x0047ef80
+void FUN_0047ef80_shell::FUN_0047ef80(unsigned char acMood)
+{
+    if (acMood < 8)
+    {
+        mood = acMood;
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+    }
+}
+// Stores aiServeFlags into services and, when abAddChange is set, calls DispatchToOuter(8).
+// @fnv 0x0047efb0
+void FUN_0047efb0_shell::SetServices(unsigned int aiServeFlags, bool abAddChange)
+{
+    services = aiServeFlags;
+    if (abAddChange)
+        reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
+// If aeSkill is a skill actor value, stores it minus 0x20 in skill, then calls DispatchToOuter(8).
+// @fnv 0x0047f020
+void FUN_0047f020_shell::SetSkill(int aeSkill)
+{
+    if (::FUN_0047f060((*(int *)&(const ::ActorValue::Index &)((ActorValue::Index)aeSkill))))
+    {
+        skill = aeSkill - 0x20;
+    }
+    reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
+}
 // Computes the enclosing FakeOuter from this (offset 0x90) and, if non-null, calls its v18 with arg.
 // @fnv 0x0047f790
 void MyInner::DispatchToOuter(int arg)
@@ -597,11 +589,9 @@ void MyInner::DispatchToOuter(int arg)
 namespace fnv_0047f840 {
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
-struct FUN_0047f840_shell
+struct FUN_0047f840_shell : ::TESAIForm
 {
     void FUN_0047f840(unsigned int aFlags);
 };
@@ -612,18 +602,17 @@ void FUN_0047f840_shell::FUN_0047f840(unsigned int aFlags)
 {
     if (aFlags & 8)
     {
-        g_TESSaveLoadGame->FUN_008579b0((char*)this + 4, 1);
-        g_TESSaveLoadGame->FUN_008579b0((char*)this + 5, 1);
-        g_TESSaveLoadGame->FUN_008579b0((char*)this + 6, 1);
-        g_TESSaveLoadGame->FUN_008579b0((char*)this + 7, 1);
-        g_TESSaveLoadGame->FUN_008579b0((char*)this + 8, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->aggression, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->confidence, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->energy, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->responsibility, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->mood, 1);
     }
 }
 }  // namespace fnv_0047f840
 
 struct FUN_0067e4a0_shell
 {
-    bool FUN_0067e4a0(PerkEntryConditionSet* condition);
 };
 
 struct FUN_0047f300_shell
@@ -646,37 +635,36 @@ bool FUN_0047f300_shell::FUN_0047f300(BaseFormComponent* apCompareFC)
     if (reinterpret_cast<TESAIForm*>(this)->GetAssistance() != pCompare->GetAssistance())
         return true;
 
-    if (reinterpret_cast<TESAIForm*>(this)->FUN_004f6de0() != pCompare->FUN_004f6de0())
+    if (((unsigned char)(reinterpret_cast<::FUN_004f6de0_shell *>((reinterpret_cast<TESAIForm*>(this)))->FUN_004f6de0())) != ((unsigned char)(reinterpret_cast<::FUN_004f6de0_shell *>((pCompare))->FUN_004f6de0())))
         return true;
 
-    if (reinterpret_cast<BSAudio*>(this)->FUN_005bb4d0() != reinterpret_cast<BSAudio*>(pCompare)->FUN_005bb4d0())
+    if (reinterpret_cast<::FUN_005bb4d0_shell *>((reinterpret_cast<BSAudio*>(this)))->FUN_005bb4d0() != reinterpret_cast<::FUN_005bb4d0_shell *>((reinterpret_cast<BSAudio*>(pCompare)))->FUN_005bb4d0())
         return true;
 
     if (reinterpret_cast<TESAIForm*>(this)->GetResponsibility() != pCompare->GetResponsibility())
         return true;
 
-    if (reinterpret_cast<TESAIForm*>(this)->FUN_0062f2f0() != pCompare->FUN_0062f2f0())
+    if (reinterpret_cast<::FUN_0062f2f0_shell *>((reinterpret_cast<TESAIForm*>(this)))->FUN_0062f2f0() != reinterpret_cast<::FUN_0062f2f0_shell *>((pCompare))->FUN_0062f2f0())
         return true;
 
-    if (reinterpret_cast<TimeGlobal*>(this)->GetTimeStamp() != reinterpret_cast<TimeGlobal*>(pCompare)->GetTimeStamp())
+    if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>(this)))->FUN_00825c00() != reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>(pCompare)))->FUN_00825c00())
         return true;
 
-    if (reinterpret_cast<ActiveEffect*>(this)->FUN_00705cf0() !=
-        reinterpret_cast<ActiveEffect*>(pCompare)->FUN_00705cf0())
+    if (reinterpret_cast<ActiveEffect*>(this)->IsDone() !=
+        reinterpret_cast<ActiveEffect*>(pCompare)->IsDone())
         return true;
 
-    if (reinterpret_cast<TESForm*>(this)->GetFormID() != reinterpret_cast<TESForm*>(pCompare)->GetFormID())
+    if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(this)))->FUN_0084e3a0())) != ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(pCompare)))->FUN_0084e3a0())))
         return true;
 
     if (reinterpret_cast<TESAIForm*>(this)->GetTrainingSkill() != pCompare->GetTrainingSkill())
         return true;
 
-    if (reinterpret_cast<ActiveEffect*>(this)->GetByteAtOffset17() !=
-        reinterpret_cast<ActiveEffect*>(pCompare)->GetByteAtOffset17())
+    if (((bool)(::GetByteAtOffset17((const char *)(reinterpret_cast<ActiveEffect*>(this))))) !=
+        ((bool)(::GetByteAtOffset17((const char *)(reinterpret_cast<ActiveEffect*>(pCompare))))))
         return true;
 
-    if (reinterpret_cast<FUN_0067e4a0_shell*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())
-            ->FUN_0067e4a0(reinterpret_cast<BGSCameraPath*>(pCompare)->GetConditions()))
+    if (reinterpret_cast<::FUN_0067e4a0_cls *>((reinterpret_cast<FUN_0067e4a0_shell*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())))->FUN_0067e4a0((::FUN_0067e4a0_cls *)(::PerkEntryConditionSet *)(reinterpret_cast<BGSCameraPath*>(pCompare)->GetConditions())))
         return true;
 
     return false;
@@ -688,7 +676,6 @@ struct AIFormFlags
     int m_iValueAfterStandIn;
     int m_pAuxiliaryObject;
     int m_flags;
-    bool HasFlags(int arg);
     bool FUN_0047f600(TESForm* apForm);
 };
 
@@ -714,41 +701,214 @@ bool AIFormFlags::FUN_0047f600(TESForm* apForm)
     switch (iType8)
     {
     case 0x28:
-        bResult2 = HasFlags(1);
+        bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(1);
         break;
     case 0x29:
-        bResult2 = HasFlags(1);
+        bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(1);
         break;
     case 0x18:
-        bResult2 = HasFlags(2);
+        bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(2);
         break;
     case 0x2f: {
         TESForm* pForm = apForm;
         switch (BGSEquipType::GetEquipType(pForm))
         {
         case 10:
-            bResult2 = HasFlags(0x20);
+            bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(0x20);
             break;
         case 11:
-            bResult2 = HasFlags(0x40);
+            bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(0x40);
             break;
         case 12:
-            bResult2 = HasFlags(0x10);
+            bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(0x10);
             break;
         case 13:
-            bResult2 = HasFlags(4);
+            bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(4);
             break;
         }
         break;
     }
     case 0x19:
-        bResult2 = HasFlags(8);
+        bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(8);
         break;
     case 0x1f:
     case 0x32:
     case 0x67:
-        bResult2 = HasFlags(0x400);
+        bResult2 = reinterpret_cast<::FUN_0047efe0_shell *>(this)->HasFlags(0x400);
         break;
     }
     return bResult2;
 }
+
+struct PrimaryBase_005fbf90
+{
+    virtual void FUN_005fbf90();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+struct SecondaryBase_005fbf90
+{
+    virtual void FUN_005fbf90();
+};
+
+struct Derived_005fbf90 : PrimaryBase_005fbf90, SecondaryBase_005fbf90
+{
+    Derived_005fbf90();
+// @fnv 0x005fbf90
+    virtual void FUN_005fbf90();
+};
+
+Derived_005fbf90::Derived_005fbf90()
+{}
+
+namespace fnv_005fbfc0 {
+struct PrimaryBase
+{
+    virtual void FUN_005fbfc0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fbfc0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fbfc0
+    virtual void FUN_005fbfc0();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_005fbfc0
+
+namespace fnv_005fc000 {
+struct PrimaryBase
+{
+    virtual void FUN_005fc000();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fc000();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fc000
+    virtual void FUN_005fc000();
+};
+
+Derived::Derived()
+{}
+}
+
+#include "generated/data/fallout_shared/tesaiform.inc"

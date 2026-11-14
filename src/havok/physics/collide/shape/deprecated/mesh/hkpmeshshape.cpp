@@ -2,6 +2,13 @@
 // src/havok/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include <cstddef>
+#include <xmmintrin.h>
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_011b2000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpMeshShape.h"
 
 struct MeshShapeTriangle
@@ -23,7 +30,6 @@ struct MeshShapeVTable
     virtual void vf10();
     virtual MeshShapeTriangle* vf14(unsigned int key, MeshShapeBuffer* storage);
 };
-extern float DAT_011b2e90;
 extern "C" hkBool* __cdecl IsDegenerateTriangle(hkBool* result, const hkVector4* v0, const hkVector4* v1,
                                                 const hkVector4* v2, float tolerance);
 struct MeshShapeDCCBC0 : public hkpMeshShape
@@ -134,9 +140,7 @@ hkUint32 hkpMeshShapeDCC::GetNextNonDegenerateTriangleKey(hkUint32 auiKey) const
 
 class hkClassDCD1;
 
-extern const hkClassDCD1 DAT_01269198;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayDCD1
 {
@@ -176,7 +180,7 @@ class hkStatisticsCollectorDCD1
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
             const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(pData), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -203,7 +207,6 @@ struct hkSubpartDCD1
 class hkpShapeDCD1
 {
   public:
-    void FUN_00d213e0(hkStatisticsCollectorDCD1* pkCollector, const hkClassDCD1* pkClass) const throw();
 };
 
 class hkObjDCD1 : public hkpShapeDCD1
@@ -232,7 +235,7 @@ class hkObjDCD1 : public hkpShapeDCD1
 void hkObjDCD1::CollectSubPartsStats(hkStatisticsCollectorDCD1* pkCollector, const hkClassDCD1* pkClass) const throw()
 {
     pkCollector->addArray("SubParts", m_kSubparts);
-    FUN_00d213e0(pkCollector, &DAT_01269198);
+    ::FUN_00d213e0((const char *const *)this, (const char *const *)(pkCollector));
 }
 
 struct PageDCCD
@@ -266,33 +269,11 @@ class FUN_00dccd00_C : public Base0DCCD, public Base1DCCD
     int m_iShift;
     PageDCCD* m_pkPages;
 
-    int GetElement(unsigned int uiKey);
 };
 
-// Gets an index for uiKey from GetElement on the owner; if found, returns the pointer stored in that page's value array, otherwise null.
-// @fnv 0x00dccd00
-void* Base1DCCD::FindValue(unsigned int uiKey)
-{
-    FUN_00dccd00_C* pkOwner = (FUN_00dccd00_C*)((char*)this - 0x10);
-    int iIndex = pkOwner->GetElement(uiKey);
-    if (iIndex != -1)
-    {
-        PageDCCD* pkPage = &pkOwner->m_pkPages[uiKey >> (32 - pkOwner->m_iShift)];
-        void** ppValue = (void**)((char*)pkPage->m_ppValues + pkPage->m_iValueStride * iIndex);
-        if (ppValue)
-            return *ppValue;
-    }
-    return 0;
-}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-
+// This legacy provider is still referenced by generated tables. Native mesh
+// operations live in native_mesh_shape.cpp; these private objects are not aliases.
 struct Msh_dccf60_Subpart
 {
     const char* m_pMaterialIndexBase;
@@ -348,10 +329,6 @@ struct Msh_dccf60_Shape : public Msh_dccf60_Ref
 class Msh_dccf60_Tri : public Msh_dccf60_Shape
 {
   public:
-    inline void* operator new(size_t, void* p)
-    {
-        return p;
-    }
     hkReal m_fSphereRadius;
     hkUint16 m_kWeldingInfo;
     hkUint8 m_eWeldingType;
@@ -445,13 +422,7 @@ const void* Msh_dccf60_Mesh::CreateTriangle(unsigned int key, void* buffer) cons
 }
 
 namespace fnv_00dcd310 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_set_ps1(float fA);
 
 struct hkVector4DCD3
 {
@@ -570,6 +541,21 @@ class FUN_00dcd410_C
 
     int GetElement(unsigned int uiKey);
 };
+// Gets an index for uiKey from GetElement on the owner; if found, returns the pointer stored in that page's value array, otherwise null.
+// @fnv 0x00dccd00
+void* Base1DCCD::FindValue(unsigned int uiKey)
+{
+    FUN_00dccd00_C* pkOwner = static_cast<FUN_00dccd00_C*>(this);
+    int iIndex = reinterpret_cast<::FUN_00dcd410_C *>((pkOwner))->GetElement(uiKey);
+    if (iIndex != -1)
+    {
+        PageDCCD* pkPage = &pkOwner->m_pkPages[uiKey >> (32 - pkOwner->m_iShift)];
+        void** ppValue = (void**)((char*)pkPage->m_ppValues + pkPage->m_iValueStride * iIndex);
+        if (ppValue)
+            return *ppValue;
+    }
+    return 0;
+}
 
 // Looks up the element at uiKey in the paged array, returning its byte or short value, or -1 if the page is not allocated.
 // @fnv 0x00dcd410
@@ -587,8 +573,6 @@ int FUN_00dcd410_C::GetElement(unsigned int uiKey)
     return -1;
 }
 
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 struct MeshVec
 {
     __m128 m_vComponents;
@@ -609,24 +593,23 @@ static __declspec(noinline) void ExpandAabbWithVertex(const MeshVec& vertex, con
                                                       const MeshVec& scaling, MeshAabb& aabb)
 {
     MeshVec scaled;
-    scaled.set(vertex.m_vComponents.m128_f32[0] * scaling.m_vComponents.m128_f32[0],
-               vertex.m_vComponents.m128_f32[1] * scaling.m_vComponents.m128_f32[1],
-               vertex.m_vComponents.m128_f32[2] * scaling.m_vComponents.m128_f32[2]);
+    scaled.set(vertex.m_vComponents[0] * scaling.m_vComponents[0],
+               vertex.m_vComponents[1] * scaling.m_vComponents[1],
+               vertex.m_vComponents[2] * scaling.m_vComponents[2]);
     MeshVec v;
     v.FUN_00c7f640(localToWorld, scaled);
     aabb.m_kMinimumCorner.m_vComponents = _mm_min_ps(aabb.m_kMinimumCorner.m_vComponents, v.m_vComponents);
     aabb.m_kMaximumCorner.m_vComponents = _mm_max_ps(aabb.m_kMaximumCorner.m_vComponents, v.m_vComponents);
 }
-volatile int g_meshIn0, g_meshIn1, g_meshIn2, g_meshIn3;
+MeshVec* volatile g_meshIn0;
+hkTransform* volatile g_meshIn1;
+MeshVec* volatile g_meshIn2;
+MeshAabb* volatile g_meshIn3;
 void MeshGetAabb_dccdd0()
 {
-    ExpandAabbWithVertex(*(MeshVec*)g_meshIn0, *(hkTransform*)g_meshIn1, *(MeshVec*)g_meshIn2, *(MeshAabb*)g_meshIn3);
+    ExpandAabbWithVertex(*g_meshIn0, *g_meshIn1, *g_meshIn2, *g_meshIn3);
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct S00dcd380_Flag
 {
@@ -738,32 +721,10 @@ S00dcd380_Mesh* S00dcd380_Host::FUN_00dcd380(int finishing)
     return new (this) S00dcd380_Mesh(flag);
 }
 
+// Retain required legacy providers until their generated-table callers migrate.
 struct MeshAabb;
-extern "C" void _ReadWriteBarrier();
 
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-struct hkpMeshShapeSubpart
-{
-    const float* m_pMaterialIndexBase;
-    int m_iTriangleIndexStride;
-    int m_iStridedVertexCount;
-    const void* m_pMaterialDataBase;
-    hkUint8 m_ucIndexStridingType;
-    hkUint8 m_iMaterialIndexType;
-    hkUint16 unk12;
-    int m_iMaterialStriding;
-    int m_bFlipAlternateTriangles;
-    int m_iTriangleCount;
-    const void* m_pVertexBase;
-    int m_iVertexStriding;
-    const void* m_pIndexBase;
-    int m_iNumTriangles;
-    int m_iIndexStriding;
-    int m_iTriangleOffset;
-};
+// Use the canonical descriptor rather than another global type definition.
 static const float kRealMax = 3.402820018375656e+38f;
 static const float kRealMin = -3.402820018375656e+38f;
 __forceinline void setSplat(MeshVec& v, float f)
@@ -813,17 +774,17 @@ void MeshShapeHelper::FUN_00dccdd0(const hkTransform& placement, hkReal margin, 
             {
                 const hkUint16* indices =
                     hkAddByteOffsetConst((const hkUint16*)part.m_pMaterialDataBase, part.m_iMaterialStriding * face);
-                a = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[0] * part.m_iTriangleIndexStride);
-                b = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[1] * part.m_iTriangleIndexStride);
-                c = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[2] * part.m_iTriangleIndexStride);
+                a = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[0] * part.m_iTriangleIndexStride);
+                b = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[1] * part.m_iTriangleIndexStride);
+                c = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[2] * part.m_iTriangleIndexStride);
             }
             else
             {
                 const hkUint32* indices =
                     hkAddByteOffsetConst((const hkUint32*)part.m_pMaterialDataBase, part.m_iMaterialStriding * face);
-                a = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[0] * part.m_iTriangleIndexStride);
-                b = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[1] * part.m_iTriangleIndexStride);
-                c = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[2] * part.m_iTriangleIndexStride);
+                a = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[0] * part.m_iTriangleIndexStride);
+                b = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[1] * part.m_iTriangleIndexStride);
+                c = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[2] * part.m_iTriangleIndexStride);
             }
             ExpandAabbWithVertex(bounds, placement, a, m_kScaling);
             ExpandAabbWithVertex(bounds, placement, b, m_kScaling);
@@ -836,8 +797,6 @@ void MeshShapeHelper::FUN_00dccdd0(const hkTransform& placement, hkReal margin, 
     add(expansion, bounds.m_kMaximumCorner);
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 
 class MeshScalingSetter : public hkpMeshShape
 {

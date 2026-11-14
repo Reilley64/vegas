@@ -2,13 +2,27 @@
 // src/bsshader/tallgrassgroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/tallgrassgroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern unsigned int DAT_011f9ef8;
 
-void* __cdecl fnv_zlib_memset(void* dst, void* src, unsigned int size);
+#include <cstddef>
+#include <windows.h>
+#include <new>
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/A72BB0_DataStreamOwner.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00a726a0_cls.h"
+#include "fnv/decl/FUN_00a72ca0_Class.h"
+#include "fnv/decl/FUN_00b600e0_cls.h"
+#include "fnv/decl/GeometryBounds.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGPUProgramOwner.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 
 struct FUN_00bd8750_cls
 {
-    void UpdateBounds();
 };
 
 struct FUN_00bd8a70_cls
@@ -28,18 +42,17 @@ struct FUN_00bd8a70_cls
 // @fnv 0x00bd8a70
 void FUN_00bd8a70_cls::FUN_00bd8a70()
 {
-    fnv_zlib_memset(m_18, 0, (unsigned int)m_10 * 4);
-    fnv_zlib_memset(m_14, 0, (unsigned int)m_10 << 4);
+    std::memset(m_18, (int)(std::uintptr_t)(0), (unsigned int)m_10 * 4);
+    std::memset(m_14, (int)(std::uintptr_t)(0), (unsigned int)m_10 << 4);
 
     for (int iIndex = 0; iIndex < (int)m_10; ++iIndex)
         *(float*)((char*)m_14 + iIndex * 16 + 8) = -10.0f;
 
     DAT_011f9ef8 -= m_12;
     m_12 = 0;
-    ((FUN_00bd8750_cls*)this)->UpdateBounds();
+    reinterpret_cast<::GeometryBounds *>((((FUN_00bd8750_cls*)this)))->UpdateBounds();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class NiRefObject
 {
@@ -152,9 +165,7 @@ template <class T> class NiPointer
 
 struct MM
 {
-    void Deallocate(void* p);
 };
-extern MM _g_memoryManager;
 
 class FUN_00bd8f90
 {
@@ -167,7 +178,6 @@ class FUN_00bd8f90
     void* m_pUnk14;
     void* m_pUnk18;
 
-    void Reset();
     ~FUN_00bd8f90();
 };
 
@@ -182,14 +192,14 @@ FUN_00bd8f90::~FUN_00bd8f90()
     m_spNode = 0;
     m_spUnk0C = 0;
     m_spUnk08 = 0;
-    Reset();
+    reinterpret_cast<::FUN_00bd8a70_cls *>(this)->FUN_00bd8a70();
     if (m_pUnk14)
     {
-        _g_memoryManager.Deallocate(m_pUnk14);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(m_pUnk14);
         m_pUnk14 = 0;
     }
     void* p18 = m_pUnk18;
-    _g_memoryManager.Deallocate(p18);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p18);
     m_pUnk18 = 0;
 }
 
@@ -197,9 +207,7 @@ FUN_00bd8f90::~FUN_00bd8f90()
 
 // No prior contributor candidate was supplied for this claim.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 void* __cdecl FUN_00aa13e0(unsigned int);
 
@@ -229,7 +237,7 @@ struct RefObject
 struct ModelSource : RefObject
 {
 
-    unsigned int unk08;
+    void* unk08;
 
     void* vertices;
 
@@ -237,11 +245,11 @@ struct ModelSource : RefObject
 
     RefObject* material;
 
-    int unk18;
+    void* unk18;
 
-    int unk1c;
+    void* unk1c;
 
-    int unk20;
+    void* unk20;
 
     int unk24;
 
@@ -326,16 +334,10 @@ struct OutputData : RefObject
     int m8c;
     int m90;
     int m94;
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     OutputData();
 
     void FUN_00439410(int);
 
-    void FUN_00a67260(void*);
 
     void FUN_00a72ca0(int);
 
@@ -348,7 +350,6 @@ struct OutputData : RefObject
 
 struct C1AClass : RefObject
 {
-    void Attach(RefObject*);
     void* m08;
     void* m0c;
     void* m10;
@@ -405,11 +406,6 @@ struct C1AClass : RefObject
     int mcc;
     int md0;
     int md4;
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
 };
 struct StyleOne : C1AClass
 {
@@ -419,7 +415,6 @@ struct StyleTwo : C1AClass
 {
     StyleTwo(RefObject*);
 };
-void __cdecl FinalizeRoot(C1AClass*, int, int);
 
 struct C469Class : RefObject
 {
@@ -474,11 +469,6 @@ struct C469Class : RefObject
     RefObject* child;
     int mb0;
 
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     C469Class();
 
     virtual void vf2();
@@ -544,11 +534,6 @@ struct SmallRef : RefObject
 
     RefObject* m0c;
 
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     SmallRef();
 };
 
@@ -562,11 +547,6 @@ struct OtherRef : RefObject
     int m18;
     int m1c;
     int m20;
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     OtherRef();
 };
 
@@ -582,11 +562,6 @@ struct GridBuffer : RefObject
     int m20;
     int m24;
     int m28;
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     GridBuffer(int, int);
 
     void FUN_00a72ca0(int);
@@ -599,17 +574,15 @@ struct GridBuffer : RefObject
 struct BufferSubobject
 {
 
-    void FUN_00b600e0();
 
     __forceinline BufferSubobject()
     {
-        FUN_00b600e0();
+        new ((void *)this) ::FUN_00b600e0_cls();
     }
 };
 
 struct HeapAllocator
 {
-    void* FUN_00aa3e40(unsigned int);
 };
 
 struct QuadIndex
@@ -617,16 +590,13 @@ struct QuadIndex
     unsigned int first, second, third, fourth;
 };
 
-extern HeapAllocator DAT_011f6238;
 
-__forceinline void* __cdecl operator new[](unsigned int bytes, HeapAllocator& alloc)
+__forceinline void* __cdecl operator new[](std::size_t bytes, HeapAllocator& alloc)
 {
-    return alloc.FUN_00aa3e40(bytes);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(alloc))->FUN_00aa3e40(bytes);
 }
 
-extern int DAT_011f91c0;
 
-extern char DAT_011f941e;
 
 template <class T> __forceinline void ResetShared(T*& member, T* next)
 {
@@ -733,9 +703,9 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
 
     tag40 = variant;
 
-    vertexIndices = new (DAT_011f6238) unsigned int[strandCount];
+    vertexIndices = new ((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))) unsigned int[strandCount];
 
-    lineIndices = new (DAT_011f6238) QuadIndex[strandCount];
+    lineIndices = new ((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))) QuadIndex[strandCount];
 
     m12 = 0;
 
@@ -759,14 +729,14 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
     }
 
     RefObject* property;
-    if (DAT_011f91c0 >= 2 && DAT_011f941e)
+    if (DAT_011f91c0 >= 2 && (*reinterpret_cast<char *>(&::DAT_011f941e)))
         property = (RefObject*)source->unk18;
     else
         property = (RefObject*)source->unk1c;
     if (property)
-        m00->Attach(property);
+        reinterpret_cast<::FUN_00439410_cls *>(((m00).operator->()))->FUN_00439410((::ArgObject *)(property));
     if (source->unk20)
-        m00->Attach((RefObject*)source->unk20);
+        reinterpret_cast<::FUN_00439410_cls *>(((m00).operator->()))->FUN_00439410((::ArgObject *)(::RefObject *)((RefObject*)source->unk20));
 
     OutputData* geometry = new OutputData;
 
@@ -808,7 +778,7 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
         geometry->m24 &= ~0x2000;
     }
 
-    m00->Attach(geometry);
+    reinterpret_cast<::FUN_00439410_cls *>(((m00).operator->()))->FUN_00439410((::ArgObject *)(geometry));
 
     geometry->m58 = 2;
 
@@ -818,15 +788,15 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
 
     GridBuffer* buffer = new GridBuffer(total, 1);
 
-    buffer->FUN_00a72ca0(1);
+    reinterpret_cast<::FUN_00a72ca0_Class *>((buffer))->FUN_00a72ca0(1);
 
-    buffer->FUN_00a72bb0(0, source->vertices, total * 4, 0);
+    reinterpret_cast<::A72BB0_DataStreamOwner *>((buffer))->FUN_00a72bb0(0, source->vertices, total * 4, 0);
 
-    buffer->FUN_00a726a0(0, 0, 0, 1, total, 4, 4);
+    reinterpret_cast<::FUN_00a726a0_cls *>((buffer))->FUN_00a726a0(0, 0, 0, (void *)(1), total, 4, 4);
 
-    m00->GetData()->FUN_00a67260(buffer);
+    reinterpret_cast<::NiGPUProgramOwner *>((m00->GetData()))->SetProgram((::NiGPUProgram *)(buffer));
 
-    FinalizeRoot(m00.m_pObject, 0, 0);
+    ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(m00.m_pObject), 0, 0);
 
     C469Class* node = new C469Class;
 
@@ -854,3 +824,5 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
 
     m04->AttachRoot(m00.m_pObject, 1);
 }
+
+#include "generated/data/bsshader/tallgrassgroup.inc"

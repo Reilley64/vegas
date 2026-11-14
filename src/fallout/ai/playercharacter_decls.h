@@ -2,10 +2,16 @@
 #ifndef FNV_PLAYERCHARACTER_UNIT_DECLS_H
 #define FNV_PLAYERCHARACTER_UNIT_DECLS_H
 
+#include "fnv/decl/FNV_AnimationOwner.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/fnv_00494740__FUN_00494740_t.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_01197000.h"
 #include "layout_support.h"
 class TESObjectWEAP;
 class ActorCombatGroup;
-class Animation;
+struct Animation;
 class BSAnimGroupSequence;
 enum ACTION_FLAGS
 {
@@ -15,21 +21,39 @@ enum ANIM_GROUP_SECTION
 {
     ANIM_GROUP_SECTION_NONE = -1
 };
-class Animation
+class NiNode;
+class TESObjectREFR;
+template <class> class BSSimpleList;
+struct Animation
 {
   public:
-    BSAnimGroupSequence* FUN_00491040(ANIM_GROUP_SECTION section);
-    BSAnimGroupSequence* GetSequenceForKey(BSAnimGroupSequence* sequence, unsigned short group);
-    bool IsGroupQueued(unsigned short group);
-    BSAnimGroupSequence* PlayGroup(unsigned short group, ACTION_FLAGS flags, int loops, ANIM_GROUP_SECTION section);
+public:
+    bool Init(::BSSimpleList<const char *> *, ::NiNode *, ::TESObjectREFR *, bool);
+public:
+    float FUN_009442a0() const;
 };
+enum ANIM_GROUP_ENUM;
+enum ANIM_GROUP_MOVE_ENUM;
+enum ANIM_GROUP_WEAPON_ENUM;
+// fnv/tes_anim_group.h declares TESAnimGroup; a unit of this header includes it where its
+// NiPoint3 is complete. A unit that cannot yet defines FNV_KEEPS_OWN_TESANIMGROUP and says why.
+#ifdef FNV_KEEPS_OWN_TESANIMGROUP
 class TESAnimGroup
 {
   public:
     static ANIM_GROUP_ENUM GetType(unsigned short group);
-    static bool IsIronSightsAction(unsigned short group);
-    static bool IsIronSightsAction(ANIM_GROUP_ENUM group);
+public:
+    static unsigned short AnimGroup(::ANIM_GROUP_MOVE_ENUM, ::ANIM_GROUP_WEAPON_ENUM, ::ANIM_GROUP_ENUM, bool);
+public:
+    ::ANIM_GROUP_ENUM GetType() const;
+public:
+    static bool IsActionTypeValid(unsigned short);
+public:
+    static bool IsValidAnimationGroup(unsigned short);
 };
+#else
+class TESAnimGroup;
+#endif
 struct PlayerCharacterAnimGroupInfo
 {
     bool availableInThirdPerson;
@@ -37,16 +61,15 @@ struct PlayerCharacterAnimGroupInfo
     ANIM_GROUP_SECTION section;
     unsigned char layoutPadding8[28];
 };
-extern PlayerCharacterAnimGroupInfo DAT_011977dc[];
-FNV_STATIC_ASSERT(sizeof(PlayerCharacterAnimGroupInfo) == 0x24);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacterAnimGroupInfo, section) == 4);
 // Source layout: PlayerCharacter. PC corrections are in generate_headers.py.
 #ifndef FNV_PLAYERCHARACTER_H
 #define FNV_PLAYERCHARACTER_H
 #include "layout_support.h"
 #include "playercharacter_actor_decls.h"
 #include "../../../include/Character.h"
-#pragma pack(push, 4)
+struct Animation;
+class BGSNote;
+struct Biped;
 class PlayerCharacter : public Character
 {
   public:
@@ -56,7 +79,9 @@ class PlayerCharacter : public Character
         SCRIPTS = 1,
         DAMAGE = 2
     };
-    unsigned char layoutPadding1C8[124];
+    unsigned char layoutPadding1C8[0x3e];
+    bool unk206;
+    unsigned char pad207[0x3d];
     float ActorValueModifierData[77];  // +0x244
     float m_afScriptModifiers[77];     // +0x378
     float ActorValueState;             // +0x4AC
@@ -65,14 +90,20 @@ class PlayerCharacter : public Character
     bool bThirdPerson;  // +0x64C
     unsigned char layoutPadding64D[51];
     unsigned char m_ucValueAt680;  // +0x680
-    unsigned char layoutPadding681[55];
+    unsigned char layoutPadding681[0xf];
+    void* unk690;
+    unsigned char pad694[0x24];
     TESQuest* m_pCurrentQuest;                          // +0x6B8
     BSSimpleList<BGSQuestObjective*> m_kObjectiveList;  // +0x6BC
-    unsigned char layoutPadding6C4[244];
+    unsigned char layoutPadding6C4[0x30];
+    void* unk6f4;
+    unsigned char pad6f8[0xc0];
     unsigned char m_ucByteAtOffset7B8;  // +0x7B8
     unsigned char layoutPadding7B9[3];
     bool m_bHasPerks;  // +0x7BC
-    unsigned char layoutPadding7BD[191];
+    unsigned char layoutPadding7BD[0x7];
+    unsigned char unk7c4;
+    unsigned char pad7c5[0xb7];
     BSSimpleList<PerkForm*> Perks;                             // +0x87C
     BSSimpleList<BGSEntryPointPerkEntry*> m_kEntryPointPerks[74];  // +0x884
     BSSimpleList<PerkForm*> m_kCompanionPerks;                 // +0xAD4
@@ -85,23 +116,17 @@ class PlayerCharacter : public Character
     Animation* GetAnimation(bool firstPerson);
     float GetActorValueModifierAmount(ModifierGroup modifier, ActorValue::Index actorValue);
     virtual int GetActorValue(ActorValue::Index actorValue);
+public:
+    void SetUnderAIControl(bool);
+public:
+    void UpdateCameraMode();
+public:
+    ::Animation *GetAnimation(bool) const;
+public:
+    ::Biped *FUN_00950b00(bool);
+public:
+    bool HasNote(::BGSNote *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PlayerCharacter) == 0xE50);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_pCombatData) == 0xD64);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueModifierData) == 0x244);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_afScriptModifiers) == 0x378);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueState) == 0x4AC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueData) == 0x4B0);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, bThirdPerson) == 0x64C);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_ucValueAt680) == 0x680);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_pCurrentQuest) == 0x6B8);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kObjectiveList) == 0x6BC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_ucByteAtOffset7B8) == 0x7B8);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_bHasPerks) == 0x7BC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, Perks) == 0x87C);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kEntryPointPerks) == 0x884);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kCompanionPerks) == 0xAD4);
 #endif
 
 #endif

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPVEHICLEFRICTIONSTATUSAXISSTATUS_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpVehicleFrictionStatusAxisStatus
 {
   public:
@@ -18,7 +17,4 @@ class hkpVehicleFrictionStatusAxisStatus
     hkReal m_fAxisStatusMetric8;  // +0x1C
     hkReal m_fAxisStatusMetric9;  // +0x20
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpVehicleFrictionStatusAxisStatus[(sizeof(hkpVehicleFrictionStatusAxisStatus) == 0x24) ? 1 : -1];
 #endif

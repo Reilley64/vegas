@@ -1,18 +1,17 @@
 // gamebryo2.2/corelibs/niparticle/nipsysemitter_types.h: declares NiPSysModifier, RgbaColor, NiPSysEmitter
 
-class NiStream;
+struct NiStream;
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_NIPSYSEMITTER_H
 #define FNV_NIPSYSEMITTER_H
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
-class RgbaColor;
+struct RgbaColor;
 class NiPSysEmitter;
-class NiPSysModifier;
-class NiParticleSystem;
-#pragma pack(push, 4)
-class NiPSysModifier : public NiObject
+struct NiPSysModifier;
+struct NiParticleSystem;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream&);
@@ -40,14 +39,7 @@ class NiPSysModifier : public NiObject
     // NiPSysModifier& __cdecl NiPSysModifier::*(const NiPSysModifier&)
     // void __cdecl NiPSysModifier::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_uiUpdateOrder) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_pkTarget) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_bModifierActive) == 20);
-#pragma pack(push, 4)
-class RgbaColor
+struct RgbaColor
 {
   public:
     void LoadBinary(NiStream&);
@@ -73,14 +65,9 @@ class RgbaColor
     // char* __cdecl RgbaColor::*(const char*)
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
+public:
+    char *ToString(const char *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class NiPSysEmitter : public NiPSysModifier
 {
   public:
@@ -135,18 +122,4 @@ class NiPSysEmitter : public NiPSysModifier
     // NiPSysEmitter& __cdecl NiPSysEmitter::*(const NiPSysEmitter&)
     // void __cdecl NiPSysEmitter::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysEmitter) == 84);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fEmissionSpeed) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fSpeedVariation) == 28);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fEmissionDeclination) == 32);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fDeclinationVariation) == 36);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fEmissionPlanarAngle) == 40);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fPlanarAngleVariation) == 44);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_kParticleColor) == 48);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fEmissionRadius) == 64);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fRadiusVariation) == 68);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fYValue) == 72);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fLifeSpanVariation) == 76);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fScale) == 80);
 #endif

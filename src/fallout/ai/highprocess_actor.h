@@ -2,23 +2,87 @@
 #ifndef FNV_HIGHPROCESS_ACTOR_H
 #define FNV_HIGHPROCESS_ACTOR_H
 
+#include <cstdint>
+#include "fnv/decl/Actor87.h"
+#include "fnv/decl/B968730Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/ExtraDataListRemoveTrespassPackage.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_0041cb10_shell.h"
+#include "fnv/decl/FUN_0041cd70_shell.h"
+#include "fnv/decl/FUN_00422820_shell.h"
+#include "fnv/decl/FUN_00437b90_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_0050ead0_cls.h"
+#include "fnv/decl/FUN_0050eb90_Class.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005ff160_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00884f80_shell.h"
+#include "fnv/decl/FUN_0088c570_shell.h"
+#include "fnv/decl/FUN_008a7570_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008adcb0_shell.h"
+#include "fnv/decl/FUN_008b0bd0_shell.h"
+#include "fnv/decl/FUN_008b2010_shell.h"
+#include "fnv/decl/FUN_008b39f0_shell.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_008bc700_shell.h"
+#include "fnv/decl/FUN_008c0050_cls.h"
+#include "fnv/decl/FUN_008c51c0_shell.h"
+#include "fnv/decl/FUN_00953c20_shell.h"
+#include "fnv/decl/FUN_00953c50_Class.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/Ref.h"
+#include "fnv/decl/ST_008c8bb0.h"
+#include "fnv/decl/Self.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/fnv_0041cc90__ExtraDataListStandIn.h"
+#include "fnv/decl/fnv_004985f0__FUN_004985f0_s.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_00567490__ScaleReference.h"
+#include "fnv/decl/fnv_005710c0__ModelRef.h"
+#include "fnv/decl/fnv_00572380__Fn572380.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_008a5e80__FakeActor.h"
+#include "fnv/decl/fnv_008a7870__FUN_008a7870_shell.h"
+#include "fnv/decl/fnv_008a78f0__FUN_008a78f0_shell.h"
+#include "fnv/decl/fnv_008ac6f0__ActorS_008ac6f0.h"
+#include "fnv/decl/fnv_008acbe0__FUN_008acbe0_shell.h"
+#include "fnv/decl/fnv_008b8e90__FUN_008b8e90_shell.h"
+#include "fnv/decl/fnv_008bcc80__FUN_008bcc80_shell.h"
+#include "fnv/decl/fnv_008bffc0__FUN_008bffc0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_005d9000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00903000.h"
 class BSFaceGenAnimationData;
 class PerkEntryConditionSet;
 class IdleAnimationManager;
 class TESForm
 {
   public:
-    static TESForm* GetFormByID(unsigned int);
-    unsigned int GetFormID();
     ENUM_FORM_ID GetFormType() const;
     virtual void vfn_0();
-    bool IsDeleted() const;
-    bool GetDisabled();
+public:
+    bool GetDisabled() const;
+public:
+    void ClearData();
 };
 class TESTopic : public TESForm
 {
   public:
-    static TESTopic* GetTopicFromInfo(TESTopicInfo*);
 };
 class TESObjectANIO : public TESForm
 {
@@ -26,7 +90,6 @@ class TESObjectANIO : public TESForm
 class TESIdleForm : public TESForm
 {
   public:
-    int GetFlagsMasked();
 };
 class TESBoundObject : public TESForm
 {
@@ -40,30 +103,20 @@ class TESTopicInfo
     BSSimpleList<TESTopic*>* GetAddTopicList();
 };
 class ExtraRefractionProperty;
+struct InventoryChanges;
 class ExtraDataList
 {
   public:
-    FleePackage* GetCurrentFleePackage();
-    void ClearActivePackage();
-    void SetActivePackage(FleePackage*);
-    ExtraRefractionProperty* GetAlphaExtra();
-    ScriptLocals* FUN_00418830();
-    Script* GetScriptLocalData();
-    TESPackage* GetPackageOverride();
+public:
+    ::InventoryChanges *GetContainerChangeData();
 };
 class Biped;
 class HighProcessCombatSource;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:
-    float GetLightLevelAtPoint(const NiPoint3&);
-    void IsBoundItem();
     float GetScale();
-    void SetScale(float);
-    Biped* GetBipedComponent();
-    void SetReferenceFlag(bool);
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
     virtual void vfn_4();
     virtual void vfn_8();
     virtual void vfn_c();
@@ -329,7 +382,7 @@ class TESObjectREFR : public TESForm
     virtual void vfn_41c();
     virtual void vfn_420();
     virtual void vfn_424();
-    virtual int vfn_428();
+    virtual intptr_t vfn_428();
     virtual Actor* vfn_42c();
     virtual void vfn_430();
     virtual void vfn_434();
@@ -385,23 +438,22 @@ class TESObjectREFR : public TESForm
     virtual void vfn_4fc();
     unsigned char layout04[0x64];
     bool Activate(TESObjectREFR*, bool, TESBoundObject*, int);
-    void Disable();
     bool FUN_00574900();
-    TESObjectCELL* GetParentCell();
+public:
+    ::ExtraRadioData *GetExtraRadioData();
 };
 class TESObjectREFRHelper : public TESObjectREFR
 {
   public:
-    void SetTargetingState(bool);
 };
 class MobileObject : public TESObjectREFR
 {
   public:
-    bool FUN_009336c0();
     TESPackage* GetCurrentPackage();
     BaseProcess* m_pBaseProcess;
     unsigned char layout6c[0x1c];
-    int GetProcessTier();
+public:
+    bool IsCombatStateActive() const;
 };
 class ActorValueOwner
 {
@@ -412,60 +464,32 @@ class ActorValueOwner
     virtual int GetActorValueInt(ActorValue::Index);
     virtual float GetActorValueFloat(ActorValue::Index);
 };
+enum ACTOR_LIFE_STATE;
 class Actor : public MobileObject
 {
   public:
-    bool FUN_008c0050();
-    bool FUN_00608d80();
-    bool IsCombatTargetHostile(Actor*);
-    bool IsCurrentlyAlerted();
-    bool FUN_00579670();
-    bool FUN_0088c240(const NiPoint3&, int, int);
-    bool IsWithinDistanceOfPoint(const NiPoint3&, float);
     int CalculateDetectionLevel(int, Actor*, bool*, bool, int, bool, bool*);
-    void FUN_008c8bb0(int);
-    bool FUN_00437bd0();
-    bool HasFaction(TESForm*);
-    bool CanBeDetected();
-    float GetCombatRating(float);
-    bool GetGhost();
     TESActorBase* GetActorBase();
-    void SetLightingNode(NiAVObject*);
-    bool FUN_008c51c0();
-    bool UpdateActorPackageState(int);
-    bool FUN_00437b90();
     BaseProcess* GetProcess();
-    int GetReactionToActor(Actor*, bool*);
-    bool ProcessActorAppearance();
-    bool IsHostileToActor(Actor*, int, int*, bool);
-    bool IsWithinRadius(int);
-    BSFaceGenAnimationData* GetActorFaceGenData();
-    unsigned int GetActorStateFlags();
-    void UpdatePlayerStatus(int);
     void StopMoving();
-    void RefreshActorData();
-    bool UpdateActorInventory();
     Script* GetAttachedScript();
-    void FUN_00884f80();
-    static float GetActorScale();
     unsigned char layout88[0x1c];
     ActorValueOwner actorValueOwner;
-    bool FUN_00437bf0();
-    bool IsCombatEngaged();
-    bool HasIdleInFormArray(TESIdleForm*);
-    int GetAnimAction();
     void UpdateActorPresentation();
-    bool IsInKillMove();
-    TESPackage* GetCurrentAIPackage();
     void* SetTaskFlag(bool);
+public:
+    bool IsSneaking();
+public:
+    void SetActorLifeState(::ACTOR_LIFE_STATE);
+public:
+    bool IsMoving();
+public:
+    bool IsVisible(int);
 };
 class PlayerCharacter : public Actor
 {
   public:
-    bool FUN_00953c50(bool*);
-    int GetPlayerLevel();
-    bool FUN_004eaf60();
-    bool HasCombatState();
-    void UpdateRadiationEffects();
+public:
+    bool IsSleepingOrResting();
 };
 #endif

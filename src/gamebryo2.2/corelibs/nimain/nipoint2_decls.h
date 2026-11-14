@@ -14,13 +14,13 @@ class NiBinaryStream
         m_uiStreamFlags += m_pfnRead(this, &value, 4, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned char padding[0x24c];
     NiBinaryStream* m_pUnderlyingStream;
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;

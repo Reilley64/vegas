@@ -5,8 +5,40 @@
 #ifndef FNV_FORENDEREDMENU_DECLS_H
 #define FNV_FORENDEREDMENU_DECLS_H
 
+#include "fnv/decl/FUN_00438230_Class.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004a1040_Helper.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESRegionDataMap.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00439390__NiObjectNET.h"
+#include "fnv/decl/fnv_004bc450__FUN_004bc450_S.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_004df000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 class NiGeometry;
-class ShadowSceneNode;
+struct ShadowSceneNode;
 class BSShaderAccumulator;
 class NiAVObject;
 class NiScreenElements;
@@ -14,8 +46,8 @@ class NiTexture;
 class NiPointLight;
 class NiCamera;
 class Tile;
-class NiColor;
-class NiObject;
+struct NiColor;
+struct NiObject;
 class NiProperty;
 
 template <class T> class NiPointer
@@ -29,7 +61,6 @@ template <class T> class NiPointer
     NiPointer& operator=(T*);
 };
 
-#pragma pack(push, 4)
 class FORenderedMenu
 {
   public:
@@ -93,22 +124,15 @@ class FORenderedMenu
     char paddingC0_padd3[1];
     NiPointer<BSShaderAccumulator> m_pMenuLightNode;
 
-    NiAVObject* GetMenuRoot();
-    void FUN_007fc6f0();
     bool CreateMenuLight(const char*, ShadowSceneNode*);
     void OnMenuOpen();
     void SetDefaultTexture(NiTexture*);
     void GetCurrentTimeMilliseconds();
     void StartBurst(float duration, float intensity, float soundChance);
 };
-#pragma pack(pop)
 
-typedef char FNV_ASSERT_menu_root_offset[(offsetof(FORenderedMenu, m_pRenderedMenuObject) == 0x14) ? 1 : -1];
-typedef char FNV_ASSERT_burst_active_offset[(offsetof(FORenderedMenu, m_bBurstActive) == 0x4D) ? 1 : -1];
-typedef char FNV_ASSERT_burst_duration_offset[(offsetof(FORenderedMenu, fBurstDuration) == 0x54) ? 1 : -1];
 
-#pragma pack(push, 4)
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -119,42 +143,29 @@ class SoundPlaybackHandle
     SoundPlaybackHandle(const SoundPlaybackHandle&);
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle&);
     ~SoundPlaybackHandle();
-    bool Play(bool loopPlayback);
+public:
+    bool Release();
 };
-#pragma pack(pop)
 
-typedef char FNV_ASSERT_sound_handle_size[(sizeof(SoundPlaybackHandle) == 12) ? 1 : -1];
 
-class BSAudio
+struct BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     SoundPlaybackHandle GetSoundHandleByEditorID(const char* editorID, unsigned int flags);
 };
 
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
 
-extern TimeGlobal g_timeGlobal;
-extern bool g_burstSoundEnabled;
-bool __cdecl RandomBoolean(float chance);
 
-class NiFixedString
-{
-  public:
-    const char* value;
-    NiFixedString(const char*);
-    ~NiFixedString();
-    operator const char*() const;
-};
+#include "fnv/native_fixed_string.h"
 struct NiPoint3
 {
     float x, y, z;
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -207,15 +218,9 @@ class NiAVObject
     virtual void vfn_98();
 
     virtual NiAVObject* GetObjectByName(const NiFixedString&);
-    NiNode* GetParent();
-    void FUN_00440460(const NiPoint3&);
     NiPoint3& FUN_0043c490();
-    void Update(NiUpdateData&);
-    void SetName(const NiFixedString&);
-    void SetAppCulled(bool);
-    NiFixedString& GetName();
-    void AttachProperty(NiObject*);
-    void UpdateSceneObject();
+public:
+    void SetLocalRotation(float, float, float, float);
 };
 class NiNode : public NiAVObject
 {
@@ -243,26 +248,18 @@ class NiPointLight : public NiAVObject
   public:
     unsigned char storage[0xfc - 4];
     NiPointLight();
-    static void* operator new(size_t);
-    static void operator delete(void*);
 };
 class NiGeometry : public NiAVObject
 {
   public:
-    NiProperty* GetProperty(int);
 };
 class ShadowSceneLight;
 class NiLight;
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
-    ShadowSceneLight* GetShadowSceneLight(NiLight*, bool);
 };
-ShadowSceneNode* FUN_00450b80(unsigned int);
 struct NiRTTI;
-extern NiRTTI DAT_011f4a98;
-NiAVObject* NiDynamicCast(const NiRTTI*, NiAVObject*);
-int Warning(const char*, ...);
 class BSShaderManager
 {
   public:
@@ -277,9 +274,6 @@ class BSShaderAccumulator
   public:
     unsigned int storage[0x280 / 4];
     BSShaderAccumulator(BSShaderManager::BATCHRENDERER_CREATION_MODE, unsigned int, unsigned int);
-    static void* operator new(size_t);
-    static void operator delete(void*);
-    void FUN_004a1040(unsigned int);
 };
 union SETTING_VALUE
 {
@@ -289,32 +283,20 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
-    const char* String();
 };
-extern SettingT_GameSettingCollection_ DAT_011db44c;
-extern SettingT_GameSettingCollection_ DAT_011db470;
-extern SettingT_GameSettingCollection_ DAT_011db3d8;
 
-class NiObject
+struct NiObject
 {
 };
 class NiProperty : public NiObject
 {
   public:
-    void FUN_00438230(NiTexture*);
-    void FUN_004bc450(const NiColor*);
 };
 class NiAlphaProperty : public NiProperty
 {
   public:
     unsigned char storage[0x1c];
     NiAlphaProperty();
-    static void* operator new(size_t);
-    static void operator delete(void*);
-    void FUN_0049ed90(bool);
-    void FUN_00439340(int);
-    void FUN_00439390(int);
 };
 class FOPipboyManager : public FORenderedMenu
 {
@@ -346,8 +328,9 @@ class FOPipboyManager : public FORenderedMenu
     float m_fThirdPersonLightIntensity;
     bool m_bPipBoyLightEnabled;
     char _pdbpad_16d[3];
+public:
+    void ActivateButton(const unsigned int);
+public:
+    bool IsUnk28Set();
 };
-unsigned int FUN_00438220();
-unsigned int FUN_004af350();
-extern NiColor DAT_011f4998;
 #endif

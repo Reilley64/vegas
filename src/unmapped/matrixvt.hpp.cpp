@@ -1,6 +1,16 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/FG_00659100_cls.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_0064dda0_cls.h"
+#include "fnv/decl/FUN_0065dfd0_class.h"
+#include "fnv/decl/FUN_0065fd10_class.h"
+#include "fnv/decl/S_006590c0.h"
+#include "fnv/decl/_Dummy_0044a170.h"
+#include "fnv/decl/fnv_0065f550__FUN_0065f550_Class.h"
+#include "fnv/decl/fnv_0065fd40__FUN_0065fd40_class.h"
 struct S_00658260_D
 {
     int unk00;
@@ -34,23 +44,18 @@ struct S_00658260_A
     S_00658260_A(int a, int b);
     S_00658260_A(const S_00658260_A& o);
     ~S_00658260_A();
-    void Attach(void* p);
     int unk00;
     int unk04;
 };
 
 struct S_00658260_B
 {
-    void Begin(S_00658260_D* d, int v);
-    bool Next(S_00658260_F* f);
-    float* Value();
     int unk00;
     int unk04;
 };
 
 struct S_00658260_C
 {
-    void Begin(S_00658260_E* e, int v);
     float* Slot();
     int unk00;
     int unk04;
@@ -67,8 +72,6 @@ struct S_00658260_Owner
     int m18;
     int m1c;
 
-    void InitB(S_00658260_B* b);
-    S_00658260_F* GetF(S_00658260_F* f);
 
     S_00658260_A BuildScaledValues(float scale);
 };
@@ -85,9 +88,9 @@ S_00658260_A S_00658260_Owner::BuildScaledValues(float scale)
     S_00658260_A a(m18, m1c);
     S_00658260_G aa;
     S_00658260_C it;
-    for (InitB(&x), a.Attach(&it); x.Next(GetF(&info)); x.Begin(&ent, 0), it.Begin(&arr, 0))
+    for (reinterpret_cast<::FUN_0065fd10_class *>(this)->FUN_0065fd10((::FUN_0065e000_class *)(::S_00658260_B *)(&x)), reinterpret_cast<::_Dummy_0044a170 *>(&(a))->FUN_0044a170((::_Out_0044a170 *)(void *)(&it)); reinterpret_cast<::FUN_0065dfd0_class *>(&(x))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>(this)->FUN_0065fd40((::fnv_0065fd40::FUN_0065e000_class *)(::S_00658260_F *)(&info)))); reinterpret_cast<::FG_00659100_cls *>(&(x))->FUN_00659100((::FG_00659100_pair *)(::S_00658260_D *)(&ent), 0), reinterpret_cast<::S_006590c0 *>(&(it))->CopyPairTo(&arr, 0))
     {
-        *it.Slot() = (float)(*x.Value() * scale);
+        *it.Slot() = (float)(*((float *)(reinterpret_cast<::FUN_0064dda0_cls *>(&(x))->FUN_0064dda0())) * scale);
     }
     return a;
 }
@@ -102,16 +105,12 @@ struct Iterator
 {
     void* unk00;
     void* unk04;
-    void CopyPairTo(Cursor* pos, int flags);
-    bool FUN_0065dfd0(void* handle);
     float* FUN_0064dbd0();
 };
 
 class Mgr
 {
   public:
-    void FUN_0044a170(Iterator* iter);
-    void* CallWithSelf(Cursor* key);
     Mgr* ScaleAll(float scale);
 };
 
@@ -122,7 +121,7 @@ Mgr* Mgr::ScaleAll(float scale)
     Iterator iter;
     Cursor key;
     Cursor currentPos;
-    for (this->FUN_0044a170(&iter); iter.FUN_0065dfd0(this->CallWithSelf(&key)); iter.CopyPairTo(&currentPos, 0))
+    for (reinterpret_cast<::_Dummy_0044a170 *>((this))->FUN_0044a170((::_Out_0044a170 *)(::Iterator *)(&iter)); reinterpret_cast<::FUN_0065dfd0_class *>(&(iter))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>((this))->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(::Cursor *)(&key)))); reinterpret_cast<::S_006590c0 *>(&(iter))->CopyPairTo(&currentPos, 0))
     {
         *iter.FUN_0064dbd0() *= scale;
     }
@@ -134,7 +133,11 @@ struct A87A0Element
     void* m_pMatrix;
     unsigned int m_uiPosition;
 
-    float& Ref();
+    // m_pMatrix points at the matrix; 0x00629ab0 indexes the float array in its first word.
+    __forceinline float& Ref()
+    {
+        return reinterpret_cast<::FUN_00629ab0_shell*>(m_pMatrix)->FUN_00629ab0(m_uiPosition);
+    }
 };
 
 class A87A0Matrix

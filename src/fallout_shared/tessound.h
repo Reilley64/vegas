@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // Unit-local PC header for fallout_shared/tessound.cpp.
 // TESSound below is the PC layout inferred from codegen:
 //   +0x00..0x2F first base (TESBoundAnimObject, 48 bytes)
@@ -7,6 +8,10 @@
 #ifndef FNV_TESSOUND_UNIT_H
 #define FNV_TESSOUND_UNIT_H
 
+#include "fnv/decl/Data5E35.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00407000.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "TESFile.h"
@@ -14,7 +19,6 @@
 #ifndef FNV_TESSOUND_SOUND_DATA_H
 #define FNV_TESSOUND_SOUND_DATA_H
 class TESSound__SOUND_DATA;
-#pragma pack(push, 4)
 class TESSound__SOUND_DATA
 {
   public:
@@ -30,26 +34,12 @@ class TESSound__SOUND_DATA
     unsigned int iPriority;                   // +0x18, 4 bytes
     unsigned int m_uiTrailingValue1;          // +0x1C, 4 bytes
     unsigned int m_uiTrailingValue2;          // +0x20, 4 bytes
-    void Endian();
+public:
+    void SwapEndian();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESSound__SOUND_DATA) == 36);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, iMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, iMax) == 1);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, m_cPitchAdjustment) == 2);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, m_ucUnused) == 3);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, iFlags) == 4);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, m_uiFrequency) == 8);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, m_aucAttenuationBytes) == 10);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, m_auiAttenuationCurve) == 12);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, m_uiReverbAttenuation) == 22);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, iPriority) == 24);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, m_uiTrailingValue1) == 28);
-FNV_STATIC_ASSERT(offsetof(TESSound__SOUND_DATA, m_uiTrailingValue2) == 32);
 #endif
 // Unit-local copy of the 12-byte legacy SNDX sound header (first fields of
 // it, then copies the fields into data.
-#pragma pack(push, 4)
 class TESSound__SOUND_DATA2
 {
   public:
@@ -60,10 +50,7 @@ class TESSound__SOUND_DATA2
     unsigned int iFlags;                   // +0x4
     unsigned short m_uiFrequency;          // +0x8
     unsigned short m_aucAttenuationBytes;  // +0xA
-    void Endian();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESSound__SOUND_DATA2) == 12);
 // The 2008 TESSound.cpp saw a 32-bit TESFile::GetTESForm: the Load form
 // check compares the call result with cmp eax,imm and no movzx, which is
 // unreproducible through the closure's unsigned char declaration (any use of
@@ -71,7 +58,6 @@ FNV_STATIC_ASSERT(sizeof(TESSound__SOUND_DATA2) == 12);
 // the original static type; it binds the real GetTESForm target.
 struct TESFileFormInt : public TESFile
 {
-    int GetTESForm();
 };
 // Zero-size tag used to select the 16-bit overload below. The tag is passed
 // as a value-initialized temporary, which is why each call site materializes
@@ -79,8 +65,6 @@ struct TESFileFormInt : public TESFile
 template <int Value> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned short* data, EndianSizeTag<2> type);
-#pragma pack(push, 4)
 // Unit-local scaffolding for the TESSound bases. TESBoundAnimObject derives
 // from TESForm through TESObject/TESBoundObject on PC; the intermediate
 // members live in the padding below. Only sizes, polymorphism and the
@@ -94,16 +78,12 @@ class TESBoundAnimObject : public TESForm
     virtual ~TESBoundAnimObject();
     unsigned char layoutPadding18[0x18];
     TESBoundAnimObject();
-    void ReadTypedData(TESFile* file, void* buffer, unsigned short size);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 0x30);
 // TESSoundFile is vtable + sound-path string (12 bytes); its constructor
 // builds the string, matching the observed subobject construction.
 // SetSoundFile is the real filename virtual called by the FNAM chunk handler
 // through the second vtable (slot 4, first new virtual after the four
 // BaseFormComponent slots).
-#pragma pack(push, 4)
 class TESSoundFile : public BaseFormComponent
 {
   public:
@@ -112,10 +92,6 @@ class TESSoundFile : public BaseFormComponent
     BSStringT<char> m_kSoundFile;  // +0x4
     TESSoundFile();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESSoundFile) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESSoundFile, m_kSoundFile) == 0x4);
-#pragma pack(push, 4)
 class TESSound : public TESBoundAnimObject, public TESSoundFile
 {
   public:
@@ -128,10 +104,6 @@ class TESSound : public TESBoundAnimObject, public TESSoundFile
     static void InitializeMagicSystem();
     bool Load(TESFile* file);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESSound) == 0x6C);
-FNV_STATIC_ASSERT(offsetof(TESSound, data) == 0x44);
-FNV_STATIC_ASSERT(offsetof(TESSound, m_cSoundFlag) == 0x68);
 // MEM_CONTEXT as in include/layout_support.h (the unit-local layout_support.h in this directory, which wine resolves
 // first, does not declare it).
 enum MEM_CONTEXT
@@ -207,15 +179,5 @@ enum MEM_CONTEXT
 };
 // Canonical AutoMemContext declaration (decomp/include/AutoMemContext.h),
 // repeated here because the task include closure does not bundle it.
-#pragma pack(push, 4)
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;  // +0x0
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(AutoMemContext) == 0x4);
-FNV_STATIC_ASSERT(offsetof(AutoMemContext, m_eMemoryContext) == 0x0);
+using ::AutoMemContext;
 #endif

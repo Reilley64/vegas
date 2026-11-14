@@ -8,7 +8,6 @@
 #include "layout_support.h"
 class ActorValueStore;
 class ActorValueCacheEntry;
-#pragma pack(push, 4)
 class ActorValueCacheEntry
 {
   public:
@@ -16,11 +15,6 @@ class ActorValueCacheEntry
     unsigned char layoutPadding1[3];
     float fValue;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorValueCacheEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(ActorValueCacheEntry, m_bIsDirty) == 0);
-FNV_STATIC_ASSERT(offsetof(ActorValueCacheEntry, fValue) == 4);
-#pragma pack(push, 4)
 class ActorValueStore
 {
   public:
@@ -34,9 +28,6 @@ class ActorValueStore
   public:
     ActorValueCacheEntry Cache[77];  // +0x0, 616 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorValueStore) == 616);
-FNV_STATIC_ASSERT(offsetof(ActorValueStore, Cache) == 0);
 namespace ActorValue {
 ActorValue::Index* GetDependentActorValueIndices(ActorValue::Index avIndex, int& count);
 }

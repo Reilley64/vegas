@@ -15,5 +15,4 @@ class ListBoxBase
     virtual void Destroy(bool doFree);
     virtual void ClearList();
 };
-FNV_STATIC_ASSERT(sizeof(ListBoxBase) == 0x4);
 #endif

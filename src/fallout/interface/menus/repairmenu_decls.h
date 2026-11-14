@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "ListBox_ItemChange___.h"
 #include "Menu.h"
-#pragma pack(push, 4)
 class RepairMenu : public Menu
 {
   public:
@@ -14,8 +13,4 @@ class RepairMenu : public Menu
     int GetClass();
     void AssignTileByID(int tileID, Tile* tile);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RepairMenu) == 0x8C);
-FNV_STATIC_ASSERT(offsetof(RepairMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(offsetof(RepairMenu, m_kRepairList) == 0x5C);
 #endif

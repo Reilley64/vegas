@@ -3,6 +3,8 @@
 #define FNV_TESWEIGHTFORM_DECLS_H
 
 
+#include "fnv/decl/FUN_0048ee50_Class.h"
+#include "fnv/decl/TimeoutTimer.h"
 enum ENUM_FORM_ID
 {
     ENUM_FORM_ID_Unknown = 0
@@ -11,7 +13,6 @@ enum ENUM_FORM_ID
 class TESForm
 {
   public:
-    float GetFieldB8Float();
 };
 
 class TESBoundObject
@@ -22,13 +23,11 @@ class TESBoundObject
 class ActiveEffect
 {
   public:
-    float GetAge();
 };
 
 class TESWeightForm
 {
   public:
-    float GetWeightForForm() const;
     static float GetWeightForForm(TESForm* form, bool useFormWeight);
 };
 

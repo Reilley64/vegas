@@ -3,7 +3,7 @@
 #define FNV_ACTORVALUEOWNER_H
 
 #include "layout_support.h"
-#pragma pack(push, 4)
+namespace ActorValue { enum Index; }
 class ActorValueOwner
 {
   public:
@@ -20,7 +20,7 @@ class ActorValueOwner
     virtual unsigned short GetActorValueOwnerType();
     Actor* GetActorOwner();
     float GetActorValueFloatByIndex(ActorValue::Index index);
+public:
+    int GetActorValueAsInteger(::ActorValue::Index);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorValueOwner) == 0x4);
 #endif

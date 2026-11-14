@@ -1,21 +1,35 @@
 // bsshader/imagespaceshaderparam.cpp: ImageSpaceShaderParam (9 functions)
 
+#include <cstring>
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 #include "imagespaceshaderparam_decls.h"
 #include "imagespaceshaderparam_types_NiD3DShaderConstantMap.h"
 #include "imagespaceshaderparam_types_ImageSpaceShaderParam.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_01200000.h"
 
 // Releases and reallocates the vertex and pixel constant arrays, then registers them with two new NiD3DShaderConstantMap objects.
 // @fnv 0x00b8ab10
 void ImageSpaceShaderParam::AllocateShaderConstants(int vertexCount, int pixelCount)
 {
     FUN_00b8a7e0();
-    m_pVertexShaderConstantMap = new NiD3DShaderConstantMap(g_pkRenderer, 0);
-    m_pPixelShaderConstantMap = new NiD3DShaderConstantMap(g_pkRenderer, 2);
+    m_pVertexShaderConstantMap = new NiD3DShaderConstantMap((*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)), 0);
+    m_pPixelShaderConstantMap = new NiD3DShaderConstantMap((*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)), 2);
     m_iVertexShaderConstantCount = vertexCount + 3;
     if (m_iVertexShaderConstantCount > 0)
     {
         if (m_pfVertexShaderConstants)
-            g_memoryManager.Deallocate(m_pfVertexShaderConstants);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pfVertexShaderConstants);
         m_pfVertexShaderConstants =
             reinterpret_cast<float*>(new ImageSpaceShaderParamFloat[m_iVertexShaderConstantCount * 4]);
         m_pVertexShaderConstantMap.m_pObject->AddConstant(
@@ -26,7 +40,7 @@ void ImageSpaceShaderParam::AllocateShaderConstants(int vertexCount, int pixelCo
     if (m_iPixelShaderConstantCount > 0)
     {
         if (m_pfPixelShaderConstants)
-            g_memoryManager.Deallocate(m_pfPixelShaderConstants);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pfPixelShaderConstants);
         m_pfPixelShaderConstants =
             reinterpret_cast<float*>(new ImageSpaceShaderParamFloat[m_iPixelShaderConstantCount * 4]);
         m_pPixelShaderConstantMap.m_pObject->AddConstant(
@@ -49,7 +63,7 @@ void ImageSpaceShaderParam::SetShaderConstantVector4(int index, float x, float y
 // @fnv 0x00b8a8d0
 void ImageSpaceShaderParam::SetRenderState(unsigned int state, unsigned int value)
 {
-    m_kRenderStateMap.SetAt(state, value);
+    reinterpret_cast<::FUN_00844700_Class *>(&(m_kRenderStateMap))->FUN_00844700(state, value);
 }
 
 // Releases the object references and deallocates the two buffers, clearing each pointer to null.
@@ -68,12 +82,12 @@ void ImageSpaceShaderParam::FUN_00b8a7e0()
     }
     if (m_pfVertexShaderConstants)
     {
-        g_memoryManager.Deallocate(m_pfVertexShaderConstants);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pfVertexShaderConstants);
         m_pfVertexShaderConstants = 0;
     }
     if (m_pfPixelShaderConstants)
     {
-        g_memoryManager.Deallocate(m_pfPixelShaderConstants);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pfPixelShaderConstants);
         m_pfPixelShaderConstants = 0;
     }
 }
@@ -82,7 +96,7 @@ void ImageSpaceShaderParam::FUN_00b8a7e0()
 // @fnv 0x00b8a8b0
 void ImageSpaceShaderParam::CopyParamData(int index, const float* data, unsigned int size)
 {
-    fnv_zlib_memcpy(m_pfPixelShaderConstants + index * 4, data, size);
+    std::memmove(m_pfPixelShaderConstants + index * 4, data, size);
 }
 
 // @fnv 0x00b8a7c0
@@ -131,8 +145,6 @@ void FUN_00b8a860_shell::SetEntry(int aiIndex, float* apSource)
 
 struct ShaderConstants_4e30
 {
-    void SetReferenceVector(int idx, float f0, float f1, float f2, float f3);
-    void SetEntry(int idx, float* src);
 };
 
 struct ShaderParamOwner_4e30
@@ -244,9 +256,206 @@ bool ShaderPass_4e30::FUN_00c04e30(int arg)
     kParam2.g = apTargetLight->p24;
     kParam2.b = apTargetLight->p28;
     kParam2.a = apTargetLight->p2C;
-    pShader->SetReferenceVector(0, apTargetLight->x, apTargetLight->y, apTargetLight->z, fRadius);
-    pShader->SetEntry(1, &kParam1.r);
-    pShader->SetEntry(2, &kParam2.r);
-    pShader->SetEntry(3, &kParam3.r);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pShader))->SetShaderConstantVector4(0, apTargetLight->x, apTargetLight->y, apTargetLight->z, fRadius);
+    reinterpret_cast<::FUN_00b8a860_shell *>((pShader))->SetEntry(1, &kParam1.r);
+    reinterpret_cast<::FUN_00b8a860_shell *>((pShader))->SetEntry(2, &kParam2.r);
+    reinterpret_cast<::FUN_00b8a860_shell *>((pShader))->SetEntry(3, &kParam3.r);
     return false;
 }
+
+// Native NiObject/NiTexture contracts: JIP-LN-NVSE internal/netimmerse.h.
+struct NiRTTI;
+
+class NiNode;
+
+class BSFadeNode;
+
+class BSMultiBoundNode;
+
+class NiGeometry;
+
+class NiTriBasedGeom;
+
+class NiTriStrips;
+
+class NiTriShape;
+
+class BSSegmentedTriShape;
+
+class BSResizableTriShape;
+
+class NiParticles;
+
+class NiLines;
+
+class bhkNiCollisionObject;
+
+class bhkBlendCollisionObject;
+
+class bhkRigidBody;
+
+class bhkLimitedHingeConstraint;
+
+class NiObjectCopyInfo;
+
+struct NiStream;
+
+struct NiBound;
+
+struct NiControllerManager;
+
+class NiTimeController;
+
+class NiExtraData;
+
+struct NiObject : public NiRefObject
+{
+  public:
+    virtual NiRTTI* GetType();
+    virtual NiNode* GetNiNode();
+    virtual BSFadeNode* GetFadeNode();
+    virtual BSMultiBoundNode* GetMultiBoundNode();
+    virtual NiGeometry* GetNiGeometry();
+    virtual NiTriBasedGeom* GetTriBasedGeom();
+    virtual NiTriStrips* GetTriStrips();
+    virtual NiTriShape* GetTriShape();
+    virtual BSSegmentedTriShape* GetSegmentedTriShape();
+    virtual BSResizableTriShape* GetResizableTriShape();
+    virtual NiParticles* GetNiParticles();
+    virtual NiLines* GetNiLines();
+    virtual bhkNiCollisionObject* GetCollisionObject();
+    virtual bhkBlendCollisionObject* GetBlendCollisionObject();
+    virtual bhkRigidBody* GetRigidBody();
+    virtual bhkLimitedHingeConstraint* GetLimitedHingeConstraint();
+    virtual NiObject* Clone(NiObjectCopyInfo*);
+    virtual void LoadBinary(NiStream*);
+    virtual void LinkObject(NiStream*);
+    virtual void RegisterStreamables(NiStream*);
+    virtual void SaveBinary(NiStream*);
+    virtual bool Compare(NiObject*);
+    virtual void GetViewerStrings(NiTArray<char*, NiTNewInterface<char*> >*);
+    virtual void AddViewerStrings(NiTArray<char*, NiTNewInterface<char*> >*);
+    virtual void ProcessClone(NiObjectCopyInfo*);
+    virtual void PostLinkObject(NiStream*);
+    virtual bool StreamCanSkip();
+    virtual NiRTTI* GetStreamableRTTI();
+    virtual void SetWorldBound(NiBound*);
+    virtual unsigned int GetBlockAllocationSize();
+    virtual void Unk_20();
+    virtual void Unk_21(unsigned int);
+    virtual NiControllerManager* GetControllerManager();
+};
+
+#include "fnv/native_fixed_string.h"
+
+struct NiObjectNET : public NiObject
+{
+  public:
+    NiFixedString m_blockName;
+    NiTimeController* m_controller;
+    NiExtraData** m_extraDataList;
+    unsigned short m_extraDataListLen, m_extraDataListCapacity;
+};
+
+class NiTexture : public NiObjectNET
+{
+  public:
+    virtual void Unk_23();
+    virtual void Unk_24();
+    virtual unsigned int GetRenderedWidth();
+    virtual unsigned int GetRenderedHeight();
+};
+
+struct ImageSpaceTexture
+{
+};
+
+extern float g_afBlurKernel[15][4];
+
+extern float g_afBlurWeights[8][15][4];
+
+struct BlurParamArray
+{
+    void* m_ppVirtualMethodTable;
+    ImageSpaceShaderParam** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    ImageSpaceShaderParam*& GetAt(unsigned int i)
+    {
+        return m_pBase[i];
+    }
+};
+
+struct BlurTexArray
+{
+    void* m_ppVirtualMethodTable;
+    const ImageSpaceTexture** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    const ImageSpaceTexture*& GetAt(unsigned int i)
+    {
+        return m_pBase[i];
+    }
+};
+
+struct ImageSpaceEffectFourTexturePass
+{
+    void* m_ppVirtualMethodTable;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    BlurParamArray unk18;
+    BlurTexArray unk28;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    bool unk5C;
+    bool FUN_00ba4270(int a1);
+};
+
+// @fnv 0x00ba4270
+bool ImageSpaceEffectFourTexturePass::FUN_00ba4270(int a1)
+{
+    float m_fGlyphWidthInPixels = (float)((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((void *)(unk28.GetAt(2)))->FUN_00ba3780()))->GetRenderedWidth();
+    float m_fGlyphExtent = (float)((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((void *)(unk28.GetAt(1)))->FUN_00ba3780()))->GetRenderedHeight();
+    int iLevel = unk58;
+    int iLo = iLevel - 1;
+    int iHi = iLo + 1;
+    if (iHi > 7)
+        iHi = 7;
+    if (iLo < 1)
+        iLo = 1;
+    int iStart = (7 - iHi) * 4;
+    float fT = 1.0f - ((float)iLevel - ::DAT_012003c4);
+    if (fT == 0.0f)
+        fT = 1.0f;
+    for (int i = 0; i < 15; i++)
+        g_afBlurKernel[i][2] =
+            (g_afBlurWeights[iHi - 1][i][2] - g_afBlurWeights[iLo - 1][i][2]) * fT + g_afBlurWeights[iLo - 1][i][2];
+    ImageSpaceShaderParam* pParam = unk18.GetAt(0);
+    m_fGlyphExtent = 1.0f / m_fGlyphExtent;
+    pParam->SetShaderConstantVector4(0, 0.0f, m_fGlyphExtent, 0.0f, 0.0f);
+    if (unk5C)
+        pParam->SetShaderConstantVector4(17, ::DAT_012003c8, ::DAT_011adbd4, 0.0f, 0.0f);
+    pParam->CopyParamData(1, &g_afBlurKernel[0][iStart], (iHi * 2 + 1) * 16);
+    pParam = unk18.GetAt(1);
+    m_fGlyphWidthInPixels = 1.0f / m_fGlyphWidthInPixels;
+    pParam->SetShaderConstantVector4(0, m_fGlyphWidthInPixels, 0.0f, 0.0f, 0.0f);
+    pParam->CopyParamData(1, &g_afBlurKernel[0][iStart], (iHi * 2 + 1) * 16);
+    return false;
+}
+
+#include "generated/data/bsshader/imagespaceshaderparam.inc"
+#include "generated/data/bsshader/imagespaceshaderparam_rtm_variant.inc"

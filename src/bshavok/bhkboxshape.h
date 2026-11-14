@@ -3,8 +3,9 @@
 #define BHKBOXSHAPE_H
 
 
-class NiRTTI;
-class hkVector4;
+#include "fnv/symbols_01268000.h"
+struct NiRTTI;
+struct hkVector4;
 
 class bhkBoxShape
 {
@@ -16,13 +17,12 @@ class bhkBoxShape
 
     void Init(const hkVector4& halfExtents);
     virtual const NiRTTI* GetRTTI() const;
-    static const NiRTTI ms_kRTTI;
 };
 
 // @fnv 0x0056e7f0
 const NiRTTI* bhkBoxShape::GetRTTI() const
 {
-    return &ms_kRTTI;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_01268264));
 }
 
 #endif

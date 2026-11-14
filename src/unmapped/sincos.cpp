@@ -1,24 +1,22 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern double DAT_0101ff40;
+#include <cmath>
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01073000.h"
+#include "fnv/symbols_01269000.h"
 extern double DAT_0104ed58;
 extern double DAT_0108c160;
 extern double DAT_010b7f30;
-extern double DAT_010731a8;
-extern double DAT_01012060;
-extern double DAT_0101a6b0;
-extern double DAT_010290b0;
 extern float DAT_01200060;
 extern float DAT_01200064;
 extern float DAT_01200068;
 
-extern "C" double __cdecl cos(double value);
-extern "C" double __cdecl sin(double value);
-extern "C" double __cdecl exp(double value);
-
 // @fnv 0x00ba1480
-float __stdcall FUN_00ba1480(float x, float y)
+float FUN_00ba1480(float x, float y)
 {
     float a = (float)((double)DAT_01200064 * DAT_0101ff40 / DAT_0104ed58);
     float fScaleB = (float)((double)DAT_01200060 / DAT_0108c160);
@@ -30,12 +28,12 @@ float __stdcall FUN_00ba1480(float x, float y)
     double dCosTerm = (double)(fCosAngle * x);
     float fSinAngle = (float)sin((double)a);
     x = (float)((double)(fSinAngle * y) + dCosTerm);
-    if (x < DAT_01012060)
+    if (x < ::_DAT_01012060)
     {
         x = 0.0f;
     }
 
-    float q = (float)(DAT_0101a6b0 / ((double)fRadiusSq * ((double)fScaleC * fScaleC)));
+    float q = (float)(::DAT_0101a6b0 / ((double)fRadiusSq * ((double)fScaleC * fScaleC)));
     q = (float)exp((double)q);
 
     double dNumerator = (double)q * ((double)x * x) * fScaleB;
@@ -186,7 +184,6 @@ struct SkyEntry
     float unk14;
 };
 
-extern SkyEntry DAT_01269210[31];
 
 inline float ClampMax(float afValue)
 {
@@ -204,37 +201,39 @@ void UpdateSkyEntries(float afA, float afB)
         {
             fAngleDifference = 3.1415927410125732 - fabs(fAngleDifference);
             float fDiff = fAngleDifference - afA;
-            DAT_01269210[i].unk00 = 1.0f;
-            DAT_01269210[i].unk04 = 0.0f;
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk00 = 1.0f;
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk04 = 0.0f;
             if (fDiff > afB)
             {
-                DAT_01269210[i].unk08 = cos(afB);
+                (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk08 = cos(afB);
             }
             else
             {
-                DAT_01269210[i].unk08 = cos(fDiff > 0.0f ? fDiff : 0.0f);
+                (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk08 = cos(fDiff > 0.0f ? fDiff : 0.0f);
             }
-            DAT_01269210[i].unk0C = cos(fDiff > 0.0f ? fDiff : 0.0f);
-            DAT_01269210[i].unk10 = cos(fAngleDifference);
-            DAT_01269210[i].unk14 = sin(fAngleDifference);
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk0C = cos(fDiff > 0.0f ? fDiff : 0.0f);
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk10 = cos(fAngleDifference);
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk14 = sin(fAngleDifference);
         }
         else
         {
-            DAT_01269210[i].unk00 = cos(fAngleDifference);
-            DAT_01269210[i].unk04 = sin(fAngleDifference);
-            DAT_01269210[i].unk08 = cos(ClampMax((float)(fAngleDifference + afA)));
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk00 = cos(fAngleDifference);
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk04 = sin(fAngleDifference);
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk08 = cos(ClampMax((float)(fAngleDifference + afA)));
             float fValue = fAngleDifference + afA;
             float fMin = 3.1415927410125732 - afB;
             if (fValue < fMin)
             {
-                DAT_01269210[i].unk0C = cos(fMin);
+                (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk0C = cos(fMin);
             }
             else
             {
-                DAT_01269210[i].unk0C = cos(fValue < 3.1415927410125732 ? fValue : 3.1415927f);
+                (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk0C = cos(fValue < 3.1415927410125732 ? fValue : 3.1415927f);
             }
-            DAT_01269210[i].unk10 = -1.0f;
-            DAT_01269210[i].unk14 = 0.0f;
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk10 = -1.0f;
+            (*reinterpret_cast<SkyEntry (*)[31]>(&::DAT_01269210))[i].unk14 = 0.0f;
         }
     }
 }
+
+#include "generated/data/unmapped/sincos.inc"

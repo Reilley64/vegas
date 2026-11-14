@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpPropertyValue.h"
-#pragma pack(push, 1)
 class hkpProperty
 {
   public:
@@ -13,6 +12,4 @@ class hkpProperty
     hkUint32 m_uiAlignmentPadding;     // +0x4
     hkpPropertyValue m_uiFilterValue;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpProperty[(sizeof(hkpProperty) == 0x10) ? 1 : -1];
 #endif

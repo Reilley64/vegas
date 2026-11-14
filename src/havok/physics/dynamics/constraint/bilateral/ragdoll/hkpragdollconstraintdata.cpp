@@ -1,53 +1,67 @@
 
 // src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00d21000.h"
 
-#include "havok/hkpRagdollConstraintData.h"
+#include "fnv/symbols_00c85000.h"
+
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00ca9360_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "havok/hkpRagdollConstraintData_decl_hkpragdollconstraintdata.h"
 
 // @fnv 0x00cde9d0
-void __stdcall FUN_00cde9d0(int* apUnused, int* apiOut)
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct RagdollRuntimeInfo
 {
-    apiOut[1] = 0xc;
-    apiOut[0] = 0x80;
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
+void FUN_00cde9d0(int* apUnused, int* apiOut)
+{
+    RagdollRuntimeInfo* info = reinterpret_cast<RagdollRuntimeInfo*>(apiOut);
+    info->m_numSolverResults = 0xc;
+    info->m_sizeOfExternalRuntime = 0x80;
 }
 
-struct FUN_00cde980_cls
+struct FUN_00cde980_cls : hkpRagdollConstraintData
 {
-    void __thiscall FUN_00cde980(int a);
+    void FUN_00cde980(int a);
 };
 // @fnv 0x00cde980
-void __thiscall FUN_00cde980_cls::FUN_00cde980(int aiBitIndex)
+void FUN_00cde980_cls::FUN_00cde980(int aiBitIndex)
 {
-    *(char*)((char*)this + 0x13a) = (char)(1 << aiBitIndex);
+    m_kBridgeAtoms.m_kBallSocket.m_ucBodiesToNotify = (hkUint8)(1 << aiBitIndex);
 }
 
-struct FUN_00cde960_cls
+struct FUN_00cde960_cls : hkpRagdollConstraintData
 {
-    void __thiscall FUN_00cde960(float a);
+    void FUN_00cde960(float a);
 };
 // @fnv 0x00cde960
-void __thiscall FUN_00cde960_cls::FUN_00cde960(float a)
+void FUN_00cde960_cls::FUN_00cde960(float a)
 {
-    *(float*)((char*)this + 0x13c) = a;
+    m_kBridgeAtoms.m_kBallSocket.m_usFlags = a;
 }
 
-void* __cdecl FUN_00d21a60(void* a, int b, int c);
-struct FUN_00cde9b0_cls
+struct FUN_00cde9b0_cls : public hkpRagdollConstraintData
 {
-    char* FUN_00cde9b0(int a);
+    void FUN_00cde9b0(::GenericConstraintAtomScheme* a) const;
 };
 // @fnv 0x00cde9b0
-char* FUN_00cde9b0_cls::FUN_00cde9b0(int aiIndex)
+void FUN_00cde9b0_cls::FUN_00cde9b0(::GenericConstraintAtomScheme* aiIndex) const
 {
-    return (char*)FUN_00d21a60((char*)this + 0x10, 0x130, aiIndex);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x130, aiIndex);
 }
 
 extern int DAT_010cb71c;
-extern int _DAT_0102e388;
 
 struct DDCC60World
 {
-    void __thiscall removeReference(void);
 };
 
 struct FUN_00cdf1f0
@@ -66,9 +80,9 @@ FUN_00cdf1f0::~FUN_00cdf1f0()
     {
         DDCC60World* p = m_refs[i];
         if (p)
-            p->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
     }
-    m_ppVirtualMethodTable = &_DAT_0102e388;
+    m_ppVirtualMethodTable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct FUN_00cde970_cls
@@ -174,7 +188,7 @@ float FUN_00cde970_cls::FUN_00cde970()
 // The getter returns that byte shifted right by one bit.
 struct RagdollBodiesToNotify : public hkpRagdollConstraintData
 {
-    int __thiscall FUN_00cde9a0();
+    int FUN_00cde9a0();
 };
 
 // @fnv 0x00cde9a0
@@ -189,10 +203,7 @@ int __cdecl FUN_00cdead0()
     return 7;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
+#include "fnv/symbols_simd.h"
 struct __declspec(align(16)) FUN_00cdf190_Vec
 {
     float x;
@@ -230,21 +241,7 @@ void FUN_00cdf190_Class::CopyVectorsToOut(FUN_00cdf190_Out* out)
     *(__m128*)&out->c = *(const __m128*)&v40;
 }
 
-struct FnvCpu_FUN_00cdf530_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cdf530_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cdf530_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00cdf530_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00cdf530_CpuObject
 {
     unsigned int unk00;
@@ -255,11 +252,11 @@ struct FnvCpu_FUN_00cdf530_CpuObject
 // @fnv 0x00cdf530
 FnvCpu_FUN_00cdf530_CpuObject* FnvCpu_FUN_00cdf530_CpuObject::FUN_00cdf530(unsigned int flags)
 {
-    FUN_00cdf1f0();
+    reinterpret_cast<::FUN_00cdf1f0 *>(this)->FUN_00cdf1f0::~FUN_00cdf1f0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cdf530_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -313,7 +310,6 @@ void Cdf1c0_cls::GetM60(Cdf1c0_vec48* out)
     out->c = m60.c;
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct hkVector4B90
 {
@@ -325,7 +321,7 @@ struct hkVector4B90
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
 };
 
@@ -496,25 +492,6 @@ FUN_00cb9090::FUN_00cb9090() throw()
     m_kBridgeAtoms.m_kAngularMotor.m_ucMotorAxis = 0;
 }
 
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-}
 
 union hkVector4q
 {
@@ -533,7 +510,6 @@ union hkVector4q
 
 struct hkVector4Out : public hkVector4
 {
-    void SetTransformedPosition(const hkTransform& t, const hkVector4& v);
 };
 
 static __forceinline void hkNormalize3(hkVector4q& v)
@@ -634,19 +610,13 @@ void hkpRagdollConstraintDataEx::FUN_00cdeae0(const hkTransform& bodyATransform,
     hkSetTransposeMul(t.m_kRotationA, reinterpret_cast<const hkMatrix3q&>(bodyATransform.m_rotation), baseConstraint);
     hkSetTransposeMul(t.m_kRotationB, reinterpret_cast<const hkMatrix3q&>(bodyBTransform.m_rotation), baseConstraint);
 
-    static_cast<hkVector4Out&>(t.m_kTranslationA).SetTransformedPosition(bodyATransform, pivot);
-    static_cast<hkVector4Out&>(t.m_kTranslationB).SetTransformedPosition(bodyBTransform, pivot);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kTranslationA)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kTranslationB)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 
     t.m_kMotorAxes = t.m_kRotationB;
 }
 
-extern "C" __m128 _mm_add_ss(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 
-extern const __m128 DAT_010c71e0;
 
 struct Quat
 {
@@ -797,7 +767,6 @@ void FUN_00cdef90_cls::FUN_00cdef90(float afStart, float afEnd)
 namespace fnv_00cb9170 {
 struct FUN_00ca9360_sub
 {
-    void FUN_00ca9360(float*);
 };
 
 struct FUN_00cb9170
@@ -926,7 +895,6 @@ struct FUN_00cb9170
     float m_fC8;
     FUN_00cb9170();
 };
-extern "C" float DAT_0104da48;
 // Initializes the FUN_00cb9170 object by setting default values for its fields and calling FUN_00ca9360 with a float pointer.
 // @fnv 0x00cb9170
 FUN_00cb9170::FUN_00cb9170()
@@ -946,8 +914,8 @@ FUN_00cb9170::FUN_00cb9170()
     *limit = 0xc;
     m_c4 = 5;
     m_c6 = 0;
-    m_c7.FUN_00ca9360(&f);
-    m_fC8 = DAT_0104da48;
+    reinterpret_cast<::FUN_00ca9360_cls *>(&(m_c7))->FUN_00ca9360(&f);
+    m_fC8 = ::DAT_0104da48;
 }
 }  // namespace fnv_00cb9170
 
@@ -1029,4 +997,33 @@ void hkpRagdollConstraintDataBodySpace::FUN_00cded30(const hkVector4& pivotA, co
     layout.m_kMotorAxes.m_kColumn0.m_vComponents = layout.m_kBodyBLocalFrame.m_rotation.m_kColumn0.m_vComponents;
     layout.m_kMotorAxes.m_kColumn1.m_vComponents = layout.m_kBodyBLocalFrame.m_rotation.m_kColumn1.m_vComponents;
     layout.m_kMotorAxes.m_kColumn2.m_vComponents = layout.m_kBodyBLocalFrame.m_rotation.m_kColumn2.m_vComponents;
+}
+
+// Moved from hkpragdollconstraintdata_decl_variant.cpp (VEGAS-15).
+
+// src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x00cdf090: the skeleton of src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp
+// with declarations corrected to what the original code does (hkBase.h: typedef char hkBool; -> class hkBool { public: __forceinline hkBool() {} _; hkpRagdollConstraintData.h: hkpRagdollConstraintData += hkBool FUN_00cdf090() const;; hkBase.h: struct hkRotation : hkMatrix3 {}; -> struct hkRotation : hkMatrix3 { hkBool FUN_00cb2e7). Move the function to its real unit once
+// that unit declares it this way.
+
+// src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d21000.h"
+#include "havok/hkpRagdollConstraintData_decl_hkpragdollconstraintdata.h"
+void FUN_00cde9d0(int* a, int* b);
+int __cdecl FUN_00cdead0();
+
+// @fnv 0x00cdf090
+hkBool hkpRagdollConstraintData::FUN_00cdf090() const
+{
+    hkBool valid = true;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_kBridgeAtoms.m_kTransforms.m_kBodyALocalFrame.m_rotation.IsOrthonormal(0.001f)))->FUN_005609f0();
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_kBridgeAtoms.m_kTransforms.m_kBodyBLocalFrame.m_rotation.IsOrthonormal(0.001f)))->FUN_005609f0();
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kConeLimit.m_fMinAngle == -100.0;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kConeLimit.m_fMaxAngle >= 0.0f;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kConeLimit.m_fMaxAngle < 3.1415927410125732;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kPlaneLimit.m_fMinAngle <= m_kBridgeAtoms.m_kPlaneLimit.m_fMaxAngle;
+    valid = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(valid))->FUN_005609f0() && m_kBridgeAtoms.m_kTwistLimit.m_fMinAngle <= m_kBridgeAtoms.m_kTwistLimit.m_fMaxAngle;
+    return valid;
 }

@@ -8,7 +8,7 @@ class BGSProjectile
     float explosionProximity;
     float GetExplosionProximity() const;
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
     unsigned char prefix[0x6c];

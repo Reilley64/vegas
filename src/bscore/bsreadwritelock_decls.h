@@ -1,9 +1,9 @@
 
 // bscore/bsreadwritelock_decls.h: declares BGSIdleMarker
+#include "fnv/symbols_005e9000.h"
 class BGSIdleMarker
 {
   public:
-    void FUN_005e9530();
 };
 extern void* kVtbl_BGSEntryPointPerkEntry;
 class PerkEntryConditionSet

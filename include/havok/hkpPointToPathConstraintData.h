@@ -7,7 +7,6 @@
 #include "hkpBridgeAtoms.h"
 #include "hkpConstraintData.h"
 class hkpParametricCurve;
-#pragma pack(push, 1)
 class hkpPointToPathConstraintData : public hkpConstraintData
 {
   public:
@@ -26,6 +25,4 @@ class hkpPointToPathConstraintData : public hkpConstraintData
     char pad21[0xF];
     hkTransform m_kLocalTransforms[2];  // +0x30
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPointToPathConstraintData[(sizeof(hkpPointToPathConstraintData) == 0xB0) ? 1 : -1];
 #endif

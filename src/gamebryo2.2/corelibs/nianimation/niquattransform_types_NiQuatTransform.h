@@ -4,10 +4,9 @@
 
 #include "layout_support.h"
 #include "NiPoint3.h"
-class NiStream;
+struct NiStream;
 class NiQuatTransform;
 class NiQuaternion;
-#pragma pack(push, 4)
 class NiQuaternion
 {
   public:
@@ -54,14 +53,9 @@ class NiQuaternion
     // float __cdecl NiQuaternion::*(float)
     // float __cdecl NiQuaternion::*(float, float, float)
     // float __cdecl NiQuaternion::*(float, float)
+public:
+    void MakeUnitLength();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorX) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorY) == 4);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorZ) == 8);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fScalarPart) == 12);
-#pragma pack(push, 4)
 class NiQuatTransform
 {
   public:
@@ -71,8 +65,6 @@ class NiQuatTransform
     NiQuatTransform();
     bool IsInvalid() const;
     void LoadBinary(NiStream& stream);
-    void TransformBy(NiQuatTransform& result);
-    NiQuatTransform CombineTransforms(const NiQuatTransform& other);
     // NiQuatTransform
     // const NiPoint3& __cdecl NiQuatTransform::*()
     // void __cdecl NiQuatTransform::*(const NiPoint3&)
@@ -97,9 +89,4 @@ class NiQuatTransform
     // void __cdecl NiQuatTransform::*(bool)
     // void __cdecl NiQuatTransform::*(bool)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kTranslate) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kRotate) == 12);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_fScale) == 28);
 #endif

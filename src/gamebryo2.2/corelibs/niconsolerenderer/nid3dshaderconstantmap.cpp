@@ -1,10 +1,49 @@
 
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include <cmath>
+#include <cstring>
+#include "fnv/decl/FUN_004381b0_shell.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00a463e0_Holder.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/FUN_00e80640_cls.h"
+#include "fnv/decl/FUN_00e81b60_Class.h"
+#include "fnv/decl/FUN_00e81c00.h"
+#include "fnv/decl/FUN_00e81d00_Class.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/decl/TexXform.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00a9b000.h"
+#include "fnv/symbols_00a9c000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b71000.h"
+#include "fnv/symbols_00b79000.h"
+#include "fnv/symbols_00bc5000.h"
+#include "fnv/symbols_00e82000.h"
+#include "fnv/symbols_00e83000.h"
+#include "fnv/symbols_00e86000.h"
+#include "fnv/symbols_00e87000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/d3dx_types.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011bf000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3dshaderconstantmap_decls.h"
 // @fnv 0x00e87200
 void NiD3DShaderConstantMap::ResetShaderConstantMap()
 {
-    ClearShaderConstantEntries(&entries);
-    ClearShaderConstantEntries(&defined);
+    ::CompactEnabledEntries((::ShaderEntryArray *)(&entries));
+    ::CompactEnabledEntries((::ShaderEntryArray *)(&defined));
 }
 // @fnv 0x00b71a40
 void BuildTransformMatrix(float* afOutMatrix, const ThreeByThreeMatrix& r, const NiPoint3& atTranslation, float afScale)
@@ -111,24 +150,22 @@ unsigned int __cdecl FUN_00a9c0a0(const char* name)
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_0126f7c4;
 // @fnv 0x00b7e400
 GlobalObjectO2_00a7b610* __cdecl FUN_00b7e400()
 {
-    return &g_0126f7c4;
+    return &::g_0126f7c4;
 }
 
-void __fastcall UpdateMatrix(void*);
 // @fnv 0x00bc5c20
-char* __fastcall FUN_00bc5c20(char* self)
+char* FUN_00bc5c20(char* self)
 {
     if (self[0x1c])
-        UpdateMatrix(self);
+        reinterpret_cast<::TexXform *>((self))->UpdateMatrix();
     return self + 0x20;
 }
 
 // @fnv 0x00e826c0
-void* __fastcall FUN_00e826c0(char* self, int unused, unsigned int i)
+void* FUN_00e826c0(char* self, int unused, unsigned int i)
 {
     return (*(void***)(self + 0x10))[i];
 }
@@ -142,21 +179,19 @@ struct FUN_00e82ac0_e
     char pad2[8];
     unsigned int v20;
 };
-extern unsigned char DAT_011f5fb4[];
-bool __cdecl LookupShaderConstantMapping(unsigned int, void*&);
 unsigned int __cdecl GetAttributeTypeForMapping(void*, unsigned int*, unsigned int*);
 // Looks up the entry's key, stores a byte from DAT_011f5fb4 indexed by the result into flags, and on success stores the pointer and y into p10 and v20.
 // @fnv 0x00e82ac0
-unsigned int __stdcall UpdateEntryFromKey(FUN_00e82ac0_e* pEntry)
+unsigned int UpdateEntryFromKey(FUN_00e82ac0_e* pEntry)
 {
     void* x;
-    unsigned int uiKey = pEntry->key;
+    uintptr_t uiKey = pEntry->key;
     unsigned int y = 0;
     unsigned int z;
-    if (LookupShaderConstantMapping(uiKey, x))
+    if (::LookupShaderConstantMapping((const char *)(uiKey), (unsigned int *)&(x)))
     {
         unsigned int idx = GetAttributeTypeForMapping(x, &y, &z);
-        pEntry->flags = (pEntry->flags & 0xffffff00) | DAT_011f5fb4[idx];
+        pEntry->flags = (pEntry->flags & 0xffffff00) | (*reinterpret_cast<unsigned char (*)[]>(&::DAT_011f5fb4))[idx];
         if (x)
         {
             pEntry->p10 = x;
@@ -167,12 +202,11 @@ unsigned int __stdcall UpdateEntryFromKey(FUN_00e82ac0_e* pEntry)
     return 0x40;
 }
 
-void __fastcall FUN_00e81c00(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00e83630
-void* __fastcall FUN_00e83630(void* self, int unused, unsigned int flags)
+void* FUN_00e83630(void* self, int unused, unsigned int flags)
 {
-    FUN_00e81c00(self);
+    reinterpret_cast<class ::FUN_00e81c00 *>((self))->FUN_00e81c00::~FUN_00e81c00();
     if (flags & 1)
         __Dummy_00b6fef0(self, 0x38);
     return self;
@@ -211,10 +245,10 @@ struct FUN_00e84b60_prog
     virtual void Slot28();
     virtual bool SetConstant(void* entry, const void* data, unsigned int n);
 };
-const void* __stdcall GetConstantData(void*);
+const void* GetConstantData(void*);
 // Looks up data for entry via GetConstantData and, if found, calls prog->SetConstant with it, returning 0 on success, 1 if no data, or 0x50 on failure.
 // @fnv 0x00e84b60
-unsigned int __stdcall FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
+unsigned int FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
 {
     const void* pvData = GetConstantData(entry);
     if (!pvData)
@@ -222,7 +256,6 @@ unsigned int __stdcall FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsign
     return prog->SetConstant(entry, pvData, 0) ? 0 : 0x50;
 }
 
-extern char* EmptyFS;
 struct RMapEntry
 {
     char pad[0xc];
@@ -269,13 +302,12 @@ struct RMap
     char pad2[0x20];
     volatile unsigned int status;
 };
-void __cdecl RemoveGlobalConstant(char**);
 struct RArr
 {
     void FUN_00e86f40(unsigned int, void*);
 };
 // @fnv 0x00e87010
-unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char* name)
+unsigned int LookupAndReleaseEntry(RMap* self, int unused, const char* name)
 {
     unsigned int idx = self->LookupSequenceByKey(name);
     if (idx != 0xFFFFFFFF)
@@ -284,11 +316,11 @@ unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char
         RMapEntry* e = self->entries[idx];
         if (e && (e->flags & 0xf0000000) == 0x40000000)
         {
-            if (e->key != EmptyFS)
+            if (e->key != ::DAT_0109b220)
                 InterlockedIncrement((long*)(e->key - 8));
             pKey = e->key;
-            RemoveGlobalConstant(&pKey);
-            if (pKey != EmptyFS)
+            ::RemoveGlobalConstant((const ::NiFixedString *)(char **)(&pKey));
+            if (pKey != ::DAT_0109b220)
                 InterlockedDecrement((long*)(pKey - 8));
         }
         pKey = 0;
@@ -430,17 +462,15 @@ unsigned int __cdecl FUN_00a9bbf0(unsigned int aiCode, unsigned int b)
     }
 }
 
-extern long DAT_011f4400;
 struct FUN_00a9beb0
 {
     unsigned int a, b;
     virtual ~FUN_00a9beb0();
-    static void operator delete(void* p, unsigned int n);
 };
 // @fnv 0x00a9beb0
 FUN_00a9beb0::~FUN_00a9beb0()
 {
-    InterlockedDecrement(&DAT_011f4400);
+    InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
 }
 
 extern "C" char DAT_010f003c;
@@ -471,21 +501,19 @@ struct FUN_00b7e330 : ShaderMapBase
     ShaderMapArray activeEntries, definedEntries;
     unsigned char enabled, unk2d, unk2e, unk2f;
     unsigned int unk30, unk34, unk38, unk3c, unk40;
-    FUN_00b7e330(unsigned int, unsigned int);
-    void FUN_00e81d00(unsigned int);
+    FUN_00b7e330(uintptr_t, unsigned int);
     virtual void MapVirtual();
 };
 // Constructs a shader map by initializing base state, calling FUN_00e81d00 with mapId, and preparing activeEntries.
 // @fnv 0x00b7e330
-FUN_00b7e330::FUN_00b7e330(unsigned int mapId, unsigned int initMode)
+FUN_00b7e330::FUN_00b7e330(uintptr_t mapId, unsigned int initMode)
     : ShaderMapBase(initMode), activeEntries(), definedEntries(), unk30(0), unk34(0), unk38(0), unk3c(0), unk40(0)
 {
     enabled = 1;
-    FUN_00e81d00(mapId);
+    reinterpret_cast<::FUN_00e81d00_Class *>(this)->FUN_00e81d00((void *)(mapId));
     activeEntries.FUN_00b799c0();
 }
 
-extern unsigned int DAT_011f5f90[];
 struct EntrySI
 {
     char _p[0x18];
@@ -564,7 +592,7 @@ unsigned int FUN_00e81d70_t::FUN_00e81d70(const char* pszKey, unsigned int uiFla
         m_uiErrorCode = AddRegisterEntry(pszKey, uiFlags, uiExtra, uiShaderRegister, uiRegisterCount, pszVariableName);
     else if (uiType == 0x60000000)
     {
-        unsigned int eObjectType = DAT_011f5f90[(uiFlags >> 8) & 0xff];
+        unsigned int eObjectType = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5f90))[(uiFlags >> 8) & 0xff];
         m_uiErrorCode = AddNamedRegisterEntry(pszKey, uiShaderRegister, pszVariableName, uiExtra, eObjectType);
     }
     else
@@ -579,11 +607,9 @@ struct FUN_00e81f10_shell : public NiD3DShaderConstantMap
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct CtorShim
 {
-    NiShaderConstantMapEntry* FUN_00401000();
 };
 struct NiGlobalStringTable
 {
@@ -591,7 +617,6 @@ struct NiGlobalStringTable
 };
 void* __cdecl _NiMalloc(unsigned int);
 void __cdecl _NiFree(void*);
-void* __cdecl _memmove(void*, const void*, unsigned int);
 
 struct FixStr
 {
@@ -599,22 +624,22 @@ struct FixStr
     FixStr(const char* s)
     {
         if (s == 0)
-            h = EmptyFS;
+            h = ::DAT_0109b220;
         else
             h = NiGlobalStringTable::AddString(s);
     }
     ~FixStr()
     {
-        if (h != EmptyFS)
+        if (h != ::DAT_0109b220)
             InterlockedDecrement((long*)(h - 8));
     }
     FixStr& operator=(const FixStr& o)
     {
         if (h != o.h)
         {
-            if (o.h != EmptyFS)
+            if (o.h != ::DAT_0109b220)
                 InterlockedIncrement((long*)(o.h - 8));
-            if (h != EmptyFS)
+            if (h != ::DAT_0109b220)
                 InterlockedDecrement((long*)(h - 8));
             h = o.h;
         }
@@ -646,8 +671,8 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
                                               char* pszVariableName, unsigned int uiConstantDataSize,
                                               unsigned int uiDataStride, void* pvDataSource, bool bCopyData)
 {
-    void* mem = BSFadeNode::operator new(0x38);
-    NiShaderConstantMapEntry* pkEntry = mem ? ((CtorShim*)mem)->FUN_00401000() : 0;
+    void* mem = ::operator new(0x38);
+    NiShaderConstantMapEntry* pkEntry = mem ? new ((void *)(((CtorShim*)mem))) ::NiShaderConstantMapEntry() : 0;
     EntryLayout* e = (EntryLayout*)pkEntry;
     e->m_kControlPoint = pszKey;
     e->m_uiValue2 = uiExtra;
@@ -660,7 +685,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
         e->m_bFlag0 = true;
         _NiFree(e->m_pConstantData);
         e->m_pConstantData = _NiMalloc(uiConstantDataSize);
-        _memmove(e->m_pConstantData, pvDataSource, uiConstantDataSize);
+        std::memmove(e->m_pConstantData, pvDataSource, uiConstantDataSize);
     }
     else
     {
@@ -668,7 +693,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
         e->m_pConstantData = pvDataSource;
     }
     e->m_uiValue1 = 0x20000000;
-    typedef unsigned int(__thiscall * Fn)(void*, NiShaderConstantMapEntry*);
+    typedef unsigned int(* Fn)(void*, NiShaderConstantMapEntry*);
     unsigned int* self = (unsigned int*)this;
     self[0x34 / 4] = ((Fn)(*(void***)this)[0x88 / 4])(this, pkEntry);
     if (self[0x34 / 4] == 0)
@@ -676,7 +701,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
         self[0x34 / 4] = ((Fn)(*(void***)this)[0x84 / 4])(this, pkEntry);
         return self[0x34 / 4];
     }
-    typedef void(__thiscall * Del)(void*, unsigned int);
+    typedef void(* Del)(void*, unsigned int);
     ((Del)(*(void***)pkEntry)[0])(pkEntry, 1);
     return self[0x34 / 4];
 }
@@ -688,8 +713,9 @@ struct FUN_00e82090_shell : public NiD3DShaderConstantMap
 };
 
 namespace L {
-struct NiShaderConstantMapEntry : BSFadeNode
+class NiShaderConstantMapEntry : public BSFadeNode
 {
+  public:
     NiShaderConstantMapEntry() throw();
     virtual void DeleteThis(unsigned int);
     unsigned int m_uiRefCount;
@@ -771,13 +797,13 @@ struct TmpFixedStr
     TmpFixedStr(const char* s)
     {
         if (s == 0)
-            h = EmptyFS;
+            h = ::DAT_0109b220;
         else
             h = NiGlobalStringTable::AddString(s);
     }
     ~TmpFixedStr()
     {
-        if (h != EmptyFS)
+        if (h != ::DAT_0109b220)
             InterlockedDecrement((long*)(h - 8));
     }
 };
@@ -786,9 +812,9 @@ static __forceinline void AssignFixedStr(char*& dst, const char* s)
     TmpFixedStr t(s);
     if (dst != t.h)
     {
-        if (t.h != EmptyFS)
+        if (t.h != ::DAT_0109b220)
             InterlockedIncrement((long*)(t.h - 8));
-        if (dst != EmptyFS)
+        if (dst != ::DAT_0109b220)
             InterlockedDecrement((long*)(dst - 8));
         dst = t.h;
     }
@@ -830,22 +856,22 @@ struct FixedStrS
     FixedStrS(const char* pc)
     {
         if (pc == 0)
-            m_kHandle = EmptyFS;
+            m_kHandle = ::DAT_0109b220;
         else
             m_kHandle = NiGlobalStringTable::AddString(pc);
     }
     ~FixedStrS()
     {
-        if (m_kHandle != EmptyFS)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((long*)(m_kHandle - 8));
     }
     FixedStrS& operator=(const FixedStrS& o)
     {
         if (m_kHandle != o.m_kHandle)
         {
-            if (o.m_kHandle != EmptyFS)
+            if (o.m_kHandle != ::DAT_0109b220)
                 InterlockedIncrement((long*)(o.m_kHandle - 8));
-            if (m_kHandle != EmptyFS)
+            if (m_kHandle != ::DAT_0109b220)
                 InterlockedDecrement((long*)(m_kHandle - 8));
             m_kHandle = o.m_kHandle;
         }
@@ -855,8 +881,6 @@ struct FixedStrS
 
 void* NiMalloc(unsigned int);
 void NiFree(void*);
-extern unsigned int DAT_011f5fc4[];
-bool __cdecl AcquireGlobalConstantEntry(const FixedStrS&, unsigned int, unsigned int, const void*) throw();
 
 struct ScmEntryS : BSFadeNode
 {
@@ -947,7 +971,7 @@ unsigned int FUN_00e821e0_shell::FUN_00e821e0(char* pszKey, unsigned int uiFlags
     pkEntry->m_uiValue4 = uiRegisterCount;
     pkEntry->m_kSecondaryString = pszVariableName;
     pkEntry->SetData(uiConstantDataSize, uiDataStride, pvDataSource, bCopyData);
-    unsigned int& m_eErrorCode = *(unsigned int*)((char*)this + 0x34);
+    unsigned int& m_eErrorCode = this->error;
     m_eErrorCode = ((ScmMapS*)this)->ReadEntryData(pkEntry);
     if (m_eErrorCode != 0)
     {
@@ -955,8 +979,8 @@ unsigned int FUN_00e821e0_shell::FUN_00e821e0(char* pszKey, unsigned int uiFlags
     }
     else
     {
-        unsigned int uiConstantType = DAT_011f5fc4[uiEntryFlags & 0xff];
-        AcquireGlobalConstantEntry(pszKey, uiConstantType, uiConstantDataSize, pvDataSource);
+        unsigned int uiConstantType = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[uiEntryFlags & 0xff];
+        ::AcquireGlobalConstantEntry((const ::NiFixedString *)&(const ::FixedStrS &)(pszKey), uiConstantType, uiConstantDataSize, (uintptr_t)(pvDataSource));
     }
     return m_eErrorCode;
 }
@@ -979,15 +1003,13 @@ unsigned int FUN_00e823d0_shell::FUN_00e823d0(char* pszControlPoint, unsigned in
     pkEntry->m_uiValue3 = uiShaderRegister;
     pkEntry->m_uiValue4 = uiRegisterCount;
     pkEntry->m_kSecondaryString = pszVariableName;
-    unsigned int& m_eErrorCode = *(unsigned int*)((char*)this + 0x34);
+    unsigned int& m_eErrorCode = this->error;
     m_eErrorCode = ((ScmMapS*)this)->ReadEntryData(pkEntry);
     if (m_eErrorCode != 0)
         delete pkEntry;
     return m_eErrorCode;
 }
 
-extern char* DAT_0109b220;
-extern unsigned short DAT_011f5f7c[];
 
 struct String311
 {
@@ -1028,7 +1050,6 @@ struct Entry311
     String311 alternative;
     unsigned int unk28, unk2c, unk30, unk34;
     __declspec(nothrow) Entry311() throw();
-    __declspec(noalias) __declspec(nothrow) static void* operator new(unsigned int) throw();
 };
 struct Map311
 {
@@ -1098,7 +1119,7 @@ unsigned int Map311::AddEntry(const char* name, unsigned int index, const char* 
     entry->index = index;
     entry->alternative = String311(alternative);
     entry->value = value;
-    entry->flags = DAT_011f5f7c[type] | 0x60000000;
+    entry->flags = (*reinterpret_cast<unsigned short (*)[]>(&::DAT_011f5f7c))[type] | 0x60000000;
     error = Find(entry);
     if (!error)
     {
@@ -1135,12 +1156,12 @@ class FUN_00e82640_Obj
     unsigned short unk24;
     unsigned short unk26;
 
-    FUN_00e82640_Entry* __thiscall FindEntry(unsigned int name);
+    FUN_00e82640_Entry* FindEntry(unsigned int name);
 };
 
 // Searches two entry arrays by name using FUN_00aa1360 and returns the matching entry, or 0 if not found.
 // @fnv 0x00e82640
-FUN_00e82640_Entry* __thiscall FUN_00e82640_Obj::FindEntry(unsigned int name)
+FUN_00e82640_Entry* FUN_00e82640_Obj::FindEntry(unsigned int name)
 {
     unsigned int count;
     unsigned int index;
@@ -1234,8 +1255,6 @@ unsigned int FUN_00e82960_cls::FindEntryIndex(const char* name)
 
 namespace fnv_00e829b0 {
 unsigned int __cdecl FUN_00a9bbf0(unsigned int, unsigned int);
-extern unsigned char DAT_011f5fb4[];
-bool __cdecl LookUpShaderConstantType(unsigned int key, unsigned int* type, unsigned int* count);
 extern const unsigned int g_ShaderMatrixDesc0[];
 extern const unsigned int g_ShaderMatrixDesc1[];
 
@@ -1260,14 +1279,14 @@ struct ShaderConstEntry
 
 // Looks up the shader constant type for the entry key, sets flags, dataSize, type, and matrix descriptor fields, returning 0 on success or 0x40 on failure.
 // @fnv 0x00e829b0
-unsigned int __stdcall InitShaderConstantEntry(ShaderConstEntry* apEntry)
+unsigned int InitShaderConstantEntry(ShaderConstEntry* apEntry)
 {
     unsigned int count = 4;
     unsigned int type;
-    unsigned int key = apEntry->key;
-    if (!LookUpShaderConstantType(key, &type, &count))
+    uintptr_t key = apEntry->key;
+    if (!::NiShaderConstantMap::FindConstantMapping((const char *)(key), (*(unsigned int *)(&type)), (*(unsigned int *)(&count))))
         return 0x40;
-    apEntry->flags = (apEntry->flags & 0xffffff00) | DAT_011f5fb4[FUN_00a9bbf0(type, count)];
+    apEntry->flags = (apEntry->flags & 0xffffff00) | (*reinterpret_cast<unsigned char (*)[]>(&::DAT_011f5fb4))[FUN_00a9bbf0(type, count)];
     if (type == 0)
         return 0x40;
     if (type < 0x45)
@@ -1325,15 +1344,14 @@ struct Vector
 {
     float x, y, z, w;
 };
-extern Matrix DAT_0126f820, DAT_0126f860, DAT_0126f8c0;
-extern Vector DAT_0126f8a0, DAT_0126f8b0, DAT_0126f900;
-void __stdcall Multiply(Matrix*, Matrix*, Matrix*);
-void __stdcall Invert(Matrix*, void*, Matrix*);
-void __stdcall Transpose(Matrix*, Matrix*);
-void __stdcall Transform(Vector*, Vector*, void*);
+struct __declspec(align(16)) Vec4
+{
+    float x, y, z, w;
+};
+extern Matrix DAT_0126f860;
 // Computes a matrix or vector constant based on type and mode, applies inverse or transpose in some matrix cases, and passes it to SetConstant.
 // @fnv 0x00e82b40
-unsigned int __stdcall FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int type, unsigned int mode,
+unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, uintptr_t type, unsigned int mode,
                                     bool inverse, bool transpose)
 {
     switch (type)
@@ -1342,42 +1360,51 @@ unsigned int __stdcall FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsign
         switch (mode)
         {
         case 9:
-            Multiply(&DAT_0126f8c0, &DAT_0126f820, &DAT_0126f860);
+            ::FUN_00ee6de0(&DAT_0126f8c0, &(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)), &DAT_0126f860);
             if (inverse)
-                Invert(&DAT_0126f8c0, 0, &DAT_0126f8c0);
+                ::FUN_00ee6dda(&DAT_0126f8c0, 0, &DAT_0126f8c0);
             if (transpose)
-                Transpose(&DAT_0126f8c0, &DAT_0126f8c0);
+                ::FUN_00ee6dd4(&DAT_0126f8c0, &DAT_0126f8c0);
             return prog->SetConstant(entry, &DAT_0126f8c0, 0) ? 0 : 80;
         case 3:
         case 4: {
             Matrix temp;
-            temp.m0 = DAT_0126f8b0.x * DAT_0126f820.m0;
-            temp.m1 = DAT_0126f820.m1 * DAT_0126f8b0.x;
-            temp.m2 = DAT_0126f820.m2 * DAT_0126f8b0.x;
-            temp.m3 = DAT_0126f820.m3 * DAT_0126f8b0.x;
-            temp.m4 = DAT_0126f820.m4 * DAT_0126f8b0.x;
-            temp.m5 = DAT_0126f820.m5 * DAT_0126f8b0.x;
-            temp.m6 = DAT_0126f820.m6 * DAT_0126f8b0.x;
-            temp.m7 = DAT_0126f820.m7 * DAT_0126f8b0.x;
-            temp.m8 = DAT_0126f820.m8 * DAT_0126f8b0.x;
-            temp.m9 = DAT_0126f820.m9 * DAT_0126f8b0.x;
-            temp.m10 = DAT_0126f820.m10 * DAT_0126f8b0.x;
-            temp.m11 = DAT_0126f820.m11 * DAT_0126f8b0.x;
-            temp.m12 = DAT_0126f820.m12 * DAT_0126f8b0.x;
-            temp.m13 = DAT_0126f820.m13 * DAT_0126f8b0.x;
-            temp.m14 = DAT_0126f820.m14 * DAT_0126f8b0.x;
-            temp.m15 = DAT_0126f820.m15 * DAT_0126f8b0.x;
+            temp.m0 = (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x * (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m0;
+            temp.m1 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m1 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m2 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m2 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m3 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m3 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m4 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m4 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m5 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m5 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m6 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m6 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m7 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m7 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m8 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m8 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m9 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m9 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m10 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m10 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m11 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m11 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m12 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m12 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m13 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m13 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m14 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m14 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            temp.m15 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m15 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
             DAT_0126f8c0 = temp;
             if (inverse)
-                Invert(&DAT_0126f8c0, 0, &DAT_0126f8c0);
+                ::FUN_00ee6dda(&DAT_0126f8c0, 0, &DAT_0126f8c0);
             if (transpose)
-                Transpose(&DAT_0126f8c0, &DAT_0126f8c0);
+                ::FUN_00ee6dd4(&DAT_0126f8c0, &DAT_0126f8c0);
             return prog->SetConstant(entry, &DAT_0126f8c0, 0) ? 0 : 80;
         }
         case 7:
         case 10:
-            Transform(&DAT_0126f900, &DAT_0126f8b0, &DAT_0126f820);
+        {
+            const D3DXVECTOR4 input{DAT_0126f8a0.x, DAT_0126f8a0.y, DAT_0126f8a0.z, DAT_0126f8a0.w};
+            D3DXMATRIX matrix{{.m = {}}};
+            for (unsigned int row = 0; row < 4; ++row)
+                for (unsigned int column = 0; column < 4; ++column)
+                    matrix.m[row][column] = g_afSCMatrixConstants[0][row * 4 + column];
+            D3DXVECTOR4 output;
+            ::FUN_00ee6e34(&output, &input, &matrix);
+            DAT_0126f900 = {output.x, output.y, output.z, output.w};
             return prog->SetConstant(entry, &DAT_0126f900, 0) ? 0 : 80;
+        }
         }
         break;
     case 7:
@@ -1385,40 +1412,40 @@ unsigned int __stdcall FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsign
         switch (mode)
         {
         case 9:
-            Transform(&DAT_0126f900, &DAT_0126f8a0, &DAT_0126f860);
+        {
+            const D3DXVECTOR4 input{DAT_0126f8b0.x, DAT_0126f8b0.y, DAT_0126f8b0.z, DAT_0126f8b0.w};
+            const D3DXMATRIX matrix{{.m = {
+                {DAT_0126f860.m0, DAT_0126f860.m1, DAT_0126f860.m2, DAT_0126f860.m3},
+                {DAT_0126f860.m4, DAT_0126f860.m5, DAT_0126f860.m6, DAT_0126f860.m7},
+                {DAT_0126f860.m8, DAT_0126f860.m9, DAT_0126f860.m10, DAT_0126f860.m11},
+                {DAT_0126f860.m12, DAT_0126f860.m13, DAT_0126f860.m14, DAT_0126f860.m15}}}};
+            D3DXVECTOR4 output;
+            ::FUN_00ee6e34(&output, &input, &matrix);
+            DAT_0126f900 = {output.x, output.y, output.z, output.w};
             return prog->SetConstant(entry, &DAT_0126f900, 0) ? 0 : 80;
+        }
         case 3:
         case 4:
-            DAT_0126f900.x = DAT_0126f8a0.x * DAT_0126f8b0.x;
-            DAT_0126f900.y = DAT_0126f8a0.y * DAT_0126f8b0.x;
-            DAT_0126f900.z = DAT_0126f8a0.z * DAT_0126f8b0.x;
-            DAT_0126f900.w = DAT_0126f8a0.w * DAT_0126f8b0.x;
-            return prog->SetConstant(entry, &DAT_0126f900, 0) ? 0 : 80;
+            (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).x = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).x * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).y = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).y * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).z = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).z * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).w = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).w * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            return prog->SetConstant(entry, &(*reinterpret_cast<::Vector *>(&::DAT_0126f900)), 0) ? 0 : 80;
         case 7:
         case 10:
-            DAT_0126f900.x = DAT_0126f8a0.x * DAT_0126f8b0.x;
-            DAT_0126f900.y = DAT_0126f8a0.y * DAT_0126f8b0.y;
-            DAT_0126f900.z = DAT_0126f8a0.z * DAT_0126f8b0.z;
-            DAT_0126f900.w = DAT_0126f8a0.w * DAT_0126f8b0.w;
-            return prog->SetConstant(entry, &DAT_0126f900, 0) ? 0 : 80;
+            (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).x = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).x * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
+            (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).y = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).y * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).y;
+            (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).z = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).z * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).z;
+            (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).w = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).w * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).w;
+            return prog->SetConstant(entry, &(*reinterpret_cast<::Vector *>(&::DAT_0126f900)), 0) ? 0 : 80;
         }
     }
     return 1;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
-void* __cdecl FUN_00aa13e0(unsigned int);
-char* __cdecl FUN_00a5b690(const char*);
+
 void __cdecl FUN_00aa10f0(void*);
 void* __cdecl FUN_00aa1070(unsigned int);
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-extern char* EmptyFS;
-extern unsigned int DAT_011f5fc4[];
-inline void* operator new(unsigned int, void* location)
-{
-    return location;
-}
 
 struct FUN_00e81ba0
 {
@@ -1511,18 +1538,18 @@ unsigned int ShaderConstantMap_83650::FUN_00e83650(const char* shader, unsigned 
     FUN_00e81ba0* entry = memory ? new (memory) FUN_00e81ba0() : 0;
     char* name;
     if (!shader)
-        name = EmptyFS;
+        name = ::DAT_0109b220;
     else
-        name = FUN_00a5b690(shader);
+        name = ::NiGlobalStringTable::AddString(shader);
     if (entry->shaderName != name)
     {
-        if (name != EmptyFS)
+        if (name != ::DAT_0109b220)
             InterlockedIncrement((long*)(name - 8));
-        if (entry->shaderName != EmptyFS)
+        if (entry->shaderName != ::DAT_0109b220)
             InterlockedDecrement((long*)(entry->shaderName - 8));
         entry->shaderName = name;
     }
-    if (name != EmptyFS)
+    if (name != ::DAT_0109b220)
         InterlockedDecrement((long*)(name - 8));
 
     flags = (flags & 0x0fffffff) | 0x10000000;
@@ -1542,7 +1569,7 @@ unsigned int ShaderConstantMap_83650::FUN_00e83650(const char* shader, unsigned 
         flags |= 9;
     entry->flags = flags;
 
-    if (!(elementSize & 3) && elementType == 4 && DAT_011f5fc4[flags & 255] != 1 && DAT_011f5fc4[flags & 255] != 3)
+    if (!(elementSize & 3) && elementType == 4 && (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[flags & 255] != 1 && (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[flags & 255] != 3)
     {
         if (renderStage == 0)
             parameter = elementType - 3;
@@ -1555,18 +1582,18 @@ unsigned int ShaderConstantMap_83650::FUN_00e83650(const char* shader, unsigned 
 
     char* prop;
     if (!property)
-        prop = EmptyFS;
+        prop = ::DAT_0109b220;
     else
-        prop = FUN_00a5b690(property);
+        prop = ::NiGlobalStringTable::AddString(property);
     if (entry->propertyName != prop)
     {
-        if (prop != EmptyFS)
+        if (prop != ::DAT_0109b220)
             InterlockedIncrement((long*)(prop - 8));
-        if (entry->propertyName != EmptyFS)
+        if (entry->propertyName != ::DAT_0109b220)
             InterlockedDecrement((long*)(entry->propertyName - 8));
         entry->propertyName = prop;
     }
-    if (prop != EmptyFS)
+    if (prop != ::DAT_0109b220)
         InterlockedDecrement((long*)(prop - 8));
 
     entry->elementType = elementType;
@@ -1576,7 +1603,7 @@ unsigned int ShaderConstantMap_83650::FUN_00e83650(const char* shader, unsigned 
         entry->ownsData = true;
         FUN_00aa10f0(entry->data);
         entry->data = FUN_00aa1070(elementSize);
-        FUN_00ec44d0(entry->data, data, elementSize);
+        std::memmove(entry->data, data, elementSize);
     }
     else
     {
@@ -1590,10 +1617,7 @@ unsigned int ShaderConstantMap_83650::FUN_00e83650(const char* shader, unsigned 
 }
 
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5b60;
-extern GlobalObjectO2_00a7b610 g_011f5b68;
 
-bool __cdecl FUN_0045bad0(void*, void*);
 
 struct ExtraDataStandIn
 {
@@ -1617,17 +1641,12 @@ struct ExtraDataStandIn
     float c3;
 };
 
-extern unsigned int DAT_0126f7b0;
-extern unsigned int DAT_0126f7b4[];
-extern float DAT_0126f7cc[];
-extern float s_colorBuffer[];
-extern float DAT_0126f7e0[];
 
 // Converts extraData fields according to the mapped type, returning a static buffer, pData, or null.
 // @fnv 0x00e83840
-const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, ExtraDataStandIn* extraData)
+const void* GetShaderConstantValue(NiShaderConstantMapEntry* entry, ExtraDataStandIn* extraData)
 {
-    int type = DAT_011f5fc4[entry->flags & 0xff];
+    int type = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[entry->flags & 0xff];
 
     if (type == 1)
     {
@@ -1673,7 +1692,7 @@ const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, Ex
         }
         if (type == 7)
         {
-            if (FUN_0045bad0(&g_011f5b60, extraData))
+            if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(void *)(&::g_011f5b60), (const ::fnv_0045bad0::NiObject *)(extraData)))
             {
                 const float* pf = extraData->pfVal;
                 DAT_0126f7cc[0] = pf[0];
@@ -1682,14 +1701,14 @@ const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, Ex
                 DAT_0126f7cc[3] = pf[3];
                 return DAT_0126f7cc;
             }
-            if (FUN_0045bad0(&g_011f5b68, extraData))
+            if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(void *)(&::g_011f5b68), (const ::fnv_0045bad0::NiObject *)(extraData)))
             {
                 DAT_0126f7cc[0] = extraData->c0;
                 DAT_0126f7cc[1] = extraData->c1;
                 DAT_0126f7cc[2] = extraData->c2;
                 DAT_0126f7cc[3] = extraData->c3;
             }
-            return s_colorBuffer;
+            return ::DAT_0126f7cc;
         }
         if (type == 8)
         {
@@ -1735,18 +1754,14 @@ struct ConstantEntryView
     unsigned int byteSize, elementSize;
     const void* data;
 };
-extern unsigned int DAT_0126f7b0;
-extern unsigned int DAT_0126f7b4[4];
-extern float DAT_0126f7cc[4];
-extern float DAT_0126f7e0[16];
 
 // Returns entry data directly for some counts, otherwise converts supported values into static buffers.
 // @fnv 0x00e83a90
-const void* __stdcall GetConstantData(void* apEntry)
+const void* GetConstantData(void* apEntry)
 {
     ConstantEntryView* entry = static_cast<ConstantEntryView*>(apEntry);
     unsigned int count = entry->byteSize / entry->elementSize;
-    unsigned int type = reinterpret_cast<const unsigned int*>(DAT_011f5fb4 + 16)[entry->flags & 255];
+    unsigned int type = reinterpret_cast<const unsigned int*>((*reinterpret_cast<unsigned char (*)[]>(&::DAT_011f5fb4)) + 16)[entry->flags & 255];
     switch (count)
     {
     case 1:
@@ -1886,12 +1901,13 @@ class NiFixedString
     {
         return m_handle != o.m_handle;
     }
+public:
+    NiFixedString(const char *);
 };
 
 class NiTexture
 {
   public:
-    const NiFixedString& GetFilename();
 };
 
 class NiAVObject
@@ -1957,8 +1973,6 @@ struct TexConstantMap
     int unk00;
     int unk04;
     int unk08;
-    const void* LookupDefault(TexEntry* entry);
-    const void* LookupTexture(TexEntry* entry, NiTexture* tex);
     unsigned int FUN_00e84ba0(TexProgram* prog, TexEntry* entry, NiAVObject* geom, void* a3, void* a4, void* a5,
                               void* a6, void* a7, void* a8, void* a9, unsigned int pass, bool global, TexCache* cache);
 };
@@ -1978,12 +1992,12 @@ unsigned int TexConstantMap::FUN_00e84ba0(TexProgram* prog, TexEntry* entry, NiA
     {
         int owner = unk08;
         unsigned int id = entry->unk1c;
-        tex = cache->Find(id, pass, owner, global);
-        if (!tex || tex->GetFilename() != entry->key)
+        tex = ((::NiTexture *)(reinterpret_cast<::FUN_00e81b60_Class *>((cache))->LookupEntry(id, pass, owner, global)));
+        if (!tex || (*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((tex))->FUN_00a62660())) != entry->key)
         {
             tex = geom->GetExtraData(entry->key);
             if (tex)
-                cache->Add(entry->unk1c, pass, unk08, tex, global);
+                reinterpret_cast<::FUN_00e80640_cls *>((cache))->AddEntry(entry->unk1c, pass, unk08, (uintptr_t)(tex), global);
         }
     }
     else
@@ -1994,18 +2008,18 @@ unsigned int TexConstantMap::FUN_00e84ba0(TexProgram* prog, TexEntry* entry, NiA
     const void* data;
     if (!tex)
     {
-        data = LookupDefault(entry);
+        data = ::GetConstantData((void *)(entry));
         if (!data)
             return 0x10;
     }
     else
     {
-        data = LookupTexture(entry, tex);
+        data = ::GetShaderConstantValue((::NiShaderConstantMapEntry *)(entry), (::ExtraDataStandIn *)(tex));
         if (!data)
             return 0x40;
     }
 
-    int type = DAT_011f5fc4[entry->flags & 0xff];
+    int type = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[entry->flags & 0xff];
     if (type == 9)
     {
         if (!prog->SetConstant(entry, data, 4))
@@ -2025,92 +2039,87 @@ unsigned int TexConstantMap::FUN_00e84ba0(TexProgram* prog, TexEntry* entry, NiA
 }
 
 namespace fnv_00e84d00 {
-extern unsigned int DAT_011f5fc4[];
-extern unsigned int DAT_0126f7b0;
-extern unsigned int DAT_0126f7b4[4];
-extern float DAT_0126f7cc[4];
-extern float DAT_0126f7e0[12];
 
 // For supported uiType values, copies or passes pkEntry->data to SetConstant, returning 0x50 if that call fails.
 // @fnv 0x00e84d00
-unsigned int __stdcall FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry* pkEntry,
+unsigned int FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry* pkEntry,
                                     unsigned int uiPass)
 {
     unsigned int uiResult = 0;
-    unsigned int uiType = DAT_011f5fc4[pkEntry->flags & 0xff];
+    unsigned int uiType = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[pkEntry->flags & 0xff];
 
     if (uiType == 1)
     {
-        DAT_0126f7b0 = *(const unsigned char*)pkEntry->data;
-        if (!pkProgram->SetConstant(pkEntry, &DAT_0126f7b0, 0))
+        ::DAT_0126f7b0 = *(const unsigned char*)pkEntry->data;
+        if (!pkProgram->SetConstant(pkEntry, &::DAT_0126f7b0, 0))
             uiResult = 0x50;
     }
     else if (uiType == 3)
     {
         unsigned int uiValue = *(const unsigned int*)pkEntry->data;
-        DAT_0126f7b4[0] = uiValue;
-        DAT_0126f7b4[1] = uiValue;
-        DAT_0126f7b4[2] = uiValue;
-        DAT_0126f7b4[3] = uiValue;
-        if (!pkProgram->SetConstant(pkEntry, DAT_0126f7b4, 0))
+        (*reinterpret_cast<unsigned int (*)[4]>(&::DAT_0126f7b4))[0] = uiValue;
+        (*reinterpret_cast<unsigned int (*)[4]>(&::DAT_0126f7b4))[1] = uiValue;
+        (*reinterpret_cast<unsigned int (*)[4]>(&::DAT_0126f7b4))[2] = uiValue;
+        (*reinterpret_cast<unsigned int (*)[4]>(&::DAT_0126f7b4))[3] = uiValue;
+        if (!pkProgram->SetConstant(pkEntry, (*reinterpret_cast<unsigned int (*)[4]>(&::DAT_0126f7b4)), 0))
             uiResult = 0x50;
     }
     else if (uiType == 4)
     {
         const float* pVector4 = pkEntry->data;
-        DAT_0126f7cc[0] = pVector4[0];
-        DAT_0126f7cc[1] = DAT_0126f7cc[0];
-        DAT_0126f7cc[2] = DAT_0126f7cc[0];
-        DAT_0126f7cc[3] = DAT_0126f7cc[0];
-        if (!pkProgram->SetConstant(pkEntry, DAT_0126f7cc, 0))
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[0] = pVector4[0];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[1] = (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[0];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[2] = (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[0];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[3] = (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[0];
+        if (!pkProgram->SetConstant(pkEntry, (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc)), 0))
             uiResult = 0x50;
     }
     else if (uiType == 5)
     {
         const float* pVector4 = pkEntry->data;
-        DAT_0126f7cc[0] = pVector4[0];
-        DAT_0126f7cc[1] = pVector4[1];
-        DAT_0126f7cc[2] = DAT_0126f7cc[0];
-        DAT_0126f7cc[3] = DAT_0126f7cc[1];
-        if (!pkProgram->SetConstant(pkEntry, DAT_0126f7cc, 0))
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[0] = pVector4[0];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[1] = pVector4[1];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[2] = (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[0];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[3] = (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[1];
+        if (!pkProgram->SetConstant(pkEntry, (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc)), 0))
             uiResult = 0x50;
     }
     else if (uiType == 6)
     {
         const float* pVector4 = pkEntry->data;
-        DAT_0126f7cc[0] = pVector4[0];
-        DAT_0126f7cc[1] = pVector4[1];
-        DAT_0126f7cc[2] = pVector4[2];
-        DAT_0126f7cc[3] = 1.0f;
-        if (!pkProgram->SetConstant(pkEntry, DAT_0126f7cc, 0))
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[0] = pVector4[0];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[1] = pVector4[1];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[2] = pVector4[2];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[3] = 1.0f;
+        if (!pkProgram->SetConstant(pkEntry, (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc)), 0))
             uiResult = 0x50;
     }
     else if (uiType == 7 || uiType == 10)
     {
         const float* pVector4 = pkEntry->data;
-        DAT_0126f7cc[0] = pVector4[0];
-        DAT_0126f7cc[1] = pVector4[1];
-        DAT_0126f7cc[2] = pVector4[2];
-        DAT_0126f7cc[3] = pVector4[3];
-        if (!pkProgram->SetConstant(pkEntry, DAT_0126f7cc, 0))
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[0] = pVector4[0];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[1] = pVector4[1];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[2] = pVector4[2];
+        (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc))[3] = pVector4[3];
+        if (!pkProgram->SetConstant(pkEntry, (*reinterpret_cast<float (*)[4]>(&::DAT_0126f7cc)), 0))
             uiResult = 0x50;
     }
     else if (uiType == 8)
     {
         const float* pVector4 = pkEntry->data;
-        DAT_0126f7e0[0] = pVector4[0];
-        DAT_0126f7e0[1] = pVector4[1];
-        DAT_0126f7e0[2] = pVector4[2];
-        DAT_0126f7e0[3] = 0.0f;
-        DAT_0126f7e0[4] = pVector4[3];
-        DAT_0126f7e0[5] = pVector4[4];
-        DAT_0126f7e0[6] = pVector4[5];
-        DAT_0126f7e0[7] = 0.0f;
-        DAT_0126f7e0[8] = pVector4[6];
-        DAT_0126f7e0[9] = pVector4[7];
-        DAT_0126f7e0[10] = pVector4[8];
-        DAT_0126f7e0[11] = 0.0f;
-        if (!pkProgram->SetConstant(pkEntry, DAT_0126f7e0, 0))
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[0] = pVector4[0];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[1] = pVector4[1];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[2] = pVector4[2];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[3] = 0.0f;
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[4] = pVector4[3];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[5] = pVector4[4];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[6] = pVector4[5];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[7] = 0.0f;
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[8] = pVector4[6];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[9] = pVector4[7];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[10] = pVector4[8];
+        (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0))[11] = 0.0f;
+        if (!pkProgram->SetConstant(pkEntry, (*reinterpret_cast<float (*)[12]>(&::DAT_0126f7e0)), 0))
             uiResult = 0x50;
     }
     else if (uiType == 9)
@@ -2123,16 +2132,10 @@ unsigned int __stdcall FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConsta
 }
 }  // namespace fnv_00e84d00
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" double __cdecl cos(double);
-
 class NiPoint3_ext : public NiPoint3
 {
   public:
     NiPoint3_ext& operator*=(float);
-    NiPoint3* FUN_00439ef0(NiPoint3*, const NiPoint3&) const;
-    void FUN_004a0c10();
-    float Dot(const NiPoint3&) const;
 };
 
 class NiMatrix3_ext : public ThreeByThreeMatrix
@@ -2150,12 +2153,13 @@ class NiTransform
     NiPoint3 m_kTranslation;
     float m_fScale;
 
-    void FUN_004b4880(NiTransform& kDest) const;
     NiPoint3* FUN_00524c40(NiPoint3*, const NiPoint3& pt) const;
     NiTransform* FUN_0062c250(NiTransform*, const NiTransform& xform) const;
+public:
+    void CalculateInverse(::NiTransform &);
 };
 
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
@@ -2163,11 +2167,6 @@ class NiBound
 };
 
 struct NiRTTI;
-extern const NiRTTI DAT_011f4a98;
-bool __cdecl FUN_0043b300(const NiRTTI*, void*);
-void __cdecl FUN_00b71a40(float* d, const ThreeByThreeMatrix& r, const NiPoint3& t, float s);
-void __cdecl FUN_00b799a0(float* d, const char* t);
-extern const NiPoint3 DAT_011f426c;
 
 struct StandinLight
 {
@@ -2359,7 +2358,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
 {
     NiPoint3 point;
     LightMappingWorkspace work;
-    fnv_zlib_memset(&work.identity, 0, sizeof(work.identity));
+    std::memset(&work.identity, 0, sizeof(work.identity));
     work.identity.m[3][3] = 1.0f;
     work.identity.m[2][2] = 1.0f;
     work.identity.m[1][1] = 1.0f;
@@ -2438,7 +2437,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         if (apTargetLight)
         {
             point = apTargetLight->m_kAmbient;
-            *((NiPoint3_ext*)&point) *= apTargetLight->m_fDimmer;
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3_ext &)(*((NiPoint3_ext*)&point)))->FUN_00439180(apTargetLight->m_fDimmer);
             fData[0] = point.x;
             fData[1] = point.y;
             fData[2] = point.z;
@@ -2456,7 +2455,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         if (apTargetLight)
         {
             point = apTargetLight->m_kDiffuse;
-            *((NiPoint3_ext*)&point) *= apTargetLight->m_fDimmer;
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3_ext &)(*((NiPoint3_ext*)&point)))->FUN_00439180(apTargetLight->m_fDimmer);
             fData[0] = point.x;
             fData[1] = point.y;
             fData[2] = point.z;
@@ -2474,7 +2473,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         if (apTargetLight)
         {
             point = apTargetLight->m_kSpecular;
-            *((NiPoint3_ext*)&point) *= apTargetLight->m_fDimmer;
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3_ext &)(*((NiPoint3_ext*)&point)))->FUN_00439180(apTargetLight->m_fDimmer);
             fData[0] = point.x;
             fData[1] = point.y;
             fData[2] = point.z;
@@ -2520,7 +2519,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         float* fData = (float*)apConstantData;
         if (apTargetLight)
         {
-            kWorld.FUN_004b4880(work.lightWorld);
+            reinterpret_cast<::NiTransform *>((void *)&(kWorld))->CalculateInverse(work.lightWorld);
             if (apTargetLight->m_ucLightType == 3)
             {
                 point.x = (float)(apTargetLight->m_kWorldLocation.x * -1048576.0);
@@ -2556,11 +2555,10 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
             {
                 {
                     NiPoint3* __restrict r =
-                        ((NiPoint3_ext*)&kWorldBound.m_kCenter)
-                            ->FUN_00439ef0(&work.pointLightDirection, apTargetLight->m_kWorldSpaceTransform.m_kTranslation);
+                        reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&kWorldBound.m_kCenter)))->FUN_00439ef0(&work.pointLightDirection, apTargetLight->m_kWorldSpaceTransform.m_kTranslation);
                     point = *r;
                 }
-                ((NiPoint3_ext*)&point)->FUN_004a0c10();
+                reinterpret_cast<::FUN_004a0c10_s *>((((NiPoint3_ext*)&point)))->FUN_004a0c10();
             }
             else if (apTargetLight->m_ucLightType == 3)
             {
@@ -2590,11 +2588,10 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
             {
                 {
                     NiPoint3* __restrict r =
-                        ((NiPoint3_ext*)&kWorldBound.m_kCenter)
-                            ->FUN_00439ef0(&work.pointLightModelDirection, apTargetLight->m_kWorldSpaceTransform.m_kTranslation);
+                        reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&kWorldBound.m_kCenter)))->FUN_00439ef0(&work.pointLightModelDirection, apTargetLight->m_kWorldSpaceTransform.m_kTranslation);
                     point = *r;
                 }
-                ((NiPoint3_ext*)&point)->FUN_004a0c10();
+                reinterpret_cast<::FUN_004a0c10_s *>((((NiPoint3_ext*)&point)))->FUN_004a0c10();
             }
             else if (apTargetLight->m_ucLightType == 3)
             {
@@ -2629,7 +2626,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                 point.x = (float)(apTargetLight->m_kWorldLocation.x * -1048576.0);
                 point.y = (float)(apTargetLight->m_kWorldLocation.y * -1048576.0);
                 point.z = (float)(apTargetLight->m_kWorldLocation.z * -1048576.0);
-                FUN_00b71a40((float*)&work.identity, apTargetLight->m_kWorldSpaceTransform.m_kOrientation, point, apTargetLight->m_kWorldSpaceTransform.m_fScale);
+                ::BuildTransformMatrix((float*)&work.identity, apTargetLight->m_kWorldSpaceTransform.m_kOrientation, point, apTargetLight->m_kWorldSpaceTransform.m_fScale);
             }
             else
             {
@@ -2644,7 +2641,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
     case 13: {
         if (apTargetLight)
         {
-            kWorld.FUN_004b4880(work.inverse);
+            reinterpret_cast<::NiTransform *>((void *)&(kWorld))->CalculateInverse(work.inverse);
             work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
             work.matrix.m[3][3] = 1.0f;
             if (apTargetLight->m_ucLightType == 3)
@@ -2702,7 +2699,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         float* fData = (float*)apConstantData;
         if (apTargetLight)
         {
-            if (FUN_0043b300(&DAT_011f4a98, apTargetLight))
+            if (::FUN_0043b300(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f4a98)), (::NiAVObject *)(apTargetLight)))
             {
                 fData[0] = apTargetLight->m_kWorldLocation.x;
                 fData[1] = apTargetLight->m_kWorldLocation.y;
@@ -2729,7 +2726,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         {
             work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
             work.matrix.m[3][3] = 1.0f;
-            FUN_00b71a40((float*)&work.matrix, apTargetLight->m_kLightRotate, DAT_011f426c, 1.0f);
+            ::BuildTransformMatrix((float*)&work.matrix, apTargetLight->m_kLightRotate, ::NiPoint3::ZERO, 1.0f);
             CopyMatrix(apConstantData, &work.matrix);
             return true;
         }
@@ -2741,11 +2738,11 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         {
             work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
             work.matrix.m[3][3] = 1.0f;
-            FUN_00b71a40((float*)&work.matrix,
+            ::BuildTransformMatrix((float*)&work.matrix,
                          *((NiMatrix3_ext*)&kWorld.m_kOrientation)
                               ->FUN_004768c0(&work.inverseEffectRotation)
                               ->FUN_0043f8d0(&work.modelEffectRotation, apTargetLight->m_kLightRotate),
-                         DAT_011f426c, 1.0f);
+                         ::NiPoint3::ZERO, 1.0f);
             CopyMatrix(apConstantData, &work.matrix);
             return true;
         }
@@ -2772,7 +2769,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         float* fData = (float*)apConstantData;
         if (apTargetLight)
         {
-            kWorld.FUN_004b4880(work.inverse);
+            reinterpret_cast<::NiTransform *>((void *)&(kWorld))->CalculateInverse(work.inverse);
             point = apTargetLight->m_kWorldDirection;
             {
                 NiPoint3* __restrict r = work.inverse.FUN_00524c40(&work.modelDirection, point);
@@ -2820,7 +2817,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         {
             if (apTargetLight->m_bAtten)
             {
-                kWorld.FUN_004b4880(work.inverse);
+                reinterpret_cast<::NiTransform *>((void *)&(kWorld))->CalculateInverse(work.inverse);
 
                 work.plane = *(LightPlane*)&apTargetLight->m_kPlaneNormal;
                 ((NiMatrix3_ext*)&work.inverse.m_kOrientation)->FUN_004b4500(&point, work.plane.normal);
@@ -2831,7 +2828,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                 fData[0] = point.x;
                 fData[1] = point.y;
                 fData[2] = point.z;
-                fData[3] = ((NiPoint3_ext*)&point)->Dot(work.plane.normal);
+                fData[3] = reinterpret_cast<::FUN_004b6190_shell *>((void *)(((NiPoint3_ext*)&point)))->DotProduct((void *)&(work.plane.normal));
                 return true;
             }
             fData[0] = 0.0f;
@@ -2882,7 +2879,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         {
             work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
             work.matrix.m[3][3] = 1.0f;
-            FUN_00b71a40((float*)&work.matrix, apTargetLight->m_kLightRotate, apTargetLight->m_kWorldDirection, 1.0f);
+            ::BuildTransformMatrix((float*)&work.matrix, apTargetLight->m_kLightRotate, apTargetLight->m_kWorldDirection, 1.0f);
             CopyMatrix(apConstantData, &work.matrix);
             return true;
         }
@@ -2894,10 +2891,10 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         {
             work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
             work.matrix.m[3][3] = 1.0f;
-            kWorld.FUN_004b4880(work.inverse);
+            reinterpret_cast<::NiTransform *>((void *)&(kWorld))->CalculateInverse(work.inverse);
             point = apTargetLight->m_kWorldDirection;
             CopyPoint24(point, *work.inverse.FUN_00524c40(&work.modelWorldDirection, point));
-            FUN_00b71a40((float*)&work.matrix,
+            ::BuildTransformMatrix((float*)&work.matrix,
                          *((NiMatrix3_ext*)&kWorld.m_kOrientation)
                               ->FUN_004768c0(&work.inverseWorldRotation)
                               ->FUN_0043f8d0(&work.modelWorldRotation, apTargetLight->m_kLightRotate),
@@ -2909,7 +2906,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         return false;
     }
     default:
-        fnv_zlib_memset(apConstantData, 0, uiConstantDataSize);
+        std::memset(apConstantData, 0, uiConstantDataSize);
         return false;
     }
 }
@@ -2962,10 +2959,8 @@ struct S00e85c40_Obj
     virtual bool s1d(S00e85c40_Tex* t, void* data, int flag);
 };
 
-extern unsigned int DAT_011f5f90[];
 extern char DAT_0126f770;
-unsigned int __cdecl GetLightByType(unsigned int a, unsigned int b, unsigned int c);
-bool __cdecl FillLightConstantData(void* data, unsigned int pitch, void* src, unsigned int fmt, int p3, int p4, int p5,
+bool __cdecl FillLightConstantData(void* data, unsigned int pitch, void* src, uintptr_t fmt, int p3, int p4, int p5,
                                    int p6, int p7, unsigned int p8, int p9, int p10, int p11);
 
 static unsigned int Dbl(unsigned int x)
@@ -2975,14 +2970,14 @@ static unsigned int Dbl(unsigned int x)
 
 // Gets a format and dimensions, calls FillLightConstantData with the source and derived pitch, then passes the buffer to obj->s1d.
 // @fnv 0x00e85c40
-int __stdcall FUN_00e85c40(S00e85c40_Obj* obj, S00e85c40_Tex* tex, int p3, int p4, int p5, int p6, int p7,
-                           unsigned int auiLightType, int p9, int p10, int p11)
+int FUN_00e85c40(S00e85c40_Obj* obj, S00e85c40_Tex* tex, int p3, int p4, int p5, int p6, int p7,
+                           uintptr_t auiLightType, int p9, int p10, int p11)
 {
     int result = 0;
     unsigned int m18 = tex->m_18;
     unsigned int idx = tex->m_15;
-    unsigned int uiTableEntry = DAT_011f5f90[idx];
-    unsigned int fmt = GetLightByType(auiLightType, uiTableEntry, m18);
+    unsigned int uiTableEntry = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5f90))[idx];
+    uintptr_t fmt = ((uintptr_t)(::GetLightByType((::ShaderLights *)(auiLightType), uiTableEntry, m18)));
     void* src = tex->m_10;
     unsigned int w, h;
     if (!GetAttributeTypeForMapping(src, &w, &h))
@@ -3013,96 +3008,96 @@ struct FUN_00e86a50_object
 
 // Copies the float data from object into the matching slot of g_0126f7c4 based on the type code and returns that code.
 // @fnv 0x00e86a50
-unsigned int __stdcall FUN_00e86a50(unsigned int index, FUN_00e86a50_object* object, unsigned int unused)
+unsigned int FUN_00e86a50(uintptr_t index, FUN_00e86a50_object* object, uintptr_t unused)
 {
     float* source = object->data;
-    unsigned int type = DAT_011f5fc4[object->type & 0xff];
+    unsigned int type = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[object->type & 0xff];
 
     if (type == 3)
     {
-        g_0126f7c4.small[index * 4] = source[0];
+        ::g_0126f7c4.small[index * 4] = source[0];
         return type;
     }
 
     if (type == 4)
     {
-        g_0126f7c4.small[index * 4] = source[0];
+        ::g_0126f7c4.small[index * 4] = source[0];
         return 4;
     }
 
     if (type == 5)
     {
-        g_0126f7c4.small[index * 4] = source[0];
-        g_0126f7c4.small[index * 4 + 1] = source[1];
+        ::g_0126f7c4.small[index * 4] = source[0];
+        ::g_0126f7c4.small[index * 4 + 1] = source[1];
         return 5;
     }
 
     if (type == 6)
     {
-        g_0126f7c4.small[index * 4] = source[0];
-        g_0126f7c4.small[index * 4 + 1] = source[1];
-        g_0126f7c4.small[index * 4 + 2] = source[2];
+        ::g_0126f7c4.small[index * 4] = source[0];
+        ::g_0126f7c4.small[index * 4 + 1] = source[1];
+        ::g_0126f7c4.small[index * 4 + 2] = source[2];
         return 6;
     }
 
     if (type == 7)
     {
-        g_0126f7c4.small[index * 4] = source[0];
-        g_0126f7c4.small[index * 4 + 1] = source[1];
-        g_0126f7c4.small[index * 4 + 2] = source[2];
-        g_0126f7c4.small[index * 4 + 3] = source[3];
+        ::g_0126f7c4.small[index * 4] = source[0];
+        ::g_0126f7c4.small[index * 4 + 1] = source[1];
+        ::g_0126f7c4.small[index * 4 + 2] = source[2];
+        ::g_0126f7c4.small[index * 4 + 3] = source[3];
         return 7;
     }
 
     if (type == 8)
     {
         float zero = 0.0f;
-        g_0126f7c4.large[index * 16] = source[0];
-        g_0126f7c4.large[index * 16 + 1] = source[1];
-        g_0126f7c4.large[index * 16 + 2] = source[2];
-        g_0126f7c4.large[index * 16 + 3] = zero;
-        g_0126f7c4.large[index * 16 + 4] = source[3];
-        g_0126f7c4.large[index * 16 + 5] = source[4];
-        g_0126f7c4.large[index * 16 + 6] = source[5];
-        g_0126f7c4.large[index * 16 + 7] = zero;
-        g_0126f7c4.large[index * 16 + 8] = source[6];
-        g_0126f7c4.large[index * 16 + 9] = source[7];
-        g_0126f7c4.large[index * 16 + 10] = source[8];
-        g_0126f7c4.large[index * 16 + 11] = zero;
-        g_0126f7c4.large[index * 16 + 12] = zero;
-        g_0126f7c4.large[index * 16 + 13] = zero;
-        g_0126f7c4.large[index * 16 + 14] = zero;
-        g_0126f7c4.large[index * 16 + 15] = 1.0f;
+        ::g_0126f7c4.large[index * 16] = source[0];
+        ::g_0126f7c4.large[index * 16 + 1] = source[1];
+        ::g_0126f7c4.large[index * 16 + 2] = source[2];
+        ::g_0126f7c4.large[index * 16 + 3] = zero;
+        ::g_0126f7c4.large[index * 16 + 4] = source[3];
+        ::g_0126f7c4.large[index * 16 + 5] = source[4];
+        ::g_0126f7c4.large[index * 16 + 6] = source[5];
+        ::g_0126f7c4.large[index * 16 + 7] = zero;
+        ::g_0126f7c4.large[index * 16 + 8] = source[6];
+        ::g_0126f7c4.large[index * 16 + 9] = source[7];
+        ::g_0126f7c4.large[index * 16 + 10] = source[8];
+        ::g_0126f7c4.large[index * 16 + 11] = zero;
+        ::g_0126f7c4.large[index * 16 + 12] = zero;
+        ::g_0126f7c4.large[index * 16 + 13] = zero;
+        ::g_0126f7c4.large[index * 16 + 14] = zero;
+        ::g_0126f7c4.large[index * 16 + 15] = 1.0f;
         return 8;
     }
 
     if (type == 9)
     {
-        g_0126f7c4.large[index * 16] = source[0];
-        g_0126f7c4.large[index * 16 + 1] = source[1];
-        g_0126f7c4.large[index * 16 + 2] = source[2];
-        g_0126f7c4.large[index * 16 + 3] = source[3];
-        g_0126f7c4.large[index * 16 + 4] = source[4];
-        g_0126f7c4.large[index * 16 + 5] = source[5];
-        g_0126f7c4.large[index * 16 + 6] = source[6];
-        g_0126f7c4.large[index * 16 + 7] = source[7];
-        g_0126f7c4.large[index * 16 + 8] = source[8];
-        g_0126f7c4.large[index * 16 + 9] = source[9];
-        g_0126f7c4.large[index * 16 + 10] = source[10];
-        g_0126f7c4.large[index * 16 + 11] = source[11];
-        g_0126f7c4.large[index * 16 + 12] = source[12];
-        g_0126f7c4.large[index * 16 + 13] = source[13];
-        g_0126f7c4.large[index * 16 + 14] = source[14];
-        g_0126f7c4.large[index * 16 + 15] = source[15];
+        ::g_0126f7c4.large[index * 16] = source[0];
+        ::g_0126f7c4.large[index * 16 + 1] = source[1];
+        ::g_0126f7c4.large[index * 16 + 2] = source[2];
+        ::g_0126f7c4.large[index * 16 + 3] = source[3];
+        ::g_0126f7c4.large[index * 16 + 4] = source[4];
+        ::g_0126f7c4.large[index * 16 + 5] = source[5];
+        ::g_0126f7c4.large[index * 16 + 6] = source[6];
+        ::g_0126f7c4.large[index * 16 + 7] = source[7];
+        ::g_0126f7c4.large[index * 16 + 8] = source[8];
+        ::g_0126f7c4.large[index * 16 + 9] = source[9];
+        ::g_0126f7c4.large[index * 16 + 10] = source[10];
+        ::g_0126f7c4.large[index * 16 + 11] = source[11];
+        ::g_0126f7c4.large[index * 16 + 12] = source[12];
+        ::g_0126f7c4.large[index * 16 + 13] = source[13];
+        ::g_0126f7c4.large[index * 16 + 14] = source[14];
+        ::g_0126f7c4.large[index * 16 + 15] = source[15];
         return 9;
     }
 
     if (type == 10)
     {
-        g_0126f7c4.small[index * 4] = source[0];
-        g_0126f7c4.small[index * 4 + 1] = source[1];
-        g_0126f7c4.small[index * 4 + 2] = source[2];
-        g_0126f7c4.small[index * 4 + 3] = source[3];
+        ::g_0126f7c4.small[index * 4] = source[0];
+        ::g_0126f7c4.small[index * 4 + 1] = source[1];
+        ::g_0126f7c4.small[index * 4 + 2] = source[2];
+        ::g_0126f7c4.small[index * 4 + 3] = source[3];
         return 10;
     }
 
@@ -3131,20 +3126,16 @@ struct SCMapEntry
     unsigned int m_uiValue1;
 };
 
-extern unsigned int g_auiSCAttributeTypes[256];
-extern float g_afSCVectorConstants[][4];
-extern float g_afSCMatrixConstants[][16];
 
 struct SCConstantMap
 {
-    void* GetExtraDataPtr(SCMapEntry* apEntry, SCExtraData* apExtra);
     int LoadConstant(unsigned int auiRegister, SCMapEntry* apEntry, SCGeometry* apGeometry, void* apSkin,
-                     void* apPartition, void* apBuffData, unsigned int auiPass, void* apState);
+                     void* apPartition, void* apBuffData, uintptr_t auiPass, void* apState);
 };
 
 // @fnv 0x00e86ca0
 int SCConstantMap::LoadConstant(unsigned int auiRegister, SCMapEntry* apEntry, SCGeometry* apGeometry, void* apSkin,
-                                void* apPartition, void* apBuffData, unsigned int auiPass, void* apState)
+                                void* apPartition, void* apBuffData, uintptr_t auiPass, void* apState)
 {
     if (!apGeometry)
         return 1;
@@ -3153,40 +3144,40 @@ int SCConstantMap::LoadConstant(unsigned int auiRegister, SCMapEntry* apEntry, S
     if (!pExtraData)
         return 0x10;
 
-    void* pData = GetExtraDataPtr(apEntry, pExtraData);
-    unsigned int uiType = g_auiSCAttributeTypes[apEntry->m_uiValue1 & 0xff];
+    const void* pData = ::GetShaderConstantValue((::NiShaderConstantMapEntry *)(apEntry), (::ExtraDataStandIn *)(pExtraData));
+    unsigned int uiType = (*reinterpret_cast<unsigned int (*)[256]>(&::DAT_011f5fc4))[apEntry->m_uiValue1 & 0xff];
     if (uiType == 3)
     {
-        g_afSCVectorConstants[auiRegister][0] = (float)*(unsigned int*)pData;
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][0] = (float)*(unsigned int*)pData;
         return 3;
     }
     else if (uiType == 4)
     {
-        g_afSCVectorConstants[auiRegister][0] = *(float*)pData;
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][0] = *(float*)pData;
         return 4;
     }
     else if (uiType == 5)
     {
         float* pf = (float*)pData;
-        g_afSCVectorConstants[auiRegister][0] = pf[0];
-        g_afSCVectorConstants[auiRegister][1] = pf[1];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][0] = pf[0];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][1] = pf[1];
         return 5;
     }
     else if (uiType == 6)
     {
         float* pf = (float*)pData;
-        g_afSCVectorConstants[auiRegister][0] = pf[0];
-        g_afSCVectorConstants[auiRegister][1] = pf[1];
-        g_afSCVectorConstants[auiRegister][2] = pf[2];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][0] = pf[0];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][1] = pf[1];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][2] = pf[2];
         return 6;
     }
     else if (uiType == 7)
     {
         float* pf = (float*)pData;
-        g_afSCVectorConstants[auiRegister][0] = pf[0];
-        g_afSCVectorConstants[auiRegister][1] = pf[1];
-        g_afSCVectorConstants[auiRegister][2] = pf[2];
-        g_afSCVectorConstants[auiRegister][3] = pf[3];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][0] = pf[0];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][1] = pf[1];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][2] = pf[2];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][3] = pf[3];
         return 7;
     }
     else if (uiType == 8)
@@ -3234,10 +3225,10 @@ int SCConstantMap::LoadConstant(unsigned int auiRegister, SCMapEntry* apEntry, S
     else if (uiType == 10)
     {
         float* pf = (float*)pData;
-        g_afSCVectorConstants[auiRegister][0] = pf[0];
-        g_afSCVectorConstants[auiRegister][1] = pf[1];
-        g_afSCVectorConstants[auiRegister][2] = pf[2];
-        g_afSCVectorConstants[auiRegister][3] = pf[3];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][0] = pf[0];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][1] = pf[1];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][2] = pf[2];
+        (*reinterpret_cast<float (*)[][4]>(&::DAT_0126f8b0))[auiRegister][3] = pf[3];
         return 10;
     }
     return 0;
@@ -3314,7 +3305,7 @@ void ShaderEntryArray::FUN_00e86f40(unsigned int uiIndex, const NiShaderConstant
 
 // Moves enabled shader constant map entries to the front of the array, leaving disabled entries at the end.
 // @fnv 0x00e870c0
-void __stdcall CompactEnabledEntries(ShaderEntryArray* pkArray)
+void CompactEnabledEntries(ShaderEntryArray* pkArray)
 {
     NiShaderConstantMapEntryPtr spEntry;
     unsigned int uiSize = pkArray->size;
@@ -3330,8 +3321,8 @@ void __stdcall CompactEnabledEntries(ShaderEntryArray* pkArray)
         {
             if (uiFirstDisabled < uiIndex)
             {
-                pkArray->FUN_00e86f40(uiIndex, pkArray->GetAt(uiFirstDisabled));
-                pkArray->FUN_00e86f40(uiFirstDisabled, spEntry);
+                reinterpret_cast<::S_00e86f40_Arr *>((pkArray))->FUN_00e86f40(uiIndex, pkArray->GetAt(uiFirstDisabled));
+                reinterpret_cast<::S_00e86f40_Arr *>((pkArray))->FUN_00e86f40(uiFirstDisabled, spEntry);
                 ++uiFirstDisabled;
                 while (uiFirstDisabled < uiSize)
                 {
@@ -3375,8 +3366,6 @@ struct OpCEntry
     }
 };
 
-extern unsigned int DAT_011f5fc4[];
-int __cdecl FUN_00aa0020(int, int, const char*, ...);
 
 struct FUN_00e87220_shell
 {
@@ -3411,30 +3400,19 @@ struct FUN_00e87220_shell
     virtual void V28();
     virtual OpCEntry* GetOperationEntry(unsigned int uiIndex);
 
-    unsigned int FUN_00e82b40(void* pkShaderProgram, OpCEntry* pkEntry, unsigned int eType1, unsigned int eType2,
-                              bool bTranspose, bool bInverse);
-    unsigned int FUN_00e82e70(void* pkShaderProgram, OpCEntry* pkEntry, unsigned int eType1, unsigned int eType2,
-                              bool bTranspose, bool bInverse);
-    unsigned int SetConstantSum(void* pkShaderProgram, OpCEntry* pkEntry, unsigned int eType1, unsigned int eType2,
-                                bool bTranspose, bool bInverse);
-    unsigned int FUN_00e83320(void* pkShaderProgram, OpCEntry* pkEntry, unsigned int eType1, unsigned int eType2,
-                              bool bTranspose, bool bInverse);
     unsigned int FUN_00e85d10(bool bSecond, OpCEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* pkEffects, const void* kWorld, const void* kWorldBound);
-    unsigned int FUN_00e86a50(bool bSecond, OpCEntry* pkEntry, unsigned int uiPass);
-    unsigned int LoadConstant(bool bSecond, OpCEntry* pkEntry, void* pkGeometry, const void* pkSkin,
-                              const void* pkState, const void* kWorld, const void* kWorldBound, unsigned int uiPass);
 
     unsigned int FUN_00e87220(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* pkEffects, const void* kWorld, const void* kWorldBound,
-                              unsigned int uiPass);
+                              uintptr_t uiPass);
 };
 
 // Resolves two operand entries, dispatches their evaluation by type, then applies the operator to the shader program and returns the result.
 // @fnv 0x00e87220
 unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry,
                                               const void* pkSkin, const void* pkState, const void* pkEffects,
-                                              const void* kWorld, const void* kWorldBound, unsigned int uiPass)
+                                              const void* kWorld, const void* kWorldBound, uintptr_t uiPass)
 {
     unsigned int uiExtra = pkEntry->m_uiValue2;
     bool bInverse = (uiExtra & 0x02000000) != 0;
@@ -3451,8 +3429,8 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* p
         return 1;
     }
 
-    unsigned int eType1 = DAT_011f5fc4[pkEntry1->m_uiValue1 & 0xff];
-    unsigned int eType2 = DAT_011f5fc4[pkEntry2->m_uiValue1 & 0xff];
+    unsigned int eType1 = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[pkEntry1->m_uiValue1 & 0xff];
+    unsigned int eType2 = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[pkEntry2->m_uiValue1 & 0xff];
 
     if ((pkEntry1->m_uiValue1 & 0xf0000000) == 0x20000000)
     {
@@ -3464,15 +3442,15 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* p
         unsigned int uiOperand1Type = pkEntry1->m_uiValue1 & 0xf0000000;
         if (uiOperand1Type == 0x40000000)
         {
-            FUN_00e86a50(false, pkEntry1, uiPass);
+            ::FUN_00e86a50((uintptr_t)this, (::FUN_00e86a50_object *)(false), (uintptr_t)(pkEntry1));
         }
         else if (uiOperand1Type == 0x30000000)
         {
-            LoadConstant(false, pkEntry1, pkGeometry, pkSkin, pkState, kWorld, kWorldBound, uiPass);
+            reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(false, (::SCMapEntry *)(pkEntry1), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (uintptr_t)(kWorldBound), (void *)(uiPass));
         }
         else if (uiOperand1Type == 0x10000000)
         {
-            LoadConstant(false, pkEntry1, pkGeometry, pkSkin, pkState, kWorld, kWorldBound, uiPass);
+            reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(false, (::SCMapEntry *)(pkEntry1), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (uintptr_t)(kWorldBound), (void *)(uiPass));
         }
     }
 
@@ -3484,15 +3462,15 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* p
     }
     else if (uiOperand2Type == 0x30000000)
     {
-        LoadConstant(true, pkEntry2, pkGeometry, pkSkin, pkState, kWorld, kWorldBound, uiPass);
+        reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(true, (::SCMapEntry *)(pkEntry2), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (uintptr_t)(kWorldBound), (void *)(uiPass));
     }
     else if (uiOperand2Type == 0x40000000)
     {
-        FUN_00e86a50(true, pkEntry2, uiPass);
+        ::FUN_00e86a50((uintptr_t)this, (::FUN_00e86a50_object *)(true), (uintptr_t)(pkEntry2));
     }
     else if (uiOperand2Type == 0x10000000)
     {
-        FUN_00e86a50(true, pkEntry2, uiPass);
+        ::FUN_00e86a50((uintptr_t)this, (::FUN_00e86a50_object *)(true), (uintptr_t)(pkEntry2));
     }
 
     if (!eType1 || !eType2)
@@ -3504,13 +3482,13 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* p
     switch (uiOperator)
     {
     case 0x10000000:
-        return FUN_00e82b40(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
+        return ::FUN_00e82b40((::FUN_00e84b60_prog *)(pkShaderProgram), (void *)(pkEntry), eType1, eType2, bTranspose, bInverse);
     case 0x20000000:
-        return FUN_00e82e70(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
+        return ((unsigned int)(::FUN_00e82e70((::ConstantTarget *)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose, bInverse)));
     case 0x30000000:
-        return SetConstantSum(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
+        return ((unsigned int)(::SetConstantSum((::ConstantTarget *)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose, bInverse)));
     case 0x40000000:
-        return FUN_00e83320(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
+        return ((unsigned int)(::FUN_00e83320((::ConstantTarget *)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose, bInverse)));
     }
     return 1;
 }
@@ -3537,20 +3515,7 @@ union ScalarScratch
     bool transpose;
     unsigned int integer;
 };
-struct __declspec(align(16)) Vec4
-{
-    float x, y, z, w;
-};
-S83_Matrix* __stdcall FUN_00ee6dda(S83_Matrix*, float*, const S83_Matrix*);
-S83_Matrix* __stdcall FUN_00ee6dd4(S83_Matrix*, const S83_Matrix*);
-S83_Matrix* __stdcall FUN_00ee6de0(S83_Matrix*, const S83_Matrix*, const S83_Matrix*);
-S83_Matrix* __stdcall FUN_00ee6dfe(S83_Matrix*, const S83_Matrix*, const S83_Matrix*);
-void __cdecl SetAffineMatrix(S83_Matrix*, const char*, bool, bool, unsigned int);
 extern float DAT_01099378;
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
-extern "C" double __cdecl tan(double);
-
 struct Entry
 {
     unsigned int u00, u04, u08, u0c, type, u14, index;
@@ -3623,7 +3588,6 @@ struct TexProperty
 {
     unsigned int u00, u04, u08, u0c, u10, u14, u18, u1c;
     TexArray* textures;
-    TextureLayer* GetElementAt(unsigned int);
 };
 struct Material
 {
@@ -3673,12 +3637,8 @@ struct Geometry
 {
     __declspec(nothrow) NiExtraData* FUN_00a5bdd0(const S83_FixedStr&) throw();
 };
-extern const char* DAT_011bf65c;
-extern NiPoint3 DAT_011f4998;
-extern unsigned int DAT_011f5f6c;
 struct Light
 {
-    void* FUN_00653290(const unsigned int*);
 };
 struct LightValue
 {
@@ -4398,9 +4358,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matResult = renderer->world;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4418,9 +4378,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matResult = renderer->projection;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4438,9 +4398,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matResult = renderer->view;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4459,12 +4419,12 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matA = ((const Renderer*)source)->view;
         source = &((const Renderer*)source)->projection;
         matB = *(const S83_Matrix*)source;
-        FUN_00ee6de0(&matResult, &matA, &matB);
+        ::FUN_00ee6de0(&matResult, &matA, &matB);
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4481,12 +4441,12 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
             bTranspose = true;
         matB = renderer->projection;
         matA = renderer->world;
-        FUN_00ee6de0(&matResult, &matB, &matA);
+        ::FUN_00ee6de0(&matResult, &matB, &matA);
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4495,7 +4455,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
     case 12:
     case 23:
     case 24: {
-        FUN_00ee6dfe(&matA, &renderer->view, &renderer->adjust);
+        ::FUN_00ee6dfe((::D3DXMATRIX *)(::S83_Matrix *)(&matA), (const ::D3DXMATRIX *)(const ::S83_Matrix *)(&renderer->view), (const ::D3DXMATRIX *)(const ::S83_Matrix *)(&renderer->adjust));
         if (!prog->SetConstant(entry, &matA, 0))
             result = 0x50;
         goto done;
@@ -4515,9 +4475,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matResult = renderer->projection;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4536,12 +4496,12 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
             bTranspose = true;
         matB = renderer->projection;
         matA = renderer->world;
-        FUN_00ee6de0(&matResult, &matB, &matA);
+        ::FUN_00ee6de0(&matResult, &matB, &matA);
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4564,9 +4524,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
             bTranspose = true;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4613,7 +4573,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         pairScratch.inverse = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, scalarTemp.transpose, pairScratch.inverse, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), scalarTemp.transpose, pairScratch.inverse, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4638,7 +4598,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4663,7 +4623,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4688,7 +4648,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4713,7 +4673,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4738,7 +4698,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4763,7 +4723,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4788,7 +4748,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4813,7 +4773,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4828,7 +4788,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
             scalarTemp.transpose = false;
             if (tex)
             {
-                TextureLayer* desc = tex->GetElementAt(entry->index);
+                TextureLayer* desc = ((::TextureLayer *)(reinterpret_cast<::FUN_00a463e0_Holder *>((tex))->GetElementAt(entry->index)));
                 if (desc && desc->transform)
                 {
                     texdata = FUN_00bc5c20(desc->transform);
@@ -4838,7 +4798,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                         scalarTemp.transpose = true;
                 }
             }
-            SetAffineMatrix(&matA, texdata, pairScratch.inverse, scalarTemp.transpose, 4);
+            ::SetAffineMatrix((float *)(::S83_Matrix *)(&matA), (const float *)(texdata), pairScratch.inverse, scalarTemp.transpose, 4);
             if (!prog->SetConstant(entry, &matA, 0))
                 result = 0x50;
             goto done;
@@ -4849,9 +4809,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         Material* __restrict m = props->material;
         if (!m)
             goto done;
-        vec4.x = DAT_011f4998.x;
-        vec4.y = DAT_011f4998.y;
-        vec4.z = DAT_011f4998.z;
+        vec4.x = (*reinterpret_cast<::NiPoint3 *>(&::DAT_011f4998)).x;
+        vec4.y = (*reinterpret_cast<::NiPoint3 *>(&::DAT_011f4998)).y;
+        vec4.z = (*reinterpret_cast<::NiPoint3 *>(&::DAT_011f4998)).z;
         vec4.w = m->alpha;
         if (!prog->SetConstant(entry, &vec4, 0))
             result = 0x50;
@@ -4986,7 +4946,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                     link = link->next;
                     if (light)
                     {
-                        LightValue* lv = (LightValue*)light->FUN_00653290(&DAT_011f5f6c);
+                        LightValue* lv = (LightValue*)((void *)(reinterpret_cast<::NiObject *>((light))->DynamicCast((const ::NiRTTI *)(const unsigned int *)(&(*reinterpret_cast<unsigned int *>(&::g_011f5f6c))))));
                         if (lv)
                         {
                             float brightness = lv->brightness;
@@ -5100,7 +5060,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
                 d = tex->textures->extra[entry->index];
                 break;
             case 115:
-                d = tex->GetElementAt(entry->index);
+                d = ((::TextureLayer *)(reinterpret_cast<::FUN_00a463e0_Holder *>((tex))->GetElementAt(entry->index)));
                 break;
             }
             pairScratch.pair.x = 0;
@@ -5153,10 +5113,6 @@ struct __declspec(align(16)) MapMatrix
     }
 };
 
-extern "C" void __stdcall FUN_00ee6de0(MapMatrix*, const MapMatrix*, const MapMatrix*);
-extern "C" void __stdcall FUN_00ee6dda(MapMatrix*, float*, const MapMatrix*);
-extern "C" void __stdcall FUN_00ee6dd4(MapMatrix*, const MapMatrix*);
-void __cdecl SetAffineMatrix(MapMatrix*, const char*, bool, bool, unsigned int);
 struct Renderer
 {
     unsigned int unk000;
@@ -5785,7 +5741,6 @@ struct Texturing
     unsigned int unk018;
     unsigned int unk01c;
     TextureSlots* slots;
-    Texture* GetElementAt(unsigned int);
 };
 struct Material
 {
@@ -5817,17 +5772,14 @@ struct NiColor
 {
     float r, g, b;
 };
-extern NiColor DAT_011f4998;
 class TimeString
 {
     const char* value;
 
   public:
-    TimeString* FUN_00438170(const char*) throw();
-    void FUN_004381b0() throw();
     __forceinline ~TimeString() throw()
     {
-        FUN_004381b0();
+        reinterpret_cast<::FUN_004381b0_shell *>(this)->FUN_004381b0();
     }
 };
 struct ExtraValue
@@ -5840,7 +5792,6 @@ class NiAVObjectCall
   public:
     ExtraValue* FUN_00a5bdd0(const TimeString&) throw();
 };
-extern const char* DAT_011bf65c;
 struct Light
 {
     unsigned int unk000;
@@ -5899,15 +5850,13 @@ struct Light
 class LightObject
 {
   public:
-    Light* FUN_00653290(const void*);
     static __forceinline Light* Cast(const void* type, LightObject* object)
     {
         if (!object)
             return 0;
-        return object->FUN_00653290(type);
+        return ((::fnv_00e85d10::Light *)(reinterpret_cast<::NiObject *>((object))->DynamicCast((const ::NiRTTI *)(type))));
     }
 };
-extern const void* g_011f5f6c;
 struct EffectLink
 {
     EffectLink* next;
@@ -5934,7 +5883,6 @@ struct Effects
 class PointExt : public NiPoint3
 {
   public:
-    NiPoint3* ScaleTo(NiPoint3*, float);
 };
 struct MatrixWorkspace
 {
@@ -5981,13 +5929,13 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         if (mapping == 13 || mapping == 14)
             transpose = true;
         work.a = renderer->projection;
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.a;
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.a;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 3:
@@ -6001,13 +5949,13 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         if (mapping == 15 || mapping == 16)
             transpose = true;
         work.a = renderer->view;
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.a;
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.a;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 5:
@@ -6020,13 +5968,13 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
             inverse = true;
         if (mapping == 17 || mapping == 18)
             transpose = true;
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = renderer->world;
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = renderer->world;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 7:
@@ -6046,14 +5994,14 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
             work.b = *world;
             work.a = *view;
         }
-        FUN_00ee6de0(&work.f, &work.b, &work.a);
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.f;
+        ::FUN_00ee6de0(&work.f, &work.b, &work.a);
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.f;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 9:
@@ -6073,14 +6021,14 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
             work.a = *view;
             work.b = *projection;
         }
-        FUN_00ee6de0(&work.e, &work.a, &work.b);
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.e;
+        ::FUN_00ee6de0(&work.e, &work.a, &work.b);
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.e;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 11:
@@ -6101,15 +6049,15 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
             work.b = *view;
             work.d = *projection;
         }
-        FUN_00ee6de0(&work.c, &work.a, &work.b);
-        FUN_00ee6de0(&work.g, &work.c, &work.d);
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.g;
+        ::FUN_00ee6de0(&work.c, &work.a, &work.b);
+        ::FUN_00ee6de0(&work.g, &work.c, &work.d);
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.g;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 25:
@@ -6118,7 +6066,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
     case 28: {
         if (!skin)
             return 0;
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot].Identity();
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot].Identity();
         bool inverse = false;
         bool transpose = false;
         if (mapping == 26 || mapping == 28)
@@ -6126,14 +6074,14 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         if (mapping == 27 || mapping == 28)
             transpose = true;
         work.c = renderer->view;
-        FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                     &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], &work.c);
+        ::FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                     &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], &work.c);
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 29:
@@ -6142,7 +6090,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
     case 32: {
         if (!skin)
             return 0;
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot].Identity();
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot].Identity();
         bool inverse = false;
         bool transpose = false;
         if (mapping == 30 || mapping == 32)
@@ -6151,16 +6099,16 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
             transpose = true;
         work.c = renderer->view;
         work.d = renderer->projection;
-        FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                     &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], &work.c);
-        FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                     &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], &work.d);
+        ::FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                     &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], &work.c);
+        ::FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                     &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], &work.d);
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 33:
@@ -6180,7 +6128,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
     case 99: {
         if (!skin)
             return 0;
-        reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot].Identity();
+        reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot].Identity();
         bool inverse = false;
         bool transpose = false;
         if (mapping == 97 || mapping == 99)
@@ -6189,11 +6137,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
             transpose = true;
 
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
-                         &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 37:
@@ -6215,7 +6163,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
                     transpose = true;
             }
         }
-        SetAffineMatrix(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], name, inverse, transpose, 4);
+        ::SetAffineMatrix((float *)(::fnv_00e85d10::MapMatrix *)(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]), (const float *)(name), inverse, transpose, 4);
         return 9;
     }
     case 41:
@@ -6237,7 +6185,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
                     transpose = true;
             }
         }
-        SetAffineMatrix(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], name, inverse, transpose, 4);
+        ::SetAffineMatrix((float *)(::fnv_00e85d10::MapMatrix *)(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]), (const float *)(name), inverse, transpose, 4);
         return 9;
     }
     case 45:
@@ -6259,7 +6207,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
                     transpose = true;
             }
         }
-        SetAffineMatrix(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], name, inverse, transpose, 4);
+        ::SetAffineMatrix((float *)(::fnv_00e85d10::MapMatrix *)(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]), (const float *)(name), inverse, transpose, 4);
         return 9;
     }
     case 49:
@@ -6281,7 +6229,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
                     transpose = true;
             }
         }
-        SetAffineMatrix(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], name, inverse, transpose, 4);
+        ::SetAffineMatrix((float *)(::fnv_00e85d10::MapMatrix *)(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]), (const float *)(name), inverse, transpose, 4);
         return 9;
     }
     case 53:
@@ -6303,7 +6251,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
                     transpose = true;
             }
         }
-        SetAffineMatrix(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], name, inverse, transpose, 4);
+        ::SetAffineMatrix((float *)(::fnv_00e85d10::MapMatrix *)(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]), (const float *)(name), inverse, transpose, 4);
         return 9;
     }
     case 57:
@@ -6325,7 +6273,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
                     transpose = true;
             }
         }
-        SetAffineMatrix(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], name, inverse, transpose, 4);
+        ::SetAffineMatrix((float *)(::fnv_00e85d10::MapMatrix *)(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]), (const float *)(name), inverse, transpose, 4);
         return 9;
     }
     case 61:
@@ -6347,7 +6295,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
                     transpose = true;
             }
         }
-        SetAffineMatrix(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], name, inverse, transpose, 4);
+        ::SetAffineMatrix((float *)(::fnv_00e85d10::MapMatrix *)(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]), (const float *)(name), inverse, transpose, 4);
         return 9;
     }
     case 65:
@@ -6359,7 +6307,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         bool inverse = false, transpose = false;
         if (textures)
         {
-            Texture* texture = textures->GetElementAt(apMapping->index);
+            Texture* texture = ((::fnv_00e85d10::Texture *)(reinterpret_cast<::FUN_00a463e0_Holder *>((textures))->GetElementAt(apMapping->index)));
             if (texture && texture->name)
             {
                 name = FUN_00bc5c20(texture->name);
@@ -6369,73 +6317,73 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
                     transpose = true;
             }
         }
-        SetAffineMatrix(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], name, inverse, transpose, 4);
+        ::SetAffineMatrix((float *)(::fnv_00e85d10::MapMatrix *)(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]), (const float *)(name), inverse, transpose, 4);
         return 9;
     }
     case 73: {
         Material* material = state->material;
         if (!material)
             return 0;
-        (&DAT_0126f8a0)[slot].x = DAT_011f4998.r;
-        (&DAT_0126f8a0)[slot].y = DAT_011f4998.g;
-        (&DAT_0126f8a0)[slot].z = DAT_011f4998.b;
-        (&DAT_0126f8a0)[slot].w = material->alpha;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = (*reinterpret_cast<::fnv_00e85d10::NiColor *>(&::DAT_011f4998)).r;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = (*reinterpret_cast<::fnv_00e85d10::NiColor *>(&::DAT_011f4998)).g;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = (*reinterpret_cast<::fnv_00e85d10::NiColor *>(&::DAT_011f4998)).b;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = material->alpha;
         return 10;
     }
     case 74: {
         Material* material = state->material;
         if (!material)
             return 0;
-        (&DAT_0126f8a0)[slot].x = DAT_011f4998.r;
-        (&DAT_0126f8a0)[slot].y = DAT_011f4998.g;
-        (&DAT_0126f8a0)[slot].z = DAT_011f4998.b;
-        (&DAT_0126f8a0)[slot].w = material->alpha;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = (*reinterpret_cast<::fnv_00e85d10::NiColor *>(&::DAT_011f4998)).r;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = (*reinterpret_cast<::fnv_00e85d10::NiColor *>(&::DAT_011f4998)).g;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = (*reinterpret_cast<::fnv_00e85d10::NiColor *>(&::DAT_011f4998)).b;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = material->alpha;
         return 10;
     }
     case 75: {
         Material* material = state->material;
         if (!material)
             return 0;
-        (&DAT_0126f8a0)[slot].x = material->diffuse.x;
-        (&DAT_0126f8a0)[slot].y = material->diffuse.y;
-        (&DAT_0126f8a0)[slot].z = material->diffuse.z;
-        (&DAT_0126f8a0)[slot].w = material->alpha;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = material->diffuse.x;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = material->diffuse.y;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = material->diffuse.z;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = material->alpha;
         return 10;
     }
     case 76: {
         Material* material = state->material;
         if (!material)
             return 0;
-        (&DAT_0126f8a0)[slot].x = material->Specular().x;
-        (&DAT_0126f8a0)[slot].y = material->Specular().y;
-        (&DAT_0126f8a0)[slot].z = material->Specular().z;
-        (&DAT_0126f8a0)[slot].w = material->alpha;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = material->Specular().x;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = material->Specular().y;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = material->Specular().z;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = material->alpha;
         return 10;
     }
     case 77: {
         Material* material = state->material;
         if (!material)
             return 0;
-        (&DAT_0126f8a0)[slot].x = material->gloss;
-        (&DAT_0126f8a0)[slot].y = material->gloss;
-        (&DAT_0126f8a0)[slot].z = material->gloss;
-        (&DAT_0126f8a0)[slot].w = material->gloss;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = material->gloss;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = material->gloss;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = material->gloss;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = material->gloss;
         return 10;
     }
     case 78: {
         work.a = renderer->inverseView;
-        (&DAT_0126f8a0)[slot].x = work.a.m[3][0];
-        (&DAT_0126f8a0)[slot].y = work.a.m[3][1];
-        (&DAT_0126f8a0)[slot].z = work.a.m[3][2];
-        (&DAT_0126f8a0)[slot].w = work.a.m[3][3];
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = work.a.m[3][0];
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = work.a.m[3][1];
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = work.a.m[3][2];
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = work.a.m[3][3];
         return 7;
     }
     case 79: {
         work.a = renderer->inverseView;
-        (&DAT_0126f8a0)[slot].x = work.a.m[2][0];
-        (&DAT_0126f8a0)[slot].y = work.a.m[2][1];
-        (&DAT_0126f8a0)[slot].z = work.a.m[2][2];
-        (&DAT_0126f8a0)[slot].w = work.a.m[2][3];
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = work.a.m[2][0];
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = work.a.m[2][1];
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = work.a.m[2][2];
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = work.a.m[2][3];
         return 7;
     }
     case 82:
@@ -6443,69 +6391,71 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
     case 84:
     case 85:
     case 86: {
-        ExtraValue* extra = geometry->FUN_00a5bdd0(*TimeString().FUN_00438170(DAT_011bf65c));
+        TimeString kName;
+        new ((void *)&kName) ::NiFixedString(::DAT_011bf65c);
+        ExtraValue* extra = geometry->FUN_00a5bdd0(kName);
         if (!extra)
             return 16;
         float value = extra->value;
         switch (mapping)
         {
         case 82:
-            (&DAT_0126f8a0)[slot].x = value;
-            (&DAT_0126f8a0)[slot].y = value;
-            (&DAT_0126f8a0)[slot].z = value;
-            (&DAT_0126f8a0)[slot].w = value;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = value;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = value;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = value;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = value;
             return 7;
         case 83: {
             float s = (float)sin(value);
-            (&DAT_0126f8a0)[slot].x = s;
-            (&DAT_0126f8a0)[slot].y = s;
-            (&DAT_0126f8a0)[slot].z = s;
-            (&DAT_0126f8a0)[slot].w = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = s;
             return 7;
         }
         case 84: {
             float s = (float)cos(value);
-            (&DAT_0126f8a0)[slot].x = s;
-            (&DAT_0126f8a0)[slot].y = s;
-            (&DAT_0126f8a0)[slot].z = s;
-            (&DAT_0126f8a0)[slot].w = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = s;
             return 7;
         }
         case 85: {
             float s = (float)tan(value);
-            (&DAT_0126f8a0)[slot].x = s;
-            (&DAT_0126f8a0)[slot].y = s;
-            (&DAT_0126f8a0)[slot].z = s;
-            (&DAT_0126f8a0)[slot].w = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = s;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = s;
             return 7;
         }
         case 86:
-            (&DAT_0126f8a0)[slot].x = value;
-            (&DAT_0126f8a0)[slot].y = (float)sin(value);
-            (&DAT_0126f8a0)[slot].z = (float)cos(value);
-            (&DAT_0126f8a0)[slot].w = (float)tan(value);
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = value;
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = (float)sin(value);
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = (float)cos(value);
+            (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = (float)tan(value);
             return 7;
         }
         break;
     }
     case 87: {
-        (&DAT_0126f8a0)[slot].x = 0.0f;
-        (&DAT_0126f8a0)[slot].y = 0.0f;
-        (&DAT_0126f8a0)[slot].z = 0.0f;
-        (&DAT_0126f8a0)[slot].w = 1.0f;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = 0.0f;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = 0.0f;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = 0.0f;
+        (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].w = 1.0f;
         if (effects)
         {
             EffectLink* iter = effects->Head();
             while (iter)
             {
-                Light* light = LightObject::Cast(&g_011f5f6c, effects->Next(iter));
+                Light* light = LightObject::Cast(&(*reinterpret_cast<const void * *>(&::g_011f5f6c)), effects->Next(iter));
                 if (light && light->enabled)
                 {
                     NiPoint3 point;
-                    ((PointExt*)&light->ambient)->ScaleTo(&point, light->dimmer);
-                    (&DAT_0126f8a0)[slot].x = (&DAT_0126f8a0)[slot].x + point.x;
-                    (&DAT_0126f8a0)[slot].y = point.y + (&DAT_0126f8a0)[slot].y;
-                    (&DAT_0126f8a0)[slot].z = (&DAT_0126f8a0)[slot].z + point.z;
+                    reinterpret_cast<::NiPoint3 *>((((PointExt*)&light->ambient)))->ScaleTo(&point, light->dimmer);
+                    (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x = (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].x + point.x;
+                    (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y = point.y + (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].y;
+                    (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z = (&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)))[slot].z + point.z;
                 }
             }
         }
@@ -6516,3 +6466,4 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
     return 0;
 }
 }  // namespace fnv_00e85d10
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderconstantmap.inc"

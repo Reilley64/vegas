@@ -1,0 +1,506 @@
+--- a/src/generated/data/bsaudio/bsaudio.inc
++++ b/src/generated/data/bsaudio/bsaudio.inc
+@@ -9 +8,0 @@
+-int DAT_01202800;
+--- a/src/generated/data/bshavok/bhkrigidbody_h_unit.inc
++++ b/src/generated/data/bshavok/bhkrigidbody_h_unit.inc
+@@ -7 +6,0 @@
+-unsigned int NiRefObject::ms_lObjectCount;
+--- a/src/generated/data/fallout/misc/main.inc
++++ b/src/generated/data/fallout/misc/main.inc
+@@ -17,4 +16,0 @@
+-unsigned char UNK_01082a00 = 83;
+-unsigned char UNK_01082a10 = 80;
+-unsigned char UNK_01082a28 = 80;
+-unsigned char UNK_01082a38 = 87;
+@@ -115 +110,0 @@
+-int DAT_01202e98;
+--- a/src/generated/data/fallout/misc/saveload/bgssaveloadmanager.inc
++++ b/src/generated/data/fallout/misc/saveload/bgssaveloadmanager.inc
+@@ -5,3 +4,0 @@
+-extern "C" void fnv_api_CopyFileA() __asm__("CopyFileA");
+-extern "C" void fnv_api_CreateDirectoryA() __asm__("CreateDirectoryA");
+-extern "C" void fnv_api_DeleteFileA() __asm__("DeleteFileA");
+@@ -9 +5,0 @@ extern "C" void fnv_api_GetLocalTime() __asm__("GetLocalTime");
+-extern "C" void fnv_api_GetPrivateProfileIntA() __asm__("GetPrivateProfileIntA");
+@@ -11 +6,0 @@ extern "C" void fnv_api_GetUserNameA() __asm__("GetUserNameA");
+-extern "C" void fnv_api_SHGetFolderPathA() __asm__("SHGetFolderPathA");
+@@ -16,6 +10,0 @@ FNVDateFunction g_fnvDateFunction = reinterpret_cast< void (*)(char *, unsigned
+-// import slot of KERNEL32.dll CreateDirectoryA
+-int (*DAT_00fdf0b8)(const char *, void *) = reinterpret_cast< int (*)(const char *, void *)>(&fnv_api_CreateDirectoryA);
+-// import slot of KERNEL32.dll GetPrivateProfileIntA
+-int (*DAT_00fdf0c4)(const char *, const char *, int, const char *) = reinterpret_cast< int (*)(const char *, const char *, int, const char *)>(&fnv_api_GetPrivateProfileIntA);
+-// import slot of KERNEL32.dll DeleteFileA
+-int (*DAT_00fdf0d4)(char *) = reinterpret_cast< int (*)(char *)>(&fnv_api_DeleteFileA);
+@@ -24,4 +12,0 @@ FNVSystemTimeFunction g_fnvSystemTimeFunction = reinterpret_cast< void (*)(FNVSy
+-// import slot of KERNEL32.dll CopyFileA
+-int (*DAT_00fdf1b8)(const char *, const char *, int) = reinterpret_cast< int (*)(const char *, const char *, int)>(&fnv_api_CopyFileA);
+-// import slot of SHELL32.dll SHGetFolderPathA
+-int (*DAT_00fdf274)(void *, int, void *, unsigned int, char *) = reinterpret_cast< int (*)(void *, int, void *, unsigned int, char *)>(&fnv_api_SHGetFolderPathA);
+--- a/src/generated/data/fallout_shared/tesfile.inc
++++ b/src/generated/data/fallout_shared/tesfile.inc
+@@ -9 +8,0 @@
+-char DAT_01202c50[260];
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc
+@@ -5,4 +4,0 @@
+-unsigned char DAT_011f3758[1];
+-bool (*g_fnv_cb_011f3810[1])(float, int *, int *);
+-void *(*DAT_011f3930[1])(unsigned int);
+-void (*DAT_011f39c0[1])(void *, const void *);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nibooldata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nibooldata.inc
+@@ -5,3 +4,0 @@
+-unsigned char DAT_011f3776[6];
+-void (*DAT_011f3ac8[6])(NiStream &, BooleanKey *, unsigned int);
+-FUN_00a53830_elemcmp DAT_011f3b58[5];
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/niboolkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/niboolkey.inc
+@@ -5 +4,0 @@
+-InterpFn DAT_011f3d08[5];
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicolordata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicolordata.inc
+@@ -5,5 +4,0 @@
+-unsigned char DAT_011f376a[1];
+-void (*DAT_011f38e8[1])(ColorAnimationKey *);
+-void (*DAT_011f3a98[1])(S_a3d410_Stream *, int, unsigned int);
+-bool (*DAT_011f3b28[1])(ColorAnimationKey *, ColorAnimationKey *);
+-NiColorKeyA3D *(*g_apfnColorKeyCreateA3D[1])(A3D370Stream &, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicolorkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicolorkey.inc
+@@ -5 +4,0 @@
+-int *(*volatile DAT_011f3cd8)(int, int, int, int *);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollermanager.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollermanager.inc
+@@ -6,6 +5,0 @@ bool DAT_011f369b;
+-unsigned char DAT_011f3763;
+-void *DAT_011f38cc;
+-void *DAT_011f395c;
+-void *DAT_011f39ec;
+-void *DAT_011f3a7c;
+-void *DAT_011f3ddc;
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc
+@@ -35 +34,0 @@
+-::HolderB3718 *DAT_011f6080;
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nieulerrotkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nieulerrotkey.inc
+@@ -5 +4,0 @@
+-void (*DAT_011f38a0[1])(void *);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nifloatdata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nifloatdata.inc
+@@ -5,4 +4,0 @@
+-int DAT_011f3780;
+-void (*g_apfnA29FE0Load[1])(A29FE0Context *, void *, unsigned int);
+-int DAT_011f3ae0;
+-void *(*DAT_011f3db0[1])(A29F00Stream &, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nifloatkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nifloatkey.inc
+@@ -7,4 +6,0 @@ bool g_bA26E20Registered;
+-int DAT_011f3b70;
+-int DAT_011f3c00;
+-int DAT_011f3c90;
+-int DAT_011f3d20;
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nipathcontroller.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nipathcontroller.inc
+@@ -8,3 +7,0 @@ float DAT_011a8b40[5] = {0.046910077f, 0.23076534f, 0.5f, 0.76923466f, 0.9530899
+-void (*DAT_011f3c18[6])(float, const AnimationKey *, const AnimationKey *, void *);
+-void *DAT_011f3ca8[2];
+-float (*DAT_011f3d38[2])(MyPosKey *, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/niposdata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/niposdata.inc
+@@ -6,6 +5,0 @@ char str_01097164[12] = "m_uiNumKeys";
+-unsigned char DAT_011f375e[1];
+-void (*DAT_011f3798[2])(PositionKeyInterpolator *, unsigned int, unsigned char);
+-void (*DAT_011f38b8[1])(PositionKeyInterpolator *);
+-void (*g_011f3a68[1])(NiStream &, PositionKeyInterpolator *, unsigned int);
+-bool (*DAT_011f3af8[6])(void *, void *);
+-PositionKeyInterpolator *(*DAT_011f3dc8[1])(NiStream &, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/niposkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/niposkey.inc
+@@ -6 +5,0 @@ P3 DAT_011f365c;
+-NiPosInterpFunction DAT_011f3b88[6];
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nirotdata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nirotdata.inc
+@@ -5,6 +4,0 @@
+-unsigned char DAT_011f3764[1];
+-void (*DAT_011f37b0[1])(TimedRotationKey *, unsigned int, unsigned char);
+-void (*DAT_011f38d0[1])(TimedRotationKey *);
+-void (*DAT_011f3a80[1])(NiStream2 &, TimedRotationKey *, unsigned int);
+-bool (*DAT_011f3b10[6])(void *, void *);
+-TimedRotationKey *(*DAT_011f3de0[1])(NiStream &, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nirotkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nirotkey.inc
+@@ -5 +4,0 @@
+-NiRotKeyInterpFn DAT_011f3cc0[1];
+--- a/src/generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.inc
+@@ -5,2 +4,0 @@
+-void (*DAT_011f37f8[6])(AnimationKey *, unsigned int, unsigned char);
+-void (*DAT_011f3918[6])(AnimationKey *);
+--- a/src/generated/data/generated/crt_callback_status_o2_variant.inc
++++ b/src/generated/data/generated/crt_callback_status_o2_variant.inc
+@@ -24,193 +23,0 @@ unsigned char DAT_011f369c;
+-unsigned char DAT_011f3759;
+-unsigned char DAT_011f375a;
+-unsigned char DAT_011f375b;
+-unsigned char DAT_011f375d;
+-unsigned char DAT_011f375f;
+-char DAT_011f3760;
+-namespace fnv_00a2bb90 { unsigned char DAT_011f3761; }
+-unsigned char g_A2AD80Flags;
+-char DAT_011f3766;
+-unsigned char DAT_011f3767;
+-unsigned char DAT_011f3768;
+-unsigned char DAT_011f3769;
+-unsigned char DAT_011f376b;
+-char DAT_011f376f;
+-unsigned char DAT_011f377b;
+-void (*DAT_011f3784)();
+-void *DAT_011f3788;
+-void *DAT_011f378c;
+-S_00a2d360_Fn DAT_011f3794;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable9[36];
+-A2AD80Callback g_A2AD80Callback10;
+-S_00a29110_Fn DAT_011f37b8;
+-RuntimeCallback DAT_011f37bc;
+-void (*DAT_011f37c0)();
+-void *DAT_011f37c4;
+-int DAT_011f37c8;
+-int DAT_011f37cc;
+-int DAT_011f37dc;
+-void *DAT_011f380c;
+-void (*DAT_011f3814)();
+-void *DAT_011f3818;
+-void *DAT_011f381c;
+-S_00a2d360_Fn DAT_011f3824;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable7[36];
+-A2AD80Callback g_A2AD80Callback11;
+-S_00a29110_Fn DAT_011f3848;
+-RuntimeCallback DAT_011f384c;
+-void (*DAT_011f3850)();
+-void *DAT_011f3854;
+-int DAT_011f3858;
+-void (*volatile DAT_011f385c)();
+-RuntimeCallbackFn DAT_011f386c;
+-void *DAT_011f389c;
+-void (*DAT_011f38a4)();
+-void *DAT_011f38a8;
+-void *DAT_011f38ac;
+-S_00a2d360_Fn DAT_011f38b4;
+-int DAT_011f38bc;
+-void (*FUN_00a28cb0_aTable4[36])();
+-namespace fnv_00a2bb90 { int DAT_011f38c4; }
+-A2AD80Callback g_A2AD80Callback7;
+-S_00a29110_Fn DAT_011f38d8;
+-RuntimeCallback DAT_011f38dc;
+-void (*DAT_011f38e0)();
+-void *DAT_011f38e4;
+-void (*volatile DAT_011f38ec)();
+-RuntimeCallbackFn DAT_011f38fc;
+-void *DAT_011f392c;
+-void (*DAT_011f3934)();
+-void *DAT_011f3938;
+-void *DAT_011f393c;
+-S_00a2d360_Fn DAT_011f3944;
+-void *DAT_011f3948;
+-int DAT_011f394c;
+-void (*FUN_00a28cb0_aTable2[36])();
+-namespace fnv_00a2bb90 { int DAT_011f3954; }
+-A2AD80Callback g_A2AD80Callback6;
+-S_00a29110_Fn DAT_011f3968;
+-RuntimeCallback DAT_011f396c;
+-void (*DAT_011f3970)();
+-void *DAT_011f3974;
+-void (*volatile DAT_011f3978)(CallbackTypeB *);
+-void (*volatile DAT_011f397c)();
+-RuntimeCallbackFn DAT_011f398c;
+-S_00a294f0_Fn DAT_011f39a8;
+-void *DAT_011f39bc;
+-void (*DAT_011f39c4)();
+-void *DAT_011f39c8;
+-void *DAT_011f39cc;
+-S_00a2d360_Fn DAT_011f39d4;
+-void *DAT_011f39d8;
+-int DAT_011f39dc;
+-void (*FUN_00a28cb0_aTable5[36])();
+-namespace fnv_00a2bb90 { int DAT_011f39e4; }
+-A2AD80Callback g_A2AD80Callback5;
+-S_00a29110_Fn DAT_011f39f8;
+-RuntimeCallback DAT_011f39fc;
+-void (*DAT_011f3a00)();
+-void *DAT_011f3a04;
+-void (*volatile DAT_011f3a08)(CallbackTypeB *);
+-void (*volatile DAT_011f3a0c)();
+-RuntimeCallbackFn DAT_011f3a1c;
+-S_00a294f0_Fn DAT_011f3a38;
+-void *DAT_011f3a4c;
+-void (*DAT_011f3a54)();
+-void *DAT_011f3a58;
+-void *DAT_011f3a5c;
+-S_00a2d360_Fn DAT_011f3a64;
+-int DAT_011f3a6c;
+-void (*FUN_00a28cb0_aTable3[36])();
+-namespace fnv_00a2bb90 { int DAT_011f3a74; }
+-A2AD80Callback g_A2AD80Callback4;
+-S_00a29110_Fn DAT_011f3a88;
+-RuntimeCallback DAT_011f3a8c;
+-void (*DAT_011f3a90)();
+-void *DAT_011f3a94;
+-void (*volatile DAT_011f3a9c)();
+-RuntimeCallbackFn DAT_011f3aac;
+-void *DAT_011f3adc;
+-void (*DAT_011f3ae4)();
+-void *DAT_011f3ae8;
+-void *DAT_011f3aec;
+-S_00a2d360_Fn DAT_011f3af4;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable0[36];
+-A2AD80Callback g_A2AD80Callback9;
+-S_00a29110_Fn DAT_011f3b18;
+-RuntimeCallback DAT_011f3b1c;
+-void (*DAT_011f3b20)();
+-void *DAT_011f3b24;
+-void (*volatile DAT_011f3b2c)();
+-RuntimeCallbackFn DAT_011f3b3c;
+-void *DAT_011f3b6c;
+-int DAT_011f3b74;
+-void *DAT_011f3b78;
+-int DAT_011f3b7c;
+-int DAT_011f3b84;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable1[36];
+-A2AD80Callback g_A2AD80Callback2;
+-int DAT_011f3ba8;
+-RuntimeCallback DAT_011f3bac;
+-unsigned int DAT_011f3bb0;
+-int DAT_011f3bb4;
+-int DAT_011f3bb8;
+-int DAT_011f3bbc;
+-int DAT_011f3bcc;
+-int DAT_011f3bfc;
+-int DAT_011f3c04;
+-void *DAT_011f3c08;
+-int DAT_011f3c0c;
+-int DAT_011f3c14;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable8[36];
+-A2AD80Callback g_A2AD80Callback1;
+-int DAT_011f3c38;
+-RuntimeCallback DAT_011f3c3c;
+-unsigned int DAT_011f3c40;
+-int DAT_011f3c44;
+-int DAT_011f3c48;
+-int DAT_011f3c4c;
+-int DAT_011f3c5c;
+-int DAT_011f3c8c;
+-void (*DAT_011f3c94)();
+-void *DAT_011f3c98;
+-void *DAT_011f3c9c;
+-S_00a2d360_Fn DAT_011f3ca4;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable6[36];
+-A2AD80Callback g_A2AD80Callback8;
+-S_00a29110_Fn DAT_011f3cc8;
+-RuntimeCallback DAT_011f3ccc;
+-void (*DAT_011f3cd0)();
+-void *DAT_011f3cd4;
+-void (*volatile DAT_011f3cdc)();
+-RuntimeCallbackFn DAT_011f3cec;
+-void *DAT_011f3d1c;
+-int DAT_011f3d24;
+-void *DAT_011f3d28;
+-int DAT_011f3d2c;
+-int DAT_011f3d34;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable10[36];
+-A2AD80Callback g_A2AD80Callback0;
+-int DAT_011f3d58;
+-RuntimeCallback DAT_011f3d5c;
+-unsigned int DAT_011f3d60;
+-int DAT_011f3d64;
+-int DAT_011f3d68;
+-int DAT_011f3d6c;
+-int DAT_011f3d7c;
+-int DAT_011f3dac;
+-void (*DAT_011f3db4)();
+-void *DAT_011f3db8;
+-void *DAT_011f3dbc;
+-S_00a2d360_Fn DAT_011f3dc4;
+-int DAT_011f3dcc;
+-void (*FUN_00a28cb0_aTable11[36])();
+-namespace fnv_00a2bb90 { int DAT_011f3dd4; }
+-A2AD80Callback g_A2AD80Callback3;
+-S_00a29110_Fn DAT_011f3de8;
+-RuntimeCallback DAT_011f3dec;
+-void (*DAT_011f3df0)();
+-void *DAT_011f3df4;
+-void (*volatile DAT_011f3dfc)();
+-RuntimeCallbackFn DAT_011f3e0c;
+-AnimationKey *(*DAT_011f3e28[6])(NiStream &, unsigned int);
+-void *DAT_011f3e3c;
+--- a/src/generated/data/havok/common/base/types/hkrefvariant.inc
++++ b/src/generated/data/havok/common/base/types/hkrefvariant.inc
+@@ -8 +7,0 @@
+-intptr_t DAT_01269b10;
+--- a/src/generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc
++++ b/src/generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc
+@@ -197,2 +196,0 @@
+-intptr_t DAT_01269b14;
+-intptr_t DAT_01269b18;
+--- a/src/generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.inc
++++ b/src/generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.inc
+@@ -10 +9,0 @@
+-unsigned char DAT_011b4284 = 1;
+--- a/src/generated/data/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.inc
++++ b/src/generated/data/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.inc
+@@ -5,2 +4,0 @@
+-float DAT_011b5be0 = 2.6874115f;
+-float DAT_011b5be4 = 0.37210527f;
+--- a/src/generated/data/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.inc
++++ b/src/generated/data/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.inc
+@@ -4,3 +3,0 @@
+-
+-hkReal DAT_011b6924 = 1.0f;
+-hkReal DAT_011b6928 = 0.05f;
+--- a/src/generated/data/staging/blk_00860000_od.inc
++++ b/src/generated/data/staging/blk_00860000_od.inc
+@@ -18 +17,0 @@
+-void *DAT_011f6118;
+--- a/src/generated/data/staging/blk_00ba0000_o2.inc
++++ b/src/generated/data/staging/blk_00ba0000_o2.inc
+@@ -5 +5 @@
+-extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ");
++extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z");
+--- a/src/generated/data/staging/blk_00c20000_od.inc
++++ b/src/generated/data/staging/blk_00c20000_od.inc
+@@ -21,3 +20,0 @@
+-char DAT_01202938[260];
+-char DAT_01202a40[260];
+-unsigned char DAT_01202b48;
+--- a/src/generated/data/staging/blk_00c60000_o2.inc
++++ b/src/generated/data/staging/blk_00c60000_o2.inc
+@@ -12 +12 @@
+-extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ");
++extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z");
+--- a/src/generated/data/staging/blk_00c80000_o2.inc
++++ b/src/generated/data/staging/blk_00c80000_o2.inc
+@@ -14 +14 @@
+-extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ");
++extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z");
+--- a/src/generated/data/staging/blk_00ca0000_o2.inc
++++ b/src/generated/data/staging/blk_00ca0000_o2.inc
+@@ -10 +10 @@
+-extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ");
++extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z");
+--- a/src/generated/data/staging/blk_00d20000_o2.inc
++++ b/src/generated/data/staging/blk_00d20000_o2.inc
+@@ -6 +5,0 @@
+-unsigned char DAT_011b4284 = 1;
+--- a/src/generated/data/staging/blk_00d40000_o2.inc
++++ b/src/generated/data/staging/blk_00d40000_o2.inc
+@@ -4,4 +3,0 @@
+-
+-double DAT_010d0f08 = 0.7070000171661377;
+-float DAT_011b5be0 = 2.6874115f;
+-float DAT_011b5be4 = 0.37210527f;
+--- a/src/generated/data/staging/blk_00d60000_o2.inc
++++ b/src/generated/data/staging/blk_00d60000_o2.inc
+@@ -5,2 +4,0 @@
+-float DAT_011b6924 = 1.0f;
+-float DAT_011b6928 = 0.05f;
+--- a/src/generated/data/vtables.h
++++ b/src/generated/data/vtables.h
+@@ -1177 +1176,0 @@
+-extern void* fnv_vftable_DAT_010a24d0[] __asm__("?DAT_010a24d0@fnv_00aa24a0@@3HA");
+@@ -1643 +1641,0 @@
+-extern void* fnv_vftable_fnv_00db7a20_Thing[] __asm__("?DAT_010cf7b0@fnv_00d47d70@@3HA");
+@@ -1758 +1755,0 @@
+-extern void* fnv_vftable_DAT_010d6a94[] __asm__("DAT_010d6a94");
+@@ -1910 +1906,0 @@
+-extern void* fnv_vftable_DAT_010ea51c[] __asm__("DAT_010ea51c");
+--- a/src/generated/data/vtables_010a.cpp
++++ b/src/generated/data/vtables_010a.cpp
+@@ -320 +319,0 @@
+-extern "C" void fnv_fn_00aa24a0() __asm__("?Destroy@BSNiAllocator@fnv_00aa24a0@@QEAAPEAXI@Z");
+@@ -1820,14 +1818,0 @@
+-// ?DAT_010a24d0@fnv_00aa24a0@@3HA
+-void* fnv_vftable_DAT_010a24d0[] = {
+-    reinterpret_cast<void*>(&fnv_fn_00aa24a0),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-};
+-
+--- a/src/generated/data/vtables_010c.cpp
++++ b/src/generated/data/vtables_010c.cpp
+@@ -875 +875 @@
+-extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ");
++extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z");
+@@ -1716 +1716 @@
+-extern "C" void fnv_fn_00d477c0() __asm__("?RegisterInputSource@@YAXPEAUD477C0Input@@PEAUD477C0Source@@@Z");
++extern "C" void fnv_fn_00d477c0() __asm__("?RegisterInputSource@@YAXPEAUAgg6@@PEBVhkClass@@@Z");
+@@ -1718,7 +1718,3 @@
+-extern "C" void fnv_fn_00d47900() __asm__("?FindEntryAndCall@hkObjD479@@QEAAPEAUhkEntryD479@@PEAX0@Z");
+-extern "C" void fnv_fn_00d47940() __asm__("?FUN_00d47940@FUN_00d47940_Obj@@QEAAPEAXHH@Z");
+-extern "C" void fnv_fn_00d47970() __asm__("?FUN_00d47970@FUN_00d47970_Class@@QEAAXPEAX@Z");
+-extern "C" void fnv_fn_00d479e0() __asm__("?FUN_00d479e0@FUN_00d479e0_class@@QEAAPEAXPEBX@Z");
+-extern "C" void fnv_fn_00d47a00() __asm__("?FUN_00d47a00@@YAHXZ");
+-extern "C" void fnv_fn_00d47a10() __asm__("?FUN_00d47a10@@YAHXZ");
+-extern "C" void fnv_fn_00d47a20() __asm__("?FUN_00d47a20@@YAHXZ");
++extern "C" void fnv_fn_00d47a00() __asm__("?FUN_00d47a00@@YA_JXZ");
++extern "C" void fnv_fn_00d47a10() __asm__("?FUN_00d47a10@@YA_JXZ");
++extern "C" void fnv_fn_00d47a20() __asm__("?FUN_00d47a20@@YA_JXZ");
+@@ -1734 +1730 @@
+-extern "C" void fnv_fn_00d47c40() __asm__("?LookupClassByVtable@hkVtableClassRegistry@@QEAAKPEBK@Z");
++extern "C" void fnv_fn_00d47c40() __asm__("?LookupClassByVtable@hkVtableClassRegistry@@QEAA_KPEBK@Z");
+@@ -8661,11 +8657,2 @@
+-// ??_7Thing@fnv_00db7a20@@6B@
+-void* fnv_vftable_fnv_00db7a20_Thing[] = {
+-    reinterpret_cast<void*>(&fnv_fn_00d47b70),
+-    reinterpret_cast<void*>(&fnv_fn_00c90350),
+-    reinterpret_cast<void*>(&fnv_fn_00c90360),
+-    reinterpret_cast<void*>(&fnv_fn_00d478e0),
+-    reinterpret_cast<void*>(&fnv_fn_00d47900),
+-    reinterpret_cast<void*>(&fnv_fn_00d47940),
+-    reinterpret_cast<void*>(&fnv_fn_00d47970),
+-    reinterpret_cast<void*>(&fnv_fn_00d479e0),
+-};
++// The native packfile registry is constructed as hkObjD479 and uses its
++// compiler-owned virtual table, not the former raw registry table.
+--- a/src/generated/data/vtables_010d.cpp
++++ b/src/generated/data/vtables_010d.cpp
+@@ -424,2 +423,0 @@
+-extern "C" void fnv_fn_00dc0ec0() __asm__("?FUN_00dc0ec0@FUN_00dc0ec0_cls@@QEAAHHH@Z");
+-extern "C" void fnv_fn_00dc0ed0() __asm__("?FUN_00dc0ed0@FUN_00dc0ed0_class@@QEAAXHH@Z");
+@@ -2003,11 +2001,2 @@
+-// _DAT_010d6a94
+-void* fnv_vftable_DAT_010d6a94[] = {
+-    nullptr, // ??_GFUN_00dc0f80@fnv_00dc0f80@@UAEPAXI@Z: no definition
+-    reinterpret_cast<void*>(&fnv_fn_00c90350),
+-    reinterpret_cast<void*>(&fnv_fn_00c90360),
+-    reinterpret_cast<void*>(&fnv_fn_00dc0eb0),
+-    reinterpret_cast<void*>(&fnv_fn_00dc0ef0),
+-    reinterpret_cast<void*>(&fnv_fn_00dc0ed0),
+-    reinterpret_cast<void*>(&fnv_fn_00dc0ec0),
+-    reinterpret_cast<void*>(&fnv_fn_00be0aa0),
+-};
++// Native packfile resources are constructed C++ owners. Their virtual tables
++// are compiler-owned; the former raw resource table is no longer published.
+--- a/src/generated/data/vtables_010e.cpp
++++ b/src/generated/data/vtables_010e.cpp
+@@ -1393,11 +1393,2 @@
+-// _DAT_010ea51c
+-void* fnv_vftable_DAT_010ea51c[] = {
+-    reinterpret_cast<void*>(&fnv_fn_00e05970),
+-    reinterpret_cast<void*>(&fnv_fn_00c90350),
+-    reinterpret_cast<void*>(&fnv_fn_00e05250),
+-    reinterpret_cast<void*>(&fnv_fn_00cc0760),
+-    reinterpret_cast<void*>(&fnv_fn_00e05370),
+-    reinterpret_cast<void*>(&fnv_fn_00e05410),
+-    reinterpret_cast<void*>(&fnv_fn_00e055f0),
+-    reinterpret_cast<void*>(&fnv_fn_00e05140),
+-};
++// The former packfile byte-layout table has no source construction/publication.
++// Native resource vtables are emitted for their actual C++ owners.

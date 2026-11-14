@@ -3,7 +3,6 @@
 #define ANIMATION_LOCAL_TYPES_H
 // Unit-local supersets of canonical leaf types (same layout; see animation_decls.h). Included before the canonical
 // headers, which animation_decls.h then includes with these names renamed away.
-#pragma pack(push, 4)
 template <class T> class NiPointer
 {
   public:
@@ -16,18 +15,12 @@ template <class T> class NiPointer
     NiPointer& operator=(T*);
     NiPointer& operator=(const NiPointer&);
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3();
     static const NiPoint3 ZERO;
 };
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-    operator const char*() const;
-};
-#pragma pack(pop)
+#include "fnv/native_fixed_string.h"
 #endif

@@ -33,6 +33,8 @@ void C6D170Timer::Reset()
     m_iArrayLength = 0;
 }
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 struct S_cd3b20_node
 {
@@ -123,23 +125,8 @@ void S_cd3b20_cls::FUN_00cd3b20(S_cd3b20_cls* src)
     m_04 = src->m_1c;
 }
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct FUN_00c6d9c0
 {
@@ -183,9 +170,7 @@ struct FUN_00c6d9c0
 
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(apMemory, sizeof(FUN_00c6d9c0));
+        hkMemoryRouter::getInstance().heap().blockFree(apMemory, sizeof(FUN_00c6d9c0));
     }
 };
 

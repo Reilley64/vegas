@@ -18,7 +18,7 @@
 
 class TESObjectCELL;
 
-class NiObject
+struct NiObject
 {
   public:
     NiObject() : m_uiRefCount(0)

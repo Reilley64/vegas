@@ -2,13 +2,13 @@
 #ifndef NIPSYSMODIFIERCTLR_DECLS_H
 #define NIPSYSMODIFIERCTLR_DECLS_H
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
 {
   public:
     bool GetAt(const char*, T&);
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTStringPointerMap<ShaderBufferRecord*>* m_pCloneMap;

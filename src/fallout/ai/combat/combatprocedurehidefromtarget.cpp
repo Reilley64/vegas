@@ -2,8 +2,49 @@
 // src/fallout/ai/combat/combatprocedurehidefromtarget.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedurehidefromtarget.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct CombatProcedure
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
+#include "generated/data/vtables.h"
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/CPStandIn009caae0.h"
+#include "fnv/decl/CombatProcedureEx.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00575650_Class.h"
+#include "fnv/decl/FUN_006e2bb0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008b3960_Class.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008d7f40_shell.h"
+#include "fnv/decl/FUN_00996ed0_shell.h"
+#include "fnv/decl/FUN_009a03d0_cls.h"
+#include "fnv/decl/FUN_009a0600_shell.h"
+#include "fnv/decl/FUN_009a5eb0_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/FUN_009caac0_shell.h"
+#include "fnv/decl/FUN_009d6730_shell.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008b3880__FUN_008b3880_target.h"
+#include "fnv/decl/fnv_00996e20__FUN_00996e20_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_0097b000.h"
+#include "fnv/symbols_0097f000.h"
+#include "fnv/symbols_009a8000.h"
+#include "fnv/symbols_009a9000.h"
+#include "fnv/symbols_011cf000.h"
+class CombatProcedure
 {
+  public:
     enum COMBAT_PROCEDURES
     {
         eHideFromTarget = 9
@@ -23,7 +64,6 @@ CombatProcedure::COMBAT_PROCEDURES CombatProcedureHideFromTarget::FUN_009d60e0()
 
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0();
 };
 
 struct FUN_009d6120_shell
@@ -32,13 +72,12 @@ struct FUN_009d6120_shell
 };
 
 // @fnv 0x009d6120
-void __thiscall FUN_009d6120_shell::FUN_009d6120()
+void FUN_009d6120_shell::FUN_009d6120()
 {
-    *reinterpret_cast<int*>(this) = 0x01091a64;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    *reinterpret_cast<void**>(this) = fnv_vftable_DAT_01091a64;
+    reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 
-extern "C" void __cdecl Deallocate(void*);
 
 struct FUN_009d60f0_shell : public FUN_009d6120_shell
 {
@@ -51,7 +90,7 @@ void* FUN_009d60f0_shell::FUN_009d60f0(unsigned int flags)
 {
     FUN_009d6120();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -84,18 +123,18 @@ struct FUN_009d6030 : FUN_009ca680
     FUN_00906f60 m_18;
     FUN_006815c0 m_20;
     FUN_006815c0 m_2c;
-    int m_38;
+    void* m_38;
     bool m_3c;
     bool m_3d;
-    FUN_009d6030(int a, float b, bool c, bool d);
+    FUN_009d6030(void* a, float b, bool c, bool d);
 };
 
 // Constructor: sets the vtable, initializes m_10 to 0, stores b in m_14, a in m_38, c in m_3c and d in m_3d.
 // @fnv 0x009d6030
-FUN_009d6030::FUN_009d6030(int aiValue, float afValue, bool abFlag1, bool abFlag2)
+FUN_009d6030::FUN_009d6030(void* apLocation, float afValue, bool abFlag1, bool abFlag2)
     : m_10((m_vtbl = DAT_01091a64, 0)), m_14(afValue)
 {
-    m_38 = aiValue;
+    m_38 = apLocation;
     m_3c = abFlag1;
     m_3d = abFlag2;
 }
@@ -113,8 +152,6 @@ struct S_009d6750_Output
 
 struct S_009d6750_Timer
 {
-    float FUN_00435e00();
-    float FUN_006b9130();
 };
 
 struct S_009d6750 : CombatProcedureHideFromTarget
@@ -142,14 +179,13 @@ void S_009d6750::PrintState(S_009d6750_Output* out, int x, int y)
         break;
     case 2:
         out->Printf(x, y, "HIDING");
-        out->Printf(x, y, "Hiding Timer: %.02f/%.02f", m_timer.FUN_00435e00(), m_timer.FUN_006b9130());
+        out->Printf(x, y, "Hiding Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(m_timer))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(m_timer))->FUN_006b9130());
         break;
     }
 }
 
 struct BGSLoadFormBuffer
 {
-    void FUN_00864980(void* destination, unsigned int size);
 };
 struct FUN_00996ef0_shell
 {
@@ -159,17 +195,14 @@ struct FUN_009a5f20_shell
 {
     float x;
     float y;
-    void FUN_009a5f20(BGSLoadFormBuffer* stream);
 };
 struct FUN_009d6c80_shell
 {
-    FUN_009d6c80_shell* FUN_00586150();
 };
 struct FUN_0097fb60_shell
 {
     unsigned int GetFieldAtE8();
 };
-unsigned int __fastcall GetFieldValue(void* object);
 struct Float3
 {
     float x;
@@ -197,28 +230,27 @@ struct HideTargetLayout
 void HideTargetLayout::Load(BGSLoadFormBuffer* stream)
 {
     ((FUN_00996ef0_shell*)this)->FUN_00996ef0(stream);
-    stream->FUN_00864980(&unk10, 4);
-    stream->FUN_00864980(&unk14, 4);
-    unk18.FUN_009a5f20(stream);
-    stream->FUN_00864980(&unk20, 12);
-    stream->FUN_00864980(&unk2C, 12);
-    stream->FUN_00864980(&unk3C, 1);
-    stream->FUN_00864980(&unk3D, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk10), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk14), 4);
+    reinterpret_cast<::TimeoutTimer *>(&(unk18))->LoadGame(stream);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk20), 12);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk2C), 12);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk3C), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk3D), 1);
     unsigned char tag = 0;
-    stream->FUN_00864980(&tag, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&tag), 1);
     if (tag == 2)
     {
-        state = ((FUN_0097fb60_shell*)owner->FUN_00586150())->GetFieldAtE8();
+        state = ((FUN_0097fb60_shell*)((::FUN_009d6c80_shell *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150())))->GetFieldAtE8();
     }
     else if (tag == 1)
     {
-        state = GetFieldValue(owner->FUN_00586150());
+        state = ::GetFieldValue((unsigned int *)(void *)(((::FUN_009d6c80_shell *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()))));
     }
 }
 
 struct Archive
 {
-    void FUN_00865e50(void* apData, unsigned int aSize, int aFlags);
 };
 
 struct Block12
@@ -232,22 +264,18 @@ struct Sub18
 {
     int unk00;
     int unk04;
-    void FUN_009a5eb0(Archive* apArchive);
 };
 
 struct Handle
 {
-    int GetFieldAtE8();
 };
 
 struct Owner04
 {
-    Handle* FUN_00586150();
 };
 
 struct BaseNode
 {
-    void SaveToBuffer(Archive* apArchive);
 };
 
 struct FUN_009d6820_cls : BaseNode
@@ -273,20 +301,20 @@ struct FUN_009d6820_cls : BaseNode
 void FUN_009d6820_cls::Serialize(Archive* apArchive)
 {
     unsigned char state;
-    this->SaveToBuffer(apArchive);
-    apArchive->FUN_00865e50(&unk10, 4, 0);
-    apArchive->FUN_00865e50(&unk14, 4, 0);
-    unk18.FUN_009a5eb0(apArchive);
-    apArchive->FUN_00865e50(&unk20, 12, 0);
-    apArchive->FUN_00865e50(&unk2c, 12, 0);
-    apArchive->FUN_00865e50(&unk3c, 1, 0);
-    apArchive->FUN_00865e50(&unk3d, 1, 0);
+    reinterpret_cast<::FUN_00996ed0_shell *>((this))->SaveToBuffer((::BGSSaveFormBuffer *)(apArchive));
+    reinterpret_cast<::FUN_00865e50_shell *>((apArchive))->FUN_00865e50(&unk10, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apArchive))->FUN_00865e50(&unk14, 4, 0);
+    reinterpret_cast<::FUN_009a5eb0_shell *>(&(unk18))->FUN_009a5eb0((::BGSSaveFormBuffer *)(apArchive));
+    reinterpret_cast<::FUN_00865e50_shell *>((apArchive))->FUN_00865e50(&unk20, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apArchive))->FUN_00865e50(&unk2c, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apArchive))->FUN_00865e50(&unk3c, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apArchive))->FUN_00865e50(&unk3d, 1, 0);
     state = 0;
     if (unk38 != 0)
     {
-        state = (unk38 == unk04->FUN_00586150()->GetFieldAtE8()) ? 2 : 1;
+        state = (unk38 == ((int)(reinterpret_cast<::FUN_0097fb60_shell *>((((::Handle *)(reinterpret_cast<::InterfaceManager *>((unk04))->FUN_00586150()))))->GetFieldAtE8()))) ? 2 : 1;
     }
-    apArchive->FUN_00865e50(&state, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apArchive))->FUN_00865e50(&state, 1, 0);
 }
 
 struct Vec
@@ -295,7 +323,6 @@ struct Vec
     Vec(const Vec&);
     float x, y, z;
     Vec operator-(const Vec&) const;
-    float FUN_004a7290() const;
 };
 struct WorldPos
 {
@@ -305,9 +332,6 @@ struct WorldPos
 struct Clock
 {
     int a, b;
-    void FUN_008d7f40(float);
-    bool expired();
-    float elapsed();
 };
 struct Request
 {
@@ -356,7 +380,6 @@ struct Request
     int fielda8;
     Request();
     ~Request();
-    void SetInitialPathHeading(float);
 };
 struct ActorStub
 {
@@ -537,14 +560,7 @@ struct ActorStub
     virtual void v174();
     virtual float speed(int);
 
-    void* FUN_00575d70();
-    void* FUN_008d6f30();
-    void setup(Request*, Vec*, void*, void*, float, int);
     bool path(Request*);
-    bool failed();
-    bool failedMove();
-    bool arrived();
-    WorldPos world();
 };
 struct Hiding
 {
@@ -588,32 +604,18 @@ struct Cover
 struct TimeValue
 {
     int value;
-    float elapsed();
 };
 struct StateStub
 {
-    bool find(Hiding*);
-    void FUN_009a03d0(int);
     Cover* cover();
-    bool ready();
-    void turn(bool);
-    TimeValue timer();
 };
 struct OwnerStub
 {
-    ActorStub* GetFieldBC();
-    ActorStub* target();
-    StateStub* FUN_00586150();
 };
-float height(void*, int, int);
-void location(OwnerStub*, Hiding*, Vec*, Vec*);
 Vec angle(ActorStub*, int);
-float FUN_00435dd0();
 struct SettingStub
 {
-    float* Float();
 };
-extern SettingStub originalRuntimeFloatSetting431;
 struct HideProcedure
 {
     int f00;
@@ -627,27 +629,23 @@ struct HideProcedure
     Hiding* hiding;
     bool keep;
     bool reset;
-    void FUN_00996e20(int);
-    void SetLookAtPoint(const Vec&, unsigned char);
-    void FUN_009caac0(const char*);
-    void SetState();
     void Update();
 };
 // @fnv 0x009d6140
 void HideProcedure::Update()
 {
-    ActorStub* actor2 = owner->GetFieldBC();
-    ActorStub* enemy2 = owner->target();
-    StateStub* target7 = owner->FUN_00586150();
+    ActorStub* actor2 = ((::ActorStub *)(reinterpret_cast<CombatControllerFields*>(owner)->pActor));
+    ActorStub* enemy2 = ((::ActorStub *)(reinterpret_cast<::AlchemyItem *>((owner))->FUN_004030b0()));
+    StateStub* target7 = ((::StateStub *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()));
     switch (state)
     {
     case 0: {
-        bool found7 = target7->find(hiding);
+        bool found7 = reinterpret_cast<::FUN_009a0600_shell *>((target7))->FUN_009a0600((::CombatCoverPointData *)(hiding));
         if (found7)
         {
             hiding->active = true;
-            location(owner, hiding, &destination, &rotation);
-            rotation.z += height(enemy2 ? enemy2 : actor2, 2, 0);
+            ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(owner), (::fnv_009a9370::CombatCoverPointData *)(hiding), (::fnv_009a9370::NiPoint3 *)(::Vec *)(&destination), (::fnv_009a9370::NiPoint3 *)(::Vec *)(&rotation));
+            rotation.z += ::FUN_009a8460((::S_009a8460_Actor *)(enemy2 ? enemy2 : actor2), 2, 0);
         }
         else
         {
@@ -656,94 +654,94 @@ void HideProcedure::Update()
                 rotation = angle(enemy2, 2);
         }
         Vec delta7 = actor2->position() - destination;
-        if (found7 && delta7.FUN_004a7290() > 625.0)
+        if (found7 && reinterpret_cast<::TESCombatStyle *>((void *)&(delta7))->UpdateCombatStyle() > 625.0)
         {
-            FUN_00996e20(3);
+            reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(3);
             Request request2;
-            actor2->setup(&request2, &destination, actor2->FUN_008d6f30(), actor2->FUN_00575d70(), 0.0f, 0);
-            request2.SetInitialPathHeading(actor2->speed(0));
+            reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor2))->PathToLocation((::fnv_008b3880::PathingRequest *)(::Request *)(&request2), &destination, ((void *)(reinterpret_cast<::LowProcess *>((actor2))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor2))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
+            reinterpret_cast<::FUN_006e2bb0_shell *>(&(request2))->SetInitialPathHeading(actor2->speed(0));
             if (!actor2->path(&request2))
             {
-                FUN_009caac0("Cannot setup path to hiding location");
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to hiding location"));
                 return;
             }
             state = 1;
         }
         else
         {
-            clock.FUN_008d7f40(duration);
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(clock))->FUN_008d7f40(duration);
             if (enemy2)
-                SetLookAtPoint(rotation, 3);
-            FUN_00996e20(2);
+                reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((const ::NiPoint3 &)(rotation), 3);
+            reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
             state = 2;
         }
         break;
     }
     case 1:
-        FUN_00996e20(3);
-        if (actor2->failed())
+        reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(3);
+        if (reinterpret_cast<::FUN_008b3b90_shell *>((actor2))->FUN_008b3b90())
         {
-            FUN_009caac0(actor2->failedMove() ? "Pathing failed while moving to hiding location"
-                                              : "Path Building failed to hiding location");
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor2))->FUN_008b3960() ? "Pathing failed while moving to hiding location"
+                                              : "Path Building failed to hiding location"));
             return;
         }
-        if (actor2->arrived())
+        if (((bool)(reinterpret_cast<::TeleportableReference *>((actor2))->GetTeleportDestinationForm())))
         {
-            clock.FUN_008d7f40(duration);
-            SetLookAtPoint(rotation, 3);
-            FUN_00996e20(2);
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(clock))->FUN_008d7f40(duration);
+            reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((const ::NiPoint3 &)(rotation), 3);
+            reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
             state = 2;
         }
         break;
     case 2:
-        if (clock.expired())
+        if (reinterpret_cast<::TimeoutTimer *>(&(clock))->CheckTimer())
         {
             if (reset)
-                target7->FUN_009a03d0(0);
-            SetState();
+                reinterpret_cast<::FUN_009a03d0_cls *>((target7))->FUN_009a03d0(0);
+            reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
             return;
         }
         {
             bool shouldEnd3 = false;
-            float time7 = clock.elapsed() + 1.0;
+            float time7 = reinterpret_cast<::CombatTargetTimestamp *>(&(clock))->FUN_006a7f50() + 1.0;
             if (time7 < FUN_00435dd0())
                 shouldEnd3 = true;
             if (shouldEnd3)
             {
                 Cover* cover = target7->cover();
-                if (cover && cover->kind == 1 && cover->pos.distance(actor2->world()) < 4096.0)
+                if (cover && cover->kind == 1 && cover->pos.distance((*(::WorldPos *)(reinterpret_cast<::FUN_00575650_Class *>((actor2))->FUN_00575650({})))) < 4096.0)
                     shouldEnd3 = false;
             }
             if (shouldEnd3)
             {
-                if (target7->ready())
+                if (::FUN_0097fb20((::CombatState *)(target7)))
                 {
                     if (!keep)
                     {
-                        owner->FUN_00586150()->FUN_009a03d0(1);
-                        target7->turn(false);
-                        SetState();
+                        reinterpret_cast<::FUN_009a03d0_cls *>((((::StateStub *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()))))->FUN_009a03d0(1);
+                        reinterpret_cast<::BSFaceGenNiNode *>((target7))->SetApplyRotToParent(false);
+                        reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
                         return;
                     }
                     if (enemy2)
                     {
-                        WorldPos actorPosition = actor2->world();
-                        WorldPos targetPosition = enemy2->world();
+                        WorldPos actorPosition = (*(::WorldPos *)(reinterpret_cast<::FUN_00575650_Class *>((actor2))->FUN_00575650({})));
+                        WorldPos targetPosition = (*(::WorldPos *)(reinterpret_cast<::FUN_00575650_Class *>((enemy2))->FUN_00575650({})));
                         if (actorPosition.distance(targetPosition) <
-                            *originalRuntimeFloatSetting431.Float() * *originalRuntimeFloatSetting431.Float())
+                            *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStub *>(&::originalRuntimeFloatSetting431)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStub *>(&::originalRuntimeFloatSetting431)))))))
                         {
-                            owner->FUN_00586150()->FUN_009a03d0(1);
-                            target7->turn(false);
-                            SetState();
+                            reinterpret_cast<::FUN_009a03d0_cls *>((((::StateStub *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()))))->FUN_009a03d0(1);
+                            reinterpret_cast<::BSFaceGenNiNode *>((target7))->SetApplyRotToParent(false);
+                            reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
                             return;
                         }
                     }
                 }
-                if (time7 < target7->timer().elapsed())
+                if (time7 < reinterpret_cast<::CombatTargetTimestamp *>((void *)&(const ::TimeValue &)((*(::TimeValue *)(reinterpret_cast<::FUN_009d6730_shell *>((target7))->FUN_009d6730({})))))->FUN_006a7f50())
                 {
-                    owner->FUN_00586150()->FUN_009a03d0(1);
-                    target7->turn(false);
-                    SetState();
+                    reinterpret_cast<::FUN_009a03d0_cls *>((((::StateStub *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()))))->FUN_009a03d0(1);
+                    reinterpret_cast<::BSFaceGenNiNode *>((target7))->SetApplyRotToParent(false);
+                    reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
                 }
             }
         }

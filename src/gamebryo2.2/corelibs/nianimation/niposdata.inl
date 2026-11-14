@@ -12,11 +12,12 @@
 #ifndef FNV_NIPOSDATA_INL
 #define FNV_NIPOSDATA_INL
 
+#include "fnv/decl/FUN_00416870_t.h"
 #include "niposdata_local.h"
 // @fnv 0x004a3760
 NiPoint3* NiPosData::ComputePositionAtTime(NiPoint3* pOut, float fTime, const NiPoint3* pIn)
 {
-    pOut->Set(fTime * pIn->x, fTime * pIn->y, fTime * pIn->z);
+    reinterpret_cast<::FUN_00416870_t *>((pOut))->FUN_00416870(fTime * pIn->x, fTime * pIn->y, fTime * pIn->z);
     return pOut;
 }
 #endif

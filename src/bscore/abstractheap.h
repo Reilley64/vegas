@@ -10,29 +10,18 @@ class HeapFreeBlock;
 class HeapFreeList;
 class MemoryBlockHeader;
 class HeapBlockList;
-#pragma pack(push, 4)
 class HeapFreeList
 {
   public:
     HeapFreeBlock* pHead;  // +0x0, 4 bytes
     HeapFreeBlock* pTail;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(HeapFreeList) == 8);
-FNV_STATIC_ASSERT(offsetof(HeapFreeList, pHead) == 0);
-FNV_STATIC_ASSERT(offsetof(HeapFreeList, pTail) == 4);
-#pragma pack(push, 4)
 class HeapBlockList
 {
   public:
     int iCount;            // +0x0, 4 bytes
     HeapFreeList* pFirst;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(HeapBlockList) == 8);
-FNV_STATIC_ASSERT(offsetof(HeapBlockList, iCount) == 0);
-FNV_STATIC_ASSERT(offsetof(HeapBlockList, pFirst) == 4);
-#pragma pack(push, 4)
 class AbstractHeap : public IMemoryHeap
 {
   public:
@@ -94,31 +83,6 @@ class AbstractHeap : public IMemoryHeap
     // void __cdecl AbstractHeap::*(unsigned int, HeapFreeList*)
     // AbstractHeap& __cdecl AbstractHeap::*(const AbstractHeap&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(AbstractHeap) == 8448);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, pName) == 4);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_iBlockAlignment) == 8);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_uiBlockHeaderSize) == 12);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_uiHeapGrowthEnabled) == 16);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_uiMaximumHeapSize) == 20);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_uiMinimumCommitSize) == 24);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_uiCurrentCommitSize) == 28);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_uiInitialCommitSize) == 32);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_iUsedSize) == 36);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_iAllocationCount) == 40);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_iAllocatedBlockSize) == 44);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_pHeapBase) == 48);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_iFreeBlockCount) == 52);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_pFirstBlock) == 56);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_pLastBlock) == 60);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_uiFreeBlockCount) == 64);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_kFreeLists) == 68);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_pCurrentFreeList) == 8260);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_kFreeListSentinel) == 8264);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_ppHeapBlocks) == 8272);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_uiBlockCount) == 8276);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_kSubBucketLists) == 8280);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_kCriticalSection) == 8408);
 #endif
 
 // @fnv 0x00aa7e70

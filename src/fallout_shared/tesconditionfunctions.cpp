@@ -1,5 +1,216 @@
 // fallout_shared/tesconditionfunctions.cpp: BGSQuestObjective, Script, IdleAnimationManager, TESQuest and more (272 functions)
 
+#include <cstdint>
+#include "fnv/game_timer.h"
+#include "fnv/tls.h"
+#include <new>
+#include <string.h>
+#include <cstdlib>
+#include "fnv/decl/Actor87.h"
+#include "fnv/decl/ActorValueUtility.h"
+#include "fnv/decl/Anim490.h"
+#include "fnv/decl/B88B7F0Process.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSXFlags.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CellOwnerCheck.h"
+#include "fnv/decl/Character534.h"
+#include "fnv/decl/Comparison.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00418660_shell.h"
+#include "fnv/decl/FUN_0041c8d0_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041cb10_shell.h"
+#include "fnv/decl/FUN_00422640Class.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00444ed0_shell.h"
+#include "fnv/decl/FUN_004536e0_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_0047d720Class.h"
+#include "fnv/decl/FUN_0048c1b0_shell.h"
+#include "fnv/decl/FUN_00490310_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00494300_shell.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3ae0_shell.h"
+#include "fnv/decl/FUN_004a3c20.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004ac110_shell.h"
+#include "fnv/decl/FUN_004bcdb0_shell.h"
+#include "fnv/decl/FUN_004c8f30_shell.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00501270_shell.h"
+#include "fnv/decl/FUN_00501ae0_shell.h"
+#include "fnv/decl/FUN_00504e60_shell.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569060_shell.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_00580060_shell.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_005a9140_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_005e5130_Class.h"
+#include "fnv/decl/FUN_0061af10_shell.h"
+#include "fnv/decl/FUN_0063f790_shell.h"
+#include "fnv/decl/FUN_00822cf0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00884730_shell.h"
+#include "fnv/decl/FUN_00893590_shell.h"
+#include "fnv/decl/FUN_0089f4e0_shell.h"
+#include "fnv/decl/FUN_008a16d0_shell.h"
+#include "fnv/decl/FUN_008a5270_shell.h"
+#include "fnv/decl/FUN_008a67f0_shell.h"
+#include "fnv/decl/FUN_008a7570_shell.h"
+#include "fnv/decl/FUN_008a81e0_Class.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008bc700_shell.h"
+#include "fnv/decl/FUN_008d85e0_Class.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00953c50_Class.h"
+#include "fnv/decl/FUN_00953f60_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00963ce0_StandIn.h"
+#include "fnv/decl/FUN_00964060_Class.h"
+#include "fnv/decl/GlobalObject_008c71b0.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/ItemChangeShell.h"
+#include "fnv/decl/ListHolder.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/MapMarkerData.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/PlayerCharShell.h"
+#include "fnv/decl/PlayerMover.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S0092f160.h"
+#include "fnv/decl/S_972600_Lists.h"
+#include "fnv/decl/ServicesActorView.h"
+#include "fnv/decl/SightActor.h"
+#include "fnv/decl/Sky.h"
+#include "fnv/decl/TESCreature.h"
+#include "fnv/decl/TESEffectShader.h"
+#include "fnv/decl/TESObjectARMO.h"
+#include "fnv/decl/TESObjectREFR578.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_0047d680__FUN_0047d680_shell.h"
+#include "fnv/decl/fnv_00490e60__FUN_00490e60_shell.h"
+#include "fnv/decl/fnv_00494390__MovementAnimation.h"
+#include "fnv/decl/fnv_004985f0__FUN_004985f0_s.h"
+#include "fnv/decl/fnv_004994f0__FUN_004994f0_shell.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_004bfda0__FUN_004bfda0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_005678a0__FUN_005678a0_Class.h"
+#include "fnv/decl/fnv_00571530__FUN_00571530_shell.h"
+#include "fnv/decl/fnv_00572d30__FUN_00572d30_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00576260__FUN_00576260_shell.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_00884350__FUN_00884350_shell.h"
+#include "fnv/decl/fnv_00884dc0__FUN_00884dc0_shell.h"
+#include "fnv/decl/fnv_008a5e80__FakeActor.h"
+#include "fnv/decl/fnv_008a6210__FUN_008a6210_shell.h"
+#include "fnv/decl/fnv_008acbe0__FUN_008acbe0_shell.h"
+#include "fnv/decl/fnv_008b7e20__FUN_008b7e20_cls.h"
+#include "fnv/decl/fnv_008b8e90__FUN_008b8e90_shell.h"
+#include "fnv/decl/fnv_0098ddd0__FUN_0098ddd0_shell.h"
+#include "fnv/decl/fnv_00992640__FUN_00992640_shell.h"
+#include "fnv/decl/s55d310__Owner.h"
+#include "fnv/decl/s5730d0__Actor.h"
+#include "fnv/decl/xActor_2.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00421000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00477000.h"
+#include "fnv/symbols_0047e000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004d1000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00558000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00578000.h"
+#include "fnv/symbols_0059c000.h"
+#include "fnv/symbols_0059d000.h"
+#include "fnv/symbols_0059f000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005a3000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005a5000.h"
+#include "fnv/symbols_005a6000.h"
+#include "fnv/symbols_005aa000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_00600000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00644000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_0066d000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_008a8000.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_01186000.h"
+#include "fnv/symbols_0118a000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f1000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_01272000.h"
 #include "tesconditionfunctions_conditionfn_MobileObject.h"
 #include "tesconditionfunctions_conditionfn_low_Script.h"
 #include "tesconditionfunctions_conditionfn_class_faction.h"
@@ -7,9 +218,12 @@
 #include "tesconditionfunctions_conditionfn_BGSQuestObjective.h"
 #include "tesconditionfunctions_packet.h"
 #include "tesconditionfunctions_conditionfn_dep_TESObjectREFR.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "tesconditionfunctions_conditionfn_MobileObject_decl_tesconditionfunctions.h"
+#include "tesconditionfunctions_conditionfn_dep_TESObjectREFR_decl_tesconditionfunctions.h"
 
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
 
 struct PlayerCharacterMovingStateView
 {
@@ -17,12 +231,16 @@ struct PlayerCharacterMovingStateView
     unsigned char movingIntoNewSpace;
 };
 
+class TESActorBase;
 class Actor
 {
   public:
     bool IsEssentialActor();
-    unsigned int GetActorStateFlags() const;
-    BooleanFloatQuery* RefreshActorRuntimeData();
+    std::uintptr_t GetActorStateFlags() const;
+public:
+    ::TESActorBase *GetActorBase();
+public:
+    bool IsSneaking();
 };
 
 // Sets result to 1.0 when the reference is an actor that is essential, otherwise leaves it at 0.0, and returns true.
@@ -33,7 +251,7 @@ bool __cdecl GetEssentialConditionFunction(TESObjectREFR* reference, void* arg1,
     if (reference->IsActor())
     {
         Actor* actor = (Actor*)reference;
-        if (actor->IsEssentialActor())
+        if (reinterpret_cast<::FUN_0087f3d0_shell *>((actor))->FUN_0087f3d0())
             result = 1.0;
     }
     return true;
@@ -45,7 +263,7 @@ bool __cdecl IsPlayerEnteringSpaceConditionFunction(TESObjectREFR* reference, vo
                                                     double& result)
 {
     result = 0.0;
-    if (((PlayerCharacterMovingStateView*)g_thePlayer)->movingIntoNewSpace)
+    if (((PlayerCharacterMovingStateView*)::_g_thePlayer)->movingIntoNewSpace)
         result = 1.0;
     return true;
 }
@@ -57,8 +275,8 @@ bool GetLastHitLocationConditionFunction(TESObjectREFR* reference, void* arg1, v
     if (reference && reference->IsActor())
     {
         Actor* actor = (Actor*)reference;
-        if (actor->RefreshActorRuntimeData())
-            result = actor->RefreshActorRuntimeData()->location;
+        if (reinterpret_cast<::FUN_008a5270_shell *>((actor))->FUN_008a5270())
+            result = reinterpret_cast<::FUN_008a5270_shell *>((actor))->FUN_008a5270()->location;
     }
     return true;
 }
@@ -84,7 +302,7 @@ bool BGSQuestObjective::GetDisplayed() const
 // @fnv 0x0059f770
 bool __cdecl Script::GetPCIsSexConditionFunction(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
-    return IsSexConditionFunction((TESObjectREFR*)g_thePlayer, arg1, arg2, result);
+    return ::fnv_0059f3c0::FUN_0059f3c0((TESObjectREFR*)::_g_thePlayer, arg1, arg2, result);
 }
 
 // @fnv 0x005a2270
@@ -106,7 +324,7 @@ bool __cdecl Script::GetActorSexConditionFunction(TESObjectREFR* reference, void
     result = 0.0;
     if (reference && reference->IsActor())
     {
-        unsigned int mode = ((Actor*)reference)->GetActorStateFlags() & 15;
+        unsigned int mode = reinterpret_cast<::FUN_008846e0_shell *>((void *)(((Actor*)reference)))->GetVtbl20Result() & 15;
         if (mode & 1)
             result = 1.0;
         else if (mode & 2)
@@ -133,7 +351,7 @@ struct FUN_004fd380_shell : public MobileObject
 // @fnv 0x004fd380
 MobileObject* FUN_004fd380_shell::FUN_004fd380()
 {
-    return *(MobileObject**)((char*)this + 0x70);
+    return this->m_pMobileObject;
 }
 
 void __cdecl DebugLog(char const*, ...);
@@ -148,7 +366,7 @@ struct Pos3
 struct VtblRef
 {
     void* pad[0x1f4 / 4];
-    Pos3*(__thiscall* GetPos)(void*);
+    Pos3*(* GetPos)(void*);
 };
 struct ObjRef
 {
@@ -156,13 +374,12 @@ struct ObjRef
 };
 }
 
-__declspec(thread) unsigned char g_bConsoleOutput[0x269];
 
 // Reads the reference's position via its vtable and writes the X, Y or Z component into afReturnValue, logging it when console output is enabled.
 // @fnv 0x0059c0c0
 bool __cdecl GetPositionComponent(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    int iAxis = (int)apParam1;
+    std::intptr_t iAxis = (std::intptr_t)apParam1;
     if (apRefObject)
     {
         Pos3 pos = *((ObjRef*)apRefObject)->vtbl->GetPos(apRefObject);
@@ -178,7 +395,7 @@ bool __cdecl GetPositionComponent(TESObjectREFR* apRefObject, void* apParam1, vo
             afReturnValue = pos.z;
             break;
         }
-        if (g_bConsoleOutput[0x268])
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             DebugLog("GetPos: %c >> %0.2f", iAxis, afReturnValue);
         }
@@ -187,7 +404,6 @@ bool __cdecl GetPositionComponent(TESObjectREFR* apRefObject, void* apParam1, vo
 }
 
 void __cdecl DebugLog(char const*, ...);
-extern const double DAT_0102f248;
 
 struct AngleVec3
 {
@@ -196,20 +412,18 @@ struct AngleVec3
     float z;
 };
 
-struct RecipeCraftingInfo;
+class RecipeCraftingInfo;
 class TESRecipe
 {
   public:
     RecipeCraftingInfo* GetData();
 };
 
-__declspec(thread) extern unsigned char tls_pad_0059c170[0x268];
-__declspec(thread) extern bool bConsoleOutput_0059c170;
 
 // @fnv 0x0059c170
 bool __cdecl FUN_0059c170(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    int iAxis = (int)apParam1;
+    std::intptr_t iAxis = (std::intptr_t)apParam1;
     if (apRefObject)
     {
         AngleVec3 pos = *(AngleVec3*)((TESRecipe*)apRefObject)->GetData();
@@ -225,7 +439,7 @@ bool __cdecl FUN_0059c170(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             afReturnValue = pos.z * DAT_0102f248;
             break;
         }
-        if (bConsoleOutput_0059c170)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             DebugLog("GetAngle: %c >> %0.2f", iAxis, afReturnValue);
         }
@@ -239,34 +453,30 @@ struct Twin_0084d030
 };
 struct TESObjectREFRScaleView : TESObjectREFR
 {
-    float GetScale();
 };
 
 void __cdecl DebugLog(const char*, ...);
-extern Twin_0084d030 g_timeGlobal;
-extern __declspec(thread) bool bEchoConsole;
 
 // @fnv 0x0059c430
 bool __cdecl FUN_0059c430(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     Script* pscript = static_cast<Script*>(apParam1);
     if (pscript && pscript->GetHeader()->m_bQuest &&
-        reinterpret_cast<TESObjectREFRScaleView*>(pscript)->GetScale() > 0.0)
+        reinterpret_cast<::TESObjectREFR *>((reinterpret_cast<TESObjectREFRScaleView*>(pscript)))->GetScale() > 0.0)
     {
-        afReturnValue = reinterpret_cast<TESObjectREFRScaleView*>(pscript)->GetScale();
+        afReturnValue = reinterpret_cast<::TESObjectREFR *>((reinterpret_cast<TESObjectREFRScaleView*>(pscript)))->GetScale();
     }
     else
     {
-        afReturnValue = g_timeGlobal.GetStoredFloatValue();
+        afReturnValue = ::fnv::timer::Seconds();
     }
-    if (bEchoConsole)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetSecondsPassed >> %0.2f", afReturnValue);
     }
     return true;
 }
 
-const char* __cdecl FUN_0066eac0(unsigned int);
 void __cdecl DebugLog(const char*, ...);
 
 struct ActorValueOwner_vtable
@@ -279,17 +489,16 @@ struct ActorValueOwner_vtable
 
 struct ActorView : public Actor
 {
-    TESActorBase* GetActorBase();
-    bool GetDisabled();
+public:
+    unsigned int FUN_00884320();
 };
 
-__declspec(thread) extern unsigned char tls_pad[0x269];
 
 // Reads an actor value from the reference (or its actor base if disabled) into result and logs it when the TLS flag is set; returns true.
 // @fnv 0x0059c4f0
 bool __cdecl FUN_0059c4f0(TESObjectREFR* reference, void* uiAvCode, void* pUnused, double& result)
 {
-    unsigned int avCode = (unsigned int)uiAvCode;
+    std::uintptr_t avCode = (std::uintptr_t)uiAvCode;
     ActorView* actor = 0;
     if (reference && reference->IsActor())
     {
@@ -297,31 +506,28 @@ bool __cdecl FUN_0059c4f0(TESObjectREFR* reference, void* uiAvCode, void* pUnuse
     }
     if (actor)
     {
-        if (!actor->GetDisabled())
+        if (!reinterpret_cast<::TESForm *>((actor))->GetDisabled())
         {
             result = ((ActorValueOwner_vtable*)((char*)actor + 0xa4))->GetActorValueF(avCode);
         }
         else
         {
-            ActorValueOwner_vtable* pActorValueOwner = (ActorValueOwner_vtable*)((char*)actor->GetActorBase() + 0x100);
+            ActorValueOwner_vtable* pActorValueOwner = (ActorValueOwner_vtable*)((char*)reinterpret_cast<::Actor *>((actor))->GetActorBase() + 0x100);
             result = pActorValueOwner->GetActorValueF(avCode);
         }
-        if (tls_pad[0x268])
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
-            DebugLog("GetActorValue: %s >> %0.2f", FUN_0066eac0(avCode), result);
+            DebugLog("GetActorValue: %s >> %0.2f", ::FUN_0066eac0((::ActorValue::Index)(avCode)), result);
         }
     }
     return true;
 }
 
-float __fastcall GetHealthFraction(Actor* pActor);
 void __cdecl DebugLog(char const*, ...);
 
 namespace fnv_anon_tesconditionfunctions {}
 using namespace fnv_anon_tesconditionfunctions;
 namespace fnv_anon_tesconditionfunctions {
-__declspec(thread) unsigned char tls_padding[0x268];
-__declspec(thread) bool bVerboseMode;
 }
 
 // If the reference is an Actor, stores its health percentage in afReturnValue and logs it when verbose mode is on; always returns true.
@@ -335,8 +541,8 @@ bool __cdecl FUN_0059c7e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     }
     if (pActor)
     {
-        afReturnValue = GetHealthFraction(pActor);
-        if (bVerboseMode)
+        afReturnValue = reinterpret_cast<::FUN_00893590_shell *>((pActor))->GetHealthFraction();
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             DebugLog("GetHealthPercentage >> %0.2f", afReturnValue);
         }
@@ -348,8 +554,9 @@ class Calendar
 {
   public:
     float GetGameTime();
+public:
+    unsigned int GetGameHoursPassed();
 };
-extern Calendar g_calendar;
 void __cdecl DebugLog(char const*, ...);
 
 struct TLSData_0059c8e0
@@ -358,14 +565,13 @@ struct TLSData_0059c8e0
     bool consoleEcho;
 };
 
-__declspec(thread) TLSData_0059c8e0 g_tlsData_0059c8e0;
 
 // Stores the calendar's current time into afReturnValue, logs it when console echo is enabled, and returns true.
 // @fnv 0x0059c8e0
 bool __cdecl FUN_0059c8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    afReturnValue = g_calendar.GetGameTime();
-    if (g_tlsData_0059c8e0.consoleEcho)
+    afReturnValue = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime();
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetCurrentTime >> %0.2f", afReturnValue);
     }
@@ -394,25 +600,24 @@ struct CFilter
     void __dflt_ctor_closure();
     unsigned int iFilter;
 };
-typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_0059ce80_shell : public CFilter
 {
-    void FUN_0059ce80(unsigned int);
+    void FUN_0059ce80(uintptr_t);
 };
 
 // Clears the high 16 bits of iFilter and stores aiGroup shifted into them.
 // @fnv 0x0059ce80
-void FUN_0059ce80_shell::FUN_0059ce80(unsigned int aiGroup)
+void FUN_0059ce80_shell::FUN_0059ce80(uintptr_t aiGroup)
 {
     iFilter &= 0xFFFF;
     iFilter |= (aiGroup << 16);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct hkVector4;
 struct hkpAllRayHitCollector;
 struct hkpClosestRayHitCollector;
-struct hkpPhantom;
+class hkpPhantom;
 struct hkpRigidBody;
 struct blob1
 {
@@ -431,7 +636,6 @@ struct WorldRayCastInput
     unsigned int m_uiFilterInfo;
     char _pad_28[8];
 };
-typedef char _sizecheck_hkpWorldRayCastInput[sizeof(WorldRayCastInput) == 48 ? 1 : -1];
 struct RayCastHitResult
 {
     struct blob1 DidHit();
@@ -441,7 +645,6 @@ struct RayCastHitResult
     int m_iExtraInfo;
     char m_auiShapeKeys[8];
 };
-typedef char _sizecheck_hkpShapeRayCastCollectorOutput[sizeof(RayCastHitResult) == 32 ? 1 : -1];
 struct ShapeRayCastOutput : public RayCastHitResult
 {
     void changeLevel(int);
@@ -452,7 +655,6 @@ struct ShapeRayCastOutput : public RayCastHitResult
     int m_uiShapeKeyIndex;
     char _pad_44[12];
 };
-typedef char _sizecheck_hkpShapeRayCastOutput[sizeof(ShapeRayCastOutput) == 80 ? 1 : -1];
 struct WorldRayCastOutput : public ShapeRayCastOutput
 {
     struct blob1 DidHit();
@@ -460,7 +662,6 @@ struct WorldRayCastOutput : public ShapeRayCastOutput
     void* m_pRootCollidable;
     char _pad_54[12];
 };
-typedef char _sizecheck_hkpWorldRayCastOutput[sizeof(WorldRayCastOutput) == 96 ? 1 : -1];
 struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 {
     hkpRigidBody* GethkRigidBody();
@@ -495,7 +696,6 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
     bool m_bPickFailed;
     char _pad_ad[3];
 };
-typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_0059ceb0_shell : public BhkPickData
 {
     void FUN_0059ceb0(hkpClosestRayHitCollector*);
@@ -509,22 +709,20 @@ void FUN_0059ceb0_shell::FUN_0059ceb0(hkpClosestRayHitCollector* apCollector)
     m_pAllCollector = 0;
 }
 
-void __fastcall FUN_0059cf00(void* this_ptr);
 
 // @fnv 0x0059cee0
-void __fastcall FUN_0059cee0(void* this_ptr)
+void FUN_0059cee0(void* this_ptr)
 {
-    FUN_0059cf00(this_ptr);
+    ::FUN_0059cf00((void **)(this_ptr));
 }
 
 extern int DAT_01034ec4;
-void __fastcall FUN_004a3ae0(void*);
 
 // @fnv 0x0059cf00
-void __fastcall FUN_0059cf00(void** pThis)
+void FUN_0059cf00(void** pThis)
 {
     *pThis = &DAT_01034ec4;
-    FUN_004a3ae0(pThis);
+    reinterpret_cast<::FUN_004a3ae0_shell *>((pThis))->FUN_004a3ae0();
 }
 
 void __cdecl DebugLog(char const*, ...);
@@ -534,14 +732,12 @@ using namespace fnv_anon_tesconditionfunctions;
 namespace fnv_anon_tesconditionfunctions {
 struct VCallRef
 {
-    bool(__thiscall** vtable)(void*);
+    bool(** vtable)(void*);
 };
 struct VCallActor
 {
-    bool(__thiscall** vtable)(void*, bool);
+    bool(** vtable)(void*, bool);
 };
-__declspec(thread) char tls_pad[0x268];
-__declspec(thread) bool bConsoleEcho;
 }
 
 // Sets afReturnValue to 1.0 if apRefObject is an Actor whose vtable call at 0x22c returns true, else 0.0, and logs it when console echo is on.
@@ -561,7 +757,7 @@ bool __cdecl FUN_0059d840(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             afReturnValue = 1.0;
         }
     }
-    if (bConsoleEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetDead >> %0.2f", afReturnValue);
     }
@@ -569,8 +765,6 @@ bool __cdecl FUN_0059d840(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 void __cdecl DebugLog(char const*, ...);
-__declspec(thread) extern unsigned char g_bConditionTlsPad[0x268];
-__declspec(thread) extern bool g_bConditionConsoleEcho;
 
 // Accumulates a score from the actor's state via a virtual call and logs it when console echo is enabled; always returns true.
 // @fnv 0x0059dc90
@@ -582,7 +776,7 @@ bool __cdecl FUN_0059dc90(TESObjectREFR* reference, void* apUnused1, void* apUnu
         pactor = (Actor*)reference;
     if (pactor)
     {
-        switch ((*(unsigned int(__thiscall**)(Actor*))(*(unsigned int*)pactor + 0x214))(pactor))
+        switch ((*(unsigned int(**)(Actor*))(*(std::uintptr_t*)pactor + 0x214))(pactor))
         {
         case 10:
             result += 1.0;
@@ -595,7 +789,7 @@ bool __cdecl FUN_0059dc90(TESObjectREFR* reference, void* apUnused1, void* apUnu
             result += 1.0;
         }
     }
-    if (g_bConditionConsoleEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetSleeping >> %0.2f", result);
     return true;
 }
@@ -606,7 +800,6 @@ struct SitTls
     char pad[0x268];
     unsigned char flag;
 };
-__declspec(thread) SitTls g_sitTls;
 struct SitRef
 {
     virtual void a0();
@@ -810,7 +1003,7 @@ struct SitActor
     virtual void b130();
     virtual void b131();
     virtual void b132();
-    virtual unsigned int GetActorStateFlags();
+    virtual std::uintptr_t GetActorStateFlags();
 };
 // @fnv 0x0059dd90
 bool __cdecl FUN_0059dd90(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
@@ -834,19 +1027,17 @@ bool __cdecl FUN_0059dd90(TESObjectREFR* reference, void* arg1, void* arg2, doub
             result += 1.0;
         }
     }
-    if (g_sitTls.flag)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetSitting >> %0.2f", result);
     return true;
 }
 
 void __cdecl DebugLog(char const*, ...);
-__declspec(thread) extern bool bEcho;
 
-class Sky;
+struct Sky;
 class TES
 {
   public:
-    Sky* GetLogDate(void);
 };
 
 struct VTable_100
@@ -1237,8 +1428,8 @@ bool __cdecl FUN_0059de90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (apRefObject && ((VTable_100*)apRefObject)->IsActor())
         pactor = (TES*)apRefObject;
     if (pactor)
-        afReturnValue = ((VTable_4C4*)pactor->GetLogDate())->GetFurnitureMarkerID();
-    if (bEcho)
+        afReturnValue = ((VTable_4C4*)((::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pactor))->GetBaseTexture())))->GetFurnitureMarkerID();
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetFurnitureMarkerID >> %0.2f", afReturnValue);
     return true;
 }
@@ -1246,21 +1437,18 @@ bool __cdecl FUN_0059de90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_0059df40 {
 void __cdecl DebugLog(char const*, ...);
 
-class Sky;
+struct Sky;
 class TES
 {
   public:
-    Sky* GetLogDate(void);
 };
 
 struct VTable0x4c8
 {
     void* pad[0x4c8 / 4];
-    void*(__thiscall* fn4c8)(void*);
+    void*(* fn4c8)(void*);
 };
 
-__declspec(thread) unsigned char tls_pad[0x268];
-__declspec(thread) bool tls_bEcho;
 
 // @fnv 0x0059df40
 bool __cdecl FUN_0059df40(TESObjectREFR* reference, void* pMatchValue, void* pUnused, double& result)
@@ -1273,13 +1461,13 @@ bool __cdecl FUN_0059df40(TESObjectREFR* reference, void* pMatchValue, void* pUn
     }
     if (pactor)
     {
-        Sky* p = ((TES*)pactor)->GetLogDate();
+        Sky* p = ((::fnv_0059df40::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture()));
         if ((*(VTable0x4c8**)p)->fn4c8(p) == pMatchValue)
         {
             result = 1.0;
         }
     }
-    if (tls_bEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsCurrentFurnitureRef>> %0.2f", result);
     }
@@ -1288,30 +1476,21 @@ bool __cdecl FUN_0059df40(TESObjectREFR* reference, void* pMatchValue, void* pUn
 }  // namespace fnv_0059df40
 
 namespace fnv_0059dfe0 {
-class Sky;
+struct Sky;
 class TES
 {
   public:
-    Sky* GetLogDate();
 };
 
 class TESObject
 {
   public:
-    TESObject* GetNext();
 };
 
-template <> class BSSimpleList<Actor*>
-{
-  public:
-    bool IsInList(Actor* const&) const;
-};
 
-int __fastcall _FNV_GetFormType(TESForm*);
+int _FNV_GetFormType(TESForm*);
 void __cdecl DebugLog(char const*, ...);
 
-__declspec(thread) extern char g_bConsoleOutput_pad[0x268];
-__declspec(thread) extern bool g_bConsoleOutput_flag;
 
 struct ProcessView_0059dfe0
 {
@@ -1639,12 +1818,12 @@ bool __cdecl FUN_0059dfe0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     pform = (TESForm*)apParam1;
     if (pactor && pform)
     {
-        TESObject* pref = ((ProcessView_0059dfe0*)((TES*)pactor)->GetLogDate())->GetFurnitureReference();
+        TESObject* pref = ((ProcessView_0059dfe0*)((::fnv_0059dfe0::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())))->GetFurnitureReference();
         if (pref)
         {
             if (_FNV_GetFormType(pform) == 0x27)
             {
-                if (pref->GetNext() == apParam1)
+                if (((::fnv_0059dfe0::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pref))->FUN_007af430())) == apParam1)
                 {
                     afReturnValue = 1.0;
                 }
@@ -1652,14 +1831,14 @@ bool __cdecl FUN_0059dfe0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             else if (_FNV_GetFormType(pform) == 0x55)
             {
                 Script* plistform = (Script*)pform;
-                if (((BSSimpleList<Actor*>*)plistform->GetHeader())->IsInList((Actor*)pref->GetNext()))
+                if (reinterpret_cast<::RefList *>((void *)(((BSSimpleList<Actor*>*)plistform->GetHeader())))->FUN_005f65d0((void **)&(const ::Actor *const &)((Actor*)((::fnv_0059dfe0::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pref))->FUN_007af430())))))
                 {
                     afReturnValue = 1.0;
                 }
             }
         }
     }
-    if (g_bConsoleOutput_flag)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsCurrentFurnitureObj>> %0.2f", afReturnValue);
     }
@@ -1744,7 +1923,6 @@ struct TLSData_0059e0f0
     bool bConsoleOutput;
 };
 
-__declspec(thread) TLSData_0059e0f0 g_tlsData_0059e0f0;
 
 // @fnv 0x0059e0f0
 bool __cdecl FUN_0059e0f0(VTableStub_0059e0f0* apRefObject, VTableStub_0059e0f0* apParam1, void* apParam2,
@@ -1769,7 +1947,7 @@ bool __cdecl FUN_0059e0f0(VTableStub_0059e0f0* apRefObject, VTableStub_0059e0f0*
         afReturnValue = 1.0;
     }
 
-    if (g_tlsData_0059e0f0.bConsoleOutput)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetTalkedToPC >> %0.2f", afReturnValue);
     }
@@ -1785,8 +1963,6 @@ struct TESQuest_GetCompleted_Helper : public TESQuest
     bool GetCompleted();
 };
 
-__declspec(thread) extern char tls_pad[0x268];
-__declspec(thread) extern bool bConsoleEcho;
 
 // Sets afReturnValue to 1.0 if apParam1 is a completed TESQuest, otherwise 0.0, logs it when console echo is on, and returns true.
 // @fnv 0x0059e390
@@ -1798,7 +1974,7 @@ bool __cdecl FUN_0059e390(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     {
         afReturnValue = 1.0;
     }
-    if ((&bConsoleEcho)[0])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetQuestCompleted >> %0.2f", afReturnValue);
     }
@@ -1813,13 +1989,14 @@ struct FUN_0059e400_shell : public TESQuest
 
 struct TESFaction_RankDataView
 {
-    unsigned char* GetRankDataList();
+public:
+    bool FUN_00455620();
 };
 
 // @fnv 0x0059e400
 bool FUN_0059e400_shell::FUN_0059e400()
 {
-    return (*reinterpret_cast<TESFaction_RankDataView*>(this)->GetRankDataList() & 2) != 0;
+    return (*((unsigned char *)(reinterpret_cast<struct ::FUN_005a8080 *>((reinterpret_cast<TESFaction_RankDataView*>(this)))->GetField())) & 2) != 0;
 }
 
 void __cdecl DebugLog(const char*, ...);
@@ -1828,7 +2005,6 @@ namespace TESQuestNamespace {
 class TESQuest
 {
   public:
-    unsigned int GetStageMask();
 };
 }
 
@@ -1838,7 +2014,6 @@ struct TLSData
     bool bConsoleEcho;
 };
 
-__declspec(thread) TLSData g_tlsData;
 
 // Sets afReturnValue to the quest's stage (or 0 if no quest), logs it when console echo is on, and returns true.
 // @fnv 0x0059e420
@@ -1847,9 +2022,9 @@ bool __cdecl GetQuestStage(TESObjectREFR* apRefObject, void* apParam1, void* apP
     afReturnValue = 0.0;
     if (TESQuest* pQuest = apParam1 ? static_cast<TESQuest*>(apParam1) : 0)
     {
-        afReturnValue = reinterpret_cast<TESQuestNamespace::TESQuest*>(pQuest)->GetStageMask();
+        afReturnValue = reinterpret_cast<::TESQuest *>((reinterpret_cast<TESQuestNamespace::TESQuest*>(pQuest)))->GetStageMask();
     }
-    if (g_tlsData.bConsoleEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetStage >> %0.2f", afReturnValue);
     }
@@ -1859,36 +2034,29 @@ bool __cdecl GetQuestStage(TESObjectREFR* apRefObject, void* apParam1, void* apP
 namespace fnv_0059e8e0 {
 struct Sky
 {
-    static Sky* __cdecl GetInstance();
-    bool IsRaining();
 };
 
 void __cdecl DebugLog(char const*, ...);
-__declspec(thread) extern char g_tlspad[0x268];
-__declspec(thread) extern bool g_consoleEcho;
 
 // Writes 1.0 or 0.0 to result depending on whether Sky::GetInstance()->IsRaining() is true, logs it when console echo is on, and returns true.
 // @fnv 0x0059e8e0
 bool __cdecl FUN_0059e8e0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
-    Sky* pWeatherSky = Sky::GetInstance();
-    result = pWeatherSky->IsRaining() ? 1.0f : 0.0f;
-    if (g_consoleEcho)
+    Sky* pWeatherSky = ((::fnv_0059e8e0::Sky *)(::Sky::GetInstance()));
+    result = reinterpret_cast<::Sky *>((pWeatherSky))->IsRaining() ? 1.0f : 0.0f;
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetIsRaining >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_0059e8e0
 
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 void __cdecl DebugLog(const char*, ...);
 
 struct TESObjectREFR_WorldSpace : TESObjectREFR
 {
-    TESWorldSpace* GetParentWorldSpace();
 };
 
-__declspec(thread) extern char tls_pad_0059f0c0[0x268];
-__declspec(thread) extern bool tls_bEchoConsole;
 
 // Sets the return value to 1.0 if the reference (or apParam2 if it is a reference) is in the world space given by apParam1, and logs the result.
 // @fnv 0x0059f0c0
@@ -1925,12 +2093,12 @@ bool __cdecl FUN_0059f0c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         pref = apRefObject;
     }
 
-    if (pworld != 0 && static_cast<TESObjectREFR_WorldSpace*>(pref)->GetParentWorldSpace() == pworld)
+    if (pworld != 0 && ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((static_cast<TESObjectREFR_WorldSpace*>(pref)))->FUN_00575d70())) == pworld)
     {
         *afReturnValue = 1.0;
     }
 
-    if (tls_bEchoConsole)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetInWorldspace >> %0.2f", *afReturnValue);
     }
@@ -1939,21 +2107,20 @@ bool __cdecl FUN_0059f0c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 namespace fnv_0059f3c0 {
-int __fastcall _FNV_GetFormType(void* form);
+int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(char const* format, ...);
-__declspec(thread) extern bool bConsoleOutput;
 
-struct TESObject
+class TESObject
 {
-    TESObject* GetNext(void);
 };
 
 enum SEX
 {
 };
 
-struct TESActorBase
+class TESActorBase
 {
+  public:
     SEX GetSex(void);
 };
 
@@ -1963,15 +2130,15 @@ bool __cdecl FUN_0059f3c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 {
     afReturnValue = 0.0;
     TESActorBase* pnpc = 0;
-    if (apRefObject && _FNV_GetFormType(reinterpret_cast<TESObject*>(apRefObject)->GetNext()) == 0x2a)
+    if (apRefObject && _FNV_GetFormType(((::fnv_0059f3c0::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))) == 0x2a)
     {
-        pnpc = reinterpret_cast<TESActorBase*>(reinterpret_cast<TESObject*>(apRefObject)->GetNext());
+        pnpc = reinterpret_cast<TESActorBase*>(((::fnv_0059f3c0::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
     }
-    if (pnpc && pnpc->GetSex() == reinterpret_cast<int>(apParam1))
+    if (pnpc && pnpc->GetSex() == (int)(std::uintptr_t)(apParam1))
     {
         afReturnValue = 1.0;
     }
-    if ((&bConsoleOutput)[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetIsSex >> %0.2f", afReturnValue);
     }
@@ -1979,14 +2146,10 @@ bool __cdecl FUN_0059f3c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 }  // namespace fnv_0059f3c0
 
-extern TESObjectREFR* DAT_011cab10;
-extern TESBoundObject* DAT_011cab0c;
-TESBoundObject* __fastcall FUN_004216f0(ExtraDataList*);
 void __cdecl DebugLog(char const*, ...);
 
-struct TESObject
+class TESObject
 {
-    TESObject* GetNext();
 };
 
 struct TLSData_0059f7b0
@@ -1994,7 +2157,6 @@ struct TLSData_0059f7b0
     char pad[0x268];
     bool bConsoleOutput;
 };
-__declspec(thread) extern TLSData_0059f7b0 tls_0059f7b0;
 
 // Sets afReturnValue to 1.0 if the reference's bound object matches apParam1, otherwise 0.0, and logs the result when console output is enabled.
 // @fnv 0x0059f7b0
@@ -2015,10 +2177,10 @@ bool __cdecl FUN_0059f7b0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         }
         else
         {
-            pcompobj = FUN_004216f0(apRefObject->GetExtraData());
+            pcompobj = ((::TESBoundObject *)(::FUN_004216f0((::BaseExtraList *)(::ExtraDataList *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRefObject))->FUN_005d43c0()))))));
             if (!pcompobj)
             {
-                pcompobj = reinterpret_cast<TESBoundObject*>(reinterpret_cast<TESObject*>(apRefObject)->GetNext());
+                pcompobj = reinterpret_cast<TESBoundObject*>(((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
             }
             DAT_011cab10 = apRefObject;
             DAT_011cab0c = pcompobj;
@@ -2028,7 +2190,7 @@ bool __cdecl FUN_0059f7b0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             afReturnValue = 1.0;
         }
     }
-    if (tls_0059f7b0.bConsoleOutput)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetIsID >> %0.2f", afReturnValue);
     }
@@ -2040,7 +2202,7 @@ void __cdecl DebugLog(const char* fmt, ...);
 struct TESObjectREFR_VTable_0059f940
 {
     void* pad[0x1a0 / 4];
-    bool(__thiscall* IsChild)(void*, bool);
+    bool(* IsChild)(void*, bool);
 };
 
 struct TESObjectREFR_View_0059f940
@@ -2048,7 +2210,6 @@ struct TESObjectREFR_View_0059f940
     TESObjectREFR_VTable_0059f940* vtable;
 };
 
-__declspec(thread) extern unsigned char tls_pad_0059f940[0x269];
 
 // Sets afReturnValue to 1.0 if apRefObject's vtable IsChild returns true, otherwise 0.0, logs it when TLS flag is set, and returns true.
 // @fnv 0x0059f940
@@ -2062,7 +2223,7 @@ bool __cdecl FUN_0059f940(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             afReturnValue = 1.0;
         }
     }
-    if (tls_pad_0059f940[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsChild >> %0.2f", afReturnValue);
     }
@@ -2073,10 +2234,12 @@ class IdleAnimationManager
 {
   public:
     static TESObject* __cdecl GetCurrentUsedItem(void);
+public:
+    static bool GetUsedItemActivate();
 };
 
 void __cdecl DebugLog(char const*, ...);
-int __fastcall _FNV_GetFormType(TESObject*);
+int _FNV_GetFormType(TESObject*);
 
 struct ConsoleEchoTLS
 {
@@ -2084,19 +2247,18 @@ struct ConsoleEchoTLS
     bool bConsoleEcho;
 };
 
-__declspec(thread) extern ConsoleEchoTLS tls_consoleEcho;
 
 // @fnv 0x0059fa90
 bool __cdecl FUN_0059fa90(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
-    int formtype = (int)apParam1;
+    std::intptr_t formtype = (std::intptr_t)apParam1;
     if (formtype && IdleAnimationManager::GetCurrentUsedItem() &&
         _FNV_GetFormType(IdleAnimationManager::GetCurrentUsedItem()) == formtype)
     {
         afReturnValue = 1.0;
     }
-    if (tls_consoleEcho.bConsoleEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetIsUsedItemType >> %0.2f", afReturnValue);
     }
@@ -2107,7 +2269,6 @@ namespace fnv_0059fb50 {
 class IdleAnimationManager
 {
   public:
-    static bool __cdecl GetUsedItemActivate();
 };
 
 void __cdecl DebugLog(char const*, ...);
@@ -2118,18 +2279,17 @@ struct TLSData268
     bool trace;
 };
 
-__declspec(thread) TLSData268 g_tlsData268;
 
 // Sets afReturnValue to 1.0 when GetUsedItemActivate is true (else 0.0), logs it if tracing, and returns true.
 // @fnv 0x0059fb50
 bool __cdecl FUN_0059fb50(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
-    if (IdleAnimationManager::GetUsedItemActivate())
+    if (::IdleAnimationManager::GetUsedItemActivate())
     {
         afReturnValue = 1.0;
     }
-    if (g_tlsData268.trace)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetIsUsedItemActivate >> %0.2f", afReturnValue);
     }
@@ -2137,9 +2297,8 @@ bool __cdecl FUN_0059fb50(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 }  // namespace fnv_0059fb50
 
-int __fastcall _FNV_GetFormType(void* form);
+int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(char const*, ...);
-extern __declspec(thread) bool bVerboseMode_tls[0x269];
 
 // @fnv 0x0059fbb0
 bool __cdecl FUN_0059fbb0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -2166,7 +2325,7 @@ bool __cdecl FUN_0059fbb0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     {
         afReturnValue = 1.0;
     }
-    if (bVerboseMode_tls[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetIsRef >> %0.2f", afReturnValue);
     }
@@ -2175,12 +2334,10 @@ bool __cdecl FUN_0059fbb0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 struct TESGlobalValueReader
 {
-    float GetValue();
 };
 
-int __fastcall _FNV_GetFormType(void* form);
+int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(char const*, ...);
-__declspec(thread) extern unsigned char g_bConditionTrace[0x269];
 
 // @fnv 0x0059fd30
 bool __cdecl FUN_0059fd30(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -2190,8 +2347,8 @@ bool __cdecl FUN_0059fd30(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (apParam1 && _FNV_GetFormType(apParam1) == 6)
         pglobal = (TESGlobalValueReader*)apParam1;
     if (pglobal)
-        afReturnValue = pglobal->GetValue();
-    if (g_bConditionTrace[0x268])
+        afReturnValue = reinterpret_cast<::FUN_00526ac0_shell *>((pglobal))->FUN_00526ac0();
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetGlobalValue >> %0.2f", afReturnValue);
     return true;
 }
@@ -2200,7 +2357,6 @@ void __cdecl DebugLog(char const*, ...);
 
 struct Actor_Shell : public Actor
 {
-    bool FUN_00437bd0();
 };
 
 struct MobileObject_Shell : public MobileObject
@@ -2208,8 +2364,6 @@ struct MobileObject_Shell : public MobileObject
     char const* GetFullName();
 };
 
-extern __declspec(thread) char g_tlspad[0x268];
-extern __declspec(thread) bool g_bEchoConsole;
 
 // Sets result to 1.0 if the reference is an actor that is unconscious, logs the state when console echo is on, and returns true.
 // @fnv 0x0059fee0
@@ -2224,12 +2378,12 @@ bool __cdecl FUN_0059fee0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 
     if (pactor)
     {
-        if (reinterpret_cast<Actor_Shell*>(pactor)->FUN_00437bd0())
+        if (((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((reinterpret_cast<Actor_Shell*>(pactor)))->FUN_00437bd0())))
         {
             result = 1.0;
         }
 
-        if (g_bEchoConsole)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             if (result != 0.0)
             {
@@ -2245,42 +2399,35 @@ bool __cdecl FUN_0059fee0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     return true;
 }
 
-unsigned int __cdecl FUN_005a00a0(unsigned int);
+unsigned int __cdecl FUN_005a00a0(uintptr_t);
 void __cdecl DebugLog(char const*, ...);
-extern __declspec(thread) struct
+// Stores a random percentage from FUN_005a00a0(100) into result, logs it when tlsData.dbg is set, and returns true.
+// @fnv 0x005a0040
+struct FUN_005a0040_tls
 {
     char pad[0x268];
     unsigned char dbg;
-} tlsData;
-// Stores a random percentage from FUN_005a00a0(100) into result, logs it when tlsData.dbg is set, and returns true.
-// @fnv 0x005a0040
+};
 bool __cdecl FUN_005a0040(TESObjectREFR* ref, void* apUnused1, void* apUnused2, double& result)
 {
     result = (double)FUN_005a00a0(100);
-    if (tlsData.dbg)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetRandomPercent >> %0.2f", result);
     return true;
 }
 
-class MersenneTwister
-{
-  public:
-    static MersenneTwister* __cdecl GetRandomGenerator(void);
-    unsigned int GetRandomUInt(unsigned int);
-};
+#include "bscore/bsrandom.h"
 
 // @fnv 0x005a00a0
-unsigned int FUN_005a00a0(unsigned int aiMax)
+unsigned int FUN_005a00a0(uintptr_t aiMax)
 {
     return MersenneTwister::GetRandomGenerator()->GetRandomUInt(aiMax);
 }
 
 void __cdecl DebugLog(char const*, ...);
-__declspec(thread) extern bool tls_conditionEcho;
 
 struct ActorLevelHelper : Actor
 {
-    unsigned short GetLevel();
 };
 
 // Sets result to the reference's actor level (0 if not an actor) and logs it when tls_conditionEcho is set; returns true.
@@ -2295,9 +2442,9 @@ bool __cdecl FUN_005a00c0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     }
     if (pactor)
     {
-        result = (double)pactor->GetLevel();
+        result = (double)reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((pactor))->FUN_0087f9f0();
     }
-    if (tls_conditionEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetLevel >> %0.2f", result);
     }
@@ -2305,8 +2452,7 @@ bool __cdecl FUN_005a00c0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 }
 
 struct TES;
-extern TES* g_TES;
-short __fastcall FindActorBaseValue(TES*, int, TESActorBase*);
+short FindActorBaseValue(TES*, int, TESActorBase*);
 void __cdecl DebugLog(char const*, ...);
 
 struct TLSDataView
@@ -2314,7 +2460,6 @@ struct TLSDataView
     char pad[0x268];
     bool bShowConditionTrace;
 };
-__declspec(thread) extern TLSDataView g_tlsView;
 
 // Sets afReturnValue to 0, then if apParam1 is non-null stores the result of FindActorBaseValue on g_TES and logs it when condition tracing is on; returns true.
 // @fnv 0x005a01f0
@@ -2324,8 +2469,8 @@ bool __cdecl FUN_005a01f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     TESActorBase* ptarget = static_cast<TESActorBase*>(apParam1);
     if (ptarget)
     {
-        afReturnValue = ((short(__thiscall*)(TES*, TESActorBase*))FindActorBaseValue)(g_TES, ptarget);
-        if (g_tlsView.bShowConditionTrace)
+        afReturnValue = ((short(*)(TES*, TESActorBase*))FindActorBaseValue)((*reinterpret_cast<::TES * *>(&::g_TES)), ptarget);
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             DebugLog("Dead Count: %0.2f", afReturnValue);
         }
@@ -2346,8 +2491,6 @@ bool FUN_005a03f0_obj::FUN_005a03f0(unsigned int mask)
 }
 
 void __cdecl DebugLog(char const*, ...);
-bool __fastcall FUN_008a16d0(Actor*);
-__declspec(thread) extern unsigned char g_bConditionTrace[0x269];
 
 // Sets afReturnValue to 1.0 when apRefObject is an actor for which FUN_008a16d0 is true, otherwise 0.0, and logs the result when g_bConditionTrace[0x268] is set.
 // @fnv 0x005a0550
@@ -2357,24 +2500,24 @@ bool __cdecl FUN_005a0550(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     Actor* pactor = 0;
     if (apRefObject && apRefObject->IsActor())
         pactor = (Actor*)apRefObject;
-    if (pactor && FUN_008a16d0(pactor))
+    if (pactor && reinterpret_cast<::FUN_008a16d0_shell *>((pactor))->FUN_008a16d0())
         afReturnValue = 1.0;
-    if (g_bConditionTrace[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("Is Weapon Out >> %0.2f", afReturnValue);
     return true;
 }
 
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct FindData;
 struct KFModel;
-struct NiAVObject;
+class NiAVObject;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiNode;
+class NiControllerSequence;
+class NiNode;
 struct TESAnimGroup;
-struct TESIdleForm;
+class TESIdleForm;
 struct Animation
 {
     void SetField(unsigned char, unsigned char, unsigned char);
@@ -2397,10 +2540,7 @@ struct Animation
     void SetAnimationOwner(void*);
     void QueueReloadAnim(unsigned short);
     bool ReloadAnimQueued();
-    bool AddAnimation(KFModel*, bool);
-    bool IsAnimationLoaded();
     void SetReloadState(bool);
-    void BlendOut(int, bool);
     static float GetDuration(NiControllerSequence*);
     static float GetDuration(NiNode*, float*, float*);
     float GetDuration();
@@ -2410,15 +2550,12 @@ struct Animation
     void UpdateMovement(TESObjectREFR*);
     void UpdateActorAnimation(TESObjectREFR*);
     bool UpdateQueuedScenegraph();
-    bool GetMovementDelta(NiPoint3*, TESObjectREFR*, bool, bool);
     void ClearDelta();
-    bool IsGroupQueued(unsigned short);
     void ClearGroup(int, float);
     unsigned short GetQueuedGroup(int);
     void ClearBlendInterps();
     static void ClearBlendInterpsCallback(NiAVObject*);
     void SetAnimationGroup(TESAnimGroup*);
-    short GetGroupSection(unsigned short);
     void UpdateBipOnly(float, NiPoint3*, bool);
     void RefreshAnimation();
     void SetMoveSpeed(float);
@@ -2461,7 +2598,6 @@ struct Animation
     bool IsSpecialIdlePlaying(BSAnimGroupSequence*);
     bool SpecialIdleLoaded();
     bool IsSpecialIdleReady();
-    bool IsSequenceActive();
     void SpecialIdleFree(bool, bool);
     BSAnimGroupSequence* GetPlayingSequence();
     void ShutdownAllAnimIdles();
@@ -2537,7 +2673,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 
 void __cdecl DebugLog(char const*, ...);
 
@@ -2546,7 +2681,6 @@ struct TLSData_005a0f10
     unsigned char pad[0x268];
     bool bEcho;
 };
-__declspec(thread) TLSData_005a0f10 g_tlsData_005a0f10;
 
 struct TESObjectREFR_View_005a0f10
 {
@@ -2683,13 +2817,13 @@ bool __cdecl FUN_005a0f10(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         Animation* panim = ((TESObjectREFR_View_005a0f10*)apRefObject)->GetAnimation();
         if (panim)
         {
-            if (!panim->IsSequenceActive())
+            if (!reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((panim))->FUN_004985f0())
             {
                 *afReturnValue = 1.0;
             }
         }
     }
-    if (g_tlsData_005a0f10.bEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("Is Idle Playing >> %0.2f", *afReturnValue);
     }
@@ -2697,16 +2831,12 @@ bool __cdecl FUN_005a0f10(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 void __cdecl DebugLog(char const*, ...);
-bool __fastcall FUN_008a67f0(Actor*);
-MobileObject* __fastcall FUN_00578970(TESObjectREFR*);
-bool __fastcall FUN_0092f160(MobileObject*);
 
 struct TLSData_005a1150
 {
     char pad[0x268];
     bool bConsoleEcho;
 };
-__declspec(thread) TLSData_005a1150 g_tls_005a1150;
 
 // @fnv 0x005a1150
 bool __cdecl GetTalkingValue(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -2717,42 +2847,39 @@ bool __cdecl GetTalkingValue(TESObjectREFR* apRefObject, void* apParam1, void* a
         pactor = (Actor*)apRefObject;
     if (pactor)
     {
-        if (FUN_008a67f0(pactor))
+        if (reinterpret_cast<::FUN_008a67f0_shell *>((pactor))->FUN_008a67f0())
             afReturnValue = 1.0;
     }
     else
     {
-        MobileObject* pmob = FUN_00578970(apRefObject);
-        if (pmob && FUN_0092f160(pmob))
+        MobileObject* pmob = ((::MobileObject *)(std::uintptr_t)(reinterpret_cast<::TESObjectREFR578 *>((apRefObject))->FUN_00578970()));
+        if (pmob && reinterpret_cast<::S0092f160 *>((pmob))->FUN_0092f160())
             afReturnValue = 1.0;
     }
-    if (g_tls_005a1150.bConsoleEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("Talking >> %0.2f", afReturnValue);
     return true;
 }
 
 namespace fnv_005a1c90 {
-int __fastcall _FNV_GetFormType(void* form);
+int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(const char*, ...);
 
-struct TESPackage
+class TESPackage
 {
+  public:
     bool IsMustComplete();
 };
 
 namespace FNV_Helpers {
-struct ExtraDataList
+class ExtraDataList
 {
-    TESPackage* GetPackageOverride();
 };
-struct Actor
+class Actor
 {
-    TESPackage* GetCurrentAIPackage();
 };
 }
 
-__declspec(thread) extern char tls_pad[0x268];
-__declspec(thread) extern bool tls_bEcho;
 
 // Returns 1.0 in afReturnValue when the actor's current package matches the given package form, else 0.0; logs the result if tls_bEcho is set.
 // @fnv 0x005a1c90
@@ -2773,14 +2900,12 @@ bool __cdecl FUN_005a1c90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (pactor && ppackage)
     {
-        TESPackage* pActorPackage = reinterpret_cast<FNV_Helpers::Actor*>(pactor)->GetCurrentAIPackage();
+        TESPackage* pActorPackage = ((::fnv_005a1c90::TESPackage *)(reinterpret_cast<::Thing *>((reinterpret_cast<FNV_Helpers::Actor*>(pactor)))->FUN_00881510()));
         if (pActorPackage && pActorPackage->IsMustComplete() &&
-            reinterpret_cast<FNV_Helpers::ExtraDataList*>(reinterpret_cast<TESObjectREFR*>(pactor)->GetExtraData())
-                ->GetPackageOverride())
+            ((::fnv_005a1c90::TESPackage *)(reinterpret_cast<::FUN_0041cb10_shell *>((reinterpret_cast<FNV_Helpers::ExtraDataList*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<TESObjectREFR*>(pactor)))->FUN_005d43c0())))))->FUN_0041cb10())))
         {
             pActorPackage =
-                reinterpret_cast<FNV_Helpers::ExtraDataList*>(reinterpret_cast<TESObjectREFR*>(pactor)->GetExtraData())
-                    ->GetPackageOverride();
+                ((::fnv_005a1c90::TESPackage *)(reinterpret_cast<::FUN_0041cb10_shell *>((reinterpret_cast<FNV_Helpers::ExtraDataList*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<TESObjectREFR*>(pactor)))->FUN_005d43c0())))))->FUN_0041cb10()));
         }
         if (pActorPackage == ppackage)
         {
@@ -2788,7 +2913,7 @@ bool __cdecl FUN_005a1c90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         }
     }
 
-    if (tls_bEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetIsCurrentPackage >> %0.2f", afReturnValue);
     }
@@ -2802,7 +2927,6 @@ class Calendar
   public:
     int GetGameDayOfWeek();
 };
-extern Calendar g_calendar;
 void __cdecl DebugLog(const char*, ...);
 
 namespace fnv_anon_tesconditionfunctions {}
@@ -2814,15 +2938,14 @@ struct TLSData
     bool bEcho;
 };
 }
-extern __declspec(thread) TLSData g_tlsData;
 
 // Sets result to the calendar's day-of-week value, logs it when TLS echo is enabled, and returns true.
 // @fnv 0x005a1d80
 bool __cdecl FUN_005a1d80(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
-    result = g_calendar.GetGameDayOfWeek();
-    if (g_tlsData.bEcho)
+    result = (*reinterpret_cast<::fnv_005a1d80::Calendar *>(&::g_011de7b8)).GetGameDayOfWeek();
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetDayOfWeek >> %0.2f", result);
     }
@@ -2833,15 +2956,12 @@ bool __cdecl FUN_005a1d80(TESObjectREFR* reference, void* apUnused1, void* apUnu
 namespace fnv_005a1de0 {
 struct FUN_005a1de0_player
 {
-    bool FUN_005a1e50();
 };
 struct FUN_005a1de0_tls
 {
     char pad[0x268];
     unsigned char dbg;
 };
-extern FUN_005a1de0_player* pPlayer;
-extern __declspec(thread) FUN_005a1de0_tls tlsData;
 void __cdecl DebugLog(char const*, ...);
 // Sets result to 1.0 if the player is sleeping, otherwise 0.0, logs it when tlsData.dbg is set, and returns true.
 // @fnv 0x005a1de0
@@ -2849,19 +2969,19 @@ bool __cdecl FUN_005a1de0(TESObjectREFR* ref, void* a1, void* a2, double& result
 {
     result = 0.0;
     float fValue;
-    if (pPlayer->FUN_005a1e50())
+    if (::FUN_005a1e50((const bool *)((*reinterpret_cast<::fnv_005a1de0::FUN_005a1de0_player * *>(&::_g_thePlayer)))))
         fValue = 1.0f;
     else
         fValue = 0.0f;
     result = fValue;
-    if (tlsData.dbg)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("IsPlayerSleeping >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a1de0
 
 // @fnv 0x005a1e50
-bool __fastcall FUN_005a1e50(const bool* self)
+bool FUN_005a1e50(const bool* self)
 {
     return self[0x658];
 }
@@ -2888,7 +3008,6 @@ struct ConditionPacketTlsLayout
     bool verbose;
 };
 
-__declspec(thread) ConditionPacketTlsLayout g_conditionPacketTls;
 }
 
 // Sets afReturnValue to 1.0 if the given faction considers the player an enemy, otherwise 0.0, and logs the result when verbose.
@@ -2900,7 +3019,7 @@ bool __cdecl GetPCIsEnemyOfFaction(TESObjectREFR* apRefObject, void* apParam1, v
     if (pFaction && pFaction->GetPCAnEnemy())
         afReturnValue = 1.0;
 
-    if (g_conditionPacketTls.verbose)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (afReturnValue != 0.0)
             DebugLog("PC Is an Enemy of the faction.");
@@ -2913,22 +3032,21 @@ bool __cdecl GetPCIsEnemyOfFaction(TESObjectREFR* apRefObject, void* apParam1, v
 namespace fnv_005a2330 {
 struct TESObjectREFR_standin
 {
-    bool FUN_00477ba0();
 };
 void __cdecl DebugLog(char const*, ...);
-extern __declspec(thread) struct
+// Sets result to 1.0 if ref is valid and FUN_00477ba0 returns true, otherwise 0.0, logs it when tlsData.dbg is set, and returns true.
+// @fnv 0x005a2330
+struct FUN_005a2330_tls
 {
     char pad[0x268];
     unsigned char dbg;
-} tlsData;
-// Sets result to 1.0 if ref is valid and FUN_00477ba0 returns true, otherwise 0.0, logs it when tlsData.dbg is set, and returns true.
-// @fnv 0x005a2330
+};
 bool __cdecl FUN_005a2330(TESObjectREFR_standin* ref, void* a1, void* a2, double& result)
 {
     result = 0.0;
-    if (ref && ref->FUN_00477ba0())
+    if (ref && reinterpret_cast<::FUN_00477ba0_shell *>((ref))->FUN_00477ba0())
         result = 1.0;
-    if (tlsData.dbg)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetDestroyed >> %.0f", result);
     return true;
 }
@@ -2936,10 +3054,13 @@ bool __cdecl FUN_005a2330(TESObjectREFR_standin* ref, void* a1, void* a2, double
 
 void __cdecl DebugLog(char const*, ...);
 
+class MagicItem;
 class MagicTarget
 {
   public:
     bool HasEffect(EffectSetting const*);
+public:
+    bool HasSpell(::MagicItem *, bool);
 };
 
 struct TLSData_005a2390
@@ -2948,7 +3069,6 @@ struct TLSData_005a2390
     bool conditionTrace;
 };
 
-__declspec(thread) TLSData_005a2390 g_tls_005a2390;
 
 struct VTableStub_005a2390
 {
@@ -3075,14 +3195,13 @@ bool __cdecl HasMagicEffect(TESObjectREFR* apRefObject, void* apParam1, void* ap
             afReturnValue = 1.0;
         }
     }
-    if (g_tls_005a2390.conditionTrace)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("Has Magic Effect >> %0.2f", afReturnValue);
     }
     return true;
 }
 
-extern PlayerCharacter* pPlayer;
 void __cdecl DebugLog(const char*, ...);
 
 struct TlsBlock_005a2890
@@ -3091,18 +3210,17 @@ struct TlsBlock_005a2890
     bool bConsoleEcho;
 };
 
-__declspec(thread) TlsBlock_005a2890 tls_005a2890;
 
 // Zeroes afReturnValue, sets it from a PlayerCharacter virtual call when apRefObject is the player, logs it if console echo is on, and returns true.
 // @fnv 0x005a2890
 bool __cdecl FUN_005a2890(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
-    if (apRefObject == reinterpret_cast<TESObjectREFR*>(pPlayer))
+    if (apRefObject == reinterpret_cast<TESObjectREFR*>(::_g_thePlayer))
     {
-        afReturnValue = (*reinterpret_cast<bool(__thiscall***)(PlayerCharacter*)>(pPlayer))[0x364 / 4](pPlayer);
+        afReturnValue = (*reinterpret_cast<bool(***)(PlayerCharacter*)>(::_g_thePlayer))[0x364 / 4](::_g_thePlayer);
     }
-    if (tls_005a2890.bConsoleEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("Player is in Cannibal action >> %0.2f", afReturnValue);
     }
@@ -3110,8 +3228,6 @@ bool __cdecl FUN_005a2890(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 void __cdecl DebugLog(char const*, ...);
-bool __fastcall GetExtraDataVersion(Actor*);
-__declspec(thread) bool bConsoleEcho_tls_dummy[0x269];
 
 // Sets afReturnValue to 1.0 if apRefObject is an Actor for which GetExtraDataVersion returns true, otherwise 0.0, and logs the result when console echo is enabled.
 // @fnv 0x005a29d0
@@ -3121,12 +3237,12 @@ bool __cdecl CheckActorEaten(TESObjectREFR* apRefObject, void* apParam1, void* a
     if (apRefObject->IsActor())
     {
         Actor* pact = (Actor*)apRefObject;
-        if (GetExtraDataVersion(pact))
+        if (((bool)(::GetExtraDataVersion((::TESObjectREFR *)(pact)))))
         {
             afReturnValue = 1.0;
         }
     }
-    if (bConsoleEcho_tls_dummy[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("Actor has been eaten >> %0.2f", afReturnValue);
     }
@@ -3137,16 +3253,12 @@ namespace fnv_005a2e20 {
 class TESObject : public TESForm
 {
   public:
-    TESObject* GetNext();
 };
 
-extern PlayerCharacter* pPlayer;
 void __cdecl DebugLog(char const*, ...);
-extern __declspec(thread) bool bConditionPrint;
 
 struct ExtraDataListOwnerView : public ExtraDataList
 {
-    TESForm* GetOwner();
 };
 
 struct TESFullNameHelper : public TESFullName
@@ -3160,21 +3272,21 @@ bool __cdecl FUN_005a2e20(TESObjectREFR* reference, void* pOwner, void* pUnused,
     TESForm* owner = static_cast<TESForm*>(pOwner);
     if (!owner)
     {
-        owner = reinterpret_cast<TESObject*>(pPlayer)->GetNext();
+        owner = ((::fnv_005a2e20::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(::_g_thePlayer)))->FUN_007af430()));
     }
-    if (reference && owner && static_cast<ExtraDataListOwnerView*>(reference->GetExtraData())->GetOwner() == owner)
+    if (reference && owner && reinterpret_cast<::FUN_00418660_shell *>((static_cast<ExtraDataListOwnerView*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0())))))->FUN_00418660() == owner)
     {
         result = 1.0;
     }
-    if (bConditionPrint)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (result != 0.0)
         {
-            DebugLog("%s is the owner", TESFullNameHelper::GetFullName(owner));
+            DebugLog("%s is the owner", ::FUN_00482720(owner));
         }
         else
         {
-            DebugLog("%s is not the owner", TESFullNameHelper::GetFullName(owner));
+            DebugLog("%s is not the owner", ::FUN_00482720(owner));
         }
     }
     return true;
@@ -3182,14 +3294,12 @@ bool __cdecl FUN_005a2e20(TESObjectREFR* reference, void* pOwner, void* pUnused,
 }  // namespace fnv_005a2e20
 
 void __cdecl DebugLog(char const*, ...);
-__declspec(thread) extern unsigned char g_bConsoleEcho_0268[0x269];
 
-extern bool (__thiscall Actor::*volatile pfn_Actor_IsSneaking)();
+extern bool (Actor::*volatile pfn_Actor_IsSneaking)();
 extern char const*(__cdecl* volatile pfn_TESFullName_GetFullName)(TESForm*);
 
 struct Actor_IsSneaking_Helper : public Actor
 {
-    bool IsSneaking();
 };
 
 struct TESFullName_Helper : public TESFullName
@@ -3209,25 +3319,24 @@ bool __cdecl FUN_005a2f60(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             pact = reinterpret_cast<Actor*>(apRefObject);
         }
     }
-    if (reinterpret_cast<Actor_IsSneaking_Helper*>(pact)->IsSneaking())
+    if (reinterpret_cast<::Actor *>((reinterpret_cast<Actor_IsSneaking_Helper*>(pact)))->IsSneaking())
     {
         afReturnValue = 1.0;
     }
-    if (g_bConsoleEcho_0268[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (afReturnValue != 0.0)
         {
-            DebugLog("%s is sneaking", TESFullName_Helper::GetFullName(reinterpret_cast<TESForm*>(pact)));
+            DebugLog("%s is sneaking", ::FUN_00482720(reinterpret_cast<TESForm*>(pact)));
         }
         else
         {
-            DebugLog("%s is not sneaking", TESFullName_Helper::GetFullName(reinterpret_cast<TESForm*>(pact)));
+            DebugLog("%s is not sneaking", ::FUN_00482720(reinterpret_cast<TESForm*>(pact)));
         }
     }
     return true;
 }
 
-bool __fastcall FUN_00884730(Actor* actor);
 void __cdecl DebugLog(const char*, ...);
 
 namespace TESFullName_ns {
@@ -3238,7 +3347,6 @@ class TESFullName
 };
 }
 
-__declspec(thread) extern bool bConsoleOutput;
 
 // Sets afReturnValue to 1.0 if the reference is an actor that is running, logs the result when console output is enabled, and returns true.
 // @fnv 0x005a3010
@@ -3250,19 +3358,19 @@ bool __cdecl FUN_005a3010(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     {
         pact = reinterpret_cast<Actor*>(apRefObject);
     }
-    if (FUN_00884730(pact))
+    if (reinterpret_cast<::FUN_00884730_shell *>((pact))->FUN_00884730())
     {
         afReturnValue = 1.0;
     }
-    if ((&bConsoleOutput)[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (afReturnValue != 0.0)
         {
-            DebugLog("%s is running", TESFullName_ns::TESFullName::GetFullName(reinterpret_cast<TESForm*>(pact)));
+            DebugLog("%s is running", ::FUN_00482720(reinterpret_cast<TESForm*>(pact)));
         }
         else
         {
-            DebugLog("%s is not running", TESFullName_ns::TESFullName::GetFullName(reinterpret_cast<TESForm*>(pact)));
+            DebugLog("%s is not running", ::FUN_00482720(reinterpret_cast<TESForm*>(pact)));
         }
     }
     return true;
@@ -3270,34 +3378,31 @@ bool __cdecl FUN_005a3010(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 namespace fnv_005a3270 {
 void __cdecl DebugLog(char const*, ...);
-bool __fastcall FUN_00425fd0(TESObjectCELL* apCell);
-char const* __cdecl FUN_00482720(TESForm* apForm);
 
 struct TLSData
 {
     char pad[0x268];
     bool verbose;
 };
-static __declspec(thread) TLSData s_tlsData;
 
 // Sets afReturnValue to 1.0 if apRefObject's parent cell passes FUN_00425fd0, else 0.0, logs the result when verbose, and returns true.
 // @fnv 0x005a3270
 bool __cdecl IsInInterior(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
-    if (apRefObject && apRefObject->GetParentCell() && FUN_00425fd0(apRefObject->GetParentCell()))
+    if (apRefObject && ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apRefObject))->GetTarget())) && reinterpret_cast<::TESObjectCELL *>((((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apRefObject))->GetTarget()))))->IsCellInterior())
     {
         afReturnValue = 1.0;
     }
-    if (s_tlsData.verbose)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (afReturnValue != 0.0)
         {
-            DebugLog("%s is in an Interior", FUN_00482720(apRefObject));
+            DebugLog("%s is in an Interior", ::FUN_00482720(apRefObject));
         }
         else
         {
-            DebugLog("%s is not an Interior", FUN_00482720(apRefObject));
+            DebugLog("%s is not an Interior", ::FUN_00482720(apRefObject));
         }
     }
     return true;
@@ -3311,18 +3416,16 @@ struct TLSData
     bool consoleOutput;
 };
 
-extern __declspec(thread) TLSData g_tlsData;
 
-int __cdecl FUN_005a3370(int);
 void __cdecl DebugLog(const char*, ...);
 
 // Computes a player misc stat value from arg1 into result, logs it when console output is enabled, and returns true.
 // @fnv 0x005a3310
 bool __cdecl GetPlayerMiscStatValue(TESObjectREFR* reference, void* aiStat, void* apUnused, double& result)
 {
-    int stat = (int)aiStat;
-    result = FUN_005a3370(stat);
-    if (g_tlsData.consoleOutput)
+    std::intptr_t stat = (std::intptr_t)aiStat;
+    result = ::FUN_005a3370(stat);
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("Player misc stat value %.02f", result);
     }
@@ -3330,50 +3433,36 @@ bool __cdecl GetPlayerMiscStatValue(TESObjectREFR* reference, void* aiStat, void
 }
 }  // namespace fnv_005a3310
 
-extern int* DAT_011c6d50[];
 
 // @fnv 0x005a3370
 int __cdecl FUN_005a3370(int aeID)
 {
-    return DAT_011c6d50[aeID][1];
+    return (*reinterpret_cast<int * (*)[]>(&::DAT_011c6d50))[aeID][1];
 }
 
 namespace fnv_005a38e0 {
-extern int DAT_011caae8;
-extern int DAT_011caaec;
-extern float DAT_011caaf0;
-extern int DAT_011caaf4;
-extern int DAT_011caaf8;
-extern float DAT_011caafc;
-extern int DAT_011cab00;
-extern int DAT_011cab04;
-extern float DAT_011cab08;
-extern int DAT_011cab0c;
-extern int DAT_011cab10;
 extern int DAT_011cab14;
 extern int DAT_011cab18;
-extern int DAT_011cab1c;
-extern float DAT_011cab20;
 
 // Sets a block of global ints and floats to zero.
 // @fnv 0x005a38e0
 void __cdecl FUN_005a38e0()
 {
-    DAT_011caae8 = 0;
-    DAT_011caaec = 0;
-    DAT_011caaf0 = 0.0f;
-    DAT_011caaf4 = 0;
-    DAT_011caaf8 = 0;
-    DAT_011caafc = 0.0f;
+    (*reinterpret_cast<int *>(&::pLastDispositionActor)) = 0;
+    (*reinterpret_cast<int *>(&::pLastDispositionTarget)) = 0;
+    ::fLastDisposition = 0.0f;
+    (*reinterpret_cast<int *>(&::DAT_011caaf4)) = 0;
+    (*reinterpret_cast<int *>(&::DAT_011caaf8)) = 0;
+    ::DAT_011caafc = 0.0f;
     DAT_011cab00 = 0;
     DAT_011cab04 = 0;
     DAT_011cab08 = 0.0f;
-    DAT_011cab0c = 0;
-    DAT_011cab10 = 0;
+    (*reinterpret_cast<int *>(&::DAT_011cab0c)) = 0;
+    (*reinterpret_cast<int *>(&::DAT_011cab10)) = 0;
     DAT_011cab14 = 0;
     DAT_011cab18 = 0;
-    DAT_011cab1c = 0;
-    DAT_011cab20 = 0.0f;
+    (*reinterpret_cast<int *>(&::fnv_0059f540::DAT_011cab1c)) = 0;
+    ::fnv_0059f540::DAT_011cab20 = 0.0f;
 }
 }  // namespace fnv_005a38e0
 
@@ -3382,8 +3471,9 @@ class PlayerCharacter
 {
   public:
     bool HasNote(BGSNote*);
+public:
+    bool IsSleepingOrResting();
 };
-extern PlayerCharacter* pPlayer;
 
 // Sets result to 1.0 if pPlayer has the BGSNote passed in arg1, otherwise leaves it at 0.0, and returns true.
 // @fnv 0x005a3bf0
@@ -3391,14 +3481,12 @@ bool __cdecl FUN_005a3bf0(TESObjectREFR* reference, void* pNote, void* pUnused, 
 {
     result = 0.0;
     BGSNote* note = (BGSNote*)pNote;
-    if (pPlayer->HasNote(note))
+    if (::_g_thePlayer->HasNote(note))
         result = 1.0;
     return true;
 }
 
-int __fastcall FUN_005730d0(Actor* actor);
 void __cdecl DebugLog(char const*, ...);
-extern __declspec(thread) bool bEchoConsole;
 
 // Sets result to -1.0, or to FUN_005730d0 of the reference when it is an Actor, logs it if bEchoConsole, and returns true.
 // @fnv 0x005a3d30
@@ -3408,9 +3496,9 @@ bool __cdecl FUN_005a3d30(TESObjectREFR* reference, void* arg1, void* arg2, doub
     if (reference->IsActor())
     {
         Actor* pactor = reinterpret_cast<Actor*>(reference);
-        result = static_cast<double>(FUN_005730d0(pactor));
+        result = static_cast<double>(reinterpret_cast<::s5730d0::Actor *>((pactor))->FUN_005730d0());
     }
-    if (bEchoConsole)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("Cause of death is >> %0.2f", result);
     }
@@ -3425,17 +3513,16 @@ struct TESObjectREFR_GetFlags_Helper : public TESObjectREFR
     }
 };
 // @fnv 0x005a4320
-unsigned int __fastcall FUN_005a4320(char* this_ptr)
+std::uintptr_t FUN_005a4320(char* this_ptr)
 {
-    return ((TESObjectREFR_GetFlags_Helper*)(this_ptr + 8))->GetFlags();
+    return ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(this_ptr + 8))))->GetName()));
 }
 
 namespace fnv_005a4340 {
-class Sky;
+struct Sky;
 class TES
 {
   public:
-    Sky* GetLogDate();
 };
 
 struct Vtable388
@@ -3677,9 +3764,9 @@ bool __cdecl FUN_005a4340(TESObjectREFR* reference, void* arg1, void* arg2, doub
     if (reference != 0 && reference->IsActor())
     {
         TES* actor = reinterpret_cast<TES*>(reference);
-        if (actor->GetLogDate() != 0)
+        if (((::fnv_005a4340::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) != 0)
         {
-            result = reinterpret_cast<Vtable388*>(actor->GetLogDate())->v226();
+            result = reinterpret_cast<Vtable388*>(((::fnv_005a4340::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))->v226();
         }
     }
     return true;
@@ -3692,7 +3779,6 @@ class ProcessLists
     bool IsActorTalkingThroughActivator(Actor*);
 };
 
-extern ProcessLists DAT_011e0e80;
 
 // Sets result to 0.0, then if reference is an actor stores whether it is talking through an activator; always returns true.
 // @fnv 0x005a43b0
@@ -3702,7 +3788,7 @@ bool __cdecl FUN_005a43b0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     if (reference && reference->IsActor())
     {
         Actor* actor = (Actor*)reference;
-        result = DAT_011e0e80.IsActorTalkingThroughActivator(actor);
+        result = (*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)).IsActorTalkingThroughActivator(actor);
     }
     return true;
 }
@@ -3713,8 +3799,6 @@ void __cdecl DebugLog(char const*, ...);
 namespace fnv_anon_tesconditionfunctions {}
 using namespace fnv_anon_tesconditionfunctions;
 namespace fnv_anon_tesconditionfunctions {
-__declspec(thread) char tls_pad[0x268];
-__declspec(thread) bool tls_showDebug;
 }
 
 struct MobileObjectEmotionView
@@ -3916,7 +4000,7 @@ bool __cdecl FUN_005a4480(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             *afReturnValue = -1.0;
         }
     }
-    if (tls_showDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetEmotion >> %0.2f", *afReturnValue);
     }
@@ -3927,11 +4011,10 @@ bool __cdecl FUN_005a4480(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_005a4780 {
 void __cdecl DebugLog(char const*, ...);
 
-class Sky;
+struct Sky;
 class TES
 {
   public:
-    Sky* GetLogDate(void);
 };
 
 namespace fnv_anon_tesconditionfunctions {}
@@ -4170,7 +4253,6 @@ struct VTableCall_38c
 };
 }
 
-__declspec(thread) extern unsigned char tls_pad_268[0x269];
 
 // @fnv 0x005a4780
 bool __cdecl CheckLastPlayedIdle(TESObjectREFR* reference, void* arg1, void* pUnused, double& result)
@@ -4180,11 +4262,11 @@ bool __cdecl CheckLastPlayedIdle(TESObjectREFR* reference, void* arg1, void* pUn
     {
         Actor* pactor = (Actor*)reference;
         TESIdleForm* pidle = (TESIdleForm*)arg1;
-        if (((VTableCall_38c*)((TES*)pactor)->GetLogDate())->GetLastPlayedIdle() == pidle)
+        if (((VTableCall_38c*)((::fnv_005a4780::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())))->GetLastPlayedIdle() == pidle)
         {
             result = 1.0;
         }
-        if (tls_pad_268[0x268])
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             DebugLog("The last idle played was  >> %d", result);
         }
@@ -4194,11 +4276,9 @@ bool __cdecl CheckLastPlayedIdle(TESObjectREFR* reference, void* arg1, void* pUn
 }  // namespace fnv_005a4780
 
 void __cdecl DebugLog(char const*, ...);
-extern PlayerCharacter* pPlayer;
 
 struct Actor_005a49f0
 {
-    int GetReactionToActor(Actor*, bool*);
 };
 
 struct TLSData_005a49f0
@@ -4207,7 +4287,6 @@ struct TLSData_005a49f0
     bool bConsoleEcho;
 };
 
-__declspec(thread) TLSData_005a49f0 tls_005a49f0;
 
 // Sets afReturnValue to 1.0 if the actor's faction is hostile to the player due to crime, and logs the result when console echo is enabled.
 // @fnv 0x005a49f0
@@ -4219,10 +4298,10 @@ bool __cdecl FUN_005a49f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         Actor_005a49f0* pactor = reinterpret_cast<Actor_005a49f0*>(apRefObject);
         Actor* ptarg = reinterpret_cast<Actor*>(apParam1);
         bool bcrime = false;
-        pactor->GetReactionToActor(reinterpret_cast<Actor*>(pPlayer), &bcrime);
+        reinterpret_cast<::Actor87 *>((pactor))->FUN_008b87a0((::Actor87 *)(::Actor *)(reinterpret_cast<Actor*>(::_g_thePlayer)), &bcrime);
         if (bcrime)
             afReturnValue = 1.0;
-        if (tls_005a49f0.bConsoleEcho)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             if (afReturnValue != 0.0)
                 DebugLog("This actor's faction is an enemy of player because of crime");
@@ -4234,20 +4313,15 @@ bool __cdecl FUN_005a49f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 namespace fnv_005a51e0 {
-struct MapMarkerData
+class MapMarkerData
 {
-    bool GetVisible();
-    bool IsTravelLocation();
 };
 
-MapMarkerData* __fastcall FUN_00569060(TESObjectREFR* ref);
 void __cdecl DebugLog(char const*, ...);
 
 namespace fnv_anon_tesconditionfunctions {}
 using namespace fnv_anon_tesconditionfunctions;
 namespace fnv_anon_tesconditionfunctions {
-__declspec(thread) unsigned char tls_padding[0x268];
-__declspec(thread) bool bVerboseMode;
 }
 
 // @fnv 0x005a51e0
@@ -4256,17 +4330,17 @@ bool __cdecl FUN_005a51e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     afReturnValue = 0.0;
     if (apRefObject)
     {
-        MapMarkerData* pmarkerdata = FUN_00569060(apRefObject);
-        if (pmarkerdata && pmarkerdata->GetVisible())
+        MapMarkerData* pmarkerdata = ((::fnv_005a51e0::MapMarkerData *)(reinterpret_cast<::FUN_00569060_shell *>((apRefObject))->FUN_00569060()));
+        if (pmarkerdata && reinterpret_cast<::MapMarkerData *>((pmarkerdata))->GetVisible())
         {
             afReturnValue = 1.0;
-            if (pmarkerdata->IsTravelLocation())
+            if (reinterpret_cast<::MapMarkerData *>((pmarkerdata))->IsTravelLocation())
             {
                 afReturnValue = 2.0;
             }
         }
     }
-    if (bVerboseMode)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("marker state = %.0f", afReturnValue);
     }
@@ -4276,14 +4350,11 @@ bool __cdecl FUN_005a51e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 namespace fnv_005a5330 {
 void __cdecl DebugLog(char const*, ...);
-extern PlayerCharacter* pPlayer;
-__declspec(thread) extern bool tls_0268;
 
-class Sky;
+struct Sky;
 class TES
 {
   public:
-    Sky* GetLogDate();
 };
 
 class TESObjectLIGH;
@@ -4501,13 +4572,13 @@ bool __cdecl FUN_005a5330(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (apRefObject && apRefObject->IsActor())
     {
         Actor* pact = (Actor*)apRefObject;
-        if (((TES*)pact)->GetLogDate() && ((Process005a5330*)((TES*)pact)->GetLogDate())->vfn_30c() &&
-            (PlayerCharacter*)((EffectSetting*)pact)->GetLight() == pPlayer)
+        if (((::fnv_005a5330::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pact)))->GetBaseTexture())) && ((Process005a5330*)((::fnv_005a5330::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pact)))->GetBaseTexture())))->vfn_30c() &&
+            (PlayerCharacter*)((::fnv_005a5330::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((((EffectSetting*)pact)))->FUN_004fd380())) == ::_g_thePlayer)
         {
             afReturnValue = 1.0;
         }
     }
-    if (tls_0268)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsGreeting the player >> %.2f", afReturnValue);
     }
@@ -4516,26 +4587,24 @@ bool __cdecl FUN_005a5330(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }  // namespace fnv_005a5330
 
 void __cdecl DebugLog(const char*, ...);
-__declspec(thread) extern bool bEchoConsole;
 
 struct TESQuest_GetObjective_View : public TESQuest
 {
-    BGSQuestObjective* GetObjective(unsigned int index);
 };
 
 // @fnv 0x005a5d30
 bool __cdecl FUN_005a5d30(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     TESQuest_GetObjective_View* pquest = (TESQuest_GetObjective_View*)apParam1;
-    int iElementIndex = (int)apParam2;
+    std::intptr_t iElementIndex = (std::intptr_t)apParam2;
 
     if (pquest)
     {
-        BGSQuestObjective* pobjective = pquest->GetObjective(iElementIndex);
+        BGSQuestObjective* pobjective = reinterpret_cast<::TESQuest *>((pquest))->GetObjective(iElementIndex);
         if (pobjective)
         {
             afReturnValue = pobjective->GetCompleted() ? 1.0 : 0.0;
-            if (bEchoConsole)
+            if (::g_tlsBlock.conditionFunctionDebug)
             {
                 DebugLog("GetObjectiveCompleted >> %0.2f", afReturnValue);
             }
@@ -4548,10 +4617,8 @@ void __cdecl DebugLog(const char*, ...);
 
 struct TESQuest_GetObjective : public TESQuest
 {
-    BGSQuestObjective* GetObjective(unsigned int);
 };
 
-__declspec(thread) extern unsigned char tls_padding_005a5de0[0x269];
 
 // Looks up the quest objective by index and writes 1.0 or 0.0 to afReturnValue depending on whether it is displayed, logging the result when enabled.
 // @fnv 0x005a5de0
@@ -4559,14 +4626,14 @@ bool __cdecl GetQuestObjectiveDisplayed(TESObjectREFR* apRefObject, void* apPara
                                         double& afReturnValue)
 {
     TESQuest* pquest = (TESQuest*)apParam1;
-    int iElementIndex = (int)apParam2;
+    std::intptr_t iElementIndex = (std::intptr_t)apParam2;
     if (pquest)
     {
-        BGSQuestObjective* pobjective = ((TESQuest_GetObjective*)pquest)->GetObjective(iElementIndex);
+        BGSQuestObjective* pobjective = reinterpret_cast<::TESQuest *>((((TESQuest_GetObjective*)pquest)))->GetObjective(iElementIndex);
         if (pobjective)
         {
             afReturnValue = pobjective->GetDisplayed() ? 1.0 : 0.0;
-            if (tls_padding_005a5de0[0x268])
+            if (::g_tlsBlock.conditionFunctionDebug)
             {
                 DebugLog("GetObjectiveDisplayed >> %0.2f", afReturnValue);
             }
@@ -4575,10 +4642,7 @@ bool __cdecl GetQuestObjectiveDisplayed(TESObjectREFR* apRefObject, void* apPara
     return true;
 }
 
-extern PlayerCharacter* pPlayer;
 void __cdecl DebugLog(char const*, ...);
-bool __fastcall FUN_004d1360(PlayerCharacter* pThis);
-__declspec(thread) extern bool g_bShowConsoleOutput;
 
 struct TLSDataPad
 {
@@ -4590,11 +4654,11 @@ struct TLSDataPad
 // @fnv 0x005a5f90
 bool __cdecl FUN_005a5f90(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    if (pPlayer != 0)
+    if (::_g_thePlayer != 0)
     {
-        afReturnValue = FUN_004d1360(pPlayer);
+        afReturnValue = ::FUN_004d1360((char *)(::_g_thePlayer));
     }
-    if ((&g_bShowConsoleOutput)[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsHardcore? >> %f", afReturnValue);
     }
@@ -4602,28 +4666,27 @@ bool __cdecl FUN_005a5f90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 // @fnv 0x005a60d0
-unsigned int __fastcall FUN_005a60d0(const char* pThis)
+unsigned int FUN_005a60d0(const char* pThis)
 {
     return *(const unsigned int*)(pThis + 0x70) & 1;
 }
 
 // @fnv 0x005a6150
-unsigned int __fastcall FUN_005a6150(const unsigned char* self)
+unsigned int FUN_005a6150(const unsigned char* self)
 {
     return *(const unsigned int*)(self + 0x70) & 2;
 }
 
 // @fnv 0x005a6260
-unsigned int __fastcall FUN_005a6260(char* thisPtr)
+uintptr_t FUN_005a6260(char* thisPtr)
 {
     return *reinterpret_cast<unsigned int*>(thisPtr + 0x610);
 }
 
-struct TESObjectCELL;
+class TESObjectCELL;
 class TESObjectREFR;
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 void DebugLog(const char*, ...);
-extern __declspec(thread) unsigned char g_tlsFlag;
 // Sets afReturnValue to 1.0 if apRefObject and apParam1 (when a reference form) share the same parent cell, otherwise 0.0, and returns true.
 // @fnv 0x0059ee80
 bool FUN_0059ee80(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
@@ -4648,65 +4711,61 @@ bool FUN_0059ee80(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             break;
         }
     }
-    prefcell = apRefObject ? apRefObject->GetParentCell() : 0;
-    ptestcell = ptestref ? ptestref->GetParentCell() : 0;
+    prefcell = apRefObject ? ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apRefObject))->GetTarget())) : 0;
+    ptestcell = ptestref ? ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((ptestref))->GetTarget())) : 0;
     if (prefcell && ptestcell && prefcell == ptestcell)
         *afReturnValue = 1.0;
-    if (g_tlsFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetInSameCell >> %0.2f", *afReturnValue);
     return true;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TESFaction;
 struct XActor
 {
-    void* GetActorBase();
 };
 struct FUN_008b8290_shell
 {
     int FUN_008b8290(TESFaction*, bool);
 };
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
 void DebugLog(const char*, ...);
-extern __declspec(thread) unsigned char g_tlsFlag;
 // @fnv 0x0059fc50
 bool FUN_0059fc50(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = -1.0;
     TESObjectREFR* pact = 0;
-    if (apRefObject && ((unsigned char(__thiscall*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
+    if (apRefObject && ((unsigned char(*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
         pact = apRefObject;
     if (!pact)
         return true;
-    void* pactorbase = ((XActor*)pact)->GetActorBase();
+    void* pactorbase = ((void *)(reinterpret_cast<::Actor *>((((XActor*)pact)))->GetActorBase()));
     TESFaction* pfac = 0;
     if (apParam1 && _FNV_GetFormType(apParam1) == 8)
         pfac = (TESFaction*)apParam1;
     if (pact && pfac)
-        *afReturnValue = (double)((FUN_008b8290_shell*)pact)->FUN_008b8290(pfac, (void*)pact == (void*)g_thePlayer);
-    if (g_tlsFlag)
+        *afReturnValue = (double)((FUN_008b8290_shell*)pact)->FUN_008b8290(pfac, (void*)pact == (void*)::_g_thePlayer);
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetFactionRank >> %0.2f", *afReturnValue);
     return true;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 void DebugLog(const char*, ...);
-extern __declspec(thread) unsigned char g_tlsFlag;
 // Sets the return value to 0, then if the reference is valid and passes a check, queries its perk rank and sets the return value to 1 when the rank is nonzero.
 // @fnv 0x005a4630
 bool FUN_005a4630(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
-    if (apRefObject && ((unsigned char(__thiscall*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
+    if (apRefObject && ((unsigned char(*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
     {
         int irank;
         void* pactor = apRefObject;
         bool bAlt = (apParam2 != 0) ? true : false;
-        irank = ((unsigned char(__thiscall*)(void*, void*, bool))(*(void***)pactor)[0x128])(pactor, apParam1, bAlt);
-        if (g_tlsFlag)
+        irank = ((unsigned char(*)(void*, void*, bool))(*(void***)pactor)[0x128])(pactor, apParam1, bAlt);
+        if (::g_tlsBlock.conditionFunctionDebug)
             DebugLog("Perk Rank >> %d", irank);
         if (irank)
             *afReturnValue = 1.0;
@@ -4714,18 +4773,16 @@ bool FUN_005a4630(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     return true;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct ActorH
 {
-    int GetReactionToActor(void*, bool*);
 };
 void DebugLog(const char*, ...);
-extern __declspec(thread) unsigned char g_tlsFlag;
 // @fnv 0x005a46d0
 bool GetFactionRelation(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
-    if (apRefObject && ((unsigned char(__thiscall*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
+    if (apRefObject && ((unsigned char(*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
     {
         void* ptarg;
         bool bcrime;
@@ -4733,48 +4790,43 @@ bool GetFactionRelation(TESObjectREFR* apRefObject, void* apParam1, void* apPara
         pactor = (ActorH*)apRefObject;
         ptarg = apParam1;
         bcrime = false;
-        *afReturnValue = (double)pactor->GetReactionToActor(ptarg, &bcrime);
-        if (g_tlsFlag)
+        *afReturnValue = (double)reinterpret_cast<::Actor87 *>((pactor))->FUN_008b87a0((::Actor87 *)(ptarg), &bcrime);
+        if (::g_tlsBlock.conditionFunctionDebug)
             DebugLog("Faction Relation  >> %d", (unsigned int)*afReturnValue);
     }
     return true;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TESH
 {
-    void* GetLogDate();
 };
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct IC
 {
     float GetConditionPercent(bool);
 };
-extern unsigned int DAT_011ca278;
-extern double g_d100;
 void DebugLog(const char*, ...);
-extern __declspec(thread) unsigned char g_tlsFlag;
 // @fnv 0x005a5270
 bool FUN_005a5270(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
-    if (apRefObject && ((unsigned char(__thiscall*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
+    if (apRefObject && ((unsigned char(*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
     {
         TESObjectREFR* pactor = apRefObject;
         IC* pweapon;
-        if (((TESH*)pactor)->GetLogDate())
+        if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TESH*)pactor)))->GetBaseTexture())))
         {
-            void* pprocess = ((TESH*)pactor)->GetLogDate();
-            pweapon = ((IC * (__thiscall*)(void*))(*(void***)pprocess)[0x52])(pprocess);
-            if (pweapon && ((ArrSI*)pweapon)->GetFlags() != DAT_011ca278)
-                *afReturnValue = pweapon->GetConditionPercent(true);
+            void* pprocess = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TESH*)pactor)))->GetBaseTexture()));
+            pweapon = ((IC * (*)(void*))(*(void***)pprocess)[0x52])(pprocess);
+            if (pweapon && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapon)))->GetName())) != DAT_011ca278)
+                *afReturnValue = reinterpret_cast<::FUN_004bcdb0_shell *>((pweapon))->FUN_004bcdb0(true);
             else
                 *afReturnValue = g_d100;
         }
     }
-    if (g_tlsFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetWeaponHealthPerc >> %0.2f", *afReturnValue);
     return true;
 }
@@ -4817,20 +4869,15 @@ struct ScriptLocals
     void* m_pVariableList;
     ScriptDefinition* m_pExtendedLocals;
 };
-typedef char _sizecheck_ScriptLocals[sizeof(ScriptLocals) == 20 ? 1 : -1];
 
 void __cdecl DebugLog(char const*, ...);
 struct RefH
 {
-    bool GetDisabled();
 };
 struct fnv_005aa630
 {
-    static bool __cdecl FUN_005aa630(Actor*);
 };
-bool __cdecl FUN_005aa680(int);
 
-extern __declspec(thread) bool DAT_01272268;
 
 // @fnv 0x0059cf50
 bool __cdecl FUN_0059cf50(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
@@ -4839,15 +4886,15 @@ bool __cdecl FUN_0059cf50(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (apRefObject)
     {
         *afReturnValue = 0.0;
-        if ((((RefH*)apRefObject)->GetDisabled() && !FUN_005aa680((int)apRefObject)) ||
-            fnv_005aa630::FUN_005aa630((Actor*)apRefObject))
+        if ((reinterpret_cast<::TESForm *>((((RefH*)apRefObject)))->GetDisabled() && !::fnv_005aa680::FUN_005aa680((::Actor *)((std::intptr_t)apRefObject))) ||
+            ::fnv_005aa630::FUN_005aa630((Actor*)apRefObject))
             *afReturnValue = 1.0;
     }
     else if (m_pScriptLocals)
     {
         *afReturnValue = (m_pScriptLocals->m_cActionFlags & 1) ? true : false;
     }
-    if (DAT_01272268)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetDisabled >> %0.f", *afReturnValue);
     return true;
 }
@@ -4860,16 +4907,16 @@ struct BipedAnim;
 struct CollisionComponent;
 struct DestructionStageData;
 struct IDebugText;
-struct NiAVObject;
-struct NiControllerSequence;
-struct NiNode;
-struct QueuedFile;
-struct TESBoundObject;
-struct TESFile;
+class NiAVObject;
+class NiControllerSequence;
+class NiNode;
+class QueuedFile;
+class TESBoundObject;
+class TESFile;
 struct TESKey;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
 struct FileEntryList;
 struct TESWaterForm;
@@ -4878,8 +4925,9 @@ struct blob12
 {
     char b[12];
 };
-struct LockExtraData
+class LockExtraData
 {
+  public:
     int GetLockLevel(TESObjectREFR*);
     void SetLockLevel(int);
     int GetLevel(TESObjectREFR*);
@@ -4897,15 +4945,14 @@ struct LockExtraData
     unsigned int m_uiLockDifficulty;
     unsigned int m_uiLockValue;
 };
-typedef char _sizecheck_REFR_LOCK[sizeof(LockExtraData) == 20 ? 1 : -1];
 struct TESMagicTargetForm
 {
     static bool CanBeMagicTarget(TESForm*);
     char _pad_0[1];
 };
-typedef char _sizecheck_TESMagicTargetForm[sizeof(TESMagicTargetForm) == 1 ? 1 : -1];
-struct BGSDestructibleObjectForm : public BaseFormComponent
+class BGSDestructibleObjectForm : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -4964,7 +5011,6 @@ struct BGSDestructibleObjectForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     CollisionComponent* pData;
 };
-typedef char _sizecheck_BGSDestructibleObjectForm[sizeof(BGSDestructibleObjectForm) == 8 ? 1 : -1];
 struct BGSOpenCloseForm
 {
     virtual void HandleOpenAnimationFinish(TESObjectREFR*, TESObjectREFR*);
@@ -4980,26 +5026,20 @@ struct BGSOpenCloseForm
     static int GetOpenState(TESObjectREFR*);
     static void SnapHavokTo3D(TESObjectREFR*);
 };
-typedef char _sizecheck_BGSOpenCloseForm[sizeof(BGSOpenCloseForm) == 4 ? 1 : -1];
 
 void __cdecl DebugLog(char const*, ...);
-int __fastcall _FNV_GetFormType(TESForm*);
-extern __declspec(thread) bool bPrintConditionDebug;
+int _FNV_GetFormType(TESForm*);
 struct P01RefA
 {
-    LockExtraData* GetLock();
 };
 struct P01ObjA
 {
-    TESForm* GetNext();
 };
 struct P01PlayerA
 {
-    int GetTerminalAccessResult(TESObjectREFR*);
 };
 struct P01TermA
 {
-    bool FUN_00501ae0(TESObjectREFR*);
 };
 // @fnv 0x0059d010
 bool FUN_0059d010(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
@@ -5007,7 +5047,7 @@ bool FUN_0059d010(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     *afReturnValue = 0.0;
     if (apRefObject)
     {
-        LockExtraData* pLock = ((P01RefA*)apRefObject)->GetLock();
+        LockExtraData* pLock = reinterpret_cast<::FUN_00569160_shell *>((((P01RefA*)apRefObject)))->FUN_00569160();
         if (pLock)
         {
             if (pLock->MeetsMinimumLockLevel())
@@ -5015,36 +5055,35 @@ bool FUN_0059d010(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             else if (pLock->IsLocked())
                 *afReturnValue = 1.0;
         }
-        else if (_FNV_GetFormType(((P01ObjA*)apRefObject)->GetNext()) == 0x17)
+        else if (_FNV_GetFormType(((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)apRefObject)))->FUN_007af430()))) == 0x17)
         {
-            if (((P01PlayerA*)g_thePlayer)->GetTerminalAccessResult(apRefObject) == 2)
+            if (reinterpret_cast<::PlayerCharShell *>((((P01PlayerA*)::_g_thePlayer)))->GetTerminalAccessResult(apRefObject) == 2)
             {
                 *afReturnValue = 2.0;
             }
             else
             {
-                P01TermA* pNextTerm = (P01TermA*)((P01ObjA*)apRefObject)->GetNext();
-                if (!pNextTerm->FUN_00501ae0(apRefObject))
+                P01TermA* pNextTerm = (P01TermA*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)apRefObject)))->FUN_007af430()));
+                if (!reinterpret_cast<::FUN_00501ae0_shell *>((pNextTerm))->FUN_00501ae0(apRefObject))
                     *afReturnValue = 1.0;
             }
         }
     }
-    if (bPrintConditionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetLocked >> %0.f", *afReturnValue);
     return true;
 }
 
 void __cdecl DebugLog(char const*, ...);
-extern __declspec(thread) bool bPrintConditionDebug;
 // Sets the return value to 1.0 if the quest passed in apParam1 is enabled, otherwise 0.0, and logs it when condition debug printing is on.
 // @fnv 0x0059e320
 bool FUN_0059e320(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
     TESQuest* pQuest = apParam1 ? (TESQuest*)apParam1 : 0;
-    if (pQuest && pQuest->GetEnabled())
+    if (pQuest && reinterpret_cast<::TESFaction_RankDataView *>((pQuest))->FUN_00455620())
         *afReturnValue = 1.0;
-    if (bPrintConditionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetQuestRunning >> %0.2f", *afReturnValue);
     return true;
 }
@@ -5066,19 +5105,18 @@ struct TLSDebugData
     unsigned char pad[0x268];
     bool bLog;
 };
-extern __declspec(thread) TLSDebugData g_tlsDebugData;
 // Reads a reputation value for the given type from arg1 into result and logs it when TLS debug logging is enabled; returns true.
 // @fnv 0x005a5bd0
 bool __cdecl FUN_005a5bd0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     TESReputation* pReputationData = (TESReputation*)arg1;
     {
-        ReputationType eReputationType = (ReputationType)(int)arg2;
+        ReputationType eReputationType = (ReputationType)(int)(std::intptr_t)arg2;
         if (pReputationData)
         {
             result = pReputationData->GetUnsignedIntegerPointer(eReputationType);
-            if (g_tlsDebugData.bLog)
-                DebugLog("GetReputation: %s >> %0.2f", ((FNStub*)((char*)pReputationData + 0x18))->GetFullName(),
+            if (::g_tlsBlock.conditionFunctionDebug)
+                DebugLog("GetReputation: %s >> %0.2f", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)pReputationData + 0x18))))->FUN_00408da0())),
                          result);
         }
     }
@@ -5086,14 +5124,12 @@ bool __cdecl FUN_005a5bd0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 }
 
 namespace fnv_005a5cb0 {
-extern __declspec(thread) bool g_bReputationDebugLog;
 struct FNStub
 {
     const char* GetFullName();
 };
 struct ReputationStub
 {
-    char FUN_00616a90(unsigned char);
 };
 void __cdecl DebugLog(const char*, ...);
 
@@ -5101,12 +5137,12 @@ void __cdecl DebugLog(const char*, ...);
 bool __cdecl FUN_005a5cb0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     ReputationStub* pRep = (ReputationStub*)arg1;
-    unsigned int bHigh = (unsigned int)arg2;
+    std::uintptr_t bHigh = (std::uintptr_t)arg2;
     if (pRep)
     {
-        result = pRep->FUN_00616a90(bHigh);
-        if (g_bReputationDebugLog)
-            DebugLog("GetReputation: %s >> %0.2f", ((FNStub*)((char*)pRep + 0x18))->GetFullName(), result);
+        result = reinterpret_cast<::Comparison *>((pRep))->FUN_00616a90(bHigh);
+        if (::g_tlsBlock.conditionFunctionDebug)
+            DebugLog("GetReputation: %s >> %0.2f", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)pRep + 0x18))))->FUN_00408da0())), result);
     }
     return true;
 }
@@ -5118,24 +5154,21 @@ struct Interface
     {
         kMenuNone = 0
     };
-    static bool __cdecl IsSaveLoadActive();
     static bool __cdecl GetSelectedTargetIndex(enumMenus id);
     static bool __cdecl IsMenuActive(enumMenus id, unsigned int flag);
 };
-extern unsigned char DAT_011cab24;
 void __cdecl DebugLog(char const*, ...);
-__declspec(thread) extern unsigned char g_tlsDebugFlags[0x300];
 
 // @fnv 0x0059c380
 bool __cdecl GetMenuModeValue(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
-    Interface::enumMenus eMenuId = (Interface::enumMenus)(int)apParam1;
+    Interface::enumMenus eMenuId = (Interface::enumMenus)(int)(std::intptr_t)apParam1;
     if (eMenuId == 0)
     {
-        *afReturnValue = (double)Interface::IsSaveLoadActive();
+        *afReturnValue = (double)::FUN_00702360();
     }
-    else if (DAT_011cab24)
+    else if ((*reinterpret_cast<unsigned char *>(&::fnv_0070ee80::DAT_011cab24)))
     {
         if (Interface::GetSelectedTargetIndex(eMenuId))
             *afReturnValue = 1.0;
@@ -5145,7 +5178,7 @@ bool __cdecl GetMenuModeValue(TESObjectREFR* apRefObject, void* apParam1, void* 
         if (Interface::IsMenuActive(eMenuId, 0))
             *afReturnValue = 1.0;
     }
-    if (g_tlsDebugFlags[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("MenuMode %d >> %0.2f", eMenuId, *afReturnValue);
     return true;
 }
@@ -5156,16 +5189,12 @@ struct TESFullName_Helper
     static const char* __cdecl GetFullName(TESForm*);
 };
 void __cdecl DebugLog(char const*, ...);
-__declspec(thread) extern unsigned char g_tlsDebugFlags[0x300];
-struct PCH
+struct PCH_Actor
 {
-    bool HasCombatState();
 };
 struct PlayerCharacterHelper_00953c50
 {
-    bool FUN_00953c50(bool*);
 };
-extern PlayerCharacter* g_thePlayer;
 
 // Sets the return value to 1.0 if the reference is an actor in combat, or to the player's combat check result, and logs the state when debug flags are set.
 // @fnv 0x005a3180
@@ -5175,28 +5204,27 @@ bool __cdecl GetActorInCombat(TESObjectREFR* apRefObject, void* apParam1, void* 
     Actor* pact = 0;
     if (apRefObject && apRefObject->IsActor())
         pact = (Actor*)apRefObject;
-    if (pact && ((PCH*)pact)->HasCombatState())
+    if (pact && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH_Actor*)pact)))->FUN_00493bb0())))
         *afReturnValue = 1.0;
     bool bsearch = false;
-    if ((PlayerCharacter*)pact == g_thePlayer)
-        *afReturnValue = (double)((PlayerCharacterHelper_00953c50*)g_thePlayer)->FUN_00953c50(&bsearch);
-    if (g_tlsDebugFlags[0x268])
+    if ((PlayerCharacter*)pact == ::_g_thePlayer)
+        *afReturnValue = (double)((bool)(reinterpret_cast<::FUN_00953c50_Class *>((((PlayerCharacterHelper_00953c50*)::_g_thePlayer)))->FUN_00953c50((char *)(bool *)(&bsearch))));
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (*afReturnValue != 0.0)
-            DebugLog("%s is in combat", TESFullName_Helper::GetFullName((TESForm*)pact));
+            DebugLog("%s is in combat", ::FUN_00482720((TESForm*)pact));
         else
-            DebugLog("%s is not in combat", TESFullName_Helper::GetFullName((TESForm*)pact));
+            DebugLog("%s is not in combat", ::FUN_00482720((TESForm*)pact));
     }
     return true;
 }
 }  // namespace fnv_005a3180
 
-bool __cdecl FUN_0059d400(TESObjectREFR* reference, void* arg1, void* arg2, double& result);
 
 // @fnv 0x0059d3a0
 bool __cdecl FUN_0059d3a0(void* apReference, void* apUnused, void* apUnused2, double* result)
 {
-    return FUN_0059d400((TESObjectREFR*)apReference, g_thePlayer, 0, *result);
+    return ::fnv_0059d400::FUN_0059d400((TESObjectREFR*)apReference, ::_g_thePlayer, 0, *result);
 }
 
 struct FUN_0059eb40
@@ -5205,24 +5233,22 @@ struct FUN_0059eb40
 };
 
 // @fnv 0x0059eb40
-bool __thiscall FUN_0059eb40::GetFlag()
+bool FUN_0059eb40::GetFlag()
 {
     return (reinterpret_cast<unsigned char*>(this)[0xeb] & 8) != 0;
 }
 
-extern bool __cdecl FUN_0059f180(PlayerCharacter* reference, void* arg1, void* arg2, double& result);
 
 // @fnv 0x0059f730
 bool __cdecl FUN_0059f730(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
-    return FUN_0059f180(g_thePlayer, arg1, arg2, result);
+    return ::fnv_0059f180::FUN_0059f180((::TESObjectREFR *)(::_g_thePlayer), arg1, arg2, result);
 }
 
-bool __cdecl FUN_0059f240(PlayerCharacter* reference, void* arg1, void* arg2, double& result);
 // @fnv 0x0059f750
 bool __cdecl FUN_0059f750(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
-    return FUN_0059f240(g_thePlayer, arg1, arg2, result);
+    return ::fnv_0059f240::FUN_0059f240((::TESObjectREFR *)(::_g_thePlayer), arg1, arg2, result);
 }
 
 extern NiFixedString* DAT_011c61b4;
@@ -5258,10 +5284,8 @@ bool __cdecl FUN_005a2a50(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 struct PlayerS
 {
-    bool IsSleepingOrResting();
 };
 
-__declspec(thread) unsigned char g_DebugTimePassingFlag;
 
 void __cdecl DebugLog(char const*, ...);
 
@@ -5269,12 +5293,12 @@ void __cdecl DebugLog(char const*, ...);
 // @fnv 0x005a2c70
 bool __cdecl FUN_005a2c70(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    if (((PlayerS*)g_thePlayer)->IsSleepingOrResting())
+    if (reinterpret_cast<::PlayerCharacter *>((((PlayerS*)::_g_thePlayer)))->IsSleepingOrResting())
     {
         afReturnValue = 1.0;
     }
 
-    if (g_DebugTimePassingFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (afReturnValue != 0.0)
         {
@@ -5301,7 +5325,6 @@ bool __cdecl FUN_005a3650(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 struct PC_00605d70
 {
-    bool __thiscall FUN_004eaf60();
 };
 
 // Sets afReturnValue to 1.0 when the player fails the check FUN_004eaf60, otherwise leaves it at 0.0, and returns true.
@@ -5309,7 +5332,7 @@ struct PC_00605d70
 bool __cdecl FUN_005a3d00(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
-    if (!((PC_00605d70*)g_thePlayer)->FUN_004eaf60())
+    if (!reinterpret_cast<::FUN_004eaf60_shell *>((((PC_00605d70*)::_g_thePlayer)))->FUN_004eaf60())
         afReturnValue = 1.0;
     return 1;
 }
@@ -5346,21 +5369,20 @@ unsigned int* FUN_005a5b10_Class::GetFieldPointer()
 
 struct FUN_005a6050
 {
-    unsigned char __thiscall GetField();
+    unsigned char GetField();
 };
 
 // @fnv 0x005a6050
-unsigned char __thiscall FUN_005a6050::GetField()
+unsigned char FUN_005a6050::GetField()
 {
     return *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0xe38);
 }
 
-extern bool __cdecl FUN_0059d540(void* ref, void* arg1, void* arg2, void* arg3);
 
 // @fnv 0x0059d3c0
 bool __cdecl FUN_0059d3c0(void* ref, void* arg1, void* arg2, double& result)
 {
-    return FUN_0059d540(ref, g_thePlayer, 0, &result);
+    return ::fnv_0059d540::FUN_0059d540((::TESObjectREFR *)(ref), ::_g_thePlayer, 0, (*(double *)(&result)));
 }
 
 // Sets afReturnValue to 1.0 if apRefObject is an actor, otherwise 0.0, and returns true.
@@ -5381,7 +5403,6 @@ struct BGSTalkingActivator
 class TESObject
 {
   public:
-    TESObject* GetNext();
     unsigned int GetFormType();
 };
 // Sets *result to 1.0 if object's next form is a talking activator whose temp ref equals reference, otherwise 0.0; always returns true.
@@ -5390,10 +5411,10 @@ bool __cdecl FUN_005a3b90(TESObject* object, TESObjectREFR* reference, TESObject
 {
     *pfResult = 0.0;
     TESObjectREFR* pRef = reference;
-    if (object && object->GetNext()->GetFormType() == 0x16)
+    if (object && ((::fnv_005a3b90::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((object))->FUN_007af430()))->GetFormType() == 0x16)
     {
-        TESObjectREFR* next = reinterpret_cast<TESObjectREFR*>(object->GetNext());
-        if (reinterpret_cast<BGSTalkingActivator*>(next)->GetTempRef() == pRef)
+        TESObjectREFR* next = reinterpret_cast<TESObjectREFR*>(((::fnv_005a3b90::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((object))->FUN_007af430())));
+        if (((::TESObjectREFR *)(reinterpret_cast<::FUN_00516bf0_shell *>((void *)(reinterpret_cast<BGSTalkingActivator*>(next)))->FUN_00516bf0())) == pRef)
             *pfResult = 1.0;
     }
     return true;
@@ -5418,11 +5439,11 @@ bool __cdecl FUN_005a4210(void* apFirst, void* apSecond, void* apUnused, double*
 
 struct FUN_0059e7d0_Class
 {
-    bool __thiscall FUN_0059e7d0();
+    bool FUN_0059e7d0();
 };
 
 // @fnv 0x0059e7d0
-bool __thiscall FUN_0059e7d0_Class::FUN_0059e7d0()
+bool FUN_0059e7d0_Class::FUN_0059e7d0()
 {
     return (((unsigned char*)((char*)this + 0xeb))[0] & 1) != 0;
 }
@@ -5431,11 +5452,11 @@ struct FUN_0059e8c0_Class
 {
     unsigned char padding[0xeb];
     unsigned char flag;
-    bool __thiscall IsFlag2Set();
+    bool IsFlag2Set();
 };
 
 // @fnv 0x0059e8c0
-bool __thiscall FUN_0059e8c0_Class::IsFlag2Set()
+bool FUN_0059e8c0_Class::IsFlag2Set()
 {
     return (flag & 2) != 0;
 }
@@ -5457,11 +5478,11 @@ struct FUN_005a03d0Class
 {
     unsigned char padding[0x680];
     unsigned char flag;
-    unsigned char __thiscall FUN_005a03d0();
+    unsigned char FUN_005a03d0();
 };
 
 // @fnv 0x005a03d0
-unsigned char __thiscall FUN_005a03d0Class::FUN_005a03d0()
+unsigned char FUN_005a03d0Class::FUN_005a03d0()
 {
     return flag;
 }
@@ -5494,7 +5515,6 @@ bool FUN_005a21d0_Class::IsFlag40Set()
 
 struct PlayerCharacterStub
 {
-    int __thiscall GetActionObjectItemId();
 };
 
 // Sets result to zero, then stores the player's value from GetActionObjectItemId into result and returns true.
@@ -5502,7 +5522,7 @@ struct PlayerCharacterStub
 bool __cdecl FUN_005a3af0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
-    result = ((PlayerCharacterStub*)g_thePlayer)->GetActionObjectItemId();
+    result = reinterpret_cast<::FUN_00964060_Class *>((((PlayerCharacterStub*)::_g_thePlayer)))->GetActionObjectItemId();
     return true;
 }
 
@@ -5536,11 +5556,11 @@ struct FUN_005a5bb0Class
 {
     unsigned char padding[0x1b1];
     unsigned char flag;
-    unsigned char __thiscall FUN_005a5bb0();
+    unsigned char FUN_005a5bb0();
 };
 
 // @fnv 0x005a5bb0
-unsigned char __thiscall FUN_005a5bb0Class::FUN_005a5bb0()
+unsigned char FUN_005a5bb0Class::FUN_005a5bb0()
 {
     return flag;
 }
@@ -5551,18 +5571,18 @@ struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BipedAnim;
 struct InventoryIterator;
-struct InventoryStackRecord;
-struct NiAVObject;
+class InventoryStackRecord;
+class NiAVObject;
 struct IndexedPointerCollection;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
 struct TESLevItem;
-struct TESObject;
+class TESObject;
 struct TESFormList;
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct TESWaterForm;
 struct blob12
 {
@@ -5679,25 +5699,19 @@ struct InventoryChanges
     bool m_bChanged;
     char _pad_11[3];
 };
-typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 
 struct TLSConsoleData
 {
     char pad[0x268];
     bool bConsoleOutput;
 };
-extern __declspec(thread) TLSConsoleData g_tlsData;
 
 void DebugLog(const char*, ...);
-int FUN_00ec7d40(int);
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 struct FUN_008256d0_list
 {
     bool FUN_008256d0();
-    TESForm** FUN_006815c0();
-    FUN_008256d0_list* FUN_00726070();
 };
 
 // @fnv 0x0059d8e0
@@ -5707,9 +5721,9 @@ bool FUN_0059d8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     TESForm* pobject;
     TESObjectREFR* ptarget = apRefObject;
     TESForm* pform = (TESForm*)apParam1;
-    if (!FUN_0055d310(ptarget))
+    if (!((::fnv_0059d8e0::TESContainer *)(reinterpret_cast<::s55d310::Owner *>((ptarget))->FUN_0055d310())))
     {
-        if (g_tlsData.bConsoleOutput)
+        if (::g_tlsBlock.conditionFunctionDebug)
             DebugLog("Calling Reference is not a Container Object");
         return true;
     }
@@ -5721,7 +5735,7 @@ bool FUN_0059d8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     {
         if (pobject)
         {
-            *afReturnValue = FUN_00ec7d40(pchange->GetObjectCount((int)pobject));
+            *afReturnValue = std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((std::intptr_t)pobject));
         }
         else if (pform && FNV_GetFormType(pform) == 0x55)
         {
@@ -5729,14 +5743,14 @@ bool FUN_0059d8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             FUN_008256d0_list* pCurrentElementNext = (FUN_008256d0_list*)((Script*)pformlist)->GetHeader();
             while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0())
             {
-                TESForm* pEntryForm = *pCurrentElementNext->FUN_006815c0();
-                pCurrentElementNext = pCurrentElementNext->FUN_00726070();
+                TESForm* pEntryForm = *((::TESForm **)((void *)(pCurrentElementNext)));
+                pCurrentElementNext = ((::fnv_0059d8e0::FUN_008256d0_list *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
                 if (pEntryForm->IsActor_InEditor())
-                    *afReturnValue += FUN_00ec7d40(pchange->GetObjectCount((int)pEntryForm));
+                    *afReturnValue += std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((std::intptr_t)pEntryForm));
             }
         }
     }
-    if (g_tlsData.bConsoleOutput)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetItemCount >> %0.2f", *afReturnValue);
     return true;
 }
@@ -5746,16 +5760,16 @@ struct BGSListForm;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct InventoryIterator;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct IndexedPointerCollection;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
 struct TESLevItem;
-struct TESObject;
-struct TESObjectWEAP;
+class TESObject;
+class TESObjectWEAP;
 struct InventoryChanges
 {
     void ForceWeightRecalculation();
@@ -5867,7 +5881,6 @@ struct InventoryChanges
     bool m_bChanged;
     char _pad_11[3];
 };
-typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 
 struct FUN_0059da90_FT
 {
@@ -5875,15 +5888,12 @@ struct FUN_0059da90_FT
 };
 struct FUN_0059da90_List
 {
-    FUN_0059da90_List* GetNext();
-    TESForm** _ref_006815c0();
 };
 struct FUN_0059da90_IC
 {
     void* GetExtraDataListForObject(TESBoundObject*, bool);
 };
 void DebugLog(const char*, ...);
-extern __declspec(thread) unsigned char FUN_0059da90_tls[0x269];
 // @fnv 0x0059da90
 bool __cdecl FUN_0059da90(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
@@ -5902,7 +5912,7 @@ bool __cdecl FUN_0059da90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         {
             BGSListForm* plistform = (BGSListForm*)pform;
             pCurrentElementNext = (FUN_0059da90_List*)((Script*)plistform)->GetHeader();
-            pform = *pCurrentElementNext->_ref_006815c0();
+            pform = *((::TESForm **)((void *)(pCurrentElementNext)));
         }
         while (pform)
         {
@@ -5912,7 +5922,7 @@ bool __cdecl FUN_0059da90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
                 if (pchange)
                 {
                     TESBoundObject* pobject = (TESBoundObject*)pform;
-                    if (((FUN_0059da90_IC*)pchange)->GetExtraDataListForObject(pobject, false))
+                    if (((void *)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((((FUN_0059da90_IC*)pchange)))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pobject), false))))
                     {
                         afReturnValue = 1;
                         break;
@@ -5920,14 +5930,14 @@ bool __cdecl FUN_0059da90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
                 }
             }
             if (pCurrentElementNext)
-                pCurrentElementNext = pCurrentElementNext->GetNext();
+                pCurrentElementNext = ((::FUN_0059da90_List *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
             if (pCurrentElementNext)
-                pform = *pCurrentElementNext->_ref_006815c0();
+                pform = *((::TESForm **)((void *)(pCurrentElementNext)));
             else
                 pform = 0;
         }
     }
-    if (FUN_0059da90_tls[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetEquipped >> %0.2f", afReturnValue);
     return true;
 }
@@ -5936,21 +5946,16 @@ struct FUN_00401170_s
 {
     int FUN_00401170();
 };
-struct PCH
+struct PCH_Actor
 {
-    bool HasCombatState();
 };
 struct ActorShell
 {
-    bool IsHostileToActor(Actor*, int, int*, bool);
 };
 struct FUN_00992640_s
 {
-    bool FUN_00992640(Actor*, Actor*);
 };
-extern void* BGSSaveLoadGlobalDataWorldspacePtr;
 void DebugLog(const char*, ...);
-extern __declspec(thread) bool g_bShowConditionDebug;
 enum FIGHT_REACTION
 {
     FIGHT_REACTION_NEUTRAL = 0
@@ -6244,22 +6249,22 @@ bool FUN_0059ed30(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         pact9 = (Actor*)apRefObject;
     if (pact9 && pactor)
     {
-        bool m_bCombatState = ((PCH*)pactor)->HasCombatState();
+        bool m_bCombatState = ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH_Actor*)pactor)))->FUN_00493bb0()));
         FIGHT_REACTION ereaction;
         int kIreaction;
         int aidisp8 = 0;
         ereaction = ((ActorVStand*)pact9)->GetFightReaction(pactor, 0);
         bool bcrime = false;
         if (m_bCombatState && ((ActorVStand*)pactor)->GetCombatController() &&
-            ((FUN_00992640_s*)BGSSaveLoadGlobalDataWorldspacePtr)->FUN_00992640(pact9, pactor))
+            reinterpret_cast<::fnv_00992640::FUN_00992640_shell *>((((FUN_00992640_s*)(*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_00992640(pact9, pactor))
             return true;
         int idispcombat = 0;
         kIreaction = 0;
-        if (((ActorShell*)pact9)->IsHostileToActor(pactor, 0, &kIreaction, false))
+        if (reinterpret_cast<::HostActor *>((((ActorShell*)pact9)))->IsHostileTo((::HostActor *)(pactor), 0, &kIreaction, false))
             ainumber = 100;
         *afReturnValue = ainumber;
     }
-    if (g_bShowConditionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetShouldAttack >> %i", ainumber);
     return true;
 }
@@ -6268,21 +6273,24 @@ struct FUN_0059ef60_FormTypeShell
 {
     int _FNV_GetFormType();
 };
-struct BGSCameraPath
+class BGSCameraShot;
+class PerkEntryConditionSet;
+template <class> class BSSimpleList;
+class BGSCameraPath
 {
+  public:
     int HasNameForWarning();
+public:
+    ::PerkEntryConditionSet *GetConditions();
+public:
+    ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
-int _strnicmp(const char*, const char*, unsigned int);
 void DebugLog(const char*, ...);
-extern TESObjectREFR* DAT_011caaf4;
-extern TESObjectCELL* DAT_011caaf8;
-extern float DAT_011caafc;
 struct FUN_0059ef60_TLS
 {
     char pad[0x268];
     bool bDebugOutput;
 };
-extern __declspec(thread) FUN_0059ef60_TLS g_FUN_0059ef60_TLS;
 
 // @fnv 0x0059ef60
 bool FUN_0059ef60(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
@@ -6318,7 +6326,7 @@ bool FUN_0059ef60(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         }
         else
         {
-            TESObjectCELL* prefcell = pref ? pref->GetParentCell() : 0;
+            TESObjectCELL* prefcell = pref ? ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pref))->GetTarget())) : 0;
             if (prefcell && pcell)
             {
                 if (!_strnicmp(((TESForm*)prefcell)->GetName(), ((TESForm*)pcell)->GetName(),
@@ -6330,7 +6338,7 @@ bool FUN_0059ef60(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             DAT_011caafc = (float)*afReturnValue;
         }
     }
-    if (g_FUN_0059ef60_TLS.bDebugOutput)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetInCell >> %0.2f", *afReturnValue);
     return true;
 }
@@ -6340,16 +6348,12 @@ struct NiPoint3Ex
     float x, y, z;
     NiPoint3Ex operator-(const NiPoint3&) const;
 };
-float GetDirectionAngle(const NiPoint3&);
 void DebugLog(const char*, ...);
-extern double DAT_0101ff58;
-extern const double DAT_0102f248;
 struct FUN_005a0410_TLS
 {
     char padding[0x268];
     bool bShowDebug;
 };
-__declspec(thread) FUN_005a0410_TLS g_tls_005a0410;
 
 // Computes the angle from the reference to the target reference, normalizes it into range, scales it, and optionally logs it.
 // @fnv 0x005a0410
@@ -6363,7 +6367,7 @@ bool FUN_005a0410(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     if (pmobile && ptarget)
     {
         NiPoint3Ex headingToTarget = *(NiPoint3Ex*)ptarget->GetPos() - *pmobile->GetPos();
-        float ftargetAngle = GetDirectionAngle(*(NiPoint3*)&headingToTarget);
+        float ftargetAngle = ::GetDirectionAngle((const ::NiPoint3 *)&(*(NiPoint3*)&headingToTarget));
         *afReturnValue = ftargetAngle - pmobile->AdjustRot(0);
         while (*afReturnValue < DAT_0101ff58)
             *afReturnValue += (double)6.2831855f;
@@ -6371,13 +6375,13 @@ bool FUN_005a0410(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             *afReturnValue -= (double)6.2831855f;
         *afReturnValue *= DAT_0102f248;
     }
-    if (g_tls_005a0410.bShowDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("Heading Angle: %0.2f", *afReturnValue);
     return true;
 }
 
 namespace fnv_0059d400 {
-class NiColor;
+struct NiColor;
 class TESFaction;
 class PlayerCharacter;
 struct FactionReaction
@@ -6389,21 +6393,16 @@ struct ContNode
 {
     FactionReaction* m_item;
     ContNode* m_next;
-    FactionReaction** _ref_006815c0();
 };
-bool __fastcall FUN_008256d0(ContNode*);
-ContNode* __fastcall FUN_00726070(ContNode*);
-struct TESRegion
+bool FUN_008256d0(ContNode*);
+class TESRegion
 {
-    NiColor* GetDiffuseColor();
 };
 struct TESActorBaseData
 {
-    int GetFactionRank(TESFaction*, bool);
 };
 struct XActor
 {
-    void* GetActorBase();
 };
 struct SF_Ref
 {
@@ -6474,7 +6473,6 @@ struct SF_Ref
     virtual bool IsActor();
 };
 void DebugLog(const char*, ...);
-extern __declspec(thread) bool g_bConditionDebugOutput;
 
 // @fnv 0x0059d400
 bool FUN_0059d400(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -6486,37 +6484,36 @@ bool FUN_0059d400(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     XActor* pacttar = (XActor*)apParam1;
     if (!pact || !pacttar)
         return true;
-    void* pactorbase1 = pact->GetActorBase();
-    void* pactorbase2 = pacttar->GetActorBase();
+    void* pactorbase1 = ((void *)(reinterpret_cast<::Actor *>((pact))->GetActorBase()));
+    void* pactorbase2 = ((void *)(reinterpret_cast<::Actor *>((pacttar))->GetActorBase()));
     if (pactorbase1 && pactorbase2)
     {
         TESFaction* pfac1 = 0;
-        ContNode* pCurrentElementNext = (ContNode*)((TESRegion*)((char*)pactorbase1 + 0x30))->GetDiffuseColor();
+        ContNode* pCurrentElementNext = (ContNode*)((::fnv_0059d400::NiColor *)(reinterpret_cast<::TESRegion *>((((TESRegion*)((char*)pactorbase1 + 0x30))))->GetDiffuseColor()));
         while (pCurrentElementNext && !FUN_008256d0(pCurrentElementNext) && afReturnValue != 1.0)
         {
-            pfac1 = (*pCurrentElementNext->_ref_006815c0())->pFaction;
-            if (pfac1 && ((TESActorBaseData*)((char*)pactorbase2 + 0x30))
-                                 ->GetFactionRank(pfac1, pacttar == (XActor*)g_thePlayer) != -1)
+            pfac1 = (*((::fnv_0059d400::FactionReaction **)((void *)(pCurrentElementNext))))->pFaction;
+            if (pfac1 && reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBaseData*)((char*)pactorbase2 + 0x30))))->GetFactionRank((::fnv_0047d680::TESFaction *)(pfac1), pacttar == (XActor*)::_g_thePlayer) != -1)
                 afReturnValue = 1.0;
-            pCurrentElementNext = FUN_00726070(pCurrentElementNext);
+            pCurrentElementNext = ((::fnv_0059d400::ContNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
     }
-    if (g_bConditionDebugOutput)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("SameFaction >> %0.2f", afReturnValue);
     return true;
 }
 }  // namespace fnv_0059d400
 
 namespace fnv_0059d610 {
-struct TESObject
+class TESObject
 {
-    unsigned int GetNext();
 };
-struct TESActorBase
+class TESActorBase
 {
+  public:
     int GetSex();
 };
-struct TESNPC : TESActorBase
+class TESNPC : public TESActorBase
 {
 };
 struct FNV_GetFormTypeHelper
@@ -6524,7 +6521,6 @@ struct FNV_GetFormTypeHelper
     int _FNV_GetFormType();
 };
 void __cdecl _DebugLog(const char*, ...);
-__declspec(thread) bool g_bDebugLogEnabled;
 // Sets result to 1.0 if reference and actor1 are both NPCs of form type 0x2a with equal sex, logs the value, and returns true.
 // @fnv 0x0059d610
 bool __cdecl FUN_0059d610(TESObject* reference, TESObject* actor1, TESObject* actor2, double& result)
@@ -6535,24 +6531,24 @@ bool __cdecl FUN_0059d610(TESObject* reference, TESObject* actor1, TESObject* ac
     pnpc1 = 0;
     if (reference)
     {
-        if (((FNV_GetFormTypeHelper*)reference->GetNext())->_FNV_GetFormType() == 0x2a)
+        if (((FNV_GetFormTypeHelper*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())))->_FNV_GetFormType() == 0x2a)
         {
-            pnpc1 = (TESNPC*)reference->GetNext();
+            pnpc1 = (TESNPC*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
         }
     }
     pnpc2 = 0;
     if (actor1)
     {
-        if (((FNV_GetFormTypeHelper*)actor1->GetNext())->_FNV_GetFormType() == 0x2a)
+        if (((FNV_GetFormTypeHelper*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor1))->FUN_007af430())))->_FNV_GetFormType() == 0x2a)
         {
-            pnpc2 = (TESNPC*)actor1->GetNext();
+            pnpc2 = (TESNPC*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor1))->FUN_007af430()));
         }
     }
     if (pnpc1 && pnpc2 && pnpc1->GetSex() == pnpc2->GetSex())
     {
         result = 1.0;
     }
-    if (g_bDebugLogEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("SameSex >> %0.2f", result);
     }
@@ -7097,23 +7093,19 @@ struct DetProcV
 class TES
 {
   public:
-    void* GetLogDate();
 };
-class PCH
+class PCH_Actor
 {
   public:
-    bool HasCombatState();
 };
 struct PlayerOps_59d6e0
 {
-    bool FUN_00953c50(bool*);
 };
 struct DetActorHelper
 {
     int CalculateDetectionLevel(int, Actor*, bool*, bool, int, bool, bool*);
 };
 void DebugLog(const char*, ...);
-extern __declspec(thread) bool g_bDebugLogDetect;
 
 // Checks whether apRefObject (an actor) detects apParam1, sets afReturnValue to 1 when detection succeeds, and logs the result and light level.
 // @fnv 0x0059d6e0
@@ -7132,24 +7124,24 @@ bool FUN_0059d6e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     pdetector = 0;
     if (apParam1 && ((DetRefV*)apParam1)->IsActor())
         pdetector = (Actor*)apParam1;
-    if (pactor && pdetector && ((TES*)pactor)->GetLogDate() && ((TES*)pdetector)->GetLogDate())
+    if (pactor && pdetector && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())) && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pdetector)))->GetBaseTexture())))
     {
         bool blinesight;
         bool bincombat;
         bool bsearch;
         bincombat = false;
         bsearch = false;
-        if (pdetector == (Actor*)g_thePlayer)
-            bincombat = ((PlayerOps_59d6e0*)g_thePlayer)->FUN_00953c50(&bsearch);
+        if (pdetector == (Actor*)::_g_thePlayer)
+            bincombat = ((bool)(reinterpret_cast<::FUN_00953c50_Class *>((((PlayerOps_59d6e0*)::_g_thePlayer)))->FUN_00953c50((char *)(bool *)(&bsearch))));
         else
-            bincombat = ((PCH*)pdetector)->HasCombatState();
+            bincombat = ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH_Actor*)pdetector)))->FUN_00493bb0()));
         iCount =
             ((DetActorHelper*)pactor)->CalculateDetectionLevel(0, pdetector, &blinesight, false, bincombat, false, 0);
         if (iCount > 0)
             afReturnValue = 1;
-        ilight = (int)((DetProcV*)((TES*)pdetector)->GetLogDate())->GetLight();
+        ilight = (int)((DetProcV*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pdetector)))->GetBaseTexture())))->GetLight();
     }
-    if (g_bDebugLogDetect)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetDetected >> %i and light %i", iCount, ilight);
     return true;
 }
@@ -7157,15 +7149,15 @@ bool FUN_0059d6e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
 
 namespace fnv_0059e1a0 {
 struct FormFlagRecord;
-struct ActorValueOwner;
+class ActorValueOwner;
 struct AlchemyItem;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct ExtraLeveledItem;
+class ExtraLeveledItem;
 struct InventoryChanges;
 struct ScriptDefinition;
-struct TESBoundObject;
-struct TESObjectWEAP;
+class TESBoundObject;
+class TESObjectWEAP;
 struct ScriptLocals
 {
     void ClearActionFlags();
@@ -7199,9 +7191,9 @@ struct ScriptLocals
     void* m_pVariableList;
     ScriptDefinition* m_pExtendedLocals;
 };
-typedef char _sizecheck_ScriptLocals[sizeof(ScriptLocals) == 20 ? 1 : -1];
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     void Copy(InventoryStackRecord*);
     void MergeEntryData(InventoryStackRecord*);
     void ClearEntryData();
@@ -7275,36 +7267,33 @@ struct InventoryStackRecord
     int m_iCountChange;
     TESBoundObject* m_pItemObject;
 };
-typedef char _sizecheck_ItemChange[sizeof(InventoryStackRecord) == 12 ? 1 : -1];
 
 class TESObject
 {
   public:
-    TESObject* GetNext();
 };
 
-unsigned int __fastcall _FNV_GetFormType(TESForm* form);
-::ScriptLocals* __fastcall FUN_004bdea0(InventoryStackRecord* item);
+unsigned int _FNV_GetFormType(TESForm* form);
 
 struct TESObjectREFR_Helper
 {
     InventoryStackRecord* call_576260(TESObject* obj, unsigned int formID);
 };
-static InventoryStackRecord* (__thiscall TESObjectREFR_Helper::*volatile _force_576260)(TESObject*, unsigned int) =
+static InventoryStackRecord* (TESObjectREFR_Helper::*volatile _force_576260)(TESObject*, unsigned int) =
     &TESObjectREFR_Helper::call_576260;
 
 struct ScriptLocals_Helper
 {
     double call_5a9140(void* arg2, Script* script);
 };
-static double (__thiscall ScriptLocals_Helper::*volatile _force_5a9140)(void*,
+static double (ScriptLocals_Helper::*volatile _force_5a9140)(void*,
                                                                         Script*) = &ScriptLocals_Helper::call_5a9140;
 
 struct ExtraDataList_Access : public ExtraDataList
 {
     TESObjectREFR* GetReplacementReference();
 };
-static TESObjectREFR* (__thiscall ExtraDataList_Access::*volatile _force_GetReferencePointer)() =
+static TESObjectREFR* (ExtraDataList_Access::*volatile _force_GetReferencePointer)() =
     &ExtraDataList_Access::GetReplacementReference;
 
 struct ItemChange_WithDtor : public InventoryStackRecord
@@ -7331,22 +7320,21 @@ bool __cdecl FUN_0059e1a0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         case 0x40:
         case 0x69: {
             TESObjectREFR* pRef = static_cast<TESObjectREFR*>(pForm);
-            if (static_cast<ExtraDataList_Access*>(pRef->GetExtraData())->GetReplacementReference())
+            if (reinterpret_cast<::FUN_0041c8d0_shell *>((static_cast<ExtraDataList_Access*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pRef))->FUN_005d43c0())))))->FUN_0041c8d0())
             {
                 TESObjectREFR* m_pContainer =
-                    static_cast<ExtraDataList_Access*>(pRef->GetExtraData())->GetReplacementReference();
+                    reinterpret_cast<::FUN_0041c8d0_shell *>((static_cast<ExtraDataList_Access*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pRef))->FUN_005d43c0())))))->FUN_0041c8d0();
                 InventoryStackRecord* pItemChange =
-                    reinterpret_cast<TESObjectREFR_Helper*>(m_pContainer)
-                        ->call_576260(reinterpret_cast<TESObject*>(pRef)->GetNext(), pRef->GetFormID());
+                    ((::fnv_0059e1a0::InventoryStackRecord *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((reinterpret_cast<TESObjectREFR_Helper*>(m_pContainer)))->FUN_00576260((::fnv_00576260::TESBoundObject *)(::fnv_0059e1a0::TESObject *)(((::fnv_0059e1a0::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(pRef)))->FUN_007af430()))), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRef))->FUN_0084e3a0())))));
                 if (pItemChange)
                 {
-                    m_pScriptLocals = FUN_004bdea0(pItemChange);
+                    m_pScriptLocals = reinterpret_cast<::ItemChangeShell *>((pItemChange))->FUN_004bdea0();
                 }
                 delete static_cast<ItemChange_WithDtor*>(pItemChange);
             }
             else
             {
-                m_pScriptLocals = pRef->GetReferenceLocals();
+                m_pScriptLocals = reinterpret_cast<::FUN_005673e0_shell *>((pRef))->FUN_005673e0();
             }
             break;
         }
@@ -7361,7 +7349,7 @@ bool __cdecl FUN_0059e1a0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         }
         if (m_pScriptLocals && ((ScriptLocals*)m_pScriptLocals)->m_pOwnerScript)
         {
-            afReturnValue = reinterpret_cast<ScriptLocals_Helper*>(m_pScriptLocals)->call_5a9140(apParam2, 0);
+            afReturnValue = reinterpret_cast<::FUN_005a9140_shell *>((reinterpret_cast<ScriptLocals_Helper*>(m_pScriptLocals)))->FUN_005a9140((unsigned int)(std::uintptr_t)(apParam2), 0);
         }
     }
     return true;
@@ -7371,7 +7359,6 @@ bool __cdecl FUN_0059e1a0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_0059e700 {
 struct BSAudio
 {
-    void* GetAudioBackendData();
 };
 struct GameTimerRecord
 {
@@ -7379,28 +7366,24 @@ struct GameTimerRecord
 };
 struct FUN_0059e7d0_Class
 {
-    bool FUN_0059e7d0();
 };
 struct Sky : BSAudio
 {
-    static Sky* GetInstance();
-    float FUN_006447d0();
     unsigned int GetTime() const;
 };
 void _DebugLog(const char* fmt, ...);
-__declspec(thread) bool _DebugLogEnabled;
 // @fnv 0x0059e700
 bool FUN_0059e700(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    Sky* pWeatherSky = Sky::GetInstance();
+    Sky* pWeatherSky = ((::fnv_0059e700::Sky *)(::Sky::GetInstance()));
     afReturnValue =
-        pWeatherSky->GetAudioBackendData() && ((FUN_0059e7d0_Class*)pWeatherSky->GetAudioBackendData())->FUN_0059e7d0()
-            ? pWeatherSky->FUN_006447d0()
+        ((void *)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0())) && reinterpret_cast<::FUN_0059e7d0_Class *>((((FUN_0059e7d0_Class*)((void *)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0())))))->FUN_0059e7d0()
+            ? ::FUN_006447d0((const char *)(pWeatherSky))
             : 0.0;
-    afReturnValue += pWeatherSky->GetTime() && ((FUN_0059e7d0_Class*)pWeatherSky->GetTime())->FUN_0059e7d0()
-                         ? 1.0 - pWeatherSky->FUN_006447d0()
+    afReturnValue += reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00() && reinterpret_cast<::FUN_0059e7d0_Class *>((((FUN_0059e7d0_Class*)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00())))->FUN_0059e7d0()
+                         ? 1.0 - ::FUN_006447d0((const char *)(pWeatherSky))
                          : 0.0;
-    if (_DebugLogEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetIsPleasant >> %0.2f", afReturnValue);
     return true;
 }
@@ -7409,29 +7392,24 @@ bool FUN_0059e700(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
 namespace fnv_0059e7f0 {
 struct Sky
 {
-    static Sky* GetInstance();
-    void* GetAudioBackendData();
     unsigned int GetTime() const;
-    float FUN_006447d0();
 };
 struct FUN_0059e8c0_Class
 {
-    bool IsFlag2Set();
 };
 void _DebugLog(const char*, ...);
-__declspec(thread) bool g_pLogDebug;
 // @fnv 0x0059e7f0
 bool __cdecl FUN_0059e7f0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    Sky* pWeatherSky = Sky::GetInstance();
+    Sky* pWeatherSky = ((::fnv_0059e7f0::Sky *)(::Sky::GetInstance()));
     afReturnValue =
-        pWeatherSky->GetAudioBackendData() && ((FUN_0059e8c0_Class*)pWeatherSky->GetAudioBackendData())->IsFlag2Set()
-            ? pWeatherSky->FUN_006447d0()
+        ((void *)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0())) && reinterpret_cast<::FUN_0059e8c0_Class *>((((FUN_0059e8c0_Class*)((void *)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0())))))->IsFlag2Set()
+            ? ::FUN_006447d0((const char *)(pWeatherSky))
             : 0.0;
-    afReturnValue += pWeatherSky->GetTime() && ((FUN_0059e8c0_Class*)pWeatherSky->GetTime())->IsFlag2Set()
-                         ? 1.0 - pWeatherSky->FUN_006447d0()
+    afReturnValue += reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00() && reinterpret_cast<::FUN_0059e8c0_Class *>((((FUN_0059e8c0_Class*)(std::uintptr_t)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pWeatherSky))->FUN_00825c00())))->IsFlag2Set()
+                         ? 1.0 - ::FUN_006447d0((const char *)(pWeatherSky))
                          : 0.0;
-    if (g_pLogDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetIsCloudy >> %0.2f", afReturnValue);
     return true;
 }
@@ -7439,14 +7417,12 @@ bool __cdecl FUN_0059e7f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 struct ActorX
 {
-    bool FUN_00437bf0();
 };
 struct MobileObjectShell
 {
     const char* GetFullName();
 };
 void __cdecl _DebugLog(const char* fmt, ...);
-__declspec(thread) unsigned char g_theDebugLevel;
 
 // Sets result to 1.0 if the reference is an actor that is restrained, logs the state when debug logging is enabled, and returns true.
 // @fnv 0x0059ff90
@@ -7458,9 +7434,9 @@ bool __cdecl FUN_0059ff90(TESObjectREFR* reference, void* apUnused1, void* apUnu
         actor = (ActorX*)reference;
     if (actor)
     {
-        if (actor->FUN_00437bf0())
+        if (reinterpret_cast<::FUN_00437bf0_shell *>((actor))->FUN_00437bf0())
             result = 1.0;
-        if (g_theDebugLevel)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             if (result != 0.0)
                 _DebugLog("%s is restrained", ((MobileObjectShell*)actor)->GetFullName());
@@ -7474,29 +7450,25 @@ bool __cdecl FUN_0059ff90(TESObjectREFR* reference, void* apUnused1, void* apUnu
 namespace fnv_005a02f0 {
 struct FUN_005a03d0Class
 {
-    unsigned char FUN_005a03d0();
 };
 struct FUN_005a03f0_obj
 {
-    bool FUN_005a03f0(unsigned int);
 };
 void __cdecl _DebugLog(const char* fmt, ...);
-extern PlayerCharacter* _g_thePlayer;
 extern int DAT_0118c608[7];
-__declspec(thread) unsigned char pDebugLog;
 
 // Sets afReturnValue to 1.0 if the player's control bit for apParam1 is disabled, else 0.0, and logs each control's state when pDebugLog is set.
 // @fnv 0x005a02f0
 bool __cdecl FUN_005a02f0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
-    unsigned int ibit = (unsigned int)apParam1;
-    if (((FUN_005a03f0_obj*)_g_thePlayer)->FUN_005a03f0(ibit))
+    std::uintptr_t ibit = (std::uintptr_t)apParam1;
+    if (reinterpret_cast<::FUN_005a03f0_obj *>((((FUN_005a03f0_obj*)::_g_thePlayer)))->FUN_005a03f0(ibit))
         afReturnValue = 1.0;
-    if (pDebugLog)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("GetPlayerControlsDisabled: %0.2f", afReturnValue);
-        signed char cDisabledFlags = ((FUN_005a03d0Class*)_g_thePlayer)->FUN_005a03d0();
+        signed char cDisabledFlags = reinterpret_cast<::FUN_005a03d0Class *>((((FUN_005a03d0Class*)::_g_thePlayer)))->FUN_005a03d0();
         for (int iIndex = 0; iIndex < 7; ++iIndex)
         {
             if (cDisabledFlags & 1)
@@ -7511,20 +7483,17 @@ bool __cdecl FUN_005a02f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }  // namespace fnv_005a02f0
 
 namespace fnv_005a05e0 {
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct BGSListForm;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct TES
 {
-    void* GetLogDate();
 };
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct LH
 {
-    bool IsInList(int&);
 };
 class BaseProcess
 {
@@ -7613,10 +7582,8 @@ class BaseProcess
     virtual void GetActorFaceGenData();
     virtual InventoryStackRecord* GetActiveWeapon();
 };
-int __fastcall _FNV_GetFormType(unsigned int);
-extern unsigned int g_uiConditionFunctionState;
+int _FNV_GetFormType(std::uintptr_t);
 void _DebugLog(const char*, ...);
-extern __declspec(thread) bool bLogConditionFunctions;
 
 // @fnv 0x005a05e0
 bool __cdecl FUN_005a05e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -7626,22 +7593,22 @@ bool __cdecl FUN_005a05e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     Actor* pactor = 0;
     if (apRefObject && apRefObject->IsActor())
         pactor = (Actor*)apRefObject;
-    if (pactor && ((TES*)pactor)->GetLogDate() && pformlist)
+    if (pactor && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())) && pformlist)
     {
-        InventoryStackRecord* pweapdata = ((BaseProcess*)((TES*)pactor)->GetLogDate())->GetActiveWeapon();
+        InventoryStackRecord* pweapdata = ((BaseProcess*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())))->GetActiveWeapon();
         TESObjectWEAP* pweap = 0;
-        if (pweapdata && ((ArrSI*)pweapdata)->GetFlags() && _FNV_GetFormType(((ArrSI*)pweapdata)->GetFlags()) == 0x28)
-            pweap = (TESObjectWEAP*)((ArrSI*)pweapdata)->GetFlags();
+        if (pweapdata && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName())) && _FNV_GetFormType(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName()))) == 0x28)
+            pweap = (TESObjectWEAP*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName()));
         if (!pweap)
-            pweap = (TESObjectWEAP*)g_uiConditionFunctionState;
+            pweap = (TESObjectWEAP*)::DAT_011ca278;
         if (pweap)
         {
-            int key = (int)pweap;
-            if (((LH*)((Script*)pformlist)->GetHeader())->IsInList(key))
+            std::intptr_t key = (std::intptr_t)pweap;
+            if (reinterpret_cast<::RefList *>((((LH*)((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((((Script*)pformlist)))->GetConditions())))))->FUN_005f65d0((void **)&(key)))
                 afReturnValue = 1.0;
         }
     }
-    if (bLogConditionFunctions)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("IsWeaponInList >> %0.2f", afReturnValue);
     return true;
 }
@@ -7650,9 +7617,7 @@ bool __cdecl FUN_005a05e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 void __cdecl _DebugLog(const char* format, ...);
 struct OwnedCellOwner
 {
-    bool FUN_00546ca0(TESObjectREFR* reference);
 };
-__declspec(thread) unsigned char g_DebugLogFlag;
 // Sets result to 1.0 when reference is an actor whose parent cell reports it as owned, otherwise 0.0, and logs the value when debug logging is enabled.
 // @fnv 0x005a19a0
 bool __cdecl FUN_005a19a0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
@@ -7661,17 +7626,16 @@ bool __cdecl FUN_005a19a0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     TESObjectREFR* owner = 0;
     if (reference && reference->IsActor())
         owner = reference;
-    if (owner && owner->GetParentCell() &&
-        reinterpret_cast<OwnedCellOwner*>(owner->GetParentCell())->FUN_00546ca0(owner))
+    if (owner && ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((owner))->GetTarget())) &&
+        reinterpret_cast<::CellOwnerCheck *>((reinterpret_cast<OwnedCellOwner*>(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((owner))->GetTarget())))))->FUN_00546ca0((::Actor *)(owner)))
         result = 1.0;
-    if (g_DebugLogFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Is in owned cell value %0.2f", result);
     return true;
 }
 
 struct GhostH
 {
-    bool GetGhost() const;
 };
 void __cdecl _DebugLog(const char* fmt, ...);
 struct TESObjectREFR_VTable
@@ -7742,7 +7706,6 @@ struct TESObjectREFR_VTable
     virtual void vfn_0fc();
     virtual bool vfn_100();
 };
-__declspec(thread) bool g_bConditionFunctionFlags[57];
 // @fnv 0x005a2a60
 bool __cdecl FUN_005a2a60(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
@@ -7750,16 +7713,15 @@ bool __cdecl FUN_005a2a60(TESObjectREFR* reference, void* arg1, void* arg2, doub
     TESObjectREFR* actor = 0;
     if (reference && ((TESObjectREFR_VTable*)reference)->vfn_100())
         actor = reference;
-    if (actor && ((GhostH*)actor)->GetGhost())
+    if (actor && reinterpret_cast<::FUN_008ace90_shell *>((void *)(((GhostH*)actor)))->FUN_008ace90())
         result = 1.0;
-    if (g_bConditionFunctionFlags[56])
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetGhost >> %0.2f", result);
     return true;
 }
 
 struct TESWaterForm
 {
-    bool FUN_00580060();
 };
 struct FUN_005a3740_cls
 {
@@ -7781,9 +7743,9 @@ bool __cdecl FUN_005a36b0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     if (reference && reference->IsActor())
     {
         TESObjectREFR* actor = reference;
-        if (actor && ((FUN_005a3740_cls*)actor)->GetByteAt14C() && actor->GetParentCell() &&
-            ((FUN_00547770_shell*)actor->GetParentCell())->FUN_00547770() &&
-            ((FUN_00547770_shell*)actor->GetParentCell())->FUN_00547770()->FUN_00580060())
+        if (actor && ((FUN_005a3740_cls*)actor)->GetByteAt14C() && ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())) &&
+            ((FUN_00547770_shell*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())))->FUN_00547770() &&
+            reinterpret_cast<::FUN_00580060_shell *>((((FUN_00547770_shell*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())))->FUN_00547770()))->FUN_00580060())
             result = 1.0;
     }
     return true;
@@ -7792,43 +7754,37 @@ bool __cdecl FUN_005a36b0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 namespace fnv_0059c930 {
 struct TESObjectREFRScaleView
 {
-    float GetScale();
 };
 struct ActorV_S
 {
-    float GetScale();
 };
 extern "C" void __cdecl _DebugLog(const char*, ...);
 struct ThreadLocalFlags
 {
     unsigned char bDebugLogging;
 };
-__declspec(thread) ThreadLocalFlags g_threadLocalFlags;
 // If apRefObject is non-null, stores its GetScale result in afReturnValue and, when debug logging is on, logs it with the base scale; returns true.
 // @fnv 0x0059c930
 bool __cdecl GetObjectScale(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     if (apRefObject)
     {
-        afReturnValue = ((TESObjectREFRScaleView*)apRefObject)->GetScale();
-        if (g_threadLocalFlags.bDebugLogging)
-            _DebugLog("GetScale >> %0.2f (with base %0.2f)", afReturnValue, ((ActorV_S*)apRefObject)->GetScale());
+        afReturnValue = reinterpret_cast<::TESObjectREFR *>((((TESObjectREFRScaleView*)apRefObject)))->GetScale();
+        if ((*reinterpret_cast<::fnv_0059c930::ThreadLocalFlags *>(&::g_tlsBlock.conditionFunctionDebug)).bDebugLogging)
+            _DebugLog("GetScale >> %0.2f (with base %0.2f)", afReturnValue, reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)apRefObject)))->FUN_00567400());
     }
     return true;
 }
 }  // namespace fnv_0059c930
 
 namespace fnv_0059d1d0 {
-struct LockExtraData
+class LockExtraData
 {
-    bool MeetsMinimumLockLevel();
 };
 struct P01RefA
 {
-    LockExtraData* GetLock();
 };
 void __cdecl _DebugLog(const char*, ...);
-__declspec(thread) bool g_debugLog;
 // Sets result to 0, or to the lock's broken flag if the reference has a lock, logs it, and returns true.
 // @fnv 0x0059d1d0
 bool __cdecl FUN_0059d1d0(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
@@ -7836,29 +7792,27 @@ bool __cdecl FUN_0059d1d0(TESObjectREFR* reference, void* apUnused1, void* apUnu
     result = 0.0;
     if (reference)
     {
-        LockExtraData* lock = ((P01RefA*)reference)->GetLock();
+        LockExtraData* lock = ((::fnv_0059d1d0::LockExtraData *)(reinterpret_cast<::FUN_00569160_shell *>((((P01RefA*)reference)))->FUN_00569160()));
         if (lock)
         {
-            int broken = lock->MeetsMinimumLockLevel();
+            int broken = reinterpret_cast<::LockExtraData *>((lock))->MeetsMinimumLockLevel();
             result = broken;
         }
     }
-    if (g_debugLog)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetIsLockBroken >> %0.f", result);
     return true;
 }
 }  // namespace fnv_0059d1d0
 
 namespace fnv_0059fb00 {
-int __cdecl FUN_00600910();
-__declspec(thread) unsigned char g_tlsDebugFlag;
-extern "C" int __cdecl _DebugLog(const char*, ...);
+extern "C" void __cdecl _DebugLog(const char*, ...);
 // Stores the value returned by FUN_00600910 in afReturnValue, logs it when g_tlsDebugFlag is set, and returns true.
 // @fnv 0x0059fb00
 bool __cdecl FUN_0059fb00(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    afReturnValue = FUN_00600910();
-    if (g_tlsDebugFlag)
+    afReturnValue = ::FUN_00600910();
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetIsUsedItemLevel >> %0.2f", afReturnValue);
     return true;
 }
@@ -7868,25 +7822,21 @@ namespace fnv_005a1880 {
 class TES
 {
   public:
-    void* GetLogDate();
 };
-class Sky
+struct Sky
 {
   public:
-    float GetFieldCC();
 };
-extern int g_TES;
-extern "C" int __cdecl _DebugLog(const char*, ...);
-extern __declspec(thread) unsigned char g_DebugLogFlag;
+extern "C" void __cdecl _DebugLog(const char*, ...);
 // Sets result to the sky's wind speed and returns true when the TES log date is available, otherwise returns false; logs the value if debug logging is enabled.
 // @fnv 0x005a1880
 bool __cdecl FUN_005a1880(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
-    if (!(g_TES && ((TES*)g_TES)->GetLogDate()))
+    if (!(::g_TES && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)::g_TES)))->GetBaseTexture()))))
         return false;
-    result = ((Sky*)((TES*)g_TES)->GetLogDate())->GetFieldCC();
-    if (g_DebugLogFlag)
+    result = reinterpret_cast<::FUN_004536e0_Class *>((((Sky*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)::g_TES)))->GetBaseTexture())))))->GetFieldCC();
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetWindSpeed >> %0.2f", result);
     return true;
 }
@@ -7898,7 +7848,6 @@ struct BGSOpenCloseForm
     static int __cdecl GetOpenState(TESObjectREFR*);
 };
 extern "C" void __cdecl _DebugLog(const char*, ...);
-__declspec(thread) bool g_bDebugLogging;
 // Zeroes result, stores GetOpenState(reference) when reference is non-null, logs it if debug logging is on, and returns true.
 // @fnv 0x005a1c30
 bool __cdecl FUN_005a1c30(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
@@ -7906,7 +7855,7 @@ bool __cdecl FUN_005a1c30(TESObjectREFR* reference, void* apUnused1, void* apUnu
     result = 0.0;
     if (reference)
         result = BGSOpenCloseForm::GetOpenState(reference);
-    if (g_bDebugLogging)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetOpenState >> %0.2f", result);
     return true;
 }
@@ -7915,10 +7864,8 @@ bool __cdecl FUN_005a1c30(TESObjectREFR* reference, void* apUnused1, void* apUnu
 namespace fnv_005a20d0 {
 struct FUN_0047d720Class
 {
-    bool HasFactionFlag8() const;
 };
 void _DebugLog(const char*);
-__declspec(thread) unsigned char g_tlsDebugFlag;
 
 // Sets afReturnValue to 1.0 if the faction in apParam1 reports the PC is expelled, otherwise 0.0, and logs the result when debug logging is enabled.
 // @fnv 0x005a20d0
@@ -7926,9 +7873,9 @@ bool __cdecl FUN_005a20d0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 {
     afReturnValue = 0.0;
     FUN_0047d720Class* pFaction = reinterpret_cast<FUN_0047d720Class*>(apParam1);
-    if (pFaction && pFaction->HasFactionFlag8())
+    if (pFaction && reinterpret_cast<::FUN_0047d720Class *>((void *)(pFaction))->HasFactionFlag8())
         afReturnValue = 1.0;
-    if (g_tlsDebugFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (afReturnValue != 0.0)
             _DebugLog("PC is expelled.");
@@ -7942,19 +7889,17 @@ bool __cdecl FUN_005a20d0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_005a2150 {
 struct FUN_005a21d0_Class
 {
-    bool IsFlag40Set();
 };
 void _DebugLog(const char*);
-__declspec(thread) unsigned char g_tlsFlag;
 // Sets result to 1.0 if the faction object reports a murder, otherwise 0.0, and logs the outcome when the TLS flag is set; always returns true.
 // @fnv 0x005a2150
 bool FUN_005a2150(TESObjectREFR* ref, void* apFaction, void* apUnused, double& result)
 {
     result = 0.0;
     FUN_005a21d0_Class* faction = (FUN_005a21d0_Class*)apFaction;
-    if (faction && faction->IsFlag40Set())
+    if (faction && reinterpret_cast<::FUN_005a21d0_Class *>((faction))->IsFlag40Set())
         result = 1.0;
-    if (g_tlsFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (result != 0.0)
             _DebugLog("PC murdered a faction member.");
@@ -7968,23 +7913,22 @@ bool FUN_005a2150(TESObjectREFR* ref, void* apFaction, void* apUnused, double& r
 namespace fnv_005a2290 {
 struct FUN_005a2310_Class
 {
-    bool IsFlag20Set() const;
 };
 void __cdecl _DebugLog(const char*);
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     bool bDebugLogging;
 };
-__declspec(thread) bool g_tlsDebugLogging;
 // Sets afReturnValue to 1.0 if apParam1 is a faction that passes IsFlag20Set, logs the result when debug logging is on, and returns true.
 // @fnv 0x005a2290
 bool __cdecl FUN_005a2290(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
     TESFaction* pFaction = static_cast<TESFaction*>(apParam1);
-    if (pFaction && reinterpret_cast<FUN_005a2310_Class*>(pFaction)->IsFlag20Set())
+    if (pFaction && reinterpret_cast<::FUN_005a2310_Class *>((void *)(reinterpret_cast<FUN_005a2310_Class*>(pFaction)))->IsFlag20Set())
         afReturnValue = 1.0;
-    if (g_tlsDebugLogging)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (afReturnValue != 0.0)
             _DebugLog("PC attacked a faction member.");
@@ -7998,18 +7942,15 @@ bool __cdecl FUN_005a2290(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_005a2590 {
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
-extern ArrSI DAT_011f2250;
 extern "C" void __cdecl _DebugLog(const char*, ...);
-__declspec(thread) unsigned char g_tlsFlag;
 // Sets result to the flags of DAT_011f2250 as a double, logs it when g_tlsFlag is set, and returns true.
 // @fnv 0x005a2590
 bool __cdecl FUN_005a2590(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
-    result = (double)(int)DAT_011f2250.GetFlags();
-    if (g_tlsFlag)
+    result = (double)(int)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_005a2590::ArrSI *>(&::g_011f2250))))->GetName()));
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("VATS Mode >> %0.2f", result);
     return true;
 }
@@ -8018,7 +7959,6 @@ bool __cdecl FUN_005a2590(TESObjectREFR* reference, void* apUnused1, void* apUnu
 namespace fnv_005a3570 {
 struct TES
 {
-    void* GetLogDate(void);
     virtual void v000();
     virtual void v004();
     virtual void v008();
@@ -8211,9 +8151,9 @@ bool __cdecl FUN_005a3570(TESObjectREFR* reference, void* arg1, void* arg2, doub
     TES* log = 0;
     if (reference && reference->IsActor())
         log = (TES*)reference;
-    if (log && log->GetLogDate())
+    if (log && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((log))->GetBaseTexture())))
     {
-        LogDate* pLogDate = (LogDate*)log->GetLogDate();
+        LogDate* pLogDate = (LogDate*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((log))->GetBaseTexture()));
         if (pLogDate->v060())
             result = 1.0;
     }
@@ -8248,13 +8188,12 @@ struct DebugLogFlag
     unsigned char padding[0x268];
     unsigned char flag;
 };
-__declspec(thread) DebugLogFlag g_DebugLogFlag;
 // Sets the return value to 0.0, optionally logs it when the debug log flag is set, and returns true.
 // @fnv 0x005a3820
 bool __cdecl FUN_005a3820(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
-    if (g_DebugLogFlag.flag)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLogStandIn::_DebugLog("IsPS3 >> %1.0f", *afReturnValue);
     return true;
 }
@@ -8262,7 +8201,6 @@ bool __cdecl FUN_005a3820(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 struct TESObjectREFR_Dismembered : TESObjectREFR
 {
-    bool IsLimbMissing(int limb);
 };
 
 // Sets result to 1.0 if reference is an actor whose limb is dismembered, otherwise 0.0, and returns true.
@@ -8270,11 +8208,11 @@ struct TESObjectREFR_Dismembered : TESObjectREFR
 bool __cdecl FUN_005a3db0(TESObjectREFR* reference, void* aiLimb, void* apUnused, double& result)
 {
     result = 0.0;
-    int limb = reinterpret_cast<int>(aiLimb);
+    std::intptr_t limb = reinterpret_cast<std::intptr_t>(aiLimb);
     if (reference && reference->IsActor())
     {
         TESObjectREFR_Dismembered* actor = static_cast<TESObjectREFR_Dismembered*>(reference);
-        if (actor->IsLimbMissing(limb))
+        if (reinterpret_cast<::TESObjectREFR *>((actor))->IsLimbMissing(limb))
             result = 1.0;
     }
     return true;
@@ -8347,7 +8285,7 @@ struct FUN_005a4160_shell
     virtual void vf8();
     virtual void vfc();
     virtual bool v100();
-    unsigned int GetActorStateFlags() const;
+    std::uintptr_t GetActorStateFlags() const;
 };
 
 // @fnv 0x005a4160
@@ -8356,7 +8294,7 @@ bool FUN_005a4160(TESObjectREFR* reference, void* arg1, void* arg2, double& resu
     result = 0.0;
     if (reference && ((FUN_005a4160_shell*)reference)->v100())
     {
-        unsigned int mode = ((FUN_005a4160_shell*)reference)->GetActorStateFlags() & 0x30;
+        unsigned int mode = reinterpret_cast<::FUN_008846e0_shell *>((void *)(((FUN_005a4160_shell*)reference)))->GetVtbl20Result() & 0x30;
         if (mode & 0x10)
             result = 1.0;
         else if (mode & 0x20)
@@ -8501,7 +8439,6 @@ struct AnimActionObject
     virtual void vf8();
     virtual void vfc();
     virtual bool IsMoving();
-    int GetAnimAction();
 };
 
 // Sets result to -1.0, then if reference is non-null and IsMoving() is true, stores GetAnimAction() into result; returns true.
@@ -8511,7 +8448,7 @@ bool __cdecl FUN_005a41c0(TESObjectREFR* reference, void* apUnused1, void* apUnu
     result = -1.0;
     if (reference && reinterpret_cast<AnimActionObject*>(reference)->IsMoving())
     {
-        result = reinterpret_cast<AnimActionObject*>(reference)->GetAnimAction();
+        result = reinterpret_cast<::FUN_008a7570_shell *>((reinterpret_cast<AnimActionObject*>(reference)))->FUN_008a7570();
     }
     return true;
 }
@@ -8520,19 +8457,16 @@ namespace fnv_005a48a0 {
 extern "C" void _DebugLog(const char*, ...);
 struct PlayerCharacterStandIn
 {
-    unsigned int GetFieldD68() const;
 };
-extern PlayerCharacterStandIn* _g_thePlayer;
 
-__declspec(thread) bool g_bDebugLoggingEnabled = false;
 
 // Stores the player's teammate count into result, optionally logs it, and returns true.
 // @fnv 0x005a48a0
 bool FUN_005a48a0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
-    result = _g_thePlayer->GetFieldD68();
-    if (g_bDebugLoggingEnabled)
+    result = reinterpret_cast<::FUN_005a4910_Class *>((void *)((*reinterpret_cast<::fnv_005a48a0::PlayerCharacterStandIn * *>(&::_g_thePlayer))))->GetFieldD68();
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Player teammate count  >> %d", (int)result);
     return true;
 }
@@ -8543,14 +8477,13 @@ struct FUN_00477430
     static int GetDestructionStageIndex(TESObjectREFR*);
 };
 void __cdecl _DebugLog(const char* fmt, ...);
-__declspec(thread) bool g_DebugFlag;
 // @fnv 0x005a4c60
 bool __cdecl FUN_005a4c60(TESObjectREFR* ref, void* apUnused1, void* apUnused2, double& afDestructionStage)
 {
     afDestructionStage = -1.0;
     if (ref)
-        afDestructionStage = (double)FUN_00477430::GetDestructionStageIndex(ref);
-    if (g_DebugFlag)
+        afDestructionStage = (double)::FUN_00477430(ref);
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetDestructionStage >> %.2f", afDestructionStage);
     return true;
 }
@@ -8628,7 +8561,6 @@ struct FUN_008bdbd0
     double GetAngleToReference(TESObjectREFR* apRef, float afAngle);
 };
 
-__declspec(thread) unsigned char g_tlsFlag;
 
 struct ActorStandIn
 {
@@ -8708,7 +8640,7 @@ bool __cdecl FUN_005a57b0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     {
         afReturnValue = ((FUN_008bdbd0*)apRefObject)->GetAngleToReference(ptargetRef, 3.1415927410125732f);
     }
-    if (g_tlsFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("VATSBackTargetVisible >> %.2f", afReturnValue);
     return true;
 }
@@ -8718,7 +8650,7 @@ namespace fnv_005a5840 {
 extern "C" void __cdecl _DebugLog(const char* fmt, ...);
 struct VATSActor
 {
-    double __thiscall FUN_008bdbd0(TESObjectREFR* ref, float value);
+    double FUN_008bdbd0(TESObjectREFR* ref, float value);
     virtual bool v000();
     virtual void v004();
     virtual void v008();
@@ -8785,7 +8717,6 @@ struct VATSActor
     virtual void v0fc();
     virtual bool v100();
 };
-__declspec(thread) bool g_debugFlag = false;
 // Resets result to 0, computes it from ref's VATS visibility check against arg1 when ref is valid, logs it if g_debugFlag is set, and returns true.
 // @fnv 0x005a5840
 bool __cdecl FUN_005a5840(TESObjectREFR* ref, void* pTarget, void* pUnused, double& result)
@@ -8794,7 +8725,7 @@ bool __cdecl FUN_005a5840(TESObjectREFR* ref, void* pTarget, void* pUnused, doub
     TESObjectREFR* target = (TESObjectREFR*)pTarget;
     if (ref && ((VATSActor*)ref)->v100())
         result = ((VATSActor*)ref)->FUN_008bdbd0(target, 0.0f);
-    if (g_debugFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("VATSFrontTargetVisible >> %.2f", result);
     return true;
 }
@@ -8804,17 +8735,15 @@ struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-extern GlobalObject_0045cf30 g_011df7f8;
 void __cdecl _DebugLog(const char* format, ...);
-extern __declspec(thread) bool _tlsDebugLogEnabled;
 // Sets result to 1.0 when the global bool is 1, logs it if debug logging is enabled, and returns true.
 // @fnv 0x005a5a50
 bool __cdecl FUN_005a5a50(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
-    if (*g_011df7f8.Bool() == 1)
+    if (*::g_011df7f8.Bool() == 1)
         result = 1.0;
-    if (_tlsDebugLogEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("IsGoreDisabled >> %0.2f", result);
     return true;
 }
@@ -8822,14 +8751,12 @@ bool __cdecl FUN_005a5a50(TESObjectREFR* reference, void* apUnused1, void* apUnu
 namespace fnv_005a5b30 {
 struct FUN_005a5bb0Class
 {
-    unsigned char FUN_005a5bb0();
 };
 struct MobileObjectShell
 {
     const char* GetFullName();
 };
 void _DebugLog(const char* fmt, ...);
-__declspec(thread) unsigned char g_tlsDebugLogEnabled;
 // If apRefObject is an actor, stores its force-hit-reaction value in afReturnValue and optionally logs the actor's full name and value; returns true.
 // @fnv 0x005a5b30
 bool __cdecl GetForceHitReactionCondition(TESObjectREFR* apRefObject, void* apParam1, void* apParam2,
@@ -8837,8 +8764,8 @@ bool __cdecl GetForceHitReactionCondition(TESObjectREFR* apRefObject, void* apPa
 {
     if (apRefObject && apRefObject->IsActor())
     {
-        afReturnValue = (double)((FUN_005a5bb0Class*)apRefObject)->FUN_005a5bb0();
-        if (g_tlsDebugLogEnabled)
+        afReturnValue = (double)reinterpret_cast<::FUN_005a5bb0Class *>((((FUN_005a5bb0Class*)apRefObject)))->FUN_005a5bb0();
+        if (::g_tlsBlock.conditionFunctionDebug)
             _DebugLog("GetForceHitReactionConditionFunction: %s >> %0.2f",
                       ((MobileObjectShell*)apRefObject)->GetFullName(), afReturnValue);
     }
@@ -8851,17 +8778,15 @@ struct FUN_005a6050
 {
     unsigned char GetField();
 };
-extern FUN_005a6050* _g_thePlayer;
 void _DebugLog(const char*, ...);
-__declspec(thread) unsigned char g_tlsFlag;
 
 // Stores the player's field value into result, logs it when the TLS flag is set, and returns true.
 // @fnv 0x005a5ff0
 bool __cdecl FUN_005a5ff0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
-    if (_g_thePlayer)
-        result = _g_thePlayer->GetField();
-    if (g_tlsFlag)
+    if ((*reinterpret_cast<::fnv_005a5ff0::FUN_005a6050 * *>(&::_g_thePlayer)))
+        result = reinterpret_cast<::FUN_005a6050 *>(((*reinterpret_cast<::fnv_005a5ff0::FUN_005a6050 * *>(&::_g_thePlayer))))->GetField();
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetAlwaysHardcore? >> %f", result);
     return true;
 }
@@ -8869,10 +8794,8 @@ bool __cdecl FUN_005a5ff0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 
 struct TESChallenge
 {
-    int GetUnlocked();
 };
 void __cdecl DebugLog(const char*, ...);
-__declspec(thread) bool g_bDebugLoggingEnabled;
 // Reads the unlocked value from the TESChallenge in arg1 into result, logs it when debug logging is enabled, and returns true.
 // @fnv 0x005a6070
 bool __cdecl GetChallengeUnlockedValue(TESObjectREFR* reference, void* pChallenge, void* pUnused, double& result)
@@ -8880,10 +8803,10 @@ bool __cdecl GetChallengeUnlockedValue(TESObjectREFR* reference, void* pChalleng
     TESChallenge* challenge = static_cast<TESChallenge*>(pChallenge);
     if (challenge)
     {
-        int value = challenge->GetUnlocked();
+        int value = ((int)(::FUN_005a60d0((const char *)(challenge))));
         result = value;
     }
-    if (g_bDebugLoggingEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("ChallengeLocked? >> %f", result);
     return true;
 }
@@ -8891,10 +8814,8 @@ bool __cdecl GetChallengeUnlockedValue(TESObjectREFR* reference, void* pChalleng
 namespace fnv_005a60f0 {
 struct TESChallenge
 {
-    unsigned int GetCompleted();
 };
 
-__declspec(thread) unsigned char g_tlsFlag[0x269];
 
 extern "C" void _DebugLog(const char* fmt, ...);
 
@@ -8905,10 +8826,10 @@ bool __cdecl FUN_005a60f0(TESObjectREFR* reference, void* pChallenge, void* pUnu
     TESChallenge* challenge = static_cast<TESChallenge*>(pChallenge);
     if (challenge)
     {
-        int completed = challenge->GetCompleted();
+        int completed = ::FUN_005a6150((const unsigned char *)(challenge));
         result = completed;
     }
-    if (g_tlsFlag[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("ChallengeComplete? >> %f", result);
     }
@@ -8918,36 +8839,33 @@ bool __cdecl FUN_005a60f0(TESObjectREFR* reference, void* pChallenge, void* pUnu
 
 namespace fnv_0059dbe0 {
 extern "C" void __cdecl _DebugLog(const char*, ...);
-extern "C" void* __cdecl _ref_004839c0(int);
 struct InventoryChanges
 {
     static InventoryChanges* __cdecl CreateForReference(TESObjectREFR*);
     int GetObjectCount(TESForm*);
 };
-struct TESContainer;
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
-__declspec(thread) unsigned char g_sDebugLogState[0x268 + 1];
+class TESContainer;
 // Sets result to the reference's inventory count of form 15 (gold), logs it when debug logging is on, and returns true.
 // @fnv 0x0059dbe0
 bool FUN_0059dbe0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     TESObjectREFR* ptarget = reference;
-    TESForm* pform = (TESForm*)_ref_004839c0(15);
+    TESForm* pform = (TESForm*)((void *)(::FUN_004839c0(15)));
     if (ptarget && pform)
     {
         TESForm* pobject = pform;
-        TESContainer* pCont = FUN_0055d310(ptarget);
+        TESContainer* pCont = ((::fnv_0059dbe0::TESContainer *)(reinterpret_cast<::s55d310::Owner *>((ptarget))->FUN_0055d310()));
         if (pCont)
         {
             InventoryChanges* pchange = InventoryChanges::CreateForReference(ptarget);
             if (pchange)
             {
-                result = (double)pchange->GetObjectCount(pobject);
+                result = (double)reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((std::intptr_t)(pobject));
             }
         }
     }
-    if (g_sDebugLogState[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetGold >> %0.2f", result);
     return true;
 }
@@ -8956,7 +8874,6 @@ bool FUN_0059dbe0(TESObjectREFR* reference, void* arg1, void* arg2, double& resu
 namespace fnv_005a2af0 {
 struct ActorServiceStandIn
 {
-    bool FUN_008ac680();
 };
 
 struct MobileObjectShell : public TESObjectREFR
@@ -8965,7 +8882,6 @@ struct MobileObjectShell : public TESObjectREFR
 };
 
 void __cdecl _DebugLog(const char*, ...);
-extern __declspec(thread) bool g_bDebugLogEnabled;
 
 // Sets result to 1.0 if reference is an actor that is offering services, logs the outcome when debug logging is enabled, and returns true.
 // @fnv 0x005a2af0
@@ -8975,9 +8891,9 @@ bool __cdecl FUN_005a2af0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     ActorServiceStandIn* actor = 0;
     if (reference && reference->IsActor())
         actor = reinterpret_cast<ActorServiceStandIn*>(reference);
-    if (actor && actor->FUN_008ac680())
+    if (actor && reinterpret_cast<::ServicesActorView *>((actor))->FUN_008ac680())
         result = 1.0;
-    if (g_bDebugLogEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (result != 0.0)
             _DebugLog("%s  is offering services", reinterpret_cast<MobileObjectShell*>(actor)->GetFullName());
@@ -8991,7 +8907,6 @@ bool __cdecl FUN_005a2af0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 namespace fnv_005a30c0 {
 struct FUN_00422640Class
 {
-    int FUN_00422640();
 };
 
 struct FUN_005a30c0_tls
@@ -9000,7 +8915,6 @@ struct FUN_005a30c0_tls
     unsigned char bDebug;
 };
 
-extern __declspec(thread) FUN_005a30c0_tls FUN_005a30c0_tlsVar;
 extern "C" void __cdecl _DebugLog(const char*, ...);
 const char* __cdecl GetFullName(void* form);
 
@@ -9014,9 +8928,9 @@ bool __cdecl FUN_005a30c0(TESObjectREFR* reference, void* apUnused1, void* apUnu
         actor = (Actor*)reference;
     if (!actor)
         return true;
-    adHitCount = (double)((FUN_00422640Class*)((TESObjectREFR*)actor)->GetExtraData())->FUN_00422640();
-    if (FUN_005a30c0_tlsVar.bDebug)
-        _DebugLog("%s has hit %s %0.2f times", GetFullName(g_thePlayer), GetFullName(actor), adHitCount);
+    adHitCount = (double)reinterpret_cast<::FUN_00422640Class *>((((FUN_00422640Class*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)actor)))->FUN_005d43c0())))))->FUN_00422640();
+    if (::g_tlsBlock.conditionFunctionDebug)
+        _DebugLog("%s has hit %s %0.2f times", ::FUN_00482720((::TESForm *)(::_g_thePlayer)), ::FUN_00482720((::TESForm *)(actor)), adHitCount);
     return true;
 }
 }  // namespace fnv_005a30c0
@@ -9153,7 +9067,6 @@ bool __cdecl FUN_0059c4c0(TESObjectREFR* reference, void* apUnused1, void* apUnu
 }
 
 extern int __tls_index;
-extern char const* __cdecl FUN_0066eac0(unsigned int);
 extern void __cdecl _DebugLog(char const*, ...);
 
 struct FUN_0059c5d0_RefInterface
@@ -9236,13 +9149,12 @@ struct FUN_0059c5d0_TLSData
     unsigned char enabled;
 };
 
-extern __declspec(thread) FUN_0059c5d0_TLSData FUN_0059c5d0_TLSData;
 
 // If apRefObject is an actor, stores its base actor value for the given index in afReturnValue and logs it when TLS logging is enabled; returns true.
 // @fnv 0x0059c5d0
 bool __cdecl FUN_0059c5d0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    int iActorValueIndex = reinterpret_cast<unsigned int>(apParam1);
+    int iActorValueIndex = (unsigned int)(std::uintptr_t)(apParam1);
     Actor* pActor = 0;
 
     if (apRefObject && reinterpret_cast<FUN_0059c5d0_RefInterface*>(apRefObject)->f64())
@@ -9254,8 +9166,8 @@ bool __cdecl FUN_0059c5d0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             reinterpret_cast<FUN_0059c5d0_ActorValueInterface*>(reinterpret_cast<unsigned char*>(pActor) + 0xa4)
                 ->GetBaseActorValue(iActorValueIndex);
 
-        if (FUN_0059c5d0_TLSData.enabled)
-            _DebugLog("GetBaseActorValue: %s >> %0.2f", FUN_0066eac0(iActorValueIndex), afReturnValue);
+        if (::g_tlsBlock.conditionFunctionDebug)
+            _DebugLog("GetBaseActorValue: %s >> %0.2f", ::FUN_0066eac0((::ActorValue::Index)(iActorValueIndex)), afReturnValue);
     }
 
     return true;
@@ -9410,7 +9322,6 @@ struct FUN_0059c760_tls
 
 void __cdecl _DebugLog(const char* format, ...);
 extern int __tls_index;
-__declspec(thread) FUN_0059c760_tls DAT_0059c760_tls;
 
 // If apRefObject is an Actor, stores its fatigue percentage in afReturnValue and logs it when TLS logging is enabled; returns true.
 // @fnv 0x0059c760
@@ -9425,7 +9336,7 @@ bool __cdecl FUN_0059c760(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (pActor)
     {
         afReturnValue = ((FUN_00893530_shell*)pActor)->GetFatigueRatio();
-        if (DAT_0059c760_tls.enabled)
+        if (::g_tlsBlock.conditionFunctionDebug)
             _DebugLog("GetFatiguePercentage >> %0.2f", afReturnValue);
     }
 
@@ -9703,7 +9614,6 @@ struct FUN_0059c860_VirtualHelper
 
 struct FUN_0059c860_ActorHelper
 {
-    float FUN_00884dc0();
 };
 
 struct FUN_0059c860_TLSData
@@ -9712,7 +9622,6 @@ struct FUN_0059c860_TLSData
     unsigned char enabled;
 };
 
-static __declspec(thread) FUN_0059c860_TLSData DAT_0059c864;
 
 // If reference is an Actor, stores its walk speed in result and optionally logs it via _DebugLog; always returns true.
 // @fnv 0x0059c860
@@ -9730,9 +9639,9 @@ bool __cdecl FUN_0059c860(TESObjectREFR* reference, void* apUnused1, void* apUnu
 
     if (pActor)
     {
-        result = reinterpret_cast<FUN_0059c860_ActorHelper*>(pActor)->FUN_00884dc0();
+        result = reinterpret_cast<::fnv_00884dc0::FUN_00884dc0_shell *>((reinterpret_cast<FUN_0059c860_ActorHelper*>(pActor)))->FUN_00884dc0();
 
-        if (DAT_0059c864.enabled)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             _DebugLog("GetWalkSpeed >> %0.2f", result);
         }
@@ -9743,32 +9652,28 @@ bool __cdecl FUN_0059c860(TESObjectREFR* reference, void* apUnused1, void* apUnu
 }  // namespace fnv_0059c860
 
 namespace fnv_0059d100 {
-struct TESObject
+class TESObject
 {
-    unsigned int GetNext();
+  public:
     unsigned int _FNV_GetFormType();
 };
 
-struct LockExtraData
+class LockExtraData
 {
-    int GetLevel(TESObjectREFR* reference);
 };
 
 struct FUN_00501270_shell
 {
-    int FUN_005011a0(TESObjectREFR* reference);
 };
 
 struct P01TermA : public FUN_00501270_shell
 {
-    bool FUN_00501ae0(TESObjectREFR* reference);
 };
 
 typedef P01TermA BGSTerminal;
 
 struct P01RefA
 {
-    LockExtraData* GetLock();
 };
 
 void __cdecl _DebugLog(const char* format, ...);
@@ -9777,11 +9682,6 @@ extern unsigned int __tls_index;
 
 // Declares the thread-local data block for this function, with a byte flag at offset 0x268.
 // @fnv 0x0059d100
-__declspec(thread) struct FUN_0059d100_TLS_DATA
-{
-    unsigned char padding[0x268];
-    unsigned char enabled;
-} FUN_0059d100_tls_data;
 
 bool __cdecl FUN_0059d100(TESObjectREFR* reference, void* param1, void* param2, double& result)
 {
@@ -9791,33 +9691,33 @@ bool __cdecl FUN_0059d100(TESObjectREFR* reference, void* param1, void* param2, 
 
     if (reference != 0)
     {
-        pLock = reinterpret_cast<P01RefA*>(reference)->GetLock();
+        pLock = ((::fnv_0059d100::LockExtraData *)(reinterpret_cast<::FUN_00569160_shell *>((reinterpret_cast<P01RefA*>(reference)))->FUN_00569160()));
         if (pLock != 0)
         {
-            result = pLock->GetLevel(reference);
+            result = reinterpret_cast<::LockExtraData *>((pLock))->GetLevel(reference);
         }
         else
         {
             BGSTerminal* pterminal;
 
-            if (reinterpret_cast<TESObject*>(reinterpret_cast<TESObject*>(reference)->GetNext())->_FNV_GetFormType() ==
+            if (reinterpret_cast<TESObject*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(reference)))->FUN_007af430())))->_FNV_GetFormType() ==
                 0x17)
             {
-                pterminal = reinterpret_cast<BGSTerminal*>(reinterpret_cast<TESObject*>(reference)->GetNext());
+                pterminal = reinterpret_cast<BGSTerminal*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(reference)))->FUN_007af430())));
 
-                if (pterminal->FUN_00501ae0(reference))
+                if (reinterpret_cast<::FUN_00501ae0_shell *>((pterminal))->FUN_00501ae0(reference))
                 {
                     result = -1.0;
                 }
                 else
                 {
-                    result = pterminal->FUN_005011a0(reference);
+                    result = reinterpret_cast<::FUN_00501270_shell *>((pterminal))->FUN_005011a0(reference);
                 }
             }
         }
     }
 
-    if (FUN_0059d100_tls_data.enabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("GetLockLevel >> %0.f", result);
     }
@@ -9826,13 +9726,11 @@ bool __cdecl FUN_0059d100(TESObjectREFR* reference, void* param1, void* param2, 
 }
 }  // namespace fnv_0059d100
 
-extern PlayerCharacter* _g_thePlayer;
-bool __cdecl FUN_0059d610(TESObjectREFR*, void*, void*, double&);
 
 // @fnv 0x0059d3e0
 bool __cdecl FUN_0059d3e0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
-    return FUN_0059d610(reference, _g_thePlayer, 0, result);
+    return ::fnv_0059d610::FUN_0059d610((::fnv_0059d610::TESObject *)(reference), (::fnv_0059d610::TESObject *)(_g_thePlayer), (::fnv_0059d610::TESObject *)(void *)(0), result);
 }
 
 namespace fnv_0059d540 {
@@ -9842,25 +9740,22 @@ class TESObject;
 class TESNPC;
 class TESRace;
 
-unsigned int __fastcall _FNV_GetFormType(TESObject* object);
+unsigned int _FNV_GetFormType(TESObject* object);
 void _DebugLog(const char* format, double value);
 
 class TESObject
 {
   public:
-    TESObject* GetNext();
 };
 
 struct FUN_004ac110_shell
 {
-    TESRace* FUN_004ac110();
 };
 
-struct TESNPC : public FUN_004ac110_shell
+class TESNPC : public FUN_004ac110_shell
 {
 };
 
-__declspec(thread) bool bDebug;
 
 // Sets afReturnValue to 1.0 when both references resolve to TESNPCs sharing the same race, otherwise 0.0, and logs the result if bDebug is set.
 // @fnv 0x0059d540
@@ -9869,23 +9764,23 @@ bool __cdecl FUN_0059d540(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     afReturnValue = 0.0;
 
     TESNPC* pnpc1 = 0;
-    if (apRefObject && _FNV_GetFormType(reinterpret_cast<TESObject*>(apRefObject)->GetNext()) == 0x2a)
+    if (apRefObject && _FNV_GetFormType(((::fnv_0059d540::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))) == 0x2a)
     {
-        pnpc1 = reinterpret_cast<TESNPC*>(reinterpret_cast<TESObject*>(apRefObject)->GetNext());
+        pnpc1 = reinterpret_cast<TESNPC*>(((::fnv_0059d540::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
     }
 
     TESNPC* pnpc2 = 0;
-    if (apParam1 && _FNV_GetFormType(reinterpret_cast<TESObject*>(apParam1)->GetNext()) == 0x2a)
+    if (apParam1 && _FNV_GetFormType(((::fnv_0059d540::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apParam1)))->FUN_007af430()))) == 0x2a)
     {
-        pnpc2 = reinterpret_cast<TESNPC*>(reinterpret_cast<TESObject*>(apParam1)->GetNext());
+        pnpc2 = reinterpret_cast<TESNPC*>(((::fnv_0059d540::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apParam1)))->FUN_007af430())));
     }
 
-    if (pnpc1 && pnpc2 && pnpc1->FUN_004ac110() == pnpc2->FUN_004ac110())
+    if (pnpc1 && pnpc2 && ((::fnv_0059d540::TESRace *)(reinterpret_cast<::FUN_004ac110_shell *>((pnpc1))->FUN_004ac110())) == ((::fnv_0059d540::TESRace *)(reinterpret_cast<::FUN_004ac110_shell *>((pnpc2))->FUN_004ac110())))
     {
         afReturnValue = 1.0;
     }
 
-    if (bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("SameRace >> %0.2f", afReturnValue);
     }
@@ -9900,7 +9795,6 @@ class TESFaction;
 class TESActorBaseData
 {
   public:
-    int GetFactionRank(TESFaction* faction, bool isPlayer);
 };
 
 class TESActorBasePrefix
@@ -9982,7 +9876,6 @@ class XActor
     virtual bool V63();
     virtual bool V64();
 
-    void* GetActorBase();
 };
 
 struct FNV_GetFormType
@@ -9992,7 +9885,6 @@ struct FNV_GetFormType
 
 void __cdecl _DebugLog(const char* format, ...);
 extern unsigned int __tls_index;
-extern __declspec(thread) unsigned char FUN_0059e510_tls[0x269];
 
 // @fnv 0x0059e510
 bool __cdecl FUN_0059e510(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -10019,8 +9911,8 @@ bool __cdecl FUN_0059e510(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (!pactorbase2 || !pacttar)
         return true;
 
-    pact = (Actor*)((XActor*)pactorbase2)->GetActorBase();
-    irank2 = (TESActorBase*)((XActor*)pacttar)->GetActorBase();
+    pact = (Actor*)((void *)(reinterpret_cast<::Actor *>((((XActor*)pactorbase2)))->GetActorBase()));
+    irank2 = (TESActorBase*)((void *)(reinterpret_cast<::Actor *>((((XActor*)pacttar)))->GetActorBase()));
 
     pfac = 0;
     if (apParam1 && ((FNV_GetFormType*)apParam1)->_FNV_GetFormType() == 8)
@@ -10028,14 +9920,14 @@ bool __cdecl FUN_0059e510(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (pact && irank2 && pfac)
     {
-        irank1 = ((TESActorBase*)pact)->GetFactionRank(pfac, pactorbase2 == (Actor*)g_thePlayer);
-        pactorbase1 = ((TESActorBase*)irank2)->GetFactionRank(pfac, pacttar == (Actor*)g_thePlayer);
+        irank1 = reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBase*)pact)))->GetFactionRank((::fnv_0047d680::TESFaction *)(pfac), pactorbase2 == (Actor*)::_g_thePlayer);
+        pactorbase1 = reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBase*)irank2)))->GetFactionRank((::fnv_0047d680::TESFaction *)(pfac), pacttar == (Actor*)::_g_thePlayer);
 
         if (irank1 != -1 && pactorbase1 != -1)
             afReturnValue = (double)(irank1 - pactorbase1);
     }
 
-    if (FUN_0059e510_tls[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetFactionRankDifference >> %0.2f", afReturnValue);
 
     return true;
@@ -10045,11 +9937,9 @@ bool __cdecl FUN_0059e510(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_0059e650 {
 extern unsigned int __tls_index;
 
-extern int __cdecl _stricmp(const char* string1, const char* string2);
 
 void __cdecl _DebugLog(const char* format, double value);
 
-__declspec(thread) unsigned char FUN_0059e650_tls[0x269];
 
 struct FUN_0059e650_VTableBase
 {
@@ -10126,7 +10016,6 @@ struct FUN_0059e650_Actor : FUN_0059e650_VTableBase
         return true;
     }
 
-    const char* __thiscall GetPackageTypeName();
 };
 
 // @fnv 0x0059e650
@@ -10142,13 +10031,13 @@ bool __cdecl FUN_0059e650(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         pactor = reinterpret_cast<Actor*>(apRefObject);
     }
 
-    if (pactor && reinterpret_cast<FUN_0059e650_Actor*>(pactor)->GetPackageTypeName() &&
-        _stricmp(reinterpret_cast<FUN_0059e650_Actor*>(pactor)->GetPackageTypeName(), "Alarm") == 0)
+    if (pactor && reinterpret_cast<::B88B7F0Process *>((reinterpret_cast<FUN_0059e650_Actor*>(pactor)))->GetPackageTypeName() &&
+        ::FUN_00404dc0(reinterpret_cast<::B88B7F0Process *>((reinterpret_cast<FUN_0059e650_Actor*>(pactor)))->GetPackageTypeName(), "Alarm") == 0)
     {
         afReturnValue = 1.0;
     }
 
-    if (FUN_0059e650_tls[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("GetAlarmed >> %0.2f", afReturnValue);
     }
@@ -10168,23 +10057,20 @@ struct FUN_0059ebb0_TLS
     unsigned char enabled;
 };
 
-__declspec(thread) FUN_0059ebb0_TLS FUN_0059ebb0_tls;
 
 extern unsigned int __tls_index;
 
-int __fastcall _FNV_GetFormType(TESObjectREFR* reference);
+int _FNV_GetFormType(TESObjectREFR* reference);
 void __cdecl _DebugLog(const char* format, ...);
 
-class BSAudio
+struct BSAudio
 {
   public:
-    int GetAudioBackendData();
 };
 
-class Sky : public BSAudio
+struct Sky : public BSAudio
 {
   public:
-    static Sky* __cdecl GetInstance();
 };
 
 // Returns 1.0 in afReturnValue if apRefObject is a TESWeather matching the Sky instance's current weather, otherwise 0.0; logs the result when enabled.
@@ -10201,12 +10087,12 @@ bool __cdecl FUN_0059ebb0(void* apParam1, TESObjectREFR* apRefObject, void* apPa
         pweather = reinterpret_cast<TESWeather*>(apRefObject);
     }
 
-    if (pweather == reinterpret_cast<TESWeather*>(Sky::GetInstance()->GetAudioBackendData()))
+    if (pweather == reinterpret_cast<TESWeather*>(((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((((::fnv_0059ebb0::Sky *)(::Sky::GetInstance()))))->FUN_0044edb0()))))
     {
         afReturnValue = 1.0;
     }
 
-    if (FUN_0059ebb0_tls.enabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("GetIsCurrentWeather >> %0.2f", afReturnValue);
     }
@@ -10216,7 +10102,6 @@ bool __cdecl FUN_0059ebb0(void* apParam1, TESObjectREFR* apRefObject, void* apPa
 }  // namespace fnv_0059ebb0
 
 extern int __tls_index;
-extern __declspec(thread) unsigned char DAT_0059ec30_tls[0x269];
 
 void __cdecl _DebugLog(const char* format, ...);
 
@@ -11384,7 +11269,7 @@ bool __cdecl FUN_0059ec30(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         afReturnValue = reinterpret_cast<FUN_0059ec30Actor*>(pactor)->d220();
     }
 
-    if (DAT_0059ec30_tls[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("GetAttacked >> %0.2f", afReturnValue);
     }
@@ -11395,12 +11280,10 @@ bool __cdecl FUN_0059ec30(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_0059f180 {
 extern unsigned int __tls_index;
 
-__declspec(thread) unsigned char FUN_0059f180_tls[0x269];
 
 class TESObject
 {
   public:
-    unsigned int __thiscall GetNext();
 };
 
 class TESActorBase
@@ -11413,7 +11296,7 @@ class TESNPC : public TESActorBase
 {
 };
 
-unsigned int __fastcall _FNV_GetFormType(void* object);
+unsigned int _FNV_GetFormType(void* object);
 void __cdecl _DebugLog(const char* format, double value);
 
 // Sets afReturnValue to 1.0 when apRefObject's TESNPC has the same TESClass as apParam1, logs the result if TLS flag 0x268 is set, and returns true.
@@ -11425,8 +11308,8 @@ bool __cdecl FUN_0059f180(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     TESNPC* pnpc = 0;
     if (apRefObject)
     {
-        if (_FNV_GetFormType(reinterpret_cast<void*>(reinterpret_cast<TESObject*>(apRefObject)->GetNext())) == 0x2a)
-            pnpc = reinterpret_cast<TESNPC*>(reinterpret_cast<TESObject*>(apRefObject)->GetNext());
+        if (_FNV_GetFormType(reinterpret_cast<void*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())))) == 0x2a)
+            pnpc = reinterpret_cast<TESNPC*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
     }
 
     TESClass* pclass = 0;
@@ -11439,7 +11322,7 @@ bool __cdecl FUN_0059f180(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (pnpc && pclass && pnpc->GetClass() == pclass)
         afReturnValue = 1.0;
 
-    if (FUN_0059f180_tls[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetIsClass >> %0.2f", afReturnValue);
 
     return true;
@@ -11453,20 +11336,18 @@ class TESRace
 
 struct FUN_004ac110_shell
 {
-    TESRace* FUN_004ac110();
 };
 
-struct TESNPC : public FUN_004ac110_shell
+class TESNPC : public FUN_004ac110_shell
 {
 };
 
 class TESObject
 {
   public:
-    unsigned int GetNext();
 };
 
-unsigned int __fastcall _FNV_GetFormType(unsigned int formID);
+unsigned int _FNV_GetFormType(std::uintptr_t formID);
 void __cdecl _DebugLog(const char* format, ...);
 
 struct FUN_0059f240_ThreadLocal
@@ -11475,7 +11356,6 @@ struct FUN_0059f240_ThreadLocal
     unsigned char enabled;
 };
 
-__declspec(thread) FUN_0059f240_ThreadLocal FUN_0059f240_ThreadLocalData;
 
 // Sets afReturnValue to 1.0 if apRefObject's TESNPC race matches apParam1's TESRace, else 0.0, and logs the result when thread-local logging is enabled.
 // @fnv 0x0059f240
@@ -11486,14 +11366,14 @@ bool __cdecl FUN_0059f240(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     TESNPC* pnpc = 0;
     if (apRefObject)
     {
-        if (_FNV_GetFormType(reinterpret_cast<TESObject*>(apRefObject)->GetNext()) == 42)
-            pnpc = reinterpret_cast<TESNPC*>(reinterpret_cast<TESObject*>(apRefObject)->GetNext());
+        if (_FNV_GetFormType(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430()))) == 42)
+            pnpc = reinterpret_cast<TESNPC*>(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
     }
 
     TESRace* prace = 0;
     if (apParam1)
     {
-        if (_FNV_GetFormType(reinterpret_cast<unsigned int>(apParam1)) == 12)
+        if (_FNV_GetFormType(reinterpret_cast<std::uintptr_t>(apParam1)) == 12)
             prace = static_cast<TESRace*>(apParam1);
     }
 
@@ -11501,12 +11381,12 @@ bool __cdecl FUN_0059f240(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     {
         if (prace)
         {
-            if (pnpc->FUN_004ac110() == prace)
+            if (((::fnv_0059f240::TESRace *)(reinterpret_cast<::FUN_004ac110_shell *>((pnpc))->FUN_004ac110())) == prace)
                 afReturnValue = 1.0;
         }
     }
 
-    if (FUN_0059f240_ThreadLocalData.enabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetIsRace >> %0.2f", afReturnValue);
 
     return true;
@@ -11515,20 +11395,17 @@ bool __cdecl FUN_0059f240(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 namespace fnv_0059f300 {
 extern unsigned int __tls_index;
-extern int __fastcall _FNV_GetFormType(unsigned int form);
+extern int _FNV_GetFormType(std::uintptr_t form);
 extern void __cdecl _DebugLog(const char* format, double value);
 
-struct TESObject
+class TESObject
 {
-    unsigned int GetNext();
 };
 
-struct TESCreature
+class TESCreature
 {
-    signed char GetCreatureType() const;
 };
 
-extern __declspec(thread) unsigned char g_bDebugLog;
 
 // Sets afReturnValue to 1.0 if apRefObject's next form is a creature whose creature type equals apParam1, else 0.0, and logs the result when g_bDebugLog is set.
 // @fnv 0x0059f300
@@ -11542,20 +11419,20 @@ bool __cdecl FUN_0059f300(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (apRefObject)
     {
-        if (_FNV_GetFormType(((TESObject*)apRefObject)->GetNext()) == 0x2b)
+        if (_FNV_GetFormType(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apRefObject)))->FUN_007af430()))) == 0x2b)
         {
-            pcreature = (TESCreature*)((TESObject*)apRefObject)->GetNext();
+            pcreature = (TESCreature*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apRefObject)))->FUN_007af430()));
         }
     }
 
-    iCreatureType = (int)apParam1;
+    iCreatureType = (int)(std::uintptr_t)apParam1;
 
-    if (pcreature && pcreature->GetCreatureType() == iCreatureType)
+    if (pcreature && reinterpret_cast<::TESCreature *>((void *)(pcreature))->GetCreatureType() == iCreatureType)
     {
         afReturnValue = 1.0;
     }
 
-    if (g_bDebugLog)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("GetIsCreatureType >> %0.2f", afReturnValue);
     }
@@ -11565,11 +11442,9 @@ bool __cdecl FUN_0059f300(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }  // namespace fnv_0059f300
 
 extern int __tls_index;
-extern __declspec(thread) unsigned char FUN_tls_debug[0x269];
 
 struct ActorGetAlertHelper
 {
-    bool IsCurrentlyAlerted();
 };
 
 struct TESObjectREFRVirtualHelper
@@ -11657,9 +11532,9 @@ bool __cdecl FUN_005a0260(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (pactor)
     {
-        afReturnValue = ((ActorGetAlertHelper*)pactor)->IsCurrentlyAlerted();
+        afReturnValue = reinterpret_cast<::fnv_008a5e80::FakeActor *>((((ActorGetAlertHelper*)pactor)))->FUN_008a5e80();
 
-        if (FUN_tls_debug[0x268])
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             _DebugLog("GetIsAlerted: %0.2f", afReturnValue);
         }
@@ -11692,17 +11567,14 @@ class Model : public NiAVObject
 class P09H
 {
   public:
-    NiAVObject* GetReferenceType();
 };
 
 struct FUN_00571550_shell
 {
-    Model* FUN_00571530(NiAVObject* object, NiFixedString* string);
 };
 
 struct TESObjectREFR_AnimationExt
 {
-    NiAVObject* FUN_00490310(NiNode* node, char const* string);
 };
 
 struct TLSData
@@ -11711,10 +11583,7 @@ struct TLSData
     unsigned char enabled;
 };
 
-__declspec(thread) TLSData g_tlsData;
 
-NiFixedString* __cdecl FUN_005a07f0(void);
-bool __cdecl FUN_00c6b7b0(NiAVObject* object, int unused);
 void __cdecl _DebugLog(char const* format, double value);
 
 // Sets result to 1.0 when the reference is an actor whose spine node is missing or passes FUN_00c6b7b0, logs it if TLS enabled, and returns true.
@@ -11737,17 +11606,17 @@ bool FUN_005a0710(TESObjectREFR* reference, void* arg1, void* arg2, double& resu
         NiAVObject* proot;
         NiAVObject* p3d4;
 
-        proot = reinterpret_cast<P09H*>(pactor)->GetReferenceType();
-        p3d4 = reinterpret_cast<FUN_00571550_shell*>(pactor)->FUN_00571530(proot, FUN_005a07f0());
+        proot = ((::fnv_005a0710::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(pactor)))->FUN_0043fcd0()));
+        p3d4 = ((::fnv_005a0710::Model *)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((reinterpret_cast<FUN_00571550_shell*>(pactor)))->FUN_00571530((::fnv_00571530::NiAVObject *)(proot), (::fnv_00571530::NiFixedString *)(::fnv_005a0710::NiFixedString *)(((::fnv_005a0710::NiFixedString *)(::FUN_005a07f0()))))));
 
         if (!p3d4)
-            p3d4 = reinterpret_cast<TESObjectREFR_AnimationExt*>(pactor)->FUN_00490310(proot, "Bip01 Spine01");
+            p3d4 = ((::fnv_005a0710::NiAVObject *)(reinterpret_cast<::FUN_00490310_shell *>((reinterpret_cast<TESObjectREFR_AnimationExt*>(pactor)))->FUN_00490310((::NiAVObject *)(proot), (::NiFixedString *)("Bip01 Spine01"))));
 
-        if (!p3d4 || FUN_00c6b7b0(p3d4, 0))
+        if (!p3d4 || ::FUN_00c6b7b0((::FnvProbeObj *)(p3d4), (void *)(0)))
             result = 1.0;
     }
 
-    if (g_tlsData.enabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Is Facing Up >> %0.2f", result);
 
     return true;
@@ -11755,7 +11624,7 @@ bool FUN_005a0710(TESObjectREFR* reference, void* arg1, void* arg2, double& resu
 }  // namespace fnv_005a0710
 
 namespace fnv_005a0800 {
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -11763,7 +11632,7 @@ struct Model : NiAVObject
 {
 };
 
-struct NiFixedString
+class NiFixedString
 {
 };
 
@@ -11838,24 +11707,19 @@ struct ActorVirtual
 
 struct P09H : Actor
 {
-    int GetReferenceType();
 };
 
 struct FUN_00571550_shell : Actor
 {
-    Model* FUN_00571530(int, int);
 };
 
-NiFixedString* __cdecl FUN_005a07f0();
-bool __cdecl FUN_00c6b860(Model*, int);
 void __cdecl _DebugLog(const char*, ...);
 extern int __tls_index;
-extern __declspec(thread) bool g_bIsLeftUp;
 
 // @fnv 0x005a0800
 bool __cdecl FUN_005a0800(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    int pactor;
+    std::intptr_t pactor;
     NiAVObject* proot;
     Actor* p3d;
 
@@ -11870,16 +11734,16 @@ bool __cdecl FUN_005a0800(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (p3d)
     {
-        pactor = reinterpret_cast<P09H*>(p3d)->GetReferenceType();
+        pactor = ((std::intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(p3d)))->FUN_0043fcd0()));
 
         proot = reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<FUN_00571550_shell*>(p3d)->FUN_00571530(pactor, reinterpret_cast<int>(FUN_005a07f0())));
+            ((::fnv_005a0800::Model *)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((reinterpret_cast<FUN_00571550_shell*>(p3d)))->FUN_00571530((::fnv_00571530::NiAVObject *)(pactor), (::fnv_00571530::NiFixedString *)(reinterpret_cast<std::intptr_t>(((::fnv_005a0800::NiFixedString *)(::FUN_005a07f0()))))))));
 
-        if (!proot || FUN_00c6b860(reinterpret_cast<Model*>(proot), 0))
+        if (!proot || ::fnv_00c6b860::FUN_00c6b860((::fnv_00c6b860::FUN_00c6b860_Object *)(::fnv_005a0800::Model *)(reinterpret_cast<Model*>(proot)), 0))
             afReturnValue = 1.0;
     }
 
-    if (g_bIsLeftUp)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Is Left Up >> %0.2f", afReturnValue);
 
     return true;
@@ -11896,7 +11760,6 @@ class TESObjectWEAP
 class ArrSI
 {
   public:
-    TESObjectWEAP* GetFlags(void);
 };
 
 class InventoryStackRecord : public ArrSI
@@ -12167,7 +12030,6 @@ class TES
         return false;
     }
 
-    void* GetLogDate(void);
 };
 
 class LogDate
@@ -12507,12 +12369,10 @@ class LogDate
     }
 };
 
-int __fastcall _FNV_GetFormType(TESObjectWEAP* object);
+int _FNV_GetFormType(TESObjectWEAP* object);
 void __cdecl _DebugLog(const char* format, ...);
 
-extern int DAT_0118a838[];
 extern int __tls_index;
-extern __declspec(thread) unsigned char DAT_tls_data[0x269];
 
 // @fnv 0x005a09b0
 bool __cdecl FUN_005a09b0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -12529,20 +12389,20 @@ bool __cdecl FUN_005a09b0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         pactor = reinterpret_cast<Actor*>(apRefObject);
     }
 
-    if (pactor && reinterpret_cast<TES*>(pactor)->GetLogDate())
+    if (pactor && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>(pactor)))->GetBaseTexture())))
     {
         pweapdata = reinterpret_cast<InventoryStackRecord*>(
-            reinterpret_cast<LogDate*>(reinterpret_cast<TES*>(pactor)->GetLogDate())->GetItemChange());
+            reinterpret_cast<LogDate*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>(pactor)))->GetBaseTexture())))->GetItemChange());
 
         pweap = 0;
-        if (pweapdata && pweapdata->GetFlags() && _FNV_GetFormType(pweapdata->GetFlags()) == 0x28)
+        if (pweapdata && ((::fnv_005a09b0::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>((pweapdata))->GetName())) && _FNV_GetFormType(((::fnv_005a09b0::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>((pweapdata))->GetName()))) == 0x28)
         {
-            pweap = pweapdata->GetFlags();
+            pweap = ((::fnv_005a09b0::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>((pweapdata))->GetName()));
         }
 
         if (pweap)
         {
-            afReturnValue = DAT_0118a838[pweap->GetWeaponType()];
+            afReturnValue = ::DAT_0118a838[pweap->GetWeaponType()];
         }
         else
         {
@@ -12550,7 +12410,7 @@ bool __cdecl FUN_005a09b0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         }
     }
 
-    if (DAT_tls_data[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("Get Weapon Anim >> %0.2f", afReturnValue);
     }
@@ -12559,7 +12419,6 @@ bool __cdecl FUN_005a09b0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 }  // namespace fnv_005a09b0
 
-extern __declspec(thread) unsigned char FUN_005a1900_tls[0x269];
 extern void __cdecl _DebugLog(const char* format, double value);
 
 struct FUN_005a1900_VTable
@@ -12865,7 +12724,7 @@ bool __cdecl FUN_005a1900(TESObjectREFR* reference, void* apUnused1, void* apUnu
         }
     }
 
-    if (FUN_005a1900_tls[0x268] != 0)
+    if (::g_tlsBlock.conditionFunctionDebug != 0)
     {
         _DebugLog("Is Trespassing Value %0.2f", result);
     }
@@ -13140,7 +12999,6 @@ struct S008a69d0
 };
 
 void __cdecl _DebugLog(const char* format, ...);
-__declspec(thread) bool bConditionFunctionDebug;
 
 // @fnv 0x005a1a40
 bool __cdecl FUN_005a1a40(TESObjectREFR* apRefObject, void*, void*, double& afReturnValue)
@@ -13154,29 +13012,27 @@ bool __cdecl FUN_005a1a40(TESObjectREFR* apRefObject, void*, void*, double& afRe
     if (pactor)
         afReturnValue = reinterpret_cast<S008a69d0*>(pactor)->FUN_008a69d0();
 
-    if (bConditionFunctionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("is continuing package near PC value %0.2f", afReturnValue);
 
     return true;
 }
 
 namespace fnv_005a1ad0 {
-struct NiFixedString
+class NiFixedString
 {
 };
 
-struct NiExtraData
+class NiExtraData
 {
 };
 
 struct NiAVObjectX
 {
-    NiExtraData* GetExtraData(NiFixedString const& name);
 };
 
 struct BSXFlags
 {
-    bool GetAddon() const;
 };
 
 struct FUN_005a1ad0_Dispatch
@@ -13300,11 +13156,8 @@ struct FUN_005a1ad0_Dispatch
     virtual NiAVObjectX* f116() = 0;
 };
 
-NiFixedString const& __cdecl FUN_00448a80(void);
-BSXFlags* __cdecl _UseSaveGameBlocks(BSXFlags* blocks, NiExtraData* extra);
 void __cdecl _DebugLog(char const* format, double value);
 
-extern BSXFlags _g_01202de0;
 
 struct FUN_005a1ad0_ThreadData
 {
@@ -13312,7 +13165,6 @@ struct FUN_005a1ad0_ThreadData
     unsigned char debugLogEnabled;
 };
 
-__declspec(thread) FUN_005a1ad0_ThreadData g_FUN_005a1ad0_ThreadData;
 
 // @fnv 0x005a1ad0
 bool __cdecl FUN_005a1ad0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -13323,16 +13175,16 @@ bool __cdecl FUN_005a1ad0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (apRefObject)
     {
-        pExtraData = reinterpret_cast<FUN_005a1ad0_Dispatch*>(apRefObject)->f116()->GetExtraData(FUN_00448a80());
+        pExtraData = ((::fnv_005a1ad0::NiExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<FUN_005a1ad0_Dispatch*>(apRefObject)->f116()))->GetExtraData((const ::NiFixedString &)((*(const ::fnv_005a1ad0::NiFixedString *)&(::FUN_00448a80()))))));
 
         if (pExtraData)
         {
-            BSXFlags* pBSXFlags = _UseSaveGameBlocks(&_g_01202de0, pExtraData);
-            afReturnValue = pBSXFlags->GetAddon() ? 1.0f : 0.0f;
+            BSXFlags* pBSXFlags = ((::fnv_005a1ad0::BSXFlags *)(::FUN_00653270((const ::NiRTTI *)(::fnv_005a1ad0::BSXFlags *)(&(*reinterpret_cast<::fnv_005a1ad0::BSXFlags *>(&::g_01202de0))), (::NiObject *)(pExtraData))));
+            afReturnValue = reinterpret_cast<::BSXFlags *>((void *)(pBSXFlags))->GetAddon() ? 1.0f : 0.0f;
         }
     }
 
-    if (g_FUN_005a1ad0_ThreadData.debugLogEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("CanHaveFlames >> %0.2f", afReturnValue);
 
     return true;
@@ -13354,16 +13206,10 @@ struct FUN_0055d520_shell
     char* FUN_0055d520();
 };
 
-char* FUN_0055d520_shell::FUN_0055d520()
-{
-    return 0;
-}
-
 void __cdecl _DebugLog(char const* format, ...)
 {}
 
 extern int __tls_index;
-__declspec(thread) unsigned char g_tlsDebugEnabled[0x269];
 
 // @fnv 0x005a1ee0
 bool __cdecl FUN_005a1ee0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -13383,9 +13229,9 @@ bool __cdecl FUN_005a1ee0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         Actor* pTarget = reinterpret_cast<Actor*>(apParam1);
         if (pActor && pTarget)
         {
-            afReturnValue = reinterpret_cast<FUN_008a81e0_shell*>(pActor)->FUN_008a81e0(pTarget);
+            afReturnValue = reinterpret_cast<::FUN_008a81e0_Class *>((reinterpret_cast<FUN_008a81e0_shell*>(pActor)))->FUN_008a81e0((std::intptr_t)(pTarget));
 
-            if (g_tlsDebugEnabled[0x268])
+            if (::g_tlsBlock.conditionFunctionDebug)
             {
                 _DebugLog("%s detects %s at level %.02f", reinterpret_cast<FUN_0055d520_shell*>(pActor)->FUN_0055d520(),
                           reinterpret_cast<FUN_0055d520_shell*>(pTarget)->FUN_0055d520(), afReturnValue);
@@ -13398,12 +13244,10 @@ bool __cdecl FUN_005a1ee0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 namespace fnv_005a1fa0 {
 extern unsigned int __tls_index;
-extern __declspec(thread) unsigned char FUN_tls_context[0x269];
 extern void __cdecl _DebugLog(char const*, ...);
 
 struct FUN_005a2030_shell
 {
-    bool FUN_005a2030() const;
 };
 
 // Sets afReturnValue to 1.0 when apRefObject is an actor whose FUN_005a2030 returns true, logs the result if the TLS flag is set, and returns true.
@@ -13416,10 +13260,10 @@ bool __cdecl FUN_005a1fa0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (apRefObject && apRefObject->IsActor())
         pact = reinterpret_cast<Actor*>(apRefObject);
 
-    if (pact && reinterpret_cast<FUN_005a2030_shell*>(pact)->FUN_005a2030())
+    if (pact && reinterpret_cast<::FUN_005a2030_shell *>((void *)(reinterpret_cast<FUN_005a2030_shell*>(pact)))->FUN_005a2030())
         afReturnValue = 1.0;
 
-    if (FUN_tls_context[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Is Swimming >> %0.2f", afReturnValue);
 
     return true;
@@ -13434,7 +13278,6 @@ class MagicItem;
 class MagicTarget
 {
   public:
-    bool HasSpell(MagicItem*, bool);
 };
 
 struct MagicItemBase
@@ -13556,7 +13399,6 @@ struct TLSData
     unsigned char debugEnabled;
 };
 
-extern __declspec(thread) TLSData tlsData;
 
 void __cdecl _DebugLog(const char*, ...);
 
@@ -13576,13 +13418,13 @@ bool __cdecl FUN_005a2440(TESObjectREFR* reference, void* apActor, void* apUnuse
     {
         Actor* pactor = reinterpret_cast<Actor*>(apActor);
 
-        if (pmagicItem && pactor && pmagicItem->GetMagicTarget()->HasSpell(reinterpret_cast<MagicItem*>(pactor), true))
+        if (pmagicItem && pactor && reinterpret_cast<::MagicTarget *>((pmagicItem->GetMagicTarget()))->HasSpell((::MagicItem *)(::fnv_005a2440::MagicItem *)(reinterpret_cast<MagicItem*>(pactor)), true))
         {
             result = 1.0;
         }
     }
 
-    if (tlsData.debugEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("Is Spell Target >> %0.2f", result);
     }
@@ -13665,7 +13507,6 @@ struct FUN_00822eb0_shell
     float FUN_00822eb0(MagicItem*);
 };
 
-__declspec(thread) unsigned char tlsDebugData[0x269];
 
 extern int __tls_index;
 extern void __cdecl _DebugLog(const char*, ...);
@@ -13690,7 +13531,7 @@ bool __cdecl FUN_005a24f0(TESObjectREFR* reference, void* pMagicItem, void* pUnu
                          ->FUN_00822eb0(pmagicItem);
     }
 
-    if (tlsDebugData[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetSpellUsageNum >> %0.2f", result);
 
     return true;
@@ -13714,7 +13555,7 @@ bool __cdecl FUN_005a27e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         return false;
 
     afReturnValue = 0.0;
-    if (reinterpret_cast<TESObjectREFR_GetAction*>(apRefObject)->GetAction(8))
+    if (reinterpret_cast<::fnv_00572d30::FUN_00572d30_shell *>((reinterpret_cast<TESObjectREFR_GetAction*>(apRefObject)))->FUN_00572d30(8))
         afReturnValue = 1.0;
 
     return true;
@@ -13726,7 +13567,7 @@ bool __cdecl FUN_005a2c30(TESObjectREFR* reference, void* arg1, void* arg2, doub
 {
     TESObjectREFR* actor = 0;
     if (reference &&
-        reinterpret_cast<bool(__thiscall*)(TESObjectREFR*)>(reinterpret_cast<void***>(reference)[0][0x40])(reference))
+        reinterpret_cast<bool(*)(TESObjectREFR*)>(reinterpret_cast<void***>(reference)[0][0x40])(reference))
     {
         actor = reference;
     }
@@ -13739,7 +13580,6 @@ struct DoorCell
     TESForm* GetOwner();
 };
 
-char const* __cdecl FUN_00482720(TESForm* form);
 void __cdecl _DebugLog(char const* format, ...);
 
 struct FUN_005a2ed0_TLSData
@@ -13748,7 +13588,6 @@ struct FUN_005a2ed0_TLSData
     unsigned char value;
 };
 
-extern __declspec(thread) FUN_005a2ed0_TLSData FUN_005a2ed0_TLSData;
 
 // @fnv 0x005a2ed0
 bool __cdecl FUN_005a2ed0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
@@ -13759,12 +13598,12 @@ bool __cdecl FUN_005a2ed0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     if (m_pSourceCell->GetOwner() == pOwner)
         result = 1.0;
 
-    if (FUN_005a2ed0_TLSData.value)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (result != 0.0)
-            _DebugLog("%s is the owner", FUN_00482720(pOwner));
+            _DebugLog("%s is the owner", ::FUN_00482720(pOwner));
         else
-            _DebugLog("%s is not the owner", FUN_00482720(pOwner));
+            _DebugLog("%s is not the owner", ::FUN_00482720(pOwner));
     }
 
     return true;
@@ -13868,20 +13707,17 @@ namespace fnv_005a3a30 {
 class Calendar
 {
   public:
-    unsigned int GetGameHoursPassed(void);
 };
 
 class Time : public Calendar
 {
 };
 
-extern Time DAT_011de7b8;
 extern double _DAT_01012060;
 
 class TES
 {
   public:
-    void* GetLogDate(void);
 };
 
 class FUN_005a3a30_ObjectBase
@@ -14509,10 +14345,10 @@ bool FUN_005a3a30(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     {
         pactor = (Actor*)apRefObject;
 
-        if (((TES*)pactor)->GetLogDate() &&
-            (fdeadtime = ((FUN_005a3a30_Log6*)((TES*)pactor)->GetLogDate())->v431()) > 0.0)
+        if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())) &&
+            (fdeadtime = ((FUN_005a3a30_Log6*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())))->v431()) > 0.0)
         {
-            fcurrtime = DAT_011de7b8.GetGameHoursPassed();
+            fcurrtime = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_005a3a30::Time *>(&::g_011de7b8))))->GetGameHoursPassed();
             *afReturnValue = fcurrtime - fdeadtime;
         }
     }
@@ -14528,11 +14364,10 @@ struct FUN_005a3e10_TLSData
     bool debugLogEnabled;
 };
 
-extern __declspec(thread) FUN_005a3e10_TLSData g_tlsData;
 extern int __tls_index;
 
 void __cdecl _DebugLog(const char* format, double value);
-int __fastcall FUN_00573110(int thisPointer);
+int FUN_00573110(std::intptr_t thisPointer);
 
 struct FUN_005a3e10_VirtualActor
 {
@@ -14611,10 +14446,10 @@ bool __cdecl FUN_005a3e10(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (reinterpret_cast<FUN_005a3e10_VirtualActor*>(apRefObject)->IsEssentialActor())
     {
         Actor* pactor = reinterpret_cast<Actor*>(apRefObject);
-        afReturnValue = static_cast<double>(FUN_00573110(reinterpret_cast<int>(pactor)));
+        afReturnValue = static_cast<double>(FUN_00573110(reinterpret_cast<std::intptr_t>(pactor)));
     }
 
-    if (g_tlsData.debugLogEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Last hit limb is >> %0.0f", afReturnValue);
 
     return true;
@@ -14623,7 +14458,6 @@ bool __cdecl FUN_005a3e10(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 void __cdecl _DebugLog(const char* format, ...);
 
-__declspec(thread) unsigned char FUN_005a3f00_tlsData[0x269];
 
 struct FUN_005a3f00_Proxy
 {
@@ -14794,7 +14628,7 @@ bool __cdecl FUN_005a3f00(TESObjectREFR* apRefObject, void* apParam1, void* apPa
                 }
             }
 
-            if (FUN_005a3f00_tlsData[0x268])
+            if (::g_tlsBlock.conditionFunctionDebug)
             {
                 _DebugLog("IsKiller >> %0.2f", *afReturnValue);
             }
@@ -14806,7 +14640,6 @@ bool __cdecl FUN_005a3f00(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 struct _FactionSub
 {
-    int FUN_0048c1b0(TESForm* form);
 };
 
 struct ScriptFactionSubAccess
@@ -14824,7 +14657,7 @@ bool __cdecl FUN_005a4090(TESObjectREFR* reference, void* pScript, void* pFactio
 
     if (faction && script)
     {
-        int combatReaction = script->factionSub.FUN_0048c1b0(faction);
+        int combatReaction = reinterpret_cast<::FUN_0048c1b0_shell *>(&(script->factionSub))->FUN_0048c1b0(faction);
         result = combatReaction;
     }
 
@@ -14834,7 +14667,6 @@ bool __cdecl FUN_005a4090(TESObjectREFR* reference, void* pScript, void* pFactio
 namespace fnv_005a4b60 {
 struct ActorState
 {
-    unsigned int GetMaskedState(void) const;
 };
 
 struct VirtualActor
@@ -14979,7 +14811,6 @@ struct ThreadLocalData
     unsigned char enabled;
 };
 
-__declspec(thread) ThreadLocalData g_threadLocalData;
 
 extern int FUN_008b7f00();
 
@@ -14997,22 +14828,22 @@ bool __cdecl FUN_005a4b60(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     {
         pactor = (Actor*)apRefObject;
 
-        if (pactor == (Actor*)g_thePlayer)
+        if (pactor == (Actor*)::_g_thePlayer)
         {
             {
-                int majorCrimeCount = (int)((ActorState*)pactor)->GetMaskedState();
+                int majorCrimeCount = (int)reinterpret_cast<::ActorState *>((void *)(((ActorState*)pactor)))->GetMaskedState();
                 afReturnValue = majorCrimeCount;
             }
         }
         else
         {
             {
-                int majorCrimeCount = ((int(__thiscall*)(Actor*))FUN_008b7f00)(pactor);
+                int majorCrimeCount = ((int(*)(Actor*))FUN_008b7f00)(pactor);
                 afReturnValue = majorCrimeCount;
             }
         }
 
-        if (g_threadLocalData.enabled)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             _DebugLog("The number of major crimes is %.2f", afReturnValue);
         }
@@ -15025,10 +14856,8 @@ bool __cdecl FUN_005a4b60(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_005a4c20 {
 struct FUN_0089f4e0_shell
 {
-    TESObjectREFR* FUN_0089f4e0(void);
 };
 
-extern FUN_0089f4e0_shell* _g_thePlayer;
 
 // Sets result to 1.0 when arg1 equals the player reference, otherwise leaves it at 0.0, and returns true.
 // @fnv 0x005a4c20
@@ -15039,7 +14868,7 @@ bool IsPlayerReference(TESObjectREFR* reference, void* apReference, void* apUnus
     ref = (TESObjectREFR*)apReference;
     if (ref != 0)
     {
-        if (_g_thePlayer->FUN_0089f4e0() == ref)
+        if (reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::fnv_005a4c20::FUN_0089f4e0_shell * *>(&::_g_thePlayer))))->FUN_0089f4e0() == ref)
             result = 1.0;
     }
     return true;
@@ -15188,7 +15017,6 @@ struct FUN_005a53e0_virtual_helper
 
 struct FUN_008bc700_shell
 {
-    bool FUN_008bc700(Actor* actor);
 };
 
 struct FUN_005a53e0_tls_data
@@ -15197,7 +15025,6 @@ struct FUN_005a53e0_tls_data
     unsigned char debugEnabled;
 };
 
-static __declspec(thread) FUN_005a53e0_tls_data FUN_005a53e0_tls;
 
 // Sets afReturnValue to 1.0 if apRefObject blocks post-anim and its check against apParam1 succeeds, logs the result, and returns true.
 // @fnv 0x005a53e0
@@ -15208,13 +15035,13 @@ bool FUN_005a53e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     if (apRefObject && reinterpret_cast<FUN_005a53e0_virtual_helper*>(apRefObject)->GetBlockPostAnim())
     {
         Actor* pact = reinterpret_cast<Actor*>(apRefObject);
-        if (reinterpret_cast<FUN_008bc700_shell*>(pact)->FUN_008bc700(reinterpret_cast<Actor*>(apParam1)))
+        if (reinterpret_cast<::FUN_008bc700_shell *>((reinterpret_cast<FUN_008bc700_shell*>(pact)))->FUN_008bc700(reinterpret_cast<Actor*>(apParam1)))
         {
             afReturnValue = 1.0;
         }
     }
 
-    if (FUN_005a53e0_tls.debugEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("IsCombatTarget >> %.2f", afReturnValue);
     }
@@ -15226,7 +15053,6 @@ bool FUN_005a53e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
 extern void __cdecl _DebugLog(const char* format, double value);
 extern int __tls_index;
 
-__declspec(thread) unsigned char FUN_005a5460_tlsData[0x269];
 
 struct FUN_005a5460_StandIn
 {
@@ -15363,7 +15189,6 @@ struct FUN_005a5460_StandIn
         return false;
     }
 
-    float FUN_008bd830(TESObjectREFR* target, float value);
 };
 
 // Computes a value from apRefObject against apParam1, stores it in afReturnValue, logs it when the TLS flag is set, and returns true.
@@ -15377,17 +15202,16 @@ bool __cdecl FUN_005a5460(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (apRefObject && ((FUN_005a5460_StandIn*)apRefObject)->IsEssentialActor())
     {
-        afReturnValue = ((FUN_005a5460_StandIn*)apRefObject)->FUN_008bd830(ptargetRef, 1.5707963705062866f);
+        afReturnValue = reinterpret_cast<::xActor *>((((FUN_005a5460_StandIn*)apRefObject)))->FUN_008bd830((std::intptr_t)(ptargetRef), 1.5707963705062866f);
     }
 
-    if (FUN_005a5460_tlsData[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("VATSRightAreaFree >> %.2f", afReturnValue);
 
     return true;
 }
 
 extern int __tls_index;
-extern __declspec(thread) unsigned char FUN_005a54f0_debug;
 
 struct FUN_005a54f0_Object
 {
@@ -15460,7 +15284,6 @@ struct FUN_005a54f0_Object
 
 struct FUN_008bd830_Caller
 {
-    float FUN_008bd830(TESObjectREFR* target, float value);
 };
 
 void __cdecl _DebugLog(const char* format, double value);
@@ -15476,10 +15299,10 @@ bool __cdecl FUN_005a54f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (apRefObject && ((FUN_005a54f0_Object*)apRefObject)->FUN_005a54f0_check())
     {
-        afReturnValue = ((FUN_008bd830_Caller*)apRefObject)->FUN_008bd830(ptargetRef, 4.71238899f);
+        afReturnValue = reinterpret_cast<::xActor *>((((FUN_008bd830_Caller*)apRefObject)))->FUN_008bd830((std::intptr_t)(ptargetRef), 4.71238899f);
     }
 
-    if (FUN_005a54f0_debug)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("VATSLeftAreaFree >> %.2f", afReturnValue);
     }
@@ -15489,7 +15312,6 @@ bool __cdecl FUN_005a54f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 namespace fnv_005a5610 {
 extern int __tls_index;
-extern __declspec(thread) unsigned char FUN_005a5610_tls[0x269];
 
 void __cdecl _DebugLog(const char*, double, ...);
 
@@ -15562,7 +15384,6 @@ struct VirtualActor
 
     virtual bool IsEssentialActor();
 
-    double FUN_008bd830(TESObjectREFR*, float);
 };
 
 // Computes the front-area-free value for apRefObject against ptargetRef, stores it in afReturnValue, optionally logs it, and returns true.
@@ -15575,9 +15396,9 @@ bool __cdecl FUN_005a5610(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     ptargetRef = static_cast<TESObjectREFR*>(apParam1);
 
     if (apRefObject && reinterpret_cast<VirtualActor*>(apRefObject)->IsEssentialActor())
-        afReturnValue = reinterpret_cast<VirtualActor*>(apRefObject)->FUN_008bd830(ptargetRef, 0.0f);
+        afReturnValue = ((double)(reinterpret_cast<::xActor *>((reinterpret_cast<VirtualActor*>(apRefObject)))->FUN_008bd830((std::intptr_t)(ptargetRef), 0.0f)));
 
-    if (FUN_005a5610_tls[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("VATSFrontAreaFree >> %.2f", afReturnValue);
 
     return true;
@@ -15594,7 +15415,6 @@ struct FUN_005a5720_TLS
     unsigned char enabled;
 };
 
-static __declspec(thread) FUN_005a5720_TLS FUN_005a5720_tls;
 
 struct FUN_005a5720_StandIn
 {
@@ -15680,7 +15500,7 @@ bool __cdecl FUN_005a5720(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             reinterpret_cast<FUN_005a5720_StandIn*>(apRefObject)->FUN_008bdbd0(ptargetRef, 4.71238899230957f);
     }
 
-    if (FUN_005a5720_tls.enabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("VATSLeftTargetVisible >> %.2f", afReturnValue);
 
     return true;
@@ -15689,12 +15509,10 @@ bool __cdecl FUN_005a5720(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_005a58c0 {
 struct GlobalObject_0045cfe0
 {
-    int* Int();
 };
 
 struct ActorValueUtility
 {
-    static int __cdecl ConvertActorValue(int level);
 };
 
 struct ActorLevelAccess
@@ -15711,10 +15529,7 @@ struct PlayerStatAccess
 
 void __cdecl _DebugLog(const char* format, ...);
 
-extern Actor* _g_thePlayer;
-extern GlobalObject_0045cfe0 g_011d0c60;
 extern int __tls_index;
-extern __declspec(thread) unsigned char g_005a58c0_tlsFlag;
 
 unsigned short ActorLevelAccess::GetLevel()
 {
@@ -15731,22 +15546,22 @@ bool __cdecl FUN_005a58c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     afReturnValue = 0.0;
 
-    iplayerLevel = reinterpret_cast<ActorLevelAccess*>(_g_thePlayer)->GetLevel();
+    iplayerLevel = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((reinterpret_cast<ActorLevelAccess*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_0087f9f0();
 
-    if (iplayerLevel >= *g_011d0c60.Int())
+    if (iplayerLevel >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005a58c0::GlobalObject_0045cfe0 *>(&::g_011d0c60)))))))
     {
-        if (g_005a58c0_tlsFlag)
+        if (::g_tlsBlock.conditionFunctionDebug)
             _DebugLog("Player already at maximum level.");
 
         return true;
     }
 
     icurrentXP =
-        reinterpret_cast<PlayerStatAccess*>(reinterpret_cast<unsigned char*>(_g_thePlayer) + 0xa4)->GetStat(0x18);
-    inextThreshold = ActorValueUtility::ConvertActorValue(iplayerLevel + 1);
+        reinterpret_cast<PlayerStatAccess*>(reinterpret_cast<unsigned char*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))) + 0xa4)->GetStat(0x18);
+    inextThreshold = ::ActorValueUtility::ConvertActorValue(iplayerLevel + 1);
     afReturnValue = inextThreshold - icurrentXP;
 
-    if (g_005a58c0_tlsFlag)
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetXPForNextLevel >> %.2f", afReturnValue);
 
     return true;
@@ -15756,7 +15571,6 @@ bool __cdecl FUN_005a58c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_005a59a0 {
 struct FUN_0055d520_shell
 {
-    char* FUN_0055d520();
 };
 
 struct FUN_005a59a0_tls
@@ -15765,7 +15579,6 @@ struct FUN_005a59a0_tls
     unsigned char value;
 };
 
-extern __declspec(thread) FUN_005a59a0_tls FUN_005a59a0_tls_data;
 
 void __cdecl _DebugLog(const char* format, const char* value);
 
@@ -15989,12 +15802,12 @@ bool __cdecl FUN_005a59a0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             afReturnValue = 1.0;
     }
 
-    if (FUN_005a59a0_tls_data.value)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         if (afReturnValue > 0.0)
-            _DebugLog("%s is ignoring crime", reinterpret_cast<FUN_0055d520_shell*>(apRefObject)->FUN_0055d520());
+            _DebugLog("%s is ignoring crime", reinterpret_cast<::FUN_0055d520_shell *>((reinterpret_cast<FUN_0055d520_shell*>(apRefObject)))->FUN_0055d520());
         else
-            _DebugLog("%s is not ignoring crime", reinterpret_cast<FUN_0055d520_shell*>(apRefObject)->FUN_0055d520());
+            _DebugLog("%s is not ignoring crime", reinterpret_cast<::FUN_0055d520_shell *>((reinterpret_cast<FUN_0055d520_shell*>(apRefObject)))->FUN_0055d520());
     }
 
     return true;
@@ -16011,8 +15824,7 @@ struct FNVPositionReference
 {
     void** virtualFunctions;
 };
-typedef void(__thiscall* FNVReadPosition)(FNVPositionReference*, FNVPosition3*);
-extern __declspec(thread) unsigned char gTracePositionConditions;
+typedef void(* FNVReadPosition)(FNVPositionReference*, FNVPosition3*);
 extern void __cdecl LogPositionCondition(const char* message, ...);
 
 // @fnv 0x0059c230
@@ -16035,7 +15847,7 @@ bool __cdecl FUN_0059c230(FNVPositionReference* reference, int coordinate, void*
             result = position.z;
             break;
         }
-        if (gTracePositionConditions)
+        if (::g_tlsBlock.conditionFunctionDebug)
             LogPositionCondition("GetStartingPos: %c >> %0.2f", iCoordinate, result);
     }
     return true;
@@ -16068,36 +15880,33 @@ struct AudioTlsState
     bool bDebugOutput;
 };
 
-extern __declspec(thread) AudioTlsState g_threadData;
 
 // Sets result to 0.0, logs an unimplemented GetDisease message when thread debug output is enabled, and returns true.
 // @fnv 0x0059d250
 bool __cdecl FUN_0059d250(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
-    if (g_threadData.bDebugOutput)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("UNIMPLEMENTED: GetDisease >> %0.2f", result);
     }
     return true;
 }
 
-extern __declspec(thread) bool g_bShowConditionDebug;
 void __cdecl DebugLog(char const*, ...);
 struct TESBipedModelForm
 {
-    bool FUN_0047c850(void);
 };
 
 // @fnv 0x0059d2a0
 bool __cdecl FUN_0059d2a0(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
-    if (reference && reference->IsActor() && reinterpret_cast<TESBipedModelForm*>(reference)->FUN_0047c850())
+    if (reference && reference->IsActor() && reinterpret_cast<::FUN_0047c850 *>((reinterpret_cast<TESBipedModelForm*>(reference)))->EvaluateCondition())
     {
         result = 1.0;
     }
-    if (g_bShowConditionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("GetVampire >> %0.2f", result);
     }
@@ -16108,30 +15917,26 @@ struct SkyState
 {
     bool FUN_0059ea80();
 };
-SkyState* __cdecl FUN_0046dd00();
-extern __declspec(thread) unsigned char tlsBytes[];
 extern const char str_010351ec[];
 void __cdecl FUN_00703c00(const char*, double);
 // Reads the sky state, writes 1.0 or 0.0 to output depending on FUN_0059ea80, logs it when tlsBytes[0x268] is set, and returns true.
 // @fnv 0x0059ea10
 bool __cdecl FUN_0059ea10(int first, int second, int third, double* output)
 {
-    SkyState* sky = FUN_0046dd00();
+    SkyState* sky = ((::SkyState *)(::Sky::GetInstance()));
     *output = sky->FUN_0059ea80() ? 1.0f : 0.0f;
-    if (tlsBytes[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00(str_010351ec, *output);
     return true;
 }
 
 struct FUN_00401170_Mode
 {
-    unsigned int __thiscall FUN_00401170();
+    unsigned int FUN_00401170();
 };
 struct FUN_0059ecc0_Ref
 {
-    FUN_00401170_Mode* __thiscall FUN_007af430();
 };
-extern __declspec(thread) unsigned char traceState[];
 extern const char DAT_01035260[];
 void __cdecl FUN_00703c00(const char* text, double result);
 // Sets result to 1.0 when reference's mode equals 0x2b, logs the result if traceState[0x268] is set, and returns true.
@@ -16141,12 +15946,12 @@ bool __cdecl FUN_0059ecc0(FUN_0059ecc0_Ref* reference, void* arg1, void* arg2, d
     result = 0.0;
     if (reference != 0)
     {
-        if (reference->FUN_007af430()->FUN_00401170() == 0x2b)
+        if (((::FUN_00401170_Mode *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()))->FUN_00401170() == 0x2b)
         {
             result = 1.0;
         }
     }
-    if (traceState[0x268] != 0)
+    if (::g_tlsBlock.conditionFunctionDebug != 0)
     {
         FUN_00703c00(DAT_01035260, result);
     }
@@ -16178,7 +15983,6 @@ class DispositionActor : public MobileObject
 
 void DebugLog(const char* fmt, ...);
 
-extern __declspec(thread) bool bDebugConditions;
 
 DispositionActor* pLastDispositionActor;
 DispositionActor* pLastDispositionTarget;
@@ -16209,26 +16013,23 @@ bool __cdecl FUN_0059fdb0(TESObjectREFR* reference, void* apTargetRef, void* apU
             pLastDispositionActor = actor;
             fLastDisposition = result;
         }
-        if (bDebugConditions)
-            DebugLog("%.20s disposition to %.20s is %.1f", actor->GetFullName(), target->GetFullName(), result);
+        if (::g_tlsBlock.conditionFunctionDebug)
+            DebugLog("%.20s disposition to %.20s is %.1f", reinterpret_cast<::FUN_0055d520_shell *>((actor))->FUN_0055d520(), reinterpret_cast<::FUN_0055d520_shell *>((target))->FUN_0055d520(), result);
     }
     return true;
 }
 
 namespace fnv_005a0ab0 {
-extern __declspec(thread) bool tls_conditionEcho;
 
 struct P01ObjA
 {
-    TESForm* GetNext();
 };
 
 struct FUN_008d85e0_Obj
 {
-    int GetUnk15C();
 };
 
-int __fastcall FNV_GetFormType(TESForm* form);
+int FNV_GetFormType(TESForm* form);
 void __cdecl DebugLog(char const* fmt, ...);
 
 // @fnv 0x005a0ab0
@@ -16236,11 +16037,11 @@ bool __cdecl IsWeaponSkillType(TESObjectREFR* reference, void* aiSkillType, void
 {
     TESForm* weapon = 0;
     result = 0.0;
-    if (FNV_GetFormType(reinterpret_cast<P01ObjA*>(reference)->GetNext()) == 40)
+    if (FNV_GetFormType(((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<P01ObjA*>(reference)))->FUN_007af430()))) == 40)
     {
-        weapon = reinterpret_cast<P01ObjA*>(reference)->GetNext();
+        weapon = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<P01ObjA*>(reference)))->FUN_007af430()));
     }
-    if (weapon == 0 && reinterpret_cast<int>(aiSkillType) == 45)
+    if (weapon == 0 && reinterpret_cast<std::intptr_t>(aiSkillType) == 45)
     {
         result = 1.0;
     }
@@ -16248,11 +16049,11 @@ bool __cdecl IsWeaponSkillType(TESObjectREFR* reference, void* aiSkillType, void
     {
         return false;
     }
-    if (weapon != 0 && reinterpret_cast<int>(aiSkillType) == reinterpret_cast<FUN_008d85e0_Obj*>(weapon)->GetUnk15C())
+    if (weapon != 0 && (int)(std::uintptr_t)(aiSkillType) == ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((reinterpret_cast<FUN_008d85e0_Obj*>(weapon)))->GetUnk15C())))
     {
         result = 1.0;
     }
-    if (tls_conditionEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("Is Weapon Skill Type >> %0.2f", result);
     }
@@ -16262,21 +16063,18 @@ bool __cdecl IsWeaponSkillType(TESObjectREFR* reference, void* aiSkillType, void
 
 struct RefOps
 {
-    TESForm* __thiscall FUN_007af430();
 };
 struct FormOps
 {
-    unsigned int __thiscall FUN_00401170();
+    unsigned int FUN_00401170();
 };
 struct ActorOps
 {
-    TESClass* __thiscall FUN_00502430();
+    TESClass* FUN_00502430();
 };
 struct ClassOps
 {
-    bool __thiscall FUN_005f6e60();
 };
-extern __declspec(thread) bool tls_conditionEcho;
 void __cdecl FUN_00703c00(const char* format, ...);
 // Sets result to 1.0 when the reference's base form is type 42 and its class passes a check, then optionally logs the value and returns true.
 // @fnv 0x005a10b0
@@ -16286,23 +16084,21 @@ bool __cdecl FUN_005a10b0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     if (reference)
     {
         TESForm* actorBase = 0;
-        if (((FormOps*)((RefOps*)reference)->FUN_007af430())->FUN_00401170() == 42)
-            actorBase = ((RefOps*)reference)->FUN_007af430();
+        if (((FormOps*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefOps*)reference)))->FUN_007af430())))->FUN_00401170() == 42)
+            actorBase = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefOps*)reference)))->FUN_007af430()));
         if (actorBase)
         {
             if (((ActorOps*)actorBase)->FUN_00502430() &&
-                ((ClassOps*)((ActorOps*)actorBase)->FUN_00502430())->FUN_005f6e60())
+                reinterpret_cast<::TESClass *>((((ClassOps*)((ActorOps*)actorBase)->FUN_00502430())))->IsGuard())
                 result = 1.0;
         }
     }
-    if (tls_conditionEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("Is Guard >> %0.2f", result);
     return true;
 }
 
-extern __declspec(thread) bool bPrintConditionDebug;
 void __cdecl DebugLog(char const* fmt, ...);
-bool __cdecl FUN_00578400(int state);
 
 class FlameObjectLocal
 {
@@ -16313,7 +16109,7 @@ class FlameObjectLocal
     {}
     virtual void vf08()
     {}
-    virtual int GetFlameState()
+    virtual std::intptr_t GetFlameState()
     {
         return 0;
     }
@@ -16580,7 +16376,7 @@ bool __cdecl FUN_005a1b80(SourceLocal* source, unsigned int arg1, unsigned int a
             if (flame != 0)
             {
                 float value;
-                if (FUN_00578400(flame->GetFlameState()))
+                if (::fnv_00578400::FUN_00578400((::fnv_00578400::_FakeNiNode *)(flame->GetFlameState())))
                 {
                     value = 1.0f;
                 }
@@ -16592,7 +16388,7 @@ bool __cdecl FUN_005a1b80(SourceLocal* source, unsigned int arg1, unsigned int a
             }
         }
     }
-    if (bPrintConditionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("HasFlames >> %0.2f", *result);
     }
@@ -16600,19 +16396,17 @@ bool __cdecl FUN_005a1b80(SourceLocal* source, unsigned int arg1, unsigned int a
 }
 
 namespace fnv_005a1e70 {
-struct PlayerCharacter
+class PlayerCharacter
 {
-    bool FUN_00953f60();
 };
 void __cdecl _DebugLog(const char* format, ...);
-__declspec(thread) bool g_DebugLogFlag;
 // Sets result to 1.0 if the player is a murderer, otherwise 0.0, logs it when debug logging is enabled, and returns true.
 // @fnv 0x005a1e70
 bool FUN_005a1e70(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
-    result = ((PlayerCharacter*)g_thePlayer)->FUN_00953f60() ? 1.0f : 0.0f;
-    if (g_DebugLogFlag)
+    result = reinterpret_cast<::FUN_00953f60_Class *>((((PlayerCharacter*)::_g_thePlayer)))->FUN_00953f60() ? 1.0f : 0.0f;
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("IsPlayerAMurderer >> %0.2f", result);
     return true;
 }
@@ -16621,34 +16415,30 @@ bool FUN_005a1e70(TESObjectREFR* reference, void* arg1, void* arg2, double& resu
 namespace fnv_005a2050 {
 struct FUN_005a20b0_Standin
 {
-    int GetField6dc();
 };
 extern "C" void __cdecl FUN_00703c00(const char*, ...);
 extern const char str_010359b4[];
-__declspec(thread) unsigned char g_tlsFlag;
 
 // Sets result to the value returned by the player's GetField6dc and logs it when g_tlsFlag is set, then returns true.
 // @fnv 0x005a2050
 bool __cdecl FUN_005a2050(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
-    result = (double)((FUN_005a20b0_Standin*)g_thePlayer)->GetField6dc();
-    if (g_tlsFlag)
+    result = (double)((int)(reinterpret_cast<::FUN_005a20b0_Standin *>((((FUN_005a20b0_Standin*)::_g_thePlayer)))->GetField6dc()));
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00(str_010359b4, result);
     return true;
 }
 }  // namespace fnv_005a2050
 
-bool __cdecl HotkeyWheelProbeA();
 void __cdecl _DebugLog(const char* apFormat, ...);
-__declspec(thread) unsigned char g_tlsFlags[0x269];
 // Sets result to 1.0 if HotkeyWheelProbeA() is true, otherwise 0.0, logs it when g_tlsFlags[0x268] is set, and returns true.
 // @fnv 0x005a37b0
 bool __cdecl FUN_005a37b0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
-    result = HotkeyWheelProbeA() ? 1.0f : 0.0f;
-    if (g_tlsFlags[0x268])
+    result = ::FUN_00709d40() ? 1.0f : 0.0f;
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("IsXBox >> %1.0f", result);
     return true;
 }
@@ -16659,11 +16449,8 @@ class BGSAction;
 class PlayerCharacter
 {
   public:
-    bool HasAction(void* action);
 };
 
-extern PlayerCharacter* g_thePlayer;
-extern __declspec(thread) bool tls_conditionEcho;
 
 void DebugLog(const char* fmt, ...);
 
@@ -16673,8 +16460,8 @@ bool __cdecl FUN_005a3b20(TESObjectREFR* reference, void* pAction, void* pUnused
 {
     result = 0.0;
     void* action = pAction;
-    result = g_thePlayer->HasAction(action);
-    if (tls_conditionEcho)
+    result = reinterpret_cast<::FUN_00963ce0_StandIn *>(((*reinterpret_cast<::fnv_005a3b20::PlayerCharacter * *>(&::_g_thePlayer))))->HasAction((std::intptr_t)(action));
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsActionInList >> %0.2f", result);
     }
@@ -16765,9 +16552,9 @@ bool __cdecl FUN_005a3c90(TESObjectREFR* reference, void* arg1, void* arg2, doub
         if (reinterpret_cast<EssentialVirtualActor*>(reference)->IsEssentialActor())
         {
             Actor* actor = reinterpret_cast<Actor*>(reference);
-            if (actor->RefreshActorRuntimeData())
+            if (reinterpret_cast<::FUN_008a5270_shell *>((actor))->FUN_008a5270())
             {
-                result = reinterpret_cast<HitDataBoolFlag*>(actor->RefreshActorRuntimeData())->Flag(4) ? 1.0f : 0.0f;
+                result = reinterpret_cast<HitDataBoolFlag*>(reinterpret_cast<::FUN_008a5270_shell *>((actor))->FUN_008a5270())->Flag(4) ? 1.0f : 0.0f;
             }
         }
     }
@@ -16776,10 +16563,9 @@ bool __cdecl FUN_005a3c90(TESObjectREFR* reference, void* arg1, void* arg2, doub
 
 struct MeasuredValue
 {
-    unsigned int FUN_005a4320();
 };
-typedef bool(__thiscall* EligibilityMethod)(void*);
-typedef MeasuredValue*(__thiscall* ValueMethod)(void*);
+typedef bool(* EligibilityMethod)(void*);
+typedef MeasuredValue*(* ValueMethod)(void*);
 union ExtendedValue
 {
     __int64 signedValue;
@@ -16801,7 +16587,7 @@ bool __cdecl FUN_005a42b0(void* object, void* unusedContext, void* unusedTarget,
         if (item)
         {
             ExtendedValue extCount;
-            extCount.low = item->FUN_005a4320();
+            extCount.low = ::FUN_005a4320((char *)(item));
             extCount.high = 0;
             *result = static_cast<double>(extCount.signedValue);
         }
@@ -16810,7 +16596,6 @@ bool __cdecl FUN_005a42b0(void* object, void* unusedContext, void* unusedTarget,
 }
 
 namespace fnv_005a4540 {
-extern __declspec(thread) unsigned char DAT_tls_0268[0x269];
 extern "C" void __cdecl FUN_00703c00(const char* format, ...);
 extern char str_01035ee4[];
 
@@ -16824,7 +16609,7 @@ bool __cdecl FUN_005a4540(TESObjectREFR* reference, void* apUnused1, void* apUnu
         MobileObject* mobile = static_cast<MobileObject*>(reference);
         mobile->Unk_B6();
     }
-    if (DAT_tls_0268[0x268])
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         FUN_00703c00(str_01035ee4, result);
     }
@@ -16832,13 +16617,11 @@ bool __cdecl FUN_005a4540(TESObjectREFR* reference, void* apUnused1, void* apUnu
 }
 }  // namespace fnv_005a4540
 
-extern "C" void __cdecl FUN_00703c00(const char*, int);
 extern "C" const char DAT_01035f64[];
 struct RuntimeState
 {
     unsigned char flag;
 };
-extern __declspec(thread) RuntimeState gRuntimeState;
 struct Actor005a4820
 {
     virtual void vf00();
@@ -16918,7 +16701,7 @@ unsigned char __cdecl FUN_005a4820(Actor005a4820* actor, unsigned int action, un
         Actor005a4820* p = actor;
         if (p->FUN_00566950())
             *out = 1.0;
-        if (*((unsigned char*)&gRuntimeState + 0x268))
+        if (::g_tlsBlock.conditionFunctionDebug)
             FUN_00703c00(DAT_01035f64, (int)*out);
     }
     return 1;
@@ -16930,9 +16713,8 @@ class FUN_0041cf00_shell
     void* FUN_0041cf00();
 };
 
-extern bool __fastcall _ref_008256d0(void*);
+extern bool _ref_008256d0(void*);
 void DebugLog(const char*, ...);
-extern __declspec(thread) bool g_bShowConditionDebug;
 
 // Sets result to 1.0 when the reference is an actor whose extra data passes FUN_0041cf00 and fails _ref_008256d0, logging the outcome when condition debug is on.
 // @fnv 0x005a4930
@@ -16942,13 +16724,13 @@ bool __cdecl FUN_005a4930(TESObjectREFR* reference, void* arg1, void* arg2, doub
     if (reference && reference->IsActor())
     {
         TESObjectREFR* actor = reference;
-        if (((FUN_0041cf00_shell*)actor->GetExtraData())->FUN_0041cf00() &&
-            !_ref_008256d0(((FUN_0041cf00_shell*)actor->GetExtraData())->FUN_0041cf00()))
+        if (((FUN_0041cf00_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0())))->FUN_0041cf00() &&
+            !_ref_008256d0(((FUN_0041cf00_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0())))->FUN_0041cf00()))
         {
             result = 1.0;
         }
 
-        if (g_bShowConditionDebug)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             if (result != 0.0)
             {
@@ -17123,7 +16905,6 @@ struct TlsData
     int unk264;
     unsigned char debugLogging;
 };
-extern __declspec(thread) TlsData g_tls;
 
 class BaseProcess
 {
@@ -17609,7 +17390,6 @@ class BaseProcess
 class ActorS : public MobileObject
 {
   public:
-    BaseProcess* GetCurrentProcess() const;
 };
 
 class MobileObject_Shell
@@ -17628,32 +17408,28 @@ bool __cdecl FUN_005a50f0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     {
         ActorS* actor = (ActorS*)reference;
         result = 0.0;
-        if (actor->GetCurrentProcess())
+        if (((::fnv_005a50f0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(actor))->GetBaseTexture())))
         {
-            result = actor->GetCurrentProcess()->Unk_76C() + actor->GetCurrentProcess()->Unk_75C() +
-                     actor->GetCurrentProcess()->Unk_764();
+            result = ((::fnv_005a50f0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(actor))->GetBaseTexture()))->Unk_76C() + ((::fnv_005a50f0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(actor))->GetBaseTexture()))->Unk_75C() +
+                     ((::fnv_005a50f0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(actor))->GetBaseTexture()))->Unk_764();
         }
-        if (g_tls.debugLogging)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
-            DebugLog("%s radiation level is %.2f", ((MobileObject_Shell*)reference)->GetFullName(), result);
+            DebugLog("%s radiation level is %.2f", reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject_Shell*)reference)))->FUN_0055d520(), result);
         }
     }
     return true;
 }
 }  // namespace fnv_005a50f0
 
-extern PlayerCharacter* g_thePlayer;
-extern __declspec(thread) bool tls_conditionEcho;
 
 namespace ActorValue {
-bool __cdecl IsSkill(Index aeSkill);
 }
 void __cdecl DebugLog(char const* fmt, ...);
 
 class PC7d
 {
   public:
-    TESClass* GetClass();
 };
 
 // Sets result to 1.0 when reference is an actor and the given skill is one of the player's tag skills, then logs the result if tls_conditionEcho is set.
@@ -17665,26 +17441,20 @@ bool __cdecl FUN_005a5e90(TESObjectREFR* reference, void* pSkillArg, void* pUnus
     {
         void* skillArg = pSkillArg;
         TESObjectREFR* ref = reference;
-        ActorValue::Index skill = static_cast<ActorValue::Index>(reinterpret_cast<int>(skillArg));
-        if (ActorValue::IsSkill(skill) && reinterpret_cast<PC7d*>(g_thePlayer)->GetClass()->IsTagSkill(skill))
+        ActorValue::Index skill = static_cast<ActorValue::Index>((int)reinterpret_cast<std::intptr_t>(skillArg));
+        if (::FUN_0047f060((*(int *)&(skill))) && ((::TESClass *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>((reinterpret_cast<PC7d*>(::_g_thePlayer)))->FUN_00884350()))->IsTagSkill(skill))
         {
             result = 1.0;
         }
     }
-    if (tls_conditionEcho)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsPlayerTagSkill >> %.0f", result);
     }
     return true;
 }
 
-extern char* DAT_011dea3c;
-extern double DAT_010290b0;
-unsigned int __fastcall FUN_005a6260(char*);
-extern "C" void* __fastcall FUN_006815c0(void*);
-extern "C" unsigned int __fastcall FUN_0084e3a0(void*);
-extern "C" void* __fastcall FUN_00504e60(void*);
-extern "C" void* __fastcall FUN_00726070(void*);
+uintptr_t FUN_005a6260(char*);
 struct Record
 {
     unsigned int formId;
@@ -17705,15 +17475,15 @@ bool __cdecl FUN_005a6170(int unused, void* subject, int unused2, double* result
     void* target = subject;
     if (target != 0)
     {
-        void* current = (void*)FUN_005a6260(DAT_011dea3c);
-        while (current != 0 && ((EntryHolder*)FUN_006815c0(current))->record != 0)
+        void* current = (void*)FUN_005a6260((*reinterpret_cast<char * *>(&::_g_thePlayer)));
+        while (current != 0 && ((EntryHolder*)((void *)((void *)(current))))->record != 0)
         {
-            if (((EntryHolder*)FUN_006815c0(current))->record->formId == FUN_0084e3a0(target))
+            if (((EntryHolder*)((void *)((void *)(current))))->record->formId == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target))->FUN_0084e3a0())))
             {
                 int limit;
                 {
-                    int multiplier = ((SpellData*)FUN_00504e60(target))->multiplier;
-                    limit = ((EntryHolder*)FUN_006815c0(current))->record->threshold;
+                    int multiplier = ((SpellData*)((void *)(reinterpret_cast<::FUN_00504e60_shell *>((target))->FUN_00504e60())))->multiplier;
+                    limit = ((EntryHolder*)((void *)((void *)(current))))->record->threshold;
                     *result = 0.0;
                     for (int i = 0; i < 4; i++)
                     {
@@ -17724,7 +17494,7 @@ bool __cdecl FUN_005a6170(int unused, void* subject, int unused2, double* result
                     }
                 }
             }
-            current = FUN_00726070(current);
+            current = reinterpret_cast<::Callees *>((current))->FUN_00726070();
         }
     }
     else
@@ -17741,7 +17511,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 struct Pt3
 {
@@ -17847,7 +17616,7 @@ class RefA
 // @fnv 0x0059c2d0
 bool FUN_0059c2d0(RefA* reference, void* acAxis, void* apUnused, double& afAngle)
 {
-    int iAxis = (int)acAxis;
+    std::intptr_t iAxis = (std::intptr_t)acAxis;
     if (reference)
     {
         Pt3 kAngle;
@@ -17864,7 +17633,7 @@ bool FUN_0059c2d0(RefA* reference, void* acAxis, void* apUnused, double& afAngle
             afAngle = kAngle.z * 57.2957763671875;
             break;
         }
-        if (DAT_0126fd98.bDebug)
+        if (::g_tlsBlock.conditionFunctionDebug)
             FUN_00703c00("GetStartingAngle: %c >> %0.2f", iAxis, afAngle);
     }
     return true;
@@ -17878,7 +17647,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class AVOwner
 {
@@ -17962,7 +17730,6 @@ class BaseV
     int unkFC;
     AVOwner kOwner;
 };
-const char* FUN_0066eac0(int);
 class ActorV
 {
   public:
@@ -18072,44 +17839,40 @@ class ActorV
     int unk9C;
     int unkA0;
     AVOwner kAVOwner;
-    bool FUN_00440da0();
-    BaseV* FUN_004181e0();
 };
 // Gets the selected actor value from the actor or returned owner, stores it in result, and logs it when bDebug is set.
 // @fnv 0x0059c680
 bool FUN_0059c680(ActorV* apActor, void* aiActorValue, void* apUnused, double& afValue)
 {
-    int eAV = (int)aiActorValue;
+    std::intptr_t eAV = (std::intptr_t)aiActorValue;
     ActorV* pActor = 0;
     if (apActor && apActor->IsActor())
         pActor = apActor;
     if (pActor)
     {
-        if (!pActor->FUN_00440da0())
+        if (!reinterpret_cast<::TESForm *>((pActor))->GetDisabled())
             afValue = pActor->kAVOwner.GetActorValue(eAV);
         else
         {
-            AVOwner* pOwner = &pActor->FUN_004181e0()->kOwner;
+            AVOwner* pOwner = &((::fnv_0059c680::BaseV *)(reinterpret_cast<::Actor *>((pActor))->GetActorBase()))->kOwner;
             afValue = pOwner->GetActorValue(eAV);
         }
-        if (DAT_0126fd98.bDebug)
-            FUN_00703c00("GetActorValue: %s >> %0.2f", FUN_0066eac0(eAV), afValue);
+        if (::g_tlsBlock.conditionFunctionDebug)
+            FUN_00703c00("GetActorValue: %s >> %0.2f", ::FUN_0066eac0((::ActorValue::Index)(eAV)), afValue);
     }
     return true;
 }
 }  // namespace fnv_0059c680
 
 namespace fnv_0059d320 {
-struct TESObject
+class TESObject
 {
-    TESObject* GetNext();
+  public:
     int FNV_GetFormType();
 };
 struct Character
 {
-    double FUN_008d3110();
 };
-__declspec(thread) bool g_DebugLogEnabled;
 void __cdecl _DebugLog(const char* fmt, ...);
 
 // Returns the clothing value of a Character via FUN_008d3110 when the TESObjectREFR is a form type 0x2a, otherwise leaves afReturnValue unchanged.
@@ -18119,13 +17882,13 @@ bool __cdecl FUN_0059d320(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     Character* pactor = 0;
     if (apRefObject)
     {
-        if (reinterpret_cast<TESObject*>(reinterpret_cast<TESObject*>(apRefObject)->GetNext())->FNV_GetFormType() ==
+        if (reinterpret_cast<TESObject*>(((::fnv_0059d320::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())))->FNV_GetFormType() ==
             0x2a)
             pactor = reinterpret_cast<Character*>(apRefObject);
     }
     if (pactor)
-        afReturnValue = pactor->FUN_008d3110();
-    if (g_DebugLogEnabled)
+        afReturnValue = ((double)(reinterpret_cast<::Character534 *>((pactor))->FUN_008d3110()));
+    if (::g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetClothingValue >> %0.2f", afReturnValue);
     return true;
 }
@@ -18134,13 +17897,11 @@ bool __cdecl FUN_0059d320(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_0059ea80 {
 struct FUN_0059eb40
 {
-    bool GetFlag();
 };
 struct TESWeatherEx
 {
     float GetWeatherData(int a1, float a2, float a3);
 };
-extern float DAT_01017d00;
 struct FUN_0059ea80_class
 {
     int unk00;
@@ -18210,10 +17971,10 @@ struct FUN_0059ea80_class
 // @fnv 0x0059ea80
 bool FUN_0059ea80_class::FUN_0059ea80()
 {
-    return (m_kPointA != 0 && m_kPointA->GetFlag() &&
+    return (m_kPointA != 0 && reinterpret_cast<::FUN_0059eb40 *>((m_kPointA))->GetFlag() &&
             unkF4 > reinterpret_cast<TESWeatherEx*>(m_kPointA)->GetWeatherData(6, 0.999000013f, 0.0f)) ||
-           (m_kPointB != 0 && m_kPointB->GetFlag() &&
-            unkF4 < reinterpret_cast<TESWeatherEx*>(m_kPointB)->GetWeatherData(7, 1.0f, DAT_01017d00));
+           (m_kPointB != 0 && reinterpret_cast<::FUN_0059eb40 *>((m_kPointB))->GetFlag() &&
+            unkF4 < reinterpret_cast<TESWeatherEx*>(m_kPointB)->GetWeatherData(7, 1.0f, ::AngularDashpotApplyD4DCB0::DAT_01017d00));
 }
 }  // namespace fnv_0059ea80
 
@@ -18225,20 +17986,17 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
-class Sky
+struct Sky
 {
   public:
-    float FUN_006447d0();
 };
-Sky* FUN_0046dd00();
 // Reads the current weather percent from the Sky object, logs it when bDebug is set, and returns true.
 // @fnv 0x0059eb60
 bool FUN_0059eb60(void* reference, void* arg1, void* arg2, double& afPercent)
 {
-    afPercent = FUN_0046dd00()->FUN_006447d0();
-    if (DAT_0126fd98.bDebug)
+    afPercent = ::FUN_006447d0((const char *)(((::fnv_0059eb60::Sky *)(::Sky::GetInstance()))));
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("GetCurrentWeatherPercent >> %0.2f", afPercent);
     return true;
 }
@@ -18252,26 +18010,20 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class RaceP
 {
   public:
-    bool FUN_0059f610();
 };
 class FormP
 {
   public:
     int FUN_00401170();
-    RaceP* FUN_004ac110();
 };
 class RefP
 {
   public:
-    FormP* FUN_007af430();
 };
-extern RefP* DAT_011cab1c;
-extern float DAT_011cab20;
 // Caches the playable-race result by reference pointer, logs it when bDebug is set, and always returns true.
 // @fnv 0x0059f540
 bool FUN_0059f540(RefP* reference, void* apUnused1, void* apUnused2, double& result)
@@ -18282,18 +18034,18 @@ bool FUN_0059f540(RefP* reference, void* apUnused1, void* apUnused2, double& res
     {
         result = 0;
         FormP* pForm = 0;
-        if (reference && reference->FUN_007af430()->FUN_00401170() == 0x2a)
-            pForm = reference->FUN_007af430();
+        if (reference && ((::fnv_0059f540::FormP *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()))->FUN_00401170() == 0x2a)
+            pForm = ((::fnv_0059f540::FormP *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
         if (pForm)
         {
-            RaceP* pRace = pForm->FUN_004ac110();
-            if (pRace && pRace->FUN_0059f610())
+            RaceP* pRace = ((::fnv_0059f540::RaceP *)(reinterpret_cast<::FUN_004ac110_shell *>((pForm))->FUN_004ac110()));
+            if (pRace && reinterpret_cast<::FUN_0059f610Class *>((pRace))->FUN_0059f610())
                 result = 1;
         }
         DAT_011cab1c = reference;
         DAT_011cab20 = result;
     }
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("GetIsPlayableRace >> %0.2f", result);
     return true;
 }
@@ -18307,12 +18059,10 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class ListRes
 {
   public:
-    bool FUN_005f65d0();
 };
 class FormU
 {
@@ -18395,7 +18145,6 @@ class FormU
     virtual void w16();
     virtual const char* GetName();
     int FUN_00401170();
-    ListRes* FUN_00500940(FormU**);
 };
 FormU* FUN_006008f0();
 // Sets result to 1 if the form is the current item or the two calls on it and the current item return true; logs the result.
@@ -18412,11 +18161,11 @@ bool FUN_0059f9b0(void* reference, void* apForm, void* apUnused, double& result)
         {
             FormU* pList = pForm;
             FormU* pUsed = FUN_006008f0();
-            if (pList->FUN_00500940(&pUsed)->FUN_005f65d0())
+            if (reinterpret_cast<::RefList *>((((::fnv_0059f9b0::ListRes *)(reinterpret_cast<::BGSCameraPath *>((pList))->GetConditions()))))->FUN_005f65d0({}))
                 result = 1;
         }
     }
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("GetIsUsedItem '%s' >> %0.2f", pForm ? pForm->GetName() : "UNKNOWN", result);
     return true;
 }
@@ -18430,7 +18179,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class AVOwner
 {
@@ -18561,7 +18309,7 @@ bool FUN_005a0150(ActorV* apActor, void* aUnused1, void* aUnused2, double& resul
     if (pActor)
     {
         result = pActor->kAVOwner.GetActorValue(0x12);
-        if (DAT_0126fd98.bDebug)
+        if (::g_tlsBlock.conditionFunctionDebug)
             FUN_00703c00("Armor Rating: %0.2f", result);
     }
     return true;
@@ -18576,7 +18324,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class ActorW
 {
@@ -18646,7 +18393,6 @@ class ActorW
     virtual void v62();
     virtual void v63();
     virtual bool IsActor();
-    bool FUN_008a6210();
 };
 // Checks if the given ActorW is waiting and stores the result in the output parameter, logging it in debug mode.
 // @fnv 0x005a0e80
@@ -18656,9 +18402,9 @@ bool FUN_005a0e80(ActorW* apActor, void* pUnused1, void* pUnused2, double& resul
     ActorW* pActor = 0;
     if (apActor && apActor->IsActor())
         pActor = apActor;
-    if (pActor && pActor->FUN_008a6210())
+    if (pActor && reinterpret_cast<::fnv_008a6210::FUN_008a6210_shell *>((pActor))->FUN_008a6210())
         result = 1;
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("Is Waiting >> %0.2f", result);
     return true;
 }
@@ -18672,7 +18418,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class FormC
 {
@@ -18751,15 +18496,13 @@ class ActorC
 class CrimeC
 {
   public:
-    bool HasMatchingCrime(ActorC*, FormC*, ActorC*, int, int, int);
 };
-extern CrimeC DAT_011e0e80;
 // Checks if a crime exists between the actor and victim using the crime type index, storing the result in the output parameter.
 // @fnv 0x005a0f90
 bool FUN_005a0f90(ActorC* apActor, FormC* apVictim, void* aiCrimeType, double& result)
 {
     result = 0;
-    int e = (int)aiCrimeType;
+    std::intptr_t e = (std::intptr_t)aiCrimeType;
     FormC* pVictim = 0;
     if (apVictim)
     {
@@ -18783,16 +18526,16 @@ bool FUN_005a0f90(ActorC* apActor, FormC* apVictim, void* aiCrimeType, double& r
     {
         if (e > -1 && e < 5)
         {
-            if (DAT_011e0e80.HasMatchingCrime(pActor, pVictim, pActor, e, 0, -1))
+            if (reinterpret_cast<::S_972600_Lists *>(&((*reinterpret_cast<::fnv_005a0f90::CrimeC *>(&::g_011e0e80))))->HasMatchingCrime((std::intptr_t)(pActor), (std::intptr_t)(pVictim), (std::intptr_t)(pActor), e, 0, -1))
                 result = 1;
         }
         else
         {
-            if (DAT_011e0e80.HasMatchingCrime(pActor, pVictim, pActor, -1, 0, -1))
+            if (reinterpret_cast<::S_972600_Lists *>(&((*reinterpret_cast<::fnv_005a0f90::CrimeC *>(&::g_011e0e80))))->HasMatchingCrime((std::intptr_t)(pActor), (std::intptr_t)(pVictim), (std::intptr_t)(pActor), -1, 0, -1))
                 result = 1;
         }
     }
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("GetCrime >> %0.2f", result);
     return true;
 }
@@ -18806,12 +18549,10 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class FormY
 {
   public:
-    int FUN_0084e3a0();
 };
 class ProcY
 {
@@ -18978,8 +18719,6 @@ class ProcY
 class ItemZ
 {
   public:
-    int FUN_0041ca90();
-    int FUN_004fd3c0();
 };
 class ActorX
 {
@@ -19049,8 +18788,6 @@ class ActorX
     virtual void v62();
     virtual void v63();
     virtual bool IsActor();
-    ItemZ* FUN_009344a0();
-    ProcY* FUN_008d8520();
 };
 // Reads a numeric value from the actor's item or procedure-related form into result and logs it when debug is enabled.
 // @fnv 0x005a1770
@@ -19062,25 +18799,25 @@ bool FUN_005a1770(ActorX* apActor, void* apUnused1, void* apUnused2, double& res
         pActor = apActor;
     if (pActor)
     {
-        ItemZ* pItem = pActor->FUN_009344a0();
+        ItemZ* pItem = ((::fnv_005a1770::ItemZ *)(reinterpret_cast<::FUN_009344a0_shell *>((pActor))->FUN_009344a0()));
         if (pItem)
         {
-            switch (pItem->FUN_0041ca90())
+            switch (reinterpret_cast<struct ::FUN_0041ca90 *>((pItem))->get())
             {
             case 0x17: {
                 ItemZ* pZ = pItem;
-                result = pZ->FUN_004fd3c0();
+                result = ((int)(std::uintptr_t)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pZ))));
                 break;
             }
             case 0xe: {
-                ProcY* pProc = pActor->FUN_008d8520();
+                ProcY* pProc = ((::fnv_005a1770::ProcY *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()));
                 if (pProc)
                 {
                     FormY* pForm = pProc->GetY();
                     if (pForm)
                     {
                         FormY* pF = pForm;
-                        result = pF->FUN_0084e3a0();
+                        result = reinterpret_cast<::FUN_0084e3a0_Class *>((pF))->FUN_0084e3a0();
                     }
                 }
                 break;
@@ -19088,7 +18825,7 @@ bool FUN_005a1770(ActorX* apActor, void* apUnused1, void* apUnused2, double& res
             }
         }
     }
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("Procedure >> %0.2f", result);
     return true;
 }
@@ -19102,32 +18839,26 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 struct Pt
 {
     float x, y, z;
-    Pt& FUN_006815c0();
 };
 class NodeH
 {
   public:
-    Pt* FUN_0043d450();
 };
 class LimbH
 {
   public:
-    Pt* FUN_0045bb80();
 };
 class BodyPartH
 {
   public:
-    int FUN_0043b230();
 };
 class BPDataH
 {
   public:
-    BodyPartH* FUN_005e5130(int);
 };
 class BaseH
 {
@@ -19359,9 +19090,7 @@ class RefH
     virtual void x6();
     virtual void x7();
     virtual Pt* GetPos();
-    BaseH* FUN_004181e0();
 };
-LimbH* FUN_004aae30(NodeH*, int);
 struct TgtH
 {
     int m0;
@@ -19373,21 +19102,16 @@ struct TgtH
 class VatsH
 {
   public:
-    int FUN_0044ddc0();
-    TgtH* FUN_009c71c0();
 };
-extern VatsH DAT_011f2250;
-extern RefH* DAT_011dea3c;
-bool FUN_0066dde0(int);
 // Returns the vertical height difference between the current VATS target's position and the player, using limb position when available.
 // @fnv 0x005a25f0
 bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
 {
     afHeight = 0;
-    if (DAT_011f2250.FUN_0044ddc0() == 4)
+    if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_005a25f0::VatsH *>(&::g_011f2250))))->GetName())) == 4)
     {
-        TgtH* pTarget = DAT_011f2250.FUN_009c71c0();
-        if (pTarget && FUN_0066dde0(pTarget->m0))
+        TgtH* pTarget = ((::fnv_005a25f0::TgtH *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::fnv_005a25f0::VatsH *>(&::g_011f2250))))->FUN_009c71c0()));
+        if (pTarget && ::FUN_0066dde0(pTarget->m0))
         {
             bool f;
             Pt kPos;
@@ -19396,21 +19120,20 @@ bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
             if (dst)
             {
                 NodeH* p3D = dst->Get3D();
-                kPos.FUN_006815c0();
                 f = false;
                 if (fB != -1 && dst->IsActor())
                 {
                     RefH* a = dst;
-                    BPDataH* pBPData = a->FUN_004181e0()->GetBPData();
+                    BPDataH* pBPData = ((::fnv_005a25f0::BaseH *)(reinterpret_cast<::Actor *>((a))->GetActorBase()))->GetBPData();
                     if (pBPData)
                     {
-                        BodyPartH* pBodyPart = pBPData->FUN_005e5130(fB);
+                        BodyPartH* pBodyPart = ((::fnv_005a25f0::BodyPartH *)(reinterpret_cast<::FUN_005e5130_Class *>((pBPData))->FUN_005e5130(fB)));
                         if (pBodyPart)
                         {
-                            LimbH* pLimb = FUN_004aae30(a->Get3D(), pBodyPart->FUN_0043b230());
+                            LimbH* pLimb = ((::fnv_005a25f0::LimbH *)(::FUN_004aae30((::NiAVObject *)(::fnv_005a25f0::NodeH *)(a->Get3D()), (::NiFixedString *)(((std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(pBodyPart))))))));
                             if (pLimb)
                             {
-                                kPos = *pLimb->FUN_0045bb80();
+                                kPos = *((::fnv_005a25f0::Pt *)(::FUN_0045bb80((std::intptr_t)(pLimb))));
                                 f = true;
                             }
                         }
@@ -19419,15 +19142,15 @@ bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
                 if (!f)
                 {
                     if (p3D)
-                        kPos = p3D->FUN_0043d450()->FUN_006815c0();
+                        kPos = (*(::fnv_005a25f0::Pt *)((void *)(((::fnv_005a25f0::Pt *)(reinterpret_cast<::FUN_0043d450_Owner *>((p3D))->FUN_0043d450())))));
                     else
                         kPos = *dst->GetPos();
                 }
-                afHeight = kPos.z - DAT_011dea3c->GetPos()->z;
+                afHeight = kPos.z - (*reinterpret_cast<::fnv_005a25f0::RefH * *>(&::_g_thePlayer))->GetPos()->z;
             }
         }
     }
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("VATS Target Height >> %0.2f", afHeight);
     return true;
 }
@@ -19441,7 +19164,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class PlayerS
 {
@@ -19667,15 +19389,14 @@ class PlayerS
     virtual void v218();
     virtual bool IsInSandman();
 };
-extern PlayerS* DAT_011dea3c;
 // Checks if the given PlayerS is the global player and in Sandman, logs the result in debug mode, and always returns true.
 // @fnv 0x005a2810
 bool FUN_005a2810(PlayerS* apPlayer, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0;
-    if (apPlayer == DAT_011dea3c)
-        result = DAT_011dea3c->IsInSandman();
-    if (DAT_0126fd98.bDebug)
+    if (apPlayer == (*reinterpret_cast<::fnv_005a2810::PlayerS * *>(&::_g_thePlayer)))
+        result = (*reinterpret_cast<::fnv_005a2810::PlayerS * *>(&::_g_thePlayer))->IsInSandman();
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("Player is in Sandman action >> %0.2f", result);
     return true;
 }
@@ -19689,7 +19410,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class ActorS
 {
@@ -19759,23 +19479,21 @@ class ActorS
     virtual void v62();
     virtual void v63();
     virtual bool IsActor();
-    int FUN_005a29b0();
 };
-extern const char* DAT_0119bbb0[];
 // Checks if the actor is in the given stage and logs the result when debug is enabled.
 // @fnv 0x005a2910
 bool FUN_005a2910(ActorS* apActor, void* aiStage, void* apUnused, double& result)
 {
     result = 0;
-    int iStage = (int)aiStage;
+    std::intptr_t iStage = (std::intptr_t)aiStage;
     if (apActor->IsActor())
     {
         ActorS* pActor = apActor;
-        if (pActor->FUN_005a29b0() == iStage)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::TESEffectShader *>((pActor))->GetAddonModels())) == iStage)
             result = 1;
     }
-    if (DAT_0126fd98.bDebug)
-        FUN_00703c00("Actor %s in stage %s.", result == 1 ? "IS" : "IS NOT", DAT_0119bbb0[iStage]);
+    if (::g_tlsBlock.conditionFunctionDebug)
+        FUN_00703c00("Actor %s in stage %s.", result == 1 ? "IS" : "IS NOT", ::DAT_0119bbb0[iStage]);
     return true;
 }
 }  // namespace fnv_005a2910
@@ -19788,7 +19506,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class FormB
 {
@@ -19798,18 +19515,15 @@ class FormB
 class ArmorB
 {
   public:
-    bool FUN_00514410();
 };
 struct FUN_004459e0
 {
     int a, b;
-    FormB* FUN_0044ddc0();
     ~FUN_004459e0();
 };
 class InvB
 {
   public:
-    FUN_004459e0* FUN_004c8c10(int, int);
 };
 class ActorX
 {
@@ -19894,15 +19608,15 @@ bool FUN_005a2ce0(ActorX* apActor, void* apUnused1, void* apUnused2, double& afR
         InvB* pInv = FUN_004bf220(apActor);
         if (pInv)
         {
-            FUN_004459e0* pInventoryEntry = pInv->FUN_004c8c10(2, 0);
+            FUN_004459e0* pInventoryEntry = ((::fnv_005a2ce0::FUN_004459e0 *)(reinterpret_cast<::Target *>((pInv))->FUN_004c8c10(2, 0)));
             if (pInventoryEntry)
             {
                 ArmorB* pArmor = 0;
-                if (pInventoryEntry->FUN_0044ddc0() && pInventoryEntry->FUN_0044ddc0()->FUN_00401170() == 0x18)
-                    pArmor = (ArmorB*)pInventoryEntry->FUN_0044ddc0();
+                if (((::fnv_005a2ce0::FormB *)(reinterpret_cast<::Twin_0044ddc0 *>((pInventoryEntry))->GetName())) && ((::fnv_005a2ce0::FormB *)(reinterpret_cast<::Twin_0044ddc0 *>((pInventoryEntry))->GetName()))->FUN_00401170() == 0x18)
+                    pArmor = (ArmorB*)((::fnv_005a2ce0::FormB *)(reinterpret_cast<::Twin_0044ddc0 *>((pInventoryEntry))->GetName()));
                 if (pArmor)
                 {
-                    bool bHeavy = pArmor->FUN_00514410();
+                    bool bHeavy = ((bool)(reinterpret_cast<::TESObjectARMO *>((pArmor))->GetArmorType()));
                     if (!bHeavy)
                         afRating = 1;
                     else
@@ -19912,7 +19626,7 @@ bool FUN_005a2ce0(ActorX* apActor, void* apUnused1, void* apUnused2, double& afR
             }
         }
     }
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("Armor Rating upper body is %0.2f", afRating);
     return true;
 }
@@ -19926,7 +19640,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class ActorE
 {
@@ -19996,8 +19709,6 @@ class ActorE
     virtual void v62();
     virtual void v63();
     virtual bool IsActor();
-    bool FUN_005678a0();
-    const char* FUN_0055d520();
 };
 // Checks if the reference is an actor and sets result to 1 if it is evil, logging the actor name when debug is enabled.
 // @fnv 0x005a3390
@@ -20009,12 +19720,12 @@ bool FUN_005a3390(ActorE* apActor, void* apUnused1, void* apUnused2, double& res
     result = 0;
     if (pActor)
     {
-        if (pActor->FUN_005678a0())
+        if (reinterpret_cast<::fnv_005678a0::FUN_005678a0_Class *>((pActor))->FUN_005678a0())
             result = 1;
-        if (DAT_0126fd98.bDebug && result != 0)
-            FUN_00703c00("%s  is evil ", pActor->FUN_0055d520());
-        else if (DAT_0126fd98.bDebug)
-            FUN_00703c00("%s  is not evil ", pActor->FUN_0055d520());
+        if (::g_tlsBlock.conditionFunctionDebug && result != 0)
+            FUN_00703c00("%s  is evil ", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520());
+        else if (::g_tlsBlock.conditionFunctionDebug)
+            FUN_00703c00("%s  is not evil ", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520());
     }
     return true;
 }
@@ -20028,7 +19739,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 
 void FUN_00703c00(const char*, ...);
 class ActorX
@@ -20169,8 +19879,6 @@ class ActorX
     virtual void w67();
     virtual void w68();
     virtual bool IsX();
-    void* FUN_007af430();
-    const char* FUN_0055d520();
 };
 // Checks if the reference actor is the current crime victim target and sets result to 1 or 0, logging the outcome in debug mode.
 // @fnv 0x005a3460
@@ -20182,13 +19890,13 @@ bool FUN_005a3460(ActorX* apActor, void* apUnused1, void* apUnused2, double& res
     result = 0;
     if (pActor && pActor->IsX())
     {
-        void* pTarget = pActor->FUN_007af430();
-        if (pTarget && pTarget == DAT_0126fd98.pTarget)
+        void* pTarget = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pActor))->FUN_007af430()));
+        if (pTarget && pTarget == ::g_tlsBlock.conditionTarget)
             result = 1;
-        if (DAT_0126fd98.bDebug && result != 0)
-            FUN_00703c00("%s  crime victim ", pActor->FUN_0055d520());
-        else if (DAT_0126fd98.bDebug)
-            FUN_00703c00("%s  is not a crime victim ", pActor->FUN_0055d520());
+        if (::g_tlsBlock.conditionFunctionDebug && result != 0)
+            FUN_00703c00("%s  crime victim ", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520());
+        else if (::g_tlsBlock.conditionFunctionDebug)
+            FUN_00703c00("%s  is not a crime victim ", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520());
     }
     return true;
 }
@@ -20202,16 +19910,14 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
-bool FUN_00709d40();
 // Stores a 0.0 or 1.0 value into result based on FUN_00709d40, logs it when bDebug is set, and returns true.
 // @fnv 0x005a3870
 bool FUN_005a3870(void* reference, void* arg1, void* arg2, double& result)
 {
     result = 1;
-    result = FUN_00709d40() ? 0.0f : 1.0f;
-    if (DAT_0126fd98.bDebug)
+    result = ::FUN_00709d40() ? 0.0f : 1.0f;
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("IsPC >> %1.0f", result);
     return true;
 }
@@ -20225,9 +19931,7 @@ union SETTING_VALUE
 
 struct SettingT_GameSettingCollection_
 {
-    SETTING_VALUE* Int();
 };
-extern SettingT_GameSettingCollection_ DAT_011d0844;
 
 class TESObjectREFR5A3E
 {
@@ -20452,8 +20156,8 @@ bool __cdecl FUN_005a3e90(TESObjectREFR5A3E* apActor, void* paramInfo, void* scr
     if (apActor && apActor->IsActor())
     {
         TESObjectREFR5A3E* actor = apActor;
-        int value = actor->vfn_344(g_thePlayer, 0);
-        if (value >= DAT_011d0844.Int()->i)
+        int value = actor->vfn_344(::_g_thePlayer, 0);
+        if (value >= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0844))))))->i)
             result = 1;
     }
     return true;
@@ -20467,7 +20171,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class KillerK
 {
@@ -20476,22 +20179,18 @@ class KillerK
 class ListRes
 {
   public:
-    bool FUN_005f65d0();
 };
 class FormK
 {
   public:
-    ListRes* FUN_00500940(KillerK**);
 };
 class CombatK
 {
   public:
-    KillerK* FUN_00825c00();
 };
 class HolderK
 {
   public:
-    CombatK* FUN_0042e8c0();
 };
 class ActorK
 {
@@ -20636,8 +20335,6 @@ class ActorK
     virtual void w72();
     virtual void w73();
     virtual bool IsDead(int);
-    void* FUN_008d8520();
-    HolderK* FUN_005d43c0();
 };
 // Sets result to 1 when the actor checks pass and the list call's returned object passes its boolean check.
 // @fnv 0x005a3fa0
@@ -20647,14 +20344,14 @@ bool FUN_005a3fa0(ActorK* reference, void* apFormList, void* apUnused, double& r
     ActorK* pActor = 0;
     if (reference && reference->IsActor())
         pActor = reference;
-    if (pActor && pActor->FUN_008d8520() && pActor->IsDead(0) && pList)
+    if (pActor && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())) && pActor->IsDead(0) && pList)
     {
-        CombatK* pCombat = pActor->FUN_005d43c0()->FUN_0042e8c0();
-        KillerK* pKillerEntry = pCombat->FUN_00825c00();
-        if (pKillerEntry && pList->FUN_00500940(&pKillerEntry)->FUN_005f65d0())
+        CombatK* pCombat = ((::fnv_005a3fa0::CombatK *)(reinterpret_cast<::ExtraDataList *>((((::fnv_005a3fa0::HolderK *)(reinterpret_cast<::FUN_005d43c0_ *>((pActor))->FUN_005d43c0()))))->GetDismemberedLimbs()));
+        KillerK* pKillerEntry = ((::fnv_005a3fa0::KillerK *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pCombat))->FUN_00825c00()));
+        if (pKillerEntry && reinterpret_cast<::RefList *>((((::fnv_005a3fa0::ListRes *)(reinterpret_cast<::BGSCameraPath *>((pList))->GetConditions()))))->FUN_005f65d0({}))
             result = 1;
     }
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("IsKillerObject >> %0.2f", result);
     return true;
 }
@@ -20754,7 +20451,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class FormT
 {
@@ -20764,17 +20460,16 @@ class FormT
 class RefT
 {
   public:
-    FormT* FUN_007af430();
 };
 // Compares the reference's form type against arg1, stores 1 or 0 in result, and logs the value when bDebug is set.
 // @fnv 0x005a4410
 bool FUN_005a4410(RefT* reference, void* aiType, void* apUnused, double& result)
 {
     result = 0;
-    int iType = (int)aiType;
-    if (reference->FUN_007af430()->FUN_00401170() == iType)
+    std::intptr_t iType = (std::intptr_t)aiType;
+    if (((::fnv_005a4410::FormT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()))->FUN_00401170() == iType)
         result = 1;
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("GetIsObjectType is  >> %0.2f", result);
     return true;
 }
@@ -20788,7 +20483,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class FormW
 {
@@ -20884,7 +20578,7 @@ bool FUN_005a45c0(void* reference, void* arg1, void* arg2, double& result)
     FormW* pForm = FUN_006008f0();
     if (pForm && pForm->GetWater())
         result = 1;
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("IsWaterActivator >> %0.2f", result);
     return true;
 }
@@ -20893,9 +20587,7 @@ bool FUN_005a45c0(void* reference, void* arg1, void* arg2, double& result)
 namespace fnv_005a4aa0 {
 extern unsigned int DAT_0126fd98;
 extern void __cdecl DebugLog(char const* fmt, ...);
-extern PlayerCharacter* _g_thePlayer;
 
-__declspec(thread) unsigned char tlsCrimeFlags[0x269];
 
 static const char kMinorCrimesMsg[] = "The number of minor crimes is %.2f";
 
@@ -21053,7 +20745,7 @@ int FUN_005a4b40Class::GetFactionRankSum()
 
 // Returns a true/false flag and sets result to the faction rank sum (or player value) of the actor, logging minor crimes when the crime flag is set.
 // @fnv 0x005a4aa0
-bool __cdecl FUN_005a4aa0(int actor, unsigned int arg2, unsigned int arg3, double& result)
+bool __cdecl FUN_005a4aa0(std::intptr_t actor, unsigned int arg2, unsigned int arg3, double& result)
 {
     result = 0.0;
 
@@ -21061,18 +20753,18 @@ bool __cdecl FUN_005a4aa0(int actor, unsigned int arg2, unsigned int arg3, doubl
     {
         FUN_005a4b40Class* object = (FUN_005a4b40Class*)actor;
 
-        if (object == (FUN_005a4b40Class*)_g_thePlayer)
+        if (object == (FUN_005a4b40Class*)::_g_thePlayer)
         {
-            int value = (int)object->FUN_005a4b40();
+            int value = (int)reinterpret_cast<::FUN_005a4b40Class *>((object))->FUN_005a4b40();
             result = (double)value;
         }
         else
         {
-            int value = object->GetFactionRankSum();
+            int value = reinterpret_cast<::fnv_008b7e20::FUN_008b7e20_cls *>((object))->GetFactionRankSum();
             result = (double)value;
         }
 
-        if (tlsCrimeFlags[0x268] != 0)
+        if (::g_tlsBlock.conditionFunctionDebug != 0)
         {
             DebugLog(kMinorCrimesMsg, result);
         }
@@ -21090,7 +20782,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class ActorX
 {
@@ -21172,7 +20863,6 @@ class ActorX
     virtual void w9();
     virtual void w10();
     virtual const char* GetName();
-    float GetModifiedDamagePerSecond(float);
 };
 // Computes the ratio of reference's modified damage per second to arg1's, storing it in result and logging the outcome in debug mode.
 // @fnv 0x005a4cd0
@@ -21183,11 +20873,11 @@ bool FUN_005a4cd0(ActorX* reference, void* apTarget, void* apUnused, double& afR
     if (reference && reference->IsActor() && pTarget)
     {
         ActorX* pActor = reference;
-        afRatio = pActor->GetModifiedDamagePerSecond(-1.0f) / pTarget->GetModifiedDamagePerSecond(-1.0f);
-        if (DAT_0126fd98.bDebug)
+        afRatio = reinterpret_cast<::fnv_008acbe0::FUN_008acbe0_shell *>((pActor))->GetModifiedDamagePerSecond(-1.0f) / reinterpret_cast<::fnv_008acbe0::FUN_008acbe0_shell *>((pTarget))->GetModifiedDamagePerSecond(-1.0f);
+        if (::g_tlsBlock.conditionFunctionDebug)
             FUN_00703c00("GetThreatRatio: '%s' to '%s' >> %.2f", pActor->GetName(), pTarget->GetName(), afRatio);
     }
-    else if (DAT_0126fd98.bDebug)
+    else if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("GetThreatRatio >> FAILED");
     return true;
 }
@@ -21201,7 +20891,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class AVOwner
 {
@@ -21321,22 +21010,20 @@ class ActorV
     int unkA0;
     AVOwner kAVOwner;
 };
-int FUN_0047e040(float);
-extern const char* DAT_01186cf4[];
 // Checks if the actor's alignment actor value matches the requested alignment index and logs the result in debug mode.
 // @fnv 0x005a4dd0
 bool FUN_005a4dd0(ActorV* apActor, void* aiAlignment, void* apUnused, double& result)
 {
     result = 0;
-    int iAlignment = (int)aiAlignment;
+    std::intptr_t iAlignment = (std::intptr_t)aiAlignment;
     if (apActor && apActor->IsActor())
     {
         ActorV* pActor = apActor;
-        if (FUN_0047e040(pActor->kAVOwner.GetActorValue(0x17)) == iAlignment)
+        if (::fnv_0047e040::FUN_0047e040(pActor->kAVOwner.GetActorValue(0x17)) == iAlignment)
             result = 1;
     }
-    if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetIsAlignment '%s' >> %s", DAT_01186cf4[iAlignment], result > 0 ? "true" : "false");
+    if (::g_tlsBlock.conditionFunctionDebug)
+        FUN_00703c00("GetIsAlignment '%s' >> %s", ::DAT_01186cf4[iAlignment], result > 0 ? "true" : "false");
     return true;
 }
 }  // namespace fnv_005a4dd0
@@ -21349,21 +21036,19 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 void* FUN_006008f0();
 int FUN_00479430(void*);
-extern const char* DAT_011869bc[];
 // Compares FUN_00479430(FUN_006008f0()) with arg1, stores 1 or 0 in result, and logs the indexed label in debug mode.
 // @fnv 0x005a4ea0
 bool FUN_005a4ea0(void* reference, void* aiEquipType, void* apUnused, double& result)
 {
     result = 0;
-    int iType = (int)aiEquipType;
+    std::intptr_t iType = (std::intptr_t)aiEquipType;
     if (FUN_006008f0() && FUN_00479430(FUN_006008f0()) == iType)
         result = 1;
-    if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetIsUsedItemEquipType '%s' >> %s", DAT_011869bc[iType], result > 0 ? "true" : "false");
+    if (::g_tlsBlock.conditionFunctionDebug)
+        FUN_00703c00("GetIsUsedItemEquipType '%s' >> %s", ::DAT_011869bc[iType], result > 0 ? "true" : "false");
     return true;
 }
 }  // namespace fnv_005a4ea0
@@ -21376,12 +21061,10 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class Pkg
 {
   public:
-    int FUN_0041ca90();
 };
 class Proc
 {
@@ -21587,8 +21270,6 @@ class ActorX
     virtual void v62();
     virtual void v63();
     virtual bool IsActor();
-    Proc* FUN_008d8520();
-    const char* FUN_0055d520();
 };
 // Sets result when the actor's package chain exists and the package method returns 0xe; logs a message when bDebug is set.
 // @fnv 0x005a4f30
@@ -21598,15 +21279,15 @@ bool FUN_005a4f30(ActorX* apActor, void* apUnused1, void* apUnused2, double& res
     if (apActor && apActor->IsActor())
     {
         ActorX* pActor = apActor;
-        if (pActor->FUN_008d8520() && pActor->FUN_008d8520()->GetPkg() &&
-            pActor->FUN_008d8520()->GetPkg()->FUN_0041ca90() == 0xe)
+        if (((::fnv_005a4f30::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())) && ((::fnv_005a4f30::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()))->GetPkg() &&
+            reinterpret_cast<struct ::FUN_0041ca90 *>((((::fnv_005a4f30::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()))->GetPkg()))->get() == 0xe)
             result = 1;
-        if (DAT_0126fd98.bDebug)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             if (result > 0)
-                FUN_00703c00("%s has his aggro radius violated ", apActor->FUN_0055d520());
+                FUN_00703c00("%s has his aggro radius violated ", reinterpret_cast<::FUN_0055d520_shell *>((apActor))->FUN_0055d520());
             else
-                FUN_00703c00("%s does not have his aggro radius violated ", apActor->FUN_0055d520());
+                FUN_00703c00("%s does not have his aggro radius violated ", reinterpret_cast<::FUN_0055d520_shell *>((apActor))->FUN_0055d520());
         }
     }
     return true;
@@ -21621,12 +21302,10 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class ProcC
 {
   public:
-    bool HasActiveEffectOfArchetype(int, int);
 };
 class ActorC
 {
@@ -21733,25 +21412,23 @@ class ActorC
     int unk8C;
     int unk90;
     ProcC kProc;
-    const char* FUN_0055d520();
 };
-bool FUN_005a50e0();
 // When the reference passes the checks, tests for active effect archetype 0x21, stores 1 if present, and logs when bDebug is set.
 // @fnv 0x005a5020
 bool FUN_005a5020(ActorC* apActor, void* apUnused1, void* apUnused2, double& afIsConcussed)
 {
     afIsConcussed = 0;
-    if (apActor && apActor->IsActor() && FUN_005a50e0())
+    if (apActor && apActor->IsActor() && ::FUN_005a50e0())
     {
         ActorC* pActor = apActor;
-        if (pActor->kProc.HasActiveEffectOfArchetype(0x21, 0))
+        if (reinterpret_cast<::FUN_00822cf0_shell *>(&(pActor->kProc))->HasActiveEffectOfArchetype(0x21, 0))
             afIsConcussed = 1;
-        if (DAT_0126fd98.bDebug)
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             if (afIsConcussed > 0)
-                FUN_00703c00("%s is concussed", apActor->FUN_0055d520());
+                FUN_00703c00("%s is concussed", reinterpret_cast<::FUN_0055d520_shell *>((apActor))->FUN_0055d520());
             else
-                FUN_00703c00("%s is not concussed ", apActor->FUN_0055d520());
+                FUN_00703c00("%s is not concussed ", reinterpret_cast<::FUN_0055d520_shell *>((apActor))->FUN_0055d520());
         }
     }
     return true;
@@ -21826,7 +21503,6 @@ class refv_a5580
     virtual void v62(void);
     virtual void v63(void);
     virtual bool BackAreaFree(void);
-    double FUN_008bd830(unsigned int arg, float angle);
 };
 
 struct tls_a5580
@@ -21835,7 +21511,6 @@ struct tls_a5580
     unsigned char f004;
 };
 
-extern __declspec(thread) tls_a5580 tlsdata_a5580;
 void __cdecl DebugLog(const char* fmt, ...);
 
 // If reference is non-null and BackAreaFree succeeds, writes FUN_008bd830's result; logs result when the TLS flag is set, then returns true.
@@ -21843,15 +21518,15 @@ void __cdecl DebugLog(const char* fmt, ...);
 bool __cdecl FUN_005a5580(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
-    unsigned int arg = (unsigned int)arg1;
+    std::uintptr_t arg = (std::uintptr_t)arg1;
     if (reference != 0)
     {
         if (((refv_a5580*)reference)->BackAreaFree())
         {
-            result = ((refv_a5580*)reference)->FUN_008bd830(arg, 3.14159274f);
+            result = ((double)(reinterpret_cast<::xActor *>((((refv_a5580*)reference)))->FUN_008bd830(arg, 3.14159274f)));
         }
     }
-    if (tlsdata_a5580.f004)
+    if ((*reinterpret_cast<::tls_a5580 *>(&::DAT_tls_0264)).f004)
     {
         DebugLog("VATSBackAreaFree >> %.2f", result);
     }
@@ -21866,7 +21541,6 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class ActorQ
 {
@@ -21946,7 +21620,7 @@ bool FUN_005a5690(ActorQ* reference, void* apTarget, void* apUnused, double& afV
     ActorQ* pTarget = (ActorQ*)apTarget;
     if (reference && reference->IsActor())
         afVisibility = reference->FUN_008bdbd0(pTarget, 1.5707964f);
-    if (DAT_0126fd98.bDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("VATSRightTargetVisible >> %.2f", afVisibility);
     return true;
 }
@@ -21960,21 +21634,18 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class ProcMgr
 {
   public:
-    int GetFieldPointer();
 };
-extern ProcMgr DAT_011e0e80;
 // Stores the value returned by DAT_011e0e80.GetFieldPointer into result and logs it when bDebug is set.
 // @fnv 0x005a5ab0
 bool FUN_005a5ab0(void* reference, void* arg1, void* arg2, double& result)
 {
     result = 0;
-    result = DAT_011e0e80.GetFieldPointer();
-    if (DAT_0126fd98.bDebug)
+    result = ((int)(std::uintptr_t)(reinterpret_cast<::FUN_005a5b10_Class *>(&((*reinterpret_cast<::fnv_005a5ab0::ProcMgr *>(&::g_011e0e80))))->GetFieldPointer()));
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("GetActorsInHigh >> %0.2f", result);
     return true;
 }
@@ -21988,12 +21659,10 @@ struct TlsData
     char p2[3];
     void* pTarget;
 };
-extern __declspec(thread) TlsData DAT_0126fd98;
 void FUN_00703c00(const char*, ...);
 class NameR
 {
   public:
-    const char* FUN_00408da0();
 };
 class RepR
 {
@@ -22007,12 +21676,12 @@ class RepR
 bool FUN_005a5c40(void* reference, void* apRep, void* aiType, double& afReputation)
 {
     RepR* pRep = (RepR*)apRep;
-    int iType = (int)aiType;
+    std::intptr_t iType = (std::intptr_t)aiType;
     if (pRep)
     {
         afReputation = pRep->FUN_00616a60(iType);
-        if (DAT_0126fd98.bDebug)
-            FUN_00703c00("GetReputation: %s >> %0.2f", pRep->kName.FUN_00408da0(), afReputation);
+        if (::g_tlsBlock.conditionFunctionDebug)
+            FUN_00703c00("GetReputation: %s >> %0.2f", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pRep->kName))->FUN_00408da0())), afReputation);
     }
     return true;
 }
@@ -22026,17 +21695,13 @@ struct SceneObject
     virtual void Slot04();
     virtual void Slot08();
     virtual SceneObject* GetSceneObject();
-    NiPoint3& FUN_0043c490();
 };
 struct CameraView
 {
 };
 struct CameraRoot
 {
-    SceneObject* FUN_00558310();
-    CameraView* FUN_006629f0();
 };
-extern CameraRoot* __cdecl FUN_0045c670();
 struct VisibilityRef
 {
     virtual void Slot000();
@@ -22165,21 +21830,13 @@ struct VisibilityRef
     virtual void Slot1ec();
     virtual void Slot1f0();
     virtual NiPoint3* GetPos();
-    bool FUN_00444ed0();
-    bool FUN_0088b880(int, VisibilityRef*, int, int, int);
-    char* FUN_0055d520();
     void FUN_00931ed0(unsigned int*);
 };
 struct SphereBound
 {
     NiPoint3 center;
     float radius;
-    void FUN_006240d0();
-    void FUN_0098ddd0(NiPoint3*);
-    void FUN_0063f790(float);
 };
-extern bool __cdecl FUN_004b5fc0(SceneObject*, CameraView*);
-extern bool __cdecl IsBoundVisible(SphereBound*, CameraView*);
 struct __declspec(align(16)) RayQuery
 {
     __m128 from;
@@ -22223,11 +21880,7 @@ struct __declspec(align(16)) RayQuery
     unsigned int unka4;
     unsigned int unka8;
     unsigned int unkac;
-    void FUN_004a3c20();
-    void FUN_0059ceb0(void*);
-    void FUN_004a3da0(NiPoint3*);
     void FUN_004a3f70(unsigned int);
-    void FUN_004a3eb0(NiPoint3*);
 };
 struct __declspec(align(16)) FUN_0062a190
 {
@@ -22266,18 +21919,11 @@ struct __declspec(align(16)) FUN_0062a190
 struct Filter
 {
     unsigned int bits;
-    void FUN_008c71b0(int);
-    void FUN_004a39f0(int);
-    unsigned int FUN_004a3a20();
-    void FUN_0059ce80(unsigned int);
 };
 struct World
 {
     void* FUN_00458420(RayQuery*);
 };
-extern World* g_TES;
-extern VisibilityRef* __cdecl FUN_0056f930(void*);
-extern __declspec(thread) unsigned char visibilityTls[];
 extern void __cdecl DebugLog(const char*, ...);
 static const char str_01034eb4[] = "%s sees %s";
 static const char str_01034ea4[] = "%s can't see %s";
@@ -22295,55 +21941,55 @@ bool __cdecl FUN_0059c990(TESObjectREFR* reference, void* target, void*, double&
         bool visible = false;
         if (actor && other)
         {
-            if (actor == reinterpret_cast<VisibilityRef*>(g_thePlayer))
+            if (actor == reinterpret_cast<VisibilityRef*>(::_g_thePlayer))
             {
                 bool inView = false;
-                SceneObject* cameraNode = FUN_0045c670()->FUN_00558310();
-                CameraView* camera = FUN_0045c670()->FUN_006629f0();
+                SceneObject* cameraNode = ((::fnv_0059c990::SceneObject *)(::FUN_00558310((::NiNode_00558310 *)(((::fnv_0059c990::CameraRoot *)(::FUN_0045c670()))))));
+                CameraView* camera = ((::fnv_0059c990::CameraView *)(reinterpret_cast<::BSFaceGenNiNode *>((((::fnv_0059c990::CameraRoot *)(::FUN_0045c670()))))->GetAnimationData()));
                 SceneObject* scene = other->GetNiNode() ? other->GetNiNode()->GetSceneObject() : 0;
-                if (scene && FUN_004b5fc0(scene, camera))
+                if (scene && ::FUN_004b5fc0((::NiAVObject *)(scene), (::NiCamera *)(camera)))
                 {
                     inView = true;
                 }
-                else if (other->FUN_00444ed0())
+                else if (reinterpret_cast<::FUN_00444ed0_shell *>((other))->FUN_00444ed0())
                 {
                     SphereBound sphereBound;
-                    sphereBound.FUN_006240d0();
-                    sphereBound.FUN_0098ddd0(other->GetPos());
-                    sphereBound.FUN_0063f790(1.0f);
-                    if (IsBoundVisible(&sphereBound, camera))
+                    ::FUN_006240d0((void *)&(sphereBound));
+                    reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>(&(sphereBound))->FUN_0098ddd0(other->GetPos());
+                    reinterpret_cast<::FUN_0063f790_shell *>(&(sphereBound))->FUN_0063f790(1.0f);
+                    if (::IsBoundVisible((::NiBound *)(::fnv_0059c990::SphereBound *)(&sphereBound), (::NiCamera *)(camera)))
                         inView = true;
                 }
                 if (inView)
                 {
-                    NiPoint3 origin = cameraNode->FUN_0043c490();
+                    NiPoint3 origin = reinterpret_cast<::NiAVObject *>((cameraNode))->FUN_0043c490();
                     RayQuery rayQuery;
-                    rayQuery.FUN_004a3c20();
+                    new ((void *)&(rayQuery)) ::FUN_004a3c20();
                     VisibilityRef* targetActor = 0;
                     if (other && other->IsNPC())
                         targetActor = other;
                     FUN_0062a190 rayCollector(0x25, targetActor);
-                    rayQuery.FUN_0059ceb0(&rayCollector);
+                    reinterpret_cast<::FUN_0059ceb0_shell *>(&(rayQuery))->FUN_0059ceb0((::hkpClosestRayHitCollector *)(void *)(&rayCollector));
                     NiPoint3 destination = *other->GetPos();
-                    rayQuery.FUN_004a3da0(&origin);
+                    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(rayQuery))->FUN_004a3da0(&origin);
                     unsigned int playerFilter;
-                    reinterpret_cast<VisibilityRef*>(g_thePlayer)->FUN_00931ed0(&playerFilter);
+                    reinterpret_cast<VisibilityRef*>(::_g_thePlayer)->FUN_00931ed0(&playerFilter);
                     Filter rayFilter;
-                    rayFilter.FUN_008c71b0(0);
-                    rayFilter.FUN_004a39f0(0x25);
-                    rayFilter.FUN_0059ce80(reinterpret_cast<Filter*>(&playerFilter)->FUN_004a3a20());
+                    new ((void *)&(rayFilter)) ::GlobalObject_008c71b0(0);
+                    reinterpret_cast<::FUN_004a39f0_shell *>(&(rayFilter))->FUN_004a39f0(0x25);
+                    reinterpret_cast<::FUN_0059ce80_shell *>(&(rayFilter))->FUN_0059ce80(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((reinterpret_cast<Filter*>(&playerFilter)))->FUN_004a3a20());
                     rayQuery.FUN_004a3f70(rayFilter.bits);
                     NiPoint3 maxBounds;
                     NiPoint3 minBounds;
                     float height = other->GetBoundsMaximum(&maxBounds)->z - other->GetBoundsMinimum(&minBounds)->z;
-                    float heights[3] = {height * 0.75 + destination.z, height * 0.5 + destination.z,
-                                        height * 0.25 + destination.z};
+                    float heights[3] = {(float)(height * 0.75 + destination.z), (float)(height * 0.5 + destination.z),
+                                        (float)(height * 0.25 + destination.z)};
                     for (int i = 0; i < 3; i++)
                     {
                         destination.z = heights[i];
-                        rayQuery.FUN_004a3eb0(&destination);
-                        void* hit = g_TES->FUN_00458420(&rayQuery);
-                        VisibilityRef* hitRef = hit ? FUN_0056f930(hit) : 0;
+                        reinterpret_cast<::FUN_004a3eb0_shell *>(&(rayQuery))->FUN_004a3eb0(&destination);
+                        void* hit = (*reinterpret_cast<::fnv_0059c990::World * *>(&::g_TES))->FUN_00458420(&rayQuery);
+                        VisibilityRef* hitRef = hit ? ((::fnv_0059c990::VisibilityRef *)(::FUN_0056f930((::NiAVObject *)(hit)))) : 0;
                         if (!hit || hitRef == other)
                         {
                             visible = true;
@@ -22353,19 +21999,19 @@ bool __cdecl FUN_0059c990(TESObjectREFR* reference, void* target, void*, double&
                     if (visible)
                         result = 1.0;
                     else
-                        result = actor->FUN_0088b880(0, other, 1, 0, 0);
+                        result = reinterpret_cast<::SightActor *>((actor))->FUN_0088b880(0, (::SightActor *)(other), 1, (int *)(0), 0);
                 }
             }
             else
             {
-                result = actor->FUN_0088b880(0, other, 1, 0, 0);
+                result = reinterpret_cast<::SightActor *>((actor))->FUN_0088b880(0, (::SightActor *)(other), 1, (int *)(0), 0);
             }
-            if (visibilityTls[0x268])
+            if (::g_tlsBlock.conditionFunctionDebug)
             {
                 if (result != 0.0)
-                    DebugLog(str_01034eb4, actor->FUN_0055d520(), other->FUN_0055d520());
+                    DebugLog(str_01034eb4, reinterpret_cast<::FUN_0055d520_shell *>((actor))->FUN_0055d520(), reinterpret_cast<::FUN_0055d520_shell *>((other))->FUN_0055d520());
                 else
-                    DebugLog(str_01034ea4, actor->FUN_0055d520(), other->FUN_0055d520());
+                    DebugLog(str_01034ea4, reinterpret_cast<::FUN_0055d520_shell *>((actor))->FUN_0055d520(), reinterpret_cast<::FUN_0055d520_shell *>((other))->FUN_0055d520());
             }
         }
     }
@@ -22375,7 +22021,6 @@ bool __cdecl FUN_0059c990(TESObjectREFR* reference, void* target, void*, double&
 
 namespace s59f890 {
 
-extern __declspec(thread) bool tls_bEchoConsole;
 
 void FUN_00703c00(const char* pcFormat, ...);
 
@@ -22390,23 +22035,18 @@ struct BoundObject : Form
 
 struct FormList
 {
-    bool FUN_005f65d0(Form* const& pkForm);
 };
 
 struct ListForm
 {
-    FormList* FUN_00500940();
 };
 
 struct Process
 {
-    BoundObject* FUN_004216f0();
 };
 
-struct Actor
+class Actor
 {
-    Process* FUN_005d43c0();
-    BoundObject* FUN_007af430();
 };
 
 static const char s_szIsInListFormat[] = "IsInList >> %0.2f";
@@ -22419,13 +22059,13 @@ bool FUN_0059f890(Actor* pkActor, ListForm* pkListArg, void* pvUnused, double* p
     ListForm* pkList = pkListArg;
     if (pkActor && pkList)
     {
-        BoundObject* pkObject = pkActor->FUN_005d43c0()->FUN_004216f0();
+        BoundObject* pkObject = ((::s59f890::BoundObject *)(::FUN_004216f0((::BaseExtraList *)(((::s59f890::Process *)(reinterpret_cast<::FUN_005d43c0_ *>((pkActor))->FUN_005d43c0()))))));
         if (!pkObject)
-            pkObject = pkActor->FUN_007af430();
-        if (pkObject && pkList->FUN_00500940()->FUN_005f65d0(pkObject))
+            pkObject = ((::s59f890::BoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkActor))->FUN_007af430()));
+        if (pkObject && reinterpret_cast<::RefList *>((((::s59f890::FormList *)(reinterpret_cast<::BGSCameraPath *>((pkList))->GetConditions()))))->FUN_005f65d0((void **)&(pkObject)))
             *pdResult = 1.0;
     }
-    if (tls_bEchoConsole)
+    if (::g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00(s_szIsInListFormat, *pdResult);
     return true;
 }
@@ -22435,8 +22075,6 @@ bool FUN_0059f890(Actor* pkActor, ListForm* pkListArg, void* pvUnused, double* p
 class TESPackage
 {
   public:
-    int GetProcedureType();
-    int GetPackType();
 };
 struct S981990
 {
@@ -22446,7 +22084,6 @@ struct ProcedureTarget
 {
     unsigned int flags;
     int type;
-    unsigned int GetFlags();
 };
 class BaseProcess
 {
@@ -22616,11 +22253,7 @@ class BaseProcess
 class ActorS : public TESObjectREFR
 {
   public:
-    BaseProcess* GetCurrentProcess() const;
-    TESPackage* GetCurrentPackage();
 };
-extern int* DAT_011a3ff0[];
-extern __declspec(thread) bool bPrintConditionDebug;
 void DebugLog(const char*, ...);
 static const float targetTypeResults[4] = {45.0f, 21.0f, 0.0f, -1.0f};
 static const float flagResults[7] = {45.0f, 48.0f, 8.0f, 10.0f, 7.0f, 46.0f, 4.0f};
@@ -22643,14 +22276,14 @@ bool __cdecl FUN_005a1210(TESObjectREFR* reference, void* apUnused1, void* apUnu
                     BaseProcess* process;
                     {
                         int procedureIndex;
-                        if (actor && actor->GetCurrentProcess() && actor->GetCurrentPackage())
+                        if (actor && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(actor))->GetBaseTexture())) && reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0())
                         {
-                            package = actor->GetCurrentPackage();
-                            process = actor->GetCurrentProcess();
-                            procedureType = package->GetProcedureType();
+                            package = reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0();
+                            process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(actor))->GetBaseTexture()));
+                            procedureType = reinterpret_cast<::FUN_009611e0_shell *>((package))->FUN_009611e0();
                             procedureIndex = process->GetProcedureIndex();
                             procedure = DAT_011a3ff0[procedureType][procedureIndex];
-                            if (package->GetPackType() == 18)
+                            if (reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 18)
                             {
                                 S981990* specialPackage = (S981990*)package;
                                 if (specialPackage->FUN_00981990())
@@ -22795,7 +22428,7 @@ bool __cdecl FUN_005a1210(TESObjectREFR* reference, void* apUnused1, void* apUnu
                                     int targetType = target->type;
                                     if (targetType == 3)
                                     {
-                                        unsigned int flagIndex = target->GetFlags() + 1;
+                                        unsigned int flagIndex = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((target))->GetName())) + 1;
                                         if (flagIndex < 7)
                                             result = flagResults[flagIndex];
                                     }
@@ -22828,7 +22461,7 @@ bool __cdecl FUN_005a1210(TESObjectREFR* reference, void* apUnused1, void* apUnu
             }
         }
     }
-    if (bPrintConditionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("Procedure >> %0.2f", result);
     return true;
 }
@@ -22841,8 +22474,6 @@ struct Sub
 
 struct Obj
 {
-    int Pred();
-    Sub* GetSub();
 };
 
 struct AudioTlsState
@@ -22851,7 +22482,6 @@ struct AudioTlsState
     unsigned char logEnabled;
 };
 
-extern __declspec(thread) AudioTlsState g_threadData;
 
 void Log(const char* fmt, ...);
 
@@ -22861,18 +22491,18 @@ bool FUN_005a0b60(Obj* obj, int aiUnused1, int aiUnused2, double* out)
 {
     *out = 0.0;
     Obj* sel = 0;
-    typedef unsigned char(__thiscall * VFn)(Obj*);
+    typedef unsigned char(* VFn)(Obj*);
     if (obj != 0 && ((VFn)((void**)(*(void**)obj))[64])(obj))
     {
         sel = obj;
     }
     if (sel != 0)
     {
-        if (sel->Pred() != 0)
+        if (((std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((sel))->GetBaseTexture())) != 0)
         {
-            if (sel->GetSub() != 0)
+            if (((::fnv_005a0b60::Sub *)(reinterpret_cast<::FUN_009344a0_shell *>((sel))->FUN_009344a0())) != 0)
             {
-                switch (sel->GetSub()->Index())
+                switch (reinterpret_cast<struct ::FUN_0041ca90 *>((((::fnv_005a0b60::Sub *)(reinterpret_cast<::FUN_009344a0_shell *>((sel))->FUN_009344a0()))))->get())
                 {
                 case 0:
                     *out = 0.0;
@@ -22974,7 +22604,7 @@ bool FUN_005a0b60(Obj* obj, int aiUnused1, int aiUnused2, double* out)
             }
         }
     }
-    if (g_threadData.logEnabled)
+    if (::g_tlsBlock.conditionFunctionDebug)
     {
         Log("Current Process >> %0.2f", *out);
     }
@@ -22983,17 +22613,12 @@ bool FUN_005a0b60(Obj* obj, int aiUnused1, int aiUnused2, double* out)
 }  // namespace fnv_005a0b60
 
 void __cdecl DebugLog(char const*, ...);
-int __fastcall _FNV_GetFormType(TESForm*);
-extern __declspec(thread) bool bPrintConditionDebug;
+int _FNV_GetFormType(TESForm*);
 struct GetInFactionCache_0059f630
 {
-    static int DAT_011cab00;
-    static int DAT_011cab04;
-    static float DAT_011cab08;
 };
 struct GetInFactionActor_0059f630
 {
-    bool HasFaction(TESForm*);
 };
 // Checks if apRefObject is in the faction apParam1, using a static cache to avoid repeated HasFaction calls, and writes the result to afReturnValue.
 // @fnv 0x0059f630
@@ -23003,10 +22628,10 @@ bool FUN_0059f630(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     TESForm* pfac = 0;
     if (apParam1 && _FNV_GetFormType((TESForm*)apParam1) == 8)
         pfac = (TESForm*)apParam1;
-    if ((int)apRefObject == GetInFactionCache_0059f630::DAT_011cab04 &&
-        (int)pfac == GetInFactionCache_0059f630::DAT_011cab00)
+    if ((int)(std::uintptr_t)apRefObject == ::fnv_005a38e0::DAT_011cab04 &&
+        (int)(std::uintptr_t)pfac == ::fnv_005a38e0::DAT_011cab00)
     {
-        *afReturnValue = GetInFactionCache_0059f630::DAT_011cab08;
+        *afReturnValue = ::fnv_005a38e0::DAT_011cab08;
     }
     else
     {
@@ -23015,13 +22640,13 @@ bool FUN_0059f630(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             pact = (GetInFactionActor_0059f630*)apRefObject;
         if (!pact)
             return true;
-        if (pact->HasFaction(pfac))
+        if (reinterpret_cast<::fnv_008b8e90::FUN_008b8e90_shell *>((pact))->FUN_008b8e90((::fnv_008b8e90::TESFaction *)(pfac)))
             *afReturnValue = 1.0;
-        GetInFactionCache_0059f630::DAT_011cab04 = (int)apRefObject;
-        GetInFactionCache_0059f630::DAT_011cab00 = (int)pfac;
-        GetInFactionCache_0059f630::DAT_011cab08 = *afReturnValue;
+        ::fnv_005a38e0::DAT_011cab04 = (int)(std::uintptr_t)apRefObject;
+        ::fnv_005a38e0::DAT_011cab00 = (int)(std::uintptr_t)pfac;
+        ::fnv_005a38e0::DAT_011cab08 = *afReturnValue;
     }
-    if (bPrintConditionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetInFaction >> %0.2f", *afReturnValue);
     return true;
 }
@@ -23034,19 +22659,17 @@ static bool __cdecl InFactionConditionForPlayerCallee(TESObjectREFR* reference, 
 // @fnv 0x0059f790
 bool __cdecl FUN_0059f790(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
-    return InFactionConditionForPlayerCallee((TESObjectREFR*)g_thePlayer, arg1, arg2, result);
+    return InFactionConditionForPlayerCallee((TESObjectREFR*)::_g_thePlayer, arg1, arg2, result);
 }
 
 class ActorBarterGoldEntry5A : public Actor
 {
   public:
-    unsigned int FUN_00884320();
 };
 
 extern void __cdecl _DebugLog(const char* format, ...);
 extern int __tls_index;
 
-static __declspec(thread) unsigned char tlsBuffer[0x269];
 
 // Stores FUN_00884320() in afReturnValue for an actor and logs the value when tlsBuffer[0x268] is set.
 // @fnv 0x005a2ba0
@@ -23064,12 +22687,12 @@ bool FUN_005a2ba0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
 
     if (pactor)
     {
-        afReturnValue = reinterpret_cast<ActorBarterGoldEntry5A*>(pactor)->FUN_00884320();
+        afReturnValue = reinterpret_cast<::ActorView *>((reinterpret_cast<ActorBarterGoldEntry5A*>(pactor)))->FUN_00884320();
 
-        if (tlsBuffer[0x268])
+        if (::g_tlsBlock.conditionFunctionDebug)
         {
             _DebugLog("%s  has %d barter gold currently", pactor,
-                      reinterpret_cast<ActorBarterGoldEntry5A*>(pactor)->FUN_00884320());
+                      reinterpret_cast<::ActorView *>((reinterpret_cast<ActorBarterGoldEntry5A*>(pactor)))->FUN_00884320());
         }
     }
 
@@ -23120,7 +22743,6 @@ struct VoiceCondition59f450Actor : TESForm
 };
 struct VoiceCondition59f450Activator
 {
-    BGSVoiceType* FUN_009185e0();
 };
 struct VoiceCondition59f450Thread
 {
@@ -23280,7 +22902,6 @@ struct VoiceCondition59f450Thread
     unsigned int unk264;
     bool bLog;
 };
-extern __declspec(thread) VoiceCondition59f450Thread voiceCondition59f450Thread;
 
 // Compares the selected voice type with apParam1 and stores the reference and voice type in two globals for reuse.
 // @fnv 0x0059f450
@@ -23296,29 +22917,29 @@ bool __cdecl FUN_0059f450(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         }
         else
         {
-            switch (::_FNV_GetFormType(reinterpret_cast< ::TESForm*>(apRefObject->GetObjectReference())))
+            switch (::_FNV_GetFormType(reinterpret_cast< ::TESForm*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefObject))->FUN_007af430())))))
             {
             case 0x2a:
             case 0x2b: {
                 VoiceCondition59f450Actor* pab =
-                    reinterpret_cast<VoiceCondition59f450Actor*>(apRefObject->GetObjectReference());
+                    reinterpret_cast<VoiceCondition59f450Actor*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefObject))->FUN_007af430())));
                 pcompvoice = pab->data.GetVoiceType();
             }
             break;
             case 0x16: {
                 VoiceCondition59f450Activator* pta =
-                    reinterpret_cast<VoiceCondition59f450Activator*>(apRefObject->GetObjectReference());
-                pcompvoice = pta->FUN_009185e0();
+                    reinterpret_cast<VoiceCondition59f450Activator*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefObject))->FUN_007af430())));
+                pcompvoice = ((::BGSVoiceType *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>((pta))->GetActorStateFlags()));
             }
             break;
             }
-            ::fnv_005a38e0::DAT_011cab18 = reinterpret_cast<int>(apRefObject);
-            ::fnv_005a38e0::DAT_011cab14 = reinterpret_cast<int>(pcompvoice);
+            ::fnv_005a38e0::DAT_011cab18 = (int)(std::uintptr_t)(apRefObject);
+            ::fnv_005a38e0::DAT_011cab14 = (int)(std::uintptr_t)(pcompvoice);
         }
         if (pcompvoice == apParam1)
             *afReturnValue = 1.0;
     }
-    if (voiceCondition59f450Thread.bLog)
+    if (::g_tlsBlock.conditionFunctionDebug)
         ::DebugLog("GetIsVoiceType >> %0.2f", *afReturnValue);
     return true;
 }
@@ -23326,7 +22947,6 @@ bool __cdecl FUN_0059f450(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 class MiddleHighProcess : public BaseProcess
 {
 };
-extern __declspec(thread) bool bPrintConditionDebug;
 
 struct P01Proc
 {
@@ -23601,7 +23221,7 @@ bool FUN_005a08c0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         pactor = (Actor*)apRefObject;
     if (pactor)
     {
-        MiddleHighProcess* pprocess = dynamic_cast<MiddleHighProcess*>((BaseProcess*)((TES*)pactor)->GetLogDate());
+        MiddleHighProcess* pprocess = dynamic_cast<MiddleHighProcess*>((BaseProcess*)((::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())));
         if (pprocess)
         {
             switch (((P01Proc*)pprocess)->StopIdleAnimation())
@@ -23618,7 +23238,94 @@ bool FUN_005a08c0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             }
         }
     }
-    if (bPrintConditionDebug)
+    if (::g_tlsBlock.conditionFunctionDebug)
         DebugLog("Get Knocked State >> %0.2f", *afReturnValue);
     return true;
 }
+
+class Actor_decl
+{
+  public:
+};
+
+class TESWorldSpace
+{
+  public:
+};
+
+// @fnv 0x0059c010
+bool __cdecl FUN_0059c010(TESObjectREFR* reference, void* parameter, void* unused, double& result)
+{
+    result = 0.0;
+    void* zone = parameter;
+    if (reference && zone)
+    {
+        void* found = 0;
+        TESObjectCELL* cell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reference))->GetTarget()));
+        if (cell)
+            found = ((void *)(cell->FindEncounterZone()));
+        if (!found)
+        {
+            TESWorldSpace* world = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((reference))->FUN_00575d70()));
+            if (world)
+                found = ((void *)(reinterpret_cast<::FUN_00458400_cls *>((world))->GetFieldD0()));
+        }
+        if (found == zone)
+            result = 1.0;
+    }
+    if (::g_tlsBlock.conditionFunctionDebug)
+        DebugLog("GetInZone >> %0.2f", result);
+    return true;
+}
+
+extern PlayerCharacter* g_thePlayer;
+
+class Actor_o2
+{
+  public:
+    bool IsEssentialActor();
+    std::uintptr_t GetActorStateFlags() const;
+    BooleanFloatQuery* RefreshActorRuntimeData();
+};
+
+bool __cdecl GetEssentialConditionFunction(TESObjectREFR* reference, void* arg1, void* arg2, double& result);
+
+bool __cdecl IsPlayerEnteringSpaceConditionFunction(TESObjectREFR* reference, void* arg1, void* arg2, double& result);
+
+bool GetLastHitLocationConditionFunction(TESObjectREFR* reference, void* arg1, void* arg2, double& result);
+
+class Actor_rtm
+{
+  public:
+};
+
+namespace s59e490 {
+
+
+void FUN_00703c00(const char* pcFormat, ...);
+
+struct Quest
+{
+};
+
+static const char s_szGetStageDoneFormat[] = "GetStageDone >> %0.2f";
+
+// @fnv 0x0059e490
+bool FUN_0059e490(void* pvThisObj, Quest* pkQuestArg, unsigned int uiStage, double* pdResult)
+{
+    Quest* pkQuest;
+    unsigned int uiStageIndex;
+
+    *pdResult = 0.0;
+    pkQuest = pkQuestArg ? pkQuestArg : 0;
+    uiStageIndex = uiStage;
+    if (pkQuest && reinterpret_cast<::TESQuest *>((pkQuest))->HasStage((unsigned char)uiStageIndex))
+        *pdResult = 1.0;
+    if (::g_tlsBlock.conditionFunctionDebug)
+        FUN_00703c00(s_szGetStageDoneFormat, *pdResult);
+    return true;
+}
+
+}
+
+#include "generated/data/fallout_shared/tesconditionfunctions.inc"

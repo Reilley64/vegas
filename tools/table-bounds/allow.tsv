@@ -1,0 +1,2 @@
+# Reads past the end of a generated table that are known and still open
+# (VEGAS-30, docs/table-slot-reads.md). Format: README.md.

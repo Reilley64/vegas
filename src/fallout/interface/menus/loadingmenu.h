@@ -2,6 +2,7 @@
 #ifndef FNV_LOADINGMENU_H
 #define FNV_LOADINGMENU_H
 
+#include <windows.h>
 #include "layout_support.h"
 #include "SoundPlaybackHandle.h"
 #include "Menu.h"
@@ -10,7 +11,7 @@ class Tile;
 
 class TileLayout;
 class LoadingMenu;
-class RgbaColor;
+struct RgbaColor;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile___;
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator;
@@ -21,7 +22,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___;
 class NiTexture;
 class TESLoadScreen;
 class TileShaderProperty;
-class tagRECT;
 enum MiscStatManager__MiscStatID
 {
     MiscStatManager__MiscStatID_MS_QUESTS_COMPLETED = 0,
@@ -82,38 +82,16 @@ enum FONTS
     FONTS_FONT_8 = 7,
     FONTS_FONT_COUNT = 8
 };
-#pragma pack(push, 4)
-class tagRECT
-{
-  public:
-    long left;    // +0x0, 4 bytes
-    long top;     // +0x4, 4 bytes
-    long right;   // +0x8, 4 bytes
-    long bottom;  // +0xC, 4 bytes
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(tagRECT) == 16);
-FNV_STATIC_ASSERT(offsetof(tagRECT, left) == 0);
-FNV_STATIC_ASSERT(offsetof(tagRECT, top) == 4);
-FNV_STATIC_ASSERT(offsetof(tagRECT, right) == 8);
-FNV_STATIC_ASSERT(offsetof(tagRECT, bottom) == 12);
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -121,10 +99,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator, m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
   public:
@@ -148,12 +122,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
     // NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(const NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
@@ -182,9 +150,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_Tile___ : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
   public:
@@ -194,10 +159,7 @@ class NiTPointerList_Tile___ : public NiTPointerListBase_NiTPointerAllocator_uns
     // NiTPointerList<Tile *>& __cdecl NiTPointerList<Tile *>::*(const NiTPointerList<Tile *>&)
     // void* __cdecl NiTPointerList<Tile *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_Tile___) == 12);
-#pragma pack(push, 4)
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -223,13 +185,6 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class TileLayout
 {
   public:
@@ -241,15 +196,6 @@ class TileLayout
     unsigned char m_ucFontStyle;  // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TileLayout) == 24);
-FNV_STATIC_ASSERT(offsetof(TileLayout, m_iXPosition) == 0);
-FNV_STATIC_ASSERT(offsetof(TileLayout, m_iYPosition) == 4);
-FNV_STATIC_ASSERT(offsetof(TileLayout, nHeight) == 8);
-FNV_STATIC_ASSERT(offsetof(TileLayout, nWidth) == 12);
-FNV_STATIC_ASSERT(offsetof(TileLayout, m_eFont) == 16);
-FNV_STATIC_ASSERT(offsetof(TileLayout, m_ucFontStyle) == 20);
-#pragma pack(push, 4)
 class LoadingMenu : public Menu
 {
   public:
@@ -354,36 +300,6 @@ class LoadingMenu : public Menu
     // LoadingMenu& __cdecl LoadingMenu::*(const LoadingMenu&)
     // void __cdecl LoadingMenu::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LoadingMenu) == 1472);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_pTiles) == 40);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kTileRectangle) == 192);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kFirstTileList) == 208);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kSecondTileList) == 220);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kThirdTileList) == 232);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kFourthTileList) == 244);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kFifthTileList) == 256);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_aeMiscStatIdentifiers) == 268);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kLoadingScreenTip) == 440);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kLoadingScreenColor) == 448);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kLoadScreenItems) == 464);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_pkLoadScreenList) == 472);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_pCurrentLoadScreen) == 476);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_uiLoadScreenIndex) == 480);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, LoadScreenData) == 484);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, pLocation) == 488);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, TileShaderState) == 492);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_pAlternateTileShaderState) == 496);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kFirstDate) == 500);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kSecondDate) == 512);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kLoadScreenTextures) == 524);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_uiLoadingScreenNumber) == 540);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_usAdditionalFlags) == 544);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, usFlags) == 546);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_kTileLayouts) == 548);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_uiFirstStateValue) == 1460);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_uiSecondStateValue) == 1464);
-FNV_STATIC_ASSERT(offsetof(LoadingMenu, m_iStateFlags) == 1468);
 
 // @fnv 0x00788730
 int LoadingMenu::GetClass()

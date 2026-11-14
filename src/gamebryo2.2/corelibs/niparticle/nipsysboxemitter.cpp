@@ -1,11 +1,27 @@
 // gamebryo2.2/corelibs/niparticle/nipsysboxemitter.cpp: NiPSysEmitter, NiPSysBoxEmitter, EmitterHack, BoxViewer and more (13 functions)
 
+#include <new>
+#include <cstdlib>
+#include "fnv/decl/FUN_00c31af0.h"
+#include "fnv/decl/FUN_00c31b80_This.h"
+#include "fnv/decl/FUN_00c31c90_shell.h"
+#include "fnv/decl/FUN_00c31db0_cls.h"
+#include "fnv/decl/NiPSysBoxEmitterWrapper.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/Stub_00c31b60.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysboxemitter_decls.h"
 // Constructs a NiPSysEmitter, initializing speed, declination, planar angle, color, radius, lifespan and unknown to their defaults.
 // @fnv 0x00c21f00
 NiPSysEmitter::NiPSysEmitter()
     : speed(0.0f), speedVar(0.0f), declination(0.0f), declinationVar(0.0f), planarAngle(0.0f), planarAngleVar(0.0f),
-      color(DAT_011a9be0), radius(1.0f), radiusVar(0.0f), lifespan(0.0f), lifespanVar(0.0f), unknown(1.0f)
+      color((*reinterpret_cast<::RgbaColor *>(&::DAT_011a9be0))), radius(1.0f), radiusVar(0.0f), lifespan(0.0f), lifespanVar(0.0f), unknown(1.0f)
 {}
 // Loads the box emitter's width, height and depth floats from the stream after the base volume emitter data.
 // @fnv 0x00c203b0
@@ -20,28 +36,25 @@ void NiPSysBoxEmitter::LoadBinary(NiStream& stream)
 struct GlobalObjectO2_00a7b618
 {
 };
-extern GlobalObjectO2_00a7b618 g_01202518;
 
 // @fnv 0x00c201c0
 GlobalObjectO2_00a7b618* __cdecl FUN_00c201c0()
 {
-    return &g_01202518;
+    return &(*reinterpret_cast<::GlobalObjectO2_00a7b618 *>(&::g_01202518));
 }
 
 extern int DAT_010bda2c;
 struct BSFadeNode
 {
-    void* operator new(unsigned int);
-    void FUN_00c31af0();
 };
 // Allocates a 100-byte BSFadeNode, runs its constructor, zeroes the floats at offsets 0x58-0x60, sets its vtable, and returns it (or null).
 // @fnv 0x00c20350
 BSFadeNode* __cdecl FUN_00c20350()
 {
-    BSFadeNode* node = (BSFadeNode*)BSFadeNode::operator new(100);
+    BSFadeNode* node = (BSFadeNode*)::operator new(100);
     if (node)
     {
-        node->FUN_00c31af0();
+        new ((void *)(node)) ::FUN_00c31af0();
         *(float*)((char*)node + 0x58) = 0.0f;
         *(void**)((char*)node + 0) = &DAT_010bda2c;
         *(float*)((char*)node + 0x5c) = 0.0f;
@@ -51,25 +64,22 @@ BSFadeNode* __cdecl FUN_00c20350()
     return 0;
 }
 
-void __cdecl FUN_00c31750();
-void __cdecl _delete(void*, unsigned int);
-struct S
+struct S_00c20390
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 // @fnv 0x00c20390
-void* __thiscall S::DestroyIfFlagged(unsigned int uiFlags)
+void* S_00c20390::DestroyIfFlagged(unsigned int uiFlags)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (uiFlags & 1)
-        _delete(this, 0x64);
+        ::FUN_00aa1460(this, 0x64);
     return this;
 }
 
 struct NiObject;
 struct BaseHack
 {
-    bool FUN_00c31b80(NiObject*);
 };
 struct EmitterHack
 {
@@ -84,7 +94,7 @@ struct EmitterHack
 bool EmitterHack::IsEqual(NiObject* pkObject)
 {
     EmitterHack* pkDest = (EmitterHack*)pkObject;
-    if (((BaseHack*)this)->FUN_00c31b80(pkObject) && m_fValueAtOffset58 == pkDest->m_fValueAtOffset58 &&
+    if (reinterpret_cast<::FUN_00c31b80_This *>((((BaseHack*)this)))->FUN_00c31b80(pkObject) && m_fValueAtOffset58 == pkDest->m_fValueAtOffset58 &&
         m_fCylinderHeight == pkDest->m_fCylinderHeight && m_fValueAtOffset60 == pkDest->m_fValueAtOffset60)
         return true;
     return false;
@@ -100,12 +110,10 @@ struct CloningProcess
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00c1ffa0_s
 {
-    void* __thiscall FUN_00c31b10(BSFadeNode*, void*);
 };
 
 struct NiPSysBoxEmitter_shell
@@ -114,16 +122,16 @@ struct NiPSysBoxEmitter_shell
     float m_fValueAtOffset58;
     float m_fCylinderHeight;
     float m_fValueAtOffset60;
-    NiObject* __thiscall Clone(CloningProcess& kCloning);
+    NiObject* Clone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c202f0
 NiObject* NiPSysBoxEmitter_shell::Clone(CloningProcess& kCloning)
 {
-    BSFadeNode* pkObject = (BSFadeNode*)A51BF0Base::operator new(0x64);
+    BSFadeNode* pkObject = (BSFadeNode*)::operator new(0x64);
     if (pkObject)
     {
-        pkObject->FUN_00c31af0();
+        new ((void *)(pkObject)) ::FUN_00c31af0();
         *(float*)((char*)pkObject + 0x58) = 0.0f;
         *(void**)pkObject = (void*)&DAT_010bda2c;
         *(float*)((char*)pkObject + 0x5c) = 0.0f;
@@ -133,7 +141,7 @@ NiObject* NiPSysBoxEmitter_shell::Clone(CloningProcess& kCloning)
     {
         pkObject = 0;
     }
-    ((FUN_00c1ffa0_s*)this)->FUN_00c31b10(pkObject, &kCloning);
+    reinterpret_cast<::NiPSysBoxEmitterWrapper *>((((FUN_00c1ffa0_s*)this)))->FUN_00c31b10((::NiPSysModifier *)(pkObject), (*(::CloningProcess *)(&kCloning)));
     *(float*)((char*)pkObject + 0x58) = m_fValueAtOffset58;
     *(float*)((char*)pkObject + 0x5c) = m_fCylinderHeight;
     *(float*)((char*)pkObject + 0x60) = m_fValueAtOffset60;
@@ -167,7 +175,6 @@ struct NiPSysVolumeEmitterStand
 {
     void* vtable;
     char unk04[0x50];
-    void LoadStream(NiStream& stream);
 };
 
 struct FUN_00c20440_cls : NiPSysBoxEmitter
@@ -179,7 +186,7 @@ struct FUN_00c20440_cls : NiPSysBoxEmitter
 // @fnv 0x00c20440
 void FUN_00c20440_cls::FUN_00c20440(NiStream& stream)
 {
-    reinterpret_cast<NiPSysVolumeEmitterStand*>(this)->LoadStream(stream);
+    reinterpret_cast<::Stub_00c31b60 *>((reinterpret_cast<NiPSysVolumeEmitterStand*>(this)))->FUN_00c31b60((void *)&(stream));
     BoxEmitterStreamView* s = reinterpret_cast<BoxEmitterStreamView*>(&stream);
     s->m_pUnderlyingStream->Load(&width);
     s->m_pUnderlyingStream->Load(&height);
@@ -191,25 +198,19 @@ struct StrArr
     void* vtable;
     char** data;
     unsigned short capacity, size, used, grow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Add(char* value)
     {
         unsigned int index = size;
         if (index >= capacity)
-            SetSize(index + grow);
-        SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + grow);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 };
-extern const char* DAT_01202518;
 extern const char DAT_0109dc8c[];
 extern const char DAT_0109dc84[];
 extern const char DAT_010a0eb4[];
-char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d550(const char*, float);
 struct VolumeViewer : NiPSysVolumeEmitter
 {
-    void FUN_00c31db0(StrArr*);
 };
 struct BoxViewer : NiPSysBoxEmitter
 {
@@ -219,8 +220,8 @@ struct BoxViewer : NiPSysBoxEmitter
 // @fnv 0x00c204d0
 void BoxViewer::FUN_00c204d0(StrArr* strings)
 {
-    ((VolumeViewer*)this)->FUN_00c31db0(strings);
-    strings->Add(FUN_00a7d330(DAT_01202518));
+    reinterpret_cast<::FUN_00c31db0_cls *>((((VolumeViewer*)this)))->FUN_00c31db0((::NameArray_b9457 *)(strings));
+    strings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01202518))));
     strings->Add(FUN_00a7d550(DAT_0109dc8c, width));
     strings->Add(FUN_00a7d550(DAT_0109dc84, height));
     strings->Add(FUN_00a7d550(DAT_010a0eb4, depth));
@@ -240,24 +241,20 @@ void FUN_00c1fdd0::FUN_00c2f4f0(int a)
     ((FUN_00c61f60_class*)this)->FUN_00c2f4f0(a);
 }
 
-void __cdecl FUN_00c31c90();
 // @fnv 0x00c20150
 void __cdecl FUN_00c20150()
 {
-    FUN_00c31c90();
+    static_cast<::FUN_00c31c90_shell *>(nullptr)->FUN_00c31c90({});
 }
 
-extern void __cdecl FUN_00c31b40();
 
 // @fnv 0x00c20160
 void __cdecl FUN_00c20160()
 {
-    FUN_00c31b40();
+    static_cast<::NiPSysVolumeEmitter *>(nullptr)->LinkObject(*(::NiStream *)nullptr);
 }
 
 namespace fnv_00c201d0 {
-int __cdecl rand();
-extern double DAT_01029790;
 
 struct NiPoint3
 {
@@ -291,9 +288,9 @@ struct BoxEmitterInit : NiPSysBoxEmitter
 // @fnv 0x00c201d0
 void BoxEmitterInit::FUN_00c201d0(const ThreeByThreeMatrix& kRot, NiPoint3& kPos, NiPoint3& kWorldPosition)
 {
-    float fX = rand() / DAT_01029790;
-    float fY = rand() / DAT_01029790;
-    float fZ = rand() / DAT_01029790;
+    float fX = std::rand() / ::DAT_01029790;
+    float fY = std::rand() / ::DAT_01029790;
+    float fZ = std::rand() / ::DAT_01029790;
     kPos = NiPoint3((fZ - 0.5f) * width, (fY - 0.5f) * height, (fX - 0.5f) * depth);
     kPos = kRot * kPos;
     kWorldPosition = NiPoint3(kRot.m_aRows[0].Dot(kWorldPosition),
@@ -302,3 +299,5 @@ void BoxEmitterInit::FUN_00c201d0(const ThreeByThreeMatrix& kRot, NiPoint3& kPos
                               kRot.m_aRows[2].Dot(kWorldPosition));
 }
 }  // namespace fnv_00c201d0
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysboxemitter.inc"

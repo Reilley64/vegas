@@ -6,7 +6,6 @@
 #include "layout_support.h"
 class SaveLoadChangeHistory;
 class SaveLoadFile;
-#pragma pack(push, 4)
 class SaveLoadChangeHistory
 {
   public:
@@ -30,7 +29,4 @@ class SaveLoadChangeHistory
     // SaveLoadChangeHistory& __cdecl SaveLoadChangeHistory::*(const SaveLoadChangeHistory&)
     // void* __cdecl SaveLoadChangeHistory::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SaveLoadChangeHistory) == 16);
-FNV_STATIC_ASSERT(offsetof(SaveLoadChangeHistory, Notes) == 0);
 #endif

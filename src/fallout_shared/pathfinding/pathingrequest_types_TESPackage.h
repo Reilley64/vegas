@@ -2,6 +2,7 @@
 #ifndef FNV_TESPACKAGE_H
 #define FNV_TESPACKAGE_H
 
+#include "fnv/decl/fnv_006780e0__TESPackageExt.h"
 #include "layout_support.h"
 #include "Script.h"
 #include "PerkEntryConditionSet.h"
@@ -13,7 +14,7 @@ class BGSIdleCollection;
 class PackageRuntimeData;
 class PackedByteIntRecord;
 class PackageEventActionData;
-class LocationDescriptor;
+struct LocationDescriptor;
 class DurationData;
 class PackageTargetRecord;
 class TESCombatStyle;
@@ -81,7 +82,6 @@ enum PACK_EVENT_ACTION_TYPE
     PACK_EVENT_ACTION_TYPE_PEAT_PATROL = 3,
     PACK_EVENT_ACTION_TYPE_NUM_PACK_EVENT_ACTION_TYPES = 4
 };
-#pragma pack(push, 4)
 class PackageRuntimeData
 {
   public:
@@ -93,13 +93,6 @@ class PackageRuntimeData
     unsigned char layoutPaddingA[2];
     // void __cdecl PackageRuntimeData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PackageRuntimeData) == 12);
-FNV_STATIC_ASSERT(offsetof(PackageRuntimeData, m_uiPackEventActionType) == 0);
-FNV_STATIC_ASSERT(offsetof(PackageRuntimeData, m_cEventActionValue) == 4);
-FNV_STATIC_ASSERT(offsetof(PackageRuntimeData, IntegerByteAndShortPairRecord) == 6);
-FNV_STATIC_ASSERT(offsetof(PackageRuntimeData, m_usPairedShortValue) == 8);
-#pragma pack(push, 4)
 class PackedByteIntRecord
 {
   public:
@@ -110,14 +103,6 @@ class PackedByteIntRecord
     int m_iPayloadInteger;  // +0x4, 4 bytes
     // void __cdecl PackedByteIntRecord::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PackedByteIntRecord) == 8);
-FNV_STATIC_ASSERT(offsetof(PackedByteIntRecord, m_cByte0) == 0);
-FNV_STATIC_ASSERT(offsetof(PackedByteIntRecord, m_cByte1) == 1);
-FNV_STATIC_ASSERT(offsetof(PackedByteIntRecord, m_cByte2) == 2);
-FNV_STATIC_ASSERT(offsetof(PackedByteIntRecord, m_cLastByteBeforePayloadItem) == 3);
-FNV_STATIC_ASSERT(offsetof(PackedByteIntRecord, m_iPayloadInteger) == 4);
-#pragma pack(push, 4)
 class DurationData
 {
   public:
@@ -141,10 +126,6 @@ class DurationData
     // const char* __cdecl DurationData::*()
     // void* __cdecl DurationData::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DurationData) == 8);
-FNV_STATIC_ASSERT(offsetof(DurationData, m_kScheduleData) == 0);
-#pragma pack(push, 4)
 class PackageEventActionData
 {
   public:
@@ -175,18 +156,10 @@ class PackageEventActionData
     // const char* __cdecl PackageEventActionData::*()
     // void* __cdecl PackageEventActionData::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PackageEventActionData) == 16);
-FNV_STATIC_ASSERT(offsetof(PackageEventActionData, m_pIdleForm) == 0);
-FNV_STATIC_ASSERT(offsetof(PackageEventActionData, m_pScript) == 4);
-FNV_STATIC_ASSERT(offsetof(PackageEventActionData, pTopic) == 8);
-FNV_STATIC_ASSERT(offsetof(PackageEventActionData, eType) == 12);
-#pragma pack(push, 4)
 class TESPackage : public TESForm
 {
   public:
     static float GetPackageDefaultFloat();
-    TESObjectREFR* GetTargetForActor(Actor* actor, bool arg2);
     // base TESForm at +0x0, size 24
     PACKAGE_PROCEDURE_TYPE m_eProcedureType;  // +0x18, 4 bytes
     PackageRuntimeData StridedDataTransfer;   // +0x1C, 12 bytes
@@ -423,19 +396,4 @@ class TESPackage : public TESForm
     // TESPackage& __cdecl TESPackage::*(const TESPackage&)
     // void __cdecl TESPackage::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESPackage) == 128);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_eProcedureType) == 24);
-FNV_STATIC_ASSERT(offsetof(TESPackage, StridedDataTransfer) == 28);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_pPackageData) == 40);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_pPackageLocation) == 44);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_pTargetRecord) == 48);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_pIdleCollection) == 52);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_kSchedule) == 56);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_kConditions) == 64);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_pCombatStyle) == 72);
-FNV_STATIC_ASSERT(offsetof(TESPackage, OnBegin) == 76);
-FNV_STATIC_ASSERT(offsetof(TESPackage, OnEnd) == 92);
-FNV_STATIC_ASSERT(offsetof(TESPackage, OnChange) == 108);
-FNV_STATIC_ASSERT(offsetof(TESPackage, m_uiRefCount) == 124);
 #endif

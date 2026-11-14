@@ -2,6 +2,22 @@
 // src/fallout/magic/nighteyeeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/nighteyeeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include "fnv/decl/ActiveEffect805670.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_004ebbc0_shell.h"
+#include "fnv/decl/FUN_0055f5b0_Class.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/ImageSpaceManager.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00804000.h"
+#include "fnv/symbols_00825000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f9000.h"
 struct ValueModifierEffect
 {
     void Update(float);
@@ -40,16 +56,12 @@ FUN_00825710::FUN_00825710(void* apArg1, void* apArg2, void* apArg3) : ValueModi
 }  // namespace fnv_00825710
 
 struct PC7d;
-extern PC7d* g_thePlayer;
-void __fastcall FUN_00804cb0(void*, float);
 void UpdateImageSpaceEffectFromPlayerState();
 struct FUN_0082a670_shell
 {
-    void FUN_0082c000();
 };
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct VirtualObj
 {
@@ -64,18 +76,15 @@ struct NightEyeEffect
 void NightEyeEffect::FUN_00825810()
 {
     FUN_00804cb0(this, 1.0f);
-    ((FUN_0082a670_shell*)this)->FUN_0082c000();
-    if (((VirtualObj*)((BSThread*)this)->GetThreadID())->f1() == g_thePlayer)
+    reinterpret_cast<::FUN_0082c000_shell *>((((FUN_0082a670_shell*)this)))->FUN_0082c000();
+    if (((VirtualObj*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->f1() == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
         UpdateImageSpaceEffectFromPlayerState();
 }
 
 namespace fnv_00825860 {
 struct PC7d;
-extern PC7d* g_thePlayer;
-void UpdateImageSpaceEffectFromPlayerState();
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct RetObj
 {
@@ -84,7 +93,6 @@ struct RetObj
 };
 struct Helper082c810
 {
-    void ApplyEffect();
 };
 struct NightEyeEffect : ValueModifierEffect
 {
@@ -93,21 +101,18 @@ struct NightEyeEffect : ValueModifierEffect
 // @fnv 0x00825860
 void NightEyeEffect::FUN_00825860()
 {
-    ((Helper082c810*)this)->ApplyEffect();
-    if (((RetObj*)((BSThread*)this)->GetThreadID())->f1() == g_thePlayer)
-        UpdateImageSpaceEffectFromPlayerState();
+    reinterpret_cast<::Cls *>((((Helper082c810*)this)))->ApplyEffect();
+    if (((RetObj*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->f1() == (*reinterpret_cast<::fnv_00825860::PC7d * *>(&::_g_thePlayer)))
+        ::UpdateImageSpaceEffectFromPlayerState();
 }
 }  // namespace fnv_00825860
 
 namespace fnv_00825920 {
-struct Actor;
+class Actor;
 struct PC7d;
-extern PC7d* g_thePlayer;
-struct ActiveEffect
+class ActiveEffect
 {
-    void InitLoadGame(Actor*);
 };
-void __cdecl UpdateImageSpaceEffectFromPlayerState();
 struct NightEyeEffect : ActiveEffect
 {
     void FUN_00825920(Actor* apActor);
@@ -116,25 +121,20 @@ struct NightEyeEffect : ActiveEffect
 // @fnv 0x00825920
 void NightEyeEffect::FUN_00825920(Actor* apActor)
 {
-    ActiveEffect::InitLoadGame(apActor);
-    if ((void*)apActor == (void*)g_thePlayer)
-        UpdateImageSpaceEffectFromPlayerState();
+    reinterpret_cast<::ActiveEffect805670 *>(this)->FUN_00805670((::Actor *)(apActor));
+    if ((void*)apActor == (void*)(*reinterpret_cast<::fnv_00825920::PC7d * *>(&::_g_thePlayer)))
+        ::UpdateImageSpaceEffectFromPlayerState();
 }
 }  // namespace fnv_00825920
 
 namespace fnv_00825950 {
-struct Actor;
-struct TESForm
+class Actor;
+class TESForm
 {
-    void Revert(unsigned int);
 };
 struct TESSaveLoadGame
 {
-    bool FUN_0055f5b0();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-extern Actor* g_thePlayer;
-void __cdecl UpdateImageSpaceEffectFromPlayerState();
 struct FUN_00825950_shell : TESForm
 {
     void FUN_00825950(Actor* apActor);
@@ -143,9 +143,9 @@ struct FUN_00825950_shell : TESForm
 // @fnv 0x00825950
 void FUN_00825950_shell::FUN_00825950(Actor* apActor)
 {
-    Revert(reinterpret_cast<unsigned int>(apActor));
-    if (g_TESSaveLoadGame->FUN_0055f5b0() && apActor == g_thePlayer)
-        UpdateImageSpaceEffectFromPlayerState();
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<uintptr_t>(apActor));
+    if (reinterpret_cast<::FUN_0055f5b0_Class *>(((*reinterpret_cast<::fnv_00825950::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_0055f5b0() && apActor == (*reinterpret_cast<::fnv_00825950::Actor * *>(&::_g_thePlayer)))
+        ::UpdateImageSpaceEffectFromPlayerState();
 }
 }  // namespace fnv_00825950
 
@@ -180,9 +180,8 @@ S_008258a0_Effect* FUN_008258a0(int aiArg0, int aiArg1, int aiArg2)
     return new S_008258a0_Effect(aiArg0, aiArg1, aiArg2);
 }
 
-void* operator new(unsigned int size) throw();
 
-struct ActiveEffect;
+class ActiveEffect;
 
 struct SpawnedEffect
 {
@@ -252,7 +251,6 @@ struct FUN_00825990_ImageSpaceEffect
 
 struct FUN_00825990_ImageSpaceManager
 {
-    FUN_00825990_ImageSpaceEffect* __thiscall FUN_004ebbc0(int);
 };
 
 struct FUN_00825990_PlayerBase
@@ -308,11 +306,6 @@ struct FUN_00825990_PlayerData
     FUN_00825990_PlayerBase unkA4;
 };
 
-extern FUN_00825990_ImageSpaceManager* __cdecl FUN_004e3270();
-extern float* __fastcall FUN_00403e20(float*);
-extern FUN_00825990_PlayerData* DAT_011dea3c;
-extern float DAT_011d1668;
-extern float DAT_011f947c;
 
 // @fnv 0x00825990
 void UpdateImageSpaceEffectFromPlayerState()
@@ -320,13 +313,13 @@ void UpdateImageSpaceEffectFromPlayerState()
     FUN_00825990_ImageSpaceEffect* effect;
 
     {
-        FUN_00825990_ImageSpaceManager* manager = FUN_004e3270();
-        effect = manager->FUN_004ebbc0(3);
+        FUN_00825990_ImageSpaceManager* manager = ((::FUN_00825990_ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270()));
+        effect = ((::FUN_00825990_ImageSpaceEffect *)(reinterpret_cast<::FUN_004ebbc0_shell *>((manager))->FUN_004ebbc0(3)));
     }
 
-    if (DAT_011dea3c->unkA4.vf08(0x32) > 0)
+    if ((*reinterpret_cast<::FUN_00825990_PlayerData * *>(&::_g_thePlayer))->unkA4.vf08(0x32) > 0)
     {
-        DAT_011f947c = *FUN_00403e20(&DAT_011d1668);
+        DAT_011f947c = *((float *)&(::FUN_00403e20(&(*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1182)))));
         effect->vf2C(1);
     }
     else

@@ -1,5 +1,19 @@
 // fallout_shared/tesattributes.cpp: TESAttributes, Thing (11 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_009d2510_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_01186000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesattributes.h"
 
 // @fnv 0x0047ff70
@@ -23,15 +37,13 @@ struct FUN_00480130_shell : public TESAttributes
     unsigned int FUN_00480130(void*);
 };
 
-void* __cdecl memcpy(void*, const void*, unsigned int);
-unsigned int __fastcall FUN_009d2510(void*);
 
 // Copies 7 bytes from apData into the object at offset 4, then calls FUN_009d2510 on this and returns its result.
 // @fnv 0x00480130
 unsigned int FUN_00480130_shell::FUN_00480130(void* apData)
 {
-    memcpy(reinterpret_cast<char*>(this) + 4, apData, 7);
-    return FUN_009d2510(this);
+    ::__memcpy(reinterpret_cast<char*>(&this->cAttribute), apData, 7);
+    return reinterpret_cast<::FUN_009d2510_shell *>((this))->FUN_009d2510();
 }
 
 struct FUN_00480160_shell : public TESAttributes
@@ -45,20 +57,18 @@ unsigned char FUN_00480160_shell::FUN_00480160(int aeAttribute)
     return reinterpret_cast<unsigned char*>(this)[aeAttribute - 1];
 }
 
-extern "C" void* _memcpy(void* dst, const void* src, unsigned int n);
-unsigned int __fastcall FUN_009d2510(void* p);
 
 struct FUN_00480100_shell
 {
-    unsigned int __thiscall FUN_00480100(void* apData);
+    unsigned int FUN_00480100(void* apData);
 };
 
 // Copies 7 bytes from this+4 into apData, then returns the result of FUN_009d2510(this).
 // @fnv 0x00480100
-unsigned int __thiscall FUN_00480100_shell::FUN_00480100(void* apData)
+unsigned int FUN_00480100_shell::FUN_00480100(void* apData)
 {
-    _memcpy(apData, this + 4, 7);
-    return FUN_009d2510(this);
+    ::__memcpy(apData, this + 4, 7);
+    return reinterpret_cast<::FUN_009d2510_shell *>((this))->FUN_009d2510();
 }
 
 struct FUN_004801e0_shell
@@ -80,63 +90,62 @@ unsigned short FUN_004801e0_shell::FUN_004801e0(int param)
 
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void* aBuffer, unsigned int aSize);
 };
 
-TESSaveLoadGame* g_TESSaveLoadGame;
+extern TESSaveLoadGame* g_TESSaveLoadGame;
 
-struct FUN_00480240_shell
+struct FUN_00480240_shell : ::TESAttributes
 {
     void FUN_00480240(unsigned int aFlags, unsigned int aDummy);
 };
 
 // @fnv 0x00480240
-void __thiscall FUN_00480240_shell::FUN_00480240(unsigned int aFlags, unsigned int aDummy)
+void FUN_00480240_shell::FUN_00480240(unsigned int aFlags, unsigned int aDummy)
 {
     if (aFlags & 0)
     {
-        g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 4), 7);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->cAttribute), 7);
     }
 }
 
 struct PackedRecordData;
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSVoiceType;
 struct BipedAnim;
 struct CHUNK;
 struct ContainerChanges;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct InventoryChanges;
 struct MagicItemForm;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
 struct PackageList;
 struct SpellItem;
 struct TESAIForm;
-struct TESActorBase;
+class TESActorBase;
 struct TESActorBaseData;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
+class TESBoundObject;
+class TESContainer;
 struct TESFaction;
-struct TESForm;
+class TESForm;
 struct TESHealthForm;
 struct TESLevItem;
 struct TESLevSpell;
-struct TESObject;
-struct TESObjectARMO;
+class TESObject;
+class TESObjectARMO;
 struct TESObjectCLOT;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESWaterForm;
 struct blob8
 {
@@ -151,26 +160,20 @@ struct FUN_00480000_shell : public TESAttributes
     void CopyAttributesFromComponent(BaseFormComponent*);
 };
 
-struct ActorValue
+namespace ActorValue
 {
-    enum Section
-    {
-        ATTRIBUTE = 0
-    };
-    enum Index
-    {
-        None = 0
-    };
+enum Section
+{
+    ATTRIBUTE = 0
 };
+}
 
 struct AVH
 {
-    static ActorValue::Index GetActorValueForSectionIndex(ActorValue::Section, unsigned char);
 };
 
 struct TESAttributes_GetAttribute
 {
-    unsigned char GetAttributeValue(int);
 };
 
 // Casts component to TESAttributes and copies its seven attribute values into cAttribute.
@@ -181,8 +184,7 @@ void FUN_00480000_shell::CopyAttributesFromComponent(BaseFormComponent* componen
     if (!attributes)
         return;
     for (int i = 0; i < 7; ++i)
-        cAttribute[i] = ((TESAttributes_GetAttribute*)attributes)
-                            ->GetAttributeValue((int)AVH::GetActorValueForSectionIndex(ActorValue::ATTRIBUTE, i));
+        cAttribute[i] = reinterpret_cast<::FUN_00480160_shell *>((((TESAttributes_GetAttribute*)attributes)))->FUN_00480160((int)::ActorValue::GetActorValueForSectionIndex(ActorValue::ATTRIBUTE, i));
 }
 
 namespace fnv_00480070 {
@@ -199,7 +201,6 @@ struct AVH
 };
 struct FUN_00480070_shell : public TESAttributes
 {
-    unsigned char GetAttributeValue(int index);
     bool FUN_00480070(BaseFormComponent* component);
 };
 // Casts component to TESAttributes and returns false only if all seven attribute values match this object's cAttribute entries; returns true otherwise.
@@ -212,7 +213,7 @@ bool FUN_00480070_shell::FUN_00480070(BaseFormComponent* component)
     for (int i = 0; i < 7; ++i)
     {
         if (cAttribute[i] !=
-            ((FUN_00480070_shell*)attributes)->GetAttributeValue(AVH::GetActorValueForSectionIndex(0, i)))
+            reinterpret_cast<::FUN_00480160_shell *>((((FUN_00480070_shell*)attributes)))->FUN_00480160(AVH::GetActorValueForSectionIndex(0, i)))
             return true;
     }
     return false;
@@ -222,10 +223,8 @@ bool FUN_00480070_shell::FUN_00480070(BaseFormComponent* component)
 namespace fnv_00480210 {
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-struct FUN_00480210_This
+struct FUN_00480210_This : ::TESAttributes
 {
     void FUN_00480210(unsigned int aiFlags);
 };
@@ -234,13 +233,11 @@ void FUN_00480210_This::FUN_00480210(unsigned int aiFlags)
 {
     if (aiFlags & 0)
     {
-        g_TESSaveLoadGame->FUN_008579b0((void*)((char*)this + 4), 7);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00480210::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void*)((char*)&this->cAttribute), 7);
     }
 }
 }  // namespace fnv_00480210
 
-extern void* PTR_PTR_01186c74;
-extern void* PTR_PTR_01183028;
 extern "C" void* FUN_00ec43fb(void* self, int a, void* b, void* c, int d);
 struct Thing
 {
@@ -253,10 +250,10 @@ void Thing::SetByte(int offset, char value, unsigned char flag)
     ((char*)this)[offset - 1] = value;
     if (flag != 0)
     {
-        void* p = FUN_00ec43fb(this, 0, &PTR_PTR_01186c74, &PTR_PTR_01183028, 0);
+        void* p = FUN_00ec43fb(this, 0, &(*reinterpret_cast<void * *>(&::fnv_004861f0::DAT_01186c74)), &(*reinterpret_cast<void * *>(&::DAT_01183028)), 0);
         if (p != 0)
         {
-            (*(void(__thiscall**)(void*, int))(*(char**)p + 0x48))(p, 4);
+            (*(void(**)(void*, int))(*(char**)p + 0x48))(p, 4);
         }
     }
 }

@@ -3,17 +3,10 @@
 #define FNV_BSGAMESOUND_DECLS_H
 
 
-class MersenneTwister
-{
-  public:
-    MersenneTwister();
-    unsigned int GetRandomUInt(unsigned int);
-    static __forceinline MersenneTwister& GetRandomGenerator()
-    {
-        static MersenneTwister random;
-        return random;
-    }
-};
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/symbols_011f6000.h"
+#include "bscore/bsrandom.h"
 class BSGameSound
 {
   public:
@@ -105,11 +98,8 @@ class BSAudioManager
     }
     static BSAudioManager& GetRandomGenerator();
 };
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-class BSAudio;
-extern BSAudio* DAT_011f6d98;
-class BSAudio
+struct BSAudio;
+struct BSAudio
 {
   public:
     virtual void vfn_00();
@@ -120,7 +110,7 @@ class BSAudio
     virtual void vfn_14();
     static inline BSAudio& GetRandomGenerator()
     {
-        return *DAT_011f6d98;
+        return *::DAT_011f6d98;
     }
     virtual void vfn_18(char*);
     char padding[0x24];

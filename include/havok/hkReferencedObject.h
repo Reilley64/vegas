@@ -1,15 +1,32 @@
-// include/havok/hkReferencedObject.h - generated from the Havok 7.1 reflection data in the PC exe (gen_havok_headers.py, 2026-10-17).
-// Reflected members at their exact offsets; unreflected bytes are padding. Size 0x8.
+// Shared native reference-counted base; not a serialized object layout.
 #ifndef FNV_HAVOK_HKREFERENCEDOBJECT_H
 #define FNV_HAVOK_HKREFERENCEDOBJECT_H
 #include "hkBase.h"
-#pragma pack(push, 1)
+#include <cstddef>
+#include <memory>
+namespace havok::native_memory { class Allocator; }
 class hkReferencedObject : public hkBaseObject
 {
   public:
-    hkUint16 m_usMemSizeAndFlags;  // +0x4
-    hkInt16 m_sReferenceCount;     // +0x6
+    hkReferencedObject() noexcept;
+    hkReferencedObject(const hkReferencedObject&) = delete;
+    hkReferencedObject& operator=(const hkReferencedObject&) = delete;
+    // Heap objects start with one owned reference. Stack/placement objects
+    // retain the source's zero-flag, non-deleting reference behavior.
+    // Fresh heap construction uses the published router. Its supplying heap
+    // must outlive the allocation; final release needs no published router.
+    void addReference() const noexcept;
+    void removeReference() const noexcept;
+    static void* operator new(std::size_t);
+    // Materialized packfile objects use their existing owning supplier, without
+    // requiring router TLS. The allocation retains it through the final Free.
+    static void* operator new(std::size_t, std::shared_ptr<havok::native_memory::Allocator>);
+    static void operator delete(void*, std::shared_ptr<havok::native_memory::Allocator>) noexcept;
+    static void operator delete(void*) noexcept;
+    static void* operator new(std::size_t, void* storage) noexcept { return storage; }
+    static void operator delete(void*, void*) noexcept {}
+
+    hkUint16 m_usMemSizeAndFlags;
+    mutable hkInt16 m_sReferenceCount;
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkReferencedObject[(sizeof(hkReferencedObject) == 0x8) ? 1 : -1];
 #endif

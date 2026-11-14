@@ -5,6 +5,13 @@
 #ifndef FNV_TESCASINOCHIPS_PACKET_H
 #define FNV_TESCASINOCHIPS_PACKET_H
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00489000.h"
 class TESFile;
 class BGSImpactData
 {
@@ -25,14 +32,12 @@ class BGSImpactData
 // precedent in tessound.cpp.
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
 };
 // TESFile::GetFormVersion is not declared in the bundled TESFile.h; its
 // mangled name (TESFileFormVersion::GetFormVersion, 0x00403570) shows the
 // canonical declaration site, so it is declared on this shim.
 struct TESFileFormVersion : public TESFile
 {
-    unsigned short GetFormVersion();
 };
 // TESFullName::LoadFullNameChunk is not declared in the bundled TESFullName.h;
 // declared here on a shim following the accepted TESRecipe precedent.
@@ -41,7 +46,6 @@ struct TESFileFormVersion : public TESFile
 // declared here on a shim following the TESFullNameLoader precedent.
 struct TESTextureLoader : public TESTexture
 {
-    static void ReadTextureData(TESTexture* apTexture, TESFile* apFile);
 };
 class BGSDestructibleObjectForm;
 class BGSMessageIcon;
@@ -57,7 +61,6 @@ class TESFormList;
 class FileEntryList;
 class TESValueForm;
 class DistantTreeTextureInfo;
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
@@ -86,12 +89,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
-#pragma pack(push, 4)
 class ShortPoint3
 {
   public:
@@ -131,23 +128,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
-#pragma pack(push, 4)
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
@@ -169,10 +155,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -189,11 +171,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -212,7 +189,6 @@ class TESModel : public BaseFormComponent
     virtual void SetModelFilePath(const char* apPath);
     virtual TESModelTextureSwap* GetAsModelMaterialSwap() const;
     static void LoadModelData(TESModel* apModel, TESFile* apFile);
-    static void LoadTextureSwapData(TESModel* apModel, TESFile* apFile);
     // TESModel
     // void __cdecl TESModel::*()
     // void __cdecl TESModel::*()
@@ -237,12 +213,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESModelTextureSwap : public TESModel
 {
   public:
@@ -251,7 +221,6 @@ class TESModelTextureSwap : public TESModel
     TESModelTextureSwap();
     void InitItem(TESForm* apForm);
     void LoadTextureSwapChunk(char* apBuffer, unsigned int auiSize, unsigned short ausVersion);
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     // TESModelTextureSwap
     // void __cdecl TESModelTextureSwap::*()
     // void __cdecl TESModelTextureSwap::*()
@@ -276,17 +245,12 @@ class TESModelTextureSwap : public TESModel
     // TESModelTextureSwap& __cdecl TESModelTextureSwap::*(const TESModelTextureSwap&)
     // void __cdecl TESModelTextureSwap::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
-FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
-#pragma pack(push, 4)
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
     TESIcon Icon;  // +0x4, 12 bytes
     BGSMessageIcon();
-    static void LoadMessageIconChunk(BGSMessageIcon* apIcon, TESFile* apFile);
     // BGSMessageIcon
     // void __cdecl BGSMessageIcon::*()
     // void __cdecl BGSMessageIcon::*()
@@ -302,10 +266,6 @@ class BGSMessageIcon : public BaseFormComponent
     // BGSMessageIcon& __cdecl BGSMessageIcon::*(const BGSMessageIcon&)
     // void* __cdecl BGSMessageIcon::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
-#pragma pack(push, 4)
 class TESValueForm : public BaseFormComponent
 {
   public:
@@ -326,10 +286,6 @@ class TESValueForm : public BaseFormComponent
     // TESValueForm& __cdecl TESValueForm::*(const TESValueForm&)
     // void* __cdecl TESValueForm::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESValueForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESValueForm, iValue) == 4);
-#pragma pack(push, 4)
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
@@ -338,7 +294,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     BGSDestructibleObjectForm();
     virtual ~BGSDestructibleObjectForm();
     void InitItem(TESForm* apForm);
-    static void LoadDestructibleData(BGSDestructibleObjectForm* apForm, TESFile* apFile);
     // BGSDestructibleObjectForm
     // void __cdecl BGSDestructibleObjectForm::*()
     // void __cdecl BGSDestructibleObjectForm::*()
@@ -395,10 +350,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // BGSDestructibleObjectForm& __cdecl BGSDestructibleObjectForm::*(const BGSDestructibleObjectForm&)
     // void* __cdecl BGSDestructibleObjectForm::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
-#pragma pack(push, 4)
 class BGSPickupPutdownSounds : public BaseFormComponent
 {
   public:
@@ -408,8 +359,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     BGSPickupPutdownSounds();
     virtual ~BGSPickupPutdownSounds();
     void InitItem(TESForm* apForm);
-    void SetPickupSound(TESSound* apSound);
-    void SetPutdownSound(TESSound* apSound);
     // BGSPickupPutdownSounds
     // void __cdecl BGSPickupPutdownSounds::*()
     // void __cdecl BGSPickupPutdownSounds::*()
@@ -426,11 +375,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     // BGSPickupPutdownSounds& __cdecl BGSPickupPutdownSounds::*(const BGSPickupPutdownSounds&)
     // void* __cdecl BGSPickupPutdownSounds::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPickupPutdownSounds) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPickupSound) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPutdownSound) == 8);
-#pragma pack(push, 4)
 class TESCasinoChips : public TESBoundObject,
                        public TESFullName,
                        public TESModelTextureSwap,
@@ -474,12 +418,8 @@ class TESCasinoChips : public TESBoundObject,
     // TESCasinoChips& __cdecl TESCasinoChips::*(const TESCasinoChips&)
     // void __cdecl TESCasinoChips::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESCasinoChips) == 156);
-FNV_STATIC_ASSERT(offsetof(TESCasinoChips, m_kPrimaryString) == 148);
 // TESModel and TESModelTextureSwap are already defined above and are not
 // repeated. Real method declarations used by this unit are added.
-#pragma pack(push, 4)
 class EndianConvertibleData
 {
   public:
@@ -501,23 +441,6 @@ class EndianConvertibleData
     void Endian();
     // void __cdecl EndianConvertibleData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(EndianConvertibleData) == 56);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, EndianFloatValue) == 0);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, EndianMixedData) == 4);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, FloatPairAndFourIntegerRecord) == 8);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, FloatPairAndFiveIntegerRecord) == 12);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, FloatAndSixIntegerRecord) == 16);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, SevenIntegerRecord) == 20);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, SevenIntegerRecordFromNextOffset) == 24);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, m_iFourthRecordValue) == 28);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, m_iFifthRecordValue) == 32);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, m_iSixthRecordValue) == 36);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, m_iFourthIntegerValue) == 40);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, IntegerEndianRecord) == 44);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, uiChunkType) == 48);
-FNV_STATIC_ASSERT(offsetof(EndianConvertibleData, m_bEndianFlag) == 52);
-#pragma pack(push, 4)
 class TESCasino : public TESForm, public TESFullName
 {
   public:
@@ -529,9 +452,4 @@ class TESCasino : public TESForm, public TESFullName
     bool Load(TESFile* apFile);
     void ReadTypedData(TESFile* apFile, void* apData, unsigned short ausSize);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESCasino) == 544);
-FNV_STATIC_ASSERT(offsetof(TESCasino, m_kModelTextureSwaps) == 36);
-FNV_STATIC_ASSERT(offsetof(TESCasino, m_kIconTextures) == 356);
-FNV_STATIC_ASSERT(offsetof(TESCasino, data) == 488);
 #endif

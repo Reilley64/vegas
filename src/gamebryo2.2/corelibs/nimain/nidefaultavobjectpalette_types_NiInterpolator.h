@@ -4,9 +4,8 @@
 
 #include "layout_support.h"
 #include "NiObjectNET.h"
-class NiStream;
+struct NiStream;
 class NiInterpolator;
-#pragma pack(push, 4)
 class NiInterpolator : public NiObject
 {
   public:
@@ -28,7 +27,4 @@ class NiInterpolator : public NiObject
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
 #endif

@@ -20,7 +20,6 @@ class TESAnimation : public BaseFormComponent
     ~TESAnimation();
     bool HasSpecialAnimations();
     void LoadComponent(TESForm*, TESFile*);
-    void AddPathToList(const char*);
 };
 
 #endif

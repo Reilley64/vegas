@@ -2,16 +2,24 @@
 #ifndef FNV_BGSLOADFORMBUFFER_DECLS_H
 #define FNV_BGSLOADFORMBUFFER_DECLS_H
 
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/FUN_00846490_t.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00483000.h"
 #include "layout_support.h"
 #include "TESForm.h"
 
 class SaveLoadFile
 {
   public:
-    void AdvancePosition(unsigned int bytes);
+public:
+    unsigned int Read(void *, unsigned int);
 };
 
-TESForm* GetFormByID(unsigned int formID);
 
 #pragma pack(push, 1)
 
@@ -43,7 +51,6 @@ class FormChangeMask
 {
   public:
     FormChangeMask();
-    bool ContainsAnyFlags(int flags);
     bool CheckFlagsExact(int flags);
     bool CheckFlagsExclusive(int flags);
     void SetFlags(int flags);
@@ -75,7 +82,7 @@ class FormLoadContext
 
 #pragma pack(pop)
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     BGSLoadGameBuffer();
@@ -84,14 +91,11 @@ class BGSLoadGameBuffer
     void SetBuffer(char* buffer, unsigned int size, unsigned int position);
     char* GetCurrentBufferPointer();
     virtual unsigned char GetVersion();
-    char* LoadString(char* string);
-    int ReadElementCount();
     void AdvanceBuffer(unsigned int bytes);
     void ReadElementData(void* data, unsigned int size, unsigned int flags);
     virtual TESForm* GetForm();
     virtual TESObjectREFR* GetReference();
     virtual Actor* GetActor();
-    void ReadDataBlock(void* data, unsigned int size);
 
   protected:
     char* pBuffer;
@@ -99,7 +103,7 @@ class BGSLoadGameBuffer
     unsigned int m_uiReadOffset;
 };
 
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     BGSLoadFormBuffer();
@@ -113,9 +117,7 @@ class BGSLoadFormBuffer : public BGSLoadGameBuffer
     virtual TESObjectREFR* GetReference();
     virtual Actor* GetActor();
     ENUM_FORM_ID GetFormType();
-    FormChangeMask GetChangeFlags();
     void SetChangeFlags(FormChangeMask changeFlags);
-    FormChangeMask GetOldChangeFlags();
     void SetOldChangeFlags(FormChangeMask oldChangeFlags);
     void SetVersion(unsigned char version);
     virtual unsigned char GetVersion();

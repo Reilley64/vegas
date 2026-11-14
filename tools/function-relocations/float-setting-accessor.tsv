@@ -1,0 +1,142 @@
+# Callers of the float setting accessor at 0x00403e20 in extradatalist.cpp
+# (VEGAS-116), docs/setting-value-offset.md. Format: README.md.
+# The accessor's 32-bit form, which returned the address 4 bytes into the
+# setting. No object defines it; a call whose argument is a setting of the
+# shared class goes to the form that takes the shared Setting:
+forbid	?FUN_00403e20@@YAAEAMPEAM@Z
+# batch, unit, function, the accessor. A sample: three readers of the HUD
+# opacity setting g_011d9774, in two units, and one caller for each other
+# argument form (a global under a unit name that a pragma maps to the
+# setting, a setting of the 0x01017720 family, a generated float setting, a
+# choice between two reinterpret_cast forms, a (float*) cast of a
+# reinterpret_cast<int *> form).
+function	callers	src/fallout/interface/menus/hudmainmenu.cpp	?FUN_0076bfe0@@YAPEAVTile@@XZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/interface/menus/hudmainmenu.cpp	?UpdateMapMarkerHUD@@YAXPEAUMarkerEvent772@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/interface/menus/startmenu.cpp	?FUN_007d1750@fnv_007d1750@@YAXPEAUMenuCtl@1@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/ai/playercharacter.cpp	??0FUN_0044fb20@@QEAA@_JPEAUCallback@@PEAXPEAUOptional@@2@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/bsshader/shadowscenenode.cpp	?FUN_007c2180@Target2180@@QEAAPEAUFUN_00a712f0@@XZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/bgsencounterzone.cpp	?GetCalculatedLevel@BGSEncounterZone@@QEAAGXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/ai/combat/combatprocedureattacklow.cpp	?FUN_009cbb70@FUN_009cbb70_shell@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/ai/combat/hitdata.cpp	?ApplyCriticalHit@FUN_009b7060_shell@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of main.cpp that calls
+# the accessor (VEGAS-122). They read fHavokTauRatio, fAnimationMult:General,
+# the nine fLODFadeOut settings, fScopeScissorAmount:Display and
+# fLODLandDropAmount:LOD.
+function	main	src/fallout/misc/main.cpp	?FUN_0086f260@Mover@fnv_0086f260@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086efe0@FUN_0086efe0_t@fnv_0086efe0@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_00870bd0@RenderCoordinator@fnv_00870bd0@@QEAAXPEAX_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086d590@RenderSystem@fnv_0086d590@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of blk_00940000_od.cpp
+# that calls the accessor (VEGAS-122), since the unit's own empty Setting
+# went. They read fHUDShakeMult:Interface, the scope and VATS camera
+# settings of 0x0095de30 and fGrabMaxWeightWalking.
+function	blk_00940000_od	src/staging/blk_00940000_od.cpp	?FUN_0095f6c0@Owner@@QEAAXM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	blk_00940000_od	src/staging/blk_00940000_od.cpp	?SetScaledValue@fnv_0094c3a0@@YAXM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	blk_00940000_od	src/staging/blk_00940000_od.cpp	?UpdateScopeZoom@Update97@@QEAAXM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: the function of bgsterminal.cpp whose
+# calls of the accessor all moved (VEGAS-122), since the unit's own empty
+# Setting went. It reads fHackLevelMult. 0x005017a0 keeps five calls on the
+# 32-bit form, and ActivateTerminal holds one of them inlined.
+function	bgsterminal	src/fallout_shared/bgsterminal.cpp	?FUN_005011a0@FUN_00501270_shell@@QEAAHPEAVTESObjectREFR@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of sleepwaitmenu.cpp
+# that calls the accessor (VEGAS-122), since the unit's own empty Setting
+# went. They read fFadeToBlackFadeSeconds and
+# fMenuBackgroundOpacity:Interface.
+function	sleepwaitmenu	src/fallout/interface/menus/sleepwaitmenu.cpp	?CreateSleepWaitMenu@@YAPEAUSwTile@@_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	sleepwaitmenu	src/fallout/interface/menus/sleepwaitmenu.cpp	?FUN_007c0220@FUN_007c0220_cls@fnv_007c0220@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of
+# magicfogprojectile.cpp that calls the accessor (VEGAS-122), since the
+# unit's own empty Setting went. They read the magic cloud settings,
+# fMagicTrackingMultFog and fMagicProjectileBaseSpeed.
+function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	??0xProj@@QEAA@HHHHUxP3@@0PEAXPEAUxOwner@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	??1FUN_008196e0@@UEAA@XZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	?FUN_0081b430@FogProjectileImpl@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	?ScaleEffect@Effect@@QEAAXPEAUObject@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of explosion.cpp whose
+# calls of the accessor emit code (VEGAS-122), since the unit's own empty
+# Setting went. They read fBSUnitsPerFoot, the explosion image space, camera
+# shake, splash and line-of-sight settings.
+function	explosion	src/fallout/ai/combat/explosion.cpp	??0FUN_009ac200@fnv_009ac200@@QEAA@PEAXPEAUOwnerC@1@0UVec3f@@UMatrixC@1@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009b1810@Host810@@QEAA_NUVec810@@PEAUActor810@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?GetEffectiveValue@FUN_009ac550_cls@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?GetScaledValue@BGSExplosion@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?UpdateExplosion@RefX@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of character.cpp that
+# calls the accessor (VEGAS-122), since the unit's own empty Setting went.
+# They read fDBVoiceAttenuationIn2D:Audio, fMaxArmorRating and the clothing
+# armor settings.
+function	character	src/fallout/ai/character.cpp	?FUN_008d22b0@FUN_008d22b0_shell@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	character	src/fallout/ai/character.cpp	?FUN_008d3110@Character534@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	character	src/fallout/ai/character.cpp	?PlaySoundOnObject@Self@@QEAA?AUStr@@PEAUArg@@_J_N2H2@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: the function of itemmodmenu.cpp that
+# calls the accessor (VEGAS-122), since the unit's own empty Setting went.
+# It reads fScrollKnobIncrement:Pipboy and fScrollKnobRate:Pipboy.
+function	itemmodmenu	src/fallout/interface/menus/itemmodmenu.cpp	?FUN_00783ed0@xInvMenu@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of combatcontroller.cpp
+# that calls the accessor (VEGAS-122), since the unit's own empty Setting
+# went. They read fCombatPathingLookAheadDelta and the follow and guard
+# radius settings.
+function	combatcontroller	src/fallout/ai/combatcontroller.cpp	?SetupPackageTarget@State@@QEAAXPEAUPackage@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	combatcontroller	src/fallout/ai/combatcontroller.cpp	?UpdateMoveTarget@MoveOwner@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of package.cpp that
+# calls the accessor (VEGAS-122), since the unit's own empty Setting went.
+# They read fPathPointZDistanceAllowance and fTargetSearchRadius.
+function	package	src/fallout_shared/package.cpp	?FUN_006780e0@TESPackageExt@fnv_006780e0@@QEAAPEAVV@2@PEAV32@_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?IsActorInPackageRadius@FUN_00676e40_Package@fnv_00676e40@@QEAA_NPEAVMobileObject@FO@2@H@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of
+# telekinesiseffect.cpp that calls the accessor (VEGAS-122), since the
+# unit's own empty Setting went. They read the telekinesis move, distance
+# and throw settings and fMagicUnitsPerFoot.
+function	telekinesiseffect	src/fallout/magic/telekinesiseffect.cpp	?FUN_0082afa0@TelekinesisEffectT@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	telekinesiseffect	src/fallout/magic/telekinesiseffect.cpp	?UpdateGrabEffect@Effect@@QEAAXM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: the function of interface.cpp whose
+# calls of the accessor all moved (VEGAS-122), since the unit's own empty
+# Setting went. It reads fPackRatThreshold and fPackRatModifier.
+# ResolveSettingString keeps a call whose argument is not a global.
+function	interface	src/fallout/interface/interface.cpp	?FUN_00707e30@@YAXPEAUDisplayItem@@PEAUDisplayTile@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of highprocess.cpp
+# that calls the accessor (VEGAS-122), once the unit's own Setting went
+# with its Get() call. They read 52 generated float settings, most of
+# them SettingT<GameSettingCollection> objects of
+# setting_float_initializers.cpp.
+function	highprocess	src/fallout/ai/highprocess.cpp	??0HighProcess@@QEAA@XZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ActorEntity@HighProcess@@QEAAXPEAVTESObjectREFR@@PEAVActor@@AEA_NPEAVDetectionParameters@@W4ACTOR_AGGRESSION@@MM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?AddTargetIfEligible@Owner8ffe50@@QEAA_NPEAVActor@@0@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?CanAddActorToGroup@ActorGroupOwner@@QEAA_NPEAVActor@@0@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ClearCachedTargetReferences@HighProcess@@QEAAX_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ClearDetectionEvents@HighProcess@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ClearProcessState@HighProcess@@QEAA_NPEAVActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008db240@PackageProcess@@QEAAXPEAUProcessActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008db810@Actor@PackagePathing@@QEAAXPEAV12@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008df1e0@Process65@fnv_008df1e0@@QEAA_NPEAUActor65@2@0PEAULocation65@2@PEA_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008e0f80@FollowProcess@fnv_008e0f80@@QEAAXPEAUFollowRef@2@_NH1@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008e3140@ProcessEatProcess008e3140@fnv_008e3140@@QEAAXPEAVActor@@PEAVTESObjectREFR@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008e4e50@xController@@QEAAXPEAUxActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008e9640@This8e9@fnv_008e9640@@QEAA_NPEAUArg8ee@2@_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008ee3e0@PackageHandler@PackageApproach@@QEAAXPEAUPackageActor@2@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008eebf0@SearchOwner@@QEAAPEAUFUN_004bc550@@PEAUActorView@@I@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008eeec0@This8ee@fnv_008eeec0@@QEAAXPEAUArg8ee@2@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f21f0@HighProcessS@fnv_008f21f0@@QEAAXPEAVActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f2610@P157Target@@QEAA_NPEAUP157Object@@H@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f7070@ProcessOps@@QEAAXPEAUActorOps@@_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f74c0@CombatS@@QEAA_NPEAUActorS@@0_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f7730@UWProcess@@QEAA_NPEAVUWActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f9320@Process@BehaviorUpdate@@QEAA_NPEAVActor@2@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_009001c0@FUN_009001c0_cls@@QEAA_N_J0_N1H1111111H@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_009012a0@HeadTrackStandIn@@QEAAX_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_00901a20@ThisT@@QEAA_NPEAUActorT@@PEAVActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_00902c80@Engine_00902c80@@QEAAXPEAUActor_00902c80@@PEAUCurrentTarget_00902c80@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?IsCurrentPackageTarget@HighProcess@@QEAA_NPEAVActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?PlayRandomIdle@HighProcess@@QEAAXPEAVActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ProcessActorMovement@Process@PackageMovement@@QEAAXPEAVActor@2@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ProcessPackageMovement@WalkProcess@@QEAAXPEAUWalkActor@@_N1H1@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?RestorePreviousReference@HighProcess@@QEAAX_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?Revert@HighProcess@@QEAAXPEAUBGSLoadFormBuffer@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?RunDetection@HighProcess@@QEAAXPEAVActor@@M@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?SetCombatActive@HighProcess@@QEAAX_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ShouldProcessActor@HighProcess@@QEAA_NPEAVActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?UpdateDialogue@ProcX@@QEAAXPEAUActorX@@PEAUTopicX@@PEAURefX@@_N33@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?UpdateFleeTarget@FleeProcess@@QEAAXPEAUFleeActor@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?UpdatePackageExecution@Obj120@fnv_008dddf0@@QEAAXPEAU12@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?UpdateReferenceTime@HighProcess@@QEAAXPEAVActor@@M@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?UpdateSelectionTimer@Owner93@@QEAAXPEAUActor93@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

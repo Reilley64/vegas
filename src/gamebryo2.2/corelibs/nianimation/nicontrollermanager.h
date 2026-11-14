@@ -2,10 +2,8 @@
 #ifndef FNV_ASTRA_CONTROLLER_MANAGER_H
 #define FNV_ASTRA_CONTROLLER_MANAGER_H
 
+#include <windows.h>
 #include <stddef.h>
-#define FNV_JOIN_INNER(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_INNER(a, b)
-#define FNV_STATIC_ASSERT(x) typedef char FNV_JOIN(fnv_assert_, __LINE__)[(x) ? 1 : -1]
 // NiRefObject's first two virtual slots are the destructor and DeleteThis.
 // Other unused virtual interfaces are deliberately not synthesized. No object
 // of these polymorphic types is constructed here and no other slot is called.
@@ -21,14 +19,10 @@ class NiRefObject : public NiMemObject
     virtual ~NiRefObject();
     virtual void DeleteThis();
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 template <class T> class NiTNewInterface
 {
 };
@@ -74,15 +68,18 @@ template <class T> class NiTStringPointerMap
     // Unused string-map tail; its field identity is not recovered here.
     unsigned char layoutPadding10[4];
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
     bool m_bUpdateEnabled, m_bRender, m_bInterpolate;
     bool m_bTimeToDie, m_bVisible;
 };
-class NiObjectNET;
-class NiControllerManager;
+struct NiObjectNET;
+struct NiControllerManager;
+struct CloningProcess;
+struct NiObjectNET;
+struct NiStream;
 class NiTimeController : public NiObject
 {
   public:
@@ -99,12 +96,14 @@ class NiTimeController : public NiObject
     NiObjectNET* m_pkTarget;
     NiPointer<NiTimeController> m_spNextController;
     virtual void Update(NiUpdateData&);
+public:
+    void ProcessClone(::CloningProcess &);
+public:
+    void SetTarget(::NiObjectNET *);
+public:
+    void LinkObject(::NiStream &);
 };
-class NiFixedString
-{
-  public:
-    const char* m_pString;
-};
+#include "fnv/native_fixed_string.h"
 class NiAVObject;
 class NiStringPalette;
 class NiTextKeyExtraData;
@@ -148,7 +147,7 @@ class NiControllerSequence : public NiObject
 };
 class NiAVObjectPalette;
 class BSAnimNoteListener;
-class NiControllerManager : public NiTimeController
+struct NiControllerManager : public NiTimeController
 {
   public:
     NiTObjectArray<NiPointer<NiControllerSequence> > m_kSequences;
@@ -160,20 +159,4 @@ class NiControllerManager : public NiTimeController
     NiPointer<NiAVObjectPalette> m_spControllerManager;
     virtual void Update(NiUpdateData&);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-FNV_STATIC_ASSERT(sizeof(NiRefObject) == 8);
-FNV_STATIC_ASSERT(sizeof(NiPointer<NiControllerSequence>) == 4);
-FNV_STATIC_ASSERT(sizeof(NiTObjectArray<NiPointer<NiControllerSequence> >) == 16);
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveSet<NiControllerSequence*>) == 12);
-FNV_STATIC_ASSERT(sizeof(NiTStringPointerMap<NiControllerSequence*>) == 20);
-FNV_STATIC_ASSERT(sizeof(NiUpdateData) == 12);
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
-FNV_STATIC_ASSERT(sizeof(NiControllerSequence) == 0x74);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_eAnimationState) == 0x44);
-FNV_STATIC_ASSERT(sizeof(NiControllerManager) == 0x7c);
-FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_kPlayingSequences) == 0x44);
-FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_kSequenceSet) == 0x6c);
-FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_spControllerManager) == 0x78);
 #endif

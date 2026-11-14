@@ -2,15 +2,18 @@
 #ifndef FNV_CHARACTER_DECLS_H
 #define FNV_CHARACTER_DECLS_H
 
+#include "fnv/decl/P164Actor.h"
+#include "fnv/decl/PlayerNearbyRefs.h"
+#include "fnv/decl/TESRace.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #define PlayerCharacter PlayerCharacter_ActorHeader
 #include "Actor.h"
 #undef PlayerCharacter
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     virtual unsigned char GetVersion();
-    void ReadTypedData(void* destination, unsigned int size);
 };
 
 class Character : public Actor
@@ -32,19 +35,22 @@ class Character : public Actor
     void Revert(BGSLoadFormBuffer* buffer);
     void LoadGame(BGSLoadFormBuffer* buffer);
     void* GetCurrentMusicMarker();
+public:
+    void FUN_008d4e80();
 };
 
 class MusicMarkerReference;
+struct Biped;
 class PlayerCharacter
 {
   public:
-    MusicMarkerReference* GetMusicMarkerReference();
+public:
+    ::Biped *FUN_00950b00(bool);
 };
 
 class AudioMarkerDataCalls
 {
   public:
-    void* GetData();
 };
 
 class CharacterActorCalls
@@ -53,6 +59,5 @@ class CharacterActorCalls
     void InitLoadGame(BGSLoadFormBuffer* buffer);
     void ApplyLoadBuffer(BGSLoadFormBuffer* buffer);
     void Revert(BGSLoadFormBuffer* buffer);
-    void LoadGame(BGSLoadFormBuffer* buffer);
 };
 #endif

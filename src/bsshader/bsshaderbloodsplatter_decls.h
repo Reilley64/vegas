@@ -2,6 +2,14 @@
 #ifndef BSSHADERBLOODSPLATTER_DECLS_H
 #define BSSHADERBLOODSPLATTER_DECLS_H
 
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_0126f000.h"
 #include "bsshaderbloodsplatter_types_BSShaderBloodSplatter.h"
 
 class NiD3DVertexShader : public NiRefObject
@@ -33,15 +41,12 @@ class BeamStage
   public:
     unsigned char layoutPrefix[0x60];
     unsigned int m_uiRefCount;
-    void FUN_00e7def0(unsigned int);
-    void ReturnToPool();
     void DecRefCount()
     {
         --m_uiRefCount;
         if (m_uiRefCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
-    static void CreateNewStage(NiPointer<BeamStage>&);
 };
 template <> class NiPointer<BeamStage>
 {
@@ -81,12 +86,11 @@ class NiD3DPass
     unsigned char layoutVertex[0x14];
     NiPointer<NiD3DVertexShader> m_spVertexShaderObject;
     static void CreateD3DPass(NiPointer<NiD3DPass>&);
-    void FUN_00e802b0(unsigned int, BeamStage*);
     void SetRenderState(unsigned int state, unsigned int value, bool save)
     {
         if (!m_pRenderStateGroup)
             m_pRenderStateGroup = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-        m_pRenderStateGroup->SetRenderState(state, value, save);
+        reinterpret_cast<::StateGroup *>((m_pRenderStateGroup))->SetNodeValue(state, value, save);
     }
     void SetVertexShader(NiD3DVertexShader* shader)
     {
@@ -96,20 +100,14 @@ class NiD3DPass
     {
         m_spPixelShaderObject = shader;
     }
+public:
+    void DestroyPass();
 };
-void ConfigureBeamStage(BeamStage*, unsigned int, unsigned int, unsigned int, bool);
 struct _D3DXMACRO
 {
     const char* Name;
     const char* Definition;
 };
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
-extern NiD3DPass* DAT_0126f74c;
 #undef SPLATTER_ASSIGN
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_uiStageMask) == 0x14);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pRenderStateGroup) == 0x30);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_spPixelShaderObject) == 0x44);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_spVertexShaderObject) == 0x5c);
-FNV_STATIC_ASSERT(offsetof(BeamStage, m_uiRefCount) == 0x60);
 #endif

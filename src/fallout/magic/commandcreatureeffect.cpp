@@ -2,6 +2,10 @@
 // src/fallout/magic/commandcreatureeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/commandcreatureeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00649000.h"
 struct S_0080b3a0_Obj
 {
     S_0080b3a0_Obj(int a, int b, int c);
@@ -208,10 +212,6 @@ struct SpawnedObject
     int unk4;
 };
 
-SpawnedObject* __fastcall FUN_00822b40(int p);
-float __fastcall GetFloatAtOffset1C(void* self);
-unsigned short __fastcall FUN_0087f9f0(SpawnedObject* obj);
-bool __cdecl FUN_006494d0(unsigned short a, float b);
 
 struct FUN_0080b450_cls
 {
@@ -222,11 +222,11 @@ struct FUN_0080b450_cls
 // @fnv 0x0080b450
 bool FUN_0080b450_cls::FUN_0080b450(int p)
 {
-    SpawnedObject* a = p != 0 ? FUN_00822b40(p) : 0;
+    SpawnedObject* a = p != 0 ? ((::SpawnedObject *)(reinterpret_cast<::MagicTarget *>((p))->GetOwnerActor())) : 0;
     SpawnedObject* b = (a != 0 && a->vf87()) ? a : 0;
     if (b == 0)
     {
         return false;
     }
-    return FUN_006494d0(FUN_0087f9f0(b), GetFloatAtOffset1C(this));
+    return ::FUN_006494d0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((b))->FUN_0087f9f0(), ::GetFloatAtOffset1C((char *)(void *)(this)));
 }

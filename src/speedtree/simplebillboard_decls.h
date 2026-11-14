@@ -2,6 +2,9 @@
 #ifndef SIMPLEBILLBOARD_DECLS_H
 #define SIMPLEBILLBOARD_DECLS_H
 
+#include "fnv/decl/Mat.h"
+#include "fnv/symbols_010a4000.h"
+#include "fnv/symbols_011f8000.h"
 class RotationMatrix3x3
 {
   public:
@@ -18,9 +21,8 @@ class RotationMatrix3x3
         m_fComponents[2][1] = 0.0f;
         m_fComponents[2][2] = 1.0f;
     }
-    void FUN_00b273d0(float);
 };
-class Vector3D
+struct Vector3D
 {
   public:
     float x, y, z;
@@ -67,6 +69,5 @@ __forceinline void ReserveBillboardWorkspace()
         workspace17, workspace18, workspace19, workspace20, workspace21, workspace22;
 }
 #include <math.h>
-extern const double DAT_010a4d90;
-extern Vector3D DAT_011f8d08, DAT_011f8d14, DAT_011f8d20, DAT_011f8d2c;
+extern Vector3D DAT_011f8d14, DAT_011f8d20, DAT_011f8d2c;
 #endif

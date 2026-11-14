@@ -2,26 +2,34 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_01202688_arg1;
 
 // @fnv 0x00c320f0
+#include <new>
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiPSysModifier.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01202000.h"
 char const* const* __cdecl FUN_00c320f0()
 {
-    return &g_01202688_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_012027e0));
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct NiPSysFieldModifier
 {
-    void __thiscall FUN_00c31750();
-    NiPSysFieldModifier* __thiscall Destroy(unsigned int flags);
+    NiPSysFieldModifier* Destroy(unsigned int flags);
 };
 // Calls FUN_00c31750, then deletes this with size 48 if flags has bit 0 set, and returns this.
 // @fnv 0x00c32100
-NiPSysFieldModifier* __thiscall NiPSysFieldModifier::Destroy(unsigned int flags)
+NiPSysFieldModifier* NiPSysFieldModifier::Destroy(unsigned int flags)
 {
-    FUN_00c31750();
+    reinterpret_cast<::PositionState *>(this)->FUN_00c31750();
     if (flags & 1)
         operator delete(this, 48);
     return this;
@@ -81,7 +89,7 @@ struct C32060EmitterModifier : C32060Modifier
 // @fnv 0x00c32060
 bool C32060EmitterModifier::FUN_00c32060(C32060Object* pkObject)
 {
-    if (!C32060Modifier::IsEqual(pkObject))
+    if (!reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830((::NiObject *)(pkObject)))
         return false;
 
     C32060EmitterModifier* pkDest = (C32060EmitterModifier*)pkObject;
@@ -259,7 +267,6 @@ struct StreamOwner
     unsigned int unk244;
     unsigned int unk248;
     StreamCtx* m_24c;
-    void FUN_00a645b0();
 };
 
 class FUN_00c32120_cls
@@ -277,7 +284,6 @@ class FUN_00c32120_cls
     bool m_24;
     float m_28;
     float m_2c;
-    void FUN_00c318b0(StreamOwner* a1);
     void LoadFromStream(StreamOwner* a1);
 };
 
@@ -285,8 +291,8 @@ class FUN_00c32120_cls
 // @fnv 0x00c32120
 void FUN_00c32120_cls::LoadFromStream(StreamOwner* apOwner)
 {
-    FUN_00c318b0(apOwner);
-    apOwner->FUN_00a645b0();
+    reinterpret_cast<::NiPSysModifier *>(this)->LoadBinary((*(::NiStream *)(apOwner)));
+    reinterpret_cast<::FUN_00a645b0_cls *>((apOwner))->FUN_00a645b0();
     StreamCtx* s = apOwner->m_24c;
     {
         unsigned int n = 4;
@@ -520,15 +526,14 @@ struct NiPSysFieldModifierImpl
     bool m_bEnableMaxDistance;
     float m_fDistanceLimit;
 
-    void __thiscall FUN_00c31950(NiStream& kStream);
-    void __thiscall FUN_00c321f0(NiStream& kStream);
+    void FUN_00c321f0(NiStream& kStream);
 };
 
 // Calls FUN_00c31950, then writes the link ID and the float, float, bool and float fields to the stream.
 // @fnv 0x00c321f0
 void NiPSysFieldModifierImpl::FUN_00c321f0(NiStream& kStream)
 {
-    FUN_00c31950(kStream);
+    reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((::OutputStream &)(kStream));
     kStream.SaveLinkID(m_pkFieldObject);
     SerializeValue(kStream, m_fInfluence);
     SerializeValue(kStream, m_fFieldAttenuation);
@@ -545,8 +550,6 @@ struct S_00c322b0_Arr
     unsigned short esize;
     unsigned short unk0c;
     unsigned short growBy;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, char*&);
 };
 struct S_00c322b0_Named
 {
@@ -562,13 +565,7 @@ struct S_00c322b0_Base
     int unk0C;
     int unk10;
     int unk14;
-    void FUN_00c319e0(S_00c322b0_Arr* a);
 };
-extern const char* DAT_012027e0;
-char* __cdecl FUN_00a7d330(const char* s);
-char* __cdecl FUN_00a7d370(const char* fmt, ...);
-char* __cdecl FUN_00a7d550(const char* name, float value);
-char* __cdecl FUN_00a7d5e0(const char* name, const char* value);
 struct S_00c322b0 : S_00c322b0_Base
 {
     S_00c322b0_Named* m18;
@@ -582,17 +579,17 @@ __forceinline void S_00c322b0_Add(S_00c322b0_Arr* a, char* s)
 {
     unsigned int i = a->esize;
     if (i >= a->size)
-        a->FUN_0096ad30(i + a->growBy);
-    a->FUN_0096ae90(i, s);
+        reinterpret_cast<::ViewerStrings *>((a))->SetSize(i + a->growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((a))->SetAt(i, s);
 }
 // @fnv 0x00c322b0
 void S_00c322b0::FUN_00c322b0(S_00c322b0_Arr* a)
 {
-    FUN_00c319e0(a);
-    S_00c322b0_Add(a, FUN_00a7d330(DAT_012027e0));
-    S_00c322b0_Add(a, FUN_00a7d5e0("Field Object", m18 ? m18->name : "None"));
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)(a));
+    S_00c322b0_Add(a, FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_012027e0))));
+    S_00c322b0_Add(a, ::fnv_00a7d5e0::FUN_00a7d5e0("Field Object", m18 ? m18->name : "None"));
     S_00c322b0_Add(a, FUN_00a7d550("Magnitude", m1c));
     S_00c322b0_Add(a, FUN_00a7d550("Attenuation", m20));
-    S_00c322b0_Add(a, FUN_00a7d370("Use Max Distance", m24));
+    S_00c322b0_Add(a, ::FUN_00a7d370("Use Max Distance", m24));
     S_00c322b0_Add(a, FUN_00a7d550("Max Distance", m28));
 }

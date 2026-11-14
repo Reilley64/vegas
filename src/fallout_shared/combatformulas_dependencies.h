@@ -1,6 +1,19 @@
 #ifndef FNV_COMBATFORMULAS_DEPENDENCIES_H
 #define FNV_COMBATFORMULAS_DEPENDENCIES_H
 
+#include "fnv/decl/FUN_00645c40_Class.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_0059a000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
 #include "combatformulas_decls.h"
 #include "combatformulas_actor.h"
 #include "combatformulas_weapon.h"
@@ -17,15 +30,12 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
-    SETTING_VALUE* Int();
 };
 class EffectSetting
 {
   public:
-    TESSound* GetBoltSound();
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
     float GetTargetRadius();
@@ -33,7 +43,6 @@ class PathingRequest
 class MiddleHighProcess
 {
   public:
-    float GetThirdProcessFloat();
     ActorValue::Index GetWeaponForm();
     char _pdbpad_1[199];
     char DeadDetectList_padc7_padc7_padc7[8];
@@ -140,25 +149,12 @@ class MiddleHighProcess
     void* m_pFaceGenObject;
     void* m_pAdditionalFaceGenData;
     unsigned int m_uiFaceGenDataFlags;
+public:
+    bool IsActorInCombat();
 };
-extern SettingT_GameSettingCollection_ DAT_011ce2c0;
-extern SettingT_GameSettingCollection_ DAT_011cece8;
-extern SettingT_GameSettingCollection_ DAT_011ceef0;
-extern SettingT_GameSettingCollection_ DAT_011cf21c;
-extern SettingT_GameSettingCollection_ DAT_011cf350;
-extern SettingT_GameSettingCollection_ DAT_011cf6c0;
-extern SettingT_GameSettingCollection_ DAT_011cf810;
-extern SettingT_GameSettingCollection_ DAT_011cf888;
-extern SettingT_GameSettingCollection_ DAT_011cfbf0;
-extern PlayerCharacter* g_thePlayer;
-extern const double runtimeInitializationDouble2;
 float GetWeaponHealthConditionMultiplier(float);
 float GetArmorConditionFactor(float);
-float FUN_0040ebd0(float, float);
-float FUN_00404010(float, float);
 void FUN_005330e0(float&, float, float);
-float RandomFloat(float, float);
-void ApplyPerkModifiers(int, Actor*, ...);
 class CombatWeaponCritical
 {
   public:
@@ -171,6 +167,5 @@ enum AMMO_EFFECT_TYPE
 class TESAmmoEffect
 {
   public:
-    static float ApplyAmmoEffects(AMMO_EFFECT_TYPE, BSSimpleList<TESAmmoEffect*>*, float);
 };
 #endif

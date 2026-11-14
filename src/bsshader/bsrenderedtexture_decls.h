@@ -2,8 +2,8 @@
 #ifndef BSRENDEREDTEXTURE_DECLS_H
 #define BSRENDEREDTEXTURE_DECLS_H
 
+#include "fnv/symbols_01270000.h"
 struct NiRTTI;
-extern NiRTTI DAT_012708e4;
 class NiRenderTargetGroup;
 class NiRenderedTexture
 {
@@ -18,7 +18,7 @@ class NiRenderedTexture
         return GetType() == type;
     }
 };
-class BSRenderedTexture
+struct BSRenderedTexture
 {
   public:
     unsigned char base[8];

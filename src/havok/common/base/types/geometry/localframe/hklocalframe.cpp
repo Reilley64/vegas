@@ -2,16 +2,21 @@
 // src/havok/common/base/types/geometry/localframe/hklocalframe.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/geometry/localframe/hklocalframe.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
 #include "havok/hkLocalFrame.h"
 
 struct DDCC60World
 {
-    void removeReference(void);
 };
 
 struct hkReferencedObject_ : public hkReferencedObject
 {
-    void RetainReference(void);
 };
 
 struct FUN_00df6550
@@ -23,10 +28,10 @@ struct FUN_00df6550
 void FUN_00df6550::AddObjectReference(hkReferencedObject* apObject)
 {
     if (apObject)
-        ((hkReferencedObject_*)apObject)->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((((hkReferencedObject_*)apObject)))->FUN_00c90510();
     hkReferencedObject_* pOldObject = *(hkReferencedObject_**)((char*)this + 0x60);
     if (pOldObject)
-        ((DDCC60World*)pOldObject)->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((DDCC60World*)pOldObject)))->FUN_00c905b0();
     *(hkReferencedObject_**)((char*)this + 0x60) = (hkReferencedObject_*)apObject;
 }
 
@@ -113,18 +118,6 @@ void FUN_00df66a0_Node::GetWorldTransform(FNVTransform* dest)
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkSimdRealDF65
 {
@@ -154,7 +147,6 @@ struct hkVector4DF65
         r.m_vValue = _mm_sqrt_ss(_mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum));
         return r;
     }
-    void FUN_00c7f690(const struct hkTransformDF65& kTransform, const hkVector4DF65& kPos);
 };
 
 struct hkTransformDF65
@@ -233,7 +225,7 @@ void hkpDF65Node::FUN_00df65d0(const hkVector4DF65& kPos, float afRadius, hkpDF6
     if (m_children.GetLogicalSize() > 0)
     {
         hkVector4DF65 kLocalPos;
-        kLocalPos.FUN_00c7f690(m_kMotionTransform, kPos);
+        reinterpret_cast<::FUN_00c7f690_cls *>(&(kLocalPos))->FUN_00c7f690((const ::S_00c7f690_M *)&(m_kMotionTransform), (const ::S_00c7f690_V *)&(kPos));
         for (int i = 0; i < m_children.GetLogicalSize(); i++)
         {
             m_children[i]->query(kLocalPos, afRadius, pkCollector);
@@ -301,13 +293,7 @@ void df6710_self::FUN_00df6710(df6710_mat* apMatrix)
 }
 
 namespace fnv_00df6770 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } components;
-};
+
 struct FrameVector
 {
     __m128 data;
@@ -385,9 +371,9 @@ class hkMemoryAllocatorDF6
 
 struct hkMemoryRouterDF6
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorDF6* m_pTemp;
     hkMemoryAllocatorDF6* m_pStreamAllocator;
     hkMemoryAllocatorDF6& heap()
@@ -396,11 +382,9 @@ struct hkMemoryRouterDF6
     }
 };
 
-extern "C" hkMemoryRouterDF6* __cdecl FUN_00c85750() throw();
 
 struct hkRefDF6
 {
-    void FUN_00c905b0() throw();
 };
 
 template <class T> class hkArrayDF6
@@ -412,7 +396,7 @@ template <class T> class hkArrayDF6
 
     ~hkArrayDF6() throw()
     {
-        hkMemoryAllocatorDF6& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocatorDF6& alloc = static_cast<hkMemoryRouterDF6*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -424,10 +408,9 @@ template <class T> class hkArrayDF6
 struct FUN_00cb0c00_class
 {
     const char* m_pcText;
-    void FUN_00cb0c00() throw();
     ~FUN_00cb0c00_class() throw()
     {
-        FUN_00cb0c00();
+        ::FUN_00cb0c00((intptr_t)this);
     }
 };
 
@@ -465,9 +448,9 @@ FUN_00df67d0::~FUN_00df67d0()
 {
     int n = m_children.m_iElementCount;
     for (int i = 0; i < n; i++)
-        m_children.m_data[i]->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_children.m_data[i]))->FUN_00c905b0();
     if (m_kGroupData)
-        m_kGroupData->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kGroupData))->FUN_00c905b0();
 }
 
 struct FnvCpu_FUN_00df6580_CpuData0

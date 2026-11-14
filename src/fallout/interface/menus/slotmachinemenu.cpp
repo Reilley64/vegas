@@ -2,6 +2,108 @@
 // src/fallout/interface/menus/slotmachinemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/slotmachinemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/ActorValueOwner.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/ContainerOperation.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_0045a5e0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a0fd0_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_00504e00_shell.h"
+#include "fnv/decl/FUN_00504e20_shell.h"
+#include "fnv/decl/FUN_00504e40_shell.h"
+#include "fnv/decl/FUN_00504e60_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_00572160_shell.h"
+#include "fnv/decl/FUN_007316d0_Class.h"
+#include "fnv/decl/FUN_00737e30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a01290_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00c4f270_Class.h"
+#include "fnv/decl/FUN_00c4f2d0_class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/Menu.h"
+#include "fnv/decl/MultiBoundManagerB5D.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiControllerManager.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/PickupSoundActorView.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESQuest.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/Target2180.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/TimeCounter.h"
+#include "fnv/decl/TopicMenuController.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_004818e0__FUN_004818e0_t.h"
+#include "fnv/decl/fnv_007fd640__FUN_007fd640Class.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00969b20__TimeRefresh.h"
+#include "fnv/decl/fnv_00969b80__FUN_00969b80_class.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005a6000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_007c2000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01025000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01049000.h"
+#include "fnv/symbols_01054000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 struct SlotMachineMenu
 {
     int FUN_007c0800();
@@ -24,17 +126,6 @@ struct FUN_007c0840Host
     void FUN_007c0870();
     void* FUN_007c0840(unsigned int);
 };
-void __cdecl _Deallocate(void*);
-// Calls FUN_007c0870, then deallocates this when bit 0 of flags is set, and returns this.
-// @fnv 0x007c0840
-void* FUN_007c0840Host::FUN_007c0840(unsigned int flags)
-{
-    FUN_007c0870();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_007c1450_shell
 {
     int m[0x2a];
@@ -52,7 +143,7 @@ char FUN_007c1450_shell::FUN_007c1450()
 }
 
 namespace fnv_007c0810 {
-struct Tile;
+class Tile;
 struct SlotMachineMenu
 {
     char pad[0xa0];
@@ -101,25 +192,20 @@ int FUN_007c5760_shell::FUN_007c5760()
         return 0;
 }
 
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
-    const char* GetMenuTitle();
 };
 struct FNStub
 {
-    const char* GetFullName();
 };
-struct Tile
+class Tile
 {
-    void Set(int id, const char* str, bool propagate);
+public:
+    void Set(int, int);
+public:
+    static float GetInterfaceScale();
 };
-int _sprintf_s(char* buf, unsigned int size, const char* fmt, ...);
-int BSStringLength(const char* str);
-extern const char DAT_01012058[];
-extern GlobalObject_0040c150 g_011d3e08;
-extern int DAT_011da99c;
 extern int* DAT_011da9a8;
-extern char* DAT_011da9ac;
 
 struct FUN_007c5e60_shell
 {
@@ -176,21 +262,21 @@ void FUN_007c5e60_shell::UpdateTileText()
     int ilen;
     int i;
 
-    _sprintf_s(tstring, 0x104, "%s %s%i", ((FNStub*)(DAT_011da9ac + 0x18))->GetFullName(), g_011d3e08.GetMenuTitle(),
+    ::FUN_00406d00(tstring, 0x104, "%s %s%i", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)(DAT_011da9ac + 0x18))))->FUN_00408da0())), ((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3e08))->GetMenuTitle())),
                DAT_011da9a8[1]);
-    ilen = BSStringLength(tstring);
+    ilen = ((int)(::FUN_0044a670(tstring)));
     if (ilen < 0x17)
     {
-        _sprintf_s(tstring, 0x104, DAT_01012058, ((FNStub*)(DAT_011da9ac + 0x18))->GetFullName(),
-                   g_011d3e08.GetMenuTitle());
+        ::FUN_00406d00(tstring, 0x104, DAT_01012058, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)(DAT_011da9ac + 0x18))))->FUN_00408da0())),
+                   ((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3e08))->GetMenuTitle())));
         for (i = 0; i < 0x17 - ilen; i++)
         {
             tstring[ilen + (i - 1)] = ' ';
             tstring[ilen + i] = 0;
         }
-        _sprintf_s(tstring, 0x104, "%s%i", tstring, DAT_011da9a8[1]);
+        ::FUN_00406d00(tstring, 0x104, "%s%i", tstring, DAT_011da9a8[1]);
     }
-    m_tile->Set(DAT_011da99c, tstring, true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_tile))->FUN_00a01350(DAT_011da99c, (char *)(tstring), true);
 }
 
 struct AnimIdle;
@@ -198,7 +284,7 @@ struct Accum_00733500;
 
 struct S148c0
 {
-    void FUN_007148c0(int, int);
+    void FUN_007148c0(intptr_t, int);
 };
 
 struct MiddleLowProcess
@@ -215,7 +301,7 @@ struct GO
 {
     unsigned int value;
 
-    GO(int);
+    GO(intptr_t);
     ~GO();
     operator unsigned int() const;
     void operator=(void*);
@@ -227,7 +313,6 @@ struct GlobalObject_00633c90 : GO
 
 struct Mgr_00733500
 {
-    AnimIdle* FUN_007fd640();
 };
 
 struct NiAdditionalGeometryData
@@ -235,58 +320,46 @@ struct NiAdditionalGeometryData
     static void* GetShadowSceneNodeForIndex(int);
 };
 
+class BSShaderAccumulator;
+class NiCamera;
 struct BSShaderRenderUtility
 {
-    static void SetRenderCamera(AnimIdle*, AnimIdle*, bool);
+public:
+    static void SetRenderCamera(::NiCamera *, ::BSShaderAccumulator *, bool);
 };
 
 struct Accum_00733500
 {
-    void FUN_00c4f270(int);
-    void FUN_004a0fd0(AnimIdle*);
-    void FUN_00c4f2d0();
 };
 
-S148c0* __cdecl FUN_0043c4b0();
-AnimIdle* __cdecl FUN_0045c670();
-void __cdecl UpdateCameraFrustum(AnimIdle*, float);
-Mgr_00733500* __cdecl _FUN_004b7210();
-void __cdecl FUN_00b6bee0(AnimIdle*, void*, Accum_00733500*);
 
-extern GlobalObject_00633c90 g_011da9d0;
-extern const float g_011db5ec_arg1;
 
 // @fnv 0x007c19c0
 void FUN_007c19c0()
 {
-    FUN_0043c4b0()->FUN_007148c0(0, 4);
+    ((::S148c0 *)(::FUN_0043c4b0()))->FUN_007148c0(0, 4);
 
-    AnimIdle* go = FUN_0045c670();
+    AnimIdle* go = ((::AnimIdle *)(::FUN_0045c670()));
     Accum_00733500* accum = ((MiddleLowProcess*)go)->GetProcessInteger();
-    accum->FUN_00c4f270(1);
+    reinterpret_cast<::FUN_00c4f270_Class *>((accum))->FUN_00c4f270(1);
 
-    AnimIdle* anim2 = (AnimIdle*)(unsigned int)g_011da9d0;
-    UpdateCameraFrustum(anim2, g_011db5ec_arg1);
+    AnimIdle* anim2 = (AnimIdle*)(uintptr_t)::g_011da9d0;
+    ::UpdateCameraFrustum((::NiCamera *)(anim2), g_011db5ec_arg1);
 
-    GO selected((int)_FUN_004b7210()->FUN_007fd640());
-    accum->FUN_004a0fd0((AnimIdle*)(unsigned int)selected);
+    GO selected((int)((reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
+    reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)(uintptr_t)selected));
 
     AnimIdle* anim = anim2 ? anim2 : (AnimIdle*)((BSFaceGenNiNode*)go)->GetAnimationData();
 
-    FUN_00b6bee0(anim, NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1), accum);
-    BSShaderRenderUtility::SetRenderCamera(anim, (AnimIdle*)(unsigned int)selected, false);
+    ::FUN_00b6bee0(anim, NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1), (::BSShaderAccumulator *)(accum));
+    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(anim), (::BSShaderAccumulator *)(::AnimIdle *)((AnimIdle*)(uintptr_t)selected), false);
 
-    accum->FUN_004a0fd0(0);
+    reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)(0));
     selected = 0;
-    accum->FUN_00c4f2d0();
+    reinterpret_cast<::FUN_00c4f2d0_class *>((accum))->FUN_00c4f2d0();
 }
 
-struct NiFixedString
-{
-    const char* m_psz;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct NiUpdateData
 {
     float m_00;
@@ -296,17 +369,12 @@ struct NiUpdateData
 };
 struct NiBoundW7
 {
-    float FUN_0084d030();
 };
 struct CtrlObj
 {
-    CtrlObj* FUN_0047a520(const NiFixedString&);
-    void FUN_0048fef0(float);
-    void FUN_0047aab0(CtrlObj*, int, int, float, float, int);
 };
 struct AVObj
 {
-    CtrlObj* FUN_00a5c570(const void*);
 };
 struct NiNodeW7
 {
@@ -366,23 +434,15 @@ struct NiNodeW7
     virtual void Vf53();
     virtual void Vf54();
     virtual void Vf55(void*, int);
-    void FUN_0043fa80(const void*);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_00a59c60(const NiUpdateData&);
-    NiBoundW7* FUN_0043d450();
 };
 struct ShadowSceneNode : NiNodeW7
 {
-    void FUN_00b5ca70(NiNodeW7*, float);
 };
 ShadowSceneNode* __cdecl FUN_00450b80(int);
 struct GObjW7
 {
-    NiNodeW7* FUN_00559450();
 };
 struct GlobalObject_00633c90;
-extern GlobalObject_00633c90 g_011da9fc;
-extern GlobalObject_00633c90 g_011da9d0;
 struct MatW7
 {
     float m_00;
@@ -394,25 +454,17 @@ struct MatW7
     float m_18;
     float m_1c;
     float m_20;
-    void FUN_006815c0();
-    void FUN_00524ac0(float);
-    void FUN_004a0c90(float);
     MatW7 FUN_0043f8d0(MatW7*);
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00a5ecb0 : NiMemObject
 {
     int m[0x2b];
     FUN_00a5ecb0(unsigned int);
 };
-extern int DAT_011f36ac;
-extern float DAT_0105478c;
 extern float DAT_0107678c;
-void __cdecl FUN_00a6d2d0(AVObj*);
 struct MenuW7
 {
     int unk0000;
@@ -497,76 +549,9 @@ struct MenuW7
     CtrlObj* m_144;
     CtrlObj* m_148[3];
     void InitPayoutMenu();
-    void* FUN_007c2180();
     void FUN_007c4d70();
-    void FUN_007c40b0();
 };
 static const char kPayoutIn[] = "Payout_In";
-// @fnv 0x007c1af0
-void MenuW7::InitPayoutMenu()
-{
-    ((GO&)g_011da9fc) = new FUN_00a5ecb0(0);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->Vf55(m_104, 1);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->Vf55(m_108[0], 1);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->Vf55(m_108[1], 1);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->Vf55(m_108[2], 1);
-    MatW7 xObjB;
-    MatW7 objC7;
-    xObjB.FUN_006815c0();
-    objC7.FUN_006815c0();
-    xObjB.FUN_00524ac0(1.5707963705062866f);
-    objC7.FUN_004a0c90(1.5707963705062866f);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_0043fa80((const void*)&xObjB.FUN_0043f8d0(&objC7));
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
-    NiUpdateData upd1(0.0f, false, 0);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_00a59c60(upd1);
-    CtrlObj* xPCtrl = m_104->FUN_00a5c570(&DAT_011f36ac);
-    if (xPCtrl != 0)
-    {
-        m_134 = xPCtrl;
-        m_138 = m_134->FUN_0047a520(NiFixedString("Forward"));
-        m_13c = m_134->FUN_0047a520(NiFixedString("Backward"));
-        m_140 = m_134->FUN_0047a520(NiFixedString(kPayoutIn));
-        m_144 = m_134->FUN_0047a520(NiFixedString("Payout_Out"));
-        m_134->FUN_0048fef0(0.0f);
-        if (m_138 != 0)
-        {
-            m_134->FUN_0047aab0(m_138, 0, 1, 1.0f, 0.0f, 0);
-        }
-        FUN_00a6d2d0(m_104);
-    }
-    CtrlObj* arr12[3];
-    CtrlObj* aarr2[3];
-    int oI;
-    for (oI = 0; oI < 3; oI++)
-    {
-        arr12[oI] = m_108[oI]->FUN_00a5c570(&DAT_011f36ac);
-    }
-    int jX;
-    for (jX = 0; jX < 3; jX++)
-    {
-        if (arr12[jX] != 0)
-        {
-            aarr2[jX] = arr12[jX];
-            m_148[jX] = aarr2[jX]->FUN_0047a520(NiFixedString("Forward"));
-            aarr2[jX]->FUN_0048fef0(0.0f);
-            if (m_148[jX] != 0)
-            {
-                aarr2[jX]->FUN_0047aab0(m_148[jX], 0, 1, 1.0f, 0.0f, 0);
-            }
-            FUN_00a6d2d0(m_108[jX]);
-        }
-    }
-    NiUpdateData _upd2(0.0f, false, 0);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_00a59c60(_upd2);
-    ((GO&)g_011da9d0) = FUN_007c2180();
-    FUN_00450b80(1)->Vf55(((GObjW7*)(void*)&g_011da9fc)->FUN_00559450(), 1);
-    float fTemp0 = ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_0043d450()->FUN_0084d030() * 3.0;
-    FUN_00450b80(1)->FUN_00b5ca70(((GObjW7*)(void*)&g_011da9fc)->FUN_00559450(), fTemp0);
-    FUN_007c4d70();
-    FUN_007c40b0();
-}
-
 struct FUN_007c56e0_shell
 {
     int unk00;
@@ -618,11 +603,9 @@ struct FUN_007c56e0_shell
     int savedResults[3];
     int currentResults[3];
 
-    int FUN_007c5760();
     void FUN_007c56e0();
 };
 
-int __cdecl FUN_00944460(int, int);
 
 // @fnv 0x007c56e0
 void FUN_007c56e0_shell::FUN_007c56e0()
@@ -630,17 +613,15 @@ void FUN_007c56e0_shell::FUN_007c56e0()
     for (int i = 0; i < 3; ++i)
     {
         savedResults[i] = currentResults[i];
-        currentResults[i] = sourceValues[FUN_00944460(0, valueCount * 2 - 1)];
+        currentResults[i] = sourceValues[((int)(::GetRandomNumberInRange(0, valueCount * 2 - 1)))];
     }
 
-    FUN_007c5760();
+    reinterpret_cast<::FUN_007c5760_shell *>(this)->FUN_007c5760();
 }
 
-struct PlayerCharacter
+class PlayerCharacter
 {
-    void FUN_00969b20();
 };
-extern PlayerCharacter* g_thePlayer;
 
 struct SlotModelSource
 {
@@ -653,15 +634,11 @@ struct SlotModelSource
 };
 struct SlotModelList
 {
-    SlotModelSource* FUN_00504e00(int index);
 };
 
 struct ModelLoader
 {
-    void FUN_0045a5e0(const char* path);
 };
-extern ModelLoader* g_modelLoader;
-extern int DAT_011da9a4;
 
 struct SlotShadowNode
 {
@@ -728,12 +705,10 @@ struct SlotShadowNode
 
 struct SlotSceneNode
 {
-    void FUN_00b5d180();
 };
 
 struct NiNodeRef
 {
-    void DetachAllChildren();
 };
 
 struct SlotNiPointer
@@ -825,21 +800,30 @@ struct FUN_007c0870 : Menu_007a8b10
     void* m_reelControllers[3];
     virtual ~FUN_007c0870();
 };
+// Calls FUN_007c0870, then deallocates this when bit 0 of flags is set, and returns this.
+// @fnv 0x007c0840
+void* FUN_007c0840Host::FUN_007c0840(unsigned int flags)
+{
+    reinterpret_cast<::FUN_007c0870 *>(this)->FUN_007c0870::~FUN_007c0870();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x007c0870
 FUN_007c0870::~FUN_007c0870()
 {
-    g_thePlayer->FUN_00969b20();
-    g_modelLoader->FUN_0045a5e0(((SlotModelList*)DAT_011da9ac)->FUN_00504e00(7)->GetModelPath());
-    g_modelLoader->FUN_0045a5e0("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel01.NIF");
-    g_modelLoader->FUN_0045a5e0("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel02.NIF");
-    g_modelLoader->FUN_0045a5e0("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel03.NIF");
-    ((SlotShadowNode*)FUN_00450b80(1))->AttachRoot(((GObjW7*)&g_011da9fc)->FUN_00559450());
-    ((SlotSceneNode*)FUN_00450b80(1))->FUN_00b5d180();
-    ((NiNodeRef*)((GObjW7*)&g_011da9fc)->FUN_00559450())->DetachAllChildren();
+    reinterpret_cast<::fnv_00969b20::TimeRefresh *>((::_g_thePlayer))->FUN_00969b20();
+    reinterpret_cast<::FUN_0045a5e0_shell *>((::g_modelLoader))->FUN_0045a5e0((char *)(((::SlotModelSource *)(reinterpret_cast<::FUN_00504e00_shell *>((((SlotModelList*)DAT_011da9ac)))->FUN_00504e00(7)))->GetModelPath()));
+    reinterpret_cast<::FUN_0045a5e0_shell *>((::g_modelLoader))->FUN_0045a5e0((char *)("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel01.NIF"));
+    reinterpret_cast<::FUN_0045a5e0_shell *>((::g_modelLoader))->FUN_0045a5e0((char *)("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel02.NIF"));
+    reinterpret_cast<::FUN_0045a5e0_shell *>((::g_modelLoader))->FUN_0045a5e0((char *)("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel03.NIF"));
+    ((SlotShadowNode*)FUN_00450b80(1))->AttachRoot(((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)&::g_011da9fc))))));
+    reinterpret_cast<::MultiBoundManagerB5D *>((((SlotSceneNode*)FUN_00450b80(1))))->FUN_00b5d180();
+    reinterpret_cast<::FUN_00572160_shell *>((((NiNodeRef*)((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)&::g_011da9fc))))))))->FUN_00572160();
     m_104 = 0;
-    (GO&)g_011da9d0 = 0;
-    (GO&)g_011da9fc = 0;
+    (GO&)::g_011da9d0 = 0;
+    (GO&)::g_011da9fc = 0;
     m_134 = 0;
     for (int i = 0; i < 3; i++)
     {
@@ -855,7 +839,6 @@ FUN_007c0870::~FUN_007c0870()
 }
 
 namespace fnv_007c0a40 {
-void* __cdecl operator new(unsigned int);
 struct FUN_00733f50
 {
     void* owner;
@@ -867,15 +850,12 @@ struct FUN_00733f50
 typedef FUN_00733f50 Record;
 struct RecordList
 {
-    Record** FUN_006815c0();
-    RecordList* FUN_00726070();
     bool FUN_008256d0();
     void FUN_00726c60(Record**);
     void FUN_005ae3d0(Record**);
 };
 struct Setting
 {
-    const char* FUN_00403df0();
 };
 struct CasinoData
 {
@@ -893,7 +873,6 @@ struct CasinoData
 };
 struct StringField
 {
-    const char* FUN_00408da0();
 };
 struct Casino
 {
@@ -976,13 +955,10 @@ struct Casino
     virtual const char* GetName();
     int unk04;
     int unk08;
-    int unk0c;
+    void* unk0c;
     int unk10;
     int unk14;
     StringField name;
-    void* FUN_0084e3a0();
-    CasinoData* FUN_00504e60();
-    void* FUN_007316d0();
 };
 struct Player
 {
@@ -1029,23 +1005,11 @@ struct Player
     int unka0;
     struct Stats
     {
-        int FUN_0066ef20(int);
     } stats;
-    RecordList* FUN_005a6260();
-    bool FUN_00969b80();
-    int FUN_00969b40();
-    int FUN_00575610(void*);
 };
 struct GameMenu;
 struct GameTile
 {
-    GameTile* FUN_00a01b00();
-    GameMenu* FUN_00a03c90();
-    float FUN_00a011b0(int);
-    void FUN_00a012d0(int, float);
-    void FUN_00a01350(int, const char*, bool);
-    void SetTraitAndReset(int, float);
-    void FUN_00700320(int, int);
 };
 struct GameMenu
 {
@@ -1063,7 +1027,7 @@ struct GameMenu
     virtual void vf2c();
     virtual void vf30();
     virtual int Type();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1114,19 +1078,12 @@ struct GameMenu
     GameTile* tilec4;
     int stat;
     int wager;
-    void FUN_00a1dc70(GameTile*, bool);
-    bool FUN_007c1450();
     bool LoadAssets();
-    void InitPayoutMenu();
-    void UpdateTileText();
-    void FUN_00a1dc20(int);
-    GameTile* FUN_00726070();
 };
 struct TileManager
 {
     struct Reader
     {
-        GameTile* FUN_00586150(const char*);
     };
 };
 struct BSSoundHandleEx
@@ -1135,45 +1092,13 @@ struct BSSoundHandleEx
     int state;
     int flags;
     ~BSSoundHandleEx();
-    bool Play(bool);
 };
-class BSAudio
+struct BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 };
-void* __cdecl FUN_00a09030(int);
-int __cdecl FUN_004839c0(void*);
-void __cdecl DispatchMessageToSink(const char*, int, const char*, int, float, int);
-void __cdecl FUN_005b5e40(const char*);
-int __cdecl FUN_0044a670(const char*);
-GameTile* __cdecl FUN_00a08b20(GameTile*, const char*);
-float __stdcall FUN_00a01530(int);
-void __cdecl FUN_007c2420();
-extern Player* DAT_011dea3c;
-extern GameMenu* DAT_011da9a4;
-extern int DAT_011a0828;
-extern int DAT_011a082c;
-extern int DAT_011da998;
-extern float DAT_010162c0;
-extern Setting DAT_011d2ac0;
-extern Setting DAT_011d3abc;
-extern Setting DAT_011d2424;
-extern Setting DAT_011d3594;
-extern Setting DAT_011d3804;
-extern Setting DAT_011d3300;
-extern Setting DAT_011d2fd0;
-extern Setting DAT_011d3354;
-extern Setting DAT_011d487c;
-extern Setting DAT_011d4054;
-extern Setting DAT_011d37f8;
-extern Setting DAT_011d387c;
-extern Setting DAT_011d33fc;
-extern const char DAT_01049638[];
 extern const char DAT_01076694[];
-extern const char DAT_01070c58[];
-extern const char DAT_01025cc4[];
 extern const char DAT_01076670[];
 extern const char DAT_01076618[];
 extern const char DAT_01076600[];
@@ -1184,125 +1109,125 @@ extern const char DAT_010765d8[];
 // @fnv 0x007c0a40
 GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
 {
-    GameMenu* oldMenu = (GameMenu*)FUN_00a09030(0x438);
-    TileManager::Reader* tile = (TileManager::Reader*)_FUN_004b7210();
+    GameMenu* oldMenu = (GameMenu*)((void *)(::FUN_00a09030(0x438)));
+    TileManager::Reader* tile = (TileManager::Reader*)((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()));
     DAT_011a0828 = mode;
     DAT_011a082c = wager;
     DAT_011da9ac = casino;
     DAT_011da9a8 = 0;
-    RecordList* node = DAT_011dea3c->FUN_005a6260();
-    while (node && *node->FUN_006815c0())
+    RecordList* node = ((::fnv_007c0a40::RecordList *)(::FUN_005a6260((char *)((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))));
+    while (node && *((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
     {
-        if (!(*node->FUN_006815c0())->owner || !FUN_004839c0((*node->FUN_006815c0())->owner))
+        if (!(*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner || !((intptr_t)(::FUN_004839c0((unsigned int)(uintptr_t)((*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)))))
         {
-            DispatchMessageToSink(DAT_01076694, 0, DAT_01049638, 0, DAT_010162c0, 0);
+            ::DispatchMessageToSink((const char *)(DAT_01076694), 0, (const char *)(::DAT_01049638), 0, ::DAT_010162c0, 0);
             return 0;
         }
-        if (((Casino*)DAT_011da9ac)->FUN_0084e3a0() == (*node->FUN_006815c0())->owner)
+        if (((void *)(((Casino*)DAT_011da9ac)->unk0c)) == (*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)
         {
-            DAT_011da9a8 = (int*)*node->FUN_006815c0();
+            DAT_011da9a8 = (int*)*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             break;
         }
-        if (!node->FUN_00726070())
+        if (!((::fnv_007c0a40::RecordList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             break;
-        node = node->FUN_00726070();
+        node = ((::fnv_007c0a40::RecordList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     if (!DAT_011da9a8)
     {
         Record* pNewRecord = new Record;
-        pNewRecord->owner = ((Casino*)DAT_011da9ac)->FUN_0084e3a0();
+        pNewRecord->owner = ((void *)(((Casino*)DAT_011da9ac)->unk0c));
         pNewRecord->count = 0;
-        node = DAT_011dea3c->FUN_005a6260();
+        node = ((::fnv_007c0a40::RecordList *)(::FUN_005a6260((char *)((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))));
         if (!node || node->FUN_008256d0())
             node->FUN_00726c60(&pNewRecord);
         else
             node->FUN_005ae3d0(&pNewRecord);
         DAT_011da9a8 = (int*)pNewRecord;
     }
-    if (DAT_011dea3c->FUN_00969b80())
+    if (((bool)(reinterpret_cast<::fnv_00969b80::FUN_00969b80_class *>(((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))->FUN_00969b80())))
     {
         char message[260];
-        _sprintf_s(message, 260, DAT_01070c58, DAT_011d2ac0.FUN_00403df0(), DAT_011dea3c->FUN_00969b40());
-        DispatchMessageToSink(message, 0, DAT_01049638, 0, DAT_010162c0, 0);
-        BSAudio::GetSingleton()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121).Play(false);
+        ::FUN_00406d00(message, 260, ::DAT_01070c58, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d2ac0))))->GetMenuTitle())), ((int)(reinterpret_cast<::TimeCounter *>(((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))->FUN_00969b40())));
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(::DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
-    if (((Record*)DAT_011da9a8)->count >= ((Casino*)DAT_011da9ac)->FUN_00504e60()->limit)
+    if (((Record*)DAT_011da9a8)->count >= ((::fnv_007c0a40::CasinoData *)(reinterpret_cast<::FUN_00504e60_shell *>((((Casino*)DAT_011da9ac)))->FUN_00504e60()))->limit)
     {
         char message[260];
-        _sprintf_s(message, 260, DAT_011d3abc.FUN_00403df0());
-        DispatchMessageToSink(message, 0, DAT_01049638, 0, DAT_010162c0, 0);
-        BSAudio::GetSingleton()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121).Play(false);
+        ::FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d3abc))))->GetMenuTitle())));
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(::DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
-    if (DAT_011dea3c->FUN_00575610(((Casino*)DAT_011da9ac)->FUN_007316d0()) < DAT_011a082c)
+    if (reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((Casino*)DAT_011da9ac)))->FUN_007316d0())))) < DAT_011a082c)
     {
         char message[260];
-        _sprintf_s(message, 260, DAT_011d2424.FUN_00403df0());
-        DispatchMessageToSink(message, 0, DAT_01049638, 0, DAT_010162c0, 0);
-        BSAudio::GetSingleton()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121).Play(false);
+        ::FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d2424))))->GetMenuTitle())));
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(::DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
     if (((Record*)DAT_011da9a8)->count < threshold && threshold != 0)
     {
         char message[260];
-        _sprintf_s(message, 260, DAT_011d3594.FUN_00403df0());
-        DispatchMessageToSink(message, 0, DAT_01049638, 0, DAT_010162c0, 0);
-        BSAudio::GetSingleton()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121).Play(false);
+        ::FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d3594))))->GetMenuTitle())));
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(::DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
     if (oldMenu)
         delete oldMenu;
-    GameTile* manager = tile->FUN_00586150(DAT_01076670)->FUN_00a01b00();
-    DAT_011da9a4 = manager->FUN_00a03c90();
-    if (DAT_011da9a4 && DAT_011da9a4->Type() == FUN_007c1440() && DAT_011da9ac)
+    GameTile* manager = ((::fnv_007c0a40::GameTile *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::fnv_007c0a40::GameTile *)(reinterpret_cast<::InterfaceManager *>((tile))->FUN_00586150()))))->FUN_00a01b00({})));
+    (*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4)) = ((::fnv_007c0a40::GameMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((manager))->FUN_00a03c90()));
+    if ((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4)) && (*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->Type() == FUN_007c1440() && DAT_011da9ac)
     {
-        DAT_011da9a4->FUN_00a1dc70(manager, false);
-        if (!DAT_011da9a4->FUN_007c1450())
+        reinterpret_cast<::FUN_00a1dc70_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->FUN_00a1dc70((::TileMenu *)(manager), false);
+        if (!((bool)(reinterpret_cast<::FUN_007c1450_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->FUN_007c1450())))
         {
-            FUN_005b5e40(DAT_01076618);
+            ::FUN_005b5e40();
             return 0;
         }
-        if (manager->FUN_00a011b0(0xfa7) == 6006.0 || manager->FUN_00a011b0(0xfa7) == 102.0)
-            manager->FUN_00a012d0(0xfad, FUN_00a01530(1));
-        BSAudio::GetSingleton()->GetSoundHandleByEditorID(DAT_01076600, 0x121).Play(false);
-        DAT_011da9a4->stat = DAT_011dea3c->stats.FUN_0066ef20(11);
-        DAT_011da9a4->wager = DAT_011a082c;
-        DAT_011da9a4->tilea0->FUN_00a01350(DAT_011da99c, DAT_011d3804.FUN_00403df0(), true);
-        DAT_011da9a4->tilea0->SetTraitAndReset(DAT_011da998, 1.0f);
-        DAT_011da9a4->tilea0->FUN_00700320(DAT_011da998, DAT_011a082c);
-        DAT_011da9a4->tilea4->FUN_00a01350(DAT_011da99c, DAT_011d3300.FUN_00403df0(), true);
-        DAT_011da9a4->tilea4->SetTraitAndReset(DAT_011da998, 1.0f);
-        DAT_011da9a4->tilea4->FUN_00700320(DAT_011da998,
-                                           DAT_011dea3c->FUN_00575610(((Casino*)DAT_011da9ac)->FUN_007316d0()));
+        if (reinterpret_cast<::TileListBoxCalls *>((manager))->GetFloat(0xfa7) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((manager))->GetFloat(0xfa7) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((manager))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), {});
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(DAT_01076600, 0x121)))->FUN_00ad8830(false);
+        (*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->stat = reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))->stats))->GetActorValueAsInteger((::ActorValue::Index)(11));
+        (*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->wager = DAT_011a082c;
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilea0))->FUN_00a01350(DAT_011da99c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d3804))))->GetMenuTitle()))), true);
+        reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilea0))->SetTraitAndReset(::fnv_007c06f0::g_traitX, 1.0f);
+        reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilea0))->Set(::fnv_007c06f0::g_traitX, DAT_011a082c);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilea4))->FUN_00a01350(DAT_011da99c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d3300))))->GetMenuTitle()))), true);
+        reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilea4))->SetTraitAndReset(::fnv_007c06f0::g_traitX, 1.0f);
+        reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilea4))->Set(::fnv_007c06f0::g_traitX,
+                                           reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((Casino*)DAT_011da9ac)))->FUN_007316d0())))));
         char label[64];
-        if (FUN_0044a670(((Casino*)DAT_011da9ac)->name.FUN_00408da0()))
-            _sprintf_s(label, 64, DAT_01012058, ((Casino*)DAT_011da9ac)->name.FUN_00408da0(),
-                       g_011d3e08.GetMenuTitle());
+        if (((int)(::FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((Casino*)DAT_011da9ac)->name))->FUN_00408da0()))))))
+            ::FUN_00406d00(label, 64, DAT_01012058, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((Casino*)DAT_011da9ac)->name))->FUN_00408da0())),
+                       ((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3e08))->GetMenuTitle())));
         else
-            _sprintf_s(label, 64, DAT_010765f0, ((Casino*)DAT_011da9ac)->GetName());
-        DAT_011da9a4->tilea8->FUN_00a01350(DAT_011da99c, label, true);
-        FUN_00a08b20(DAT_011da9a4->tilea8, DAT_010765d8)->FUN_00700320(0xfa3, 0);
-        DAT_011da9a4->UpdateTileText();
-        DAT_011da9a4->tileac->FUN_00a01350(0xfc4, DAT_011d2fd0.FUN_00403df0(), true);
-        DAT_011da9a4->tileb0->FUN_00a01350(0xfc4, DAT_011d3354.FUN_00403df0(), true);
-        DAT_011da9a4->tileb4->FUN_00a01350(0xfc4, DAT_011d487c.FUN_00403df0(), true);
-        DAT_011da9a4->tileb8->FUN_00a01350(0xfc4, DAT_011d4054.FUN_00403df0(), true);
-        DAT_011da9a4->tilebc->FUN_00a01350(0xfc4, DAT_011d37f8.FUN_00403df0(), true);
-        DAT_011da9a4->tilec4->FUN_00a01350(0xfc4, DAT_011d387c.FUN_00403df0(), true);
-        if (DAT_011da9a4->tilec0)
-            DAT_011da9a4->tilec0->FUN_00a01350(0xfc4, DAT_011d33fc.FUN_00403df0(), true);
-        if (!DAT_011da9a4->LoadAssets())
+            ::FUN_00406d00(label, 64, DAT_010765f0, ((Casino*)DAT_011da9ac)->GetName());
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilea8))->FUN_00a01350(DAT_011da99c, (char *)(label), true);
+        reinterpret_cast<::Tile *>((((::fnv_007c0a40::GameTile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilea8), DAT_010765d8)))))->Set(0xfa3, 0);
+        reinterpret_cast<::FUN_007c5e60_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->UpdateTileText();
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tileac))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d2fd0))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tileb0))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d3354))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tileb4))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d487c))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tileb8))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d4054))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilebc))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d37f8))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilec4))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d387c))))->GetMenuTitle()))), true);
+        if ((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilec0)
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->tilec0))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d33fc))))->GetMenuTitle()))), true);
+        if (!(*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->LoadAssets())
         {
-            FUN_007c2420();
+            ::FUN_007c2420();
             return 0;
         }
-        DAT_011da9a4->InitPayoutMenu();
-        DAT_011da9a4->FUN_00a1dc20(0);
+        reinterpret_cast<::MenuW7 *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->InitPayoutMenu();
+        reinterpret_cast<::Menu *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->SetMenuVisibility(0);
         return manager;
     }
-    else if (DAT_011da9a4 && DAT_011da9a4->FUN_00726070())
-        delete DAT_011da9a4;
+    else if ((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4)) && ((::fnv_007c0a40::GameTile *)((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->unk04)))
+        delete (*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4));
     return 0;
 }
 }  // namespace fnv_007c0a40
@@ -1310,11 +1235,6 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
 namespace fnv_007c2c70 {
 struct MenuTile
 {
-    float GetFloat(int id);
-    void SetFloat(int id, float v);
-    void SetInt(int id, int v);
-    void SetString(int id, const char* s, int propagate);
-    void SetAlpha(float v, int propagate);
 };
 
 struct TileHolder
@@ -1322,11 +1242,9 @@ struct TileHolder
     MenuTile* GetTile(int id);
 };
 
-TileHolder* GetHolder();
 
 struct GenericGet
 {
-    void* Get();
 };
 
 struct BSStr : GenericGet
@@ -1340,7 +1258,6 @@ struct BSStr : GenericGet
 
 struct GameSetting
 {
-    const char* GetStr();
 };
 
 struct RgbaColor
@@ -1353,12 +1270,10 @@ struct RgbaColor
 
 struct ColorList
 {
-    void Set(int idx, RgbaColor* c);
 };
 
 struct ColorOwner
 {
-    ColorList* GetList();
 };
 
 struct ColorArray : GenericGet
@@ -1367,7 +1282,6 @@ struct ColorArray : GenericGet
 
 struct Timer
 {
-    int GetTime();
 };
 
 struct PlayerData
@@ -1387,15 +1301,10 @@ struct PlayerData
 
 struct ProgressObj
 {
-    void Show(int b);
 };
 
 struct Player
 {
-    int GetCaps();
-    int GetMaxCaps();
-    ProgressObj* GetProgress();
-    PlayerData* GetData();
 };
 
 struct InvItem;
@@ -1496,8 +1405,7 @@ struct DataHandler
     virtual void v170();
     virtual void v174();
     virtual void v178();
-    virtual void AddItem(int item, int a1, int count, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
-    int GetItemCount(int item);
+    virtual void AddItem(intptr_t item, int a1, int count, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
     InvItem* GetName(int item, int a, int b);
 };
 
@@ -1508,8 +1416,6 @@ struct CapsChange
     int unk08;
     CapsChange();
     ~CapsChange();
-    void Init(int item, int count, int a);
-    void Apply(DataHandler* h, int b);
 };
 
 struct AudioPlaybackHandle
@@ -1518,25 +1424,19 @@ struct AudioPlaybackHandle
     int unk04;
     int unk08;
     ~AudioPlaybackHandle();
-    void Play();
 };
 
 struct AudioMgr
 {
     AudioPlaybackHandle GetHandle(const char* name, int flags, int a);
 };
-AudioMgr* GetAudioMgr();
 
 struct AnimSeq
 {
-    float GetTime();
 };
 
 struct Anim
 {
-    void Deactivate(AnimSeq* s, float t);
-    void Activate(AnimSeq* s, int a, int b, float w, float t, int c);
-    void SetTime(float t);
 };
 
 struct HudMenu
@@ -1594,30 +1494,9 @@ struct HudMenu
 };
 
 unsigned char __cdecl IsMenuVisible(void* tile);
-const char* __cdecl GetItemName(int item);
-void __cdecl FormatString(BSStr* s, const char* fmt, ...);
-void __cdecl ShowMessage(const char* text, int a, const char* icon, InvItem* sound, float time, int b);
-void __cdecl FormatBuf(char* buf, unsigned int size, const char* fmt, ...);
-void __cdecl CloseSlots();
 
-extern Timer DAT_011f6394;
 extern float DAT_011daa30;
 extern int DAT_011daa2c;
-extern DataHandler* DAT_011dea3c;
-extern int DAT_011da998;
-extern HudMenu* DAT_011da9a4;
-extern ColorArray DAT_011da9fc;
-extern GameSetting DAT_011d3db4;
-extern GameSetting DAT_011d3114;
-extern GameSetting DAT_011d4e7c;
-extern GameSetting DAT_011d3abc;
-extern GameSetting DAT_011d387c;
-extern GameSetting DAT_011d3a98;
-extern GameSetting DAT_011d5050;
-extern GameSetting DAT_011d2ff4;
-extern GameSetting DAT_011d25e0;
-extern GameSetting DAT_011d3474;
-extern GameSetting DAT_011d2424;
 
 struct SlotMenu
 {
@@ -1635,7 +1514,7 @@ struct SlotMenu
     virtual void v2C();
     virtual void v30();
     virtual void* GetTile();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1718,11 +1597,6 @@ struct SlotMenu
     AnimSeq* m_144;
     AnimSeq* m_148;
 
-    int GetMode();
-    MenuTile* GetMenuTile();
-    void Refresh();
-    int SpinResult();
-    void UpdateReels();
     void StartSpin();
     void StopReels();
     void Unused0();
@@ -1744,7 +1618,7 @@ void SlotMenu::Update()
     }
     else if (kKVis)
     {
-        dt = DAT_011f6394.GetTime() - m_lastTime;
+        dt = ((int)(::fnv::timer::Time())) - m_lastTime;
         if (DAT_011daa2c != m_uiContentCount)
         {
             DAT_011daa30 = 0.0f;
@@ -1755,55 +1629,55 @@ void SlotMenu::Update()
         }
     }
     int tmp = 0;
-    m_lastTime = DAT_011f6394.GetTime();
+    m_lastTime = ((int)(::fnv::timer::Time()));
     DAT_011daa2c = m_uiContentCount;
     if (!kKVis)
     {
-        GetHolder()->GetTile(0xfa9)->SetAlpha(255.0f, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_007c2c70::MenuTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_007c2c70::TileHolder *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(255.0f, 1, {});
     }
     switch (m_uiContentCount)
     {
     case 7:
-        if (GetMode() != 2)
+        if (((int)(this->unk24)) != 2)
         {
-            GetHolder()->GetTile(0xfa9)->SetAlpha(255.0f, 1);
-            GetMenuTile()->SetInt(0x1772, 1);
-            Refresh();
+            reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_007c2c70::MenuTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_007c2c70::TileHolder *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(255.0f, 1, {});
+            reinterpret_cast<::Tile *>((((::fnv_007c2c70::MenuTile *)(this->unk04))))->Set(0x1772, 1);
+            reinterpret_cast<::FUN_00a1d910_shell *>(this)->FUN_00a1d910();
             int diff;
-            if ((diff = m_caps - DAT_011dea3c->GetItemCount(((Player*)DAT_011da9ac)->GetCaps())) < 0)
+            if ((diff = m_caps - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))))) < 0)
             {
-                DAT_011dea3c->AddItem(((Player*)DAT_011da9ac)->GetCaps(), 0, -diff, 0, 0, 0, 0, 0, 1, 0);
+                (*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))->AddItem(((intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())), 0, -diff, 0, 0, 0, 0, 0, 1, 0);
                 BSStr msg;
-                FormatString(&msg, "%i %s%s %s", -diff, GetItemName(((Player*)DAT_011da9ac)->GetCaps()),
-                             DAT_011d3114.GetStr(), DAT_011d3db4.GetStr());
-                ShowMessage((const char*)msg.Get(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds",
-                            DAT_011dea3c->GetName(((Player*)DAT_011da9ac)->GetCaps(), 1, 0), 2.0f, 0);
+                ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg), "%i %s%s %s", -diff, ::FUN_00482720((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
+                             ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3db4))))->GetMenuTitle())));
+                ::DispatchMessageToSink((const char *)((const char*)((void *)(::FUN_00559450((int *)&(msg))))), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                            (const char *)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((const char *)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
             }
             else if (diff > 0)
             {
                 CapsChange change;
-                change.Init(((Player*)DAT_011da9ac)->GetCaps(), diff, 0);
-                if (DAT_011da9a8[1] < ((Player*)DAT_011da9ac)->GetMaxCaps())
+                reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(change))->FUN_004818e0((::TESObject *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), diff, (::ContainerItemExtra *)(0));
+                if (DAT_011da9a8[1] < ((int)(reinterpret_cast<::FUN_00737e30_shell *>((((Player*)DAT_011da9ac)))->GetFieldAt210())))
                 {
-                    change.Apply(DAT_011dea3c, 0);
+                    reinterpret_cast<::ContainerOperation *>(&(change))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))), 0);
                 }
                 else
                 {
-                    change.Apply(DAT_011dea3c, 1);
+                    reinterpret_cast<::ContainerOperation *>(&(change))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))), 1);
                     BSStr msg2;
-                    FormatString(&msg2, "%i %s%s %s\n%s", diff, GetItemName(((Player*)DAT_011da9ac)->GetCaps()),
-                                 DAT_011d3114.GetStr(), DAT_011d4e7c.GetStr(), DAT_011d3abc.GetStr());
-                    ShowMessage((const char*)msg2.Get(), 0,
-                                "Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds",
-                                DAT_011dea3c->GetName(((Player*)DAT_011da9ac)->GetCaps(), 1, 0), 2.0f, 0);
+                    ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg2), "%i %s%s %s\n%s", diff, ::FUN_00482720((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
+                                 ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d4e7c))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3abc))))->GetMenuTitle())));
+                    ::DispatchMessageToSink((const char *)((const char*)((void *)(::FUN_00559450((int *)&(msg2))))), 0,
+                                (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"),
+                                (const char *)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((const char *)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
                 }
             }
             if (m_100)
             {
-                ProgressObj* progress = ((Player*)DAT_011da9ac)->GetProgress();
+                ProgressObj* progress = ((::fnv_007c2c70::ProgressObj *)(reinterpret_cast<::FUN_00504e40_shell *>((((Player*)DAT_011da9ac)))->FUN_00504e40()));
                 if (progress != 0)
                 {
-                    progress->Show(1);
+                    reinterpret_cast<::TESQuest *>((progress))->SetEnabled(1);
                 }
             }
         }
@@ -1816,34 +1690,34 @@ void SlotMenu::Update()
         {
             if (m_13c != 0)
             {
-                m_134->Deactivate(m_13c, 0.0f);
+                reinterpret_cast<::NiControllerManager *>((m_134))->StopSequence((::NiControllerSequence *)(m_13c), 0.0f);
             }
             if (DAT_011daa30 > 1.0)
             {
-                m_c4->SetInt(0xfa3, 0);
+                reinterpret_cast<::Tile *>((m_c4))->Set(0xfa3, 0);
             }
             RgbaColor c0(DAT_011daa30, 1, 0);
             RgbaColor C5(DAT_011daa30, 1, 0);
             RgbaColor c2(DAT_011daa30, 1, 0);
             RgbaColor C(DAT_011daa30, 1, 0);
-            ((ColorOwner*)DAT_011da9fc.Get())->GetList()->Set(0, &c0);
-            if (DAT_011daa30 == 0.0 && m_a4->GetFloat(DAT_011da998) > 0.0)
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007c2c70::ColorList *)(reinterpret_cast<::NiNode *>((((ColorOwner*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007c2c70::ColorArray *>(&::g_011da9fc)))))))))->GetAt({})))))->FUN_00a59c60(0);
+            if (DAT_011daa30 == 0.0 && reinterpret_cast<::TileListBoxCalls *>((m_a4))->GetFloat(::fnv_007c06f0::g_traitX) > 0.0)
             {
-                GetAudioMgr()->GetHandle("GameSlotsPullLever", 0x121, 0).Play();
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2c70::AudioPlaybackHandle &)(((::fnv_007c2c70::AudioMgr *)(::FUN_00453a70()))->GetHandle("GameSlotsPullLever", 0x121, 0)))->FUN_00ad8830({});
                 m_f8 = 1;
             }
-            if (DAT_011daa30 == 0.0 || m_a4->GetFloat(DAT_011da998) > 0.0)
+            if (DAT_011daa30 == 0.0 || reinterpret_cast<::TileListBoxCalls *>((m_a4))->GetFloat(::fnv_007c06f0::g_traitX) > 0.0)
             {
-                ((ColorOwner*)DAT_011da9fc.Get())->GetList()->Set(1, &C5);
-                ((ColorOwner*)DAT_011da9fc.Get())->GetList()->Set(2, &c2);
-                ((ColorOwner*)DAT_011da9fc.Get())->GetList()->Set(3, &C);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007c2c70::ColorList *)(reinterpret_cast<::NiNode *>((((ColorOwner*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007c2c70::ColorArray *>(&::g_011da9fc)))))))))->GetAt({})))))->FUN_00a59c60(1);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007c2c70::ColorList *)(reinterpret_cast<::NiNode *>((((ColorOwner*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007c2c70::ColorArray *>(&::g_011da9fc)))))))))->GetAt({})))))->FUN_00a59c60(2);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007c2c70::ColorList *)(reinterpret_cast<::NiNode *>((((ColorOwner*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007c2c70::ColorArray *>(&::g_011da9fc)))))))))->GetAt({})))))->FUN_00a59c60(3);
             }
-            if (DAT_011daa30 >= m_138->GetTime() && m_f8 == 1)
+            if (DAT_011daa30 >= reinterpret_cast<::FUN_00508100_shell *>((m_138))->FUN_00508100() && m_f8 == 1)
             {
                 m_f8 = 0;
                 StopReels();
             }
-            if (DAT_011daa30 >= m_138->GetTime() && DAT_011daa30 >= m_148->GetTime())
+            if (DAT_011daa30 >= reinterpret_cast<::FUN_00508100_shell *>((m_138))->FUN_00508100() && DAT_011daa30 >= reinterpret_cast<::FUN_00508100_shell *>((m_148))->FUN_00508100())
             {
                 m_uiContentCount = 2;
                 StartSpin();
@@ -1853,40 +1727,40 @@ void SlotMenu::Update()
     case 3:
         if (m_13c != 0)
         {
-            m_134->Activate(m_13c, 0, 0, 1.0f, 0.0f, 0);
+            reinterpret_cast<::NiControllerManager *>((m_134))->ActivateControllerSequence((::NiControllerSequence *)(m_13c), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
             if (m_138 != 0)
             {
-                m_134->Deactivate(m_138, 0.0f);
+                reinterpret_cast<::NiControllerManager *>((m_134))->StopSequence((::NiControllerSequence *)(m_138), 0.0f);
             }
             RgbaColor C2(DAT_011daa30, 1, 0);
-            ((ColorOwner*)DAT_011da9fc.Get())->GetList()->Set(0, &C2);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007c2c70::ColorList *)(reinterpret_cast<::NiNode *>((((ColorOwner*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007c2c70::ColorArray *>(&::g_011da9fc)))))))))->GetAt({})))))->FUN_00a59c60(0);
             if (DAT_011daa30 == 0.0)
             {
                 if (m_result == 4)
                 {
-                    GetAudioMgr()->GetHandle("GAMESlotsWinSmall", 0x121, 0).Play();
+                    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2c70::AudioPlaybackHandle &)(((::fnv_007c2c70::AudioMgr *)(::FUN_00453a70()))->GetHandle("GAMESlotsWinSmall", 0x121, 0)))->FUN_00ad8830({});
                 }
                 else if (m_result == 5)
                 {
-                    GetAudioMgr()->GetHandle("GAMESlotsWinMed", 0x121, 0).Play();
+                    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2c70::AudioPlaybackHandle &)(((::fnv_007c2c70::AudioMgr *)(::FUN_00453a70()))->GetHandle("GAMESlotsWinMed", 0x121, 0)))->FUN_00ad8830({});
                 }
                 else if (m_result == 6)
                 {
-                    GetAudioMgr()->GetHandle("GAMESlotsWinJackpot", 0x121, 0).Play();
+                    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2c70::AudioPlaybackHandle &)(((::fnv_007c2c70::AudioMgr *)(::FUN_00453a70()))->GetHandle("GAMESlotsWinJackpot", 0x121, 0)))->FUN_00ad8830({});
                 }
             }
             if (DAT_011daa30 > 1.0)
             {
-                m_c4->SetInt(0xfa3, 0);
+                reinterpret_cast<::Tile *>((m_c4))->Set(0xfa3, 0);
             }
-            if (DAT_011daa30 >= m_13c->GetTime())
+            if (DAT_011daa30 >= reinterpret_cast<::FUN_00508100_shell *>((m_13c))->FUN_00508100())
             {
-                m_134->Deactivate(m_13c, 0.0f);
+                reinterpret_cast<::NiControllerManager *>((m_134))->StopSequence((::NiControllerSequence *)(m_13c), 0.0f);
                 if (m_138 != 0)
                 {
-                    m_134->Activate(m_138, 0, 0, 1.0f, 0.0f, 0);
+                    reinterpret_cast<::NiControllerManager *>((m_134))->ActivateControllerSequence((::NiControllerSequence *)(m_138), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 }
-                int total = ((Player*)DAT_011da9ac)->GetData()->m_28;
+                int total = ((::fnv_007c2c70::PlayerData *)(reinterpret_cast<::FUN_00504e60_shell *>((((Player*)DAT_011da9ac)))->FUN_00504e60()))->m_28;
                 int cur = DAT_011da9a8[1];
                 int iDX = ((short*)DAT_011da9a8)[4];
                 for (int i = 1; i < 5; i++)
@@ -1903,7 +1777,7 @@ void SlotMenu::Update()
                 }
                 if (m_100)
                 {
-                    CloseSlots();
+                    ::FUN_007c2420();
                 }
                 else
                 {
@@ -1923,19 +1797,19 @@ void SlotMenu::Update()
         }
         if (DAT_011daa30 == 0.0)
         {
-            m_c4->SetInt(0xfa3, 1);
-            m_c4->SetString(0xfc4, DAT_011d387c.GetStr(), 1);
-            m_134->SetTime(0.0f);
-            m_134->Activate(m_140, 0, 0, 1.0f, 0.0f, 0);
+            reinterpret_cast<::Tile *>((m_c4))->Set(0xfa3, 1);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_c4))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d387c))))->GetMenuTitle()))), 1);
+            reinterpret_cast<::NiControllerManager *>((m_134))->DeactivateAllSequences(0.0f);
+            reinterpret_cast<::NiControllerManager *>((m_134))->ActivateControllerSequence((::NiControllerSequence *)(m_140), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
         }
-        if (DAT_011daa30 <= m_140->GetTime())
+        if (DAT_011daa30 <= reinterpret_cast<::FUN_00508100_shell *>((m_140))->FUN_00508100())
         {
             RgbaColor c(DAT_011daa30, 1, 0);
-            ((ColorOwner*)DAT_011da9fc.Get())->GetList()->Set(0, &c);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007c2c70::ColorList *)(reinterpret_cast<::NiNode *>((((ColorOwner*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007c2c70::ColorArray *>(&::g_011da9fc)))))))))->GetAt({})))))->FUN_00a59c60(0);
         }
         else
         {
-            m_134->Deactivate(m_140, 0.0f);
+            reinterpret_cast<::NiControllerManager *>((m_134))->StopSequence((::NiControllerSequence *)(m_140), 0.0f);
         }
         break;
     case 5:
@@ -1945,25 +1819,25 @@ void SlotMenu::Update()
         }
         if (DAT_011daa30 == 0.0)
         {
-            m_c4->SetInt(0xfa3, 0);
-            m_134->SetTime(0.0f);
-            m_134->Activate(m_144, 0, 0, 1.0f, 0.0f, 0);
+            reinterpret_cast<::Tile *>((m_c4))->Set(0xfa3, 0);
+            reinterpret_cast<::NiControllerManager *>((m_134))->DeactivateAllSequences(0.0f);
+            reinterpret_cast<::NiControllerManager *>((m_134))->ActivateControllerSequence((::NiControllerSequence *)(m_144), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
         }
-        if (DAT_011daa30 <= m_144->GetTime())
+        if (DAT_011daa30 <= reinterpret_cast<::FUN_00508100_shell *>((m_144))->FUN_00508100())
         {
             RgbaColor c(DAT_011daa30, 1, 0);
-            ((ColorOwner*)DAT_011da9fc.Get())->GetList()->Set(0, &c);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007c2c70::ColorList *)(reinterpret_cast<::NiNode *>((((ColorOwner*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007c2c70::ColorArray *>(&::g_011da9fc)))))))))->GetAt({})))))->FUN_00a59c60(0);
         }
         else
         {
-            m_134->Deactivate(m_144, 0.0f);
-            m_134->Activate(m_138, 0, 0, 1.0f, 0.0f, 0);
+            reinterpret_cast<::NiControllerManager *>((m_134))->StopSequence((::NiControllerSequence *)(m_144), 0.0f);
+            reinterpret_cast<::NiControllerManager *>((m_134))->ActivateControllerSequence((::NiControllerSequence *)(m_138), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
             m_uiContentCount = 6;
         }
         break;
     case 2: {
         int won = 0;
-        m_result = SpinResult();
+        m_result = reinterpret_cast<::FUN_007c5760_shell *>(this)->FUN_007c5760();
         if (m_result == 6)
         {
             switch (m_e8)
@@ -2016,26 +1890,26 @@ void SlotMenu::Update()
             won = -m_bet;
             m_caps += won;
         }
-        m_a4->SetFloat(DAT_011da998, 1.0f);
-        m_a4->SetInt(DAT_011da998, m_caps);
+        reinterpret_cast<::FUN_00a01290_shell *>((m_a4))->SetTraitAndReset(::fnv_007c06f0::g_traitX, 1.0f);
+        reinterpret_cast<::Tile *>((m_a4))->Set(::fnv_007c06f0::g_traitX, m_caps);
         DAT_011da9a8[1] += won;
-        UpdateReels();
+        reinterpret_cast<::FUN_007c5e60_shell *>(this)->UpdateTileText();
         if (m_result > 3)
         {
             char text[0x104];
             if (m_d8)
             {
-                FormatBuf(text, 0x104, "%s %d %s%s", DAT_011d3a98.GetStr(), won, DAT_011d5050.GetStr(),
-                          DAT_011d3114.GetStr());
+                ::FUN_00406d00(text, 0x104, "%s %d %s%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3a98))))->GetMenuTitle())), won, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d5050))))->GetMenuTitle())),
+                          ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())));
             }
             else
             {
-                FormatBuf(text, 0x104, "%s %d %s%s", DAT_011d2ff4.GetStr(), won, DAT_011d5050.GetStr(),
-                          DAT_011d3114.GetStr());
+                ::FUN_00406d00(text, 0x104, "%s %d %s%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d2ff4))))->GetMenuTitle())), won, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d5050))))->GetMenuTitle())),
+                          ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())));
             }
-            DAT_011da9a4->m_c4->SetFloat(0xfc4, 1.0f);
-            DAT_011da9a4->m_c4->SetString(0xfc4, text, 1);
-            DAT_011da9a4->m_c4->SetInt(0xfa3, 1);
+            reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::fnv_007c2c70::HudMenu * *>(&::DAT_011da9a4))->m_c4))->SetTraitAndReset(0xfc4, 1.0f);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c2c70::HudMenu * *>(&::DAT_011da9a4))->m_c4))->FUN_00a01350(0xfc4, (char *)(text), 1);
+            reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_007c2c70::HudMenu * *>(&::DAT_011da9a4))->m_c4))->Set(0xfa3, 1);
             m_uiContentCount = 3;
         }
         else
@@ -2043,18 +1917,18 @@ void SlotMenu::Update()
             char text2[0x104];
             if (m_d8)
             {
-                GetAudioMgr()->GetHandle("GAMESlotsLose", 0x121, 0).Play();
-                FormatBuf(text2, 0x104, "%s %d %s%s", DAT_011d25e0.GetStr(), -won, DAT_011d5050.GetStr(),
-                          DAT_011d3114.GetStr());
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2c70::AudioPlaybackHandle &)(((::fnv_007c2c70::AudioMgr *)(::FUN_00453a70()))->GetHandle("GAMESlotsLose", 0x121, 0)))->FUN_00ad8830({});
+                ::FUN_00406d00(text2, 0x104, "%s %d %s%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d25e0))))->GetMenuTitle())), -won, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d5050))))->GetMenuTitle())),
+                          ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())));
             }
             else
             {
-                FormatBuf(text2, 0x104, "%s %d %s%s", DAT_011d3474.GetStr(), -won, DAT_011d5050.GetStr(),
-                          DAT_011d3114.GetStr());
+                ::FUN_00406d00(text2, 0x104, "%s %d %s%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3474))))->GetMenuTitle())), -won, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d5050))))->GetMenuTitle())),
+                          ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())));
             }
-            DAT_011da9a4->m_c4->SetFloat(0xfc4, 1.0f);
-            DAT_011da9a4->m_c4->SetString(0xfc4, text2, 1);
-            DAT_011da9a4->m_c4->SetInt(0xfa3, 1);
+            reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::fnv_007c2c70::HudMenu * *>(&::DAT_011da9a4))->m_c4))->SetTraitAndReset(0xfc4, 1.0f);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::fnv_007c2c70::HudMenu * *>(&::DAT_011da9a4))->m_c4))->FUN_00a01350(0xfc4, (char *)(text2), 1);
+            reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_007c2c70::HudMenu * *>(&::DAT_011da9a4))->m_c4))->Set(0xfa3, 1);
             m_uiContentCount = 6;
         }
         break;
@@ -2062,21 +1936,21 @@ void SlotMenu::Update()
     case 6:
         if (DAT_011daa30 > 1.0)
         {
-            m_c4->SetInt(0xfa3, 0);
+            reinterpret_cast<::Tile *>((m_c4))->Set(0xfa3, 0);
         }
         if (m_caps < m_bet)
         {
             m_bet = 1;
-            DAT_011da9a4->m_a0->SetFloat(DAT_011da998, 1.0f);
-            DAT_011da9a4->m_a0->SetInt(DAT_011da998, m_bet);
+            reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::fnv_007c2c70::HudMenu * *>(&::DAT_011da9a4))->m_a0))->SetTraitAndReset(::fnv_007c06f0::g_traitX, 1.0f);
+            reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_007c2c70::HudMenu * *>(&::DAT_011da9a4))->m_a0))->Set(::fnv_007c06f0::g_traitX, m_bet);
         }
         if (m_caps == 0)
         {
             char text3[0x104];
-            FormatBuf(text3, 0x104, DAT_011d2424.GetStr());
-            ShowMessage(text3, 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds", 0, 2.0f, 0);
-            GetAudioMgr()->GetHandle("UIPopUpMessageGeneral", 0x121, 0).Play();
-            CloseSlots();
+            ::FUN_00406d00(text3, 0x104, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d2424))))->GetMenuTitle())));
+            ::DispatchMessageToSink((const char *)(text3), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f, 0);
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2c70::AudioPlaybackHandle &)(((::fnv_007c2c70::AudioMgr *)(::FUN_00453a70()))->GetHandle("UIPopUpMessageGeneral", 0x121, 0)))->FUN_00ad8830({});
+            ::FUN_007c2420();
         }
         break;
     }
@@ -2086,7 +1960,6 @@ void SlotMenu::Update()
 struct ReelTexture
 {
     void* value;
-    void* FUN_00559450() const;
 };
 struct ReelProperty
 {
@@ -2151,14 +2024,10 @@ struct ReelProperty
     virtual void v58();
     virtual void v59();
     virtual void SetTexture(int, int, void*);
-    int FUN_00441110();
 };
 struct ReelNode
 {
-    ReelProperty* FUN_00a59d30(unsigned int);
 };
-ReelNode* __cdecl FUN_004aae30(ReelNode*, const char*);
-int _sprintf_s(char*, unsigned int, const char*, ...);
 struct ReelMenu
 {
     int unk000;
@@ -2227,6 +2096,69 @@ struct ReelMenu
     ReelTexture textures[8];
     void FUN_007c40b0();
 };
+// @fnv 0x007c1af0
+void MenuW7::InitPayoutMenu()
+{
+    ((GO&)::g_011da9fc) = new FUN_00a5ecb0(0);
+    ((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))->Vf55(m_104, 1);
+    ((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))->Vf55(m_108[0], 1);
+    ((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))->Vf55(m_108[1], 1);
+    ((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))->Vf55(m_108[2], 1);
+    MatW7 xObjB;
+    MatW7 objC7;
+    reinterpret_cast<::FUN_00524ac0_shell *>(&(xObjB))->FUN_00524ac0(1.5707963705062866f);
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(objC7))->FUN_004a0c90(1.5707963705062866f);
+    MatW7 rotation = xObjB.FUN_0043f8d0(&objC7);
+    reinterpret_cast<::FUN_0043fa80_s *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)((const void*)&rotation)));
+    reinterpret_cast<::FUN_004bc1f0_S *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
+    NiUpdateData upd1(0.0f, false, 0);
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_00a59c60((std::intptr_t)&(upd1));
+    CtrlObj* xPCtrl = ((::CtrlObj *)(reinterpret_cast<::MyHost *>((m_104))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))))));
+    if (xPCtrl != 0)
+    {
+        m_134 = xPCtrl;
+        m_138 = ((::CtrlObj *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_134))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Forward")))));
+        m_13c = ((::CtrlObj *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_134))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Backward")))));
+        m_140 = ((::CtrlObj *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_134))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString(kPayoutIn)))));
+        m_144 = ((::CtrlObj *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_134))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Payout_Out")))));
+        reinterpret_cast<::NiControllerManager *>((m_134))->DeactivateAllSequences(0.0f);
+        if (m_138 != 0)
+        {
+            reinterpret_cast<::NiControllerManager *>((m_134))->ActivateControllerSequence((::NiControllerSequence *)(m_138), 0, 1, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+        }
+        ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(m_104));
+    }
+    CtrlObj* arr12[3];
+    CtrlObj* aarr2[3];
+    int oI;
+    for (oI = 0; oI < 3; oI++)
+    {
+        arr12[oI] = ((::CtrlObj *)(reinterpret_cast<::MyHost *>((m_108[oI]))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))))));
+    }
+    int jX;
+    for (jX = 0; jX < 3; jX++)
+    {
+        if (arr12[jX] != 0)
+        {
+            aarr2[jX] = arr12[jX];
+            m_148[jX] = ((::CtrlObj *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((aarr2[jX]))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Forward")))));
+            reinterpret_cast<::NiControllerManager *>((aarr2[jX]))->DeactivateAllSequences(0.0f);
+            if (m_148[jX] != 0)
+            {
+                reinterpret_cast<::NiControllerManager *>((aarr2[jX]))->ActivateControllerSequence((::NiControllerSequence *)(m_148[jX]), 0, 1, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+            }
+            ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(m_108[jX]));
+        }
+    }
+    NiUpdateData _upd2(0.0f, false, 0);
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_00a59c60((std::intptr_t)&(_upd2));
+    ((GO&)::g_011da9d0) = ((void *)(reinterpret_cast<::Target2180 *>(this)->FUN_007c2180()));
+    FUN_00450b80(1)->Vf55(((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc))))), 1);
+    float fTemp0 = reinterpret_cast<::Twin_0084d030 *>((((::NiBoundW7 *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_0043d450()))))->GetStoredFloatValue() * 3.0;
+    reinterpret_cast<::SSN_b5 *>((FUN_00450b80(1)))->FUN_00b5ca70((::Node_b5 *)(::NiNodeW7 *)(((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))), fTemp0);
+    FUN_007c4d70();
+    reinterpret_cast<::ReelMenu *>(this)->FUN_007c40b0();
+}
 // For each reel whose current result differs from the saved result, computes texture indices and sets the texture on the Cylinder nodes' property.
 // @fnv 0x007c40b0
 void ReelMenu::FUN_007c40b0()
@@ -2271,110 +2203,110 @@ void ReelMenu::FUN_007c40b0()
                 if (_h > 6)
                     _h -= 7;
             }
-            _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
+            ::FUN_00406d00(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 4 > 13 ? 2 * reel4 + 4 - 14 : 2 * reel4 + 4);
-            node9 = FUN_004aae30(reels[reel4], name6);
+            node9 = ((::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name6))));
             propA =
-                (!node9->FUN_00a59d30(3)
+                (!((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                      ? 0
-                     : ((node9->FUN_00a59d30(3)->FUN_00441110() >= 8 && node9->FUN_00a59d30(3)->FUN_00441110() <= 12)
+                     : ((((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12)
                             ? 1
                             : 0))
-                    ? node9->FUN_00a59d30(3)
+                    ? ((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, textures[a6].FUN_00559450());
-            _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
+                propA->SetTexture(0, 0, ((void *)(::FUN_00559450((int *)&(textures[a6])))));
+            ::FUN_00406d00(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 5 > 13 ? 2 * reel4 + 5 - 14 : 2 * reel4 + 5);
-            node9 = FUN_004aae30(reels[reel4], name6);
+            node9 = ((::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name6))));
             propA =
-                (!node9->FUN_00a59d30(3)
+                (!((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                      ? 0
-                     : ((node9->FUN_00a59d30(3)->FUN_00441110() >= 8 && node9->FUN_00a59d30(3)->FUN_00441110() <= 12)
+                     : ((((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12)
                             ? 1
                             : 0))
-                    ? node9->FUN_00a59d30(3)
+                    ? ((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, textures[b].FUN_00559450());
-            _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
+                propA->SetTexture(0, 0, ((void *)(::FUN_00559450((int *)&(textures[b])))));
+            ::FUN_00406d00(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 6 > 13 ? 2 * reel4 + 6 - 14 : 2 * reel4 + 6);
-            node9 = FUN_004aae30(reels[reel4], name6);
+            node9 = ((::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name6))));
             propA =
-                (!node9->FUN_00a59d30(3)
+                (!((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                      ? 0
-                     : ((node9->FUN_00a59d30(3)->FUN_00441110() >= 8 && node9->FUN_00a59d30(3)->FUN_00441110() <= 12)
+                     : ((((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12)
                             ? 1
                             : 0))
-                    ? node9->FUN_00a59d30(3)
+                    ? ((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, textures[e].FUN_00559450());
-            _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
+                propA->SetTexture(0, 0, ((void *)(::FUN_00559450((int *)&(textures[e])))));
+            ::FUN_00406d00(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 7 > 13 ? 2 * reel4 + 7 - 14 : 2 * reel4 + 7);
-            node9 = FUN_004aae30(reels[reel4], name6);
+            node9 = ((::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name6))));
             propA =
-                (!node9->FUN_00a59d30(3)
+                (!((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                      ? 0
-                     : ((node9->FUN_00a59d30(3)->FUN_00441110() >= 8 && node9->FUN_00a59d30(3)->FUN_00441110() <= 12)
+                     : ((((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12)
                             ? 1
                             : 0))
-                    ? node9->FUN_00a59d30(3)
+                    ? ((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, textures[d_].FUN_00559450());
-            _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
+                propA->SetTexture(0, 0, ((void *)(::FUN_00559450((int *)&(textures[d_])))));
+            ::FUN_00406d00(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 8 > 13 ? 2 * reel4 + 8 - 14 : 2 * reel4 + 8);
-            node9 = FUN_004aae30(reels[reel4], name6);
+            node9 = ((::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name6))));
             propA =
-                (!node9->FUN_00a59d30(3)
+                (!((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                      ? 0
-                     : ((node9->FUN_00a59d30(3)->FUN_00441110() >= 8 && node9->FUN_00a59d30(3)->FUN_00441110() <= 12)
+                     : ((((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12)
                             ? 1
                             : 0))
-                    ? node9->FUN_00a59d30(3)
+                    ? ((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, textures[c3].FUN_00559450());
-            _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
+                propA->SetTexture(0, 0, ((void *)(::FUN_00559450((int *)&(textures[c3])))));
+            ::FUN_00406d00(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 9 > 13 ? 2 * reel4 + 9 - 14 : 2 * reel4 + 9);
-            node9 = FUN_004aae30(reels[reel4], name6);
+            node9 = ((::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name6))));
             propA =
-                (!node9->FUN_00a59d30(3)
+                (!((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                      ? 0
-                     : ((node9->FUN_00a59d30(3)->FUN_00441110() >= 8 && node9->FUN_00a59d30(3)->FUN_00441110() <= 12)
+                     : ((((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12)
                             ? 1
                             : 0))
-                    ? node9->FUN_00a59d30(3)
+                    ? ((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, textures[f7].FUN_00559450());
-            _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
+                propA->SetTexture(0, 0, ((void *)(::FUN_00559450((int *)&(textures[f7])))));
+            ::FUN_00406d00(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 10 > 13 ? 2 * reel4 + 10 - 14 : 2 * reel4 + 10);
-            node9 = FUN_004aae30(reels[reel4], name6);
+            node9 = ((::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name6))));
             propA =
-                (!node9->FUN_00a59d30(3)
+                (!((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                      ? 0
-                     : ((node9->FUN_00a59d30(3)->FUN_00441110() >= 8 && node9->FUN_00a59d30(3)->FUN_00441110() <= 12)
+                     : ((((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12)
                             ? 1
                             : 0))
-                    ? node9->FUN_00a59d30(3)
+                    ? ((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, textures[g2].FUN_00559450());
-            _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
+                propA->SetTexture(0, 0, ((void *)(::FUN_00559450((int *)&(textures[g2])))));
+            ::FUN_00406d00(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 11 > 13 ? 2 * reel4 + 11 - 14 : 2 * reel4 + 11);
-            node9 = FUN_004aae30(reels[reel4], name6);
+            node9 = ((::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name6))));
             propA =
-                (!node9->FUN_00a59d30(3)
+                (!((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                      ? 0
-                     : ((node9->FUN_00a59d30(3)->FUN_00441110() >= 8 && node9->FUN_00a59d30(3)->FUN_00441110() <= 12)
+                     : ((((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12)
                             ? 1
                             : 0))
-                    ? node9->FUN_00a59d30(3)
+                    ? ((::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node9))->FUN_00a59d30(3)))
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, textures[_h].FUN_00559450());
+                propA->SetTexture(0, 0, ((void *)(::FUN_00559450((int *)&(textures[_h])))));
         }
     }
 }
@@ -2448,14 +2380,12 @@ struct ReelProperty
 };
 struct ReelNode
 {
-    ReelProperty* GetProperty(unsigned int);
 };
 struct ReelTexture
 {
     void* value;
     operator void*() const;
 };
-ReelNode* FindReelNode(void*, const char*);
 struct ReelMenu
 {
     int unk000;
@@ -2569,57 +2499,57 @@ void ReelMenu::FUN_007c4d70()
                 if (dA < 0)
                     dA += 7;
             }
-            _sprintf_s(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 + 3 > 13 ? 2 * reel4 - 11 : 2 * reel4 + 3));
-            node = FindReelNode(reels[reel4], name);
+            ::FUN_00406d00(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 + 3 > 13 ? 2 * reel4 - 11 : 2 * reel4 + 3));
+            node = ((::fnv_007c4d70::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name))));
             propertyA =
-                (!node->GetProperty(3) ? false
-                                       : (node->GetProperty(3)->Type() >= 8 && node->GetProperty(3)->Type() <= 12))
-                    ? node->GetProperty(3)
+                (!((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3))) ? false
+                                       : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                    ? ((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))
                     : 0;
             if (propertyA)
                 propertyA->SetTexture(0, 0, textures[a8]);
-            _sprintf_s(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 + 2 > 13 ? 2 * reel4 - 12 : 2 * reel4 + 2));
-            node = FindReelNode(reels[reel4], name);
+            ::FUN_00406d00(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 + 2 > 13 ? 2 * reel4 - 12 : 2 * reel4 + 2));
+            node = ((::fnv_007c4d70::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name))));
             propertyA =
-                (!node->GetProperty(3) ? false
-                                       : (node->GetProperty(3)->Type() >= 8 && node->GetProperty(3)->Type() <= 12))
-                    ? node->GetProperty(3)
+                (!((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3))) ? false
+                                       : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                    ? ((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))
                     : 0;
             if (propertyA)
                 propertyA->SetTexture(0, 0, textures[e_]);
-            _sprintf_s(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 + 1 > 13 ? 2 * reel4 - 13 : 2 * reel4 + 1));
-            node = FindReelNode(reels[reel4], name);
+            ::FUN_00406d00(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 + 1 > 13 ? 2 * reel4 - 13 : 2 * reel4 + 1));
+            node = ((::fnv_007c4d70::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name))));
             propertyA =
-                (!node->GetProperty(3) ? false
-                                       : (node->GetProperty(3)->Type() >= 8 && node->GetProperty(3)->Type() <= 12))
-                    ? node->GetProperty(3)
+                (!((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3))) ? false
+                                       : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                    ? ((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))
                     : 0;
             if (propertyA)
                 propertyA->SetTexture(0, 0, textures[b2]);
-            _sprintf_s(name, 260, kCylinderFormat, 6 - reel4, 2 * reel4);
-            node = FindReelNode(reels[reel4], name);
+            ::FUN_00406d00(name, 260, kCylinderFormat, 6 - reel4, 2 * reel4);
+            node = ((::fnv_007c4d70::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name))));
             propertyA =
-                (!node->GetProperty(3) ? false
-                                       : (node->GetProperty(3)->Type() >= 8 && node->GetProperty(3)->Type() <= 12))
-                    ? node->GetProperty(3)
+                (!((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3))) ? false
+                                       : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                    ? ((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))
                     : 0;
             if (propertyA)
                 propertyA->SetTexture(0, 0, textures[f5]);
-            _sprintf_s(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 - 1 < 0 ? 2 * reel4 + 13 : 2 * reel4 - 1));
-            node = FindReelNode(reels[reel4], name);
+            ::FUN_00406d00(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 - 1 < 0 ? 2 * reel4 + 13 : 2 * reel4 - 1));
+            node = ((::fnv_007c4d70::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name))));
             propertyA =
-                (!node->GetProperty(3) ? false
-                                       : (node->GetProperty(3)->Type() >= 8 && node->GetProperty(3)->Type() <= 12))
-                    ? node->GetProperty(3)
+                (!((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3))) ? false
+                                       : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                    ? ((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))
                     : 0;
             if (propertyA)
                 propertyA->SetTexture(0, 0, textures[dA]);
-            _sprintf_s(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 - 2 < 0 ? 2 * reel4 + 12 : 2 * reel4 - 2));
-            node = FindReelNode(reels[reel4], name);
+            ::FUN_00406d00(name, 260, kCylinderFormat, 6 - reel4, (2 * reel4 - 2 < 0 ? 2 * reel4 + 12 : 2 * reel4 - 2));
+            node = ((::fnv_007c4d70::ReelNode *)(::FUN_004aae30((::NiAVObject *)(reels[reel4]), (::NiFixedString *)(name))));
             propertyA =
-                (!node->GetProperty(3) ? false
-                                       : (node->GetProperty(3)->Type() >= 8 && node->GetProperty(3)->Type() <= 12))
-                    ? node->GetProperty(3)
+                (!((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3))) ? false
+                                       : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                    ? ((::fnv_007c4d70::ReelProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)))
                     : 0;
             if (propertyA)
                 propertyA->SetTexture(0, 0, textures[c2]);
@@ -2642,25 +2572,18 @@ struct Settings
 };
 struct SettingsOwner
 {
-    Settings* GetSettings();
 };
-extern SettingsOwner* settingsOwner;
 struct Sound
 {
     int id;
     int state;
     int unk08;
     ~Sound();
-    bool Play(bool);
 };
 struct Audio
 {
-    static Audio* Get();
     Sound GetSoundByEditorID(const char*, unsigned int);
 };
-bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
-void FUN_007c2420();
-int _sprintf_s(char*, unsigned int, const char*, ...);
 struct Reels
 {
     int unk00;
@@ -2707,19 +2630,19 @@ bool Reels::InitReels()
     int symbol = 0;
     int countsA[7];
     int tempA;
-    tempA = settingsOwner->GetSettings()->stopCount0;
+    tempA = ((::Settings *)(reinterpret_cast<::FUN_00504e60_shell *>(((*reinterpret_cast<::SettingsOwner * *>(&::DAT_011da9ac))))->FUN_00504e60()))->stopCount0;
     countsA[0] = tempA;
-    tempA = settingsOwner->GetSettings()->stopCount1;
+    tempA = ((::Settings *)(reinterpret_cast<::FUN_00504e60_shell *>(((*reinterpret_cast<::SettingsOwner * *>(&::DAT_011da9ac))))->FUN_00504e60()))->stopCount1;
     countsA[1] = tempA;
-    tempA = settingsOwner->GetSettings()->stopCount2;
+    tempA = ((::Settings *)(reinterpret_cast<::FUN_00504e60_shell *>(((*reinterpret_cast<::SettingsOwner * *>(&::DAT_011da9ac))))->FUN_00504e60()))->stopCount2;
     countsA[2] = tempA;
-    tempA = settingsOwner->GetSettings()->stopCount3;
+    tempA = ((::Settings *)(reinterpret_cast<::FUN_00504e60_shell *>(((*reinterpret_cast<::SettingsOwner * *>(&::DAT_011da9ac))))->FUN_00504e60()))->stopCount3;
     countsA[3] = tempA;
-    tempA = settingsOwner->GetSettings()->stopCount4;
+    tempA = ((::Settings *)(reinterpret_cast<::FUN_00504e60_shell *>(((*reinterpret_cast<::SettingsOwner * *>(&::DAT_011da9ac))))->FUN_00504e60()))->stopCount4;
     countsA[4] = tempA;
-    tempA = settingsOwner->GetSettings()->stopCount5;
+    tempA = ((::Settings *)(reinterpret_cast<::FUN_00504e60_shell *>(((*reinterpret_cast<::SettingsOwner * *>(&::DAT_011da9ac))))->FUN_00504e60()))->stopCount5;
     countsA[5] = tempA;
-    tempA = settingsOwner->GetSettings()->stopCount6;
+    tempA = ((::Settings *)(reinterpret_cast<::FUN_00504e60_shell *>(((*reinterpret_cast<::SettingsOwner * *>(&::DAT_011da9ac))))->FUN_00504e60()))->stopCount6;
     countsA[6] = tempA;
     count = 7;
     {
@@ -2749,12 +2672,12 @@ bool Reels::InitReels()
         if (previous8 == filled)
         {
             char message[260];
-            _sprintf_s(
+            ::FUN_00406d00(
                 message, 260,
                 "Casino Form is not setup properly. # of stops for the slot reels must sum to 14. Exiting out of Slot machine menu.");
-            QueueUIMessage(message, 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds", 0, 2.0f,
+            ::DispatchMessageToSink((const char *)(message), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f,
                            false);
-            Audio::Get()->GetSoundByEditorID("UIPopUpMessageGeneral", 0x121).Play(false);
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound &)(((::Audio *)(::FUN_00453a70()))->GetSoundByEditorID("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
             FUN_007c2420();
             return false;
         }
@@ -2772,7 +2695,6 @@ bool Reels::InitReels()
 
 struct SlotTextureName
 {
-    const char* FUN_00408da0();
 };
 struct SlotModelName
 {
@@ -2785,21 +2707,13 @@ struct SlotModelName
 };
 struct SlotAssets
 {
-    SlotTextureName* FUN_00504e20(int);
-    SlotModelName* FUN_00504e00(int);
 };
 struct SlotTextureLoader
 {
-    void FUN_004568c0(const char*, void**, bool, bool);
 };
-extern SlotTextureLoader* DAT_011dea10;
 struct SlotModelLoader
 {
-    void* FUN_00447080(const char*, int, bool, bool, bool, bool);
 };
-extern SlotModelLoader* DAT_011c3b3c;
-void FUN_00406d00(char*, unsigned int, const char*, ...);
-void FUN_004b7240(const char*, char*, unsigned int);
 struct SlotMachineAssets
 {
     unsigned int unk00;
@@ -2873,7 +2787,6 @@ struct SlotMachineAssets
     void* reel3;
     void* symbols[7];
     void* special;
-    bool InitReels();
     bool LoadAssets();
 };
 // @fnv 0x007c1490
@@ -2887,25 +2800,25 @@ bool SlotMachineAssets::LoadAssets()
         {
             if (DAT_011da9ac)
             {
-                FUN_00406d00(path, 260, "%s%s", "Textures\\",
-                             reinterpret_cast<SlotAssets*>(DAT_011da9ac)->FUN_00504e20(i)->FUN_00408da0());
-                FUN_004b7240(path, normalized, 260);
-                DAT_011dea10->FUN_004568c0(normalized, &symbols[i], false, false);
+                ::FUN_00406d00(path, 260, "%s%s", "Textures\\",
+                             ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::SlotTextureName *)(reinterpret_cast<::FUN_00504e20_shell *>((reinterpret_cast<SlotAssets*>(DAT_011da9ac)))->FUN_00504e20(i)))))->FUN_00408da0())));
+                ::ConvertLocalizedString(path, normalized, 260);
+                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::SlotTextureLoader * *>(&::g_TES))))->FUN_004568c0(normalized, (*(::TexPtr< ::NiSourceTexture> *)(&symbols[i])), false, false);
             }
         }
-        FUN_00406d00(path, 260, "%sNV_SlotMachine-Symbol%s.dds", "Textures\\terminals\\NV_SlotMachine\\", "S");
-        FUN_004b7240(path, normalized, 260);
-        DAT_011dea10->FUN_004568c0(normalized, &special, false, false);
-        machine = DAT_011c3b3c->FUN_00447080(reinterpret_cast<SlotAssets*>(DAT_011da9ac)->FUN_00504e00(7)->GetPath(), 0,
-                                             true, false, false, false);
-        reel1 = DAT_011c3b3c->FUN_00447080("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel01.NIF", 0, true,
-                                           false, false, false);
-        reel2 = DAT_011c3b3c->FUN_00447080("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel02.NIF", 0, true,
-                                           false, false, false);
-        reel3 = DAT_011c3b3c->FUN_00447080("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel03.NIF", 0, true,
-                                           false, false, false);
+        ::FUN_00406d00(path, 260, "%sNV_SlotMachine-Symbol%s.dds", "Textures\\terminals\\NV_SlotMachine\\", "S");
+        ::ConvertLocalizedString(path, normalized, 260);
+        reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::SlotTextureLoader * *>(&::g_TES))))->FUN_004568c0(normalized, (*(::TexPtr< ::NiSourceTexture> *)(&special)), false, false);
+        machine = ((void *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::SlotModelLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)(((::SlotModelName *)(reinterpret_cast<::FUN_00504e00_shell *>((reinterpret_cast<SlotAssets*>(DAT_011da9ac)))->FUN_00504e00(7)))->GetPath()), 0,
+                                             true, false, false, false)));
+        reel1 = ((void *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::SlotModelLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel01.NIF"), 0, true,
+                                           false, false, false)));
+        reel2 = ((void *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::SlotModelLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel02.NIF"), 0, true,
+                                           false, false, false)));
+        reel3 = ((void *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::SlotModelLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel03.NIF"), 0, true,
+                                           false, false, false)));
         loading = false;
-        return InitReels();
+        return reinterpret_cast<::Reels *>(this)->InitReels();
     }
     return false;
 }
@@ -2936,16 +2849,14 @@ struct SlotReelLogic
     int reels[3];  // 0xe8
 
     int FUN_007c56e0();
-    int FUN_007c5760();
     bool AdjustReels(int a);
 };
-int __cdecl FUN_00944460(int, int);
 
 // @fnv 0x007c58f0
 bool SlotReelLogic::AdjustReels(int a)
 {
     int base = abs((iTolerance - 5) * 10);
-    if (FUN_00944460(0, 100) + base > 100)
+    if (((int)(::GetRandomNumberInRange(0, 100))) + base > 100)
     {
         int r0 = reels[0];
         int R = reels[1];
@@ -2958,25 +2869,25 @@ bool SlotReelLogic::AdjustReels(int a)
                 while (FUN_007c56e0() < a)
                 {
                 }
-                return AdjustReels(FUN_007c5760());
+                return AdjustReels(reinterpret_cast<::FUN_007c5760_shell *>(this)->FUN_007c5760());
                 break;
             case 2:
                 if (reels[0] == 12)
                 {
-                    reels[1] = values[FUN_00944460(0, iValueCount) * 2];
-                    reels[2] = values[FUN_00944460(0, iValueCount) * 2];
+                    reels[1] = values[((int)(::GetRandomNumberInRange(0, iValueCount))) * 2];
+                    reels[2] = values[((int)(::GetRandomNumberInRange(0, iValueCount))) * 2];
                 }
                 else if (reels[1] == 12)
                 {
-                    reels[0] = values[FUN_00944460(0, iValueCount) * 2];
-                    reels[2] = values[FUN_00944460(0, iValueCount) * 2];
+                    reels[0] = values[((int)(::GetRandomNumberInRange(0, iValueCount))) * 2];
+                    reels[2] = values[((int)(::GetRandomNumberInRange(0, iValueCount))) * 2];
                 }
                 else
                 {
-                    reels[0] = values[FUN_00944460(0, iValueCount) * 2];
-                    reels[1] = values[FUN_00944460(0, iValueCount) * 2];
+                    reels[0] = values[((int)(::GetRandomNumberInRange(0, iValueCount))) * 2];
+                    reels[1] = values[((int)(::GetRandomNumberInRange(0, iValueCount))) * 2];
                 }
-                if (FUN_007c5760() > a)
+                if (reinterpret_cast<::FUN_007c5760_shell *>(this)->FUN_007c5760() > a)
                 {
                     return true;
                 }
@@ -3086,15 +2997,12 @@ bool SlotReelLogic::AdjustReels(int a)
 namespace fnv_007c2460 {
 struct SlotsTile
 {
-    void SetTraitAndReset(int, float);
-    void FUN_00700320(int, int);
 };
 struct FUN_0041a250
 {
     unsigned int id, flags;
     void* data;
     ~FUN_0041a250();
-    void FUN_00ad8830();
 };
 struct SlotsAudio
 {
@@ -3168,16 +3076,8 @@ struct SlotsMenu
     int unkf8;
     int soundIndex;
     int FUN_007c56e0();
-    bool AdjustReels(int);
-    int FUN_007c5760();
     void FUN_007c2460(int, void*);
 };
-extern int DAT_011a0828, DAT_011a082c, DAT_011da998;
-extern SlotsMenu* DAT_011da9a4;
-void FUN_007c2420();
-void FUN_004d5c60(int);
-int FUN_00406d00(char*, unsigned int, const char*, ...);
-SlotsAudio* FUN_00453a70();
 // Processes input actions for the slots menu, adjusting the bet, starting a spin, or transitioning between states based on the current state.
 // @fnv 0x007c2460
 void SlotsMenu::FUN_007c2460(int action, void* target)
@@ -3187,17 +3087,17 @@ void SlotsMenu::FUN_007c2460(int action, void* target)
         switch (action)
         {
         case 8:
-            FUN_007c2420();
+            ::FUN_007c2420();
             break;
         case 3:
             if (funds < bet)
                 break;
             soundIndex = 1;
             result = FUN_007c56e0();
-            won = AdjustReels(result);
-            result = FUN_007c5760();
+            won = reinterpret_cast<::SlotReelLogic *>(this)->AdjustReels(result);
+            result = reinterpret_cast<::FUN_007c5760_shell *>(this)->FUN_007c5760();
             state = 1;
-            FUN_004d5c60(42);
+            ::TopicMenuController::IncrementMiscStat(42);
             break;
         case 4: {
             int iOldBet = bet;
@@ -3213,15 +3113,15 @@ void SlotsMenu::FUN_007c2460(int action, void* target)
                 bet += 100;
             if (bet > funds)
                 bet = funds;
-            if (bet > DAT_011a0828)
-                bet = DAT_011a0828;
-            DAT_011da9a4->tile->SetTraitAndReset(DAT_011da998, 1.0f);
-            DAT_011da9a4->tile->FUN_00700320(DAT_011da998, bet);
+            if (bet > ::fnv_007c0a40::DAT_011a0828)
+                bet = ::fnv_007c0a40::DAT_011a0828;
+            reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::fnv_007c2460::SlotsMenu * *>(&::DAT_011da9a4))->tile))->SetTraitAndReset(::fnv_007c06f0::g_traitX, 1.0f);
+            reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_007c2460::SlotsMenu * *>(&::DAT_011da9a4))->tile))->Set(::fnv_007c06f0::g_traitX, bet);
             if (iOldBet != bet)
             {
                 char sound[260];
-                FUN_00406d00(sound, 260, "GAMESlotsIncreaseBet0%i", soundIndex);
-                FUN_00453a70()->FUN_00ad7550(sound, 289, 0).FUN_00ad8830();
+                ::FUN_00406d00(sound, 260, "GAMESlotsIncreaseBet0%i", soundIndex);
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2460::FUN_0041a250 &)(((::fnv_007c2460::SlotsAudio *)(::FUN_00453a70()))->FUN_00ad7550(sound, 289, 0)))->FUN_00ad8830({});
                 soundIndex = soundIndex + 1 > 3 ? 1 : soundIndex + 1;
             }
             break;
@@ -3238,13 +3138,13 @@ void SlotsMenu::FUN_007c2460(int action, void* target)
                 bet = bet % 25 ? bet / 25 * 25 : bet - 25;
             else
                 bet = bet % 100 ? bet / 100 * 100 : bet - 100;
-            if (bet < DAT_011a082c)
-                bet = DAT_011a082c;
-            DAT_011da9a4->tile->SetTraitAndReset(DAT_011da998, 1.0f);
-            DAT_011da9a4->tile->FUN_00700320(DAT_011da998, bet);
+            if (bet < ::fnv_007c0a40::DAT_011a082c)
+                bet = ::fnv_007c0a40::DAT_011a082c;
+            reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::fnv_007c2460::SlotsMenu * *>(&::DAT_011da9a4))->tile))->SetTraitAndReset(::fnv_007c06f0::g_traitX, 1.0f);
+            reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_007c2460::SlotsMenu * *>(&::DAT_011da9a4))->tile))->Set(::fnv_007c06f0::g_traitX, bet);
             if (iOldBet != bet)
             {
-                FUN_00453a70()->FUN_00ad7550("GAMESlotsDecreaseBet", 289, 0).FUN_00ad8830();
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2460::FUN_0041a250 &)(((::fnv_007c2460::SlotsAudio *)(::FUN_00453a70()))->FUN_00ad7550("GAMESlotsDecreaseBet", 289, 0)))->FUN_00ad8830({});
                 soundIndex = 1;
             }
             break;
@@ -3253,16 +3153,16 @@ void SlotsMenu::FUN_007c2460(int action, void* target)
             state = 4;
             break;
         case 7:
-            if (bet != DAT_011a0828)
+            if (bet != ::fnv_007c0a40::DAT_011a0828)
             {
-                bet = DAT_011a0828;
+                bet = ::fnv_007c0a40::DAT_011a0828;
                 if (bet > funds)
                     bet = funds;
-                DAT_011da9a4->tile->SetTraitAndReset(DAT_011da998, 1.0f);
-                DAT_011da9a4->tile->FUN_00700320(DAT_011da998, bet);
+                reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::fnv_007c2460::SlotsMenu * *>(&::DAT_011da9a4))->tile))->SetTraitAndReset(::fnv_007c06f0::g_traitX, 1.0f);
+                reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_007c2460::SlotsMenu * *>(&::DAT_011da9a4))->tile))->Set(::fnv_007c06f0::g_traitX, bet);
                 char sound[260];
-                FUN_00406d00(sound, 260, "GAMESlotsIncreaseBet0%i", soundIndex);
-                FUN_00453a70()->FUN_00ad7550(sound, 289, 0).FUN_00ad8830();
+                ::FUN_00406d00(sound, 260, "GAMESlotsIncreaseBet0%i", soundIndex);
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2460::FUN_0041a250 &)(((::fnv_007c2460::SlotsAudio *)(::FUN_00453a70()))->FUN_00ad7550(sound, 289, 0)))->FUN_00ad8830({});
                 soundIndex = soundIndex + 1 > 3 ? 1 : soundIndex + 1;
             }
             break;
@@ -3272,3 +3172,5 @@ void SlotsMenu::FUN_007c2460(int action, void* target)
         state = 5;
 }
 }  // namespace fnv_007c2460
+
+#include "generated/data/fallout/interface/menus/slotmachinemenu.inc"

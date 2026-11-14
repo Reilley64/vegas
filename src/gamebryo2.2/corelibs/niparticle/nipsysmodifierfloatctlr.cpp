@@ -1,10 +1,21 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifierfloatctlr.cpp: NiPSysModifierFloatCtlr, ThisCtlr (7 functions)
 
+#include "fnv/decl/FUN_00a3c500_shell.h"
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/FUN_00a57780_shell.h"
+#include "fnv/decl/FUN_00c315b0_cls.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysmodifierfloatctlr_decls.h"
 // @fnv 0x00c32e10
 void NiPSysModifierFloatCtlr::LinkObject(NiStream& stream)
 {
-    NiPSysModifierCtlr::LinkObject(stream);
+    reinterpret_cast<struct ::FUN_00a57630 *>(this)->LinkObject(stream);
     if (stream.version < 0x0a010068)
     {
         NiFloatData* pFloatData = (NiFloatData*)stream.GetLoadedObject();
@@ -21,57 +32,49 @@ void NiPSysModifierFloatCtlr::LinkObject(NiStream& stream)
     }
 }
 
-extern const char* const g_012026d8_arg1;
 
 // @fnv 0x00c32e00
 const char* const* __cdecl FUN_00c32e00()
 {
-    return &g_012026d8_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_012027f8));
 }
 
 struct FUN_00a3a710_shell
 {
-    void __thiscall CallVirtualMethodAtOffsetA8(void* arg, void* dummy);
+    void CallVirtualMethodAtOffsetA8(void* arg, void* dummy);
 };
 
 // @fnv 0x00a3a710
-void __thiscall FUN_00a3a710_shell::CallVirtualMethodAtOffsetA8(void* pObject, void* pUnused)
+void FUN_00a3a710_shell::CallVirtualMethodAtOffsetA8(void* pObject, void* pUnused)
 {
-    typedef void(__thiscall * fp)(void*);
+    typedef void(* fp)(void*);
     fp f = *(fp*)((char*)(*(void**)pObject) + 0xa8);
     f(pObject);
 }
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-char* __cdecl _FUN_00a7d330(const char*);
-void __stdcall AppendModifierInfo(StrArr*);
 // Appends the string returned by _FUN_00a7d330(g_012026d8_arg1) to pkStrings, growing the array if its count reaches capacity.
 // @fnv 0x00c32f60
-void __stdcall FUN_00c32f60(StrArr* pkStrings)
+void FUN_00c32f60(StrArr* pkStrings)
 {
-    AppendModifierInfo(pkStrings);
-    char* pString = _FUN_00a7d330(g_012026d8_arg1);
+    reinterpret_cast<::FUN_00c315b0_cls *>((pkStrings))->AppendModifierInfo({});
+    char* pString = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_012027f8)));
     unsigned int n = *(unsigned short*)((char*)pkStrings + 0xa);
     if (n >= *(unsigned short*)((char*)pkStrings + 8))
     {
-        pkStrings->SetSize(*(unsigned short*)((char*)pkStrings + 0xe) + n);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(*(unsigned short*)((char*)pkStrings + 0xe) + n);
     }
-    pkStrings->SetAt(n, pString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(n, pString);
 }
 
 struct DynCastHelper
 {
-    NiObject* __thiscall DynamicCast(const void*);
 };
 struct PoseInterpStub
 {
-    void __thiscall SetFloatValue(float);
 };
-extern int g_011f3738;
 struct ThisCtlr
 {
     virtual void v00();
@@ -135,22 +138,21 @@ struct ThisCtlr
     virtual void v58();
     virtual void v59();
     virtual void GetValue(float*);
-    void __thiscall FUN_00c32e90(NiObject*, unsigned short);
+    void FUN_00c32e90(NiObject*, unsigned short);
 };
 // @fnv 0x00c32e90
-void __thiscall ThisCtlr::FUN_00c32e90(NiObject* pkInterp, unsigned short usIndex)
+void ThisCtlr::FUN_00c32e90(NiObject* pkInterp, unsigned short usIndex)
 {
     NiObject* pkFloatInterp;
     float fValue;
     if (pkInterp == 0)
         pkFloatInterp = 0;
     else
-        pkFloatInterp = ((DynCastHelper*)pkInterp)->DynamicCast(&g_011f3738);
+        pkFloatInterp = reinterpret_cast<::NiObject *>((((DynCastHelper*)pkInterp)))->DynamicCast((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f3738))));
     GetValue(&fValue);
-    ((PoseInterpStub*)pkFloatInterp)->SetFloatValue(fValue);
+    reinterpret_cast<::FUN_00a3c500_shell *>((((PoseInterpStub*)pkFloatInterp)))->SetFloatValue(fValue);
 }
 
-extern const float DAT_01096324;
 
 struct Interp_c32ee0
 {
@@ -288,7 +290,6 @@ struct Ctlr_c32ee0
     void* m_pkTarget;
     int unk30;
     Interp_c32ee0* m_spControllerInterpolator;
-    bool AdvanceController(float fTime);
     void UpdateController(float& fTime);
 };
 
@@ -300,7 +301,7 @@ void Ctlr_c32ee0::UpdateController(float& fTime)
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (AdvanceController(fTime))
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(fTime))
     {
         if (!m_spControllerInterpolator || !m_spControllerInterpolator->GetAlwaysUpdate53())
             return;
@@ -315,9 +316,8 @@ void Ctlr_c32ee0::UpdateController(float& fTime)
     }
 }
 
-void __cdecl FUN_00a57780();
 // @fnv 0x00a44cd0
 void __cdecl FUN_00a44cd0()
 {
-    FUN_00a57780();
+    static_cast<::FUN_00a57780_shell *>(nullptr)->FUN_00a57780(*(::NiStream *)nullptr);
 }

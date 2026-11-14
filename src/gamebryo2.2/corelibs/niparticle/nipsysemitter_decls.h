@@ -9,7 +9,7 @@ class NiBinaryStream
     unsigned int m_uiStreamFlags;
     unsigned int(__cdecl* m_pfnRead)(NiBinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
 };
-class NiStream
+struct NiStream
 {
   public:
     char pad0[0xd8];

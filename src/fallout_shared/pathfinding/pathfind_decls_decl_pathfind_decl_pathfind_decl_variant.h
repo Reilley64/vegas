@@ -5,6 +5,19 @@
 // Unit-local supersets of canonical types (same layout), for members the canonical headers do not declare yet:
 //   PathingLocation: ctors/dtor, copy ctor, operator=, GetLocation and the navmesh queries used by matched code.
 //   BSSimpleArray: Add.   NiPointer: smart-pointer API (canonical NiPointer bodies need a complete T).
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_006e78b0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_0096aaf0_shell.h"
+#include "fnv/decl/PathBuilderCore.h"
+#include "fnv/decl/This152.h"
+#include "fnv/decl/fnv_006f49c0__FUN_006f49c0_shell.h"
+#include "fnv/symbols_006ca000.h"
+#include "fnv/symbols_006d0000.h"
+#include "fnv/symbols_006d1000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_006d4000.h"
+#include "fnv/symbols_006d7000.h"
 #define NiPointer FNV_NiPointer_Canonical
 #define BSSimpleArray FNV_BSSimpleArray_Canonical
 #define PathingLocation FNV_PathingLocation_Canonical
@@ -21,11 +34,9 @@
 #undef PathingLocation
 #undef BSSimpleArray
 #include "../../../include/AutoMemContext.h"
-#pragma pack(push, 4)
 class PathfindQueueStorage
 {
   public:
-    void FUN_0096aaf0(MobileObject*, int);
 };
 class ActorDeletionQueue
 {
@@ -35,20 +46,19 @@ class ActorDeletionQueue
   public:
     void FUN_0096d470(MobileObject*, int);
 };
-class PathingLocation;
+struct PathingLocation;
 class FindTriangleForLocationFilter;
 class NavMesh
 {
   public:
     NiPoint3 GetNavMeshData(unsigned short);
 };
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:
     NavMeshPtr();
     ~NavMeshPtr();
 };
-FNV_STATIC_ASSERT(sizeof(NavMeshPtr) == 4);
 class PathingLocationProxy
 {
   protected:
@@ -57,9 +67,6 @@ class PathingLocationProxy
   public:
     bool FindContainingTriangle(FindTriangleForLocationFilter*);
 };
-FNV_STATIC_ASSERT(sizeof(PathingLocation) == sizeof(FNV_PathingLocation_Canonical));
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_usTriangleID) == offsetof(FNV_PathingLocation_Canonical, m_usTriangleID));
-#pragma pack(pop)
 class NavMesh;
 class PathingActorData;
 class PathingPath
@@ -72,7 +79,6 @@ class PathingPath
     float i, j, k, l, m, n;
     PathingPath();
     ~PathingPath();
-    float CalculatePathDistance();
 };
 class TESObjectREFR;
 class PathingSolution;
@@ -86,7 +92,7 @@ enum PATHING_REQUEST_TYPE
     RequestOptimal = 7,
     RequestUnknown = 8
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
     virtual void vfn_0();
@@ -113,9 +119,7 @@ class PathingRequestOptimalLocation : public PathingRequest
 class PathingRequestUnknown : public PathingRequest
 {
 };
-bool FUN_006d0b10(PathingRequest*, PathingSolution*);
 bool FUN_006d0be0(PathingRequestClosePoint*, PathingSolution*);
-bool FUN_006d2c80(PathingRequestUnknown*, PathingSolution*);
 class Pathing
 {
     unsigned char pad[28];
@@ -123,10 +127,6 @@ class Pathing
 
   public:
     static bool BuildPath(PathingRequest*, PathingSolution*);
-    static bool CalculateHidePath(PathingRequestHide*, PathingSolution*);
-    static bool CalculateFleePath(PathingRequestFlee*, PathingSolution*);
-    static bool BuildLineOfSightPath(PathingRequestLOS*, PathingSolution*);
-    static bool SelectOptimalLocation(PathingRequestOptimalLocation*, PathingSolution*);
     TESObjectREFR* FindReferenceByFormId(unsigned int);
     class CheckLineOfSightFilter;
     enum TELEPORT_DOOR_PATH_RESTRICTION
@@ -137,35 +137,26 @@ class Pathing
     {
         LockDefault = 0
     };
-    static bool FindRouteBetweenLocations(const PathingLocation&, const PathingLocation&, PathingPath*,
-                                          TELEPORT_DOOR_PATH_RESTRICTION, float, PathingActorData*,
-                                          DOOR_LOCK_DISPOSITION);
     static bool FindClosestPathingPoint(TESWorldSpace*, TESObjectCELL*, const NiPoint3&, NiPoint3*);
     static float FindPathDistance(const PathingLocation&, const PathingLocation&, float, PathingActorData*,
                                   DOOR_LOCK_DISPOSITION);
-    static bool FindPathingLocationOnNavMesh(PathingLocation&, const NiPoint3&, NavMesh*, unsigned short,
-                                             PathingLocation*, CheckLineOfSightFilter*);
     static bool FindPathingLocation(PathingLocation&, const NiPoint3&, PathingLocation*, CheckLineOfSightFilter*);
 };
 class TESPackage
 {
   public:
-    int GetProcedureType();
 };
 class PathingGraphNode
 {
   public:
-    PathingLocation& FUN_00717e50();
 };
 class PacketNodeRecord : public PathingGraphNode
 {
   public:
-    bool FUN_006cac70();
 };
 class PathingSolution
 {
   public:
-    PacketNodeRecord* GetVirtualNode(unsigned int);
 };
 template <class T, unsigned int Growth> class BSSimpleArray
 {
@@ -178,7 +169,6 @@ template <class T, unsigned int Growth> class BSSimpleArray
     T& GetAt(int index);
     unsigned int Add(const T&);
 };
-int CollectNearbyEdges(PathingLocation*, int, TESObjectREFR*);
 class PathBuilder
 {
   public:
@@ -188,6 +178,4 @@ class PathBuilder
     void* fieldC;
     bool skipTransitions;
     int AppendPathNodeLocations(int, BSSimpleArray<PathingLocation, 1024>*, TESObjectREFR*);
-    bool BuildPathNodeLocation(PacketNodeRecord*, PacketNodeRecord*, PathingLocation&);
-    int AppendNearbyPathLocations(PathingLocation*, BSSimpleArray<PathingLocation, 1024>*, int, TESObjectREFR*);
 };

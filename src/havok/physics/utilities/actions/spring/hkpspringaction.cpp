@@ -2,17 +2,25 @@
 // src/havok/physics/utilities/actions/spring/hkpspringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/spring/hkpspringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
+#include <new>
+#include <cstring>
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpSpringAction.h"
 
-extern int g_unk01269168;
 
 // @fnv 0x00cf4ef0
 int* __cdecl FUN_00cf4ef0()
 {
-    return &g_unk01269168;
+    return &(*reinterpret_cast<int *>(&::g_01269168));
 }
 
-void* __cdecl _fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiNumBytes);
 
 struct hkShape00D4F0
 {
@@ -94,7 +102,7 @@ FUN_00d4f000::FUN_00d4f000() throw()
     char* pcBegin = (char*)&m_sB0;
     char* pcEnd = (char*)&m_sB0;
     if (pcBegin < pcEnd)
-        _fnv_zlib_memset(pcBegin, 0, pcEnd - pcBegin);
+        std::memset(pcBegin, 0, pcEnd - pcBegin);
 }
 
 struct FUN_00cf4d80
@@ -124,18 +132,16 @@ struct FUN_00cf4d80
     float m_fDamping;
     bool m_bModifierActive;
     bool m_bEnableState;
-    FUN_00cf4d80(void* a, void* b, unsigned long c);
+    FUN_00cf4d80(void* a, void* b, uintptr_t c);
 };
 extern int DAT_010d08f4;
-extern float DAT_01013974;
-extern float DAT_0101e2bc;
 struct FUN_00d4d340 : FUN_00cf4d80
 {
-    FUN_00d4d340(void* a, void* b, unsigned long c);
+    FUN_00d4d340(void* a, void* b, uintptr_t c);
 };
 // Calls the base constructor, sets the vtable, m_fMass to 1.0, spring constant and damping from globals, and sets both bool flags to true.
 // @fnv 0x00d4d340
-FUN_00d4d340::FUN_00d4d340(void* a, void* b, unsigned long c) : FUN_00cf4d80(a, b, c)
+FUN_00d4d340::FUN_00d4d340(void* a, void* b, uintptr_t c) : FUN_00cf4d80(a, b, c)
 {
     float* __restrict pf = &m_fSpringConstant;
     m_fMass = 1.0f;
@@ -146,18 +152,7 @@ FUN_00d4d340::FUN_00d4d340(void* a, void* b, unsigned long c) : FUN_00cf4d80(a, 
     *(volatile bool*)&m_bEnableState = true;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkSimdRealD4D3
 {
@@ -179,7 +174,6 @@ struct hkVector4D4D3
 {
     __m128 m_vComponents;
 
-    void FUN_00c7f690(const hkTransformD4D3& kT, const hkVector4D4D3& kV);
     void setSub4(const hkVector4D4D3& a, const hkVector4D4D3& b)
     {
         m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
@@ -234,26 +228,15 @@ void hkpStiffSpringWrapperD4D3::UpdatePivotsAndRestLength(const hkVector4D4D3& k
 {
     hkpEntityD4D3* pkA = m_pEntityA;
     hkpEntityD4D3* pkB = m_pEntityB;
-    m_kPivotInA.FUN_00c7f690(pkA->m_kMotionTransform, kPivotAW);
-    m_kPivotInB.FUN_00c7f690(pkB->m_kMotionTransform, kPivotBW);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(m_kPivotInA))->FUN_00c7f690((const ::S_00c7f690_M *)&(pkA->m_kMotionTransform), (const ::S_00c7f690_V *)&(kPivotAW));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(m_kPivotInB))->FUN_00c7f690((const ::S_00c7f690_M *)&(pkB->m_kMotionTransform), (const ::S_00c7f690_V *)&(kPivotBW));
     hkVector4D4D3 kDiff;
     kDiff.setSub4(kPivotAW, kPivotBW);
     m_fSpringRestLength = kDiff.length3();
 }
 
 namespace fnv_00d4d410 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkSimdRealD4D41
 {
@@ -353,11 +336,6 @@ void hkpStiffSpringWrapperD4D41::SetPivots(const hkVector4D4D41& kPivotA, const 
 }  // namespace fnv_00d4d410
 
 namespace fnv_00d4d4a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4D4A0
 {
@@ -369,27 +347,8 @@ struct hkVector4D4A0
     }
 };
 
-struct hkMemoryAllocatorD4A0
-{
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct hkMemoryRouterD4A0
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    hkMemoryAllocatorD4A0* m_pStreamAllocator;
 
-    hkMemoryAllocatorD4A0& heap() const
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-hkMemoryRouterD4A0* __cdecl FUN_00c85750();
 
 struct hkpEntityPairD4A0
 {
@@ -405,14 +364,14 @@ struct hkpCloneArgD4A0
 
 struct S00d4d4a0_Obj
 {
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
-        S00d4d4a0_Obj* memory = reinterpret_cast<S00d4d4a0_Obj*>(FUN_00c85750()->heap().AllocateMemoryBlock(size));
+        S00d4d4a0_Obj* memory = reinterpret_cast<S00d4d4a0_Obj*>(hkMemoryRouter::getInstance().heap().blockAlloc(size));
         memory->m_usMemSizeAndFlags = static_cast<unsigned short>(size);
         return memory;
     }
 
-    S00d4d4a0_Obj* FUN_00d4d340(void* entityA, void* entityB, void* data);
+    S00d4d4a0_Obj* FUN_00d4d340(void* entityA, void* entityB, uintptr_t data);
 
     S00d4d4a0_Obj* FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hkpCloneArgD4A0& argB) const;
 
@@ -421,7 +380,7 @@ struct S00d4d4a0_Obj
     short m_sReferenceCount;
     void* unk08;
     void* unk0C;
-    void* m_ulUserData;
+    uintptr_t m_ulUserData;
     void* unk14;
     void* m_pEntityA;
     void* m_pEntityB;
@@ -448,7 +407,7 @@ S00d4d4a0_Obj* S00d4d4a0_Obj::FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hk
 
     S00d4d4a0_Obj* clone = new S00d4d4a0_Obj;
 
-    clone = clone->FUN_00d4d340(argA.m_kActorEntries->m_pEntityA, argA.m_kActorEntries->m_pEntityB, m_ulUserData);
+    clone = ((::fnv_00d4d4a0::S00d4d4a0_Obj *)(new ((void *)(clone)) ::FUN_00d4d340(argA.m_kActorEntries->m_pEntityA, argA.m_kActorEntries->m_pEntityB, m_ulUserData)));
 
     clone->m_kPivotInA = m_kPivotInA;
     clone->m_kPivotInB = m_kPivotInB;
@@ -461,3 +420,144 @@ S00d4d4a0_Obj* S00d4d4a0_Obj::FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hk
     return clone;
 }
 }  // namespace fnv_00d4d4a0
+
+// Moved from hkpspringaction_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_01017000.h"
+int* __cdecl FUN_00cf4ef0();
+void* __cdecl _fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiNumBytes);
+
+struct __declspec(align(16)) SpringVector
+{
+    __m128 q;
+    __m128 get() const
+    {
+        return q;
+    }
+    void set(__m128 v)
+    {
+        q = v;
+    }
+    void FUN_00c7f640(const void* transform, const hkVector4* local);
+};
+struct SpringMotion
+{
+    virtual void unk00();
+    virtual void unk04();
+    virtual void unk08();
+    virtual void unk0C();
+    virtual void unk10();
+    virtual void unk14();
+    virtual void unk18();
+    virtual void unk1C();
+    virtual void unk20();
+    virtual void unk24();
+    virtual void unk28();
+    virtual void unk2C();
+    virtual void unk30();
+    virtual void unk34();
+    virtual void unk38();
+    virtual void unk3C();
+    virtual void unk40();
+    virtual void unk44();
+    virtual void unk48();
+    virtual void unk4C();
+    virtual void unk50();
+    virtual void unk54();
+    virtual void apply(float dt, const hkVector4* force, const SpringVector* point);
+};
+class hkpEntity
+{
+  public:
+    unsigned unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    unsigned unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
+    unsigned unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
+    unsigned unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
+    unsigned unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
+    unsigned unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
+    unsigned unkC0, unkC4, unkC8, unkCC, unkD0, unkD4, unkD8, unkDC;
+    SpringMotion motion;
+    unsigned unkE4, unkE8, unkEC;
+    hkTransform transform;
+    void FUN_00ca0c40(const SpringVector* point, SpringVector* velocity);
+    void ApplyForceAtPoint(float dt, const hkVector4& force, const SpringVector& point)
+    {
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
+        motion.apply(dt, &force, &point);
+    }
+};
+struct SpringStep
+{
+    float unk00, unk04, deltaTime;
+};
+struct SpringAction : hkpSpringAction
+{
+    void FUN_00d4d530(const SpringStep& step);
+};
+static __m128 dot3(__m128 a, __m128 b)
+{
+    __m128 p = _mm_mul_ps(a, b);
+    __m128 y = _mm_shuffle_ps(p, p, 0x55);
+    __m128 z = _mm_shuffle_ps(p, p, 0xaa);
+    y = _mm_add_ss(y, p);
+    z = _mm_add_ss(z, y);
+    return z;
+}
+static float SpringLength3(__m128 v)
+{
+    float r;
+    _mm_store_ss(&r, _mm_sqrt_ss(dot3(v, v)));
+    return r;
+}
+static float SpringDot3(__m128 a, __m128 b)
+{
+    float r;
+    _mm_store_ss(&r, dot3(a, b));
+    return r;
+}
+static __m128 SpringSplat(float v)
+{
+    __m128 s = _mm_set_ss(v);
+    return _mm_shuffle_ps(s, s, 0);
+}
+static __m128 SpringSplatRef(const float& v)
+{
+    __m128 s = _mm_load_ss(&v);
+    return _mm_shuffle_ps(s, s, 0);
+}
+static __m128 SpringSplatMem(float v)
+{
+    __m128 s = _mm_load_ss(&v);
+    return _mm_shuffle_ps(s, s, 0);
+}
+static __m128 broadcast(float v)
+{
+    return _mm_load_ps1(&v);
+}
+// @fnv 0x00d4d530
+void SpringAction::FUN_00d4d530(const SpringStep& step)
+{
+    hkpEntity* a = m_pEntityA;
+    hkpEntity* b = m_pEntityB;
+    SpringVector pointA, pointB, direction, velocityA, velocityB;
+    pointA.FUN_00c7f640(&a->transform, &m_kPositionA);
+    pointB.FUN_00c7f640(&b->transform, &m_kPositionB);
+    float tolerance = ::AngularDashpotApplyD4DCB0::DAT_01017d00;
+    __m128 displacement = _mm_sub_ps(pointB.get(), pointA.get());
+    float length = SpringLength3(displacement);
+    if (tolerance > length)
+        return;
+    direction.set(_mm_mul_ps(broadcast(1.0f / length), displacement));
+    if (!m_bSpringEnabled && length < m_fRestLength)
+        return;
+    if (!m_bElastic && length > m_fRestLength)
+        return;
+    a->FUN_00ca0c40(&pointA, &velocityA);
+    b->FUN_00ca0c40(&pointB, &velocityB);
+    float force = (length - m_fRestLength) * m_fSpringStrength +
+                  m_fMotorDamping * SpringDot3(_mm_sub_ps(velocityB.get(), velocityA.get()), direction.get());
+    _mm_store_ps(&m_kLastForce.x, _mm_mul_ps(SpringSplatRef(-force), direction.get()));
+    b->ApplyForceAtPoint(step.deltaTime, m_kLastForce, pointB);
+    _mm_store_ps(&m_kLastForce.x, _mm_mul_ps(SpringSplatRef(force), direction.get()));
+    a->ApplyForceAtPoint(step.deltaTime, m_kLastForce, pointA);
+}

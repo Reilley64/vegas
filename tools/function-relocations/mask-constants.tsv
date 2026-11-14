@@ -1,0 +1,28 @@
+# Functions whose numeric masks, flags and limits were spelled as the
+# addresses of data names (VEGAS-93), docs/mask-constants.md. Format: README.md.
+# The names whose addresses stood for the constants:
+forbid	?DAT_00ffffff@@3HA
+forbid	?DAT_01000000@@3HA
+forbid	?DAT_00ff0000@@3HA
+forbid	DAT_01000001
+forbid	?g_fnv_00e9ecc0_value_anchor@@3HA
+forbid	?g_011c5bbc_arg1@@3QEBDEB
+# batch, unit, function, "-" (no name is required):
+function	tesfile	src/fallout_shared/tesfile.cpp	?FUN_00471400@FUN_00471400_shell@fnv_00471400@@QEAAHXZ	-
+function	tesfile	src/fallout_shared/tesfile.cpp	?ReadFormHeader@FUN_00472bc0_shell@fnv_00472bc0@@QEAA_NXZ	-
+function	tes	src/fallout_shared/tes.cpp	?FUN_00452370@FUN_00452370_shell@@QEBA_NXZ	-
+function	tes	src/fallout_shared/tes.cpp	?FUN_00451ef0@AttachmentHandler@@QEAAXPEAUAttachRef@@PEAUAttachCell@@0_N@Z	-
+function	impactmixer	src/fallout/audio/impactmixer.cpp	?FUN_00838750@FUN_00838750_shell@@QEAA_NXZ	-
+function	impactmixer	src/fallout/audio/impactmixer.cpp	?FUN_00838780@@YAXPEAVTESObjectREFR@@@Z	-
+function	impactmixer	src/fallout/audio/impactmixer.cpp	?PlayFootstepSound@@YAXPEAUFootstepActor@@H@Z	-
+function	startmenu	src/fallout/interface/menus/startmenu.cpp	?FUN_007d69f0@fnv_007d69f0@@YAXXZ	-
+function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?Convert4BitPalettedTo24Bit@@YAXIIIPEAEPEAUFUN_00a78f70_Pal@@PEAUFUN_00a78f70_Fmt@@0@Z	-
+function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?FUN_00a7a160@@YAXIIIPEAEPEBUNiPalette@@AEBVPixelFormatBitLayout@NiDevImageConverter@@PEBE2@Z	-
+function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?FUN_00a7a1f0@@YAXIIIPEAEII0PEAUFormat_a7a1f0@@@Z	-
+function	blk_00a20000_od	src/staging/blk_00a20000_od.cpp	?FUN_00a24f60@FUN_00a24f60_Class@@QEAAXHI@Z	-
+function	blk_00a20000_od	src/staging/blk_00a20000_od.cpp	?LoadControlsFromIni@ControlsIniLoader@@QEAAXXZ	-
+function	blk_00a60000_o2	src/staging/blk_00a60000_o2.cpp	?FUN_00a77110@@YAXIIIPEAEIPEAUFUN_00a77110_info@@PEBE@Z	-
+function	blk_00a60000_o2	src/staging/blk_00a60000_o2.cpp	?ConvertRgbToRgba@fnv_00a77460@@YAXIIHPEAEHHPEBEPEBI@Z	-
+function	hkptoicountviewer	src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.cpp	?FUN_00d67c30@FUN_00d67c30_cls@fnv_00d67c30@@QEAAXPEAUArgBlock@2@@Z	-
+function	niunionbv	src/gamebryo2.2/corelibs/nicollision/niunionbv.cpp	?FUN_00e9ecc0@@YA_JXZ	-
+function	blk_00860000_od	src/staging/blk_00860000_od.cpp	?FUN_00878360@FUN_00878360_Class@@QEAA_NXZ	-

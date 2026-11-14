@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPVEHICLEDEFAULTBRAKEWHEELBRAKINGPROPERTIES_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpVehicleDefaultBrakeWheelBrakingProperties
 {
   public:
@@ -13,7 +12,4 @@ class hkpVehicleDefaultBrakeWheelBrakingProperties
     hkBool m_bConnectedToHandbrake;  // +0x8
     char pad9[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleDefaultBrakeWheelBrakingProperties
-    [(sizeof(hkpVehicleDefaultBrakeWheelBrakingProperties) == 0xC) ? 1 : -1];
 #endif

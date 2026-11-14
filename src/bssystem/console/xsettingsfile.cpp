@@ -4,6 +4,10 @@
 // settings singleton (XSettingsFile) is lazily constructed and cached in a
 // byte out of the cached instance.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_006ff000.h"
 #include "layout_support.h"
 
 // The 0x44-byte settings singleton. The first three 0x14-byte members are
@@ -23,11 +27,10 @@ class XSettingsFile
 
     // Lazily constructs and caches the singleton, returning the cached
     // instance. Bound to the original accessor at 0x006FF580.
-    static XSettingsFile* GetRandomGenerator();
 };
 
 // @fnv 0x006FF610
 unsigned char GetDebugFlags()
 {
-    return XSettingsFile::GetRandomGenerator()->m_debugFlags;
+    return ((::XSettingsFile *)(::FUN_006ff580()))->m_debugFlags;
 }

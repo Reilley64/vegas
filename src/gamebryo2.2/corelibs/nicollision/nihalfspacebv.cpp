@@ -2,6 +2,22 @@
 // src/gamebryo2.2/corelibs/nicollision/nihalfspacebv.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nihalfspacebv.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/S_00e9cb10_Obj.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00a92000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e9c000.h"
+#include "fnv/symbols_00e9d000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f6000.h"
 struct NiBoundingVolume
 {
     virtual ~NiBoundingVolume();
@@ -27,17 +43,22 @@ int __cdecl FUN_00e9e670()
 }
 
 struct NiStream;
+struct NiStream;
 struct NiSphere
 {
     void SaveBinary(NiStream&);
+public:
+    void LoadBinary(::NiStream &);
 };
+struct NiStream;
 struct NiColor
 {
     void SaveBinary(NiStream&);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct NiBoundingVolume_SaveHelper
 {
-    void SaveBinary(NiStream&);
 };
 struct FUN_00e9cb80_Holder
 {
@@ -47,14 +68,13 @@ struct FUN_00e9cb80_Holder
 // @fnv 0x00e9cb80
 void FUN_00e9cb80_Holder::FUN_00e9cb80(NiStream& kStream)
 {
-    ((NiBoundingVolume_SaveHelper*)this)->SaveBinary(kStream);
+    reinterpret_cast<::S_00e9cb10_Obj *>((((NiBoundingVolume_SaveHelper*)this)))->SaveValueToStream((::S_00e9cb10_Stream *)&(kStream));
     ((NiSphere*)((char*)this + 4))->SaveBinary(kStream);
     ((NiColor*)((char*)this + 0x14))->SaveBinary(kStream);
 }
 
 struct Q
 {
-    bool FUN_00a92660(const Q&) const;
 };
 struct BVProxy
 {
@@ -73,8 +93,7 @@ int Holder00e9cc20::MatchesBoundingVolume(const NiBoundingVolume& kABV) const
 {
     if (reinterpret_cast<const BVProxy&>(kABV)._f3() == 5)
     {
-        if (reinterpret_cast<const Q*>(reinterpret_cast<const char*>(&kABV) + 4)
-                ->FUN_00a92660(*reinterpret_cast<const Q*>(reinterpret_cast<const char*>(this) + 4)))
+        if (((bool)(::FUN_00a92660((const float *)(reinterpret_cast<const Q*>(reinterpret_cast<const char*>(&kABV) + 4)), (intptr_t)&(*reinterpret_cast<const Q*>(reinterpret_cast<const char*>(this) + 4)), {}))))
             return 1;
     }
     return 0;
@@ -85,14 +104,14 @@ struct NiPoint3
     float x;
     float y;
     float z;
+public:
+    float GetLengthSquared();
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern NiPoint3 DAT_011a9478;
-extern NiPoint3 _NiPoint3_ZERO;
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct FUN_00e9e700_Helper
 {
     NiBoundingVolume* FUN_00e9e680(const NiPoint3&, const NiPoint3&);
@@ -100,9 +119,9 @@ struct FUN_00e9e700_Helper
 // @fnv 0x00e9e700
 NiBoundingVolume* FUN_00e9e700()
 {
-    FUN_00e9e700_Helper* p = (FUN_00e9e700_Helper*)g_memoryManager.Allocate(32);
+    FUN_00e9e700_Helper* p = (FUN_00e9e700_Helper*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(32);
     if (p)
-        return p->FUN_00e9e680(_NiPoint3_ZERO, DAT_011a9478);
+        return p->FUN_00e9e680(::NiPoint3::ZERO, ::DAT_011a9478);
     return 0;
 }
 
@@ -115,7 +134,6 @@ struct D_00e9e980
     char _10[4];
     int m_found;
 };
-bool __cdecl CallConditionFunction(float, void*, void*, void*, void*);
 // Scans the pointer array in d up to m_cnt, calls CallConditionFunction on each element, and on success stores the index in m_found and returns true.
 // @fnv 0x00e9e980
 bool __cdecl FUN_00e9e980(float afValue, D_00e9e980* pContainer, void* a, void* b, void* c)
@@ -124,7 +142,7 @@ bool __cdecl FUN_00e9e980(float afValue, D_00e9e980* pContainer, void* a, void* 
     for (; i < pContainer->m_cnt; ++i)
     {
         void* e = pContainer->m_pp[i];
-        if (CallConditionFunction(afValue, e, a, b, c))
+        if (::CallConditionFunction(afValue, (::FUN_00e9c8c0_obj *)(e), (uintptr_t)(a), (::FUN_00e9c8c0_obj *)(b), (uintptr_t)(c)))
         {
             pContainer->m_found = (int)i;
             return true;
@@ -143,11 +161,9 @@ struct NiObject
 };
 struct NiPlane
 {
-    void LoadBinary(NiStream&);
 };
 struct NiPoint3
 {
-    void LoadBinary(NiStream&);
 };
 
 struct NiHalfSpaceBV : NiObject
@@ -162,9 +178,9 @@ struct NiHalfSpaceBV : NiObject
 // @fnv 0x00e9cb50
 void NiHalfSpaceBV::FUN_00e9cb50(NiStream& stream)
 {
-    NiObject::LinkObject(stream);
-    m_kHalfSpacePlane.LoadBinary(stream);
-    m_kCenter.LoadBinary(stream);
+    ::FUN_00a89af0((intptr_t)this);
+    reinterpret_cast<::NiSphere *>(&(m_kHalfSpacePlane))->LoadBinary((::NiStream &)(stream));
+    reinterpret_cast<::NiColor *>(&(m_kCenter))->LoadBinary((::NiStream &)(stream));
 }
 }  // namespace fnv_00e9cb50
 
@@ -176,7 +192,6 @@ struct PlaneInput
 struct NormalProxy
 {
     float x, y, z;
-    float FUN_00457910();
 };
 struct HalfSpaceProxy : NiHalfSpaceBV
 {
@@ -190,7 +205,7 @@ void HalfSpaceProxy::SetFromPlane(const PlaneInput* apPlane)
 {
     NormalProxy normalized = *reinterpret_cast<const NormalProxy*>(&apPlane->normal);
     const double originalDistance = apPlane->distance;
-    float adjustedDistance = static_cast<float>(originalDistance / normalized.FUN_00457910());
+    float adjustedDistance = static_cast<float>(originalDistance / reinterpret_cast<::NiPoint3 *>(&(normalized))->GetLengthSquared());
     normal = normalized;
     distance = adjustedDistance;
 }
@@ -291,7 +306,6 @@ struct FUN_00e9e680
     Plane_e9e m_kHalfSpacePlane;
     Pt3_e9e m_kStartPoint;
     virtual void v00();
-    void SetFromPlane(const Plane_e9e& m_kFogPlane);
     FUN_00e9e680(const Pt3_e9e& akStart, const Pt3_e9e& kNormal);
 };
 
@@ -301,14 +315,14 @@ FUN_00e9e680::FUN_00e9e680(const Pt3_e9e& akPoint, const Pt3_e9e& kNormal) : m_k
     Plane_e9e m_kFogPlane;
     m_kFogPlane.m_kPlaneNormal = kNormal;
     m_kFogPlane.m_fPlaneConstant = akPoint * kNormal;
-    SetFromPlane(m_kFogPlane);
+    reinterpret_cast<::HalfSpaceProxy *>(this)->SetFromPlane((const ::PlaneInput *)&(m_kFogPlane));
 }
 
 // FUN_00e9e730 — clone method: allocates a new object via the memory
 // manager, initializes its member, copies the bounding-volume data and the
 // trailing NiPoint3, and returns the clone (NULL when allocation fails).
 //
-// Target: __thiscall, caller pops, size 78, /MT /O2 /GS /EHsc /Gy.
+// Target: , caller pops, size 78, /MT /O2 /GS /EHsc /Gy.
 // Uses the pack's declarations: NiBoundingVolume, NiPoint3, P03MM,
 // g_memoryManager.
 
@@ -320,7 +334,6 @@ struct FUN_00a69940_Member
     int unk08;
     int unk0C;
     int unk10;
-    void FUN_00a69940();
 };
 
 // The cloned object: NiBoundingVolume-derived, vtable at +0, member at +4,
@@ -330,13 +343,8 @@ struct FUN_00a69940_Member
 struct CloneNode : NiBoundingVolume
 {
     virtual ~CloneNode();
-    void SetFromPlane(const FUN_00a69940_Member* kABV);
     FUN_00a69940_Member member;
     NiPoint3 point;
-    void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
     NiBoundingVolume* FUN_00e9e730();
 };
 
@@ -352,19 +360,15 @@ NiBoundingVolume* CloneNode::FUN_00e9e730()
     {
         return 0;
     }
-    clone->member.FUN_00a69940();
-    clone->SetFromPlane(&this->member);
+    new ((void *)&(clone->member)) ::NiPlane();
+    reinterpret_cast<::HalfSpaceProxy *>((clone))->SetFromPlane((const ::PlaneInput *)(const ::FUN_00a69940_Member *)(&this->member));
     clone->point = this->point;
     return clone;
 }
 
 struct NiStream;
 
-extern NiPoint3 DAT_011a9478;
-extern NiPoint3 DAT_011f426c;
-extern NiPoint3 _NiPoint3_ZERO;
 
-extern P03MM g_memoryManager;
 
 NiBoundingVolume* FUN_00e9e700();
 
@@ -377,12 +381,12 @@ struct FUN_00e9e780_Virtual
 // @fnv 0x00e9e780
 NiBoundingVolume* __cdecl CreateBoundingVolumeAndCall(void* apArg)
 {
-    FUN_00e9e700_Helper* helper = static_cast<FUN_00e9e700_Helper*>(g_memoryManager.Allocate(0x20));
+    FUN_00e9e700_Helper* helper = static_cast<FUN_00e9e700_Helper*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x20));
 
     NiBoundingVolume* result;
 
     if (helper)
-        result = helper->FUN_00e9e680(DAT_011f426c, DAT_011a9478);
+        result = ((::NiBoundingVolume *)(new ((void *)(helper)) ::FUN_00e9e680((const ::Pt3_e9e &)(::NiPoint3::ZERO), (const ::Pt3_e9e &)(::DAT_011a9478))));
     else
         result = 0;
 
@@ -390,22 +394,16 @@ NiBoundingVolume* __cdecl CreateBoundingVolumeAndCall(void* apArg)
     return result;
 }
 
-extern "C" size_t __cdecl strlen(const char*);
-void* __cdecl NiMalloc(unsigned int uiSize);
-int __cdecl FUN_00a305b0(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
-
 class E9E7D0StrArray
 {
   public:
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, char*& pcValue);
 
     unsigned int Add(char*& pcValue)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcValue);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, pcValue);
         return uiIndex;
     }
 
@@ -428,8 +426,8 @@ class E9E7D0BoundingVolume
 void E9E7D0BoundingVolume::AddHalfspaceName(const char* pcName, E9E7D0StrArray* pkStrings)
 {
     unsigned int uiLen = strlen(pcName) + 16;
-    char* pcString = static_cast<char*>(NiMalloc(uiLen));
-    FUN_00a305b0(pcString, uiLen, "%s = HALFSPACE_BV", pcName);
+    char* pcString = static_cast<char*>(::FUN_00aa1070(uiLen));
+    ::NiSprintf(pcString, uiLen, "%s = HALFSPACE_BV", pcName);
     pkStrings->Add(pcString);
 }
 
@@ -1256,8 +1254,6 @@ struct Sphere72
     float radius;
     Sphere72(float, const Vec72&);
 };
-bool FUN_00e9d2c0(float, const Half72&, const Vec72&, const Sphere72&, const Vec72&, float&, Vec72&, bool, Vec72&,
-                  Vec72&);
 // Tests a capsule against a moving half-space, using sphere tests when an endpoint is within the capsule radius of the plane.
 // @fnv 0x00e9da30
 bool SweepCapsuleAgainstHalf(float maxTime, const Half72& half, const Vec72& halfVelocity, const Capsule72& capsule,
@@ -1283,29 +1279,29 @@ bool SweepCapsuleAgainstHalf(float maxTime, const Half72& half, const Vec72& hal
     else if (-shape.radius <= distance0)
     {
         time = 0.0f;
-        Sphere72 sphere(1.0f, *(Vec72*)&DAT_011f426c);
+        Sphere72 sphere(1.0f, *(Vec72*)&::NiPoint3::ZERO);
         sphere.radius = capsule.geometry.radius;
         if (distance1 >= -shape.radius)
         {
             sphere.center = capsule.center;
-            return FUN_00e9d2c0(maxTime, half, halfVelocity, sphere, capsuleVelocity, time, point, normals, *normalHalf,
-                                *normalCapsule);
+            return ::FUN_00e9d2c0(maxTime, (const ::NiBoundingVolume &)(half), (const ::BvPt &)(halfVelocity), (const ::NiBoundingVolume &)(sphere), (const ::BvPt &)(capsuleVelocity), time, (::BvPt &)(point), normals, (::BvPt &)(*normalHalf),
+                                (::BvPt &)(*normalCapsule));
         }
         else
         {
             sphere.center = shape.GetOrigin();
-            return FUN_00e9d2c0(maxTime, half, halfVelocity, sphere, capsuleVelocity, time, point, normals, *normalHalf,
-                                *normalCapsule);
+            return ::FUN_00e9d2c0(maxTime, (const ::NiBoundingVolume &)(half), (const ::BvPt &)(halfVelocity), (const ::NiBoundingVolume &)(sphere), (const ::BvPt &)(capsuleVelocity), time, (::BvPt &)(point), normals, (::BvPt &)(*normalHalf),
+                                (::BvPt &)(*normalCapsule));
         }
     }
     else if (distance1 >= -shape.radius)
     {
         time = 0.0f;
-        Sphere72 sphere(1.0f, *(Vec72*)&DAT_011f426c);
+        Sphere72 sphere(1.0f, *(Vec72*)&::NiPoint3::ZERO);
         sphere.radius = capsule.geometry.radius;
         sphere.center = capsule.geometry.origin + capsule.geometry.direction;
-        return FUN_00e9d2c0(maxTime, half, halfVelocity, sphere, capsuleVelocity, time, point, normals, *normalHalf,
-                            *normalCapsule);
+        return ::FUN_00e9d2c0(maxTime, (const ::NiBoundingVolume &)(half), (const ::BvPt &)(halfVelocity), (const ::NiBoundingVolume &)(sphere), (const ::BvPt &)(capsuleVelocity), time, (::BvPt &)(point), normals, (::BvPt &)(*normalHalf),
+                            (::BvPt &)(*normalCapsule));
     }
     else
     {

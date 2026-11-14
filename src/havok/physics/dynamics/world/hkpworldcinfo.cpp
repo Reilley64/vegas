@@ -2,26 +2,26 @@
 // src/havok/physics/dynamics/world/hkpworldcinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworldcinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01014000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_0102d000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_0104d000.h"
 #include "havok/hkpWorldCinfo.h"
 
-extern "C" void _ReadWriteBarrier();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" void _mm_store_ps(float*, __m128);
-extern char DAT_0102f0ec[];
-extern float DAT_01018180, DAT_01013d84;
 extern const float DAT_0104da48 = 3.402820018375656e38f;
 extern const float DAT_010141cc = 0.0001f;
-extern const float DAT_01017718, DAT_0101e570, DAT_01017868, DAT_0102d934, DAT_010209a0, DAT_01013ea4, DAT_010c636c,
-    DAT_010c6368, DAT_0102226c;
+extern const float DAT_010209a0, DAT_010c636c,
+    DAT_010c6368;
 
 struct Obj_c90b80
 {
-    void FUN_00c905b0();
 };
 
 struct RefPtr_c90b80
@@ -32,7 +32,7 @@ struct RefPtr_c90b80
     void operator=(Obj_c90b80* e)
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = e;
     }
 };
@@ -126,7 +126,7 @@ struct WorldFieldsC90
     hkBool m_bFireCollisionCallbacks;
     char unkE1, unkE2, unkE3;
     unsigned int unkE4, unkE8, unkEC;
-    WorldFieldsC90() : m_vft(DAT_0102f0ec), m_sReferenceCount(1)
+    WorldFieldsC90() : m_vft((*reinterpret_cast<char (*)[]>(&::DAT_0102f0ec))), m_sReferenceCount(1)
     {}
     void setVecs(float zero, float a);
     void setToi(float v);
@@ -189,10 +189,10 @@ FUN_00c90b80::FUN_00c90b80()
     m_iMaxEntriesPerMidphaseToiTask = 1;
     (volatile float&)m_fHigherToiPenetrationThreshold = 4.0f;
     m_fForcedToiPenetrationThreshold = DAT_01017868;
-    m_fDeactivationReferenceDistance = DAT_0102d934;
-    m_fExpectedMaxLinearVelocity = DAT_0102226c;
+    m_fDeactivationReferenceDistance = ::g_011db424_arg1;
+    m_fExpectedMaxLinearVelocity = ::g_011c72ac_arg1;
     m_fExpectedMinPsiDeltaTime = DAT_010209a0;
-    m_fValue = DAT_01013ea4;
+    m_fValue = ::DAT_01013ea4;
     (volatile char&)m_bEnableDeprecatedWelding = 0;
     (volatile int&)m_iValue = 0x14;
     (volatile char&)m_bRigidBodyFlag = 1;
@@ -211,3 +211,5 @@ FUN_00c90b80::FUN_00c90b80()
     m_bAllowUnconstrainedIslandJob = 0;
     m_bFireCollisionCallbacks = 0;
 }
+
+#include "generated/data/havok/physics/dynamics/world/hkpworldcinfo.inc"

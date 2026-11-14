@@ -3,11 +3,10 @@
 #define FNV_NIBLENDINTERPOLATOR_UNIT_DECLS_H
 
 
-class CloningProcess;
-class ShaderBufferRecord;
+#include <windows.h>
+struct CloningProcess;
+struct ShaderBufferRecord;
 extern "C" const float fnvNegMax;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 template <class T> class NiTStringPointerMap
 {
@@ -21,7 +20,7 @@ template <> class NiTStringPointerMap<ShaderBufferRecord*>
 };
 typedef NiTStringPointerMap<ShaderBufferRecord*> NiShaderBufferPointerMap;
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void Slot00()
@@ -125,7 +124,7 @@ class NiBlendInterpolator : public NiInterpolator
 };
 typedef NiBlendInterpolator::InterpArrayItem NiBlendInterpolator_InterpArrayItem;
 
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTStringPointerMap<ShaderBufferRecord*>* m_pCloneMap;

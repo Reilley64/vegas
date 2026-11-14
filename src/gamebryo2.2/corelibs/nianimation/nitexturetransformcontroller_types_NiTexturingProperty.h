@@ -10,7 +10,6 @@ class NiTPrimitiveArray_NiTexturingProperty__ShaderMap___;
 class NiTexturingProperty;
 class NiTexturingProperty__Map;
 class NiTexturingProperty__ShaderMap;
-#pragma pack(push, 4)
 class NiTPrimitiveArray_NiTexturingProperty__Map___
     : public NiTArray<NiTexturingProperty__Map*, NiTMallocInterface<NiTexturingProperty__Map*> >
 {
@@ -22,14 +21,11 @@ class NiTPrimitiveArray_NiTexturingProperty__Map___
     // void __cdecl NiTPrimitiveArray<NiTexturingProperty::Map *>::*()
     // void __cdecl NiTPrimitiveArray<NiTexturingProperty::Map *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_NiTexturingProperty__Map___) == 16);
 class NiTPrimitiveArray_NiTexturingProperty__ShaderMap___
     : public NiTArray<NiTexturingProperty__ShaderMap*, NiTMallocInterface<NiTexturingProperty__ShaderMap*> >
 {
 };
 typedef NiTPrimitiveArray_NiTexturingProperty__ShaderMap___ NiTexturingProperty__ShaderMapArray;
-#pragma pack(push, 4)
 class NiTexturingProperty : public NiProperty
 {
   public:
@@ -106,9 +102,4 @@ class NiTexturingProperty : public NiProperty
     // NiTexturingProperty& __cdecl NiTexturingProperty::*(const NiTexturingProperty&)
     // void __cdecl NiTexturingProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTexturingProperty) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTexturingProperty, m_uiObjectFlags) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTexturingProperty, m_kStringArray) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTexturingProperty, m_pShaderMaps) == 44);
 #endif

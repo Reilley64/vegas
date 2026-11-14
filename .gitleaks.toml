@@ -1,0 +1,17 @@
+# Gitleaks 8.30.1 mistakes these integer comparisons and typed map parameters
+# for API keys. Match only the exact C++ syntax, never a whole line or identifier.
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Reviewed public C++ comparison and parameter syntax only"
+regexTarget = "match"
+regexes = [
+    '''^key, S_00db8670_Uint64 $''',
+    '''^key, S_00db8670_Ulong $''',
+    '''^key, S_00dc5970_Handle $''',
+    '''^key0\.m_ucLowNibble == key1\.m_ucLowNibble $''',
+]

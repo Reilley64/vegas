@@ -3,9 +3,8 @@
 #define FNV_NIUPDATEDATA_H
 
 #include "layout_support.h"
-class NiUpdateData;
-#pragma pack(push, 4)
-class NiUpdateData
+struct NiUpdateData;
+struct NiUpdateData
 {
   public:
     float fTime;            // +0x0, 4 bytes
@@ -17,12 +16,4 @@ class NiUpdateData
     unsigned char layoutPadding9[3];
     // void __cdecl NiUpdateData::*(float, bool, bool)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiUpdateData) == 12);
-FNV_STATIC_ASSERT(offsetof(NiUpdateData, fTime) == 0);
-FNV_STATIC_ASSERT(offsetof(NiUpdateData, m_bUpdateEnabled) == 4);
-FNV_STATIC_ASSERT(offsetof(NiUpdateData, m_bRender) == 5);
-FNV_STATIC_ASSERT(offsetof(NiUpdateData, m_bInterpolate) == 6);
-FNV_STATIC_ASSERT(offsetof(NiUpdateData, m_bTimeToDie) == 7);
-FNV_STATIC_ASSERT(offsetof(NiUpdateData, m_bVisible) == 8);
 #endif

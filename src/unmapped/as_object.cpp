@@ -1,6 +1,30 @@
+#include "AutoMemContext.h"
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004623f0_shell.h"
+#include "fnv/decl/FUN_00551110_Cell.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/NavMeshArray_bc50.h"
+#include "fnv/decl/S00546fb0_Cell.h"
+#include "fnv/decl/SLGameShell.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WorldReference.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00558ba0__FUN_00558ba0_shell.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/n547__Cell.h"
+#include "fnv/symbols_00541000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_00867000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 class TESFile
 {
   public:
@@ -21,8 +45,9 @@ template <class T> class NiPointer
     operator T*() const;
     void* FUN_00458b50();
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -88,19 +113,17 @@ struct TESObjectREFR
     virtual void v3e();
     virtual void v3f();
     virtual bool IsActor();
-    bool GetReferencePersistence();
 };
-struct TESObjectCELL;
+class TESObjectCELL;
 struct S00561ef0
 {
-    bool FUN_00561ef0(TESObjectCELL*);
 };
 struct P01ObjA
 {
-    TESForm* GetNext();
 };
-struct MobileObject
+class MobileObject
 {
+  public:
     unsigned int GetCurrentProcessLevel();
 };
 struct FUN_00881d10
@@ -111,13 +134,13 @@ struct FUN_00452440_shell
 {
     bool FUN_00452440();
 };
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
+    TESObjectREFR* m_item;
+    BSSimpleList* m_pkNext;
     bool FUN_008256d0();
-    TESObjectREFR** FUN_006815c0();
     void FUN_0063f7b0();
-    BSSimpleList* FUN_00726070();
-    void FUN_00905330(TESObjectREFR* const&);
 };
 struct CF845
 {
@@ -127,63 +150,51 @@ struct CF845
 };
 struct BGSSaveLoadGame
 {
-    bool SetThreadAllowChanges(bool);
-    bool FUN_0042ce10();
-    void FUN_00849730(void*, int);
 };
 struct Class_0084a700
 {
     bool HasChangeForForm(TESObjectREFR*, CF845);
 };
+class TESForm;
 struct FUN_008d0370_shell
 {
-    bool FUN_008d0370(TESObjectREFR*);
+public:
+    bool FUN_008d0370(::TESForm *);
 };
-struct BGSLoadedReferenceCollection
+class BGSLoadedReferenceCollection
 {
+  public:
     void FUN_005270b0(TESObjectREFR*);
 };
 struct NavMeshCollection
 {
     NiPointer<NavMesh> GetNavMeshAt(unsigned int);
-    void RemoveAndCollect(unsigned int);
 };
-int __fastcall GetReferenceFlags(void*);
-void FUN_00867f90(TESObjectREFR*);
-struct AutoMemHelper
-{
-    int m_old;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
-struct TESObjectLAND;
+using AutoMemHelper = ::AutoMemContext;
+class TESObjectLAND;
 struct FUN_009604f0_shell
 {
     BSSimpleList* FUN_009604f0();
 };
 struct FakeCell
 {
-    TESObjectLAND* GetLandscape();
 };
-struct EffectSetting
+class EffectSetting
 {
-    NavMeshCollection* GetEffectID();
 };
 struct S00551440
 {
     void FUN_00551440(bool);
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern FUN_008d0370_shell* g_TESSaveLoadGame;
-extern BGSLoadedReferenceCollection* DAT_011c95c8;
-extern TESObjectREFR* g_thePlayer;
-struct TESObjectCELL
+class TESObjectCELL
 {
+  public:
+    char pad00[0x64];
+    NavMeshCollection* m_pNavMeshArray;
+    char pad68[0x40];
+    unsigned short m_usA8;
+    unsigned short m_usAA;
     void CellRefLockEnter();
-    void CellRefLockLeave();
-    void SetLandscape(TESObjectLAND*);
-    void FUN_005576c0();
-    void FUN_00558ba0(TESObjectREFR*);
     void RemoveNonPersistentRefs();
 };
 
@@ -195,84 +206,84 @@ void TESObjectCELL::RemoveNonPersistentRefs()
         BSSimpleList* pPrevNode;
         NavMeshCollection* pNavMeshArray;
         CellRefLockEnter();
-        *(unsigned short*)((char*)this + 0xa8) = 0;
-        *(unsigned short*)((char*)this + 0xaa) = 0;
+        m_usA8 = 0;
+        m_usAA = 0;
         {
             BSSimpleList* pNode;
-            bool bOldAllow = g_BGSSaveLoadGame->SetThreadAllowChanges(false);
-            FUN_005576c0();
+            bool bOldAllow = reinterpret_cast<::FUN_004623f0_shell *>((g_BGSSaveLoadGame))->FUN_004623f0(false);
+            reinterpret_cast<::FUN_00551110_Cell *>(this)->FUN_005576c0();
             pNode = ((FUN_009604f0_shell*)this)->FUN_009604f0();
             pPrevNode = 0;
             while (pNode && !pNode->FUN_008256d0())
             {
-                TESObjectREFR* pRef = *pNode->FUN_006815c0();
-                if (!pRef->GetReferencePersistence() &&
+                TESObjectREFR* pRef = pNode->m_item;
+                if (!reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pRef))->FUN_005653d0() &&
                     (!((TESForm*)pRef)->GetFile(-1) || ((TESForm*)pRef)->GetFile(-1)->IsMasterFile()))
                 {
                     if (pPrevNode)
                     {
-                        pPrevNode->FUN_00905330(pRef);
-                        pNode = pPrevNode->FUN_00726070();
+                        reinterpret_cast<::ItemChangeListNode *>((pPrevNode))->FUN_00905330((::InventoryStackRecord *const &)(pRef));
+                        pNode = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((pPrevNode))->FUN_00726070()));
                     }
                     else
                     {
                         pNode->FUN_0063f7b0();
                     }
-                    DAT_011c95c8->FUN_005270b0(pRef);
+                    ::DAT_011c95c8->FUN_005270b0(pRef);
                     if (pRef->IsActor())
                     {
                         MobileObject* pActor = (MobileObject*)pRef;
                         if (pActor->GetCurrentProcessLevel() == 0)
                             ((FUN_00881d10*)pActor)->SetHoursPassed();
                     }
-                    g_TESSaveLoadGame->FUN_008d0370(pRef);
-                    g_BGSSaveLoadGame->FUN_00849730(pRef, 0);
+                    (*reinterpret_cast<::FUN_008d0370_shell * *>(&::g_TESSaveLoadGame))->FUN_008d0370((::TESForm *)(pRef));
+                    reinterpret_cast<::SLGameShell *>((g_BGSSaveLoadGame))->FUN_00849730((::TESForm *)(pRef), 0);
                     bool bPrint = true;
-                    if (g_BGSSaveLoadGame->FUN_0042ce10() &&
+                    if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10() &&
                         ((Class_0084a700*)g_BGSSaveLoadGame)->HasChangeForForm(pRef, CF845(8)) &&
-                        ((S00561ef0*)pRef)->FUN_00561ef0(this))
+                        reinterpret_cast<::WorldReference *>((((S00561ef0*)pRef)))->FUN_00561ef0(this))
                         bPrint = false;
-                    if (((P01ObjA*)pRef)->GetNext() && ((P01ObjA*)pRef)->GetNext()->FNV_GetFormType() == 0x23)
+                    if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)pRef)))->FUN_007af430())) && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)pRef)))->FUN_007af430()))->FNV_GetFormType() == 0x23)
                     {
-                        FUN_00452440_shell* pBase = (FUN_00452440_shell*)((P01ObjA*)pRef)->GetNext();
+                        FUN_00452440_shell* pBase = (FUN_00452440_shell*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)pRef)))->FUN_007af430()));
                         if (pBase->FUN_00452440())
-                            FUN_00558ba0(pRef);
+                            reinterpret_cast<::fnv_00558ba0::FUN_00558ba0_shell *>(this)->FUN_00558ba0(reinterpret_cast<std::intptr_t>(pRef));
                     }
-                    if (bPrint && pRef != g_thePlayer)
-                        FUN_00867f90(pRef);
+                    if (bPrint && pRef != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
+                        ::FUN_00867f90((::GcRef *)(pRef));
                 }
                 else
                 {
                     pPrevNode = pNode;
-                    pNode = pNode->FUN_00726070();
+                    pNode = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
                 }
             }
-            g_BGSSaveLoadGame->SetThreadAllowChanges(bOldAllow);
+            reinterpret_cast<::FUN_004623f0_shell *>((g_BGSSaveLoadGame))->FUN_004623f0(bOldAllow);
         }
-        CellRefLockLeave();
-        pLand = ((FakeCell*)this)->GetLandscape();
+        ::FUN_00541ae0((char *)this);
+        pLand = reinterpret_cast<::S00546fb0_Cell *>((((FakeCell*)this)))->FUN_00546fb0();
         if (pLand)
         {
             TESFile* pFile = ((TESForm*)pLand)->GetFile(-1);
             if (!pFile || pFile->IsMasterFile())
             {
-                SetLandscape(0);
+                reinterpret_cast<::n547::Cell *>(this)->SetObj((::n547::Obj *)(::TESObjectLAND *)(0));
                 pLand = 0;
             }
         }
-        pNavMeshArray = ((EffectSetting*)this)->GetEffectID();
+        pNavMeshArray = m_pNavMeshArray;
         if (pNavMeshArray)
         {
             AutoMemHelper memHelper(
                 0x2e, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectCELL.cpp", 0x2769);
-            for (unsigned int i = 0; i < GetReferenceFlags(pNavMeshArray); i++)
+            for (unsigned int i = 0; i < ((int)(reinterpret_cast<::FUN_00620b80_shell *>((pNavMeshArray))->GetReferenceFlags())); i++)
             {
                 TESFile* pNavFile = ((TESForm*)(NavMesh*)pNavMeshArray->GetNavMeshAt(i))->GetFile(-1);
                 if (!pNavFile || pNavFile->IsMasterFile())
                 {
                     NiPointer<NavMesh> apSearchNavMesh = pNavMeshArray->GetNavMeshAt(i);
-                    g_BGSSaveLoadGame->FUN_00849730(apSearchNavMesh.FUN_00458b50(), 0);
-                    pNavMeshArray->RemoveAndCollect(i);
+                    reinterpret_cast<::SLGameShell *>((g_BGSSaveLoadGame))->FUN_00849730((::TESForm *)(void *)(apSearchNavMesh.FUN_00458b50()), 0);
+                    reinterpret_cast<::NavMeshArray_bc50 *>((pNavMeshArray))->RemoveAndCollect(i);
                     i--;
                 }
             }

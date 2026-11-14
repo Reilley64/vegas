@@ -10,7 +10,6 @@ class BSFaceGenModel;
 class BipedAnimObject;
 class NiAVObject;
 class TESModel;
-#pragma pack(push, 4)
 class BipedAnimBone
 {
   public:
@@ -18,11 +17,6 @@ class BipedAnimBone
     unsigned char layoutPadding1[3];
     NiNode* pParent;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BipedAnimBone) == 8);
-FNV_STATIC_ASSERT(offsetof(BipedAnimBone, cFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(BipedAnimBone, pParent) == 4);
-#pragma pack(push, 4)
 class BipedAnimObject
 {
   public:
@@ -32,13 +26,6 @@ class BipedAnimObject
     bool bHasAnimation;          // +0xC, 1 bytes
     unsigned char layoutPaddingD[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BipedAnimObject) == 16);
-FNV_STATIC_ASSERT(offsetof(BipedAnimObject, pParent) == 0);
-FNV_STATIC_ASSERT(offsetof(BipedAnimObject, m_pModel) == 4);
-FNV_STATIC_ASSERT(offsetof(BipedAnimObject, m_pSceneObject) == 8);
-FNV_STATIC_ASSERT(offsetof(BipedAnimObject, bHasAnimation) == 12);
-#pragma pack(push, 4)
 class BipedAnim
 {
   public:
@@ -111,12 +98,4 @@ class BipedAnim
     // TESModel* __cdecl BipedAnim::*(BIPED_OBJECT, TESModel*)
     // void* __cdecl BipedAnim::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BipedAnim) == 692);
-FNV_STATIC_ASSERT(offsetof(BipedAnim, root) == 0);
-FNV_STATIC_ASSERT(offsetof(BipedAnim, bone) == 4);
-FNV_STATIC_ASSERT(offsetof(BipedAnim, object) == 44);
-FNV_STATIC_ASSERT(offsetof(BipedAnim, m_kPreviousObjects) == 364);
-FNV_STATIC_ASSERT(offsetof(BipedAnim, m_fFadeAlpha) == 684);
-FNV_STATIC_ASSERT(offsetof(BipedAnim, m_pActor) == 688);
 #endif

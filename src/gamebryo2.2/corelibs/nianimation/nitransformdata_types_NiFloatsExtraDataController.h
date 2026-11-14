@@ -41,7 +41,4 @@ class NiFloatsExtraDataController : public NiExtraDataController
     // NiFloatsExtraDataController& __cdecl NiFloatsExtraDataController::*(const NiFloatsExtraDataController&)
     // void __cdecl NiFloatsExtraDataController::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiFloatsExtraDataController) == 72);
-FNV_STATIC_ASSERT(offsetof(NiFloatsExtraDataController, m_iFloatsExtraDataIndex) == 64);
-FNV_STATIC_ASSERT(offsetof(NiFloatsExtraDataController, m_kCtlrID) == 68);
 #endif

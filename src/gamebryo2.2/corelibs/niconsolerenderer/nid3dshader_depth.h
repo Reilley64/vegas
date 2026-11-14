@@ -2,6 +2,11 @@
 #define FNV_NID3DSHADER_DEPTH_H
 
 
+#include "fnv/decl/FUN_00a8f140_cls.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_00e89000.h"
+#include "fnv/symbols_0126f000.h"
 #include "NiMemObject.h"
 enum D3DFORMAT
 {
@@ -24,7 +29,7 @@ struct DepthSurface
     virtual void vfn_24();
     virtual void vfn_28();
     virtual void vfn_2c();
-    virtual int __stdcall GetDesc(DepthDesc*);
+    virtual int GetDesc(DepthDesc*);
 };
 struct DepthDesc
 {
@@ -43,7 +48,7 @@ struct DepthDevice
     virtual void vfn_1c();
     virtual void vfn_20();
     virtual void vfn_24();
-    virtual int __stdcall CheckDeviceFormat(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    virtual int CheckDeviceFormat(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                                             unsigned int);
     virtual void vfn_2c();
     virtual void vfn_30();
@@ -63,10 +68,10 @@ struct DepthDevice
     virtual void vfn_68();
     virtual void vfn_6c();
     virtual void vfn_70();
-    virtual int __stdcall CreateDepthStencilSurface(unsigned int, unsigned int, unsigned int, unsigned int,
+    virtual int CreateDepthStencilSurface(unsigned int, unsigned int, unsigned int, unsigned int,
                                                     unsigned int, unsigned int, DepthSurface**, void*);
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
@@ -136,7 +141,6 @@ class NiDX9AdditionalDepthStencilBufferData : public NiMemObject
     unsigned int preference;
     DepthSurface* surface;
     unsigned int reserved18, reserved1c, d3dFormat, flags;
-    static void* operator new(unsigned int) throw();
     NiDX9AdditionalDepthStencilBufferData() throw();
     static NiDX9AdditionalDepthStencilBufferData* Create(DepthDevice*, Ni2DBuffer**, const NiPixelFormat*,
                                                          unsigned int);
@@ -145,21 +149,16 @@ class Ni2DBuffer
 {
   public:
     unsigned int vtable, refs, width, height;
-    void SetRefObject(NiDX9AdditionalDepthStencilBufferData*);
 };
 class NiD3DTextureData
 {
   public:
     static D3DFORMAT ConvertPixelFormatToD3DFormat(const NiPixelFormat*);
 };
-NiPixelFormat* CreatePixelFormat(unsigned int);
-char* GetHRESULTText(unsigned int);
 class NiD3DDefaultShader
 {
   public:
-    static void __cdecl SetShaderName(const char*);
 };
-extern DepthDevice* DAT_0126f0d8;
 extern int DAT_011bf400;
 extern char DAT_010ef1f0;
 

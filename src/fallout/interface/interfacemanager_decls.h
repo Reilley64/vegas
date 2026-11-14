@@ -2,6 +2,8 @@
 #ifndef FNV_INTERFACEMANAGER_DECLS_H
 #define FNV_INTERFACEMANAGER_DECLS_H
 
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00717000.h"
 union SETTING_VALUE
 {
     unsigned int color;
@@ -12,7 +14,6 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
 class SystemColorManager
 {
@@ -33,7 +34,6 @@ class InterfaceManager
     FORenderedMenu* renderedMenu;
     unsigned int padding170;
     FORenderedMenu* pipboyRenderedMenu;
-    static bool IsPipboyMenuActive();
     FORenderedMenu* GetActiveRenderedMenu();
 };
 #endif

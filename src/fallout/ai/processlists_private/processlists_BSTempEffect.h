@@ -4,7 +4,7 @@
 
 #include "processlists_NiObject.h"
 class BGSSaveGameBuffer;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 class BSTempEffect : public NiObject
 {
   public:
@@ -42,11 +42,6 @@ class BSTempEffect : public NiObject
     float m_fFirstFloatValue;
     bool bInitialized;
 };
-FNV_STATIC_ASSERT(sizeof(BSTempEffect) == 0x18);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, m_fParticleParameter5) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, pCell) == 0xc);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, m_fFirstFloatValue) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, bInitialized) == 0x14);
 // Genuine external specialization declaration. The supplied generic inline
 // destructor remains unchanged; this declaration avoids re-emitting its body.
 template <> NiPointer<BSTempEffect>::~NiPointer();

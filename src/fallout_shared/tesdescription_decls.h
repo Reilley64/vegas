@@ -1,5 +1,10 @@
 // fallout_shared/tesdescription_decls.h: declares TESDataHandler, TESFile, CombatProcedure, BaseFormComponent, TESForm and more
 
+#include <cstdint>
+#include "fnv/decl/FUN_00482f40_t.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c5000.h"
 class TESDataHandler
 {
     char padding[0x620];
@@ -17,9 +22,8 @@ class TESFile
 {
   public:
     unsigned int GetOffset();
-    void ReadTESInfo(TESForm*, CHUNK_ID);
 };
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:
@@ -42,7 +46,7 @@ class TESForm
 class TESDescription : public BaseFormComponent
 {
   public:
-    unsigned long m_uiDescriptionFileOffset;
+    std::uintptr_t m_uiDescriptionFileOffset;
     TESDescription();
     virtual void InitializeComponent();
     static void ReadDescriptionFromFile(TESDescription*, TESFile*);
@@ -50,7 +54,6 @@ class TESDescription : public BaseFormComponent
     void LoadDescriptionForForm(TESForm*, CHUNK_ID);
 };
 
-extern TESDataHandler* g_dataHandler;
 class NiNode;
 template <class T> class NiPointer
 {
@@ -61,5 +64,3 @@ template <class T> class BSStringT
 {
     char storage[8];
 };
-extern BSStringT<char> g_menuParsedXML;
-extern const char g_011c72c0_arg1[];

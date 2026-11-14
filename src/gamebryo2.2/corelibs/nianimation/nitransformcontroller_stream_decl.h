@@ -2,11 +2,11 @@
 #ifndef NITRANSFORMCONTROLLER_STREAM_DECL_H
 #define NITRANSFORMCONTROLLER_STREAM_DECL_H
 
-class NiObject;
-class NiStream
+#include "fnv/decl/FUN_00a645b0_cls.h"
+struct NiObject;
+struct NiStream
 {
   public:
-    void ResetStreamState();
     NiObject* GetLoadedObject();
 };
 #endif

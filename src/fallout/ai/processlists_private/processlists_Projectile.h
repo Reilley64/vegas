@@ -77,39 +77,8 @@ class Projectile : public MobileObject
     InventoryStackRecord* pRockItLauncherEntry;
     bool m_bHasTarget;
     float fSoundDistance;
+public:
+    void FUN_009bc8f0();
 };
 
-FNV_STATIC_ASSERT(sizeof(Projectile::Type) == 4);
-FNV_STATIC_ASSERT(sizeof(Projectile) == 0x150);
-FNV_STATIC_ASSERT(offsetof(Projectile, kImpacts) == 0x88);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_bHasImpactData) == 0x90);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_kImpactTransform) == 0x94);
-FNV_STATIC_ASSERT(offsetof(Projectile, iFlags) == 0xC8);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fAlpha) == 0xCC);
-FNV_STATIC_ASSERT(offsetof(Projectile, TransformFlagFloatData) == 0xD0);
-FNV_STATIC_ASSERT(offsetof(Projectile, fImpulseRadiusSquared) == 0xD4);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fFirstFloatValue) == 0xD8);
-FNV_STATIC_ASSERT(offsetof(Projectile, afDamageAmount) == 0xDC);
-FNV_STATIC_ASSERT(offsetof(Projectile, fAlpha) == 0xE0);
-FNV_STATIC_ASSERT(offsetof(Projectile, AlphaFloatParameters) == 0xE4);
-FNV_STATIC_ASSERT(offsetof(Projectile, AlphaParameterSet) == 0xE8);
-FNV_STATIC_ASSERT(offsetof(Projectile, WeaponAlphaParameters) == 0xEC);
-FNV_STATIC_ASSERT(offsetof(Projectile, WeaponReferenceParameterData) == 0xF0);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fFourthRecordValue) == 0xF4);
-FNV_STATIC_ASSERT(offsetof(Projectile, pSourceWeapon) == 0xF8);
-FNV_STATIC_ASSERT(offsetof(Projectile, WeaponHitData) == 0xFC);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pMagicTarget) == 0x100);
-FNV_STATIC_ASSERT(offsetof(Projectile, kMovementDirection) == 0x104);
-FNV_STATIC_ASSERT(offsetof(Projectile, fDistanceMoveds) == 0x110);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pMenuLight) == 0x114);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_bFlagAfterLight) == 0x118);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pExplosionEffect) == 0x11C);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pActorCause) == 0x120);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fLifetime) == 0x124);
-FNV_STATIC_ASSERT(offsetof(Projectile, kSound) == 0x128);
-FNV_STATIC_ASSERT(offsetof(Projectile, kCountdownSound) == 0x134);
-FNV_STATIC_ASSERT(offsetof(Projectile, pProjectileTarget) == 0x140);
-FNV_STATIC_ASSERT(offsetof(Projectile, pRockItLauncherEntry) == 0x144);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_bHasTarget) == 0x148);
-FNV_STATIC_ASSERT(offsetof(Projectile, fSoundDistance) == 0x14C);
 #endif

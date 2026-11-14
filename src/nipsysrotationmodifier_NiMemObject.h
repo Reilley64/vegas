@@ -2,9 +2,5 @@
 #ifndef FNV_NIPSYSROTATIONMODIFIER_FNV_NIMEMOBJECT_H
 #define FNV_NIPSYSROTATIONMODIFIER_FNV_NIMEMOBJECT_H
 #include "nipsysrotationmodifier_layout_support.h"
-class NiMemObject
-{
-  public:
-};
-FNV_STATIC_ASSERT(sizeof(NiMemObject) == 0x1);
+#include "fnv/ni_mem_object.h"
 #endif

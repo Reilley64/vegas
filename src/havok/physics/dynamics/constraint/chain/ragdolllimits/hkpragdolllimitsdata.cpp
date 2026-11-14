@@ -2,37 +2,39 @@
 // src/havok/physics/dynamics/constraint/chain/ragdolllimits/hkpragdolllimitsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/ragdolllimits/hkpragdolllimitsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
 #include "havok/hkpRagdollLimitsData.h"
 
-extern "C" void __cdecl FUN_00d21a60(void* p, unsigned int x, unsigned int y);
 
-struct FUN_00d4f130_StandIn
+struct FUN_00d4f130_StandIn : public hkpRagdollLimitsData
 {
-    void FUN_00d4f130(unsigned int a);
+    void FUN_00d4f130(::GenericConstraintAtomScheme* a) const;
 };
 
 // @fnv 0x00d4f130
-void FUN_00d4f130_StandIn::FUN_00d4f130(unsigned int auiValue)
+void FUN_00d4f130_StandIn::FUN_00d4f130(::GenericConstraintAtomScheme* auiValue) const
 {
-    FUN_00d21a60((char*)this + 0x10, 0xac, auiValue);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0xac, auiValue);
 }
 
 // @fnv 0x00d4f150
-void __stdcall FUN_00d4f150(int aiUnused, int* b)
+void FUN_00d4f150(int aiUnused, int* b)
 {
     b[1] = 3;
     b[0] = 0x1c;
 }
 
-struct hkPragdollLimitsData
+struct hkPragdollLimitsData : hkpRagdollLimitsData
 {
-    void __thiscall FUN_00d4f270(bool value);
+    void FUN_00d4f270(bool value);
 };
 
 // @fnv 0x00d4f270
-void __thiscall hkPragdollLimitsData::FUN_00d4f270(bool value)
+void hkPragdollLimitsData::FUN_00d4f270(bool value)
 {
-    ((char*)this)[0x9a] = (unsigned char)((value ? 1 : 0) << 4);
+    m_kBridgeAtoms.m_kConeLimit.m_ucAngleMeasurementMode = (unsigned char)((value ? 1 : 0) << 4);
 }
 
 // @fnv 0x00d4f290
@@ -41,9 +43,7 @@ int FUN_00d4f290()
     return 0x13;
 }
 
-extern float DAT_01017d00;
 extern double DAT_01024108;
-extern double DAT_0101ff40;
 
 struct FUN_00d4f170_Rotation
 {
@@ -51,7 +51,7 @@ struct FUN_00d4f170_Rotation
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
 
-    char* __thiscall IsOrthonormal(char* out, float tolerance);
+    char* IsOrthonormal(char* out, float tolerance);
 };
 
 struct FUN_00d4f170_Rotations
@@ -73,20 +73,20 @@ struct S00d4f170_StandIn : public hkpConstraintData
     hkpConeLimitConstraintAtom m_kConeLimit;
     hkpConeLimitConstraintAtom m_kPlaneLimit;
 
-    virtual char* __thiscall FUN_00d4f170(char* result);
+    virtual char* FUN_00d4f170(char* result);
 };
 // Sets *result to whether both rotations pass IsOrthonormal and the cone, plane and twist limit angles satisfy the checked comparisons; returns result.
 // @fnv 0x00d4f170
-char* __thiscall S00d4f170_StandIn::FUN_00d4f170(char* result)
+char* S00d4f170_StandIn::FUN_00d4f170(char* result)
 {
     char* __restrict out = result;
     char* p;
 
     *out = 1;
-    p = m_kLocalRotations.m_kRotationA.IsOrthonormal(reinterpret_cast<char*>(&result), DAT_01017d00);
+    p = m_kLocalRotations.m_kRotationA.IsOrthonormal(reinterpret_cast<char*>(&result), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
     *out = (*p != 0);
     *out = (*out != 0) &&
-           (*(p = m_kLocalRotations.m_kRotationB.IsOrthonormal(reinterpret_cast<char*>(&result), DAT_01017d00)) != 0);
+           (*(p = m_kLocalRotations.m_kRotationB.IsOrthonormal(reinterpret_cast<char*>(&result), ::AngularDashpotApplyD4DCB0::DAT_01017d00)) != 0);
     *out = (*out != 0) && (m_kConeLimit.m_fMinAngle == DAT_01024108);
     *out = (*out != 0) && (m_kConeLimit.m_fMaxAngle >= 0.0f);
     *out = (*out != 0) && (m_kConeLimit.m_fMaxAngle < DAT_0101ff40);
@@ -94,3 +94,5 @@ char* __thiscall S00d4f170_StandIn::FUN_00d4f170(char* result)
     *out = (*out != 0) && (m_kTwistLimit.m_fMinAngle <= m_kTwistLimit.m_fMaxAngle);
     return out;
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/chain/ragdolllimits/hkpragdolllimitsdata.inc"

@@ -1,18 +1,47 @@
 // fallout/dialogue/dialogueitem.cpp: DialogueItem, DelStandIn, StandIn, DialogueItemResolver and more (14 functions)
 
+#include "fnv/save_load_game_view.h"
+#include "fnv/simple_list_node_view.h"
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0061e760_shell.h"
+#include "fnv/decl/FUN_0083d420_shell.h"
+#include "fnv/decl/FUN_0083d490_shell.h"
+#include "fnv/decl/FUN_0083d690_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0083d550__Record.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011de000.h"
 #include "dialogueitem_decls.h"
 
 // @fnv 0x0083c820
 DialogueResponse* DialogueItem::GetActiveResponse()
 {
     if (m_pCurrentResponseList)
-        return m_pCurrentResponseList->GetItem();
+        return (*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentResponseList)->m_item)));
     else
         return NULL;
 }
 
 // @fnv 0x005e3fa0
-TESObjectREFR* DialogueItem::SelectDefaultResponseList()
+TESObjectREFR* DialogueItem::FUN_005e3fa0()
 {
     return *(TESObjectREFR**)((char*)this + 0x6c);
 }
@@ -24,19 +53,17 @@ struct FUN_0083c7e0_shell : public DialogueItem
     bool FUN_0083c7e0();
 };
 
-void* __fastcall _ref_00726070(void* pThis);
 
 // @fnv 0x0083c7e0
 bool FUN_0083c7e0_shell::FUN_0083c7e0()
 {
-    if (*(void**)((char*)this + 8))
+    if (*(void**)&this->m_pCurrentResponseList)
     {
-        *(void**)((char*)this + 8) = _ref_00726070(*(void**)((char*)this + 8));
+        *(void**)&this->m_pCurrentResponseList = reinterpret_cast<::Callees *>((*(void**)&this->m_pCurrentResponseList))->FUN_00726070();
     }
-    return *(void**)((char*)this + 8) != 0;
+    return *(void**)&this->m_pCurrentResponseList != 0;
 }
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
@@ -52,21 +79,21 @@ void* DelStandIn::FUN_005c90d0(unsigned int flags)
 {
     ((DtorStandIn*)this)->FUN_0083dec0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
 
 namespace fnv_0083c670 {
-struct DialogueResponse
+class DialogueResponse
 {
+  public:
     ~DialogueResponse();
 };
 struct ListX
 {
     ~ListX();
     bool _ref_008256d0();
-    DialogueResponse** _ref_006815c0();
     void _ref_0063f7b0();
 };
 struct FUN_0083c670
@@ -81,7 +108,7 @@ FUN_0083c670::~FUN_0083c670()
     ListX* pList = &list;
     while (pList && !pList->_ref_008256d0())
     {
-        delete *pList->_ref_006815c0();
+        delete *((::fnv_0083c670::DialogueResponse **)(&reinterpret_cast<::SimpleListNodeView*>(pList)->m_item));
         pList->_ref_0063f7b0();
     }
 }
@@ -89,13 +116,10 @@ FUN_0083c670::~FUN_0083c670()
 
 struct FUN_0083c9e0_resp
 {
-    unsigned short FUN_0083d420();
 };
 struct FUN_0083c9e0_t
 {
     bool IsEmpty();
-    FUN_0083c9e0_resp** GetItem();
-    FUN_0083c9e0_t* GetNext();
     unsigned short FUN_0083c9e0();
 };
 
@@ -107,9 +131,9 @@ unsigned short FUN_0083c9e0_t::FUN_0083c9e0()
     FUN_0083c9e0_t* pIter = this;
     while (pIter && !pIter->IsEmpty())
     {
-        FUN_0083c9e0_resp* pResponse = *pIter->GetItem();
-        usSize += pResponse->FUN_0083d420();
-        pIter = pIter->GetNext();
+        FUN_0083c9e0_resp* pResponse = *((::FUN_0083c9e0_resp **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item));
+        usSize += reinterpret_cast<::FUN_0083d420_shell *>((pResponse))->FUN_0083d420();
+        pIter = ((::FUN_0083c9e0_t *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
     usSize += 1;
     usSize += 4;
@@ -119,7 +143,6 @@ unsigned short FUN_0083c9e0_t::FUN_0083c9e0()
     return usSize;
 }
 
-void _FNV_Warning(const char* message);
 
 struct FUN_0083c900_shell : public DialogueItem
 {
@@ -134,17 +157,16 @@ short FUN_0083c900_shell::GetResponseIndex(DialogueResponse* response)
     BSSimpleList<DialogueResponse*>* pCurrentElementNext = &m_kResponseList;
     while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
     {
-        if (response == pCurrentElementNext->GetItem())
+        if (response == (*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(pCurrentElementNext)->m_item))))
             return iElementIndex;
         ++iElementIndex;
-        pCurrentElementNext = pCurrentElementNext->GetNext();
+        pCurrentElementNext = ((::BSSimpleList< ::DialogueResponse *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
-    _FNV_Warning(
-        "DIALOGUE: When trying to get a dialogue response index, the dialogue item was not found in the dialogue responses list.");
+    ::FUN_005b5e40(
+        );
     return 0;
 }
 
-void FNV_Warning(const char* message);
 
 struct DialogueItem_shell : public DialogueItem
 {
@@ -160,19 +182,18 @@ DialogueResponse* DialogueItem_shell::GetResponseByIndex(short index)
     while (node && !node->IsEmpty())
     {
         if (current == index)
-            return node->GetItem();
+            return (*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)));
         ++current;
-        node = node->GetNext();
+        node = ((::BSSimpleList< ::DialogueResponse *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
-    FNV_Warning(
-        "DIALOGUE: When trying to get a dialogue response by its index, the index was larger than the size of the dialogue responses list.");
+    ::FUN_005b5e40(
+        );
     return 0;
 }
 
-bool __fastcall _ref_008256d0(void*);
-struct DialogueResponse;
-DialogueResponse*& __fastcall _ref_006815c0(void*);
-void* __fastcall _ref_00726070(void*);
+bool _ref_008256d0(void*);
+class DialogueResponse;
+DialogueResponse*& _ref_006815c0(void*);
 struct StandIn
 {
     char _pad[8];
@@ -190,28 +211,21 @@ void StandIn::FUN_0083c8a0(DialogueResponse* apDialogueResponse)
             _cur = pCurrentElementNext;
             break;
         }
-        pCurrentElementNext = _ref_00726070(pCurrentElementNext);
+        pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
     }
 }
 
 struct TESSaveLoadGame
 {
-    char* GetCurrentPosition();
-    void FUN_008579b0(void*, int);
-    void FUN_00857a10(void*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct DialogueFormRef
 {
-    unsigned int GetFormID();
 };
 struct DialogueResponseSave
 {
-    void SaveToGame();
 };
 struct FUN_0083ca90_t : DialogueItem
 {
-    short GetResponseIndex(DialogueResponse*);
     void SaveDialogueItem();
 };
 
@@ -219,42 +233,42 @@ struct FUN_0083ca90_t : DialogueItem
 void FUN_0083ca90_t::SaveDialogueItem()
 {
     char cCount4 = 0;
-    char* pCountPos8 = g_TESSaveLoadGame->GetCurrentPosition();
-    g_TESSaveLoadGame->FUN_008579b0(&cCount4, 1);
+    char* pCountPos8 = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&cCount4, 1);
     BSSimpleList<DialogueResponse*>* plist2 = &m_kResponseList;
     while (plist2 && !plist2->IsEmpty())
     {
-        DialogueResponse* presponse3 = plist2->GetItem();
-        ((DialogueResponseSave*)presponse3)->SaveToGame();
+        DialogueResponse* presponse3 = (*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(plist2)->m_item)));
+        reinterpret_cast<::FUN_0083d490_shell *>((((DialogueResponseSave*)presponse3)))->SaveToGame();
         cCount4++;
-        plist2 = plist2->GetNext();
+        plist2 = ((::BSSimpleList< ::DialogueResponse *> *)(reinterpret_cast<::Callees *>((plist2))->FUN_00726070()));
     }
     *pCountPos8 = cCount4;
 
     char cCurrentVal = -1;
     if (m_pCurrentResponseList)
-        cCurrentVal = GetResponseIndex(m_pCurrentResponseList->GetItem());
-    g_TESSaveLoadGame->FUN_008579b0(&cCurrentVal, 1);
+        cCurrentVal = reinterpret_cast<::FUN_0083c900_shell *>(this)->GetResponseIndex((*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentResponseList)->m_item))));
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&cCurrentVal, 1);
 
     unsigned int aIInfoID = 0;
     if (pInfo)
-        aIInfoID = ((DialogueFormRef*)pInfo)->GetFormID();
-    g_TESSaveLoadGame->FUN_00857a10(&aIInfoID, 4);
+        aIInfoID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((DialogueFormRef*)pInfo)))->FUN_0084e3a0()));
+    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(void *)(&aIInfoID), 4);
 
     unsigned int m_uiTopicFormID = 0;
     if (pTopic)
-        m_uiTopicFormID = ((DialogueFormRef*)pTopic)->GetFormID();
-    g_TESSaveLoadGame->FUN_00857a10(&m_uiTopicFormID, 4);
+        m_uiTopicFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((DialogueFormRef*)pTopic)))->FUN_0084e3a0()));
+    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(void *)(&m_uiTopicFormID), 4);
 
     unsigned int iQuestID_2 = 0;
     if (pQuest)
-        iQuestID_2 = ((DialogueFormRef*)pQuest)->GetFormID();
-    g_TESSaveLoadGame->FUN_00857a10(&iQuestID_2, 4);
+        iQuestID_2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((DialogueFormRef*)pQuest)))->FUN_0084e3a0()));
+    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(void *)(&iQuestID_2), 4);
 
     unsigned int iSpeakerID = 0;
     if (m_pDialogueSpeaker)
-        iSpeakerID = ((DialogueFormRef*)m_pDialogueSpeaker)->GetFormID();
-    g_TESSaveLoadGame->FUN_00857a10(&iSpeakerID, 4);
+        iSpeakerID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((DialogueFormRef*)m_pDialogueSpeaker)))->FUN_0084e3a0()));
+    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(void *)(&iSpeakerID), 4);
 }
 
 class TESForm
@@ -265,7 +279,6 @@ class TESForm
 class TESObjectREFR : public TESForm
 {
 };
-TESForm* GetFormByID(unsigned int);
 class DialogueItemResolver : public DialogueItem
 {
   public:
@@ -274,27 +287,21 @@ class DialogueItemResolver : public DialogueItem
 // @fnv 0x0083cdf0
 void DialogueItemResolver::FUN_0083cdf0()
 {
-    unsigned int loc = reinterpret_cast<unsigned int>(m_pDialogueSpeaker);
+    unsigned int loc = (unsigned int)reinterpret_cast<std::uintptr_t>(m_pDialogueSpeaker);
     if (loc)
     {
-        m_pDialogueSpeaker = dynamic_cast<TESObjectREFR*>(GetFormByID(loc));
+        m_pDialogueSpeaker = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(loc));
     }
 }
 
 struct BGSSaveGameBuffer
 {
-    unsigned int FUN_00865f20();
-    void FUN_00865ff0(unsigned int, unsigned int);
-    void SaveData(void*, int, int);
-    void SerializeFormData(void*, int);
 };
 struct DialogueResponseBufferWriter
 {
-    void FUN_0083d690(BGSSaveGameBuffer*);
 };
 struct DialogueItemBufferWriter : ::DialogueItem
 {
-    short GetResponseIndex(::DialogueResponse*);
     void FUN_0083ce40(BGSSaveGameBuffer* apSaveGameBuffer);
 };
 
@@ -308,34 +315,34 @@ void DialogueItemBufferWriter::FUN_0083ce40(BGSSaveGameBuffer* apSaveGameBuffer)
     unsigned int isaveGameCount;
 
     isaveGameCount = 0;
-    isaveGameBufferPos = apSaveGameBuffer->FUN_00865f20();
+    isaveGameBufferPos = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();
     pCurrentElementNext = &m_kResponseList;
     while (pCurrentElementNext)
     {
-        ::DialogueResponse* presponse = pCurrentElementNext->GetItem();
+        ::DialogueResponse* presponse = (*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(pCurrentElementNext)->m_item)));
         if (presponse)
         {
-            reinterpret_cast<DialogueResponseBufferWriter*>(presponse)->FUN_0083d690(apSaveGameBuffer);
+            reinterpret_cast<::FUN_0083d690_shell *>((reinterpret_cast<DialogueResponseBufferWriter*>(presponse)))->FUN_0083d690((::BGSSaveFormBuffer *)(apSaveGameBuffer));
             isaveGameCount++;
         }
-        pCurrentElementNext = pCurrentElementNext->GetNext();
+        pCurrentElementNext = ((::BSSimpleList< ::DialogueResponse *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
-    apSaveGameBuffer->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
-    scurrentResponse = m_pCurrentResponseList ? GetResponseIndex(m_pCurrentResponseList->GetItem()) : -1;
-    apSaveGameBuffer->SaveData(&scurrentResponse, 2, 0);
-    apSaveGameBuffer->SerializeFormData(pInfo, 0);
-    apSaveGameBuffer->SerializeFormData(pTopic, 0);
-    apSaveGameBuffer->SerializeFormData(pQuest, 0);
-    apSaveGameBuffer->SerializeFormData(m_pDialogueSpeaker, 0);
+    reinterpret_cast<::FUN_00865ff0_shell *>((apSaveGameBuffer))->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
+    scurrentResponse = m_pCurrentResponseList ? reinterpret_cast<::FUN_0083c900_shell *>(this)->GetResponseIndex((*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentResponseList)->m_item)))) : -1;
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&scurrentResponse, 2, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pInfo), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pTopic), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pQuest), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pDialogueSpeaker), 0);
 }
 
 namespace fnv_0083c520 {
 struct TESResponse
 {
-    int GetNext();
 };
-struct TESResponseList
+class TESResponseList
 {
+  public:
     TESResponseList();
     ~TESResponseList();
     operator unsigned int() const;
@@ -343,12 +350,12 @@ struct TESResponseList
 };
 struct FUN_0061e760_shell
 {
-    TESResponseList* FUN_0061e760(TESResponseList*);
 };
-struct DialogueResponse;
+class DialogueResponse;
 typedef ::BSSimpleList<DialogueResponse*> DialogueResponseList;
-struct DialogueResponse
+class DialogueResponse
 {
+  public:
     DialogueResponse(TESQuest*, TESTopic*, TESTopicInfo*, TESObjectREFR*, TESResponse*);
     char* pResponseText;
     unsigned short usResponseLen;
@@ -388,13 +395,13 @@ FUN_0083c520::FUN_0083c520(TESQuest* apQuest, TESTopic* apTopic, TESTopicInfo* a
         pQuest = apQuest;
         m_pDialogueSpeaker = apSpeaker;
         TESResponseList responseList;
-        ((FUN_0061e760_shell*)apInfo)->FUN_0061e760(&responseList);
-        TESResponse* presponse = (TESResponse*)(unsigned int)responseList;
+        reinterpret_cast<::FUN_0061e760_shell *>((((FUN_0061e760_shell*)apInfo)))->FUN_0061e760((::TESResponseList *)(::fnv_0083c520::TESResponseList *)(&responseList));
+        TESResponse* presponse = responseList.pHead;
         while (presponse)
         {
             DialogueResponse* pResponse = new DialogueResponse(apQuest, apTopic, apInfo, apSpeaker, presponse);
-            ResponseList.AddTail(pResponse);
-            presponse = (TESResponse*)presponse->GetNext();
+            reinterpret_cast<::Callees *>(&(ResponseList))->FUN_00905820((void *)&(pResponse));
+            presponse = (TESResponse*)(reinterpret_cast<::FUN_0045cd60_shell *>((presponse))->FUN_0045cd60());
         }
     }
 }
@@ -402,8 +409,6 @@ FUN_0083c520::FUN_0083c520(TESQuest* apQuest, TESTopic* apTopic, TESTopicInfo* a
 
 struct DialogueLoadGame : ::TESSaveLoadGame
 {
-    void FUN_008579e0(void*, int);
-    void FUN_00857aa0(void*, int);
 };
 class TESTopicInfo : public ::TESForm
 {
@@ -419,7 +424,6 @@ class DialogueResponse
 {
   public:
     DialogueResponse();
-    void FUN_0083d550();
     BSStringT<char> m_kResponseText;
     unsigned int eEmotion;
     unsigned int m_uiEmotionValue;
@@ -432,8 +436,6 @@ class DialogueResponse
 };
 struct DialogueItemLoad : ::DialogueItem
 {
-    ::DialogueResponse* GetResponseByIndex(unsigned short);
-    void FUN_0083c8a0(::DialogueResponse*);
     void FUN_0083cc10();
 };
 
@@ -450,29 +452,29 @@ void DialogueItemLoad::FUN_0083cc10()
     unsigned int iQuestID_2;
     unsigned int iSpeakerID;
 
-    ((DialogueLoadGame*)g_TESSaveLoadGame)->FUN_008579e0(&cCount4, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>((((DialogueLoadGame*)g_TESSaveLoadGame)))->FUN_008579e0(&cCount4, 1);
     for (iloopB = 0; iloopB < cCount4; iloopB++)
     {
         presponse3 = reinterpret_cast< ::DialogueResponse*>(new DialogueResponse);
-        reinterpret_cast<DialogueResponse*>(presponse3)->FUN_0083d550();
-        m_kResponseList.AddTail(presponse3);
+        reinterpret_cast<::fnv_0083d550::Record *>((reinterpret_cast<DialogueResponse*>(presponse3)))->FUN_0083d550();
+        reinterpret_cast<::Callees *>(&(m_kResponseList))->FUN_00905820((void *)&(presponse3));
     }
 
-    ((DialogueLoadGame*)g_TESSaveLoadGame)->FUN_008579e0(&cCurrentVal, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>((((DialogueLoadGame*)g_TESSaveLoadGame)))->FUN_008579e0(&cCurrentVal, 1);
     if (cCurrentVal != -1)
-        FUN_0083c8a0(GetResponseByIndex(cCurrentVal));
+        reinterpret_cast<::StandIn *>(this)->FUN_0083c8a0(reinterpret_cast<::DialogueItem_shell *>(this)->GetResponseByIndex(cCurrentVal));
     else
         m_pCurrentResponseList = 0;
 
-    ((DialogueLoadGame*)g_TESSaveLoadGame)->FUN_00857aa0(&aIInfoID, 4);
+    reinterpret_cast<::FUN_00857aa0 *>((((DialogueLoadGame*)g_TESSaveLoadGame)))->ValidateFormIDArray((unsigned int *)(void *)(&aIInfoID), 4);
     if (aIInfoID)
-        pInfo = reinterpret_cast< ::TESTopicInfo*>(dynamic_cast<TESTopicInfo*>(::GetFormByID(aIInfoID)));
-    ((DialogueLoadGame*)g_TESSaveLoadGame)->FUN_00857aa0(&m_uiTopicFormID, 4);
+        pInfo = reinterpret_cast< ::TESTopicInfo*>(dynamic_cast<TESTopicInfo*>(::FUN_004839c0(aIInfoID)));
+    reinterpret_cast<::FUN_00857aa0 *>((((DialogueLoadGame*)g_TESSaveLoadGame)))->ValidateFormIDArray((unsigned int *)(void *)(&m_uiTopicFormID), 4);
     if (m_uiTopicFormID)
-        pTopic = reinterpret_cast< ::TESTopic*>(dynamic_cast<TESTopic*>(::GetFormByID(m_uiTopicFormID)));
-    ((DialogueLoadGame*)g_TESSaveLoadGame)->FUN_00857aa0(&iQuestID_2, 4);
+        pTopic = reinterpret_cast< ::TESTopic*>(dynamic_cast<TESTopic*>(::FUN_004839c0(m_uiTopicFormID)));
+    reinterpret_cast<::FUN_00857aa0 *>((((DialogueLoadGame*)g_TESSaveLoadGame)))->ValidateFormIDArray((unsigned int *)(void *)(&iQuestID_2), 4);
     if (iQuestID_2)
-        pQuest = reinterpret_cast< ::TESQuest*>(dynamic_cast<TESQuest*>(::GetFormByID(iQuestID_2)));
-    ((DialogueLoadGame*)g_TESSaveLoadGame)->FUN_00857aa0(&iSpeakerID, 4);
-    m_pDialogueSpeaker = (::TESObjectREFR*)iSpeakerID;
+        pQuest = reinterpret_cast< ::TESQuest*>(dynamic_cast<TESQuest*>(::FUN_004839c0(iQuestID_2)));
+    reinterpret_cast<::FUN_00857aa0 *>((((DialogueLoadGame*)g_TESSaveLoadGame)))->ValidateFormIDArray((unsigned int *)(void *)(&iSpeakerID), 4);
+    m_pDialogueSpeaker = reinterpret_cast<::TESObjectREFR*>(static_cast<std::uintptr_t>(iSpeakerID));
 }

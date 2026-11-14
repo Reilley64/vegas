@@ -2,14 +2,36 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6d730_shell.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/NiTimeController_Luna.h"
+#include "fnv/decl/TCController.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a6c000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
+struct NiObject;
 struct NiStream
 {
-    void ResetStreamState();
+public:
+    ::NiObject *GetLoadedObject();
 };
 
-struct NiTimeController
+struct CloningProcess;
+struct NiStream;
+class NiTimeController
 {
+  public:
     virtual void LoadBinary(NiStream&);
+public:
+    void ProcessClone(::CloningProcess &);
+public:
+    void LinkObject(::NiStream &);
 };
 
 struct NiFloatController : NiTimeController
@@ -20,11 +42,11 @@ struct NiFloatController : NiTimeController
 // @fnv 0x00a57970
 void NiFloatController::FUN_00a57970(NiStream& stream)
 {
-    NiTimeController::LoadBinary(stream);
-    stream.ResetStreamState();
+    reinterpret_cast<::NiTimeController_Luna *>(this)->FUN_00a6d5e0(stream);
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 }
 
-class CloningProcess;
+struct CloningProcess;
 struct HelperBase00a57a40
 {
     void ProcessClone(CloningProcess&);
@@ -67,14 +89,12 @@ struct StandIn00a57a40
 // @fnv 0x00a57a40
 void StandIn00a57a40::FUN_00a57a40(CloningProcess& kCloning)
 {
-    ((HelperBase00a57a40*)this)->ProcessClone(kCloning);
+    reinterpret_cast<::NiTimeController *>((((HelperBase00a57a40*)this)))->ProcessClone(kCloning);
     HelperData00a57a40* pData = *(HelperData00a57a40**)((char*)this + 0x38);
     if (pData)
         pData->ProcessClone(kCloning);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FakeObj543
 {
     virtual void F00();
@@ -83,11 +103,9 @@ struct FakeObj543
 };
 struct StreamHelper543
 {
-    FakeObj543* GetLoadedObject();
 };
 struct CtrlHelper543
 {
-    void LinkObject(NiStream&);
 };
 struct FUN_00a57a70_shell
 {
@@ -97,8 +115,8 @@ struct FUN_00a57a70_shell
 // @fnv 0x00a57a70
 void FUN_00a57a70_shell::FUN_00a57a70(NiStream& kStream)
 {
-    ((CtrlHelper543*)this)->LinkObject(kStream);
-    FakeObj543* pkObj = ((StreamHelper543*)&kStream)->GetLoadedObject();
+    reinterpret_cast<::NiTimeController *>((((CtrlHelper543*)this)))->LinkObject(kStream);
+    FakeObj543* pkObj = ((::FakeObj543 *)(reinterpret_cast<::NiStream *>((((StreamHelper543*)&kStream)))->GetLoadedObject()));
     FakeObj543* pOld = *(FakeObj543**)((char*)this + 0x38);
     if (pOld != pkObj)
     {
@@ -115,45 +133,42 @@ void FUN_00a57a70_shell::FUN_00a57a70(NiStream& kStream)
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-extern char const* const g_011f3f58_arg1;
-char* __cdecl _FUN_00a7d330(char const*);
 struct FUN_00a57bb0_shell
 {
-    void FUN_00a6d830(StrArr*);
     void AppendString(StrArr*);
 };
 // Calls FUN_00a6d830, gets a string via _FUN_00a7d330, grows the array if full, then stores the string at the current size index.
 // @fnv 0x00a57bb0
 void FUN_00a57bb0_shell::AppendString(StrArr* pStrArr)
 {
-    FUN_00a6d830(pStrArr);
-    char* psz = _FUN_00a7d330(g_011f3f58_arg1);
+    reinterpret_cast<::TCController *>(this)->FUN_00a6d830((::NiViewerStringsArray *)(pStrArr));
+    char* psz = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4230)));
     unsigned int uiSize = *(unsigned short*)((char*)pStrArr + 0xa);
     unsigned int uiCapacity = *(unsigned short*)((char*)pStrArr + 8);
     if (uiSize >= uiCapacity)
     {
         unsigned int uiGrowBy = *(unsigned short*)((char*)pStrArr + 0xe);
-        pStrArr->SetSize(uiSize + uiGrowBy);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(uiSize + uiGrowBy);
     }
-    pStrArr->SetAt(uiSize, psz);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(uiSize, psz);
 }
 
 struct TimedAnimationKey
 {
     float m_fTime;
 };
-struct AnimationKey
+class AnimationKey
 {
+  public:
     enum KeyType
     {
         NO_KEY = 0
     };
 };
-struct NiFloatData
+class NiFloatData
 {
+  public:
     char _pad[8];
     unsigned int m_uiNumKeys;
     TimedAnimationKey* m_pKeys;
@@ -187,7 +202,6 @@ TimedAnimationKey* FUN_00a579f0_shell::GetFloatKeys(unsigned int& uiNumKeys, Ani
 
 struct BaseCall
 {
-    bool FUN_00a6d0f0(NiStream&);
 };
 struct FloatIface
 {
@@ -223,7 +237,7 @@ struct Holder
 // @fnv 0x00a57ad0
 bool Holder::FUN_00a57ad0(NiStream& stream)
 {
-    if (!((BaseCall*)this)->FUN_00a6d0f0(stream))
+    if (!::FUN_00a6d0f0((::TCReg *)(((BaseCall*)this)), (intptr_t)&(stream), *(::NiStream *)nullptr))
         return false;
     ptr->v21(stream);
     return true;
@@ -231,7 +245,6 @@ bool Holder::FUN_00a57ad0(NiStream& stream)
 
 struct BaseHack
 {
-    void __thiscall FUN_00a6d730(NiStream&);
 };
 struct StreamHack
 {
@@ -253,17 +266,15 @@ struct FakeController
 {
     char _pad[0x38];
     void* m_pData;
-    void __thiscall FUN_00a57b00(NiStream&);
+    void FUN_00a57b00(NiStream&);
 };
 // @fnv 0x00a57b00
-void __thiscall FakeController::FUN_00a57b00(NiStream& stream)
+void FakeController::FUN_00a57b00(NiStream& stream)
 {
-    ((BaseHack*)this)->FUN_00a6d730(stream);
+    reinterpret_cast<::FUN_00a6d730_shell *>((((BaseHack*)this)))->FUN_00a6d730((::Stream_a6d730 &)(stream));
     ((StreamHack*)&stream)->SaveLink(m_pData);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct MyInterp
 {
     virtual void f00();
@@ -289,7 +300,6 @@ struct MyInterp
 };
 struct CloneableObj
 {
-    void FUN_00a6cfe0(CloneableObj*, void*);
     void CopyInterpTo(CloneableObj*, void*);
     char _pad[0x38];
     MyInterp* m_sp;
@@ -297,7 +307,7 @@ struct CloneableObj
 // @fnv 0x00a57b50
 void CloneableObj::CopyInterpTo(CloneableObj* pkDest, void* pkProc)
 {
-    FUN_00a6cfe0(pkDest, pkProc);
+    reinterpret_cast<::NiTimeControllerCM *>(this)->FUN_00a6cfe0((::NiTimeController *)(pkDest), (*(::CloningProcess *)(pkProc)));
     MyInterp* pkSrc = m_sp;
     if (pkSrc)
     {
@@ -316,8 +326,6 @@ void CloneableObj::CopyInterpTo(CloneableObj* pkDest, void* pkProc)
 
 // Destructor: release the held reference explicitly, then let the member and base destructors run.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plValue);
 
 class A57990RefObject
 {
@@ -440,7 +448,6 @@ struct FUN_00a57b20_cls
     int unk30;
     int unk34;
     Iface57b20* m_38;
-    bool FUN_00a6cc80(FUN_00a57b20_cls* other);
     bool FUN_00a57b20(FUN_00a57b20_cls* other);
 };
 
@@ -448,7 +455,7 @@ struct FUN_00a57b20_cls
 // @fnv 0x00a57b20
 bool FUN_00a57b20_cls::FUN_00a57b20(FUN_00a57b20_cls* other)
 {
-    if (!FUN_00a6cc80(other))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(other), {}))
     {
         return false;
     }

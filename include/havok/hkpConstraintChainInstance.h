@@ -7,13 +7,10 @@
 #include "hkpConstraintInstance.h"
 class hkpConstraintChainInstanceAction;
 class hkpEntity;
-#pragma pack(push, 1)
 class hkpConstraintChainInstance : public hkpConstraintInstance
 {
   public:
     hkArray<hkpEntity*> m_ppRigidBodies;          // +0x38
     hkpConstraintChainInstanceAction* m_pAction;  // +0x44
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConstraintChainInstance[(sizeof(hkpConstraintChainInstance) == 0x48) ? 1 : -1];
 #endif

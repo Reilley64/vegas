@@ -3,18 +3,22 @@
 #define FADERMANAGER_CREATE_DECLS_H
 
 // Private type and helper declarations used by the two creation routines.
-void* operator new[](size_t);
-void* _NiMalloc(unsigned int);
-int FUN_004dc1f0();
-int FUN_004dc200();
-class NiPoint3
+#include "fnv/decl/Bound88.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004bc280_S.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011a9000.h"
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3();
     NiPoint3(float, float, float);
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -45,20 +49,16 @@ class NiDirectionalLight : public NiAVObject
   public:
     unsigned char layout[248];
     NiDirectionalLight();
-    void FUN_004bc280(const NiPoint3&);
 };
-bool FUN_004de070();
 class NiAlphaProperty : public NiObject
 {
   public:
     unsigned char layout[24];
     NiAlphaProperty();
-    void FUN_0049ed90(bool);
 };
-class NiBound
+struct NiBound
 {
   public:
-    void ComputeFromPoints(int, const NiPoint3*);
 };
 class NiTriShape : public NiAVObject
 {
@@ -66,7 +66,6 @@ class NiTriShape : public NiAVObject
     unsigned char layout[192];
     NiTriShape(unsigned short, NiPoint3*, NiPoint3*, void*, NiPoint2*, unsigned short, unsigned int, unsigned short,
                unsigned short*);
-    NiBound* GetSourceFilesFromForm();
 };
 template <class T> class BSStringT
 {
@@ -94,11 +93,11 @@ class NiTexture
         int pixelLayout, alphaFormat, mipMap;
     };
 };
-extern NiTexture::TextureFormatPreferences DAT_011a9598;
+class NiFixedString;
+class NiTexture__FormatPrefs;
 class NiSourceTexture : public NiTexture
 {
   public:
-    static NiSourceTexture* Create(const NiFixedString&, NiTexture::TextureFormatPreferences&, bool, bool);
     char _pdbpad_1[47];
     char m_kFilename_pad2f_pad2f_pad2f[4];
     char m_kPlatformFilename_pad33_pad33_pad33[4];
@@ -109,13 +108,15 @@ class NiSourceTexture : public NiTexture
     bool m_bKeepRendererDataPersistent;
     char m_cPixelLayout;
     void* m_pFile;
+public:
+    static ::NiSourceTexture *Create(const ::NiFixedString &, ::NiTexture__FormatPrefs &, bool, bool);
 };
 class BSShaderManager
 {
   public:
     static void UpdateObjectTypeRecurse(NiAVObject*, bool, bool);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;

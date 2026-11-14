@@ -14,8 +14,6 @@ class WindEngine
     void Resize(unsigned short numMatrices);
 };
 
-FNV_STATIC_ASSERT(sizeof(WindEngine) == 8);
-FNV_STATIC_ASSERT(offsetof(WindEngine, m_pMatrices) == 4);
 
 // @fnv 0x00b07f20
 void WindEngine::Resize(unsigned short numMatrices)

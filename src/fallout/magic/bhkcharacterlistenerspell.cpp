@@ -2,6 +2,41 @@
 // src/fallout/magic/bhkcharacterlistenerspell.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhkcharacterlistenerspell.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/magic_projectile_fields.h"
+#include <new>
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_005532a0_cls.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_00807730_shell.h"
+#include "fnv/decl/FUN_00807770_Class.h"
+#include "fnv/decl/FUN_0089f4e0_shell.h"
+#include "fnv/decl/FnvCpu_FUN_00c89720_CpuInterface.h"
+#include "fnv/decl/FnvCpu_FUN_00cac950_CpuObject.h"
+#include "fnv/decl/GlobalObject_008c71b0.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/decl/BoundOwner.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/MagicCaster.h"
+#include "fnv/decl/PlayerMover.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b2000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/image_space_effect_param.h"
 struct NiRTTI
 {
 };
@@ -12,12 +47,11 @@ struct bhkCharacterProxy
     const NiRTTI* GetRTTI();
 };
 
-extern const NiRTTI g_01268344;
 
 // @fnv 0x00806f00
 const NiRTTI* bhkCharacterProxy::GetRTTI()
 {
-    return &g_01268344;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_01268344));
 }
 
 struct FUN_00806f10_shell
@@ -31,15 +65,12 @@ unsigned int FUN_00806f10_shell::FUN_00806f10()
     return 0xc0;
 }
 
-const char* __cdecl FUN_00458b20();
-int __fastcall GetReferenceFlags(void*);
 struct NiObject
 {
     virtual const NiRTTI* GetStreamableRTTI();
 };
 struct ProxyHolder
 {
-    const char* FUN_00cac950();
 };
 struct Holder00807080
 {
@@ -49,13 +80,13 @@ struct Holder00807080
 // @fnv 0x00807080
 const char* Holder00807080::FUN_00807080()
 {
-    ProxyHolder* pProxy = (ProxyHolder*)GetReferenceFlags(this);
-    const char* pResult = FUN_00458b20();
+    ProxyHolder* pProxy = (ProxyHolder*)((intptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
+    const char* pResult = ((const char *)(::FUN_00458b20()));
     if (pProxy)
     {
-        ((NiObject*)this)->NiObject::GetStreamableRTTI();
-        pResult = pProxy->FUN_00cac950();
-        ((NiObject*)this)->NiObject::GetStreamableRTTI();
+        reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>((((NiObject*)this)))->FUN_00c89720();
+        pResult = reinterpret_cast<::FnvCpu_FUN_00cac950_CpuObject *>((pProxy))->FUN_00cac950();
+        reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>((((NiObject*)this)))->FUN_00c89720();
     }
     return pResult;
 }
@@ -72,7 +103,6 @@ struct Node2
     int unk04;
     int unk08;
     int unk0C;
-    void* __thiscall FUN_0043b540();
 };
 
 struct Node
@@ -102,14 +132,11 @@ struct Node
 struct Str20
 {
     int unk00;
-    void __thiscall FUN_008c71b0(void* p);
-    int __thiscall FUN_0043b4d0();
 };
 
 struct __declspec(align(16)) Vec16
 {
     __m128 m_v;
-    int __thiscall FUN_005532a0(float a, float b, float c, float d);
 };
 
 struct Item
@@ -130,12 +157,10 @@ struct Item
     int unk34;
     int unk38;
     int unk3C;
-    void __thiscall FUN_004a3f10(int p);
 };
 
 struct ItemSub
 {
-    void __thiscall FUN_004a3f10(int p);
 };
 
 struct Arg2
@@ -164,22 +189,16 @@ struct Arg2
 
 struct Owner1
 {
-    Node* __thiscall FUN_00807770(int i);
 };
 
 struct Global
 {
-    int __thiscall FUN_0089f4e0();
 };
 
-extern Global* g_pGlobalDea3c;
-int __cdecl FUN_004b59f0(void* p);
 
 struct ProxyUpdate
 {
-    int __thiscall FUN_00807080();
-    int __thiscall FUN_00807730(void* p);
-    void __thiscall FUN_00806f20(Owner1* a1, Arg2* a2);
+    void FUN_00806f20(Owner1* a1, Arg2* a2);
 };
 
 // For each item, checks its node's m_48 and calls FUN_004a3f10 on the item when branch conditions are met.
@@ -190,30 +209,1687 @@ void ProxyUpdate::FUN_00806f20(Owner1* apOwner, Arg2* apArgs)
     for (int i = 0; i < count; i++)
     {
         Item* item = apArgs->m_48 + i;
-        Node* pNode = apOwner->FUN_00807770(i);
-        int iResult1 = FUN_004b59f0(pNode->m_48);
+        Node* pNode = ((::Node *)(reinterpret_cast<::FUN_00807770_Class *>((apOwner))->FUN_00807770(i)));
+        void* iResult1 = ::FUN_004b59f0(pNode->m_48);
         Str20 s;
-        s.FUN_008c71b0(pNode->m_48->FUN_0043b540());
-        int iResult3 = s.FUN_0043b4d0();
+        new ((void *)&(s)) ::GlobalObject_008c71b0((intptr_t)(((void *)(::FUN_0043b540((char *)(pNode->m_48))))));
+        int iResult3 = reinterpret_cast<::FUN_0043b4d0_shell *>(&(s))->FUN_0043b4d0();
         if (iResult1 == 0)
         {
             if (iResult3 != 0x1e)
             {
-                ((ItemSub*)&item->unk10)->FUN_004a3f10(this->FUN_00807080());
+                reinterpret_cast<::AlignedVector *>((((ItemSub*)&item->unk10)))->FUN_004a3f10((*(const ::AlignedVector *)(reinterpret_cast<::Holder00807080 *>((this))->FUN_00807080())));
                 Vec16 t;
-                item->FUN_004a3f10(t.FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f));
+                reinterpret_cast<::AlignedVector *>((item))->FUN_004a3f10((*(const ::AlignedVector *)(reinterpret_cast<::FUN_005532a0_cls *>(&(t))->FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f))));
             }
         }
         else
         {
-            int iResult4 = this->FUN_00807730(pNode->m_48);
-            if (iResult4 != 0 && iResult4 == g_pGlobalDea3c->FUN_0089f4e0())
+            void* iResult4 = reinterpret_cast<::FUN_00807730_shell *>((this))->FUN_00807730(pNode->m_48);
+            if (iResult4 != 0 && iResult4 == static_cast<void *>(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::Global * *>(&::_g_thePlayer))))->FUN_0089f4e0()))
             {
-                ((ItemSub*)&item->unk10)->FUN_004a3f10(this->FUN_00807080());
+                reinterpret_cast<::AlignedVector *>((((ItemSub*)&item->unk10)))->FUN_004a3f10((*(const ::AlignedVector *)(reinterpret_cast<::Holder00807080 *>((this))->FUN_00807080())));
                 Vec16 t;
-                item->FUN_004a3f10(t.FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f));
+                reinterpret_cast<::AlignedVector *>((item))->FUN_004a3f10((*(const ::AlignedVector *)(reinterpret_cast<::FUN_005532a0_cls *>(&(t))->FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f))));
                 break;
             }
         }
     }
+}
+
+
+struct FUN_00cbe8d0_class
+{
+};
+struct FUN_00c6d4a0_class
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2B4;
+    int unk2B8;
+    int unk2BC;
+    int unk2C0;
+    int unk2C4;
+    int unk2C8;
+    int unk2CC;
+    int unk2D0;
+    int unk2D4;
+    int unk2D8;
+    int unk2DC;
+    int unk2E0;
+    int unk2E4;
+    int unk2E8;
+    int unk2EC;
+    int unk2F0;
+    int unk2F4;
+    int unk2F8;
+    int unk2FC;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30C;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31C;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32C;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33C;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34C;
+    int unk350;
+    int unk354;
+    int unk358;
+    int unk35C;
+    int unk360;
+    int unk364;
+    int unk368;
+    int unk36C;
+    int unk370;
+    int unk374;
+    int unk378;
+    int unk37C;
+    int unk380;
+    int unk384;
+    int unk388;
+    int unk38C;
+    int unk390;
+    int unk394;
+    int unk398;
+    int unk39C;
+    int unk3A0;
+    int unk3A4;
+    int unk3A8;
+    int unk3AC;
+    int unk3B0;
+    int unk3B4;
+    int unk3B8;
+    int unk3BC;
+    int unk3C0;
+    int unk3C4;
+    int unk3C8;
+    int unk3CC;
+    int unk3D0;
+    int unk3D4;
+    int unk3D8;
+    int unk3DC;
+    int unk3E0;
+    int unk3E4;
+    int unk3E8;
+    int unk3EC;
+    int unk3F0;
+    int unk3F4;
+    int unk3F8;
+    int unk3FC;
+    int unk400;
+    int unk404;
+    int unk408;
+    int unk40C;
+    int unk410;
+    int unk414;
+    int unk418;
+    int unk41C;
+    int unk420;
+    int unk424;
+    int unk428;
+    int unk42C;
+    int unk430;
+    int unk434;
+    int unk438;
+    int unk43C;
+    int unk440;
+    int unk444;
+    int unk448;
+    int unk44C;
+    int unk450;
+    int unk454;
+    int unk458;
+    int unk45C;
+    int unk460;
+    int unk464;
+    int unk468;
+    int unk46C;
+    int unk470;
+    int unk474;
+    int unk478;
+    int unk47C;
+    int unk480;
+    int unk484;
+    int unk488;
+    int unk48C;
+    int unk490;
+    int unk494;
+    int unk498;
+    int unk49C;
+    int unk4A0;
+    int unk4A4;
+    int unk4A8;
+    int unk4AC;
+    int unk4B0;
+    int unk4B4;
+    int unk4B8;
+    int unk4BC;
+    int unk4C0;
+    int unk4C4;
+    int unk4C8;
+    int unk4CC;
+    int unk4D0;
+    int unk4D4;
+    int unk4D8;
+    int unk4DC;
+    int unk4E0;
+    int unk4E4;
+    int unk4E8;
+    int unk4EC;
+    int unk4F0;
+    int unk4F4;
+    int unk4F8;
+    int unk4FC;
+    int unk500;
+    int unk504;
+    int unk508;
+    int unk50C;
+    int unk510;
+    int unk514;
+    int unk518;
+    int unk51C;
+    int unk520;
+    int unk524;
+    int unk528;
+    int unk52C;
+    int unk530;
+    int unk534;
+    int unk538;
+    int unk53C;
+    int unk540;
+    int unk544;
+    int unk548;
+    int unk54C;
+    int unk550;
+    int unk554;
+    int unk558;
+    int unk55C;
+    int unk560;
+    int unk564;
+    int unk568;
+    int unk56C;
+    int unk570;
+    int unk574;
+    int unk578;
+    int unk57C;
+    int unk580;
+    int unk584;
+    int unk588;
+    int unk58C;
+    int unk590;
+    int unk594;
+    FUN_00cbe8d0_class* unk598;
+    void FUN_00c6d4a0();
+};
+// @fnv 0x00c6d4a0
+void FUN_00c6d4a0_class::FUN_00c6d4a0()
+{
+    if (unk598)
+        reinterpret_cast<::BoundOwner *>((unk598))->FUN_00cbe8d0();
+}
+
+class hkVector4_807
+{
+  public:
+    __m128 m_vComponents;
+};
+
+class hkRotation_807
+{
+  public:
+    hkVector4_807 m_kCol0;
+    hkVector4_807 m_kCol1;
+    hkVector4_807 m_kCol2;
+};
+
+class Point807
+{
+  public:
+    Point807();
+    float x, y, z;
+};
+
+class Matrix807
+{
+  public:
+    Matrix807();
+    float m00, m01, m02;
+    float m10, m11, m12;
+    float m20, m21, m22;
+};
+
+class Color807
+{
+  public:
+    Color807(float fR, float fG, float fB);
+    float r, g, b;
+};
+
+class Line807
+{
+  public:
+    Line807(int iType);
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+};
+
+class DebugNode807
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void AttachLine(Line807* pkLine, const Color807& kColor);
+};
+
+class Transform807
+{
+  public:
+};
+
+class Body807
+{
+  public:
+};
+
+class Event807
+{
+  public:
+    hkVector4_807 m_kPathOffset;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    void* m_pvCollidableA;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    void* m_pvCollidableB;
+};
+
+class EventCopy807
+{
+  public:
+    EventCopy807(Event807* pkEvent);
+    hkVector4_807 m_kPathOffset;
+    hkVector4_807 m_kPlaneNormal;
+    Body807* m_pkBodyA;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    Body807* m_pkBodyB;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+};
+
+class Process807;
+class Unk815;
+
+class TESObjectREFR
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual bool IsActor();
+};
+
+class Actor807 : public TESObjectREFR
+{
+  public:
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual void v1f4();
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual int GetLifeState();
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual bool IsInState(int iState);
+};
+
+class Process807
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual void v1f4();
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual void v22c();
+    virtual void v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+    virtual void v270();
+    virtual void v274();
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+    virtual void v2b8();
+    virtual void v2bc();
+    virtual void v2c0();
+    virtual void v2c4();
+    virtual void v2c8();
+    virtual void v2cc();
+    virtual void v2d0();
+    virtual void v2d4();
+    virtual void v2d8();
+    virtual void v2dc();
+    virtual void v2e0();
+    virtual void v2e4();
+    virtual void v2e8();
+    virtual void v2ec();
+    virtual void v2f0();
+    virtual void v2f4();
+    virtual void v2f8();
+    virtual void v2fc();
+    virtual void v300();
+    virtual void v304();
+    virtual void v308();
+    virtual void v30c();
+    virtual void v310();
+    virtual void v314();
+    virtual void v318();
+    virtual void v31c();
+    virtual void v320();
+    virtual void v324();
+    virtual void v328();
+    virtual void v32c();
+    virtual void v330();
+    virtual void v334();
+    virtual void v338();
+    virtual void v33c();
+    virtual void v340();
+    virtual void v344();
+    virtual void v348();
+    virtual void v34c();
+    virtual void v350();
+    virtual void v354();
+    virtual void v358();
+    virtual void v35c();
+    virtual void v360();
+    virtual void v364();
+    virtual void v368();
+    virtual void v36c();
+    virtual void v370();
+    virtual void v374();
+    virtual void v378();
+    virtual void v37c();
+    virtual void v380();
+    virtual void v384();
+    virtual void v388();
+    virtual void v38c();
+    virtual void v390();
+    virtual void v394();
+    virtual void v398();
+    virtual void v39c();
+    virtual void v3a0();
+    virtual void v3a4();
+    virtual void v3a8();
+    virtual void v3ac();
+    virtual void v3b0();
+    virtual void v3b4();
+    virtual void v3b8();
+    virtual void v3bc();
+    virtual void v3c0();
+    virtual void v3c4();
+    virtual void v3c8();
+    virtual void v3cc();
+    virtual void v3d0();
+    virtual void v3d4();
+    virtual void v3d8();
+    virtual void v3dc();
+    virtual void v3e0();
+    virtual void v3e4();
+    virtual void v3e8();
+    virtual void v3ec();
+    virtual void v3f0();
+    virtual void v3f4();
+    virtual void v3f8();
+    virtual void v3fc();
+    virtual void v400();
+    virtual void v404();
+    virtual void v408();
+    virtual int GetState();
+};
+
+class Caster807
+{
+  public:
+    Unk815* GetEffect();
+};
+
+class Effect807
+{
+  public:
+    void* GetData();
+};
+
+class MagicProjectile : public TESObjectREFR
+{
+  public:
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual void v1f4();
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual void v22c();
+    virtual void v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+    virtual void v270();
+    virtual void v274();
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+    virtual void v2b8();
+    virtual void v2bc();
+    virtual void v2c0();
+    virtual void v2c4();
+    virtual void v2c8();
+    virtual void v2cc();
+    virtual void v2d0();
+    virtual void v2d4();
+    virtual void v2d8();
+    virtual void v2dc();
+    virtual void v2e0();
+    virtual void v2e4();
+    virtual void v2e8();
+    virtual void v2ec();
+    virtual void v2f0();
+    virtual void v2f4();
+    virtual void v2f8();
+    virtual void v2fc();
+    virtual void v300();
+    virtual void OnHit(Point807 kPos, void* pvTarget, TESObjectREFR* pkRef, int iFlags);
+    virtual void v308();
+    virtual bool IsActive();
+};
+
+class Unk815
+{
+  public:
+    Effect807* GetEffect();
+};
+
+class Player807
+{
+  public:
+};
+
+class Setting807
+{
+  public:
+    bool* GetBool();
+};
+
+class Debug807
+{
+  public:
+};
+
+
+class Listener807
+{
+  public:
+    void FUN_008070d0(Event807* pkEvent);
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int unkd8;
+    unsigned int unkdc;
+    unsigned int unke0;
+    unsigned int unke4;
+    unsigned int unke8;
+    unsigned int unkec;
+    unsigned int unkf0;
+    unsigned int unkf4;
+    unsigned int unkf8;
+    unsigned int unkfc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22c;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23c;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24c;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25c;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26c;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27c;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28c;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29c;
+    unsigned int unk2a0;
+    unsigned int unk2a4;
+    unsigned int unk2a8;
+    unsigned int unk2ac;
+    unsigned int unk2b0;
+    unsigned int unk2b4;
+    unsigned int unk2b8;
+    unsigned int unk2bc;
+    unsigned int unk2c0;
+    unsigned int unk2c4;
+    unsigned int unk2c8;
+    unsigned int unk2cc;
+    unsigned int unk2d0;
+    unsigned int unk2d4;
+    unsigned int unk2d8;
+    unsigned int unk2dc;
+    unsigned int unk2e0;
+    unsigned int unk2e4;
+    unsigned int unk2e8;
+    unsigned int unk2ec;
+    unsigned int unk2f0;
+    unsigned int unk2f4;
+    unsigned int unk2f8;
+    unsigned int unk2fc;
+    unsigned int unk300;
+    unsigned int unk304;
+    unsigned int unk308;
+    unsigned int unk30c;
+    unsigned int unk310;
+    unsigned int unk314;
+    unsigned int unk318;
+    unsigned int unk31c;
+    unsigned int unk320;
+    unsigned int unk324;
+    unsigned int unk328;
+    unsigned int unk32c;
+    unsigned int unk330;
+    unsigned int unk334;
+    unsigned int unk338;
+    unsigned int unk33c;
+    unsigned int unk340;
+    unsigned int unk344;
+    unsigned int unk348;
+    unsigned int unk34c;
+    unsigned int unk350;
+    unsigned int unk354;
+    unsigned int unk358;
+    unsigned int unk35c;
+    unsigned int unk360;
+    unsigned int unk364;
+    unsigned int unk368;
+    unsigned int unk36c;
+    unsigned int unk370;
+    unsigned int unk374;
+    unsigned int unk378;
+    unsigned int unk37c;
+    unsigned int unk380;
+    unsigned int unk384;
+    unsigned int unk388;
+    unsigned int unk38c;
+    unsigned int unk390;
+    unsigned int unk394;
+    unsigned int unk398;
+    unsigned int unk39c;
+    unsigned int unk3a0;
+    unsigned int unk3a4;
+    unsigned int unk3a8;
+    unsigned int unk3ac;
+    unsigned int unk3b0;
+    unsigned int unk3b4;
+    unsigned int unk3b8;
+    unsigned int unk3bc;
+    unsigned int unk3c0;
+    unsigned int unk3c4;
+    unsigned int unk3c8;
+    unsigned int unk3cc;
+    unsigned int unk3d0;
+    unsigned int unk3d4;
+    unsigned int unk3d8;
+    unsigned int unk3dc;
+    unsigned int unk3e0;
+    unsigned int unk3e4;
+    unsigned int unk3e8;
+    unsigned int unk3ec;
+    unsigned int unk3f0;
+    unsigned int unk3f4;
+    unsigned int unk3f8;
+    unsigned int unk3fc;
+    unsigned int unk400;
+    unsigned int unk404;
+    unsigned int unk408;
+    unsigned int unk40c;
+    unsigned int unk410;
+    unsigned int unk414;
+    unsigned int unk418;
+    unsigned int unk41c;
+    unsigned int unk420;
+    unsigned int unk424;
+    unsigned int unk428;
+    unsigned int unk42c;
+    unsigned int unk430;
+    unsigned int unk434;
+    unsigned int unk438;
+    unsigned int unk43c;
+    unsigned int unk440;
+    unsigned int unk444;
+    unsigned int unk448;
+    unsigned int unk44c;
+    unsigned int unk450;
+    unsigned int unk454;
+    unsigned int unk458;
+    unsigned int unk45c;
+    unsigned int unk460;
+    unsigned int unk464;
+    unsigned int unk468;
+    unsigned int unk46c;
+    unsigned int unk470;
+    unsigned int unk474;
+    unsigned int unk478;
+    unsigned int unk47c;
+    unsigned int unk480;
+    unsigned int unk484;
+    unsigned int unk488;
+    unsigned int unk48c;
+    unsigned int unk490;
+    unsigned int unk494;
+    unsigned int unk498;
+    unsigned int unk49c;
+    unsigned int unk4a0;
+    unsigned int unk4a4;
+    unsigned int unk4a8;
+    unsigned int unk4ac;
+    unsigned int unk4b0;
+    unsigned int unk4b4;
+    unsigned int unk4b8;
+    unsigned int unk4bc;
+    unsigned int unk4c0;
+    unsigned int unk4c4;
+    unsigned int unk4c8;
+    unsigned int unk4cc;
+    unsigned int unk4d0;
+    unsigned int unk4d4;
+    unsigned int unk4d8;
+    unsigned int unk4dc;
+    unsigned int unk4e0;
+    unsigned int unk4e4;
+    unsigned int unk4e8;
+    unsigned int unk4ec;
+    unsigned int unk4f0;
+    unsigned int unk4f4;
+    unsigned int unk4f8;
+    unsigned int unk4fc;
+    unsigned int unk500;
+    unsigned int unk504;
+    unsigned int unk508;
+    unsigned int unk50c;
+    unsigned int unk510;
+    unsigned int unk514;
+    unsigned int unk518;
+    unsigned int unk51c;
+    unsigned int unk520;
+    unsigned int unk524;
+    unsigned int unk528;
+    unsigned int unk52c;
+    unsigned int unk530;
+    unsigned int unk534;
+    unsigned int unk538;
+    unsigned int unk53c;
+    unsigned int unk540;
+    unsigned int unk544;
+    unsigned int unk548;
+    unsigned int unk54c;
+    unsigned int unk550;
+    unsigned int unk554;
+    unsigned int unk558;
+    unsigned int unk55c;
+    unsigned int unk560;
+    unsigned int unk564;
+    unsigned int unk568;
+    unsigned int unk56c;
+    unsigned int unk570;
+    unsigned int unk574;
+    unsigned int unk578;
+    unsigned int unk57c;
+    unsigned int unk580;
+    unsigned int unk584;
+    unsigned int unk588;
+    unsigned int unk58c;
+    unsigned int unk590;
+    unsigned int unk594;
+    unsigned int unk598;
+    unsigned int unk59c;
+    unsigned int unk5a0;
+    unsigned int unk5a4;
+    unsigned int unk5a8;
+    unsigned int unk5ac;
+    unsigned int unk5b0;
+    unsigned int unk5b4;
+    unsigned int unk5b8;
+    unsigned int unk5bc;
+    unsigned int unk5c0;
+    unsigned int unk5c4;
+    unsigned int unk5c8;
+    unsigned int unk5cc;
+    unsigned int unk5d0;
+    unsigned int unk5d4;
+    unsigned int unk5d8;
+    unsigned int unk5dc;
+    unsigned int unk5e0;
+    unsigned int unk5e4;
+    unsigned int unk5e8;
+    unsigned int unk5ec;
+    unsigned int unk5f0;
+    unsigned int unk5f4;
+    unsigned int unk5f8;
+    unsigned int unk5fc;
+    unsigned int unk600;
+    unsigned int unk604;
+    unsigned int unk608;
+    unsigned int unk60c;
+    unsigned int unk610;
+    unsigned int unk614;
+    unsigned int unk618;
+    unsigned int unk61c;
+    unsigned int unk620;
+    unsigned int unk624;
+    unsigned int unk628;
+    unsigned int unk62c;
+    unsigned int unk630;
+    unsigned int unk634;
+    unsigned int unk638;
+    unsigned int unk63c;
+    unsigned int unk640;
+    unsigned int unk644;
+    unsigned int unk648;
+    unsigned int unk64c;
+    MagicProjectile* m_pkProjectile;
+};
+
+// @fnv 0x008070d0
+void Listener807::FUN_008070d0(Event807* pkEvent)
+{
+    MagicProjectile* pkProjectile = dynamic_cast<MagicProjectile*>(reinterpret_cast<::FUN_00807730_shell *>(this)->FUN_00807730(pkEvent->m_pvCollidableA));
+    if (!pkProjectile)
+        pkProjectile = m_pkProjectile;
+    if (!pkProjectile->IsActive())
+        return;
+    TESObjectREFR* pkHit = reinterpret_cast<::FUN_00807730_shell *>(this)->FUN_00807730(pkEvent->m_pvCollidableB);
+    Actor807* pkActor = pkHit && pkHit->IsActor() ? (Actor807*)pkHit : 0;
+    void* pvEntry = ::FUN_004b5950(pkEvent->m_pvCollidableB);
+    if (pvEntry)
+    {
+        if (!pkActor)
+            return;
+        else if (pkActor->IsInState(0))
+            return;
+        else if (((::Process807 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && ((::Process807 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->GetState() && ((::Process807 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->GetState() != 6)
+            return;
+        else if (pkActor->GetLifeState() == 4 || pkActor->GetLifeState() == 9)
+            return;
+    }
+    if (pkHit && pkHit == reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::Player807 * *>(&::_g_thePlayer))))->FUN_0089f4e0())
+        return;
+    if (pkActor && reinterpret_cast<::FUN_008ace90_shell *>((pkActor))->FUN_008ace90())
+        return;
+    if (*(*reinterpret_cast<::Setting807 *>(&::g_011dbaa4)).GetBool())
+    {
+        Point807 kUnused;
+        EventCopy807 kCopy(pkEvent);
+        DebugNode807* pkNodeA = ((::DebugNode807 *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(((void *)(::FUN_00559450((int *)(kCopy.m_pkBodyA))))))));
+        if (pkNodeA)
+        {
+            Line807* pkLineA = new Line807(0);
+            Color807 kColorA(1.0f, 1.0f, 1.0f);
+            pkNodeA->AttachLine(pkLineA, kColorA);
+            Matrix807 kRotA;
+            ::FUN_00624b10((::FUN_004769c0_shell *)&(kRotA), (::FUN_004b4cf0_shell *)&((*(const ::hkRotation_807 *)(static_cast<void *>(((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyA))->GetName())))))));
+            reinterpret_cast<::FUN_0043fa80_s *>((pkLineA))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotA));
+            Point807 kPosA;
+            ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPosA), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(reinterpret_cast<::TESTopicInfo *>((((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyA))->GetName()))))->GetAddTopicList()))));
+            reinterpret_cast<::FUN_00440460_S *>((pkLineA))->FUN_00440460((const ::V3 *)&(kPosA));
+        }
+        DebugNode807* pkNodeB = ((::DebugNode807 *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(((void *)(::FUN_00559450((int *)(kCopy.m_pkBodyB))))))));
+        if (pkNodeB)
+        {
+            Line807* pkLineB = new Line807(0);
+            Color807 kColorB(1.0f, 1.0f, 1.0f);
+            pkNodeB->AttachLine(pkLineB, kColorB);
+            Matrix807 kRotB;
+            ::FUN_00624b10((::FUN_004769c0_shell *)&(kRotB), (::FUN_004b4cf0_shell *)&((*(const ::hkRotation_807 *)(static_cast<void *>(((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyB))->GetName())))))));
+            reinterpret_cast<::FUN_0043fa80_s *>((pkLineB))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotB));
+            Point807 kPosB;
+            ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPosB), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(reinterpret_cast<::TESTopicInfo *>((((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyB))->GetName()))))->GetAddTopicList()))));
+            reinterpret_cast<::FUN_00440460_S *>((pkLineB))->FUN_00440460((const ::V3 *)&(kPosB));
+        }
+    }
+    Point807 kPos;
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPos), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(static_cast<void *>(pkEvent)))));
+    if (*(*reinterpret_cast<::Setting807 *>(&::g_011dbaa4)).GetBool())
+    {
+        Line807* pkMarker = ((::Line807 *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(1.0f, 0.0f, 0.0f, 1.0f)), 1)));
+        reinterpret_cast<::FUN_00440460_S *>((pkMarker))->FUN_00440460((const ::V3 *)&(kPos));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Debug807 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pkMarker), 50.0f);
+    }
+    Caster807* pkCaster = ((::Caster807 *)(reinterpret_cast<::MagicProjectileFields *>(pkProjectile)->caster));
+    bool bActorHit = false;
+    TESObjectREFR* pkHitActor = 0;
+    if (pkHit && pkHit->IsActor())
+    {
+        bActorHit = true;
+        pkHitActor = pkHit;
+    }
+    Unk815* pkEffect = pkCaster ? ((::Unk815 *)(reinterpret_cast<::MagicCaster *>((pkCaster))->GetCasterActor())) : 0;
+    void* pvHitEntry = ::FUN_004b59f0(pkEvent->m_pvCollidableB);
+    void* pvTarget = pvHitEntry ? ::FUN_004b5a80(pvHitEntry) : 0;
+    pkProjectile->OnHit(kPos, pvTarget, pkHit, 0);
 }

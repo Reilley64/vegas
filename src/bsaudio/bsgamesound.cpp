@@ -1,5 +1,25 @@
+#include <cstdint>
+#include <cstddef>
 // bsaudio/bsgamesound.cpp: BSGameSound, SoundView, AudioPathFixer (24 functions)
 
+#include <cstddef>
+#include <windows.h>
+#include <objbase.h>
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00ad7150_shell.h"
+#include "fnv/decl/FUN_00aea210_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MgrX.h"
+#include "fnv/decl/S_00ae8370_List.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 #include "bsgamesound_decls.h"
 
 // @fnv 0x00ae9cf0
@@ -48,7 +68,7 @@ bool BSGameSound::Prepare()
     {
         unsigned int duration = m_iSoundType;
         unsigned int zlimit = duration;
-        unsigned int time = MersenneTwister::GetRandomGenerator().GetRandomUInt(zlimit);
+        unsigned int time = MersenneTwister::GetRandomGenerator()->GetRandomUInt(zlimit);
         Seek(time);
     }
     uiSoundFlags = true ? (uiSoundFlags | 0x800) : (uiSoundFlags & ~0x800);
@@ -92,7 +112,7 @@ bool BSGameSound::HasMaster(const char* filename, bool resolve)
     if (!filename)
         return false;
     if (pFilename != filename)
-        strcpy_s(pFilename, 260, filename);
+        fnv::crt::strcpy_s(pFilename, 260, filename);
     BSAudio::GetRandomGenerator().vfn_18(pFilename);
     void(__cdecl * pfnCallback)(char*) = BSAudio::GetRandomGenerator().GetCallback();
     unsigned int iLength = strlen(pFilename);
@@ -113,58 +133,59 @@ bool BSGameSound::HasMaster(const char* filename, bool resolve)
     return bResult;
 }
 
-extern float const g_011c7374_arg1;
 
-// Initializes the object's fields to zero/default values, sets flags at offset 0x10, and clears bit 0x8000.
+// Initializes the sound's fields to zero/default values, sets bit 0x100 of uiSoundFlags, and clears bit 0x8000.
 // @fnv 0x00ae95e0
-void __fastcall FUN_00ae95e0(char* pObject)
+void FUN_00ae95e0(char* pObject)
 {
-    *(int*)(pObject + 0x4) = 0;
-    *(int*)(pObject + 0x8) = 0;
-    *(int*)(pObject + 0xc) = 0;
-    *(int*)(pObject + 0x10) = 0;
-    *(int*)(pObject + 0x10) |= 0x100;
-    *(int*)(pObject + 0x14) = 0;
-    *(short*)(pObject + 0x18) = 0;
-    *(short*)(pObject + 0x1a) = 0;
-    *(short*)(pObject + 0x1c) = 0;
-    *(short*)(pObject + 0x1e) = 0;
-    *(short*)(pObject + 0x20) = 0;
-    *(float*)(pObject + 0x24) = 1.0f;
-    *(float*)(pObject + 0x28) = 0.0f;
-    *(float*)(pObject + 0x2c) = 0.0f;
-    *(int*)(pObject + 0x30) = 0;
-    *(short*)(pObject + 0x34) = 0;
-    *(float*)(pObject + 0x13c) = g_011c7374_arg1;
-    *(float*)(pObject + 0x140) = 50.0f;
-    *(int*)(pObject + 0x14c) = 0;
-    *(int*)(pObject + 0x154) = 0;
-    *(int*)(pObject + 0x160) = 0;
-    *(int*)(pObject + 0x15c) = 0;
-    *(int*)(pObject + 0x144) = 0;
-    *(int*)(pObject + 0x148) = 0;
-    *(float*)(pObject + 0x150) = 3.4028234663852886e+38f;
-    *(char*)(pObject + 0x158) = 0;
-    *(short*)(pObject + 0x15a) = 0;
-    *(int*)(pObject + 0x174) = 0;
-    *(int*)(pObject + 0x178) = 0;
-    *(int*)(pObject + 0x164) = 0;
-    *(int*)(pObject + 0x168) = 0;
-    *(int*)(pObject + 0x16c) = 0;
-    *(int*)(pObject + 0x170) = 0;
-    *(int*)(pObject + 0x10) = false ? (*(int*)(pObject + 0x10) | 0x8000) : (*(int*)(pObject + 0x10) & ~0x8000);
+    BSGameSound* p = (BSGameSound*)pObject;
+    p->m_uiSoundResourceID = 0;
+    p->m_uiSoundFlags = 0;
+    p->m_uiSoundParameter11 = 0;
+    p->uiSoundFlags = 0;
+    p->uiSoundFlags |= 0x100;
+    p->m_iSoundType = 0;
+    p->m_uiSoundParameterA = 0;
+    p->m_uiReverbAttenuation = 0;
+    p->m_uiSoundParameterB = 0;
+    p->m_uiSoundParameter6 = 0;
+    p->m_uiSoundParameter5 = 0;
+    p->m_fRolloff = 1.0f;
+    p->m_fMinimumDistance = 0.0f;
+    p->m_fMaximumDistance = 0.0f;
+    p->m_uiSoundCategory = 0;
+    p->m_uiSoundParameter4 = 0;
+    p->afValueAfterThirdFloat = g_011c7374_arg1;
+    p->afThirdFloatArgument = 50.0f;
+    p->m_uiSoundParameter13 = 0;
+    p->m_uiSoundParameter7 = 0;
+    p->m_uiSoundParameter2 = 0;
+    p->m_uiPlaybackId = 0;
+    p->m_uiSoundParameter12 = 0;
+    p->m_uiSoundParameter3 = 0;
+    p->m_uiSoundParameter1 = 3.4028234663852886e+38f;
+    p->m_uiSoundParameter8 = 0;
+    p->m_uiSoundParameter10 = 0;
+    p->m_uiSoundParameter9 = 0;
+    p->m_uiTrailingValue2 = 0;
+    p->m_pfnBooleanCallback = 0;
+    p->m_pfnIntegerCallback = 0;
+    p->m_pAudioSource = 0;
+    p->m_pAudioData = 0;
+    p->uiSoundFlags = false ? (p->uiSoundFlags | 0x8000) : (p->uiSoundFlags & ~0x8000);
 }
 
-// If a callback pointer at offset 0x168 is set, calls it with the value at 0x170 and the id at 0x14, then clears both fields.
+// If m_pfnIntegerCallback is set, calls it with m_pAudioData and the sound type, then clears both fields.
 // @fnv 0x00ae9af0
-void __fastcall ClearCallback(char* pObject)
+void ClearCallback(char* pObject)
 {
-    if (*(void**)(pObject + 0x168) != 0)
+    BSGameSound* p = (BSGameSound*)pObject;
+    if (p->m_pfnIntegerCallback != 0)
     {
-        int id = *(int*)(pObject + 0x14);
-        (*(void(__cdecl**)(int, int))(pObject + 0x168))(*(int*)(pObject + 0x170), id);
-        *(int*)(pObject + 0x170) = 0;
-        *(int*)(pObject + 0x168) = 0;
+        int id = p->m_iSoundType;
+        p->m_pfnIntegerCallback(p->m_pAudioData, id);
+        p->m_pAudioData = 0;
+        p->m_pfnIntegerCallback = 0;
     }
 }
 
@@ -204,13 +225,12 @@ struct OL4Alloc
 };
 struct NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile__TileTemplateItem___
 {
-    void RemoveAll();
     OL4Alloc alloc;
     void* a;
     void* b;
     ~NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile__TileTemplateItem___()
     {
-        RemoveAll();
+        reinterpret_cast<::S_00ae8370_List *>(this)->FUN_00ae8370();
     }
 };
 struct OL4List : NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile__TileTemplateItem___
@@ -230,7 +250,6 @@ FUN_00ae93f0::~FUN_00ae93f0()
     int unused[5];
 }
 
-extern double _gModifierZero;
 
 struct SoundRange_00ae9b50
 {
@@ -247,7 +266,7 @@ bool SoundRange_00ae9b50::FUN_00ae9b50(unsigned int mask, float afTime)
     if ((uiFlags & mask) == 0 && uiFlags != 0 && mask != 0)
         return false;
     float fSpan = m_fEndValue - fStart;
-    fSpan = (fSpan < _gModifierZero) ? fSpan * -1.0 : fSpan;
+    fSpan = (fSpan < ::_DAT_01012060) ? fSpan * -1.0 : fSpan;
     if (fSpan >= 0.09375)
     {
         if ((fStart < m_fEndValue && (fStart > afTime || m_fEndValue < afTime)) ||
@@ -264,9 +283,7 @@ struct FUN_00ae93f0
 };
 struct MemoryManager
 {
-    void _DeallocateAlias(void* p);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00ae9ec0 : FUN_00ae93f0
 {
     void* DeleteThis(unsigned int flags);
@@ -275,9 +292,9 @@ struct FUN_00ae9ec0 : FUN_00ae93f0
 // @fnv 0x00ae9ec0
 void* FUN_00ae9ec0::DeleteThis(unsigned int flags)
 {
-    this->FUN_00ae93f0::~FUN_00ae93f0();
+    reinterpret_cast<::FUN_00ae93f0 *>((this))->::FUN_00ae93f0::~FUN_00ae93f0();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ae9ec0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00ae9ec0
@@ -289,8 +306,8 @@ struct FUN_00ae9f70 : BSGameSound
 // @fnv 0x00ae9f70
 void FUN_00ae9f70::SetFlag(bool abSet)
 {
-    *(unsigned int*)((char*)this + 0x10) =
-        abSet ? (*(unsigned int*)((char*)this + 0x10) | 0x20000) : (*(unsigned int*)((char*)this + 0x10) & 0xfffdffff);
+    this->uiSoundFlags =
+        abSet ? (this->uiSoundFlags | 0x20000) : (this->uiSoundFlags & 0xfffdffff);
 }
 
 struct FUN_00ae9fd0 : BSGameSound
@@ -301,7 +318,7 @@ struct FUN_00ae9fd0 : BSGameSound
 // @fnv 0x00ae9fd0
 bool FUN_00ae9fd0::IsSameSound(BSGameSound* apSound)
 {
-    return *(unsigned int*)((char*)this + 0x188) < *(unsigned int*)((char*)apSound + 0x188);
+    return this->iPriority < apSound->iPriority;
 }
 
 struct FUN_00aea000 : BSGameSound
@@ -311,40 +328,37 @@ struct FUN_00aea000 : BSGameSound
 // @fnv 0x00aea000
 bool FUN_00aea000::IsSameSound(unsigned int aiToCompare)
 {
-    return *(unsigned int*)((char*)this + 0x188) < aiToCompare;
+    return this->iPriority < aiToCompare;
 }
 
 struct Interface
 {
-    static void __cdecl PrintDebugMessage(const char*);
 };
 
 struct FUN_00aea590_shell
 {
-    bool __thiscall FUN_00aea590(int param, int unused);
+    bool FUN_00aea590(int param, std::intptr_t unused);
 };
 
 // Returns true when param is non-negative; otherwise logs "Audio system could not be initialized." and returns false.
 // @fnv 0x00aea590
-bool __thiscall FUN_00aea590_shell::FUN_00aea590(int aiResult, int unused)
+bool FUN_00aea590_shell::FUN_00aea590(int aiResult, std::intptr_t unused)
 {
     if (aiResult >= 0)
         return true;
-    Interface::PrintDebugMessage("Audio system could not be initialized.");
+    ::FUN_0040fbe0();
     return false;
 }
 
 struct P03MM
 {
-    void* Allocate(unsigned int size);
 };
-extern P03MM g_memoryManager;
 struct FUN_00aeac20
 {
     FUN_00aeac20(unsigned int a);
-    static void* operator new(unsigned int)
+    static void* operator new(std::size_t)
     {
-        return g_memoryManager.Allocate(0x230);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x230);
     }
 };
 struct FUN_00aea5c0
@@ -361,11 +375,8 @@ FUN_00aeac20* FUN_00aea5c0::Create(unsigned int auiValue)
 namespace fnv_00aea700 {
 struct MemoryManager
 {
-    void _DeallocateAlias(void* p);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00aea700;
-void __fastcall FUN_00aea210(FUN_00aea700* p);
 struct FUN_00aea700
 {
     void* DeleteThis(unsigned int flags);
@@ -374,9 +385,9 @@ struct FUN_00aea700
 // @fnv 0x00aea700
 void* FUN_00aea700::DeleteThis(unsigned int flags)
 {
-    FUN_00aea210(this);
+    reinterpret_cast<::FUN_00aea210_Class *>((this))->FUN_00aea210();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00aea700::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00aea700
@@ -387,16 +398,22 @@ struct Point3
     Point3(float ax, float ay, float az) : x(ax), y(ay), z(az)
     {}
 };
+// The position of a platform game sound; the pad stands for members not named here.
+struct GameSoundPositionView
+{
+    char pad00[0x218];
+    Point3 m_kPosition;
+};
 struct FUN_00aefd20 : BSGameSound
 {
     Point3 GetPos();
 };
-// Returns the sound's position at offset 0x218 when either of the two checks passes, otherwise the origin (0,0,0).
+// Returns the sound's position when either of the two checks passes, otherwise the origin (0,0,0).
 // @fnv 0x00aefd20
 Point3 FUN_00aefd20::GetPos()
 {
     if (HasSoundFlagTwo() || CanStartPlayback())
-        return *(Point3*)((char*)this + 0x218);
+        return ((GameSoundPositionView*)this)->m_kPosition;
     return Point3(0.0f, 0.0f, 0.0f);
 }
 
@@ -496,10 +513,7 @@ struct SoundView
     unsigned int unk134;
     unsigned int unk138;
     float unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
+    char pad140[0x10];
     float unk150;
     bool Flag100()
     {
@@ -517,8 +531,6 @@ struct SoundView
     {
         return (unk8 & 0x10) || (unk8 & 0x4000000) || (unk8 & 0x2000000);
     }
-    bool FUN_00ae9cf0();
-    bool FUN_00ae9d10();
     bool FUN_00ae9960(float);
 };
 // Checks spatial and state flags to toggle v14/v30 and call v38 based on comparing unk150 against unk13c, then returns true.
@@ -526,7 +538,7 @@ struct SoundView
 bool SoundView::FUN_00ae9960(float unused)
 {
     float distance2, maximum2, distance, maximum;
-    if ((FUN_00ae9cf0() || FUN_00ae9d10()) && !Flag100() && !State20000() && v04() && IsSpatial() && !Flag2000000() &&
+    if ((reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback()) && !Flag100() && !State20000() && v04() && IsSpatial() && !Flag2000000() &&
         (distance2 = unk150, maximum2 = unk13c, maximum2 < distance2))
     {
         v38();
@@ -549,13 +561,13 @@ struct BSAudioVoice
     virtual int FUN_00f0(int abEnable);
 };
 
-// A sink the manager hands a piece of work to.  Its slots are __stdcall
+// A sink the manager hands a piece of work to.  Its slots are
 // callbacks that receive the sink back as their only argument.
 struct BSAudioSink
 {
-    virtual void __stdcall FUN_00f0();
-    virtual void __stdcall FUN_00f4();
-    virtual void __stdcall FUN_00f8();
+    virtual void FUN_00f0();
+    virtual void FUN_00f4();
+    virtual void FUN_00f8();
 };
 
 struct BSWin32Audio
@@ -567,18 +579,9 @@ struct BSWin32Audio
     int unk08;
     int unk0c;
     BSAudioVoice* unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
+    char pad14[0x24];
     BSAudioSink* unk38;
     BSAudioSink* unk3c;
-    void FUN_00ad7150();
     void Shutdown();
 };
 
@@ -588,7 +591,7 @@ extern void(__cdecl* g_pAudioShutdownCallback)();
 void BSWin32Audio::Shutdown()
 {
     this->unk05 = 0;
-    this->FUN_00ad7150();
+    reinterpret_cast<::FUN_00ad7150_shell *>((this))->FUN_00ad7150();
     g_pAudioShutdownCallback();
     if (this->unk10)
     {
@@ -609,20 +612,13 @@ void BSWin32Audio::Shutdown()
     }
 }
 
-extern "C" char DAT_011f6d9c, DAT_01202800, DAT_011f6238;
 extern "C" char DAT_010a3b10, DAT_010a3ae0, DAT_010a3a78, DAT_010a3a38, DAT_010a39f8, DAT_01100fa4;
-extern "C" __declspec(dllimport) void* __stdcall GetModuleHandleA(const char*);
-extern "C" int __stdcall FUN_00ee81e0(int, void*, int);
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct Heap
 {
-    void* FUN_00aa3e40(unsigned);
 };
 struct Manager
 {
-    void FUN_00ad9640();
 };
-extern "C" Manager* __cdecl FUN_00ad9060();
 struct Vec
 {
     float x, y, z;
@@ -653,11 +649,6 @@ struct FUN_00aea730_Class : Sound
 {
     char data[96];
     FUN_00aea730_Class(int);
-    static void* operator new(unsigned n)
-    {
-        return ((Heap*)&DAT_011f6238)->FUN_00aa3e40(n);
-    }
-    static void operator delete(void*);
 };
 struct Desc
 {
@@ -666,20 +657,20 @@ struct Desc
 };
 struct Com
 {
-    virtual int __stdcall q(void*, int*);
-    virtual int __stdcall r1();
-    virtual int __stdcall r2();
-    virtual int __stdcall create(Desc*, Com**, int);
-    virtual int __stdcall caps(void*);
-    virtual int __stdcall r5();
-    virtual int __stdcall coop(int, int);
+    virtual int q(void*, int*);
+    virtual int r1();
+    virtual int r2();
+    virtual int create(Desc*, Com**, int);
+    virtual int caps(void*);
+    virtual int r5();
+    virtual int coop(int, int);
 };
 struct Text
 {
     char b[4];
     const char* Get2()
     {
-        const char* z = this ? b + 4 : (DAT_01202800 = 0, &DAT_01202800);
+        const char* z = this ? b + 4 : ((*reinterpret_cast<char *>(&::DAT_01202800)) = 0, &(*reinterpret_cast<char *>(&::DAT_01202800)));
         return z;
     }
     const char* Get()
@@ -698,7 +689,6 @@ struct C
     Com* buffer;
     char capsdata[96];
     int window;
-    bool FUN_00aea590(int, const char*);
     void FUN_00ad7020(int);
     void SetWindow(int);
 };
@@ -711,40 +701,40 @@ void C::SetWindow(int aiWindow)
     window = aiWindow;
     if (flag5)
         return;
-    if (*(const unsigned char*)((Text*)&DAT_011f6d9c)->Get())
+    if (*(const unsigned char*)((Text*)&(*reinterpret_cast<char *>(&::g_011f6d9c)))->Get())
     {
-        GetModuleHandleA(0);
-        iResult = FUN_00ee81e0(0, &com, 0);
-        if (!FUN_00aea590(iResult, &DAT_010a3b10))
+        CoInitialize(0);
+        iResult = ((int)(::FUN_00ee81e0((const void *)(0), (void **)(void *)(&com), (void *)(0))));
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3b10)))
             return;
         iResult = com->coop(window, 2);
-        FUN_00aea590(iResult, &DAT_010a3ae0);
+        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3ae0));
         *(int*)capsdata = 96;
         iResult = com->caps(capsdata);
-        FUN_00aea590(iResult, &DAT_010a3a78);
-        FUN_00ec61c0(&desc, 0, 36);
+        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3a78));
+        std::memset(&desc, 0, 36);
         desc.size = 36;
         desc.flags = 145;
         iResult = com->create(&desc, &buffer, 0);
-        if (!FUN_00aea590(iResult, &DAT_010a3a38))
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3a38)))
             return;
         iResult = buffer->q(&DAT_01100fa4, &iInterface);
-        if (!FUN_00aea590(iResult, &DAT_010a39f8))
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a39f8)))
             return;
         sound = new FUN_00aea730_Class(iInterface);
     }
     if (sound)
     {
-        sound->s2(&Vec());
+        Vec kZero{};
+        sound->s2(&kZero);
         sound->s12(1.0f);
     }
     flag5 = 1;
     flag4 = 1;
-    FUN_00ad9060()->FUN_00ad9640();
+    reinterpret_cast<::MgrX *>((((::Manager *)(::FUN_00ad9060()))))->FUN_00ad9640();
     FUN_00ad7020(0);
 }
 
-extern "C" int __cdecl strcat_s(char*, unsigned int, const char*);
 
 struct AudioPathFixer
 {
@@ -758,8 +748,10 @@ void AudioPathFixer::FUN_00aea640(char* apName)
     if (apName && ((apName[0] == 102 && apName[1] == 120) ||
                    (apName[0] == 115 && apName[1] == 111 && apName[2] == 110 && apName[3] == 103)))
     {
-        strcpy_s(acBuffer, 260, apName);
-        strcpy_s(apName, 260, "data\\sound\\");
-        strcat_s(apName, 260, acBuffer);
+        fnv::crt::strcpy_s(acBuffer, 260, apName);
+        fnv::crt::strcpy_s(apName, 260, "data\\sound\\");
+        fnv::crt::strcat_s(apName, 260, acBuffer);
     }
 }
+
+#include "generated/data/bsaudio/bsgamesound.inc"

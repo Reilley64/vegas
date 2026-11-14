@@ -2,63 +2,29 @@
 // src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+
+#include <windows.h>
+#include "fnv/decl/VUC_StepInstance.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleLinearCastBatchingManager.h"
 
 struct FUN_00e42fe0
 {
-    int __thiscall GetCount();
+    int GetCount();
 };
 
-struct FUN_00e43060
+struct FUN_00e43060 : hkpVehicleLinearCastBatchingManager
 {
-    void __thiscall DoWork(int a, int b, int* out);
+    void DoWork(char* a, intptr_t b, char** out);
 };
 
-// Computes four aligned offsets from GetCount() and the 16-bit count at this+0x14, writes them to out, and advances a by each padding.
-// @fnv 0x00e43060
-void __thiscall FUN_00e43060::DoWork(int iBaseOffset, int iUnused, int* paiOffsets)
+struct FUN_00e43010 : hkpVehicleLinearCastBatchingManager
 {
-    int iCount = ((FUN_00e42fe0*)this)->GetCount();
-    unsigned int n = *(unsigned short*)((char*)this + 0x14);
-    unsigned int pad = ((unsigned int)(n * 5) << 4) + 0xf;
-    pad &= 0xfffffff0u;
-    paiOffsets[0] = iBaseOffset;
-    iBaseOffset += pad;
-    unsigned int pad2 = ((unsigned int)iCount * 0x70) + 0xf;
-    pad2 &= 0xfffffff0u;
-    unsigned int pad3 = ((unsigned int)iCount << 6) + 0xf;
-    pad3 &= 0xfffffff0u;
-    paiOffsets[1] = iBaseOffset;
-    iBaseOffset += pad3;
-    paiOffsets[2] = iBaseOffset;
-    iBaseOffset += pad2;
-    paiOffsets[3] = iBaseOffset;
-}
-
-struct FUN_00e43010
-{
-    int __thiscall ConvertReferences(int numVehicles);
+    int ConvertReferences(int numVehicles);
 };
-// Computes a 16-byte-aligned total from the object's count, a 16-bit field at offset 0x14, the count again, and numVehicles.
-// @fnv 0x00e43010
-int __thiscall FUN_00e43010::ConvertReferences(int numVehicles)
-{
-    int count = ((FUN_00e42fe0*)this)->GetCount();
-    unsigned int a = (unsigned int)(unsigned short)*(unsigned short*)((char*)this + 0x14);
-    int iTotal = ((a * 5) << 4) + 0xf;
-    iTotal &= 0xfffffff0;
-    int iCountSize = count * 0x70 + 0xf;
-    iCountSize &= 0xfffffff0;
-    iTotal += iCountSize;
-    int iCountSize2 = (count << 6) + 0xf;
-    iCountSize2 &= 0xfffffff0;
-    iTotal += iCountSize2;
-    int iVehicleSize = (numVehicles << 4) + 0xf;
-    iVehicleSize &= 0xfffffff0;
-    iTotal += iVehicleSize;
-    return iTotal;
-}
-
 struct FUN_00e42fe0_counted
 {
     virtual void f00() = 0;
@@ -89,8 +55,47 @@ struct FUN_00e42fe0_impl
     FUN_00e42fe0_vehicle** vehicles;
     int count;
 
-    int __thiscall FUN_00e42fe0();
+    int FUN_00e42fe0();
 };
+// Computes four aligned offsets from GetCount() and m_uiTotalWheelCount, writes them to out, and advances a by each padding.
+// @fnv 0x00e43060
+void FUN_00e43060::DoWork(char* iBaseOffset, intptr_t iUnused, char** paiOffsets)
+{
+    int iCount = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
+    unsigned int n = m_uiTotalWheelCount;
+    unsigned int pad = ((unsigned int)(n * 5) << 4) + 0xf;
+    pad &= 0xfffffff0u;
+    paiOffsets[0] = iBaseOffset;
+    iBaseOffset += pad;
+    unsigned int pad2 = ((unsigned int)iCount * 0x70) + 0xf;
+    pad2 &= 0xfffffff0u;
+    unsigned int pad3 = ((unsigned int)iCount << 6) + 0xf;
+    pad3 &= 0xfffffff0u;
+    paiOffsets[1] = iBaseOffset;
+    iBaseOffset += pad3;
+    paiOffsets[2] = iBaseOffset;
+    iBaseOffset += pad2;
+    paiOffsets[3] = iBaseOffset;
+}
+// Computes a 16-byte-aligned total from the object's count, m_uiTotalWheelCount, the count again, and numVehicles.
+// @fnv 0x00e43010
+int FUN_00e43010::ConvertReferences(int numVehicles)
+{
+    int count = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
+    unsigned int a = (unsigned int)m_uiTotalWheelCount;
+    int iTotal = ((a * 5) << 4) + 0xf;
+    iTotal &= 0xfffffff0;
+    int iCountSize = count * 0x70 + 0xf;
+    iCountSize &= 0xfffffff0;
+    iTotal += iCountSize;
+    int iCountSize2 = (count << 6) + 0xf;
+    iCountSize2 &= 0xfffffff0;
+    iTotal += iCountSize2;
+    int iVehicleSize = (numVehicles << 4) + 0xf;
+    iVehicleSize &= 0xfffffff0;
+    iTotal += iVehicleSize;
+    return iTotal;
+}
 
 // Sums GetCount() over all vehicles in the array and returns the total.
 // @fnv 0x00e42fe0
@@ -102,12 +107,8 @@ int FUN_00e42fe0_impl::FUN_00e42fe0()
     return total;
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-extern DWORD DAT_0126835c;
 
 struct ProfRec
 {
@@ -124,28 +125,7 @@ struct ProfBuf
     ProfRec* m_pRecordEnd;
 };
 
-struct AllocV;
-struct CharacterBufferState
-{
-    char* m_pCur;
-    DWORD unk04, unk08, unk0c;
-    AllocV* m_pSharedOwner;
-    AllocV& heap()
-    {
-        return *m_pSharedOwner;
-    }
-};
 
-CharacterBufferState* __cdecl FUN_00c85750();
-
-struct AllocV
-{
-    virtual void u0();
-    virtual void u1();
-    virtual void u2();
-    virtual void u3();
-    virtual void Free(void* p, unsigned int size);
-};
 
 struct HkArr
 {
@@ -156,23 +136,22 @@ struct HkArr
     {
         return m_cap & 0x3fffffff;
     }
-    void reserve(AllocV& a, int n);
-    void SetSizeAndGrow(AllocV& a, int n)
+    void reserve(hkMemoryAllocator& a, int n);
+    void SetSizeAndGrow(hkMemoryAllocator& a, int n)
     {
         reserve(a, n);
         m_iElementCount = n;
     }
 };
 
-extern "C" int __cdecl FUN_00c908c0(AllocV& owner, void* arr, int newCap, int stride);
 
-inline void HkArr::reserve(AllocV& a, int n)
+inline void HkArr::reserve(hkMemoryAllocator& a, int n)
 {
     if (getCapacity() < n)
     {
         int cap2 = 2 * getCapacity();
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(a, this, newSize, 0x60);
+        ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, 0x60);
     }
 }
 
@@ -223,7 +202,6 @@ struct Vehicle433
     int unk34;
     int unk38;
     Counted433* m_counted;
-    void FUN_00e39030(void*, void*);
 };
 
 static __forceinline void S00e43320_timerB(const char* name, volatile DWORD& tick)
@@ -262,12 +240,15 @@ struct Slot433
 
 struct Out433
 {
-    int m_00;
+    char* m_00;
     char* m_04;
-    int m_08;
-    int m_0c;
+    char* m_08;
+    char* m_0c;
 };
 
+// The stack scratch for the per-wheel array: 16 inline slots of 0x60 bytes.
+static const int kInlineSlotCount = 16;
+static const int kInlineSlotBytes = 0x60;
 struct S00e43320_Mgr
 {
     void* vtbl;
@@ -298,16 +279,16 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
     Out433 out;
     S00e43320_Mgr* self = this;
     int count = self->m_uiItemCount;
-    FUN_00e43060(param3, param2, &out);
+    reinterpret_cast<::FUN_00e43060 *>(this)->DoWork((char *)(param3), (intptr_t)(param2), &out.m_00);
     char* savedVal = out.m_04;
     Slot433 slot;
     HkArr& arr = slot.m_aiIndexedValues;
     arr.m_data = 0;
     arr.m_iElementCount = 0;
     arr.m_cap = (int)0x80000000;
-    CharacterBufferState* ar = FUN_00c85750();
-    char* scratch = ar->m_pCur;
-    ar->m_pCur = (char*)scratch + 0x600;
+    hkMemoryRouter* ar = &hkMemoryRouter::getInstance();
+    char* scratch = ar->m_stackCurrent;
+    ar->m_stackCurrent = scratch + kInlineSlotCount * kInlineSlotBytes;
     arr.m_data = scratch;
     arr.m_cap = (int)0x80000010;
     slot.m_saved = scratch;
@@ -316,7 +297,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
         {
             Vehicle433* veh = self->m_ppVehicles[i];
             int numWheels = veh->m_data1c->m_iWheelCount;
-            arr.SetSizeAndGrow(FUN_00c85750()->heap(), numWheels);
+            arr.SetSizeAndGrow(hkMemoryRouter::getInstance().heap(), numWheels);
             Counted433* counted = veh->m_counted;
             unsigned char j = 0;
             if (numWheels > 0)
@@ -332,20 +313,338 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
                     savedVal += counted->M13(j) * 64;
                 }
             }
-            self->m_ppVehicles[i]->FUN_00e39030(param1, arr.m_data);
+            reinterpret_cast<::VUC_StepInstance *>((self->m_ppVehicles[i]))->FUN_00e39030((*(const ::VUC_StepInfo *)(param1)), arr.m_data);
         }
     }
     S00e43320_timer("Et");
     char* saved = slot.m_saved;
     if (saved == arr.m_data)
         arr.m_iElementCount = 0;
-    FUN_00c85750()->m_pCur = saved;
+    hkMemoryRouter::getInstance().m_stackCurrent = saved;
     {
-        CharacterBufferState* ar5 = FUN_00c85750();
-        AllocV* alloc = ar5->m_pSharedOwner;
+        hkMemoryRouter* ar5 = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* alloc = ar5->m_heap;
         int cap = arr.m_cap;
         arr.m_iElementCount = 0;
         if (!(cap & (int)0x80000000))
-            alloc->Free(arr.m_data, (cap & 0x3fffffff) * 96);
+            alloc->bufFree(arr.m_data, (cap & 0x3fffffff) * 96);
     }
+}
+
+// Moved from hkpvehiclelinearcastbatchingmanager_ctx_variant.cpp (VEGAS-15).
+
+// hkpvehiclelinearcastbatchingmanager_ctx_variant.cpp: context variant of src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp: its stripped skeleton, as these functions were checked
+// against, for verified matches whose own declarations clash with the unit's current types.
+// src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
+#include "fnv/decl/D04B90World.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d05000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0104d000.h"
+
+struct E430B0Coll
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	int unk1c;
+	int unk20;
+	int unk24;
+	int unk28;
+	int unk2c;
+	int unk30;
+	int unk34;
+	int unk38;
+	int unk3c;
+	int unk40;
+	int unk44;
+	int unk48;
+	int unk4c;
+};
+struct E430B0Cmd
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	int unk1c;
+	int unk20;
+	int unk24;
+	int unk28;
+	int unk2c;
+	int unk30;
+	int unk34;
+	int unk38;
+	int unk3c;
+};
+struct E430B0Out
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	int unk1c;
+	int unk20;
+	int unk24;
+	int unk28;
+	int unk2c;
+	int unk30;
+	int unk34;
+	int unk38;
+	int unk3c;
+	int unk40;
+	int unk44;
+	int unk48;
+	int unk4c;
+	int unk50;
+	int unk54;
+	int unk58;
+	int unk5c;
+	int unk60;
+	int unk64;
+	int unk68;
+	int unk6c;
+};
+
+struct E430B0Hdr { int numTasks; int unk04; int unk08; int unk0c; };
+
+struct E430B0Mon
+{
+	void* start;
+	char* end;
+	void* capacity;
+	char* limit;
+};
+
+struct E430B0VehicleData
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	int unk1c;
+	unsigned char numWheels;
+};
+
+struct E430B0Wheel
+{
+	virtual void v00() = 0;
+	virtual void v01() = 0;
+	virtual void v02() = 0;
+	virtual void v03() = 0;
+	virtual void v04() = 0;
+	virtual void v05() = 0;
+	virtual void v06() = 0;
+	virtual void v07() = 0;
+	virtual void v08() = 0;
+	virtual void v09() = 0;
+	virtual void v0a() = 0;
+	virtual void v0b() = 0;
+	virtual void v0c() = 0;
+	virtual void v0d() = 0;
+	virtual int PerformWheelRaycast(void* vehicle, void* filter, E430B0Coll* collidable, E430B0Cmd* command, E430B0Out* output) = 0;
+};
+
+struct E430B0Vehicle
+{
+	int unk00;
+	int unk04;
+	int unk08;
+	int unk0c;
+	int unk10;
+	int unk14;
+	int unk18;
+	E430B0VehicleData* data;
+	int unk20;
+	int unk24;
+	int unk28;
+	int unk2c;
+	int unk30;
+	int unk34;
+	int unk38;
+	E430B0Wheel* wheelCollide;
+};
+
+struct E430B0World
+{
+	int unk00, unk04, unk08, unk0c;
+	int unk10, unk14, unk18, unk1c;
+	int unk20, unk24, unk28, unk2c;
+	int unk30, unk34, unk38, unk3c;
+	int unk40, unk44, unk48, unk4c;
+	int unk50, unk54, unk58, unk5c;
+	int unk60, unk64, unk68, unk6c;
+	int unk70, unk74;
+	void* collisionInput;
+	void* collisionFilter;
+};
+
+
+struct E430B0Batch
+{
+	E430B0Coll* collidable;
+	E430B0Cmd* command;
+	E430B0Out* output;
+	E430B0Hdr* headers;
+};
+
+struct E430B0BaseJob
+{
+	unsigned char subType;
+	unsigned char jobType;
+	unsigned char spuType;
+	unsigned char unk03;
+	unsigned short size;
+	short affinity;
+
+	E430B0BaseJob(unsigned char t, unsigned char st, unsigned short sz)
+	{
+		subType = st;
+		jobType = t;
+		spuType = 2;
+		size = sz;
+		affinity = -1;
+	}
+};
+
+struct E430B0QueryJob : public E430B0BaseJob
+{
+	int unk08;
+	int unk0c;
+	void* semaphore;
+	E430B0Hdr* header;
+	void* collisionInput;
+	int* jobDoneFlag;
+
+	E430B0QueryJob(unsigned char st, unsigned short sz) : E430B0BaseJob(2, st, sz)
+	{
+		jobDoneFlag = 0;
+	}
+};
+
+__declspec(align(16)) struct E430B0Job : public E430B0QueryJob
+{
+	float tolerance;
+	float maxExtraPenetration;
+	float earlyOutDistance;
+	int maxIterations;
+	int numCommandsPerTask;
+	E430B0Cmd* commandArray;
+	int numCommands;
+	int unk3c;
+
+	E430B0Job(void* input, E430B0Hdr* jobHeader, E430B0Cmd* cmds, int n, void* sem, int perTask)
+		: E430B0QueryJob(3, 0x40)
+	{
+		tolerance = 0.0f;
+		maxExtraPenetration = ::DAT_0104da4c;
+		earlyOutDistance = 0.01f;
+		collisionInput = input;
+		semaphore = sem;
+		commandArray = cmds;
+		header = jobHeader;
+		numCommandsPerTask = perTask;
+		numCommands = n;
+		maxIterations = 10;
+		header->numTasks = (n - 1) / perTask + 1;
+	}
+};
+
+struct FUN_00d05db0_class
+{
+};
+
+struct FUN_00d04b90_class
+{
+};
+
+struct E430B0Mgr
+{
+	int unk00;
+	int unk04;
+	E430B0Vehicle** vehicles;
+	int count;
+
+	int FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN_00d04b90_class* jobQueue, void* semaphore, void* buffer);
+};
+
+static inline void E430B0Timer(E430B0Mon* mon, const char* name)
+{
+	char* cur = mon->end;
+	if (cur < mon->limit)
+	{
+		*(const char**)cur = name;
+		unsigned int stamp;
+		stamp = static_cast<unsigned int>(__rdtsc());
+		*(unsigned int*)(cur + 4) = stamp;
+		mon->end = cur + 12;
+	}
+}
+
+// @fnv 0x00e430b0
+int E430B0Mgr::FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN_00d04b90_class* jobQueue, void* semaphore, void* buffer)
+{
+
+	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "TtBuildAndAddLinearCastJobs");
+
+	void* filter = world->collisionFilter;
+	int vehicleCount = count;
+	const int& countRef = vehicleCount;
+	E430B0Batch batch;
+	((FUN_00e43060*)this)->DoWork((char*)buffer, numJobs, (char**)&batch);
+
+	int total = 0;
+	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "TtBuildCommands");
+
+	E430B0Coll* collidable = batch.collidable;
+	E430B0Cmd* command = batch.command;
+	E430B0Out* output = batch.output;
+	for (int i = 0; i < countRef; ++i)
+	{
+		E430B0Vehicle* vehicle = vehicles[i];
+		int n = vehicle->wheelCollide->PerformWheelRaycast(vehicle, filter, collidable, command, output);
+		collidable += vehicle->data->numWheels;
+		total += n;
+		command += n;
+		output += n;
+	}
+
+	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "Et");
+
+	if (numJobs >= total)
+	{
+		numJobs = total;
+	}
+	int perJob = total / numJobs;
+	int rem = total % numJobs;
+
+	E430B0Cmd* cmdPtr = batch.command;
+	E430B0Hdr* header = batch.headers;
+	for (int j = 0; j < numJobs; ++j)
+	{
+		int n = perJob + (j < rem);
+		E430B0Job job(world->collisionInput, header, cmdPtr, n, semaphore, 128);
+		::FUN_00d05db0();
+		reinterpret_cast<::D04B90World *>((jobQueue))->AddObjectCopy((const ::D04B90Object *)(void *)(&job), (void *)(1));
+		cmdPtr += n;
+		header++;
+	}
+
+	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "Et");
+	return numJobs;
 }

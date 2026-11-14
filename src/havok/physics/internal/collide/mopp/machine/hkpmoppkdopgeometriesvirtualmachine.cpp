@@ -2,6 +2,17 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01091000.h"
+#include "fnv/symbols_01268000.h"
 struct __declspec(align(16)) E5CF70Solver
 {
     E5CF70Solver();
@@ -199,25 +210,8 @@ S_00e65e70* S_00e65e70::Reset()
     return this;
 }
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e65ea0_cls
 {
@@ -245,20 +239,19 @@ struct FUN_00e65ea0_cls
 // @fnv 0x00e65ea0
 void FUN_00e65ea0_cls::ClearArray()
 {
-    AudioHolder* pHolder = FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     unsigned int uFlags = m_uiObjectFlags;
     m_uCount = 0;
     if ((uFlags & 0x80000000u) == 0)
     {
         unsigned int uCount = uFlags & 0x3fffffffu;
-        pAllocator->FreeArray(m_pData, uCount * 4u);
+        pAllocator->bufFree(m_pData, uCount * 4u);
     }
     m_pData = 0;
     m_uiObjectFlags = 0x80000000u;
 }
 
-void __cdecl ResizeAudioStream(void* allocator, void* list, unsigned int stride);
 
 template <class T> inline void CopyConstruct(T* dst, int count, const T& value)
 {
@@ -267,21 +260,21 @@ template <class T> inline void CopyConstruct(T* dst, int count, const T& value)
 }
 struct ItemList
 {
-    void** data;
+    unsigned int* data;
     int count;
     unsigned int capacity;
-    int indexOf(void* item) const
+    int indexOf(unsigned int item) const
     {
         for (int i = 0; i < count; ++i)
             if (data[i] == item)
                 return i;
         return -1;
     }
-    void AddBack(void* const& value)
+    void AddBack(const unsigned int& value)
     {
-        AudioHolder* holder = FUN_00c85750();
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
         if (count == (int)(capacity & 0x3fffffff))
-            ResizeAudioStream(holder->m_pAllocator, this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(void *)(this), 4);
         CopyConstruct(data + count, 1, value);
         ++count;
     }
@@ -348,16 +341,15 @@ struct FUN_00e65080_cls
     unsigned char unkB9;
     unsigned char unkBA;
     unsigned char unkBB;
-    void* m_bc;
+    unsigned int m_bc;
     unsigned char m_c0;
 
-    void FUN_00e65040(FlagArg flag, void* item);
-    void FUN_00e65080(void* item, unsigned int unused);
+    void FUN_00e65080(unsigned int item, const unsigned int* unused);
 };
 
 // Adds item to m_34 if absent, calls FUN_00e65040 when m_b8 is clear or item matches m_bc, and sets m_c0 when m_b0 is true.
 // @fnv 0x00e65080
-void FUN_00e65080_cls::FUN_00e65080(void* item, unsigned int unused)
+void FUN_00e65080_cls::FUN_00e65080(unsigned int item, const unsigned int* unused)
 {
     if (m_34.indexOf(item) == -1)
     {
@@ -365,7 +357,7 @@ void FUN_00e65080_cls::FUN_00e65080(void* item, unsigned int unused)
         bool selected = flagB8 != 0 && item == m_bc;
         if (flagB8 == 0 || selected)
         {
-            FUN_00e65040(FlagArg(true), item);
+            reinterpret_cast<::Cls *>(this)->FUN_00e65040((*(::Flag *)&(const ::FlagArg &)(FlagArg(true))), (int)item);
             bool result = m_b0 || selected;
             m_b0 = result;
         }
@@ -375,13 +367,6 @@ void FUN_00e65080_cls::FUN_00e65080(void* item, unsigned int unused)
         m_c0 = 1;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern double const DAT_01091c00;
-extern double const DAT_01011590;
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -411,7 +396,7 @@ struct E65Input
     int unk08;
     int unk0C;
     hkVector4 m_vec;
-    int unk20;
+    const unsigned char* unk20;
 };
 struct E65Key
 {
@@ -449,42 +434,8 @@ struct E65Solver
     int unkAC;
     E65Key m_key;
     hkBool m_flag;
-    void FUN_00e65140(E65Out* out, int v);
     void FUN_00e65d90(E65Input* in, E65Key* key, int param);
 };
-// @fnv 0x00e65d90
-void E65Solver::FUN_00e65d90(E65Input* apInput, E65Key* __restrict key, int aiDataBlock)
-{
-    m_kIntegerDataBlock = aiDataBlock;
-    E65Out out;
-    out.unk00 = 0;
-    out.unk04 = 0;
-    out.unk08 = 0;
-    out.unk0C = 0;
-    out.unk10 = 0;
-    m_invMass = 1.0f / apInput->m_vec.m_vComponents.m128_f32[3];
-    m_vec.m_vComponents = apInput->m_vec.m_vComponents;
-    m_flag = false;
-    float t = (float)(m_invMass * DAT_01091c00);
-    E65Key* __restrict pKey = &m_key;
-    pKey->unk00 = *(volatile int*)&key->unk00;
-    pKey->unk04 = key->unk04;
-    *(volatile int*)&pKey->unk08 = key->unk08;
-    float lo = (float)(-t * DAT_01011590);
-    float hi = (float)(t * DAT_01011590);
-    pKey->unk0C = *(volatile int*)&key->unk0C;
-    m_uiEdgeIndex = -1;
-    unkAC = 0;
-    for (int i = 0; i < 13; i++)
-    {
-        m_ranges[i].m_kMinimumCorner = lo;
-        m_ranges[i].m_kMaximumCorner = hi;
-    }
-    int v = *(volatile int*)&apInput->unk20;
-    out.unk14 = 0;
-    FUN_00e65140(&out, v);
-}
-
 struct DecodedParts
 {
     unsigned high, last, mid;
@@ -542,11 +493,8 @@ struct MoppErrorStream
 
     void* writer;
 
-    void FUN_00cb1600(char*, int);
 
-    void FUN_00cc01c0(const char*);
 
-    void FUN_00cc00e0();
 };
 
 struct MoppError
@@ -561,7 +509,6 @@ struct MoppError
     virtual int message(int, int, const char*, const char*, int);
 };
 
-extern int DAT_01268360;
 
 struct hkpMoppFindAllVirtualMachine
 {
@@ -802,18 +749,18 @@ void hkpMoppFindAllVirtualMachine::FUN_00e65ee0(const MoppState* state, const un
 
             MoppErrorStream errorStream;
 
-            errorStream.FUN_00cb1600(reinterpret_cast<char*>(errorBuffer), sizeof(errorBuffer));
+            new ((void *)&(errorStream)) ::FUN_00cb1600(reinterpret_cast<char*>(errorBuffer), sizeof(errorBuffer));
 
-            errorStream.FUN_00cc01c0(
+            reinterpret_cast<::SinkOwner *>(&(errorStream))->FUN_00cc01c0(
                 "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
 
-            if (reinterpret_cast<MoppError*>(DAT_01268360)
+            if (reinterpret_cast<MoppError*>((*reinterpret_cast<int *>(&::DAT_01268360)))
                     ->message(3, 0x1298fedd, reinterpret_cast<char*>(errorBuffer),
                               ".\\Collide\\Mopp\\Machine\\hkpMoppFindAllVirtualMachine.cpp", 113))
 
                 __debugbreak();
 
-            errorStream.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(errorStream))->FUN_00cc00e0::~FUN_00cc00e0();
 
             continue;
         }
@@ -892,11 +839,11 @@ append:
 
     MoppResults* output = results;
 
-    AudioHolder* memory = FUN_00c85750();
+    hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
 
     if (output->size == (output->capacityAndFlags & 0x3fffffff))
 
-        ResizeAudioStream(memory->m_pAllocator, output, sizeof(unsigned int));
+        ::ResizeAudioStream((::AudioAllocator *)(memory->m_heap), (::AudioStream *)(output), sizeof(unsigned int));
 
     unsigned int* dst = output->data + output->size;
     output->size++;
@@ -1025,10 +972,40 @@ struct S_00e65140_VM
     int unkbc;        // bc
     char m_abort;     // c0
 
-    void FUN_00e65040(FlagArg isLeaf, int key);
-    void FUN_00e65080(int key, const unsigned int* properties);
     void FUN_00e65140(const S_00e65140_Query* query, const unsigned char* PC);
 };
+// @fnv 0x00e65d90
+void E65Solver::FUN_00e65d90(E65Input* apInput, E65Key* __restrict key, int aiDataBlock)
+{
+    m_kIntegerDataBlock = aiDataBlock;
+    E65Out out;
+    out.unk00 = 0;
+    out.unk04 = 0;
+    out.unk08 = 0;
+    out.unk0C = 0;
+    out.unk10 = 0;
+    m_invMass = 1.0f / apInput->m_vec.m_vComponents[3];
+    m_vec.m_vComponents = apInput->m_vec.m_vComponents;
+    m_flag = false;
+    float t = (float)(m_invMass * DAT_01091c00);
+    E65Key* __restrict pKey = &m_key;
+    pKey->unk00 = *(volatile int*)&key->unk00;
+    pKey->unk04 = key->unk04;
+    *(volatile int*)&pKey->unk08 = key->unk08;
+    float lo = (float)(-t * ::DAT_01011590);
+    float hi = (float)(t * ::DAT_01011590);
+    pKey->unk0C = *(volatile int*)&key->unk0C;
+    m_uiEdgeIndex = -1;
+    unkAC = 0;
+    for (int i = 0; i < 13; i++)
+    {
+        m_ranges[i].m_kMinimumCorner = lo;
+        m_ranges[i].m_kMaximumCorner = hi;
+    }
+    const unsigned char* v = *(const unsigned char* volatile*)&apInput->unk20;
+    out.unk14 = 0;
+    reinterpret_cast<::S_00e65140_VM *>(this)->FUN_00e65140((const ::S_00e65140_Query *)(::E65Out *)(&out), v);
+}
 
 // Executes a Mopp byte-code stream, updating the DOP bounds and recording primitive hits via FUN_00e65080.
 // @fnv 0x00e65140
@@ -1334,7 +1311,7 @@ void S_00e65140_VM::FUN_00e65140(const S_00e65140_Query* query, const unsigned c
             if (m_iNumNodes == 0 || m_depth < m_iNumNodes)
             {
                 added = true;
-                FUN_00e65040(FlagArg(false), -1);
+                reinterpret_cast<::Cls *>(this)->FUN_00e65040((*(::Flag *)&(const ::FlagArg &)(FlagArg(false))), -1);
             }
             else
             {
@@ -1364,7 +1341,7 @@ void S_00e65140_VM::FUN_00e65140(const S_00e65140_Query* query, const unsigned c
             if (m_iNumNodes == 0 || m_depth < m_iNumNodes)
             {
                 added = true;
-                FUN_00e65040(FlagArg(false), -1);
+                reinterpret_cast<::Cls *>(this)->FUN_00e65040((*(::Flag *)&(const ::FlagArg &)(FlagArg(false))), -1);
             }
             else
             {
@@ -1438,22 +1415,22 @@ void S_00e65140_VM::FUN_00e65140(const S_00e65140_Query* query, const unsigned c
             m_primitiveId = command - 0x30;
         AddHit:
             m_primitiveId += query->m_uiPropertyCount;
-            FUN_00e65080(m_primitiveId, query->m_kProperties);
+            reinterpret_cast<::FUN_00e65080_cls *>(this)->FUN_00e65080((unsigned int)m_primitiveId, query->m_kProperties);
             m_primitiveId = -1;
             return;
         default: {
             unsigned int assertBuf[128];
             MoppErrorStream ostr;
-            ostr.FUN_00cb1600((char*)assertBuf, 0x200);
-            ostr.FUN_00cc01c0(
+            new ((void *)&(ostr)) ::FUN_00cb1600((char*)assertBuf, 0x200);
+            reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(
                 "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
-            if (reinterpret_cast<MoppError*>(DAT_01268360)
+            if (reinterpret_cast<MoppError*>((*reinterpret_cast<int *>(&::DAT_01268360)))
                     ->message(3, 0x1298fedd, (const char*)assertBuf,
                               ".\\Collide\\Mopp\\Machine\\hkpMoppKDopGeometriesVirtualMachine.cpp", 0x251))
             {
                 __debugbreak();
             }
-            ostr.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
             break;
         }
         }

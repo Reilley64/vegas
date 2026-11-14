@@ -2,12 +2,16 @@
 #ifndef ENCHANTMENTITEM_PACKET_H
 #define ENCHANTMENTITEM_PACKET_H
 
+#include "fnv/magic/flag_byte.h"
+
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/fnv_00406340__EffectItemList.h"
 class EffectItemList
 {
   public:
     unsigned int* vtable;
-    unsigned char data[12];
-    void RemoveAllEffectItems();
+    char unk04;
+    unsigned char pad05[0xb];
 };
 class SpellItem
 {
@@ -26,7 +30,6 @@ class TESForm
   public:
     unsigned int* formVtable;
     unsigned char formData[0x14];
-    void SetFormType(ENUM_FORM_ID);
 };
 class MagicItemForm : public TESForm
 {
@@ -47,7 +50,7 @@ class EnchantmentItem : public MagicItemForm
     unsigned int type;
     unsigned int charge;
     unsigned int cost;
-    unsigned char flags;
+    fnv::magic::FlagByte flags;
     void ResetFormData();
 };
 #endif

@@ -5,13 +5,13 @@
 #include "NiObject.h"
 #include "NiFixedString.h"
 
-class NiStream;
-class NiPSysData;
-class NiParticleSystem;
-class CloningProcess;
+struct NiStream;
+struct NiPSysData;
+struct NiParticleSystem;
+struct CloningProcess;
 
-#pragma pack(push, 4)
-class NiPSysModifier : public NiObject
+struct CloningProcess;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream& kStream);
@@ -35,6 +35,7 @@ class NiPSysModifier : public NiObject
     unsigned int m_uiUpdateOrder;  // +0xc
     NiParticleSystem* m_pkTarget;  // +0x10
     bool m_bModifierActive;        // +0x14
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
-#pragma pack(pop)
 #endif

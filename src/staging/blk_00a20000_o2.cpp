@@ -1,7 +1,59 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*,
+// the copy constructor, the destructor, operator->, operator==, the copy
+// assignment and operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "NiAnimationKeyTables.h"
+#include <cstdint>
+#include <cstddef>
+#include <windows.h>
+#include <new>
+#include <cstdlib>
+#include <cstring>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a312d0.h"
+#include "fnv/decl/FUN_00a3e9a0_cls.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/FUN_00a6db50_V.h"
+#include "fnv/decl/FUN_00a6e4a0_shell.h"
+#include "fnv/decl/Holder_00a26eb0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/RgbaColor.h"
+#include "fnv/decl/S_00a30880_Foo.h"
+#include "fnv/decl/S_00a370b0_Class.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a27000.h"
+#include "fnv/symbols_00a28000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a2a000.h"
+#include "fnv/symbols_00a2b000.h"
+#include "fnv/symbols_00a2c000.h"
+#include "fnv/symbols_00a2d000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a42000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_00a92000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_01034000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
 
 // @fnv 0x00a26f80
@@ -14,15 +66,13 @@ void FUN_00a26f80(float* afDest, const float* afSrc)
 }
 
 extern "C" int _NiPoint3_ZERO;
-extern "C" unsigned int DAT_011f4270;
-extern "C" unsigned int DAT_011f4274;
 
 // @fnv 0x00a27470
 void __cdecl FUN_00a27470(int a, int b, int c, int* pOut)
 {
     pOut[0] = _NiPoint3_ZERO;
-    pOut[1] = DAT_011f4270;
-    pOut[2] = DAT_011f4274;
+    pOut[1] = (*reinterpret_cast<unsigned int *>(&::_DAT_011f4270));
+    pOut[2] = (*reinterpret_cast<unsigned int *>(&::_DAT_011f4274));
 }
 
 extern "C" void __cdecl ReadBlockEntries(void*, void*);
@@ -36,28 +86,25 @@ void __cdecl FUN_00a2a0e0(void* a, void* b, unsigned int c)
 }
 
 struct MemoryManager {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 
 // @fnv 0x00a2a600
 void FUN_00a2a600(void* p)
 {
     if (p)
-        g_memoryManager.Deallocate((char*)p - 4);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)p - sizeof(std::size_t));
 }
 
-extern "C" void __cdecl SaveKey(int, int);
 
 // Calls SaveKey(a, b) count times, advancing b by 0x4c each iteration.
 // @fnv 0x00a2bb60
-void __cdecl FUN_00a2bb60(int aiArg, int aiBase, unsigned int count)
+void __cdecl FUN_00a2bb60(intptr_t aiArg, intptr_t aiBase, unsigned int count)
 {
     if (count > 0)
     {
         for (unsigned int i = 0; i < count; ++i)
         {
-            SaveKey(aiArg, aiBase);
+            ::SaveKey((*(::BA2BA10Stream *)(aiArg)), (::BA2BA10Key *)(aiBase));
             aiBase += 0x4c;
         }
     }
@@ -82,32 +129,32 @@ void CopyFloat2(float* dst, const float* src)
     dst[1] = src[1];
 }
 
-extern int DAT_011f49e0;
-void __stdcall FUN_00a312d0(int, int, int, int, int);
 // @fnv 0x00a31680
 void __cdecl FUN_00a31680()
 {
-    FUN_00a312d0((int)&DAT_011f49e0, (int)&DAT_011f49e0, (int)&DAT_011f49e0, (int)&DAT_011f49e0, (int)&DAT_011f49e0);
+    new ((void *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))) struct ::FUN_00a312d0((*(const ::FixedStr *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), *(const ::FixedStr *)nullptr);
 }
 
-extern "C" float __cdecl GetAccumulatedValue();
 
 struct FUN_00a3ea40_cls {
+    char pad00[0xc];
+    unsigned short unk0c;
+    char pad0e[0x16];
+    float unk24;
     void UpdateIfFlagged();
 };
 
 // @fnv 0x00a3ea40
 void FUN_00a3ea40_cls::UpdateIfFlagged()
 {
-    if ((*(unsigned short*)((char*)this + 0xc) & 1) != 0)
+    if ((this->unk0c & 1) != 0)
     {
-        *(float*)((char*)this + 0x24) = GetAccumulatedValue();
-        *(unsigned short*)((char*)this + 0xc) &= 0xfffe;
+        this->unk24 = reinterpret_cast<::FUN_00a3e9a0_cls *>(this)->GetAccumulatedValue();
+        this->unk0c &= 0xfffe;
     }
 }
 
 struct P03MM { void* Allocate(unsigned int); };
-void* _memmove(void* d, const void* s, unsigned int n);
 struct Vec3S { float x, y, z; };
 struct Vec3R : Vec3S { Vec3R() {} };
 struct TCBKeyS {
@@ -117,8 +164,6 @@ struct TCBKeyS {
     Vec3S out;
     float extra[6];
     ~TCBKeyS() {}
-    static void* operator new[](unsigned int n) { return ((P03MM*)&g_memoryManager)->Allocate(n); }
-    static void operator delete[](void* p, unsigned int) { g_memoryManager.Deallocate(p); }
 };
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 Vec3R GetKeyPosAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
@@ -132,19 +177,19 @@ bool FUN_00a282a0(float afTime, TCBKeyS** pKeys, unsigned int* pCount)
     unsigned int idx;
     if (FindKeyIndex(afTime, old, *pCount, &idx, sizeof(TCBKeyS))) {
     TCBKeyS* keys = new TCBKeyS[*pCount + 1];
-    _memmove(keys, old, idx * sizeof(TCBKeyS));
+    std::memmove(keys, old, idx * sizeof(TCBKeyS));
     if (*pCount > idx)
-        _memmove(&keys[idx + 1], &old[idx], (*pCount - idx) * sizeof(TCBKeyS));
+        std::memmove(&keys[idx + 1], &old[idx], (*pCount - idx) * sizeof(TCBKeyS));
     Vec3R v = GetKeyPosAtTime(afTime, old, 2, *pCount, sizeof(TCBKeyS));
     TCBKeyS* cur = &keys[idx];
     cur->time = afTime;
     cur->pos = v;
     *(unsigned int*)&cur->in.x = (unsigned int)_NiPoint3_ZERO;
-    *(unsigned int*)&cur->in.y = DAT_011f4270;
-    *(unsigned int*)&cur->in.z = DAT_011f4274;
+    *(unsigned int*)&cur->in.y = (*reinterpret_cast<unsigned int *>(&::_DAT_011f4270));
+    *(unsigned int*)&cur->in.z = (*reinterpret_cast<unsigned int *>(&::_DAT_011f4274));
     *(unsigned int*)&cur->out.x = (unsigned int)_NiPoint3_ZERO;
-    *(unsigned int*)&cur->out.y = DAT_011f4270;
-    *(unsigned int*)&cur->out.z = DAT_011f4274;
+    *(unsigned int*)&cur->out.y = (*reinterpret_cast<unsigned int *>(&::_DAT_011f4270));
+    *(unsigned int*)&cur->out.z = (*reinterpret_cast<unsigned int *>(&::_DAT_011f4274));
     if (idx != 0 && idx != *pCount) {
         TCBKeyS* prev = &keys[idx - 1];
         TCBKeyS* next = &keys[idx + 1];
@@ -166,7 +211,7 @@ bool FUN_00a282a0(float afTime, TCBKeyS** pKeys, unsigned int* pCount)
     }
     ++*pCount;
     if (old)
-        g_memoryManager.Deallocate((int*)old - 1);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((std::size_t*)old - 1);
     *pKeys = keys;
     ComputeTCBKeyTangents(keys, *pCount, sizeof(TCBKeyS));
     return true;
@@ -181,12 +226,13 @@ void StoreGlobalByte(int a, int b, int c, unsigned char* pDest)
     *pDest = DAT_011f367d;
 }
 
-struct Inner_00a6db50 { void Set(float, float, float, float); };
+struct Inner_00a6db50 {    void Set(float, float, float, float);
+};
 // Calls Set on the object with each element of c multiplied by b, then returns the object.
 // @fnv 0x00a2bc90
 Inner_00a6db50* ScaleAndApply(Inner_00a6db50* apObject, float afScale, const float* afValues)
 {
-    apObject->Set(afScale * afValues[0], afScale * afValues[1], afScale * afValues[2], afScale * afValues[3]);
+    reinterpret_cast<::FUN_00a6db50_V *>((apObject))->Set(afScale * afValues[0], afScale * afValues[1], afScale * afValues[2], afScale * afValues[3]);
     return apObject;
 }
 
@@ -204,7 +250,9 @@ void CopyFloat7(float* dst, const float* src)
 }
 
 struct NiTMapBaseStub { void RemoveAll(); };
-struct FUN_00a30880_T { void ReleaseItems(); };
+struct FUN_00a30880_T {
+    char pad00[0x40];
+    unsigned int unk40;  };
 struct HolderBase { void FUN_00a2e620(); };
 struct NiTMapBase_StandIn {
     char pad[0x34];
@@ -214,6 +262,8 @@ struct NiTMapBase_StandIn {
     NiTMapBaseStub map1;
     unsigned short usSize2;
     NiTMapBaseStub map2;
+    char pad41[0xf];
+    NiTMapBaseStub unk50;
     void ClearEntries();
 };
 // Iterates the pp1 array up to usSize2, calls ReleaseItems and zeroes offset 0x40 on each entry, then calls FUN_00a2e620 and RemoveAll on the embedded holders.
@@ -225,14 +275,14 @@ void NiTMapBase_StandIn::ClearEntries()
         do {
             FUN_00a30880_T* t = (FUN_00a30880_T*)pp1[i];
             if (t) {
-                t->ReleaseItems();
-                *(unsigned int*)((char*)t + 0x40) = 0;
+                reinterpret_cast<::S_00a30880_Foo *>((t))->ReleaseItems();
+                t->unk40 = 0;
             }
             i++;
         } while (i < usSize2);
     }
-    ((HolderBase*)((char*)this + 0x34))->FUN_00a2e620();
-    ((NiTMapBaseStub*)((char*)this + 0x50))->RemoveAll();
+    this->h1.FUN_00a2e620();
+    reinterpret_cast<::S_00b601a0_Map *>(&this->unk50)->FUN_00b601a0();
 }
 
 // @fnv 0x00a2ae10
@@ -264,53 +314,46 @@ void CopyFloatBlock(float* afDest, const float* afSource)
 struct FUN_00a29a70 : public Inner_00a6db50 {
     float a, b, c, d;
     float e, f, g;
-    char h, i, j;
+    float h;
     float k, l, m;
-    float n, o, p;
-    float q, r, s;
+    char n, i, j;
+    float o, p, q;
+    float r, s, t;
     FUN_00a29a70();
 };
 // @fnv 0x00a29a70
 FUN_00a29a70::FUN_00a29a70()
 {
-    ((Inner_00a6db50*)((char*)this + 4))->Set(0.0f, 0.0f, 0.0f, 0.0f);
-    *(unsigned int*)((char*)this + 0x14) = 0;
-    *(unsigned int*)((char*)this + 0x18) = 0;
-    *(unsigned int*)((char*)this + 0x1c) = 0;
-    *(unsigned int*)((char*)this + 0x30) = 0;
-    *(unsigned int*)((char*)this + 0x34) = 0;
-    *(unsigned int*)((char*)this + 0x38) = 0;
-    *(unsigned int*)((char*)this + 0x20) = 0;
-    *(unsigned int*)((char*)this + 0x24) = 0;
-    *(unsigned int*)((char*)this + 0x28) = 0;
-    *(unsigned int*)((char*)this + 0x3c) = 0;
-    *(unsigned int*)((char*)this + 0x40) = 0;
-    *(unsigned int*)((char*)this + 0x44) = 0;
-    *(char*)((char*)this + 0x2c) = 0;
-    *(char*)((char*)this + 0x2d) = 0;
-    *(char*)((char*)this + 0x2e) = 0;
+    reinterpret_cast<::FUN_00a6db50_V *>((((Inner_00a6db50*)&this->b)))->Set(0.0f, 0.0f, 0.0f, 0.0f);
+    *(unsigned int*)&this->f = 0;
+    *(unsigned int*)&this->g = 0;
+    *(unsigned int*)&this->h = 0;
+    *(unsigned int*)&this->o = 0;
+    *(unsigned int*)&this->p = 0;
+    *(unsigned int*)&this->q = 0;
+    *(unsigned int*)&this->k = 0;
+    *(unsigned int*)&this->l = 0;
+    *(unsigned int*)&this->m = 0;
+    *(unsigned int*)&this->r = 0;
+    *(unsigned int*)&this->s = 0;
+    *(unsigned int*)&this->t = 0;
+    *(char*)&this->n = 0;
+    this->i = 0;
+    this->j = 0;
 }
 
-void __cdecl IsLightEqual();
-void __cdecl FUN_00a2af70();
-void __cdecl ComputeInterpolatedPosition();
-void __cdecl FUN_00a2b130();
-void __cdecl FUN_00a2b410();
-void __cdecl FUN_00a2b6d0();
-void __cdecl InsertBezPosKey();
 
 // Stores seven function pointers into seven global tables at the slot computed from a and b.
 // @fnv 0x00a2baa0
 void __cdecl FUN_00a2baa0(int a, int b)
 {
-    unsigned int idx = (b + a * 6) * 4;
-    *(void**)(0x011f3d20 + idx) = (void*)FUN_00a2b6d0;
-    *(void**)(0x011f3c90 + idx) = (void*)FUN_00a2af70;
-    *(void**)(0x011f3c00 + idx) = (void*)ComputeInterpolatedPosition;
-    *(void**)(0x011f3b70 + idx) = (void*)FUN_00a2b130;
-    *(void**)(0x011f3ae0 + idx) = (void*)IsLightEqual;
-    *(void**)(0x011f3780 + idx) = (void*)FUN_00a2b410;
-    *(void**)(0x011f3810 + idx) = (void*)InsertBezPosKey;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(a, b), ((void (&)())::FUN_00a2b6d0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(a, b), ((void (&)())::FUN_00a2af70));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(a, b), ((void (&)())::ComputeInterpolatedPosition));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(a, b), ((void (&)())::FUN_00a2b130));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(a, b), ((void (&)())::IsLightEqual));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(a, b), ((void (&)())::FUN_00a2b410));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(a, b), ((void (&)())::InsertBezPosKey));
 }
 
 struct FUN_00a2ceb0_cls {
@@ -326,7 +369,15 @@ FUN_00a2ceb0_cls& FUN_00a2ceb0_cls::Clear() {
 }
 
 extern unsigned char DAT_01096968;
-typedef int (__stdcall *FnInterlockedDecrement)(void*);
+class NiRefObject {
+public:
+    virtual ~NiRefObject() throw();
+    unsigned int m_uiRefCount;
+    void IncRefCount() throw();
+    void DecRefCount() throw();
+};
+
+typedef int (*FnInterlockedDecrement)(void*);
 extern FnInterlockedDecrement DAT_00fdf1c4;
 struct FUN_00a31260_StandIn {
     void* p0;
@@ -344,14 +395,14 @@ void FUN_00a31260_StandIn::FUN_00a31260()
     void* obj;
     obj = p0;
     if (obj) {
-        if (pfnDecrement((char*)obj + 4) == 0)
-            ((void (__thiscall*)(void*))(*(void***)obj)[1])(obj);
+        if (pfnDecrement(&((NiRefObject*)obj)->m_uiRefCount) == 0)
+            ((void (*)(void*))(*(void***)obj)[1])(obj);
         p0 = 0;
     }
     obj = p1;
     if (obj) {
-        if (pfnDecrement((char*)obj + 4) == 0)
-            ((void (__thiscall*)(void*))(*(void***)obj)[1])(obj);
+        if (pfnDecrement(&((NiRefObject*)obj)->m_uiRefCount) == 0)
+            ((void (*)(void*))(*(void***)obj)[1])(obj);
         p1 = 0;
     }
     p2 = 0;
@@ -374,79 +425,60 @@ void FUN_00a30700_T::ReleaseRefs()
     p = p1;
     if (p)
     {
-        if (fn((char*)p + 4) == 0)
+        if (fn(&((NiRefObject*)p)->m_uiRefCount) == 0)
         {
             void** vt = *(void***)p;
-            ((void (__thiscall*)(void*))vt[1])(p);
+            ((void (*)(void*))vt[1])(p);
         }
     }
 
     p = p0;
     if (p)
     {
-        if (fn((char*)p + 4) == 0)
+        if (fn(&((NiRefObject*)p)->m_uiRefCount) == 0)
         {
             void** vt = *(void***)p;
-            ((void (__thiscall*)(void*))vt[1])(p);
+            ((void (*)(void*))vt[1])(p);
         }
     }
 }
 
 struct NiStream {
-    void* GetLoadedObject();
 };
 struct Base_00a26eb0 {
-    void AccumulateAnimSink(NiStream&);
 };
+struct NiStream;
 struct NiColor {
     void LoadBinary(NiStream&);
+public:
+    void SaveBinary(::NiStream &);
 };
 struct FUN_00a27430_T : Base_00a26eb0 {
     char pad[4];
     NiColor m_kDiffuseColor;
     void FUN_00a27430(NiStream& stream);
 };
-// @fnv 0x00a27430
-void FUN_00a27430_T::FUN_00a27430(NiStream& stream)
-{
-    Base_00a26eb0::AccumulateAnimSink(stream);
-    m_kDiffuseColor.LoadBinary(stream);
-}
-
-void BezKeyEqual();
-void EvaluateCubicKey();
-void FUN_00a27d60();
 void FUN_00a27e40();
-void FUN_00a28060();
 
-extern int DAT_011f3d20;
-extern int DAT_011f3c90;
-extern int DAT_011f3c00;
-extern int DAT_011f3b70;
-extern int DAT_011f3ae0;
-extern int DAT_011f3780;
-extern int DAT_011f3810;
 
 // @fnv 0x00a28620
 void FUN_00a28620(int param_1, int param_2)
 {
-    int iVar1 = (param_2 + param_1 * 6) * 4;
-    *(void**)((char*)&DAT_011f3d20 + iVar1) = (void*)FUN_00a28060;
-    *(void**)((char*)&DAT_011f3c90 + iVar1) = (void*)EvaluateCubicKey;
-    *(void**)((char*)&DAT_011f3c00 + iVar1) = (void*)FUN_00a27d60;
-    *(void**)((char*)&DAT_011f3b70 + iVar1) = (void*)FUN_00a27e40;
-    *(void**)((char*)&DAT_011f3ae0 + iVar1) = (void*)BezKeyEqual;
-    *(void**)((char*)&DAT_011f3780 + iVar1) = (void*)ComputeTCBKeyTangents;
-    *(void**)((char*)&DAT_011f3810 + iVar1) = (void*)FUN_00a282a0;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(param_1, param_2), ((void (&)())::FUN_00a28060));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(param_1, param_2), EvaluateCubicKey);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(param_1, param_2), FUN_00a27d60);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(param_1, param_2), FUN_00a27e40);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(param_1, param_2), BezKeyEqual);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(param_1, param_2), ComputeTCBKeyTangents);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(param_1, param_2), FUN_00a282a0);
 }
 
-struct Helper { unsigned int a; char b; };
-bool AreFloatsEqual(const Helper* x, const Helper* y);
+struct Helper { uintptr_t a; char b; };
 // Returns false if AreFloatsEqual fails for the two Helpers, otherwise returns whether their b fields are equal.
 // @fnv 0x00a291a0
 bool FUN_00a291a0(const Helper* apFirst, const Helper* apSecond)
 {
-    if (!AreFloatsEqual(apFirst, apSecond)) return false;
+    if (!((bool)(::AreFloatsEqual((const float *)(apFirst), (const float *)(apSecond))))) return false;
     return apFirst->b == apSecond->b;
 }
 
@@ -456,7 +488,6 @@ struct Base_00a26eb0 {
     void AccumulateAnimSink(NiStream&);
 };
 struct RgbaColor {
-    void LoadBinary(NiStream&);
 };
 struct FUN_00a29640_T : Base_00a26eb0 {
     char pad[4];
@@ -467,13 +498,17 @@ struct FUN_00a29640_T : Base_00a26eb0 {
 void FUN_00a29640_T::FUN_00a29640(NiStream& stream)
 {
     AccumulateAnimSink(stream);
-    m_kDiffuseColor.LoadBinary(stream);
+    reinterpret_cast<::RgbaColor *>(&(m_kDiffuseColor))->LoadBinary((::NiStream &)(stream));
 }
 }  // namespace fnv_00a29640
 
 struct SStream;
 struct SObj;
-void __cdecl WriteFloatToStream(SStream*, SObj*);
+
+struct FUN_00a2d230_Key
+{
+    char data[0x8];
+};
 
 // Calls WriteFloatToStream for each of c SObj entries starting at b, advancing 8 bytes per entry.
 // @fnv 0x00a2d230
@@ -484,38 +519,26 @@ void __cdecl FUN_00a2d230(SStream* pStream, SObj* b, unsigned int c)
         unsigned int n = c;
         do {
             WriteFloatToStream(pStream, d);
-            d = (SObj*)((char*)d + 8);
+            d = (SObj*)((FUN_00a2d230_Key*)d + 1);
         } while (--n);
     }
 }
 
 namespace fnv_00a2d5b0 {
 void __cdecl FUN_00a291e0();
-void __cdecl SelectKeyVec();
-void __cdecl FUN_00a2d420();
-void __cdecl FUN_00a2a7e0();
-void __cdecl FUN_00a2d4a0();
 void __cdecl FUN_00a29680();
-extern unsigned int DAT_011f3d20;
-extern unsigned int DAT_011f3c90;
-extern unsigned int DAT_011f3c00;
-extern unsigned int DAT_011f3b70;
-extern unsigned int DAT_011f3ae0;
-extern unsigned int DAT_011f3780;
-extern unsigned int DAT_011f3810;
 
-// Fills the seven function-pointer tables at index (param_2 + param_1 * 6) * 4 with the given handler addresses.
+// Fills slot Index(param_1, param_2) of seven key function tables with the given handler addresses.
 // @fnv 0x00a2d5b0
 void FUN_00a2d5b0(int param_1, int param_2)
 {
-    int iVar1 = (param_2 + param_1 * 6) * 4;
-    *(void**)((char*)&DAT_011f3d20 + iVar1) = (void*)&FUN_00a291e0;
-    *(void**)((char*)&DAT_011f3c90 + iVar1) = (void*)&SelectKeyVec;
-    *(void**)((char*)&DAT_011f3c00 + iVar1) = (void*)&FUN_00a2d420;
-    *(void**)((char*)&DAT_011f3b70 + iVar1) = (void*)&FUN_00a27470;
-    *(void**)((char*)&DAT_011f3ae0 + iVar1) = (void*)&FUN_00a2a7e0;
-    *(void**)((char*)&DAT_011f3780 + iVar1) = (void*)&FUN_00a29680;
-    *(void**)((char*)&DAT_011f3810 + iVar1) = (void*)&FUN_00a2d4a0;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(param_1, param_2), &FUN_00a291e0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(param_1, param_2), &((void (&)())::SelectKeyVec));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(param_1, param_2), &((void (&)())::FUN_00a2d420));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(param_1, param_2), &FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(param_1, param_2), &((void (&)())::FUN_00a2a7e0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(param_1, param_2), &FUN_00a29680);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(param_1, param_2), &((void (&)())::fnv_00a2d4a0::FUN_00a2d4a0));
 }
 }  // namespace fnv_00a2d5b0
 
@@ -524,9 +547,6 @@ struct NiTFixedStringMap_NiAVObject___ {
     void RemoveAll();
 };
 
-extern int DAT_01096114;
-extern void __cdecl _NiFree(void*);
-extern MemoryManager _g_memoryManager;
 
 struct FUN_00a2e790_StandIn : public NiTFixedStringMap_NiAVObject___ {
     void* p;
@@ -538,9 +558,9 @@ void* FUN_00a2e790_StandIn::DestroyFixedStringMap(unsigned char deleting)
 {
     *(void**)this = (void*)&DAT_01096114;
     RemoveAll();
-    _NiFree(p);
+    ::FUN_00aa10f0(p);
     if (deleting & 1)
-        _g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -553,7 +573,7 @@ struct FUN_00a39120_cls {
 // @fnv 0x00a39120
 Inner_00a6db50* FUN_00a39120_cls::FUN_00a39120(Inner_00a6db50* out, float afScale)
 {
-    out->Set(x * afScale, y * afScale, z * afScale, w * afScale);
+    reinterpret_cast<::FUN_00a6db50_V *>((out))->Set(x * afScale, y * afScale, z * afScale, w * afScale);
     return out;
 }
 
@@ -563,25 +583,24 @@ struct FloatRecord_b5532
     float m_04;
 };
 
-bool AreFloatsEqual(FloatRecord_b5532* a, FloatRecord_b5532* b);
 
 // Returns true if AreFloatsEqual(a, b) succeeds and the two records' m_04 floats are equal.
 // @fnv 0x00a26b00
 bool AreRecordsEqual(FloatRecord_b5532* apRecordA, FloatRecord_b5532* apRecordB)
 {
-    if (!AreFloatsEqual(apRecordA, apRecordB))
+    if (!((bool)(::AreFloatsEqual((const float *)(apRecordA), (const float *)(apRecordB)))))
     {
         return false;
     }
     return apRecordA->m_04 == apRecordB->m_04;
 }
 
-typedef void (__thiscall *Fn_00a26fa0_cb)(void *);
+typedef void (*Fn_00a26fa0_cb)(void *);
 
 // Walks a strided array backwards: the callback is invoked with
 // pBase + step*(count-1) down to pBase, one element per step.
 // @fnv 0x00a26fa0
-void __stdcall ApplyCallbackBackwards(char *pBase, int iStride, int nCount, Fn_00a26fa0_cb pFn)
+void ApplyCallbackBackwards(char *pBase, int iStride, int nCount, Fn_00a26fa0_cb pFn)
 {
     pBase += iStride * nCount;
     while (--nCount >= 0) {
@@ -597,14 +616,6 @@ struct TempArrayElement
     void* c;
     void* d;
     ~TempArrayElement() {}
-    static void* operator new[](unsigned int size)
-    {
-        return ((P03MM*)&g_memoryManager)->Allocate(size);
-    }
-    static void operator delete[](void* p, unsigned int)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 };
 
 // Allocates an array of TempArrayElement of the given count using the memory manager's operator new[].
@@ -614,9 +625,7 @@ TempArrayElement* __cdecl AllocateTempArray(unsigned int count)
     return new TempArrayElement[count];
 }
 
-extern MemoryManager g_memoryManager;
 
-void* _memmove(void* d, const void* s, unsigned int n);
 struct TCBKeyS;
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 
@@ -626,8 +635,6 @@ struct BezFloatKey {
     float inTan;
     float outTan;
     ~BezFloatKey() {}
-    static void* operator new[](unsigned int n) { return ((P03MM*)&g_memoryManager)->Allocate(n); }
-    static void operator delete[](void* p, unsigned int) { g_memoryManager.Deallocate(p); }
 };
 
 float GenInterpFloat(float t, BezFloatKey* keys, int type, unsigned int count, unsigned int stride);
@@ -643,9 +650,9 @@ bool FUN_00a27080(float fTime, BezFloatKey*& pkKeys, unsigned int& uiNumKeys)
     {
 
     BezFloatKey* pkNewKeys = new BezFloatKey[uiNumKeys + 1];
-    _memmove(pkNewKeys, pkOld, uiInsertIndex * 16);
+    std::memmove(pkNewKeys, pkOld, uiInsertIndex * 16);
     if (uiNumKeys > uiInsertIndex)
-        _memmove((char*)pkNewKeys + uiInsertIndex * 16 + 16, (char*)pkOld + uiInsertIndex * 16,
+        std::memmove((char*)pkNewKeys + uiInsertIndex * 16 + 16, (char*)pkOld + uiInsertIndex * 16,
                  (uiNumKeys - uiInsertIndex) * 16);
 
     float fValue = GenInterpFloat(fTime, pkOld, 2, uiNumKeys, 16);
@@ -676,7 +683,7 @@ bool FUN_00a27080(float fTime, BezFloatKey*& pkKeys, unsigned int& uiNumKeys)
 
     uiNumKeys++;
     if (pkOld)
-        g_memoryManager.Deallocate((unsigned int*)pkOld - 1);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((std::size_t*)pkOld - 1);
     pkKeys = pkNewKeys;
     return true;
     }
@@ -738,12 +745,7 @@ class A27250FloatKey {
 public:
     ~A27250FloatKey();
 
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<A27250Heap&>(g_memoryManager).Allocate(uiSize);
-    }
 
-    void LoadBinary(A27250Stream& kStream);
 
     float m_fTime;
     float m_fValue;
@@ -757,7 +759,7 @@ A27250FloatKey* LoadFloatKeys(A27250Stream& kStream, unsigned int uiNumKeys)
 {
     A27250FloatKey* pkKeys = new A27250FloatKey[uiNumKeys];
     for (unsigned int i = 0; i < uiNumKeys; i++) {
-        pkKeys[i].LoadBinary(kStream);
+        reinterpret_cast<::Holder_00a26eb0 *>(&(pkKeys[i]))->FUN_00a26eb0((::NiStream &)(kStream));
         A27250LoadBinary(kStream, pkKeys[i].m_fForwardTangent);
         A27250LoadBinary(kStream, pkKeys[i].m_fBackwardTangent);
     }
@@ -768,7 +770,6 @@ A27250FloatKey* LoadFloatKeys(A27250Stream& kStream, unsigned int uiNumKeys)
 // member at +4 of the second argument with the first argument.
 struct AnimNode
 {
-    void Apply(int n);
 };
 
 struct AnimTarget
@@ -777,14 +778,13 @@ struct AnimTarget
     AnimNode m_node;
 };
 
-void __cdecl CallAnimCallback(int a, void* b);
 
 // Calls CallAnimCallback with a and b, then applies animation node in b using a.
 // @fnv 0x00a27450
-void __cdecl ApplyAnimToTarget(int a, AnimTarget* apTarget)
+void __cdecl ApplyAnimToTarget(intptr_t a, AnimTarget* apTarget)
 {
-    CallAnimCallback(a, apTarget);
-    apTarget->m_node.Apply(a);
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(a), (intptr_t)(apTarget));
+    reinterpret_cast<::NiColor *>(&(apTarget->m_node))->SaveBinary((*(::NiStream *)(a)));
 }
 
 struct FUN_00a27b60_tail {
@@ -826,8 +826,8 @@ void __cdecl FUN_00a27b60(FUN_00a27b60_rec* apDest, const FUN_00a27b60_rec* apSo
     apDest->unk28 = apSource->unk28;
     apDest->unk2C = apSource->unk2C;
     apDest->unk30 = apSource->unk30;
-    apDest = (FUN_00a27b60_rec*)((char*)apDest + 0x34);
-    apSource = (const FUN_00a27b60_rec*)((const char*)apSource + 0x34);
+    apDest = apDest + 1;
+    apSource = apSource + 1;
     ((FUN_00a27b60_tail*)apDest)->unk00 = ((const FUN_00a27b60_tail*)apSource)->unk00;
     ((FUN_00a27b60_tail*)apDest)->unk04 = ((const FUN_00a27b60_tail*)apSource)->unk04;
     ((FUN_00a27b60_tail*)apDest)->unk08 = ((const FUN_00a27b60_tail*)apSource)->unk08;
@@ -892,8 +892,6 @@ struct Elem64 {
     int unk38;
     int unk3C;
 
-    static void* operator new[](unsigned int aSize) { return DAT_011f6238.Allocate(aSize); }
-    static void operator delete[](void* apBlock) { DAT_011f6238.Free(apBlock); }
     ~Elem64() {}
 };
 
@@ -933,7 +931,7 @@ extern double DAT_01021928;
 extern double DAT_01011590;
 // Scales the key's extra components by t and two constants, sums them into a direction, offsets it by t, adds key->out and stores the result.
 // @fnv 0x00a27d60
-void __cdecl FUN_00a27d60(float afTime, TCBKeyS* key, unsigned int type, Vec3S* result)
+void __cdecl FUN_00a27d60(float afTime, TCBKeyS* key, uintptr_t type, Vec3S* result)
 {
     const float scaled = static_cast<float>(DAT_01021928 * afTime);
     Vec3S fromScaled = {key->extra[3] * scaled, key->extra[4] * scaled, key->extra[5] * scaled};
@@ -947,20 +945,18 @@ void __cdecl FUN_00a27d60(float afTime, TCBKeyS* key, unsigned int type, Vec3S* 
 }
 
 namespace fnv_00a27e40 {
-extern "C" const double DAT_01034208;
-extern "C" const double DAT_01011590;
 struct Vec3Output { float x,y,z; };
 // @fnv 0x00a27e40
-extern "C" void __cdecl FUN_00a27e40(float radians, const float* transform, unsigned int mode, Vec3Output* output) {
-    radians = (float)(radians * DAT_01034208);
+extern "C" void __cdecl FUN_00a27e40(float radians, const float* transform, uintptr_t mode, Vec3Output* output) {
+    radians = (float)(radians * ::DAT_01034208);
     Vec3Output offset;
     offset.x = radians * transform[13];
     offset.y = radians * transform[14];
     offset.z = radians * transform[15];
     Vec3Output base;
-    base.x = (float)(transform[10] * DAT_01011590);
-    base.y = (float)(transform[11] * DAT_01011590);
-    base.z = (float)(transform[12] * DAT_01011590);
+    base.x = (float)(transform[10] * ::DAT_01011590);
+    base.y = (float)(transform[11] * ::DAT_01011590);
+    base.z = (float)(transform[12] * ::DAT_01011590);
     Vec3Output sum;
     sum.x = base.x + offset.x;
     sum.y = reinterpret_cast<volatile Vec3Output&>(offset).y + base.y;
@@ -988,12 +984,7 @@ class A281E0BezPosKey {
 public:
     ~A281E0BezPosKey();
 
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<A281E0Heap&>(g_memoryManager).Allocate(uiSize);
-    }
 
-    void LoadBinary(A281E0Stream& kStream);
 
     float m_fTime;
     A281E0Point3 m_kPos;
@@ -1007,14 +998,14 @@ A281E0BezPosKey* LoadBezPosKeys(A281E0Stream& kStream, unsigned int uiNumKeys)
 {
     A281E0BezPosKey* pkKeys = new A281E0BezPosKey[uiNumKeys];
     for (unsigned int i = 0; i < uiNumKeys; i++) {
-        pkKeys[i].LoadBinary(kStream);
+        reinterpret_cast<::FUN_00a27430_T *>(&(pkKeys[i]))->FUN_00a27430((::NiStream &)(kStream));
         pkKeys[i].m_kInTan.LoadBinary(kStream);
         pkKeys[i].m_kOutTan.LoadBinary(kStream);
     }
     return pkKeys;
 }
 
-class NiStream;
+struct NiStream;
 
 class NiColorSaveHelper {
 public:
@@ -1022,7 +1013,6 @@ public:
     float g;
     float b;
 
-    void SaveBinary(NiStream& kStream);
 };
 
 struct A28260Key {
@@ -1050,8 +1040,8 @@ void __cdecl SaveKeyArray(NiStream& kStream, A28260Key* pkKeys, unsigned int uiN
     {
         A28260Key* pkKey = &pkKeys[ui];
         ApplyAnimToTarget(kStream, pkKey);
-        pkKey->m_kColor0.SaveBinary(kStream);
-        pkKey->m_kColor1.SaveBinary(kStream);
+        reinterpret_cast<::NiColor *>(&(pkKey->m_kColor0))->SaveBinary(kStream);
+        reinterpret_cast<::NiColor *>(&(pkKey->m_kColor1))->SaveBinary(kStream);
     }
 }
 
@@ -1075,22 +1065,24 @@ struct Inner_b5508 {
 void FUN_00a286e0(unsigned int auiUnused0, unsigned int auiUnused1, unsigned int auiUnused2, Vec4_b5508* out)
 {
     Inner_b5508 holder;
-    Vec4_b5508* src = holder.Set(1.0f, 0.0f, 0.0f, 0.0f);
+    Vec4_b5508* src = ((::Vec4_b5508 *)(reinterpret_cast<::FUN_00a6db50_V *>(&(holder))->Set(1.0f, 0.0f, 0.0f, 0.0f)));
     *out = *src;
 }
 
 struct FUN_00a28720_target {
-    void __thiscall FUN_00a6e4a0(void* value);
 };
 
-void __cdecl CallAnimCallback(void* a, void* b);
+struct FUN_00a28720_Obj {
+    void* vtbl;
+    FUN_00a28720_target unk04;
+};
+
 
 // Calls CallAnimCallback with a and b, then invokes FUN_00a6e4a0 on the object at b+4 passing a.
 // @fnv 0x00a28720
 void __cdecl FUN_00a28720(void* a, void* b) {
-    CallAnimCallback(a, b);
-    reinterpret_cast<FUN_00a28720_target*>(
-        reinterpret_cast<char*>(b) + 4)->FUN_00a6e4a0(a);
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(a), (intptr_t)(b));
+    reinterpret_cast<::FUN_00a6e4a0_shell *>(&reinterpret_cast<FUN_00a28720_Obj*>(b)->unk04)->FUN_00a6e4a0((*(::NiStream *)(a)));
 }
 
 extern "C" unsigned int DAT_011f366c;
@@ -1132,7 +1124,6 @@ FUN_00a289b0_Vec4* __cdecl SampleKeyedVec4(FUN_00a289b0_Vec4* out, float fTime, 
 
 struct Sub_a28 {
     int unk00;
-    bool FUN_00a92660(Sub_a28* other);
 };
 
 struct Obj_a28 {
@@ -1140,15 +1131,14 @@ struct Obj_a28 {
     Sub_a28 m_kSub;
 };
 
-bool __cdecl AreFloatsEqual(Obj_a28* a, Obj_a28* b);
 
 // Returns false if AreFloatsEqual(a, b) fails, otherwise returns the result of comparing a->m_kSub with b->m_kSub via FUN_00a92660.
 // @fnv 0x00a28a80
 bool __cdecl FUN_00a28a80(Obj_a28* apObjA, Obj_a28* apObjB)
 {
-    if (!AreFloatsEqual(apObjA, apObjB))
+    if (!((bool)(::AreFloatsEqual((const float *)(apObjA), (const float *)(apObjB)))))
         return false;
-    return apObjA->m_kSub.FUN_00a92660(&apObjB->m_kSub);
+    return ((bool)(::FUN_00a92660((const float *)&(apObjA->m_kSub), 0, (const float *)(&apObjB->m_kSub))));
 }
 
 struct Blk16 {
@@ -1172,14 +1162,13 @@ void CopyBlk36(Blk36* dst, const Blk36* src) {
 
 struct SpawnTarget
 {
-    void Callee(float a, void* p1, void* p2, void* p3, void* p4);
 };
 
 // Calls Callee on z, passing a and pointers into the buffers x and y at offsets 4 and 0x14.
 // @fnv 0x00a28d90
 void __cdecl CallSpawnTarget(float afValue, char* pBufferX, char* pBufferY, SpawnTarget* pTarget)
 {
-    pTarget->Callee(afValue, pBufferX + 4, pBufferX + 0x14, pBufferY + 0x14, pBufferY + 4);
+    ::FUN_00a6e430((::NiQuaternion *)(pTarget), 0, afValue, (*(const ::NiQuaternion *)(pBufferX + 4)), (*(const ::NiQuaternion *)(pBufferX + 0x14)), (*(const ::NiQuaternion *)(pBufferY + 0x14)), (*(const ::NiQuaternion *)(pBufferY + 4)));
 }
 
 // Reconstruction of FUN_00a28dc0.
@@ -1208,8 +1197,6 @@ struct FNVAnim {
     FNVKey  keys[64];
 };
 
-extern void  __cdecl FUN_00a28ab0(FNVAnim* obj, unsigned int count, unsigned int flag);
-extern FNVQuat* __cdecl FUN_00a6dd50(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
 
 // For count >= 2, calls FUN_00a28ab0 then fills each key's q1 with FUN_00a6dd50 results from neighbouring q0 values, clamping the ends.
 // @fnv 0x00a28dc0
@@ -1219,12 +1206,12 @@ void __cdecl FUN_00a28dc0(FNVAnim* pAnim, unsigned int count, unsigned int flag)
         return;
     }
 
-    FUN_00a28ab0(pAnim, count, flag);
+    ::FUN_00a28ab0((::TimedRotationKey *)(pAnim), count, flag);
 
     FNVQuat qTmp;
 
     // i == 0 : the "previous" key degenerates to the key itself.
-    FNVQuat* pResult0 = FUN_00a6dd50(&qTmp, &pAnim->keys[0].q0, &pAnim->keys[0].q0, &pAnim->keys[1].q0);
+    FNVQuat* pResult0 = ((::FNVQuat *)(::FUN_00a6dd50((::Quaternion *)(::FNVQuat *)(&qTmp), (const ::Quaternion *)(::FNVQuat *)(&pAnim->keys[0].q0), (::Quaternion *)(::FNVQuat *)(&pAnim->keys[0].q0), (const ::Quaternion *)(::FNVQuat *)(&pAnim->keys[1].q0))));
     pAnim->keys[0].q1 = *pResult0;
 
     unsigned int last = count - 1;
@@ -1233,22 +1220,21 @@ void __cdecl FUN_00a28dc0(FNVAnim* pAnim, unsigned int count, unsigned int flag)
         unsigned int n = last - 1;
         FNVKey* p = &pAnim->keys[1];
         do {
-            FNVQuat* pResult1 = FUN_00a6dd50(&qTmp, &p[-1].q0, &p->q0, &p[1].q0);
+            FNVQuat* pResult1 = ((::FNVQuat *)(::FUN_00a6dd50((::Quaternion *)(::FNVQuat *)(&qTmp), (const ::Quaternion *)(::FNVQuat *)(&p[-1].q0), (::Quaternion *)(::FNVQuat *)(&p->q0), (const ::Quaternion *)(::FNVQuat *)(&p[1].q0))));
             p->q1 = *pResult1;
             p++;
         } while (--n);
     }
 
     // i == count-1 : the "next" key degenerates to the key itself.
-    FNVQuat* pResult2 = FUN_00a6dd50(&qTmp, &pAnim->keys[count - 2].q0, &pAnim->keys[last].q0, &pAnim->keys[last].q0);
+    FNVQuat* pResult2 = ((::FNVQuat *)(::FUN_00a6dd50((::Quaternion *)(::FNVQuat *)(&qTmp), (const ::Quaternion *)(::FNVQuat *)(&pAnim->keys[count - 2].q0), (::Quaternion *)(::FNVQuat *)(&pAnim->keys[last].q0), (const ::Quaternion *)(::FNVQuat *)(&pAnim->keys[last].q0))));
     pAnim->keys[last].q1 = *pResult2;
 }
 
 // The game class NiBound - a 16-byte bound (three position floats and a radius).
-class NiBound {
+struct NiBound {
 public:
     float x, y, z, r;
-    bool FUN_00a92660(const NiBound& other);
 };
 
 // UHelper layout as read off the image: a float at +0, then two 16-byte
@@ -1260,22 +1246,20 @@ struct UHelper {
 };
 
 // The primary comparison: the float at +0 and the NiBound sub-object at +4.
-bool FUN_00a28a80(UHelper* a, UHelper* b);
 
 // Adds the comparison of the NiBound sub-object at +0x14.
 // Returns false if FUN_00a28a80 fails; otherwise compares the unk14 NiBound of both UHelper objects via FUN_00a92660.
 // @fnv 0x00a28ea0
 bool CompareBounds(UHelper* pFirst, UHelper* pSecond) {
-    if (!FUN_00a28a80(pFirst, pSecond)) {
+    if (!::FUN_00a28a80((::Obj_a28 *)(pFirst), (::Obj_a28 *)(pSecond))) {
         return false;
     }
-    return pFirst->unk14.FUN_00a92660(pSecond->unk14);
+    return ((bool)(::FUN_00a92660((const float *)&(pFirst->unk14), 0, (const float *)&(pSecond->unk14))));
 }
 
 namespace fnv_00a28ed0 {
 // FUN_00a28ed0: cdecl loop calling FUN_00a28720(base, elem) over count elements of stride 0x24.
 
-void __cdecl FUN_00a28720(void* base, void* elem);
 
 // Calls FUN_00a28720 on each 0x24-byte element in the array, iterating count times.
 // @fnv 0x00a28ed0
@@ -1287,7 +1271,7 @@ void __cdecl FUN_00a28ed0(void* base, char* elems, unsigned int count)
         char* cur = elems;
         do
         {
-            FUN_00a28720(base, cur);
+            ::FUN_00a28720(base, cur);
             cur += 0x24;
             n--;
         } while (n != 0);
@@ -1297,32 +1281,23 @@ void __cdecl FUN_00a28ed0(void* base, char* elems, unsigned int count)
 
 typedef void (__cdecl *A291F0Func)();
 
-void __cdecl FUN_00a291e0();
 void __cdecl A291F0CurveA();
 void __cdecl A291F0CurveB();
 void __cdecl A291F0CurveC();
-void __cdecl FUN_00a291a0();
 void __cdecl FUN_00a29680();
 
-extern A291F0Func g_akA291F0FillDerived[6][6];
-extern A291F0Func g_akA291F0CurveA[6][6];
-extern A291F0Func g_akA291F0CurveB[6][6];
-extern A291F0Func g_akA291F0CurveC[6][6];
-extern A291F0Func g_akA291F0Insert[6][6];
-extern A291F0Func g_akA291F0Interp[6][6];
-extern A291F0Func g_akA291F0Cubic[6][6];
 
 // Fills the per-content/per-type slots of seven curve operation tables with the given function pointers, clearing the cubic slot.
 // @fnv 0x00a291f0
 void __cdecl RegisterCurveOps(int eContent, int eType)
 {
-    g_akA291F0FillDerived[eContent][eType] = FUN_00a291e0;
-    g_akA291F0CurveA[eContent][eType] = A291F0CurveA;
-    g_akA291F0CurveB[eContent][eType] = A291F0CurveB;
-    g_akA291F0CurveC[eContent][eType] = A291F0CurveC;
-    g_akA291F0Insert[eContent][eType] = FUN_00a291a0;
-    g_akA291F0Interp[eContent][eType] = FUN_00a29680;
-    g_akA291F0Cubic[eContent][eType] = 0;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(eContent, eType), reinterpret_cast<void (*)()>(FUN_00a291e0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(eContent, eType), A291F0CurveA);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(eContent, eType), A291F0CurveB);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(eContent, eType), A291F0CurveC);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(eContent, eType), reinterpret_cast<void (*)()>(FUN_00a291a0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(eContent, eType), FUN_00a29680);
+    NiAnimationKeyTables::g_functions[NiAnimationKeyTables::kAt011f3810][NiAnimationKeyTables::Index(eContent, eType)] = nullptr;
 }
 
 struct FUN_00a29550_stream;
@@ -1486,29 +1461,27 @@ struct FUN_00a29550_owner {
 };
 
 // @fnv 0x00a29550
-int __cdecl FUN_00a29550(int apOwner, int a2) {
+int __cdecl FUN_00a29550(intptr_t apOwner, intptr_t a2) {
     FUN_00a29550_stream* s = reinterpret_cast<FUN_00a29550_owner*>(apOwner)->m_250;
     FUN_00a29550_fn fn = s->m_0c;
-    apOwner = 1;
-    int r = fn(s, a2, 1, &apOwner, 1);
+    int count = 1;
+    int r = fn(s, a2, 1, &count, 1);
     s->m_04 += r;
     return r;
 }
 
 struct Inner {
-    void FUN_00a698a0(void* target);
 };
 struct Outer {
     int unk00;
     Inner inner04;
 };
-void __cdecl CallAnimCallback(void* target, Outer* source);
 // Calls CallAnimCallback with target and source, then invokes source->inner04.FUN_00a698a0 on target.
 // @fnv 0x00a29660
 void __cdecl FUN_00a29660(void* target, Outer* source)
 {
-    CallAnimCallback(target, source);
-    source->inner04.FUN_00a698a0(target);
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(target), (intptr_t)(source));
+    reinterpret_cast<::FUN_00a698a0_class *>(&(source->inner04))->FUN_00a698a0(target);
 }
 
 // Reconstruction of UpdateArrayElements (0x00a29e40, 189 bytes).
@@ -1546,25 +1519,31 @@ struct FNV_Obj {
 };
 
 typedef bool (__cdecl *FNV_CbFn)(float, int*, int*);
-extern FNV_CbFn g_fnv_cb_011f3810[];
 
 // The game's vector constructor iterator: it calls the element constructor
 // (a plain function pointer, the object pointer travels in ECX) once per
 // element.  It pops its own four arguments.
-extern "C" void __stdcall FNV_array_ctor_iterator(void* base, unsigned int size, unsigned int count, void* ctor);
+extern "C" void FNV_array_ctor_iterator(void* base, unsigned int size, unsigned int count, void* ctor);
 
 // The element constructor of the allocated object.
 extern "C" void __cdecl FNV_element_ctor(void* self);
+
+// The block of an array new of one 0x48-byte element: the element count, then the element.
+struct UpdateArrayElements_Block
+{
+    int count;
+    char element[0x48];
+};
 
 // @fnv 0x00a29e40
 bool UpdateArrayElements(float t, void** pOut, int* piFlag)
 {
     if (*piFlag == 0) {
         FNV_Obj* p;
-        void* block = ((P03MM*)&g_memoryManager)->Allocate(0x4c);
+        void* block = reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(0x4c);
         if (block) {
-            *(int*)block = 1;                      // element count cookie
-            p = (FNV_Obj*)((char*)block + 4);       // the element itself
+            ((UpdateArrayElements_Block*)block)->count = 1;
+            p = (FNV_Obj*)((UpdateArrayElements_Block*)block)->element;
             FNV_array_ctor_iterator(p, 0x48, 1, (void*)&FNV_element_ctor);
         } else {
             p = 0;
@@ -1579,7 +1558,7 @@ bool UpdateArrayElements(float t, void** pOut, int* piFlag)
         int f = arr->m30[c];
         int n = arr->m14[c];
         if (n) {
-            FNV_CbFn fn = g_fnv_cb_011f3810[arr->m20[c]];
+            FNV_CbFn fn = NiAnimationKeyTables::Get<bool (*)(float, int *, int *)>(NiAnimationKeyTables::kAt011f3810, arr->m20[c]);
             bool r = fn(t, &f, &n);
             if (r) flag = 1;
             arr->m14[c] = n;
@@ -1771,8 +1750,6 @@ inline void A29F00LoadBinary(A29F00Stream& kStream, T& value)
 
 typedef void* (__cdecl *A29F00LoadFunc)(A29F00Stream& kStream, unsigned int uiNumKeys);
 
-extern unsigned char DAT_011f3758[];
-extern A29F00LoadFunc DAT_011f3db0[];
 
 class A29F00KeyData {
 public:
@@ -1803,8 +1780,8 @@ void A29F00KeyData::LoadKeyData(A29F00Stream& kStream)
             unsigned int eType;
             A29F00LoadBinary(kStream, eType);
             m_aeKeyType[i] = eType;
-            m_aucKeySize[i] = DAT_011f3758[eType];
-            m_ppKeyData[i] = DAT_011f3db0[eType](kStream, m_auiNumKeys[i]);
+            m_aucKeySize[i] = NiAnimationKeyTables::g_keySizes[eType];
+            m_ppKeyData[i] = NiAnimationKeyTables::Get<void *(*)(A29F00Stream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, eType)(kStream, m_auiNumKeys[i]);
         }
     }
 }
@@ -1991,17 +1968,15 @@ struct A29FE0Block {
 };
 
 typedef void (*A29FE0LoadFunc)(A29FE0Context* pkContext, void* pvData, unsigned int ItemUpdateArray);
-extern A29FE0LoadFunc g_apfnA29FE0Load[];
 
 // Reads three count/type pairs from the stream and, for each nonzero count, reads its type and calls the matching loader with the data pointer.
 // @fnv 0x00a29fe0
 void ReadBlockEntries(A29FE0Context* pkContext, A29FE0Block* pkBlock) {
-    unsigned int* puiCount = pkBlock->m_auiCount;
-    for (int i = 0; i < 3; i++, puiCount++) {
-        pkContext->m_pDataStream->Read(puiCount, 4);
-        if (*puiCount > 0) {
-            pkContext->m_pDataStream->Read(puiCount + 3, 4);
-            g_apfnA29FE0Load[puiCount[3]](pkContext, ((void**)puiCount)[7], *puiCount);
+    for (int i = 0; i < 3; i++) {
+        pkContext->m_pDataStream->Read(&pkBlock->m_auiCount[i], 4);
+        if (pkBlock->m_auiCount[i] > 0) {
+            pkContext->m_pDataStream->Read(&pkBlock->m_auiType[i], 4);
+            NiAnimationKeyTables::Get<void (*)(A29FE0Context *, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, pkBlock->m_auiType[i])(pkContext, pkBlock->m_apvData[i], pkBlock->m_auiCount[i]);
         }
     }
 }
@@ -2059,21 +2034,18 @@ void __cdecl FUN_00a2a560(float s, const Pt3* apPointA, const Pt3* apPointB, flo
 }
 
 namespace fnv_00a2a5a0 {
-struct Pool { void* Alloc(unsigned n); };
+struct Pool {  };
 extern Pool DAT_011f6238;
 struct Elem {
     int a; int b;
-    void Init(int x);
     ~Elem();
-    static void* operator new[](unsigned n) { return DAT_011f6238.Alloc(n); }
-    static void operator delete[](void*) {}
 };
 // Allocates an array of n Elem objects and calls Init(x) on each element, returning the array.
 // @fnv 0x00a2a5a0
-Elem* CreateInitializedElems(int x, unsigned auiCount)
+Elem* CreateInitializedElems(intptr_t x, unsigned auiCount)
 {
     Elem* r = new Elem[auiCount];
-    for (unsigned i = 0; i < auiCount; i++) r[i].Init(x);
+    for (unsigned i = 0; i < auiCount; i++) reinterpret_cast<::Holder_00a26eb0 *>(&(r[i]))->FUN_00a26eb0((*(::NiStream *)(x)));
     return r;
 }
 }  // namespace fnv_00a2a5a0
@@ -2120,21 +2092,17 @@ void FUN_00a2a890(float fTime, const A2A890Key& kKey0, const A2A890Key& kKey1, A
 struct VertexRecord {
     int x, y, z, w;
     ~VertexRecord() {}
-    void FUN_00a27430(int);
-    static void* operator new[](unsigned int size) { return ((P03MM*)&g_memoryManager)->Allocate(size); }
 };
 // @fnv 0x00a2a8e0
-VertexRecord* __cdecl CreateVertexRecords(int v, unsigned int count)
+VertexRecord* __cdecl CreateVertexRecords(intptr_t v, unsigned int count)
 {
     VertexRecord* items = new VertexRecord[count];
     for (unsigned int i = 0; i < count; ++i)
-        items[i].FUN_00a27430(v);
+        reinterpret_cast<::FUN_00a27430_T *>(&(items[i]))->FUN_00a27430((*(::NiStream *)(v)));
     return items;
 }
 
 // MemoryManager, P03MM, Vec3S, Vec3R come from the pack header.
-extern MemoryManager g_memoryManager;
-void* _memmove(void* d, const void* s, unsigned int n);
 struct TCBKeyS;
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 Vec3R GetKeyPosAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
@@ -2146,8 +2114,6 @@ struct AnimKeyBase {
 };
 struct LinPosKey : AnimKeyBase {
     Vec3S pos;
-    static void* operator new[](unsigned int n) { return ((P03MM*)&g_memoryManager)->Allocate(n); }
-    static void operator delete[](void* p) { g_memoryManager.Deallocate(p); }
 };
 
 // Inserts a new linear position key at time t (value sampled from the existing curve).
@@ -2159,9 +2125,9 @@ bool InsertLinPosKey(float t, LinPosKey** pKeys, unsigned int* pCount)
     unsigned int idx;
     if (FindKeyIndex(t, (TCBKeyS*)keys, *pCount, &idx, sizeof(LinPosKey))) {
         LinPosKey* newKeys = new LinPosKey[*pCount + 1];
-        _memmove(newKeys, keys, idx * sizeof(LinPosKey));
+        std::memmove(newKeys, keys, idx * sizeof(LinPosKey));
         if (*pCount > idx)
-            _memmove(&newKeys[idx + 1], &keys[idx], (*pCount - idx) * sizeof(LinPosKey));
+            std::memmove(&newKeys[idx + 1], &keys[idx], (*pCount - idx) * sizeof(LinPosKey));
         Vec3R v = GetKeyPosAtTime(t, (TCBKeyS*)keys, 1, *pCount, sizeof(LinPosKey));
         LinPosKey* k = &newKeys[idx];
         k->time = t;
@@ -2169,7 +2135,7 @@ bool InsertLinPosKey(float t, LinPosKey** pKeys, unsigned int* pCount)
         ++*pCount;
         // free the old array including its element-count cookie
         if (keys)
-            g_memoryManager.Deallocate((unsigned int*)keys - 1);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((std::size_t*)keys - 1);
         *pKeys = newKeys;
         return true;
     }
@@ -2177,7 +2143,13 @@ bool InsertLinPosKey(float t, LinPosKey** pKeys, unsigned int* pCount)
 }
 
 struct FUN_00a6e330_StandIn {
-    void __thiscall FUN_00a6e330(float value, const void* first, const void* second);
+    void FUN_00a6e330(float value, const void* first, const void* second);
+};
+
+struct FUN_00a2ab90_Key
+{
+    float time;
+    char unk04;
 };
 
 // Calls FUN_00a6e330 on result with value and the two pointers advanced by 4 bytes.
@@ -2190,8 +2162,8 @@ void __cdecl FUN_00a2ab90(
 ) {
     result->FUN_00a6e330(
         value,
-        static_cast<const void*>(static_cast<const char*>(first) + 4),
-        static_cast<const void*>(static_cast<const char*>(second) + 4)
+        static_cast<const void*>(&static_cast<const FUN_00a2ab90_Key*>(first)->unk04),
+        static_cast<const void*>(&static_cast<const FUN_00a2ab90_Key*>(second)->unk04)
     );
 }
 
@@ -2248,8 +2220,6 @@ struct BezierKeyS {
     Vec3S out;
     float extra[9];
     ~BezierKeyS() {}
-    static void* operator new[](unsigned int n) { return ((P03MM*)&g_memoryManager)->Allocate(n); }
-    static void operator delete[](void* p, unsigned int) { g_memoryManager.Deallocate(p); }
 };
 
 // Allocates an array of count BezierKeyS objects using the memory manager and returns the pointer.
@@ -2305,15 +2275,13 @@ struct S_00a2b050_Obj {
 };
 // Computes o->pos plus (velA*2 + velB*3*t)*t and stores the result in out, returning out.
 // @fnv 0x00a2b050
-S_00a2b050_V3* __cdecl ComputeInterpolatedPosition(float t, S_00a2b050_Obj* pObj, int unused, S_00a2b050_V3* out)
+S_00a2b050_V3* __cdecl ComputeInterpolatedPosition(float t, S_00a2b050_Obj* pObj, uintptr_t unused, S_00a2b050_V3* out)
 {
     S_00a2b050_V3 r = pObj->pos + (pObj->velA * 2.0f + pObj->velB * (3.0f * t)) * t;
     *out = r;
     return out;
 }
 
-extern "C" double DAT_01034208;
-extern "C" double DAT_01011590;
 struct Vector3 {
     float x, y, z;
     Vector3 operator*(double multiplier) const {
@@ -2340,7 +2308,7 @@ struct Vector3 {
 };
 // Scales amount by DAT_01034208, then writes the sum of two Vector3s read from transform offsets 13 and 16, weighted by DAT_01011590 and amount, into result.
 // @fnv 0x00a2b130
-void __cdecl FUN_00a2b130(float amount, const float* transform, unsigned int unused, Vector3* result)
+void __cdecl FUN_00a2b130(float amount, const float* transform, uintptr_t unused, Vector3* result)
 {
     amount *= DAT_01034208;
     const Vector3* start = reinterpret_cast<const Vector3*>(transform + 13);
@@ -2384,7 +2352,6 @@ struct FUN_00a2b980_cls {
     unsigned int m_uiB;
     unsigned int m_uiC;
 
-    void FUN_00a27430(NiStreamImpl& stream);
     void FUN_00a2b980(NiStreamImpl& stream);
 };
 
@@ -2392,7 +2359,7 @@ struct FUN_00a2b980_cls {
 // @fnv 0x00a2b980
 void FUN_00a2b980_cls::FUN_00a2b980(NiStreamImpl& stream)
 {
-    FUN_00a27430(stream);
+    reinterpret_cast<::FUN_00a27430_T *>(this)->FUN_00a27430((::NiStream &)(stream));
     ReadBinaryValue(stream, m_uiA);
     ReadBinaryValue(stream, m_uiB);
     ReadBinaryValue(stream, m_uiC);
@@ -2613,7 +2580,7 @@ struct SpawnHeap {
     void* FUN_00aa3e40(unsigned int auiSize);
 };
 
-extern "C" SpawnHeap DAT_011f6238;
+inline SpawnHeap& DAT_011f6238 = reinterpret_cast<SpawnHeap&>(::DAT_011f6238);
 
 struct Element76 {
     int unk00;
@@ -2636,21 +2603,19 @@ struct Element76 {
     int unk44;
     int unk48;
     ~Element76() {}
-    void Init(int a1);
-    static void* operator new[](unsigned int auiSize) { return DAT_011f6238.FUN_00aa3e40(auiSize); }
 };
 
 // Allocates an array of Element76 objects and calls Init(a1) on each element.
 // @fnv 0x00a2bb00
-void* __cdecl AllocateElement76Array(int a1, unsigned int auiCount)
+void* __cdecl AllocateElement76Array(intptr_t a1, unsigned int auiCount)
 {
     Element76* items = new Element76[auiCount];
     Element76* p;
     if (auiCount > 0) {
         p = items;
         do {
-            p->Init(a1);
-            p = (Element76*)((char*)p + 0x4c);
+            reinterpret_cast<::FUN_00a2b980_cls *>((p))->FUN_00a2b980((*(::NiStreamImpl *)(a1)));
+            p = p + 1;
         } while (--auiCount != 0);
     }
     return items;
@@ -2688,14 +2653,13 @@ void FUN_00a2bbf0(A2BBF0Record* pkDst, const A2BBF0Record* pkSrc) {
 namespace fnv_00a2bc60 {
 struct SpawnTarget
 {
-    void Callee(float a, void* p1, void* p2, void* p3, void* p4);
 };
 
 // Calls SpawnTarget::Callee with a and offsets into x and y.
 // @fnv 0x00a2bc60
 void __cdecl InvokeSpawnTarget(float afValue, char* pFirst, char* pSecond, SpawnTarget* pTarget)
 {
-    pTarget->Callee(afValue, pFirst + 4, pFirst + 0x20, pSecond + 0x30, pSecond + 4);
+    ::FUN_00a6e430((::NiQuaternion *)(pTarget), 0, afValue, (*(const ::NiQuaternion *)(pFirst + 4)), (*(const ::NiQuaternion *)(pFirst + 0x20)), (*(const ::NiQuaternion *)(pSecond + 0x30)), (*(const ::NiQuaternion *)(pSecond + 4)));
 }
 }  // namespace fnv_00a2bc60
 
@@ -2705,7 +2669,6 @@ struct A2BDE0Quaternion {
     float y;
     float z;
 
-    bool IsEqual(const A2BDE0Quaternion& kOther) const;
 };
 
 struct A2BDE0Key {
@@ -2716,7 +2679,6 @@ struct A2BDE0Key {
     int unk10;
 };
 
-bool A2BDE0KeyEqual(const A2BDE0Key& kA, const A2BDE0Key& kB);
 
 struct A2BDE0BezRotKey : A2BDE0Key {
     float m_fValueX;
@@ -2730,10 +2692,10 @@ struct A2BDE0BezRotKey : A2BDE0Key {
 // @fnv 0x00a2bde0
 bool BezRotKeyEqual(const A2BDE0BezRotKey& kA, const A2BDE0BezRotKey& kB)
 {
-    if (!A2BDE0KeyEqual(kA, kB))
+    if (!::FUN_00a28a80((::Obj_a28 *)&(kA), (::Obj_a28 *)&(kB)))
         return false;
     return kA.m_fValueX == kB.m_fValueX && kA.m_fValueY == kB.m_fValueY && kA.m_fValueZ == kB.m_fValueZ
-        && kA.m_kInQuat.IsEqual(kB.m_kInQuat) && kA.m_kOutQuat.IsEqual(kB.m_kOutQuat);
+        && ((bool)(::FUN_00a92660((const float *)&(kA.m_kInQuat), 0, (const float *)&(kB.m_kInQuat)))) && ((bool)(::FUN_00a92660((const float *)&(kA.m_kOutQuat), 0, (const float *)&(kB.m_kOutQuat))));
 }
 
 struct TQuat {
@@ -2800,18 +2762,16 @@ struct Quad64
     int unk34;
     int unk38;
     int unk3C;
-    void ComputeTangents(void* a, void* b);
 };
 
-void __cdecl FUN_00a28ab0(void* a, unsigned int count, void* c);
 
 // @fnv 0x00a2c130
 void __cdecl FUN_00a2c130(Quad64* apQuads, unsigned int count, void* c)
 {
     if (count < 2)
         return;
-    FUN_00a28ab0(apQuads, count, c);
-    apQuads[0].ComputeTangents(apQuads, &apQuads[1]);
+    ::FUN_00a28ab0((::TimedRotationKey *)(apQuads), count, (unsigned char)(uintptr_t)(c));
+    reinterpret_cast<::TCBRotKey *>(&(apQuads[0]))->ComputeTangents((*(const ::TCBRotKey *)(apQuads)), (*(const ::TCBRotKey *)(&apQuads[1])));
     unsigned int n = count - 1;
     if (n > 1)
     {
@@ -2820,12 +2780,12 @@ void __cdecl FUN_00a2c130(Quad64* apQuads, unsigned int count, void* c)
         do
         {
             Quad64* next = cur + 1;
-            next->ComputeTangents(cur, cur + 2);
+            reinterpret_cast<::TCBRotKey *>((next))->ComputeTangents((*(const ::TCBRotKey *)(cur)), (*(const ::TCBRotKey *)(cur + 2)));
             cur = next;
             k--;
         } while (k != 0);
     }
-    apQuads[n].ComputeTangents(&apQuads[count - 2], &apQuads[n]);
+    reinterpret_cast<::TCBRotKey *>(&(apQuads[n]))->ComputeTangents((*(const ::TCBRotKey *)(&apQuads[count - 2])), (*(const ::TCBRotKey *)(&apQuads[n])));
 }
 
 struct S_a2c300_Istr {
@@ -2999,13 +2959,12 @@ struct S_a2c300_Obj {
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_00a29640(S_a2c300_Stream* s);
     void SaveExtraFields(S_a2c300_Stream* s);
 };
 // Calls FUN_00a29640, then serializes the 4-byte fields unk14, unk18 and unk1c to the stream via S_a2c300_Save.
 // @fnv 0x00a2c300
 void S_a2c300_Obj::SaveExtraFields(S_a2c300_Stream* pStream) {
-    FUN_00a29640(pStream);
+    reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(this)->FUN_00a29640((*(::fnv_00a29640::NiStream *)(pStream)));
     S_a2c300_Save(pStream, &unk14, 4);
     S_a2c300_Save(pStream, &unk18, 4);
     S_a2c300_Save(pStream, &unk1c, 4);
@@ -3168,7 +3127,6 @@ struct S_a2c390_Stream {
     int unk24c;
     S_a2c390_Istr* unk250;
 };
-void __cdecl FUN_00a28720(S_a2c390_Stream* s, void* obj);
 inline void S_a2c390_BinLoad(S_a2c390_Istr* i, void* dst, unsigned bytes) {
     unsigned comp = bytes;
     i->unk4 += i->unkc(i, dst, bytes, &comp, 1);
@@ -3189,7 +3147,7 @@ struct S_a2c390_Obj {
 // Calls FUN_00a28720 on s and o, then loads o->unk14, o->unk18 and o->unk1c from the stream.
 // @fnv 0x00a2c390
 void __cdecl LoadObjFields(S_a2c390_Stream* pStream, S_a2c390_Obj* pObj) {
-    FUN_00a28720(pStream, pObj);
+    ::FUN_00a28720(pStream, pObj);
     S_a2c390_Load(pStream, pObj->unk14);
     S_a2c390_Load(pStream, pObj->unk18);
     S_a2c390_Load(pStream, pObj->unk1c);
@@ -3236,13 +3194,12 @@ struct ShapeValues {
     float end;
     float extent;
 };
-extern "C" float __cdecl func_0x00a42070(float input, float leftStart, float leftExtent, float rightStart, float rightEnd);
 
 // @fnv 0x00a2c610
 void __cdecl FUN_00a2c610(float input, const ShapeValues* left, const ShapeValues* right, float* apfResult) {
     const float rightStart = right->start;
     const float leftStart = left->start;
-    *apfResult = func_0x00a42070(input, leftStart, left->extent, rightStart, right->end);
+    *apfResult = ::FUN_00a42070(input, leftStart, left->extent, rightStart, right->end);
 }
 
 namespace fnv_00a2c660 {
@@ -3251,7 +3208,7 @@ struct DynamicMemoryAllocator {
     void Free(void* apPtr);
 };
 
-extern "C" DynamicMemoryAllocator DAT_011f6238;
+inline DynamicMemoryAllocator& DAT_011f6238 = reinterpret_cast<DynamicMemoryAllocator&>(::DAT_011f6238);
 
 struct Elem28 {
     int unk00;
@@ -3262,8 +3219,6 @@ struct Elem28 {
     int unk14;
     int unk18;
 
-    static void* operator new[](unsigned int aSize) { return DAT_011f6238.Allocate(aSize); }
-    static void operator delete[](void* apBlock) { DAT_011f6238.Free(apBlock); }
     ~Elem28() {}
 };
 
@@ -3477,7 +3432,6 @@ struct FUN_00a2c9d0_cls {
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00a26eb0(S_00a2c9d0_Owner* owner);
     void FUN_00a2c9d0(S_00a2c9d0_Owner* owner);
 };
 
@@ -3485,7 +3439,7 @@ struct FUN_00a2c9d0_cls {
 // @fnv 0x00a2c9d0
 void FUN_00a2c9d0_cls::FUN_00a2c9d0(S_00a2c9d0_Owner* owner)
 {
-    FUN_00a26eb0(owner);
+    reinterpret_cast<::Holder_00a26eb0 *>(this)->FUN_00a26eb0((*(::NiStream *)(owner)));
     owner->m_stream->Read(&unk08, 4);
     owner->m_stream->Read(&unk0c, 4);
     owner->m_stream->Read(&unk10, 4);
@@ -3522,13 +3476,12 @@ struct FUN_00a2ca60_Obj {
     unsigned int m_10;
 };
 
-void __cdecl WriteFloatToStream(NiStreamStandInW* pkStream, FUN_00a2ca60_Obj* pkObj);
 
 // Calls WriteFloatToStream, then writes the object's m_08, m_0c and m_10 fields to the stream.
 // @fnv 0x00a2ca60
 void __cdecl FUN_00a2ca60(NiStreamStandInW* pkStream, FUN_00a2ca60_Obj* pkObj)
 {
-    WriteFloatToStream(pkStream, pkObj);
+    ::WriteFloatToStream((::SStream *)(pkStream), (::SObj *)(pkObj));
     pkStream->m_pBackingStream->Write(&pkObj->m_08);
     pkStream->m_pBackingStream->Write(&pkObj->m_0c);
     pkStream->m_pBackingStream->Write(&pkObj->m_10);
@@ -3543,10 +3496,6 @@ struct KeyframeElement {
     float continuity;
     float bias;
     ~KeyframeElement();
-    void FUN_00a2c9d0(void* context);
-    static void* operator new[](unsigned int bytes) {
-        return ((P03MM*)&g_memoryManager)->Allocate(bytes);
-    }
 };
 // @fnv 0x00a2caf0
 KeyframeElement* __cdecl AllocateKeyframeElements(void* context, unsigned int count) {
@@ -3554,7 +3503,7 @@ KeyframeElement* __cdecl AllocateKeyframeElements(void* context, unsigned int co
     if (count > 0) {
         KeyframeElement* cursor = elements;
         do {
-            cursor->FUN_00a2c9d0(context);
+            reinterpret_cast<::FUN_00a2c9d0_cls *>((cursor))->FUN_00a2c9d0((::S_00a2c9d0_Owner *)(context));
             ++cursor;
             --count;
         } while (count != 0);
@@ -3563,6 +3512,11 @@ KeyframeElement* __cdecl AllocateKeyframeElements(void* context, unsigned int co
 }
 
 extern "C" void __cdecl FUN_00a2ca60(void* a1, void* a2);
+
+struct FUN_00a2cb50_Elem
+{
+    char data[0x1c];
+};
 
 // Calls FUN_00a2ca60 for each of count elements, advancing a2 by 0x1c bytes per iteration.
 // @fnv 0x00a2cb50
@@ -3573,7 +3527,7 @@ void __cdecl FUN_00a2cb50(void* a1, void* a2, unsigned int count)
         return;
     do {
         FUN_00a2ca60(a1, a2);
-        a2 = (char*)a2 + 0x1c;
+        a2 = (FUN_00a2cb50_Elem*)a2 + 1;
         n = n - 1;
     } while (n != 0);
 }
@@ -3615,12 +3569,6 @@ struct Arr8 {
     float f;
     char c;
     ~Arr8() {}
-    __forceinline static void* operator new[](unsigned int n) {
-        return ((P03MM*)&g_memoryManager)->Allocate(n);
-    }
-    __forceinline static void operator delete[](void* p, unsigned int) {
-        g_memoryManager.Deallocate(p);
-    }
 };
 
 // Allocates an array of count Arr8 objects using the memory manager and returns the pointer.
@@ -3680,10 +3628,9 @@ void FUN_00a2d200(float t, FUN_00a2d200_arg* a, FUN_00a2d200_arg* b, float* apRe
 namespace fnv_00a2d260 {
 struct DynamicMemoryAllocator {
     void* FUN_00aa3e40(unsigned int auiSize);
-    void FUN_00aa4060(void* apPtr);
 };
 
-extern "C" unsigned int DAT_011f6238;
+inline unsigned int& DAT_011f6238 = reinterpret_cast<unsigned int&>(::DAT_011f6238);
 
 struct TCBKeyS;
 
@@ -3692,12 +3639,10 @@ struct KeyPair8 {
     float value;
 
     ~KeyPair8() {}
-    static void* operator new[](unsigned int aSize) { return reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)->FUN_00aa3e40(aSize); }
 };
 
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 float GetValueAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
-void* _memmove(void* d, const void* s, unsigned int n);
 
 // @fnv 0x00a2d260
 bool InsertKeyPair(float afTime, KeyPair8** pKeys, unsigned int* pCount)
@@ -3709,10 +3654,10 @@ bool InsertKeyPair(float afTime, KeyPair8** pKeys, unsigned int* pCount)
         unsigned int newCount = *pCount + 1;
         KeyPair8* newData = new KeyPair8[newCount];
         
-        _memmove(newData, data, idx * 8);
+        std::memmove(newData, data, idx * 8);
         if (*pCount > idx)
         {
-            _memmove(newData + idx + 1, data + idx, (*pCount - idx) * 8);
+            std::memmove(newData + idx + 1, data + idx, (*pCount - idx) * 8);
         }
 
         float v = GetValueAtTime(afTime, (TCBKeyS*)data, 5, *pCount, 8);
@@ -3723,7 +3668,7 @@ bool InsertKeyPair(float afTime, KeyPair8** pKeys, unsigned int* pCount)
         (*pCount)++;
         if (data)
         {
-            reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)->FUN_00aa4060((char*)data - 4);
+            reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)))->FUN_00aa4060((char*)data - sizeof(std::size_t));
         }
         *pKeys = newData;
         return true;
@@ -3764,7 +3709,11 @@ void __cdecl SelectKeyVec(float afBlendWeight, const KeyData* pA, const KeyData*
 }
 
 namespace fnv_00a2d690 {
-void __cdecl FUN_00a28720(void*, void*);
+
+struct FUN_00a2d690_Elem
+{
+    char data[0x14];
+};
 
 // Calls FUN_00a28720 for each of count elements, advancing b by 0x14 bytes per iteration; returns early when count is 0.
 // @fnv 0x00a2d690
@@ -3775,13 +3724,12 @@ void __cdecl FUN_00a2d690(void* a, void* b, unsigned int count)
 
     for (unsigned int i = count; i != 0; --i)
     {
-        FUN_00a28720(a, b);
-        b = static_cast<char*>(b) + 0x14;
+        ::FUN_00a28720(a, b);
+        b = static_cast<FUN_00a2d690_Elem*>(b) + 1;
     }
 }
 }  // namespace fnv_00a2d690
 
-extern char* DAT_0109b220;
 struct FNVRefObject {
     virtual void UnusedVirtual();
     virtual void DeleteThis();
@@ -3812,23 +3760,20 @@ void FNVHolder::FUN_00a2dd10() {
 }
 
 struct FUN_00a351d0_cls {
-    void __thiscall CrossFadeTo(int a, float b, int c, float d, float e);
+    void CrossFadeTo(int a, float b, int c, float d, float e);
 };
 
 // Forwards the five arguments to self->CrossFadeTo.
 // @fnv 0x00a2e1b0
-void __stdcall CallFUN_00a351d0(FUN_00a351d0_cls* self, int aiArg1, float afArg2, int aiArg3, float afArg4, float afArg5)
+void CallFUN_00a351d0(FUN_00a351d0_cls* self, intptr_t aiArg1, float afArg2, int aiArg3, float afArg4, float afArg5)
 {
     self->CrossFadeTo(aiArg1, afArg2, aiArg3, afArg4, afArg5);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 extern unsigned int DAT_011f36a8;
 struct ObjA00a2;
 extern ObjA00a2* DAT_011f36a4;
 extern "C" void __cdecl FUN_00fdad30(void);
-int __cdecl FUN_00ec658f(void (__cdecl* pfn)(void));
 
 struct ObjA00a2 {
     long m_uiRefCount;
@@ -3856,7 +3801,7 @@ void ArrA00a2::FUN_00a2e680(unsigned int uiIndex, PtrA00a2& aPtr)
     if (!(DAT_011f36a8 & 1)) {
         DAT_011f36a8 |= 1;
         DAT_011f36a4 = 0;
-        FUN_00ec658f(FUN_00fdad30);
+        std::atexit(FUN_00fdad30);
     }
     if (uiIndex >= m_usMax) {
         m_usMax = (unsigned short)(uiIndex + 1);
@@ -3969,8 +3914,6 @@ void FUN_00a30540_cls::FUN_00a30540()
     }
 }
 
-extern "C" int __cdecl strcmp(const char* s1, const char* s2);
-
 struct FUN_00a305e0_cls {
     const char* m_00;
 
@@ -3991,19 +3934,10 @@ bool FUN_00a305e0_cls::Equals(const char* other)
 }
 
 namespace fnv_00a363b0 {
-extern "C" unsigned char DAT_01096784;
-extern "C" float DAT_01096b8c;
-extern "C" unsigned int DAT_011a8400;
-extern "C" unsigned int DAT_011a8404;
-extern "C" unsigned int DAT_011a8408;
-extern "C" unsigned int DAT_011f3704;
-extern "C" unsigned int DAT_011f3708;
-extern "C" unsigned int DAT_011f370c;
-extern "C" unsigned int DAT_011f3710;
 struct ArrayManager {
   void* FUN_00aa3e40(unsigned int size);
 };
-extern "C" ArrayManager DAT_011f6238;
+inline ArrayManager& DAT_011f6238 = reinterpret_cast<ArrayManager&>(::DAT_011f6238);
 struct FUN_00a362f0 {
   unsigned int unk00;
   unsigned int unk04;
@@ -4032,9 +3966,6 @@ struct FUN_00a362f0 {
   unsigned int unk60;
   unsigned int unk64;
   __declspec(nothrow) FUN_00a362f0();
-  static void* operator new[](unsigned int n) {
-    return DAT_011f6238.FUN_00aa3e40(n);
-  }
 };
 struct Base {
   void* vtable;
@@ -4052,7 +3983,6 @@ struct Base {
   unsigned int unk24;
   unsigned int unk28;
   unsigned int unk2c;
-  void FUN_00a370b0(int, float, int);
 };
 struct Object : Base {
   unsigned int unk30;
@@ -4070,16 +4000,16 @@ struct Object : Base {
 // Calls FUN_00a370b0, sets the vtable and several fields from globals, and allocates an array of FUN_00a362f0 sized by count into unk50.
 // @fnv 0x00a363b0
 Object* Object::InitObject(int aiArg, float afArg, int aiArg2) {
-  FUN_00a370b0(aiArg,afArg,aiArg2);
-  vtable = &DAT_01096784;
-  unk30 = DAT_011a8400;
-  unk34 = DAT_011a8404;
-  unk38 = DAT_011a8408;
-  unk3c = DAT_011f3704;
-  unk40 = DAT_011f3708;
-  unk44 = DAT_011f370c;
-  unk48 = DAT_011f3710;
-  unk4c = DAT_01096b8c;
+  reinterpret_cast<::S_00a370b0_Class *>(this)->FUN_00a370b0(aiArg,afArg,aiArg2);
+  vtable = &(*reinterpret_cast<unsigned char *>(&::DAT_01096784));
+  unk30 = (*reinterpret_cast<unsigned int *>(&::DAT_011a8400));
+  unk34 = (*reinterpret_cast<unsigned int *>(&::DAT_011a8404));
+  unk38 = (*reinterpret_cast<unsigned int *>(&::DAT_011a8408));
+  unk3c = (*reinterpret_cast<unsigned int *>(&::DAT_011f3704));
+  unk40 = (*reinterpret_cast<unsigned int *>(&::DAT_011f3708));
+  unk44 = (*reinterpret_cast<unsigned int *>(&::DAT_011f370c));
+  unk48 = (*reinterpret_cast<unsigned int *>(&::DAT_011f3710));
+  unk4c = ::DAT_01096b8c;
   unsigned char itemCount = count;
   unk50 = 0;
   unk54 = 0;
@@ -4117,7 +4047,7 @@ void S_00a385d0_T::InvertTransform(S_00a385d0_T* out) {
     else out->pos = pos.Neg();
 }
 
-// FUN_00a3a730 : __thiscall, 27 bytes
+// FUN_00a3a730 : , 27 bytes
 //   mov edx, [esp+8]
 //   mov eax, [ecx]
 //   mov eax, [eax+0xa0]
@@ -4185,7 +4115,6 @@ void FUN_00a3a730_cls::FUN_00a3a730(int aiArg1, int aiArg2)
 
 class NiMemObject {
 public:
-    static void* operator new(unsigned int size);
 };
 class NiKeyBasedInterpolator : public NiMemObject {
 public:
@@ -4194,7 +4123,6 @@ public:
     float unk08;
     NiKeyBasedInterpolator();
 };
-extern float DAT_0109a918;
 class NiFloatInterpolator : public NiKeyBasedInterpolator {
 public:
     float value;
@@ -4206,13 +4134,10 @@ public:
         lastIndex = 0;
     }
 };
-inline void* __cdecl operator new(unsigned int, void* memory) throw() {
-    return memory;
-}
 // Allocates a NiFloatInterpolator via NiMemObject::operator new and placement-constructs it, returning null on allocation failure.
 // @fnv 0x00a3c570
 NiFloatInterpolator* __cdecl CreateNiFloatInterpolator() {
-    void* memory = NiMemObject::operator new(sizeof(NiFloatInterpolator));
+    void* memory = ::operator new(sizeof(NiFloatInterpolator));
     if (memory)
         return ::new (memory) NiFloatInterpolator;
     return 0;
@@ -4237,17 +4162,29 @@ struct AnimSink {
 
 class FUN_00a3da20_cls {
 public:
-    void AccumulateAnimSink(int a1);
+    void AccumulateAnimSink(intptr_t a1);
+};
+// @fnv 0x00a27430
+void FUN_00a27430_T::FUN_00a27430(NiStream& stream)
+{
+    reinterpret_cast<::FUN_00a3da20_cls *>(this)->AccumulateAnimSink((intptr_t)&(stream));
+    m_kDiffuseColor.LoadBinary(stream);
+}
+
+struct FUN_00a3da20_Owner
+{
+    char pad00[0x24c];
+    AnimSink* unk24c;
 };
 
 // Calls the sink's callback with count 4 and adds its return value to the sink's m_04 counter.
 // @fnv 0x00a3da20
-void FUN_00a3da20_cls::AccumulateAnimSink(int a1)
+void FUN_00a3da20_cls::AccumulateAnimSink(intptr_t a1)
 {
-    AnimSink* sink = *(AnimSink**)((char*)a1 + 0x24c);
+    AnimSink* sink = ((FUN_00a3da20_Owner*)a1)->unk24c;
     int (__cdecl *fn)(AnimSink*, void*, int, int*, int) = sink->m_08;
-    a1 = 4;
-    sink->m_04 += fn(sink, this, 4, &a1, 1);
+    int count = 4;
+    sink->m_04 += fn(sink, this, 4, &count, 1);
 }
 
 struct FUN_00a3da50_Anim {
@@ -4410,7 +4347,7 @@ struct FUN_00a3da50_Owner {
 };
 
 // @fnv 0x00a3da50
-int __cdecl CallAnimCallback(FUN_00a3da50_Owner *pOwner, int iIndex)
+int __cdecl CallAnimCallback(FUN_00a3da50_Owner *pOwner, intptr_t iIndex)
 {
     int iOut;
     FUN_00a3da50_Anim *pAnim = pOwner->m_pAnim;
@@ -4421,7 +4358,6 @@ int __cdecl CallAnimCallback(FUN_00a3da50_Owner *pOwner, int iIndex)
     return iResult;
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct S_a3dd40_Obj {
     virtual ~S_a3dd40_Obj();
@@ -4451,7 +4387,6 @@ struct FUN_00a3ca30 {
     int unk14;
 };
 
-extern "C" void __cdecl FUN_00aa10f0(void*) throw();
 
 struct FUN_00a3dd40 : FUN_00a3ca30 {
     S_a3dd40_Ptr m_kPointA;
@@ -4465,10 +4400,9 @@ FUN_00a3dd40::~FUN_00a3dd40() throw()
 {
     m_kPointA = 0;
     m_kPointB = 0;
-    FUN_00aa10f0(m_p);
+    ::FUN_00aa10f0(m_p);
 }
 
-extern "C" float __cdecl func_0x00a42070(float input, float leftStart, float leftExtent, float rightStart, float rightEnd);
 
 // @fnv 0x00a26fe0
 void __cdecl FUN_00a26fe0(float a, const float* b, const float* c, float* pfResult)
@@ -4477,15 +4411,14 @@ void __cdecl FUN_00a26fe0(float a, const float* b, const float* c, float* pfResu
     float c1 = c[1];
     float b3 = b[3];
     float b1 = b[1];
-    *pfResult = func_0x00a42070(a, b1, b3, c1, c2);
+    *pfResult = ::FUN_00a42070(a, b1, b3, c1, c2);
 }
 
 namespace fnv_00a29e00 {
 typedef void (__cdecl *FUN_00a29e00_Callback)(int, int, unsigned char);
 
-extern "C" FUN_00a29e00_Callback DAT_011f3780[];
 
-// For each of 3 entries, if the target is nonzero, calls the callback from DAT_011f3780 indexed by slot with target, value and flag.
+// For each of 3 entries, if the target is nonzero, calls the callback from the key function table kAt011f3780 indexed by slot with target, value and flag.
 // @fnv 0x00a29e00
 void __cdecl DispatchEntryCallbacks(void* pData)
 {
@@ -4500,7 +4433,7 @@ void __cdecl DispatchEntryCallbacks(void* pData)
             unsigned char flag = *(base + 0x2C + index);
             int value = entry[-7];
             int slot = entry[-4];
-            FUN_00a29e00_Callback callback = DAT_011f3780[slot];
+            FUN_00a29e00_Callback callback = NiAnimationKeyTables::Get<void (*)(int, int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, slot);
 
             callback(target, value, flag);
         }
@@ -4515,10 +4448,8 @@ struct FloatKey {
     float time;
     float value;
     ~FloatKey() throw() {}
-    static void* operator new[](unsigned int n) { return ((P03MM*)&g_memoryManager)->Allocate(n); }
 };
 
-void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 float __cdecl GetValueAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
 
 // @fnv 0x00a2a620
@@ -4529,9 +4460,9 @@ bool __cdecl FUN_00a2a620(float t, TCBKeyS** pKeys, unsigned int* puiCount)
     if (FindKeyIndex(t, old, *puiCount, &idx, 8)) {
         unsigned int newCount = *puiCount + 1;
         FloatKey* dst = new FloatKey[newCount];
-        FUN_00ec44d0(dst, old, idx * 8);
+        std::memmove(dst, old, idx * 8);
         if (*puiCount > idx) {
-            FUN_00ec44d0(dst + idx + 1, (FloatKey*)old + idx, (*puiCount - idx) * 8);
+            std::memmove(dst + idx + 1, (FloatKey*)old + idx, (*puiCount - idx) * 8);
         }
         float v = GetValueAtTime(t, old, 1, *puiCount, 8);
         FloatKey* key = &dst[idx];
@@ -4539,7 +4470,7 @@ bool __cdecl FUN_00a2a620(float t, TCBKeyS** pKeys, unsigned int* puiCount)
         key->value = v;
         (*puiCount)++;
         if (old != 0) {
-            g_memoryManager.Deallocate((char*)old - 4);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)old - sizeof(std::size_t));
         }
         *pKeys = (TCBKeyS*)dst;
         return true;
@@ -4575,10 +4506,7 @@ struct BezPosKey {
     Vec3S unk34;
     Vec3S unk40;
     ~BezPosKey() {}
-    static void* operator new[](unsigned int n) { return ((P03MM*)&g_memoryManager)->Allocate(n); }
-    static void operator delete[](void* p) { g_memoryManager.Deallocate(p); }
 };
-void BezSortKeys(BezPosKey* keys, unsigned int count, unsigned int stride);
 
 // @fnv 0x00a2b850
 bool InsertBezPosKey(float t, BezPosKey** pKeys, unsigned int* puiCount) {
@@ -4586,9 +4514,9 @@ bool InsertBezPosKey(float t, BezPosKey** pKeys, unsigned int* puiCount) {
     unsigned int idx;
     if (FindKeyIndex(t, (TCBKeyS*)oldKeys, *puiCount, &idx, sizeof(BezPosKey))) {
         BezPosKey* newKeys = new BezPosKey[*puiCount + 1];
-        _memmove(newKeys, oldKeys, idx * sizeof(BezPosKey));
+        std::memmove(newKeys, oldKeys, idx * sizeof(BezPosKey));
         if (*puiCount > idx)
-            _memmove(&newKeys[idx + 1], &oldKeys[idx], (*puiCount - idx) * sizeof(BezPosKey));
+            std::memmove(&newKeys[idx + 1], &oldKeys[idx], (*puiCount - idx) * sizeof(BezPosKey));
         Vec3R pos = GetKeyPosAtTime(t, (TCBKeyS*)oldKeys, 3, *puiCount, sizeof(BezPosKey));
         BezPosKey& key = newKeys[idx];
         key.time = t;
@@ -4598,9 +4526,9 @@ bool InsertBezPosKey(float t, BezPosKey** pKeys, unsigned int* puiCount) {
         key.in.z = 0.0f;
         ++*puiCount;
         if (oldKeys)
-            BezPosKey::operator delete[]((unsigned int*)oldKeys - 1);
+            ::operator delete[]((std::size_t*)oldKeys - 1);
         *pKeys = newKeys;
-        BezSortKeys(newKeys, *puiCount, sizeof(BezPosKey));
+        ::FUN_00a2b410((::PositionSplineKey *)(newKeys), *puiCount);
         return true;
     }
     return false;
@@ -4611,12 +4539,10 @@ struct InsertPositionKey {
     float time;
     Vec3S position;
     ~InsertPositionKey() {}
-    static void* operator new[](unsigned int bytes) { return ((P03MM*)&g_memoryManager)->Allocate(bytes); }
 };
 
 bool FindKeyIndex(float, InsertPositionKey*, unsigned int, unsigned int*, unsigned int);
 Vec3R GetKeyPosAtTime(float, InsertPositionKey*, int, unsigned int, unsigned int);
-void* FUN_00ec44d0(void*, const void*, unsigned int);
 
 // @fnv 0x00a2d4a0
 bool FUN_00a2d4a0(float time, InsertPositionKey*& keys, unsigned int& count) {
@@ -4624,9 +4550,9 @@ bool FUN_00a2d4a0(float time, InsertPositionKey*& keys, unsigned int& count) {
     unsigned int index;
     if (FindKeyIndex(time, old, count, &index, 16)) {
         InsertPositionKey* pNewKeys = new InsertPositionKey[count + 1];
-        FUN_00ec44d0(pNewKeys, old, index * sizeof(InsertPositionKey));
+        std::memmove(pNewKeys, old, index * sizeof(InsertPositionKey));
         if (count > index) {
-            FUN_00ec44d0(pNewKeys + index + 1, old + index, (count - index) * sizeof(InsertPositionKey));
+            std::memmove(pNewKeys + index + 1, old + index, (count - index) * sizeof(InsertPositionKey));
         }
         Vec3R position = GetKeyPosAtTime(time, old, 5, count, 16);
         InsertPositionKey* pInsertedKey = &pNewKeys[index];
@@ -4634,7 +4560,7 @@ bool FUN_00a2d4a0(float time, InsertPositionKey*& keys, unsigned int& count) {
         pInsertedKey->position = position;
         count++;
         if (old) {
-            g_memoryManager.Deallocate((char*)old - 4);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)old - sizeof(std::size_t));
         }
         keys = pNewKeys;
         return true;
@@ -4675,8 +4601,6 @@ bool NiAnimationKeyA3D::FindKeyIndex(float fTime, NiAnimationKeyA3D* pkKeys, uns
     return bResult;
 }
 
-extern "C" double DAT_01011590;
-extern "C" double DAT_01021928;
 
 // For each key after the first, computes two Vec3S tangent values from neighbouring positions scaled by DAT_01011590 and DAT_01021928 and stores them in the key.
 // @fnv 0x00a27ee0
@@ -4751,9 +4675,9 @@ struct Dtor00a2dd70 {
 Dtor00a2dd70* Dtor00a2dd70::FUN_00a2dd70(unsigned char acFlags)
 {
     if (acFlags & 2) {
-        int count = ((int*)this)[-1];
+        int count = (int)((std::size_t*)this)[-1];
         Elem00a2dd70* e = (Elem00a2dd70*)((char*)this + count * sizeof(Elem00a2dd70));
-        char* base = (char*)this - 4;
+        char* base = (char*)this - sizeof(std::size_t);
         if (--count >= 0) {
             do {
                 --e;
@@ -4776,22 +4700,20 @@ Dtor00a2dd70* Dtor00a2dd70::FUN_00a2dd70(unsigned char acFlags)
             } while (--count >= 0);
         }
         if (acFlags & 1) {
-            g_memoryManager.Deallocate(base);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(base);
         }
         return (Dtor00a2dd70*)base;
     }
 
     holder.FUN_00a2dd10();
     if (acFlags & 1) {
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     }
     return this;
 }
 
 typedef void* (__cdecl* A29CF0CreateFn)(unsigned int uiNumKeys);
 typedef void (__cdecl* A29CF0CopyFn)(void* pkNewKey, const void* pkOrigKey);
-extern A29CF0CreateFn DAT_011f3930[];
-extern A29CF0CopyFn DAT_011f39c0[];
 
 // Copies three key arrays from pvSrc to pvDest, allocating each via the create function and copying elements with the copy function.
 // @fnv 0x00a29cf0
@@ -4806,9 +4728,9 @@ void __cdecl CopyKeyData(void* pvDest, void* pvSrc)
         unsigned int uiNumKeys = pkSrc->m_auiNumKeys[i];
         if (uiNumKeys)
         {
-            A29CF0CreateFn pfnCreateKey = DAT_011f3930[pkSrc->m_aeKeyType[i]];
+            A29CF0CreateFn pfnCreateKey = NiAnimationKeyTables::Get<void *(*)(unsigned int)>(NiAnimationKeyTables::kAt011f3930, pkSrc->m_aeKeyType[i]);
             pkDest->m_ppKeyData[i] = pfnCreateKey(uiNumKeys);
-            A29CF0CopyFn pfnCopyKey = DAT_011f39c0[pkSrc->m_aeKeyType[i]];
+            A29CF0CopyFn pfnCopyKey = NiAnimationKeyTables::Get<void (*)(void *, const void *)>(NiAnimationKeyTables::kAt011f39c0, pkSrc->m_aeKeyType[i]);
             for (unsigned int j = 0; j < uiNumKeys; j++)
                 pfnCopyKey((char*)pkDest->m_ppKeyData[i] + j * pkDest->m_aucKeySize[i],
                     (char*)pkSrc->m_ppKeyData[i] + j * pkSrc->m_aucKeySize[i]);
@@ -4833,12 +4755,11 @@ struct A2C550Key {
     float m_fData6;
     float m_fData7;
 };
-bool AreRecordsEqual(const A2C550Key& kA, const A2C550Key& kB);
 // Returns true if AreRecordsEqual accepts the pair and the remaining five float fields of kA and kB are all equal.
 // @fnv 0x00a2c550
 bool FUN_00a2c550(const A2C550Key& kA, const A2C550Key& kB)
 {
-    if (!AreRecordsEqual(kA, kB))
+    if (!::AreRecordsEqual((::FloatRecord_b5532 *)&(kA), (::FloatRecord_b5532 *)&(kB)))
         return false;
     return kA.m_fValueX == kB.m_fValueX && kA.m_fValueY == kB.m_fValueY && kA.m_fValueZ == kB.m_fValueZ
         && kA.m_fData6 == kB.m_fData6 && kA.m_fData7 == kB.m_fData7;
@@ -4850,12 +4771,11 @@ void __cdecl FUN_00a2cfd0(void* target, const unsigned char* source, unsigned in
 
 namespace fnv_00a2d1d0 {
 struct FloatRecord_b5532;
-bool __cdecl AreRecordsEqual(FloatRecord_b5532* a, FloatRecord_b5532* b);
 
 // @fnv 0x00a2d1d0
 bool __cdecl FUN_00a2d1d0(FloatRecord_b5532* a, FloatRecord_b5532* b)
 {
-    return AreRecordsEqual(a, b);
+    return ::AreRecordsEqual((::FloatRecord_b5532 *)(a), (::FloatRecord_b5532 *)(b));
 }
 }  // namespace fnv_00a2d1d0
 
@@ -4875,19 +4795,17 @@ void FUN_00a2d420(float unused,const Key415& a,const Key415& b,Point415& result)
 }
 
 struct FNVAnim;
-void __cdecl FUN_00a28ab0(FNVAnim* object, unsigned int count, unsigned int flags);
 // @fnv 0x00a2d670
 void __cdecl FUN_00a2d670(FNVAnim* object, unsigned int count, unsigned int flags)
 {
-    FUN_00a28ab0(object, count, flags);
+    ::FUN_00a28ab0((::TimedRotationKey *)(object), count, flags);
 }
 
-bool FUN_00a28a80(UHelper* a, UHelper* b);
 
 // @fnv 0x00a2d680
 bool FUN_00a2d680(UHelper* a, UHelper* b)
 {
-    return FUN_00a28a80(a, b);
+    return ::FUN_00a28a80((::Obj_a28 *)(a), (::Obj_a28 *)(b));
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
@@ -4908,7 +4826,6 @@ struct FUN_00a31240_T {
     FUN_00a31240_T& FUN_00a31240();
 };
 
-extern "C" unsigned char DAT_01096968;
 
 // @fnv 0x00a31240
 FUN_00a31240_T& FUN_00a31240_T::FUN_00a31240() {
@@ -4922,28 +4839,21 @@ FUN_00a31240_T& FUN_00a31240_T::FUN_00a31240() {
 
 namespace KeyTables {
 typedef void* KeyFn;
-extern KeyFn DAT_011f3d20[][6];
-extern KeyFn DAT_011f3c90[][6];
-extern KeyFn DAT_011f3c00[][6];
-extern KeyFn DAT_011f3b70[][6];
-extern KeyFn DAT_011f3ae0[][6];
-extern KeyFn DAT_011f3780[][6];
-extern KeyFn DAT_011f3810[][6];
 }
 struct NiKeyA { static void __cdecl FUN_00a27470(); };
 struct NiKeyB { static void __cdecl FUN_00a27470(); };
 struct NiKeyC { static void __cdecl FUN_00a27470(); };
-// Stores six function pointers and a null into the KeyTables arrays at [eContent][eType].
+// Stores six function pointers and a null into the key function tables at Index(eContent, eType).
 // @fnv 0x00a27aa0
 void __cdecl FUN_00a27aa0(int eContent, int eType)
 {
-    KeyTables::DAT_011f3d20[eContent][eType] = (void*)&FUN_00a291e0;
-    KeyTables::DAT_011f3c90[eContent][eType] = (void*)&NiKeyA::FUN_00a27470;
-    KeyTables::DAT_011f3c00[eContent][eType] = (void*)&NiKeyB::FUN_00a27470;
-    KeyTables::DAT_011f3b70[eContent][eType] = (void*)&NiKeyC::FUN_00a27470;
-    KeyTables::DAT_011f3ae0[eContent][eType] = (void*)&AreDataEqual;
-    KeyTables::DAT_011f3780[eContent][eType] = (void*)&FUN_00a29680;
-    KeyTables::DAT_011f3810[eContent][eType] = 0;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(eContent, eType), &FUN_00a291e0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(eContent, eType), &NiKeyA::FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(eContent, eType), &NiKeyB::FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(eContent, eType), &NiKeyC::FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(eContent, eType), static_cast<bool (*)(const ::A27760Data *, const ::A27760Data *)>(&AreDataEqual));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(eContent, eType), &FUN_00a29680);
+    NiAnimationKeyTables::g_functions[NiAnimationKeyTables::kAt011f3810][NiAnimationKeyTables::Index(eContent, eType)] = nullptr;
 }
 
 class NiQuaternion {
@@ -4960,6 +4870,7 @@ public:
 };
 class TimedRotationKey {
 public:
+    TimedRotationKey();
     void Fix(TimedRotationKey& prev) { if(NiQuaternion::Dot(m_kRotationValue,prev.m_kRotationValue)<0.0f) m_kRotationValue=m_kRotationValue.Negate(); }
     float m_fTime;
     NiQuaternion m_kRotationValue;
@@ -4991,14 +4902,20 @@ void __cdecl FUN_00a28ab0(TimedRotationKey* pkKeys, unsigned int uiNumKeys, unsi
 extern "C" unsigned char DAT_011f367d;
 extern "C" unsigned char __cdecl InterpolateBooleanKey(float, const void*, int, unsigned int, unsigned int*, unsigned char);
 
+struct FUN_00a29470_Key
+{
+    float time;
+    unsigned char value;
+};
+
 // Returns the value at the first or last key when fTime is out of range, otherwise calls InterpolateBooleanKey to interpolate between keys.
 // @fnv 0x00a29470
 extern "C" unsigned char __cdecl FUN_00a29470(float fTime, const void* pkKeys, int uiType, unsigned int uiNumKeys, unsigned char ucSize) {
     if (uiNumKeys) {
         if (fTime < *(const float*)pkKeys)
-            return *((const unsigned char*)pkKeys + 4);
+            return ((const FUN_00a29470_Key*)pkKeys)->value;
         if (fTime > *(const float*)((const char*)pkKeys + (uiNumKeys - 1) * ucSize))
-            return *((const unsigned char*)pkKeys + (uiNumKeys - 1) * ucSize + 4);
+            return ((const FUN_00a29470_Key*)((const char*)pkKeys + (uiNumKeys - 1) * ucSize))->value;
         unsigned int uiLastIdx = 0;
         return InterpolateBooleanKey(fTime, pkKeys, uiType, uiNumKeys, &uiLastIdx, ucSize);
     }
@@ -5034,12 +4951,12 @@ NiColorA_K __cdecl FUN_00a298f0(float fTime, NiColorKey_K* pkKeys, unsigned int 
 
 struct RotationChannels {
     int unk00, unk04, unk08, unk0c, unk10;
-    void* keys[3];
-    unsigned int counts[3];
-    unsigned char types[3];
+    unsigned int numKeys[3];
+    unsigned int keyTypes[3];
+    unsigned char keySizes[3];
     unsigned char unk2f;
-    unsigned int strides[3];
-    unsigned int indices[3];
+    void* keys[3];
+    unsigned int lastIndices[3];
 };
 struct EulerQuat {
     float w, x, y, z;
@@ -5057,23 +4974,21 @@ struct EulerQuat {
         z = fCosX * (fSinZ * fCosY) - fSinX * (fSinY * fCosZ);
     }
 };
-float InterpolateKey(float, unsigned int, unsigned int, void*, unsigned int*, unsigned char);
 // @fnv 0x00a29b10
 void FUN_00a29b10(float fTime, const void* pkKey0, const void* pkKey1, void* pvResult)
 {
     RotationChannels* pkEuler = (RotationChannels*)pkKey0;
     float afAngle[3];
     for (unsigned int i = 0; i < 3; ++i) {
-        if (!pkEuler->keys[i])
+        if (!pkEuler->numKeys[i])
             afAngle[i] = 0.0f;
         else
-            afAngle[i] = InterpolateKey(fTime, pkEuler->strides[i], pkEuler->counts[i], pkEuler->keys[i], &pkEuler->indices[i], pkEuler->types[i]);
+            afAngle[i] = ::InterpolateKey(fTime, (const ::S00a26b40_Key *)(pkEuler->keys[i]), pkEuler->keyTypes[i], pkEuler->numKeys[i], &pkEuler->lastIndices[i], pkEuler->keySizes[i]);
     }
     ((EulerQuat*)pvResult)->FromAngleAxesXYZ(afAngle[0], afAngle[1], afAngle[2]);
 }
 
 typedef bool (__cdecl *CompareFn)(unsigned int, unsigned int);
-extern CompareFn g_compareTable[];
 
 struct CompareBlock {
     unsigned int unk00;
@@ -5104,7 +5019,7 @@ bool FUN_00a29c20(const void* left, const CompareBlock* apRight)
             return false;
         }
         if (a->m_cnt[i] > 0) {
-            CompareFn fn = g_compareTable[a->m_idx[i]];
+            CompareFn fn = NiAnimationKeyTables::Get<bool (*)(unsigned int, unsigned int)>(NiAnimationKeyTables::kAt011f3ae0, a->m_idx[i]);
             for (unsigned int j = 0; j < a->m_cnt[i]; j++) {
                 unsigned int uiRightValue = apRight->m_kPointB[i] * j + apRight->m_v[i];
                 unsigned int uiLeftValue = a->m_kPointB[i] * j + a->m_v[i];
@@ -5199,10 +5114,9 @@ struct PositionSplineKey {
     NiPoint3 m_kBackwardTangent;
     NiPoint3 m_kOutgoingTangent;
     NiPoint3 m_kIncomingTangent;
-    void FUN_00a2b1d0(const NiPoint3& kPrev, const NiPoint3& kNext, float fDT0, float fDT1);
 };
 
-inline void Calc(PositionSplineKey& p, PositionSplineKey& c, PositionSplineKey& n) { c.FUN_00a2b1d0(p.m_kPositionValue,n.m_kPositionValue,c.m_fTime-p.m_fTime,n.m_fTime-c.m_fTime); }
+inline void Calc(PositionSplineKey& p, PositionSplineKey& c, PositionSplineKey& n) { reinterpret_cast<::A2B1D0Key *>(&(c))->FUN_00a2b1d0((const ::A2B1D0Vec &)(p.m_kPositionValue),(const ::A2B1D0Vec &)(n.m_kPositionValue),c.m_fTime-p.m_fTime,n.m_fTime-c.m_fTime); }
 
 // Computes forward, backward, outgoing, and incoming tangents for each PositionSplineKey in a TCB spline of uiNumKeys keys.
 // @fnv 0x00a2b410
@@ -5211,13 +5125,13 @@ void __cdecl FUN_00a2b410(PositionSplineKey* pkTCB, unsigned int uiNumKeys)
     unsigned int uiNumKeysM1 = uiNumKeys - 1;
     if (uiNumKeys >= 2)
     {
-        pkTCB[0].FUN_00a2b1d0(2.0f * pkTCB[0].m_kPositionValue - pkTCB[1].m_kPositionValue, pkTCB[1].m_kPositionValue, 1.0f, 1.0f);
+        reinterpret_cast<::A2B1D0Key *>(&(pkTCB[0]))->FUN_00a2b1d0((const ::A2B1D0Vec &)((const ::NiPoint3 &)(2.0f * pkTCB[0].m_kPositionValue - pkTCB[1].m_kPositionValue)), (const ::A2B1D0Vec &)(pkTCB[1].m_kPositionValue), 1.0f, 1.0f);
         for(unsigned ui=1; ui<uiNumKeysM1; ++ui) {
             Calc(pkTCB[ui-1],pkTCB[ui],pkTCB[ui+1]);
         }
         unsigned int lastIndex=uiNumKeysM1;
         unsigned int prevIndex=uiNumKeys-2;
-        pkTCB[lastIndex].FUN_00a2b1d0(pkTCB[prevIndex].m_kPositionValue, 2.0f*pkTCB[lastIndex].m_kPositionValue-pkTCB[prevIndex].m_kPositionValue,1.0f,1.0f);
+        reinterpret_cast<::A2B1D0Key *>(&(pkTCB[lastIndex]))->FUN_00a2b1d0((const ::A2B1D0Vec &)(pkTCB[prevIndex].m_kPositionValue), (const ::A2B1D0Vec &)((const ::NiPoint3 &)(2.0f*pkTCB[lastIndex].m_kPositionValue-pkTCB[prevIndex].m_kPositionValue)),1.0f,1.0f);
     }
 
     PositionSplineKey* pkKey = pkTCB;
@@ -5234,23 +5148,22 @@ void __cdecl FUN_00a2b410(PositionSplineKey* pkTCB, unsigned int uiNumKeys)
 struct ElemA2 {
     float m_00, m_04, m_08, m_0c, m_10;
     ~ElemA2() {}
-    static void* operator new[](unsigned int size) {
-        return ((P03MM*)&g_memoryManager)->Allocate(size);
+    static void* operator new[](std::size_t size) {
+        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(size);
     }
-    static void* operator new[](unsigned int size, unsigned int& total) throw() {
+    static void* operator new[](std::size_t size, unsigned int& total) throw() {
         total = size;
         return 0;
     }
 };
-typedef char ElemA2_size_check[sizeof(ElemA2) == 20 ? 1 : -1];
-extern "C" void __stdcall _vector_constructor_iterator(void*, unsigned int, unsigned int, void*);
+extern "C" void _vector_constructor_iterator(void*, unsigned int, unsigned int, void*);
 extern "C" void Clear();
 // Allocates a raw block for count ElemA2 items, writes the count at the front, and constructs the elements via _vector_constructor_iterator.
 // @fnv 0x00a2ced0
 void* __cdecl FUN_00a2ced0(unsigned int count) {
     unsigned int total;
     new(total) ElemA2[count];
-    char* raw = (char*)((P03MM*)&g_memoryManager)->Allocate(total);
+    char* raw = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(total);
     if (raw) {
         *(unsigned int*)raw = count;
         ElemA2* result = (ElemA2*)(raw + 4);
@@ -5280,17 +5193,15 @@ void __cdecl FUN_00a2d470(int aiTarget, FUN_00a2d470_Entry* entries, unsigned in
 
 struct CloneableObj {
     void FUN_00a2f8a0(CloneableObj* pObject, void* pData);
-    void FUN_00a6cfe0(CloneableObj* pObject, void* pData);
 };
 // @fnv 0x00a2f8a0
 void CloneableObj::FUN_00a2f8a0(CloneableObj* pObject, void* pData)
 {
-    FUN_00a6cfe0(pObject, pData);
+    reinterpret_cast<::NiTimeControllerCM *>(this)->FUN_00a6cfe0((::NiTimeController *)(pObject), (*(::CloningProcess *)(pData)));
 }
 
 namespace sa359d0 {
 
-extern "C" const char DAT_01096694[];
 
 struct ControllerBase {
     const char* m_pVtbl;
@@ -5307,7 +5218,6 @@ struct ControllerBase {
     int unk02c;
     int unk30;
 
-    static void* operator new(unsigned int uiSize);
     ControllerBase() throw();
 };
 
@@ -5319,7 +5229,7 @@ struct Controller : ControllerBase {
 
     Controller()
     {
-        m_pVtbl = DAT_01096694;
+        m_pVtbl = (*reinterpret_cast<const char (*)[]>(&::DAT_01096694));
         m_i34 = 0;
         m_us38 = 0;
         m_i3c = 0;
@@ -5337,11 +5247,16 @@ ControllerBase* FUN_00a359d0()
 }
 
 #include <math.h>
+#include "fnv/decl/QQ.h"
+#include "fnv/symbols_00a2e000.h"
+#include "fnv/symbols_00a31000.h"
+#include "fnv/symbols_00a3c000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_01015000.h"
 struct TextureCodec { unsigned int unk00,unk04,unk08,offset0c,converterIndex; unsigned char bytesPerElement; };
 struct TexelSampler { unsigned int unk00,unk04,unk08,unk0c,unk10,unk14; TextureCodec* codec;
 float SampleLength(unsigned int x,unsigned int y,float value); };
 typedef void (__cdecl *ConverterFn)(float,unsigned int,unsigned int,float*);
-extern ConverterFn DAT_011f3c18[];
 // Calls the codec's converter (by converterIndex) with value and offsets derived from x and y, and returns the length of the resulting 3-float vector.
 // @fnv 0x00a3e5f0
 float TexelSampler::SampleLength(unsigned int x,unsigned int y,float value) {
@@ -5351,13 +5266,11 @@ float TexelSampler::SampleLength(unsigned int x,unsigned int y,float value) {
   if(pCodec) {type=pCodec->converterIndex;base=pCodec->bytesPerElement;rgb=pCodec->offset0c;}
   else {type=0;base=0;}
   float afComponents[3];
-  DAT_011f3c18[type](value,base*x+rgb,base*y+rgb,afComponents);
+  NiAnimationKeyTables::Get<void (*)(float, unsigned int, unsigned int, float *)>(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(1, 0) + type)(value,base*x+rgb,base*y+rgb,afComponents);
   float stride=afComponents[0]*afComponents[0]+afComponents[1]*afComponents[1]+afComponents[2]*afComponents[2];
   return sqrtf(stride);
 }
 
-extern "C" double DAT_01011588;
-extern "C" double DAT_01011590;
 
 // Float TCB (Kochanek-Bartels) key.
 struct FUN_00a2c6a0_Key {
@@ -5378,7 +5291,7 @@ void __cdecl FUN_00a2c6a0(FUN_00a2c6a0_Key* key, float prev, float next, float p
     float fDeltaNext = next - key->value;
     float fOpBias = key->bias + 1.0f;
     float fOmBias = 1.0f - key->bias;
-    float fOmTension = (1.0f - key->tension) * DAT_01011588;
+    float fOmTension = (1.0f - key->tension) * ::DAT_01011588;
     float fOpContinuity = key->continuity + 1.0f;
     float a = fOpContinuity * fOmTension;
     float fOmContinuity = 1.0f - key->continuity;
@@ -5392,19 +5305,18 @@ void __cdecl FUN_00a2c6a0(FUN_00a2c6a0_Key* key, float prev, float next, float p
 }
 
 namespace fnv_00a2aa50 {
-void __cdecl InsertLinPosKey();
 
-// Stores function pointers into KeyTables arrays indexed by content and type.
+// Stores function pointers into the key function tables at Index(content, type).
 // @fnv 0x00a2aa50
 void FUN_00a2aa50(int content, int type)
 {
-    KeyTables::DAT_011f3d20[content][type] = (void*)&FUN_00a291e0;
-    KeyTables::DAT_011f3c90[content][type] = (void*)&FUN_00a2a7f0;
-    KeyTables::DAT_011f3c00[content][type] = (void*)&FUN_00a2a890;
-    KeyTables::DAT_011f3b70[content][type] = (void*)&FUN_00a27470;
-    KeyTables::DAT_011f3ae0[content][type] = (void*)&FUN_00a2a7e0;
-    KeyTables::DAT_011f3780[content][type] = (void*)&FUN_00a29680;
-    KeyTables::DAT_011f3810[content][type] = (void*)&InsertLinPosKey;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(content, type), &FUN_00a291e0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(content, type), &FUN_00a2a7f0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(content, type), &FUN_00a2a890);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(content, type), &FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(content, type), &FUN_00a2a7e0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(content, type), &FUN_00a29680);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(content, type), &((void (&)())::InsertLinPosKey));
 }
 }  // namespace fnv_00a2aa50
 
@@ -5414,7 +5326,7 @@ struct ArrayElement : NiColorKey_K
 {
     ArrayElement() throw() {}
     ~ArrayElement() {}
-    static void* operator new[](unsigned int bytes, unsigned int& requested) throw()
+    static void* operator new[](std::size_t bytes, unsigned int& requested) throw()
     {
         requested = bytes;
         return 0;
@@ -5426,7 +5338,7 @@ struct ArrayCookie
 };
 }
 
-extern "C" void* __fastcall FUN_0052d160(void* element);
+extern "C" void* FUN_0052d160(void* element);
 
 // Allocates a block of NiColorKey_K elements via g_memoryManager and constructs them with FUN_0052d160.
 // @fnv 0x00a2a1b0
@@ -5436,7 +5348,7 @@ NiColorKey_K* FUN_00a2a1b0(unsigned int count)
     new(requested) LinearColorArrayDetail::ArrayElement[count];
     LinearColorArrayDetail::ArrayCookie* block =
         static_cast<LinearColorArrayDetail::ArrayCookie*>(
-            reinterpret_cast<P03MM*>(&g_memoryManager)->Allocate(requested));
+            reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&g_memoryManager)))->FUN_00aa3e40(requested));
     if (block)
     {
         block->count = count;
@@ -5458,3 +5370,962 @@ bool __cdecl FUN_00a2cc30(int param_1, int param_2)
     return A2CC30_Shell::FUN_00a291a0(reinterpret_cast<const Helper*>(param_1),
                                       reinterpret_cast<const Helper*>(param_2));
 }
+
+void* _memmove(void* d, const void* s, unsigned int n);
+
+bool FUN_00a282a0(float t, TCBKeyS** pKeys, unsigned int* pCount);
+
+typedef int(* FnInterlockedDecrement)(void*);
+
+void FUN_00a28620(int param_1, int param_2);
+
+typedef void(* Fn_00a26fa0_cb)(void*);
+
+void ApplyCallbackBackwards(char* p, int iTileIndex, int nCount, Fn_00a26fa0_cb pFn);
+
+void* _memmove(void* d, const void* s, unsigned int n);
+
+// The primary comparison: the float at +0 and the NiBound sub-object at +4.
+typedef void(__cdecl* A291F0Func)();
+
+float __cdecl FUN_00a291e0();
+
+void __cdecl RegisterCurveOps(int eContent, int eType);
+
+typedef int(__cdecl* FUN_00a29550_fn)(FUN_00a29550_stream*, int, int, int*, int);
+
+typedef bool(__cdecl* FNV_CbFn)(float, int*, int*);
+
+typedef void*(__cdecl* A29F00LoadFunc)(A29F00Stream& kStream, unsigned int uiNumKeys);
+
+void FUN_00a2a890(float fTime, const A2A890Key& kKey0, const A2A890Key& kKey1, A2A890Point3& kResult);
+
+// MemoryManager, P03MM, Vec3S, Vec3R come from the pack header.
+void* _memmove(void* d, const void* s, unsigned int n);
+
+
+typedef int(__cdecl* S_00a2c9d0_ReadFn)(void* stream, void* buffer, unsigned int size, unsigned int* pCount,
+                                        unsigned int count);
+
+int __cdecl FUN_00ec658f(void(__cdecl* pfn)(void));
+
+
+void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
+
+// @fnv 0x00a291e0
+float __cdecl FUN_00a291e0()
+{
+    return 0.0f;
+}
+
+void ApplyCallbackBackwards(char *p, int iTileIndex, int nCount, Fn_00a26fa0_cb pFn);
+
+int __cdecl FUN_00ec658f(void (__cdecl* pfn)(void));
+
+class NiFixedString {
+  public:
+    char* m_kHandle;
+    NiFixedString() {}
+    NiFixedString(char* const& s) : m_kHandle(s) {}
+    NiFixedString& operator=(char* const& s) { m_kHandle = s; return *this; }
+};
+
+
+struct NiObject : public NiRefObject {
+public:
+    NiObject();
+};
+
+class NiControllerSequence : public NiObject {
+public:
+    NiControllerSequence();
+    virtual ~NiControllerSequence() throw();
+
+    NiFixedString m_kName;
+    unsigned int m_uiNumControlledBlocks;
+    unsigned int m_uiNumIDTags;
+    void* m_pInterpArray;
+    void* m_pkIDTags;
+    float m_fWeight;
+    NiPointer<NiRefObject> m_spTextKeyData;
+    int m_eAnimationCycleType;
+    float m_fFrequency;
+    float m_fFirstKeyTime;
+    float m_fLastKeyTime;
+    float m_fLastTime;
+    float m_fWeightAdjustedLastTime;
+    float m_fScaledLastTime;
+    void* m_pkOwnerManager;
+    int m_eAnimationState;
+    float m_fSequenceOffset;
+    float m_fStartTime;
+    float m_fEndTime;
+    float m_fDestinationFrame;
+    NiControllerSequence* m_pkTimeSyncSequence;
+    NiFixedString m_kAccumulationRootName;
+    void* m_pkAccumulationRoot;
+    void* m_spStringPalette;
+    short m_sCurAnimNIdx;
+    void* m_spAnimNotes;
+    unsigned short m_usNumNotes;
+    bool m_bRemoveActivatorOnComplete;
+};
+
+// @fnv 0x00a316a0
+NiControllerSequence::NiControllerSequence() :
+    m_kName(DAT_0109b220), m_uiNumControlledBlocks(0), m_uiNumIDTags(0), m_pInterpArray(0), m_pkIDTags(0), m_fWeight(1.0f), m_spTextKeyData(0), m_fFrequency(1.0f), m_fFirstKeyTime(::DAT_01096548)
+{
+    m_eAnimationCycleType = 0;
+    m_pkOwnerManager = 0;
+    float fInvalid = ::DAT_01015f5c;
+    m_eAnimationState = 0;
+    m_fLastKeyTime = fInvalid;
+    m_fLastTime = fInvalid;
+    m_fWeightAdjustedLastTime = fInvalid;
+    m_fScaledLastTime = fInvalid;
+    m_fSequenceOffset = fInvalid;
+    m_fStartTime = fInvalid;
+    m_fEndTime = fInvalid;
+    m_fDestinationFrame = fInvalid;
+    m_pkTimeSyncSequence = 0;
+    m_kAccumulationRootName = DAT_0109b220;
+    m_pkAccumulationRoot = 0;
+    m_spStringPalette = 0;
+    m_sCurAnimNIdx = -1;
+    m_spAnimNotes = 0;
+    m_usNumNotes = 0;
+    m_bRemoveActivatorOnComplete = false;
+}
+
+void StoreGlobalByte(int a, int b, int c, unsigned char* d);
+
+void FUN_00a28060();
+
+bool FUN_00a291a0(const Helper* a, const Helper* b);
+
+A281E0BezPosKey* LoadBezPosKeys(A281E0Stream& kStream, unsigned int uiNumKeys);
+
+void __cdecl SaveKeyArray(NiStream& kStream, A28260Key* pkKeys, unsigned int uiNumKeys);
+
+void FUN_00a286e0(unsigned int a0, unsigned int a1, unsigned int a2, Vec4_b5508* out);
+
+void __cdecl FUN_00a28720(void* a, void* b);
+
+FUN_00a289b0_Vec4* __cdecl SampleKeyedVec4(FUN_00a289b0_Vec4* out, float t, char* keys, void* arg4, unsigned int count,
+                                           unsigned char stride);
+
+bool __cdecl FUN_00a28a80(Obj_a28* a, Obj_a28* b);
+
+void CopyBlk36(Blk36* dst, const Blk36* src);
+
+void __cdecl CallSpawnTarget(float a, char* x, char* y, SpawnTarget* z);
+
+extern void __cdecl FUN_00a28ab0(FNVAnim* obj, unsigned int count, unsigned int flag);
+
+void __cdecl FUN_00a28dc0(FNVAnim* obj, unsigned int count, unsigned int flag);
+
+// The primary comparison: the float at +0 and the NiBound sub-object at +4.
+bool FUN_00a28a80(UHelper* a, UHelper* b);
+
+bool CompareBounds(UHelper* a, UHelper* b);
+
+int __cdecl FUN_00a29550(int a1, int a2);
+
+void __cdecl FUN_00a29660(void* target, Outer* source);
+
+// The element constructor of the allocated object.
+bool UpdateArrayElements(float t, void** pOut, int* pFlag);
+
+void ReadBlockEntries(A29FE0Context* pkContext, A29FE0Block* pkBlock);
+
+bool A2BDE0KeyEqual(const A2BDE0Key& kA, const A2BDE0Key& kB);
+
+void __cdecl FUN_00a28ab0(void* a, unsigned int count, void* c);
+
+void __cdecl FUN_00a28720(S_a2c390_Stream* s, void* obj);
+
+struct Elem48
+{
+    int unk00;
+    float m04, m08, m0C, m10;
+    float m14, m18, m1C;
+    float m20, m24, m28;
+    unsigned char m2C, m2D, m2E, unk2F;
+    float m30, m34, m38;
+    float m3C, m40, m44;
+    Elem48() throw();
+    ~Elem48() throw();
+};
+
+// @fnv 0x00a29db0
+Elem48* __cdecl FUN_00a29db0(unsigned int count)
+{
+    return new Elem48[count];
+}
+
+struct Elem20
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0C;
+    float unk10;
+
+    Elem20();
+    ~Elem20()
+    {}
+};
+
+// @fnv 0x00a2ab40
+void* FUN_00a2ab40(unsigned int count)
+{
+    return new Elem20[count];
+}
+
+struct A2ABC0Stream;
+
+struct A2ABC0Key
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0C;
+    float unk10;
+
+    A2ABC0Key();
+    ~A2ABC0Key()
+    {}
+};
+
+// @fnv 0x00a2abc0
+void* FUN_00a2abc0(A2ABC0Stream* s, unsigned int count)
+{
+    A2ABC0Key* p = new A2ABC0Key[count];
+    for (unsigned int i = 0; i < count; i++)
+        reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(&(p[i]))->FUN_00a29640((*(::fnv_00a29640::NiStream *)(s)));
+    return p;
+}
+
+struct BoolKeyS
+{
+    float time;
+    bool value;
+    ~BoolKeyS() throw()
+    {}
+};
+
+bool GenInterpBool(float t, BoolKeyS* keys, int type, unsigned int count, unsigned int stride);
+
+// @fnv 0x00a2ccd0
+bool FUN_00a2ccd0(float fTime, BoolKeyS*& pkKeys, unsigned int& uiNumKeys)
+{
+    unsigned int uiIndex;
+    BoolKeyS* pkOldKeys = pkKeys;
+    if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOldKeys), uiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(BoolKeyS)))
+    {
+        BoolKeyS* pkNewKeys = new BoolKeyS[uiNumKeys + 1];
+        std::memmove(pkNewKeys, pkOldKeys, uiIndex * sizeof(BoolKeyS));
+        if (uiNumKeys > uiIndex)
+            std::memmove(&pkNewKeys[uiIndex + 1], &pkOldKeys[uiIndex], (uiNumKeys - uiIndex) * sizeof(BoolKeyS));
+        bool bValue = GenInterpBool(fTime, pkOldKeys, 5, uiNumKeys, sizeof(BoolKeyS));
+        BoolKeyS* pkKey = &pkNewKeys[uiIndex];
+        pkKey->time = fTime;
+        pkKey->value = bValue;
+        uiNumKeys++;
+        delete[] pkOldKeys;
+        pkKeys = pkNewKeys;
+        return true;
+    }
+    return false;
+}
+
+struct A28F00Elem
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+
+    A28F00Elem();
+    ~A28F00Elem()
+    {}
+};
+
+// @fnv 0x00a28f00
+A28F00Elem* __cdecl FUN_00a28f00(unsigned int ItemUpdateArray)
+{
+    return new A28F00Elem[ItemUpdateArray];
+}
+
+FUN_00a289b0_Vec4* __cdecl SampleKeyedVec4(FUN_00a289b0_Vec4* out, float t, char* keys, void* arg4, unsigned int count,
+                                           unsigned char stride);
+
+void __cdecl FUN_00a28dc0(FNVAnim* obj, unsigned int count, unsigned int flag);
+
+struct QuatS
+{
+    float m_fVectorX, m_fVectorY, m_fVectorZ, m_fScalarPart;
+    QuatS()
+    {}
+    QuatS(float w, float x, float y, float z) throw();
+};
+
+struct TCBRotKeyS
+{
+    float m_fTime;
+    QuatS m_kQuat;
+    float m_fValueX;
+    float m_fValueY;
+    float m_fValueZ;
+    float unk20;
+    TCBRotKeyS() : m_kQuat(0.0f, 0.0f, 0.0f, 0.0f)
+    {}
+    ~TCBRotKeyS()
+    {}
+};
+
+typedef TCBRotKeyS RotKeyS;
+
+// @fnv 0x00a28f50
+bool FUN_00a28f50(float t, RotKeyS*& pkKeys, unsigned int& uiNumKeys)
+{
+    TCBRotKeyS* pkOld = (TCBRotKeyS*)pkKeys;
+    unsigned int uiInsertAt;
+    if (::NiAnimationKeyA3D::FindKeyIndex(t, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOld), uiNumKeys, (*(unsigned int *)(&uiInsertAt)), sizeof(TCBRotKeyS)))
+    {
+        TCBRotKeyS* pkNewKeys = new TCBRotKeyS[uiNumKeys + 1];
+        std::memmove(pkNewKeys, pkOld, uiInsertAt * sizeof(TCBRotKeyS));
+        if (uiNumKeys > uiInsertAt)
+            std::memmove(&pkNewKeys[uiInsertAt + 1], &pkOld[uiInsertAt], (uiNumKeys - uiInsertAt) * sizeof(TCBRotKeyS));
+
+        QuatS kQuat;
+        SampleKeyedVec4((FUN_00a289b0_Vec4*)&kQuat, t, (char*)pkOld, (void*)2, uiNumKeys, sizeof(TCBRotKeyS));
+        TCBRotKeyS* pkNewKey = &pkNewKeys[uiInsertAt];
+        pkNewKey->m_fTime = t;
+        pkNewKey->m_kQuat = kQuat;
+        uiNumKeys++;
+        delete[] pkOld;
+        pkKeys = pkNewKeys;
+        FUN_00a28dc0((FNVAnim*)pkNewKeys, uiNumKeys, sizeof(TCBRotKeyS));
+        return true;
+    }
+    return false;
+}
+
+struct A290A0Stream;
+
+struct A290A0Key
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    A290A0Key();
+    ~A290A0Key();
+};
+
+// @fnv 0x00a290a0
+A290A0Key* __cdecl FUN_00a290a0(A290A0Stream* pkStream, unsigned int ItemUpdateArray)
+{
+    A290A0Key* pkKeys = new A290A0Key[ItemUpdateArray];
+    for (unsigned int i = 0; i < ItemUpdateArray; i++)
+    {
+        reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(&(pkKeys[i]))->FUN_00a29640((*(::fnv_00a29640::NiStream *)(pkStream)));
+    }
+    return pkKeys;
+}
+
+struct RotKeyQuat
+{
+    float w;
+    float x;
+    float y;
+    float z;
+};
+
+
+void FUN_00a298f0(RotKeyQuat* pkResult, float fTime, TimedRotationKey* pkKeys, int eType, unsigned int uiNumKeys,
+                  unsigned int uiKeySize);
+
+// @fnv 0x00a2a390
+bool FUN_00a2a390(float fTime, TimedRotationKey*& pkKeys, unsigned int& uiNumKeys)
+{
+    TimedRotationKey* pkOld = pkKeys;
+    unsigned int uiIndex;
+    if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOld), uiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(TimedRotationKey)))
+    {
+        TimedRotationKey* pkNew = new TimedRotationKey[uiNumKeys + 1];
+        std::memmove(pkNew, pkOld, uiIndex * sizeof(TimedRotationKey));
+        if (uiNumKeys > uiIndex)
+            std::memmove(&pkNew[uiIndex + 1], &pkOld[uiIndex], (uiNumKeys - uiIndex) * sizeof(TimedRotationKey));
+
+        RotKeyQuat kQuat;
+        FUN_00a298f0(&kQuat, fTime, pkOld, 1, uiNumKeys, sizeof(TimedRotationKey));
+        TimedRotationKey* pkKey = &pkNew[uiIndex];
+        pkKey->m_fTime = fTime;
+        *reinterpret_cast<RotKeyQuat*>(&pkKey->m_kRotationValue) = kQuat;
+        uiNumKeys++;
+
+        delete[] pkOld;
+        pkKeys = pkNew;
+        return true;
+    }
+    return false;
+}
+
+struct ColorKeyValue
+{
+    float r;
+    float g;
+    float b;
+    float a;
+};
+
+struct ColorKey
+{
+    float m_fTime;
+    ColorKeyValue m_kValue;
+    ColorKey();  // FUN_00a2bdb0
+    ~ColorKey()
+    {}
+};
+
+ColorKeyValue* __cdecl SampleKeyedVec4(ColorKeyValue* pkOut, float fTime, ColorKey* pkKeys, int iType,
+                                       unsigned int ItemUpdateArray, unsigned char ucStride);
+
+void __cdecl FUN_00a28ab0(ColorKey* pkKeys, unsigned int ItemUpdateArray, unsigned int uiStride);
+
+// @fnv 0x00a2ac30
+bool FUN_00a2ac30(float fTime, ColorKey** ppkKeys, unsigned int* puiNumKeys)
+{
+    ColorKey* pkKeys = *ppkKeys;
+    unsigned int uiIndex;
+    if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkKeys), *puiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(ColorKey)))
+    {
+        ColorKey* pkNew = new ColorKey[*puiNumKeys + 1];
+        std::memmove(pkNew, pkKeys, uiIndex * sizeof(ColorKey));
+        if (*puiNumKeys > uiIndex)
+            std::memmove(&pkNew[uiIndex + 1], &pkKeys[uiIndex], (*puiNumKeys - uiIndex) * sizeof(ColorKey));
+        ColorKeyValue kValue;
+        SampleKeyedVec4(&kValue, fTime, pkKeys, 1, *puiNumKeys, sizeof(ColorKey));
+        ColorKey& kKey = pkNew[uiIndex];
+        kKey.m_fTime = fTime;
+        kKey.m_kValue = kValue;
+        ++*puiNumKeys;
+        delete[] pkKeys;
+        *ppkKeys = pkNew;
+        FUN_00a28ab0(pkNew, *puiNumKeys, sizeof(ColorKey));
+        return true;
+    }
+    return false;
+}
+
+struct QuatA
+{
+    float w, x, y, z;
+    QuatA()
+    {}
+    void Set(float, float, float, float);
+};
+
+struct FUN_00a2bdb0
+{
+    float time;
+    QuatA value;
+    float tension, continuity, bias;
+    QuatA a;
+    QuatA b;
+    FUN_00a2bdb0()
+    {
+        value.Set(0.0f, 0.0f, 0.0f, 0.0f);
+    }
+    ~FUN_00a2bdb0()
+    {}
+};
+
+QuatA __cdecl SampleKeyedVec4(float, FUN_00a2bdb0*, int, unsigned, unsigned);
+
+// @fnv 0x00a2c1b0
+bool __cdecl FUN_00a2c1b0(float time, FUN_00a2bdb0** keys, unsigned* count)
+{
+    FUN_00a2bdb0* oldKeys = *keys;
+    unsigned index;
+    if (::NiAnimationKeyA3D::FindKeyIndex(time, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)oldKeys), *count, (*(unsigned int *)(&index)), 64))
+    {
+        FUN_00a2bdb0* newKeys = new FUN_00a2bdb0[*count + 1];
+        std::memmove(newKeys, oldKeys, index * sizeof(FUN_00a2bdb0));
+        if (*count > index)
+            std::memmove(newKeys + index + 1, oldKeys + index, (*count - index) * sizeof(FUN_00a2bdb0));
+        QuatA value = SampleKeyedVec4(time, oldKeys, 3, *count, 64);
+        FUN_00a2bdb0& key = newKeys[index];
+        key.time = time;
+        key.value = value;
+        key.bias = key.continuity = key.tension = 0.0f;
+        ++*count;
+        delete[] oldKeys;
+        *keys = newKeys;
+        ::FUN_00a2c130((::Quad64 *)(newKeys), *count, (void *)(64));
+        return true;
+    }
+    return false;
+}
+
+namespace fnv_00a2c420 {
+namespace na2c {
+struct Alloc
+{
+};
+}
+struct FUN_00a2bdb0
+{
+    int d[16];
+    FUN_00a2bdb0() throw();
+    ~FUN_00a2bdb0() throw()
+    {}
+};
+
+// @fnv 0x00a2c420
+FUN_00a2bdb0* __cdecl FUN_00a2c420(S_a2c300_Stream* s, unsigned int count)
+{
+    FUN_00a2bdb0* arr = new FUN_00a2bdb0[count];
+    for (unsigned int i = 0; i < count; i++)
+        reinterpret_cast<::S_a2c300_Obj *>(&(arr[i]))->SaveExtraFields(s);
+    return arr;
+}
+}
+
+// namespace fnv_00a2c420
+
+struct ScalarKeyA2
+{
+    float time, value, tension, bias, continuity, inTangent, outTangent;
+    ~ScalarKeyA2() throw()
+    {}
+};
+
+float GetValueAtTime(float, ScalarKeyA2*, int, unsigned int, unsigned int);
+
+// @fnv 0x00a2c890
+bool FUN_00a2c890(float time, ScalarKeyA2** keys, unsigned int* count)
+{
+    ScalarKeyA2* old = *keys;
+    unsigned int index;
+    if (::NiAnimationKeyA3D::FindKeyIndex(time, (::NiAnimationKeyA3D *)(old), *count, (*(unsigned int *)(&index)), 28))
+    {
+        ScalarKeyA2* result = new ScalarKeyA2[*count + 1];
+        std::memmove(result, old, index * sizeof(ScalarKeyA2));
+        if (*count > index)
+            std::memmove(result + index + 1, old + index, (*count - index) * sizeof(ScalarKeyA2));
+        float value = GetValueAtTime(time, old, 3, *count, 28);
+        ScalarKeyA2& key = result[index];
+        key.time = time;
+        key.value = value;
+        key.continuity = key.bias = key.tension = 0.0f;
+        ++*count;
+        delete[] old;
+        *keys = result;
+        ::FUN_00a2c7a0((::Key *)(result), *count);
+        return true;
+    }
+    return false;
+}
+
+struct A2CF60Elem
+{
+    float unk00;
+    float x;
+    float y;
+    float z;
+    float w;
+
+    A2CF60Elem();
+    ~A2CF60Elem()
+    {}
+
+};
+
+// @fnv 0x00a2cf60
+A2CF60Elem* __cdecl FUN_00a2cf60(void* apStream, unsigned int auiCount)
+{
+    A2CF60Elem* pkItems = new A2CF60Elem[auiCount];
+    for (unsigned int i = 0; i < auiCount; i++)
+        reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(&(pkItems[i]))->FUN_00a29640((*(::fnv_00a29640::NiStream *)(apStream)));
+    return pkItems;
+}
+
+namespace fnv_00a2d000 {
+struct QuatS
+{
+    float w, x, y, z;
+};
+struct QuatR : QuatS
+{
+    QuatR()
+    {}
+};
+
+struct QuatKey
+{
+    float time;
+    QuatS q;
+    QuatKey()
+    {
+        q.w = 0.0f;
+        q.x = 0.0f;
+        q.y = 0.0f;
+        q.z = 0.0f;
+    }
+    ~QuatKey()
+    {}
+};
+
+QuatR FUN_00a298f0(float t, QuatKey* keys, int type, unsigned int count, unsigned int stride);
+
+// @fnv 0x00a2d000
+bool FUN_00a2d000(float t, QuatKey** pKeys, unsigned int* pCount)
+{
+    QuatKey* keys = *pKeys;
+    unsigned int idx;
+    if (::NiAnimationKeyA3D::FindKeyIndex(t, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)keys), *pCount, (*(unsigned int *)(&idx)), sizeof(QuatKey)))
+    {
+        unsigned int count = *pCount + 1;
+        QuatKey* newKeys = new QuatKey[count];
+        std::memmove(newKeys, keys, idx * sizeof(QuatKey));
+        if (*pCount > idx)
+            std::memmove(&newKeys[idx + 1], &keys[idx], (*pCount - idx) * sizeof(QuatKey));
+        QuatR q = FUN_00a298f0(t, keys, 5, *pCount, sizeof(QuatKey));
+        QuatKey& key = newKeys[idx];
+        key.time = t;
+        key.q = q;
+        ++*pCount;
+        delete[] keys;
+        *pKeys = newKeys;
+        return true;
+    }
+    return false;
+}
+}
+
+// namespace fnv_00a2d000
+
+struct A2D6C0Quaternion
+{
+    float m_fVectorX;
+    float m_fVectorY;
+    float m_fVectorZ;
+    float m_fScalarPart;
+
+    A2D6C0Quaternion()
+    {}
+};
+
+struct A2D6C0RotKey
+{
+    float m_fTime;
+    A2D6C0Quaternion m_kRotationValue;
+
+    A2D6C0RotKey();
+    ~A2D6C0RotKey()
+    {}
+};
+
+A2D6C0Quaternion __cdecl SampleKeyedVec4(float fTime, A2D6C0RotKey* pkKeys, int eType, unsigned int uiNumKeys,
+                                         unsigned int uiKeySize);
+
+void __cdecl FUN_00a28ab0(A2D6C0RotKey* pkKeys, unsigned int uiNumKeys, unsigned int uiKeySize);
+
+// @fnv 0x00a2d6c0
+bool __cdecl FUN_00a2d6c0(float fTime, A2D6C0RotKey*& pkKeys, unsigned int& uiNumKeys)
+{
+    A2D6C0RotKey* pkOld = pkKeys;
+    unsigned int uiInsert;
+    if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOld), uiNumKeys, (*(unsigned int *)(&uiInsert)), sizeof(A2D6C0RotKey)))
+    {
+        A2D6C0RotKey* pkNew;
+        pkNew = new A2D6C0RotKey[uiNumKeys + 1];
+        std::memmove(pkNew, pkOld, uiInsert * sizeof(A2D6C0RotKey));
+        if (uiNumKeys > uiInsert)
+            std::memmove(&pkNew[uiInsert + 1], &pkOld[uiInsert], (uiNumKeys - uiInsert) * sizeof(A2D6C0RotKey));
+        A2D6C0Quaternion kQuat = SampleKeyedVec4(fTime, pkOld, 5, uiNumKeys, sizeof(A2D6C0RotKey));
+        A2D6C0RotKey* pkKey = &pkNew[uiInsert];
+        pkKey->m_fTime = fTime;
+        pkKey->m_kRotationValue = kQuat;
+        uiNumKeys++;
+        delete[] pkOld;
+        pkKeys = pkNew;
+        FUN_00a28ab0(pkNew, uiNumKeys, sizeof(A2D6C0RotKey));
+        return true;
+    }
+    return false;
+}
+
+class SeqE2E7
+{
+  public:
+    virtual ~SeqE2E7();
+    virtual void DeleteThis();
+    long m_uiRefCount;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    void* m_pkOwnerManager;
+
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+
+template <class T> class NiTObjectArrayE2E7
+{
+  public:
+    virtual ~NiTObjectArrayE2E7();
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+
+    unsigned int GetSize() const
+    {
+        return m_usSize;
+    }
+    T& GetAt(unsigned int uiIndex) const
+    {
+        return m_pBase[uiIndex];
+    }
+    __declspec(noalias) T FUN_00a47540(unsigned int uiIndex);  // RemoveAtAndFill
+};
+
+template <class T> class NiTPrimitiveSetE2E7
+{
+  public:
+    T* m_pBase;
+    unsigned int m_uiElementCount;
+    unsigned int m_uiAllocatedCapacity;
+
+    unsigned int GetSize() const
+    {
+        return m_uiAllocatedCapacity;
+    }
+    T GetAt(unsigned int uiIndex) const
+    {
+        return m_pBase[uiIndex];
+    }
+    void RemoveAt(unsigned int uiIndex)
+    {
+        m_pBase[uiIndex] = m_pBase[--m_uiAllocatedCapacity];
+    }
+};
+
+typedef void* NiTMapIteratorE2E7;
+
+template <class TKEY, class TVAL> class NiTMapE2E7
+{
+  public:
+    virtual ~NiTMapE2E7();
+    virtual unsigned int KeyToHashIndex(TKEY key) const;
+
+    unsigned int m_uiHashSize;
+    NiTMapItem<TKEY, TVAL>** m_ppkHashTable;
+    unsigned int m_uiCount;
+
+    NiTMapIteratorE2E7 GetFirstPos() const
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            if (m_ppkHashTable[i])
+                return m_ppkHashTable[i];
+        }
+        return 0;
+    }
+
+    void GetNext(NiTMapIteratorE2E7& pos, TKEY& key, TVAL& val) const
+    {
+        NiTMapItem<TKEY, TVAL>* pkItem = (NiTMapItem<TKEY, TVAL>*)pos;
+        key = pkItem->m_key;
+        val = pkItem->m_val;
+        if (pkItem->m_pkNext)
+        {
+            pos = pkItem->m_pkNext;
+            return;
+        }
+        unsigned int i = KeyToHashIndex(pkItem->m_key);
+        for (++i; i < m_uiHashSize; i++)
+        {
+            pkItem = m_ppkHashTable[i];
+            if (pkItem)
+            {
+                pos = pkItem;
+                return;
+            }
+        }
+        pos = 0;
+    }
+
+    bool FUN_00e91fd0(TKEY key);  // RemoveAt
+};
+
+class SeqMgrE2E7
+{
+  public:
+    virtual ~SeqMgrE2E7();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    NiTObjectArrayE2E7<NiPointer<SeqE2E7> > m_kSequences;
+    NiTPrimitiveSetE2E7<SeqE2E7*> m_kPlayingSequences;
+    NiTMapE2E7<const char*, SeqE2E7*> m_kPointerMap;
+
+    void FUN_00a2e7d0(SeqE2E7* pkSequence, NiPointer<SeqE2E7>& spOut);
+};
+
+// @fnv 0x00a2e7d0
+void SeqMgrE2E7::FUN_00a2e7d0(SeqE2E7* pkSequence, NiPointer<SeqE2E7>& spOut)
+{
+    for (unsigned int ui = 0; ui < m_kSequences.GetSize(); ui++)
+    {
+        NiPointer<SeqE2E7> pListSequence = m_kSequences.GetAt(ui);
+        if (pListSequence == pkSequence)
+        {
+            m_kSequences.FUN_00a47540(ui);
+
+            NiTMapIteratorE2E7 kIter = m_kPointerMap.GetFirstPos();
+            while (kIter)
+            {
+                const char* pcName;
+                SeqE2E7* pkSeq;
+                m_kPointerMap.GetNext(kIter, pcName, pkSeq);
+                if (pkSeq == pkSequence)
+                {
+                    m_kPointerMap.FUN_00e91fd0(pcName);
+                    break;
+                }
+            }
+
+            for (unsigned int uj = 0; uj < m_kPlayingSequences.GetSize(); uj++)
+            {
+                if (m_kPlayingSequences.GetAt(uj) == pkSequence)
+                    m_kPlayingSequences.RemoveAt(uj);
+            }
+
+            reinterpret_cast<::S_00a30880_Foo *>(((pListSequence).operator->()))->ReleaseItems();
+            pListSequence->m_pkOwnerManager = 0;
+            spOut = pListSequence;
+            return;
+        }
+    }
+    spOut = 0;
+}
+
+struct LoadKey48 {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    LoadKey48();
+    ~LoadKey48() {}
+};
+
+// @fnv 0x00a2a070
+LoadKey48* __cdecl FUN_00a2a070(A29F00Stream& kStream, unsigned int uiNumKeys) {
+    LoadKey48* pkKeys = new LoadKey48[uiNumKeys];
+    for (unsigned int i = 0; i < uiNumKeys; i++)
+        reinterpret_cast<::A29F00KeyData *>(&(pkKeys[i]))->LoadKeyData(kStream);
+    return pkKeys;
+}
+
+struct LoadKey20 {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    LoadKey20();
+    ~LoadKey20() {}
+};
+
+// @fnv 0x00a2a320
+LoadKey20* __cdecl FUN_00a2a320(S_a2c300_Stream* s, unsigned int count) {
+    LoadKey20* keys = new LoadKey20[count];
+    for (unsigned int i = 0; i < count; i++)
+        reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(&(keys[i]))->FUN_00a29640((*(::fnv_00a29640::NiStream *)(s)));
+    return keys;
+}
+
+struct ArrayElementA2BE60 {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    ArrayElementA2BE60() throw();
+    ~ArrayElementA2BE60() {}
+};
+
+// @fnv 0x00a2be60
+ArrayElementA2BE60* FUN_00a2be60(unsigned int n) {
+    return new ArrayElementA2BE60[n];
+}
+
+#include "generated/data/staging/blk_00a20000_o2.inc"

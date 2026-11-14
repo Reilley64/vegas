@@ -5,12 +5,24 @@
 
 #include <stddef.h>
 
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004f6de0_shell.h"
+#include "fnv/decl/FUN_005eac70_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Fn575690.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e6000.h"
+#include "fnv/symbols_005e9000.h"
 
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 
 class PerkEntryPointData
 {
@@ -20,31 +32,12 @@ class PerkEntryPointData
     unsigned char m_ucConditionCount;
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    bool IsInList(T& item);
-    void Insert(T item, int(__cdecl* compare)(T, T));
-    void RemoveAll();
-    void RemoveHead();
-    void Remove(const T& item);
-    void AddTail(const T& item);
-    void AddHead(T& item);
-    void SetItem(const T& item);
-};
+#include "fnv/bs_simple_list.h"
 
 class TESFullName;
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName* name, class TESFile* file);
 };
 
 class Actor;
@@ -52,13 +45,7 @@ class BGSPerkEntry;
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool IsEndianConversionRequired();
-    bool GetChunkData(void* data, unsigned int size);
-    bool GetChunkData(unsigned int* data);
-    bool GetChunkData();
     bool NextChunk();
 };
 enum ENUM_FORM_ID
@@ -147,16 +134,14 @@ class TESForm
     virtual void vfn_12c();
     virtual const char* GetName() const;
     virtual bool SetEditorID(const char* id);
-    static TESForm* GetFormByID(unsigned int);
     static void RemapFormIDForFile(unsigned int&, TESFile*);
     TESFile* GetFile(int);
-    unsigned int GetFormID();
     void NotifySaveLoadGameOfFormChange();
-    void LoadRecordHeader(TESFile* file);
     void SetInitializationState(bool initialized);
     bool GetInitialized() const;
-    void SetFormType(ENUM_FORM_ID type);
     unsigned char layoutData[0x14];
+public:
+    void ClearData();
 };
 
 class PatrolActorPackageData
@@ -191,6 +176,10 @@ class PerkEntryConditionSet
     void InitItem(TESForm* form);
     void Load(TESFile* file);
     bool ContainsTrait(class TESObjectREFR*, class TESObjectREFR*, bool&, bool);
+public:
+    bool Compare(::PerkEntryConditionSet *);
+public:
+    void InitializeConditionItems();
 };
 
 class TESFullName
@@ -252,7 +241,6 @@ class BGSPerk : public TESForm, public TESFullName, public TESDescription, publi
     PerkEntryConditionSet m_kConditions;
     BSSimpleList<BGSPerkEntry*> m_kEntryList;
     BGSPerk();
-    void ResetFormData();
     bool AppendPerkEntry(BGSPerkEntry* entry);
     virtual void InitItem();
     virtual bool Load(TESFile* file);
@@ -274,7 +262,6 @@ class BGSEntryPointFunctionData
 class BGSPerkEntry
 {
   public:
-    void LoadFromSaveData(const void* data);
     unsigned char m_ucRank;               // +0x4
     unsigned char m_ucRegionPriority;  // +0x5
     virtual void Unk_00();
@@ -332,21 +319,11 @@ class BGSQuestPerkEntry : public BGSPerkEntry
 };
 
 #ifndef __GNUC__
-FNV_STATIC_ASSERT(sizeof(BGSPerkEntry) == 0x8);
-FNV_STATIC_ASSERT(sizeof(BGSEntryPointPerkEntry) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, Data) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, m_pFunctionData) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, m_pConditions) == 0x10);
 #endif
 
 #endif
 
-BGSPerkEntry* CreatePerkEntry(unsigned char type);
 
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete[](void*);
-BGSEntryPointFunctionData* FUN_005e6280(unsigned char);
-int Warning(const char*, ...);
 
 class TESBoundObject : public TESForm
 {
@@ -357,12 +334,12 @@ class TESObjectREFR : public TESForm
     TESObjectREFR();
     virtual ~TESObjectREFR();
     unsigned char referenceData[0x50];
-    void ClearReferenceState(TESBoundObject*);
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
 
 class TESQuest : public TESForm
 {
+public:
+    bool IsStageComplete(unsigned char);
 };
 class SpellItem : public TESForm
 {
@@ -384,36 +361,28 @@ class BGSCameraPath
 template <int N> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned int*, EndianSizeTag<4>);
 
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0x0c);
-FNV_STATIC_ASSERT(sizeof(TESDescription) == 0x08);
-FNV_STATIC_ASSERT(sizeof(TESIcon) == 0x0c);
-FNV_STATIC_ASSERT(sizeof(BGSPerk) == 0x50);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, Data) == 0x38);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, m_kConditions) == 0x40);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, m_kEntryList) == 0x48);
-FNV_STATIC_ASSERT(sizeof(BGSQuestPerkEntry) == 0x10);
-FNV_STATIC_ASSERT(sizeof(BGSAbilityPerkEntry) == 0x0c);
 
 class TESAIForm
 {
   public:
-    unsigned char FUN_004f6de0();
 };
 int ComparePerkEntries(BGSPerkEntry*, BGSPerkEntry*);
 
 class BGSIdleMarker
 {
   public:
-    void FUN_005e9530();
 };
 extern unsigned int BGSAbilityPerkEntry_vtable[];
+class TESObjectREFR;
 class TESConditionItem
 {
   public:
     unsigned char data[8];
     unsigned short function;
     unsigned int FUN_005eb680();
+public:
+    float GetConditionValue();
+public:
+    bool ContainsTrait(::TESObjectREFR *, ::TESObjectREFR *, bool &);
 };

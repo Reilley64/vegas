@@ -1,0 +1,12 @@
+# The function that deletes the hacking menu's array of HackingArrayElement
+# (VEGAS-72). Format: README.md.
+# The names of the transcribed vector deleting destructor at 0x007021b0, whose
+# array path reads a 32-bit count, steps 8 bytes and frees four bytes before
+# the array:
+forbid	?DestroyOrFree@FUN_007021b0_cls@@QEAAPEAXI@Z
+forbid	FUN_00ec5fce
+forbid	?FUN_00702220@FUN_007021b0_cls@@QEAAXXZ
+forbid	?FUN_00401030@@YAXPEAX@Z
+# batch, unit, function, the names delete[] of the element type calls: the
+# element's destructor and the sized array delete:
+function	hacking	src/fallout/interface/menus/hackingmenu.cpp	?FUN_007687d0@C7687d0@@QEAAXXZ	??1FUN_00702220@@QEAA@XZ ??_V@YAXPEAX_K@Z

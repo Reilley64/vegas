@@ -1,17 +1,27 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectradialblur.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectradialblur.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* __cdecl DeallocateAlias(void*);
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00b5a110.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/ImageSpaceShaderParam.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/fnv_00ba3ba0__Holder.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 struct P03MM
 {
     void* Deallocate(void*);
 };
-extern P03MM g_memoryManager;
 
 struct FUN_00b5a700_shell
 {
-    void FUN_00b5a110();
     void* FUN_00b5a700(int flag);
 };
 
@@ -19,18 +29,16 @@ struct FUN_00b5a700_shell
 // @fnv 0x00b5a700
 void* FUN_00b5a700_shell::FUN_00b5a700(int flag)
 {
-    FUN_00b5a110();
+    reinterpret_cast<::FUN_00b5a110 *>(this)->FUN_00b5a110::~FUN_00b5a110();
     if (flag & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
 struct S_00b5a4a0_MM
 {
-    void* Allocate(unsigned int size);
     void Deallocate(void* p);
 };
-extern S_00b5a4a0_MM g_00b5a4a0_mm;
 
 struct S_00b5a4a0_EffectParam
 {
@@ -40,16 +48,6 @@ struct S_00b5a4a0_EffectParam
 struct S_00b5a4a0_Param : S_00b5a4a0_EffectParam
 {
     S_00b5a4a0_Param();
-    static void* operator new(unsigned int size)
-    {
-        return g_00b5a4a0_mm.Allocate(size);
-    }
-    static void operator delete(void* p)
-    {
-        g_00b5a4a0_mm.Deallocate(p);
-    }
-    void FUN_00b8ab10(int a, int b);
-    void FUN_00b8a790(int idx, float x, float y, float z, float w);
     int unk4;
     int unk8;
     int unkC;
@@ -87,7 +85,6 @@ struct S_00b5a4a0_Param : S_00b5a4a0_EffectParam
 
 struct S_00b5a4a0_ParamArray
 {
-    void FUN_00ba3aa0(unsigned int idx, S_00b5a4a0_EffectParam* const& p);
 };
 
 struct S_00b5a4a0_Tex;
@@ -169,26 +166,9 @@ struct S_00b5a4a0
     int unk10;
     int unk14;
     S_00b5a4a0_ParamArray m_params;
-    void SetTextureArraySize(int n);
-    void FUN_00ba3c70(int idx, S_00b5a4a0_Tex* tex, S_00b5a4a0_Param* param, int d);
-    void SetEffectParamAt(int a, int b, int c);
     void FUN_00b5a4a0(S_00b5a4a0_Src* src, int unused);
 };
 
-// @fnv 0x00b5a4a0
-void S_00b5a4a0::FUN_00b5a4a0(S_00b5a4a0_Src* src, int unused)
-{
-    SetTextureArraySize(1);
-    S_00b5a4a0_Param* param = new S_00b5a4a0_Param;
-    param->FUN_00b8ab10(0, 2);
-    param->FUN_00b8a790(0, 0.1f, 0.0f, 0.0f, 0.0f);
-    FUN_00ba3c70(0, src->unk8->unkD8[g_00b5a4a0_index], param, 0);
-    m_params.FUN_00ba3aa0(0, param);
-    SetEffectParamAt(0, 1, 0);
-}
-
-extern float g_f_01013974;
-extern float g_f_012023e0;
 
 struct ImageSpaceTexture
 {
@@ -213,11 +193,11 @@ struct ImageSpaceTexture
 
 struct S_EffectArray
 {
-    void SetSize(unsigned int size);
 };
 
-struct ImageSpaceEffect
+class ImageSpaceEffect
 {
+  public:
     virtual ~ImageSpaceEffect();
     int unk04;
     int unk08;
@@ -242,7 +222,20 @@ struct ImageSpaceEffect
     int unk54;
 
     ImageSpaceEffect();
+public:
+    void SetTextureArraySize(int);
 };
+// @fnv 0x00b5a4a0
+void S_00b5a4a0::FUN_00b5a4a0(S_00b5a4a0_Src* src, int unused)
+{
+    reinterpret_cast<::ImageSpaceEffect *>(this)->SetTextureArraySize(1);
+    S_00b5a4a0_Param* param = new S_00b5a4a0_Param;
+    reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(0, 2);
+    reinterpret_cast<::ImageSpaceShaderParam *>((param))->SetShaderConstantVector4(0, 0.1f, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(src->unk8->unkD8[g_00b5a4a0_index]), (::ImageSpaceEffectParam *)(param), 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 0);
+}
 
 struct FourFloatVector
 {
@@ -298,18 +291,14 @@ struct FUN_00b5a590 : ImageSpaceEffect
 // @fnv 0x00b5a590
 FUN_00b5a590::FUN_00b5a590()
 {
-    m_effectTextures.SetSize(4);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_effectTextures))->FUN_00a90180(4);
 
-    m_5c.m_20 = FourFloatVector(1.0f, g_f_01013974, 0.0f, g_f_012023e0);
+    m_5c.m_20 = FourFloatVector(1.0f, ::DAT_01013974, 0.0f, ::DAT_012023e0);
     m_5c.m_10 = FourFloatVector(0.0f, 1.0f, 1.0f, 0.0f);
     m_5c.m_40 = 600.0f;
     unk58 = 0;
 }
 
-extern float DAT_0101e2bc;
-extern float DAT_01013974;
-extern float DAT_01013d84;
-extern float DAT_012023e0;
 
 struct ParamAccessor
 {
@@ -322,7 +311,6 @@ struct ParamAccessor
 
 struct FUN_00b5a720_cls : S_00b5a4a0
 {
-    void FUN_00ba3ba0(int a, int b, int c, int d, int e, int f, int g);
     void FUN_00b5a720(S_00b5a4a0_Src* src, int unused);
 };
 
@@ -332,28 +320,30 @@ void FUN_00b5a720_cls::FUN_00b5a720(S_00b5a4a0_Src* src, int unused)
 {
     S_00b5a4a0_Param* p;
 
-    SetTextureArraySize(2);
+    reinterpret_cast<::ImageSpaceEffect *>(this)->SetTextureArraySize(2);
 
     p = new S_00b5a4a0_Param();
-    p->FUN_00b8ab10(0, 2);
-    p->FUN_00b8a790(0, DAT_0101e2bc, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((p))->AllocateShaderConstants(0, 2);
+    reinterpret_cast<::ImageSpaceShaderParam *>((p))->SetShaderConstantVector4(0, DAT_0101e2bc, 0.0f, 0.0f, 0.0f);
 
     S_00b5a4a0_Tex* tex = src->unk8->unkD8[g_00b5a4a0_index];
-    FUN_00ba3c70(0, tex, p, 2);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(tex), (::ImageSpaceEffectParam *)(p), 2);
 
-    m_params.FUN_00ba3aa0(0, p);
-    SetEffectParamAt(0, 1, 1);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(p));
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 1);
 
     p = new S_00b5a4a0_Param();
-    p->FUN_00b8ab10(0, 3);
-    p->FUN_00b8a790(0, 1.0f, DAT_01013974, DAT_01013d84, DAT_012023e0);
+    reinterpret_cast<::ImageSpaceShaderParam *>((p))->AllocateShaderConstants(0, 3);
+    reinterpret_cast<::ImageSpaceShaderParam *>((p))->SetShaderConstantVector4(0, 1.0f, DAT_01013974, DAT_01013d84, DAT_012023e0);
 
     ((ParamAccessor*)p)->byte56 = 0;
-    m_params.FUN_00ba3aa0(1, p);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(1, (::KeyPair **)&(p));
 
-    FUN_00ba3ba0(1, 1, 2, 3, 0, 1, 0);
+    reinterpret_cast<::fnv_00ba3ba0::Holder *>(this)->FUN_00ba3ba0(1, 1, 2, 3, 0, 1, 0);
 
-    FUN_00ba3c70(1, reinterpret_cast<S_00b5a4a0_Tex*>(src->unk8->unkCC), p, 0);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(::S_00b5a4a0_Tex *)(reinterpret_cast<S_00b5a4a0_Tex*>(src->unk8->unkCC)), (::ImageSpaceEffectParam *)(p), 0);
     if (0)
-        m_params.FUN_00ba3aa0(0, p);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(p));
 }
+
+#include "generated/data/bsshader/imagespaceeffectradialblur.inc"

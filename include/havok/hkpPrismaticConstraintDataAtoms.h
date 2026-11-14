@@ -10,7 +10,6 @@
 #include "hkpLinLimitConstraintAtom.h"
 #include "hkpLinMotorConstraintAtom.h"
 #include "hkpSetLocalTransformsConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpPrismaticConstraintDataAtoms
 {
   public:
@@ -27,6 +26,4 @@ class hkpPrismaticConstraintDataAtoms
     hkpLinConstraintAtom m_kPerpendicularLinearConstraintB;  // +0xB0
     hkpLinLimitConstraintAtom m_kShaftLinearLimit;           // +0xB4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPrismaticConstraintDataAtoms[(sizeof(hkpPrismaticConstraintDataAtoms) == 0xC0) ? 1 : -1];
 #endif

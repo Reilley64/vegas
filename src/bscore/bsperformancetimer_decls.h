@@ -2,6 +2,7 @@
 #ifndef BSPERFORMANCETIMER_DECLS_H
 #define BSPERFORMANCETIMER_DECLS_H
 
+#include "fnv/symbols_011d8000.h"
 class PerformanceMeasurement;
 class NiAVObject;
 template <class T> class NiPointer
@@ -19,7 +20,6 @@ struct BSPerformanceTimerFrameData
     NiPointer<NiAVObject> object;
     unsigned char tail[8];
 };
-extern BSPerformanceTimerFrameData DAT_011d8830[3];
 class PerformanceTimerManager
 {
   public:

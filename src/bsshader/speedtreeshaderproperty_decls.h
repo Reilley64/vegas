@@ -19,8 +19,9 @@ template <class T> class NiPointer
   public:
     T* operator->() const;
 };
-class BSTreeNode
+struct BSTreeNode
 {
+  private:
     unsigned char padding[0xe4];
     NiPointer<NiNode> model;
 

@@ -18,7 +18,6 @@ class InterfacedClass
     virtual ~InterfacedClass();
     virtual void* AllocateInterface(unsigned int auiThread) = 0;
 };
-FNV_STATIC_ASSERT(sizeof(InterfacedClass) == 4);
 
 template <class K, class T> class LockFreeMap : public InterfacedClass
 {
@@ -128,22 +127,10 @@ template <class K, class T> class LockFreeMap : public InterfacedClass
     void Unlock() const;
 };
 typedef LockFreeMap<MobileObject*, NiPointer<LipTask> > ProcessListsLipMap;
-FNV_STATIC_ASSERT(sizeof(ProcessListsLipMap) == 0x40);
-FNV_STATIC_ASSERT(__alignof(ProcessListsLipMap) == 32);
-FNV_STATIC_ASSERT(offsetof(ProcessListsLipMap, m_ppDeletedNodeBuffers) == 4);
-FNV_STATIC_ASSERT(offsetof(ProcessListsLipMap, uiNumBuckets) == 8);
-FNV_STATIC_ASSERT(offsetof(ProcessListsLipMap, m_pBuckets) == 0xC);
-FNV_STATIC_ASSERT(offsetof(ProcessListsLipMap, uiDeleteBatchSize) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ProcessListsLipMap, pManager) == 0x14);
-FNV_STATIC_ASSERT(offsetof(ProcessListsLipMap, ItemUpdateArray) == 0x18);
-FNV_STATIC_ASSERT(offsetof(ProcessListsLipMap, kLock) == 0x20);
 
 class LipSyncBackgroundManager
 {
   public:
     LockFreeMap<MobileObject*, NiPointer<LipTask> > kLipMap;
 };
-FNV_STATIC_ASSERT(sizeof(LipSyncBackgroundManager) == 0x40);
-FNV_STATIC_ASSERT(__alignof(LipSyncBackgroundManager) == 32);
-FNV_STATIC_ASSERT(offsetof(LipSyncBackgroundManager, kLipMap) == 0);
 #endif

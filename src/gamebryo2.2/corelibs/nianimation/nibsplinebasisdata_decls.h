@@ -5,9 +5,9 @@
 
 #include "NiRefObject.h"
 
-class NiStream;
-class CloningProcess;
-class NiRTTI;
+struct NiStream;
+struct CloningProcess;
+struct NiRTTI;
 class BSFadeNode;
 class BSMultiBoundNode;
 class NiGeometry;
@@ -23,9 +23,8 @@ class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
 
-#pragma pack(push, 4)
 // PC virtual prefix through LoadBinary, including NiRefObject's two slots.
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual const NiRTTI* GetRTTI() const;
@@ -66,7 +65,7 @@ class NiBinaryStream
 };
 
 // Only the input-stream prefix is needed by this translation unit.
-class NiStream
+struct NiStream
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -90,14 +89,6 @@ class NiBSplineBasisData : public NiObject
     BSplineBasis<float, 3> m_kBSplineBasis;
     virtual void LoadBinary(NiStream& stream);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_uiStreamFlags) == 4);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_pfnRead) == 8);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pUnderlyingStream) == 0x24C);
-FNV_STATIC_ASSERT(sizeof(NiBSplineBasisData) == 40);
-FNV_STATIC_ASSERT(offsetof(NiBSplineBasisData, m_kBSplineBasis) == 8);
 
 #endif

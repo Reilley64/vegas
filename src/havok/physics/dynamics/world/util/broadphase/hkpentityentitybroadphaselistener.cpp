@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/world/util/broadphase/hkpentityentitybroadphaselistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/broadphase/hkpentityentitybroadphaselistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_00cc1000.h"
+#include "fnv/symbols_00cfd000.h"
 struct D10800Block256
 {
     int unk00;
@@ -215,7 +218,6 @@ struct D10800Input
     int m_pCollisionQualityInfo;
 };
 
-void __cdecl FUN_00cc0f40(D10800Collidable* collA, D10800Collidable* collB, D10800Input* input);
 
 struct D10800World
 {
@@ -272,7 +274,7 @@ void D10800Listener::DispatchCollisionPair(D10800HandlePair& pair)
     if (quality)
     {
         input->m_pCollisionQualityInfo = dispatcher->m_pCollisionQualityInfo[quality].m_data;
-        FUN_00cc0f40(collA, collB, input);
+        ::FUN_00cc0f40((::S_00cc0f40_Coll *)(collA), (::S_00cc0f40_Coll *)(collB), (::S_00cc0f40_In *)(input));
     }
 }
 
@@ -299,8 +301,6 @@ struct D10860HandlePair
 
 struct D10860Agent;
 
-D10860Agent* __cdecl FindEntryValue(const D10860Collidable* collA, const D10860Collidable* collB);
-void __cdecl FUN_00cc10b0(D10860Agent* agent);
 
 struct D10860Listener
 {
@@ -312,7 +312,7 @@ void D10860Listener::ProcessHandlePair(D10860HandlePair& pair)
 {
     D10860Collidable* collA = pair.m_kPointA->getOwner();
     D10860Collidable* collB = pair.m_kPointB->getOwner();
-    D10860Agent* agent = FindEntryValue(collA, collB);
+    D10860Agent* agent = ((::D10860Agent *)(::FindEntryValue((::LinkNode *)(collA), (::LinkNode *)(collB))));
     if (agent)
-        FUN_00cc10b0(agent);
+        ::FUN_00cc10b0((::S_00cc10b0_Agent *)(agent));
 }

@@ -3,12 +3,9 @@
 #ifndef FNV_HAVOK_HKAKEYFRAMEHIERARCHYUTILITY_H
 #define FNV_HAVOK_HKAKEYFRAMEHIERARCHYUTILITY_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaKeyFrameHierarchyUtility
 {
   public:
     char pad0[0x1];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaKeyFrameHierarchyUtility[(sizeof(hkaKeyFrameHierarchyUtility) == 0x1) ? 1 : -1];
 #endif

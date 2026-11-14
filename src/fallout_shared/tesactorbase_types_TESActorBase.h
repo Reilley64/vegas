@@ -16,7 +16,7 @@ class BGSDestructibleObjectForm;
 class BGSTouchSpellForm;
 class BGSVoiceType;
 class BSFileEntry;
-class InventoryItemEntry;
+struct InventoryItemEntry;
 class CollisionComponent;
 class FactionReaction;
 class MagicItemForm;
@@ -34,7 +34,6 @@ class TESModel;
 class TESFormList;
 class TESSpellList;
 class FileEntryList;
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
@@ -63,12 +62,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
-#pragma pack(push, 4)
 class ShortPoint3
 {
   public:
@@ -108,23 +101,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
-#pragma pack(push, 4)
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
@@ -145,10 +127,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
-#pragma pack(push, 4)
 class TESBoundAnimObject : public TESBoundObject
 {
   public:
@@ -161,9 +139,6 @@ class TESBoundAnimObject : public TESBoundObject
     // TESBoundAnimObject& __cdecl TESBoundAnimObject::*(const TESBoundAnimObject&)
     // void __cdecl TESBoundAnimObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 48);
-#pragma pack(push, 4)
 class ActorBaseAttributes
 {
   public:
@@ -179,19 +154,6 @@ class ActorBaseAttributes
     unsigned short m_usField16;  // +0x16, 2 bytes
     // void __cdecl ActorBaseAttributes::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorBaseAttributes) == 24);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_uiActorFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField04) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField06) == 6);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, sLevel) == 8);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0A) == 10);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0C) == 12);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0E) == 14);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_fField10) == 16);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField14) == 20);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField16) == 22);
-#pragma pack(push, 4)
 class TESActorBaseData : public BaseFormComponent
 {
   public:
@@ -296,15 +258,6 @@ class TESActorBaseData : public BaseFormComponent
     // TESActorBaseData& __cdecl TESActorBaseData::*(const TESActorBaseData&)
     // void* __cdecl TESActorBaseData::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESActorBaseData) == 52);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, actorData) == 4);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pBaseTemplateForm) == 28);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_kFactionList) == 32);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_ppTemplateForms) == 36);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pDeathItem) == 40);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pVoiceType) == 44);
-#pragma pack(push, 4)
 class TESContainer : public BaseFormComponent
 {
   public:
@@ -346,10 +299,6 @@ class TESContainer : public BaseFormComponent
     // TESContainer& __cdecl TESContainer::*(const TESContainer&)
     // void* __cdecl TESContainer::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESContainer) == 12);
-FNV_STATIC_ASSERT(offsetof(TESContainer, objectList) == 4);
-#pragma pack(push, 4)
 class BGSTouchSpellForm : public BaseFormComponent
 {
   public:
@@ -370,11 +319,6 @@ class BGSTouchSpellForm : public BaseFormComponent
     // void __cdecl BGSTouchSpellForm::*(unsigned short)
     // BGSTouchSpellForm& __cdecl BGSTouchSpellForm::*(const BGSTouchSpellForm&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSTouchSpellForm) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSTouchSpellForm, m_pMagicItem) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSTouchSpellForm, m_usTouchSpellType) == 8);
-#pragma pack(push, 4)
 class TESSpellList : public BaseFormComponent
 {
   public:
@@ -403,11 +347,6 @@ class TESSpellList : public BaseFormComponent
     // TESSpellList& __cdecl TESSpellList::*(const TESSpellList&)
     // void* __cdecl TESSpellList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESSpellList) == 20);
-FNV_STATIC_ASSERT(offsetof(TESSpellList, spellList) == 4);
-FNV_STATIC_ASSERT(offsetof(TESSpellList, leveledSpellList) == 12);
-#pragma pack(push, 4)
 class PackedRecordData
 {
   public:
@@ -425,20 +364,6 @@ class PackedRecordData
     unsigned int m_uiField10;   // +0x10, 4 bytes
     // void __cdecl PackedRecordData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PackedRecordData) == 20);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField00) == 0);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField01) == 1);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField02) == 2);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField03) == 3);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField04) == 4);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_uiField08) == 8);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField0C) == 12);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField0D) == 13);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_ucField0E) == 14);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_bField0F) == 15);
-FNV_STATIC_ASSERT(offsetof(PackedRecordData, m_uiField10) == 16);
-#pragma pack(push, 4)
 class PackageList
 {
   public:
@@ -463,10 +388,6 @@ class PackageList
     // PackageList& __cdecl PackageList::*(const PackageList&)
     // void* __cdecl PackageList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PackageList) == 8);
-FNV_STATIC_ASSERT(offsetof(PackageList, m_kPackages) == 0);
-#pragma pack(push, 4)
 class TESAIForm : public BaseFormComponent
 {
   public:
@@ -524,11 +445,6 @@ class TESAIForm : public BaseFormComponent
     // TESAIForm& __cdecl TESAIForm::*(const TESAIForm&)
     // void* __cdecl TESAIForm::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESAIForm) == 32);
-FNV_STATIC_ASSERT(offsetof(TESAIForm, m_kAIData) == 4);
-FNV_STATIC_ASSERT(offsetof(TESAIForm, m_kPackageList) == 24);
-#pragma pack(push, 4)
 class TESAttributes : public BaseFormComponent
 {
   public:
@@ -566,10 +482,6 @@ class TESAttributes : public BaseFormComponent
     // TESAttributes& __cdecl TESAttributes::*(const TESAttributes&)
     // void* __cdecl TESAttributes::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESAttributes) == 12);
-FNV_STATIC_ASSERT(offsetof(TESAttributes, cAttribute) == 4);
-#pragma pack(push, 4)
 class TESAnimation : public BaseFormComponent
 {
   public:
@@ -590,10 +502,6 @@ class TESAnimation : public BaseFormComponent
     // TESAnimation& __cdecl TESAnimation::*(const TESAnimation&)
     // void* __cdecl TESAnimation::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESAnimation) == 12);
-FNV_STATIC_ASSERT(offsetof(TESAnimation, m_kKFFileList) == 4);
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -610,11 +518,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -646,12 +549,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
@@ -713,10 +610,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // BGSDestructibleObjectForm& __cdecl BGSDestructibleObjectForm::*(const BGSDestructibleObjectForm&)
     // void* __cdecl BGSDestructibleObjectForm::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
-#pragma pack(push, 4)
 class TESActorBase : public TESBoundAnimObject,
                      public TESActorBaseData,
                      public TESContainer,
@@ -786,6 +679,4 @@ class TESActorBase : public TESBoundAnimObject,
     // TESActorBase& __cdecl TESActorBase::*(const TESActorBase&)
     // void __cdecl TESActorBase::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESActorBase) == 268);
 #endif

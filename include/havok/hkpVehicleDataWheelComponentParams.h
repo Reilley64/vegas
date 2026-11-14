@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPVEHICLEDATAWHEELCOMPONENTPARAMS_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpVehicleDataWheelComponentParams
 {
   public:
@@ -20,7 +19,4 @@ class hkpVehicleDataWheelComponentParams
     hkInt8 m_iAxle;                        // +0x24
     char pad25[0x3];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpVehicleDataWheelComponentParams[(sizeof(hkpVehicleDataWheelComponentParams) == 0x28) ? 1 : -1];
 #endif

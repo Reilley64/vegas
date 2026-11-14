@@ -3,9 +3,9 @@
 #define FNV_LAYOUT_SUPPORT_H
 
 #include <stddef.h>
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/S00546fb0_Cell.h"
+#include "fnv/symbols_00450000.h"
 #ifdef _MSC_VER
 #define FNV_ALIGN(n) __declspec(align(n))
 #define FNV_FORCEINLINE __forceinline
@@ -17,11 +17,8 @@ typedef unsigned __int64 FNVUInt64;
 typedef long long FNVInt64;
 typedef unsigned long long FNVUInt64;
 #endif
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
-#pragma pack(push, 4)
 template <class Collection> class SettingT;
-class FormFlagRecord;
+struct FormFlagRecord;
 class ActiveEffect;
 class Actor;
 class ActorMover;
@@ -42,7 +39,7 @@ class BGSListForm;
 class BGSPerk;
 class BGSPerkEntry;
 class BGSQuestObjective;
-class BSAudio;
+struct BSAudio;
 class BSAudioListener;
 class BSAudioSyncTimer;
 class BSCacheDriveSystemUtility;
@@ -55,7 +52,7 @@ class BSGameDataSystemUtility;
 class BSSaveDataSystemUtility;
 class BSSaveDataSystemUtility__SaveDataEntry;
 class BSSaveDataOperationEntry;
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 class RecursiveSpinLock;
 class BSSysInfoSystemUtility;
 class BSThread;
@@ -69,7 +66,7 @@ class CachedValues;
 class CachedValuesOwner;
 class CombatGroupCollection;
 class Character;
-class CombatController;
+struct CombatController;
 class CombatProcedure;
 class TimeoutTimer;
 class ContinuousBeamProjectile;
@@ -83,11 +80,11 @@ class ExpressionValue;
 class ExtraContainerChanges;
 class ExtraDataList;
 class TESFileHeader;
-class FormRecordHeader;
+struct FormRecordHeader;
 class TESFileGroup;
 class ModifierPointerList;
 class ReactionInfo;
-class GameSettingCollection;
+struct GameSettingCollection;
 class GarbageCollector;
 class HUDMainMenu;
 class HUDMainMenu__MessageData;
@@ -100,7 +97,7 @@ class HotkeyWheelDisplay;
 class IMemoryHeap;
 class IMemoryManagerFile;
 class INFO_LINK_ELEMENT;
-class InventoryChanges;
+struct InventoryChanges;
 class InventoryMenu;
 class InventoryMenu__sPageState;
 class InventoryStackRecord;
@@ -133,7 +130,7 @@ class Menu;
 class MessageMenu;
 class MiddleLowProcess;
 class MobileObject;
-class Modifier;
+struct Modifier;
 class ActorValueModifierList;
 class NavMeshInfo;
 class NavMeshInfo_const;
@@ -142,9 +139,9 @@ class NiExtraData;
 class NiFixedString;
 class NiMemObject;
 class NiNode;
-class NiObject;
-class NiObjectNET;
-class NiPoint3;
+struct NiObject;
+struct NiObjectNET;
+struct NiPoint3;
 class NiProperty;
 class NiRefObject;
 class NiTimeController;
@@ -153,7 +150,7 @@ class OSGlobals;
 class OSInputGlobals;
 class OSSoundGlobals;
 class TargetDoorController;
-class PathingLocation;
+struct PathingLocation;
 class PerkData;
 class PerkForm;
 class PlayerCharacter;
@@ -169,7 +166,7 @@ class ScriptParameter;
 class ScriptReferencedObject;
 union SETTING_VALUE;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class ScriptRunner;
 class ScriptVariableInfo;
 class Setting;
@@ -227,9 +224,9 @@ class ZeroOverheadHeap;
 class _FILETIME;
 class _RTL_CRITICAL_SECTION;
 class _RTL_CRITICAL_SECTION___unnamed_type_Synchronization_;
-class _ULARGE_INTEGER;
+union _ULARGE_INTEGER;
 class _WIN32_FIND_DATAA;
-class bhkRagdollController;
+struct bhkRagdollController;
 class bhkRagdollPenetrationUtil;
 class bool___cdecl__StatsMenu__HealingOption__;
 class bool___cdecl__char__;
@@ -262,22 +259,7 @@ class NiFile
         APPEND_ONLY = 2
     };
 };
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    BSSimpleList(T& item);
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    void AddTail(T& item);
-    void AddHead(T& item);
-    void RemoveHead();
-    void RemoveAll();
-};
+#include "fnv/bs_simple_list.h"
 template <class T> class NiTMallocInterface
 {
 };
@@ -301,12 +283,6 @@ template <class T> class NiTObjectArray : public NiTArray<T, NiTNewInterface<T> 
 {
 };
 typedef NiTObjectArray<TESObjectREFR*> FNVReferenceObjectArray;
-FNV_STATIC_ASSERT(sizeof(FNVReferenceObjectArray) == 16);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_pBase) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_usMaxSize) == 8);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_usSize) == 10);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_usESize) == 12);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_usGrowBy) == 14);
 template <class T, class Allocator> class NiTLargeArray
 {
   public:
@@ -333,23 +309,7 @@ template <class T, unsigned int Growth> class BSSimpleArray
     unsigned int GetSize();
     T& GetAt(int index);
 };
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    const T* String();
-    int PrintfString(const char* format, ...);
-    bool Set(const T* text, unsigned int length);
-    void Init();
-    unsigned int MaxLength();
-    void SetLength(unsigned int length);
-    void SetMaxLength(unsigned int length);
-    BSStringT<T>& operator=(const T* text);
-};
+#include "fnv/bs_string.h"
 template <class T> class NiPointer
 {
   public:
@@ -403,37 +363,17 @@ class TESObjectLAND;
 class TESObjectCELL
 {
   public:
-    bool IsOutdoorCell();
     bool IsCellInterior() const;
-    TESObjectLAND* GetLandscape();
 };  // API only; no allocation or layout claim.
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESFile*>* GetFileList();
 };
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
-FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, pString) == 0);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, sLen) == 4);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, sMaxLen) == 6);
-FNV_STATIC_ASSERT(sizeof(NiPointer<void>) == 4);
 typedef NiTLargeArray<void*, NiTMallocInterface<void*> > FNVPointerArray;
-FNV_STATIC_ASSERT(sizeof(FNVPointerArray) == 24);
-FNV_STATIC_ASSERT(offsetof(FNVPointerArray, m_pBase) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVPointerArray, m_uiSize) == 12);
 typedef BSSimpleArray<int, 1024> FNVSimpleArray;
-FNV_STATIC_ASSERT(sizeof(FNVSimpleArray) == 16);
-FNV_STATIC_ASSERT(offsetof(FNVSimpleArray, pBuffer) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVSimpleArray, iSize) == 8);
 typedef NiTPointerMap<unsigned int, TESFile*> TESFileThreadMap;
-FNV_STATIC_ASSERT(sizeof(TESFileThreadMap) == 16);
-FNV_STATIC_ASSERT(offsetof(TESFileThreadMap, m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(TESFileThreadMap, m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(TESFileThreadMap, m_kItemCount) == 12);
 #ifdef _MSC_VER
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
+#include <windows.h>
 #else
 FNV_FORCEINLINE long InterlockedDecrement(volatile long* value)
 {
@@ -489,14 +429,6 @@ template <class Allocator, class T> class NiTPointerListBase : public NiTListBas
 };
 typedef NiTListItem<void*> FNVPointerListItem;
 typedef NiTListBase<NiTPointerAllocator<unsigned int>, void*> FNVPointerListBase;
-FNV_STATIC_ASSERT(sizeof(FNVPointerListItem) == 12);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListItem, m_pkNext) == 0);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListItem, m_pkPrev) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListItem, m_element) == 8);
-FNV_STATIC_ASSERT(sizeof(FNVPointerListBase) == 12);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListBase, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListBase, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListBase, m_kItemCount) == 8);
 enum ACTOR_CRITICAL_STAGE
 {
     ACTOR_CRITICAL_STAGE_ACS_NONE = 0,
@@ -2694,5 +2626,4 @@ enum Tile__VALUE_ACTION
     Tile__VALUE_ACTION_VA_FIRST_ACTION = 2000,
     Tile__VALUE_ACTION_VA_LAST_ACTION = 2025,
 };
-#pragma pack(pop)
 #endif

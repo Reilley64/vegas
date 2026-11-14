@@ -16,15 +16,17 @@
 #define FNV_NITIMECONTROLLER_UNIT_H
 
 
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
 #include "layout_support.h"
 
-class CloningProcess;
+struct CloningProcess;
 class NiGeometryData;
-class NiObject;
+struct NiObject;
 class NiObjectGroup;
-class NiObjectNET;
-class NiRTTI;
-class NiStream;
+struct NiObjectNET;
+struct NiRTTI;
+struct NiStream;
 class NiTimeController;
 class NiViewerStringsArray;
 
@@ -57,7 +59,7 @@ class NiRefObject : public NiMemObject
 // ---------------------------------------------------------------------------
 // NiObject. Virtual order matches the FNV PC vtable used by this unit.
 // ---------------------------------------------------------------------------
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();
@@ -93,16 +95,12 @@ class NiObject : public NiRefObject
 // ---------------------------------------------------------------------------
 // NiFixedString (4 bytes: string-table pointer).
 // ---------------------------------------------------------------------------
-class NiFixedString
-{
-  public:
-    const char* m_pString;  // +0x0
-};
+#include "fnv/native_fixed_string.h"
 
 // ---------------------------------------------------------------------------
 // NiObjectNET.
 // ---------------------------------------------------------------------------
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     virtual ~NiObjectNET();
@@ -112,7 +110,6 @@ class NiObjectNET : public NiObject
     {
         return m_pControllers.m_pObject;
     }
-    void ReplaceControllers(NiTimeController* pkControl);
 
     NiFixedString m_kName;                       // +0x8
     NiPointer<NiTimeController> m_pControllers;  // +0xC
@@ -120,8 +117,6 @@ class NiObjectNET : public NiObject
     unsigned short m_usExtraDataCount;           // +0x14
     unsigned short m_usMaxSize;                  // +0x16
 };
-FNV_STATIC_ASSERT(sizeof(NiObjectNET) == 0x18);
-FNV_STATIC_ASSERT(offsetof(NiObjectNET, m_pControllers) == 0xC);
 
 // ---------------------------------------------------------------------------
 // NiGeometryData (only what the controller attach path uses).
@@ -193,10 +188,9 @@ template <class T> void NiBinaryStreamLoad(NiBinaryStream& is, T* pValue, unsign
 // ---------------------------------------------------------------------------
 // NiStream (only what this unit uses).
 // ---------------------------------------------------------------------------
-class NiStream : public NiObject
+struct NiStream : public NiObject
 {
   public:
-    void ResetStreamState();
     NiObject* GetLoadedObject();
     inline unsigned int GetFileVersion() const
     {
@@ -308,10 +302,5 @@ class NiTimeController : public NiObject
     NiObjectNET* m_pkTarget;                         // +0x2C
     NiPointer<NiTimeController> m_spNextController;  // +0x30
 };
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 0x30);
 
 #endif

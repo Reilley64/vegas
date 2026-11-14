@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpRemoveTerminalsMoppModifier : public hkReferencedObject
 {
   public:
@@ -13,6 +12,4 @@ class hkpRemoveTerminalsMoppModifier : public hkReferencedObject
     hkArray<hkUint32> m_kRemovedTerminalIds;  // +0xC
     void* m_pTerminalIdsToRemove;             // +0x18
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpRemoveTerminalsMoppModifier[(sizeof(hkpRemoveTerminalsMoppModifier) == 0x1C) ? 1 : -1];
 #endif

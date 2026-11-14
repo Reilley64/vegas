@@ -2,6 +2,7 @@
 #ifndef FNV_NISHADER_PRIVATE_DECLS_H
 #define FNV_NISHADER_PRIVATE_DECLS_H
 
+#include "fnv/decl/FUN_0040f6e0_class.h"
 #include "NiRefObject.h"
 #include "NiFixedString.h"
 class NiShader : public NiRefObject
@@ -16,13 +17,6 @@ class WaitableObject
 {
   public:
     void FUN_00401970();
-    void FUN_0040f6e0();
 };
 class NiAVObject;
-template <> class NiPointer<NiAVObject>
-{
-  public:
-    NiAVObject* m_pObject;
-    NiPointer<NiAVObject>& operator=(NiAVObject* object);
-};
 #endif

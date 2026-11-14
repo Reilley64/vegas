@@ -1,5 +1,14 @@
 // fallout_shared/tesimagespacemodifiableform.cpp: TESImageSpaceModifiableForm (5 functions)
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008c6060_shell.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
 #include "tesimagespacemodifiableform_decls.h"
 
 // Resolves the stored form ID to a TESImageSpaceModifier via the owner's file and warns if it cannot be found.
@@ -8,52 +17,48 @@ void TESImageSpaceModifiableForm::InitItem(TESForm* owner)
 {
     if (m_pImageSpaceModifier)
     {
-        unsigned int formID = (unsigned int)m_pImageSpaceModifier;
+        unsigned int formID = (unsigned int)(std::uintptr_t)m_pImageSpaceModifier;
         if (owner)
-            TESForm::RemapFormIDForFile(formID, owner->GetFile(-1));
-        m_pImageSpaceModifier = dynamic_cast<TESImageSpaceModifier*>(TESForm::GetFormByID(formID));
+            ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
+        m_pImageSpaceModifier = dynamic_cast<TESImageSpaceModifier*>(::FUN_004839c0(formID));
         if (!m_pImageSpaceModifier)
         {
             if (owner)
             {
                 if (((BGSCameraPath*)owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find imagespacemodifier (%08X) on owner object \"%s\".", formID,
-                            owner->GetEditorID());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find imagespacemodifier (%08X) on owner object (%08X).", formID,
-                            owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
-                Warning("MASTERFILE: Unable to find imagespacemodifier (%08X) on unknown owner.", formID);
+                ::FUN_005b5e40();
         }
     }
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent()
     {}
-    int __thiscall _ref_00726070();
 };
 struct FUN_004875c0_shell : BaseFormComponent
 {
-    bool __thiscall FUN_004875c0(BaseFormComponent* apCompareFC);
+    bool FUN_004875c0(BaseFormComponent* apCompareFC);
 };
 
 extern int DAT_0101cbd8;
-void __fastcall FUN_008c6060(void* pThis);
 
 // Initialises the BaseFormComponent base, installs the vtable from DAT_0101cbd8, calls FUN_008c6060, and returns pThis.
 // @fnv 0x00487420
-void* __fastcall FUN_00487420(void* pThis)
+void* FUN_00487420(void* pThis)
 {
-    ((BaseFormComponent*)pThis)->BaseFormComponent::BaseFormComponent();
+    ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101cbd8;
-    FUN_008c6060(pThis);
+    reinterpret_cast<::FUN_008c6060_shell *>((pThis))->FUN_008c6060();
     return pThis;
 }
 
-extern "C" void FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_00487450_shell
 {
@@ -67,50 +72,46 @@ void FUN_00487450_shell::FUN_00487450()
 {
     if (m_field_4)
     {
-        unsigned int id = m_field_4->GetFormID();
-        FUN_00485910(0x4D414E4D, id);
+        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_field_4))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4D414E4D, id);
     }
 }
 
 extern int DAT_01186ae8;
-extern int DAT_01183040;
-extern "C" void* FUN_00ec43fb(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 
 class SpawnedHelper
 {
   public:
-    void* Get();
 };
 
 class FUN_00487570_cls
 {
   public:
     void FUN_00487570(unsigned int a1);
-    void Apply(void* p);
 };
 
 // @fnv 0x00487570
 void FUN_00487570_cls::FUN_00487570(unsigned int a1)
 {
     SpawnedHelper* pHelper =
-        (SpawnedHelper*)FUN_00ec43fb(a1, 0, (unsigned int)&DAT_01183040, (unsigned int)&DAT_01186ae8, 0);
+        (SpawnedHelper*)dynamic_cast<::TESImageSpaceModifiableForm *>(reinterpret_cast<::BaseFormComponent *>(a1));
     if (pHelper == 0)
     {
     }
     else
     {
-        this->Apply(pHelper->Get());
+        reinterpret_cast<::CombatProcedure *>((this))->Initialize((::CombatController *)(void *)(reinterpret_cast<::Callees *>((pHelper))->FUN_00726070()));
     }
 }
 
 // Returns true if the cast fails or the two calls to _ref_00726070() return different values.
 // @fnv 0x004875c0
-bool __thiscall FUN_004875c0_shell::FUN_004875c0(BaseFormComponent* apCompareFC)
+bool FUN_004875c0_shell::FUN_004875c0(BaseFormComponent* apCompareFC)
 {
     TESImageSpaceModifiableForm* pCompareImageSpaceForm = dynamic_cast<TESImageSpaceModifiableForm*>(apCompareFC);
     if (!pCompareImageSpaceForm)
         return true;
-    if (this->_ref_00726070() != reinterpret_cast<BaseFormComponent*>(pCompareImageSpaceForm)->_ref_00726070())
+    if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((this))->FUN_00726070())) != ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<BaseFormComponent*>(pCompareImageSpaceForm)))->FUN_00726070())))
         return true;
     return false;
 }

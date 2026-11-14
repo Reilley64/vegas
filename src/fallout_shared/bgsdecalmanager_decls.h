@@ -2,35 +2,27 @@
 #ifndef BGSDECALMANAGER_DECLS_H
 #define BGSDECALMANAGER_DECLS_H
 
+#include <windows.h>
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c5000.h"
 #include "layout_support.h"
 #ifndef FNV_FORCEINLINE
 #define FNV_FORCEINLINE inline
 #endif
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class TESObjectCELL;
 class BSTempEffectSimpleDecal;
 class BSFaceGenAnimationData;
 class NiProperty;
 class NiTexture;
 class ParentSpaceNode;
-class RgbaColor;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
-class ImageSpaceEffectParam
-{
-  public:
-    float r;
-    float g;
-    float b;
-    float a;
-    ImageSpaceEffectParam(float, float, float, float);
-};
-class RgbaColor
+struct RgbaColor;
+#include "fnv/ni_pointer.h"
+#include "fnv/image_space_effect_param.h"
+struct RgbaColor
 {
   public:
     float r;
@@ -60,7 +52,7 @@ template <class T, unsigned int N> class BSSimpleArray
 template <class T> class NiTPointerAllocator
 {
 };
-template <class Allocator, class T> class NiTPointerListBase
+template <class Allocator, class T> class NiTPointerListBaseT
 {
   public:
     T& GetNext(void*&);
@@ -68,11 +60,6 @@ template <class Allocator, class T> class NiTPointerListBase
 };
 
 class TESTopic;
-template <> class BSSimpleList<TESTopic*>
-{
-  public:
-    const char* FUN_0043b1b0();
-};
 class TESTopicInfoData
 {
   public:
@@ -83,17 +70,14 @@ class ProcessLists
   public:
     unsigned char* GetLifeStateControlFlag();
 };
-extern ProcessLists DAT_011c5904;
 extern int DAT_011c57ec;
-extern unsigned int DAT_011c57f4;
 extern "C" const char DAT_0101e1c8[];
 extern "C" const char DAT_0101e19c[];
 extern "C" const char DAT_0101e174[];
 
-class NiRenderer
+struct NiRenderer
 {
   public:
-    void StartScene();
     void FinishScene();
     char _pdbpad_1[7];
     char m_spAccum_pad7_pad7[4];
@@ -109,9 +93,9 @@ class NiRenderer
     bool m_bRendererFlagA;
     bool m_bRendererFlagB;
     char _pdbpad_20a[118];
+public:
+    static ::NiRenderer *ms_pRenderer;
 };
-NiRenderer* FUN_0043c4b0();
-int __cdecl Warning(const char*, ...);
 
 class DecalVtableCall
 {

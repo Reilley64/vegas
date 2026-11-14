@@ -2,9 +2,9 @@
 #ifndef NIPSYSPLANARCOLLIDER_DECLS_H
 #define NIPSYSPLANARCOLLIDER_DECLS_H
 
+#include <windows.h>
+#include "fnv/decl/FUN_00a645b0_cls.h"
 #include "nipsysplanarcollider_types_NiPSysPlanarCollider.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 struct NiBinaryStream
 {
     unsigned unused;
@@ -16,17 +16,22 @@ struct NiBinaryStream
         position += read(this, buffer, bytes, (size = bytes, &size), 1);
     }
 };
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     char padding[0x24c];
     NiBinaryStream* input;
-    void ResetStreamState();
+public:
+    ::NiObject *GetLoadedObject();
 };
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     void LoadBinary(NiStream&);
+public:
+    void SaveBinary(::NiStream &);
 };
 inline void PlanarReadFloat(NiStream& stream, float& value)
 {

@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxLight : public hkReferencedObject
 {
   public:
@@ -23,6 +22,4 @@ class hkxLight : public hkReferencedObject
     hkReal m_fConeAngle;       // +0x34
     char pad38[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxLight[(sizeof(hkxLight) == 0x40) ? 1 : -1];
 #endif

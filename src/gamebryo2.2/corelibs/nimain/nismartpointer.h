@@ -1,6 +1,14 @@
 #ifndef FNV_NISMARTPOINTER_H
 #define FNV_NISMARTPOINTER_H
 
+#include "fnv/decl/FUN_0040f6e0_class.h"
+#include "fnv/decl/FUN_0042fdc0_class.h"
+#include "fnv/decl/NiPtr.h"
+#include "fnv/decl/fnv_0044b010__FUN_0044b010_shell.h"
+#include "fnv/decl/fnv_0044b050__FUN_0044b050_shell.h"
+#include "fnv/decl/fnv_0044b0f0__FUN_0044b0f0_shell.h"
+#include "fnv/decl/fnv_0044b180__FUN_0044b180_shell.h"
+#include "fnv/symbols_011f6000.h"
 #include "nismartpointer_decls.h"
 
 template <class T> class NiPointer
@@ -57,10 +65,10 @@ NiPointer<KFModel>& NiPointer<KFModel>::operator=(KFModel* object)
     if (m_pObject != object)
     {
         if (m_pObject)
-            m_pObject->FUN_0044b050();
+            reinterpret_cast<::fnv_0044b050::FUN_0044b050_shell *>((m_pObject))->FUN_0044b050();
         m_pObject = object;
         if (m_pObject)
-            m_pObject->FUN_0044b010();
+            reinterpret_cast<::fnv_0044b010::FUN_0044b010_shell *>((m_pObject))->FUN_0044b010();
     }
     return *this;
 }
@@ -78,10 +86,10 @@ NiPointer<LoadedFile>& NiPointer<LoadedFile>::operator=(LoadedFile* object)
     if (m_pObject != object)
     {
         if (m_pObject)
-            m_pObject->FUN_0044b180();
+            reinterpret_cast<::fnv_0044b180::FUN_0044b180_shell *>((m_pObject))->FUN_0044b180();
         m_pObject = object;
         if (m_pObject)
-            m_pObject->FUN_0044b0f0();
+            reinterpret_cast<::fnv_0044b0f0::FUN_0044b0f0_shell *>((m_pObject))->FUN_0044b0f0();
     }
     return *this;
 }
@@ -102,23 +110,19 @@ NiPointer<WaitableObject>& NiPointer<WaitableObject>::operator=(const NiPointer<
             m_pObject->FUN_00401970();
         m_pObject = other.m_pObject;
         if (m_pObject)
-            m_pObject->FUN_0040f6e0();
+            reinterpret_cast<::FUN_0040f6e0_class *>((m_pObject))->FUN_0040f6e0();
     }
     return *this;
 }
 
 class MemoryManager;
-extern MemoryManager g_memoryManager;
-// @fnv 0x00401020
-MemoryManager* FUN_00401020()
-{
-    return &g_memoryManager;
-}
+// The native getter is defined with the complete owner, not this declaration.
+MemoryManager* FUN_00401020();
 
 // @fnv 0x0042f4c0
 NavMeshPtr& NavMeshPtr::operator=(const NavMeshPtr& other)
 {
-    return FUN_0042fdc0(other);
+    return (*(::NavMeshPtr *)(reinterpret_cast<::FUN_0042fdc0_class *>(this)->FUN_0042fdc0((::NiAVObject **)&(other))));
 }
 
 // @fnv 0x006d1bc0
@@ -130,7 +134,7 @@ void PathingRequest::SetDestination(PathingLocation* value)
 // @fnv 0x006d61e0
 void PathingRequest::SetAvoidNodeArray(BSSimpleArray<void*, 1024>* value)
 {
-    avoid.Assign(reinterpret_cast<PathingAvoidNodeArray*>(value));
+    reinterpret_cast<::NiPtr *>(&(avoid))->Assign((char *)(::PathingAvoidNodeArray *)(reinterpret_cast<PathingAvoidNodeArray*>(value)));
 }
 
 template <> class NiPointer<NiD3DPixelShader>

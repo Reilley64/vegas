@@ -2,6 +2,11 @@
 // src/gamebryo2.2/corelibs/nicollision/nicapsulecapsuleintersector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nicapsulecapsuleintersector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/OriginDirectionPair.h"
+#include "fnv/symbols_00eaf000.h"
+#include "fnv/symbols_011a9000.h"
 struct S_00eaee50_Point3
 {
     float x, y, z;
@@ -41,7 +46,6 @@ struct S_00eaee50_Shape
     S_00eaee50_Line m_kLine;
 };
 
-float FUN_00eaf310(const S_00eaee50_Line& a, const S_00eaee50_Line& b, float* pS, float* pT);
 
 struct S_00eaee50
 {
@@ -75,10 +79,10 @@ float S_00eaee50::FUN_00eaee50(const S_00eaee50_Point3& kOffsetA, const S_00eaee
     S_00eaee50_Line kB = m_pkShapeB->m_kLine;
     kA.m_kStartPoint += kOffsetA * fTime;
     kB.m_kStartPoint += kOffsetB * fTime;
-    return FUN_00eaf310(kA, kB, &m_fParamA, &m_fParamB) * m_fScale - 1.0;
+    return ::FUN_00eaf310((const ::S_Seg &)(kA), (const ::S_Seg &)(kB), (*(float *)(&m_fParamA)), (*(float *)(&m_fParamB))) * m_fScale - 1.0;
 }
 
-class NiPoint3 : public S_00eaee50_Point3
+struct NiPoint3 : public S_00eaee50_Point3
 {
   public:
     NiPoint3()
@@ -88,7 +92,6 @@ class NiPoint3 : public S_00eaee50_Point3
     NiPoint3(const S_00eaee50_Point3& p) : S_00eaee50_Point3(p)
     {}
 
-    void FUN_004a0c10();
 
     NiPoint3 operator*(double s) const
     {
@@ -118,14 +121,11 @@ inline void FUN_Offset(NiPoint3& kPt, const S_00eaee50_Point3& kOff, float fScal
 class Call_439090_tgt
 {
   public:
-    bool Call_439090(const NiPoint3& pt);
 };
 
-extern const NiPoint3 DAT_011a9484;
 
 struct S_Line : S_00eaee50_Line
 {
-    void FUN_00eb6090(S_00eaee50_Point3& out, float t);
 };
 
 struct S_Shape
@@ -167,10 +167,10 @@ struct S_00eaef80
 void S_00eaef80::UpdatePoints(const S_00eaee50_Point3& kOffsetA, const S_00eaee50_Point3& kOffsetB)
 {
     NiPoint3 kPointA;
-    m_pkShapeA->m_kLine.FUN_00eb6090(kPointA, m_fParamA);
+    *reinterpret_cast<::NiPoint3 *>(&kPointA) = reinterpret_cast<::OriginDirectionPair *>(&(m_pkShapeA->m_kLine))->FUN_00eb6090(m_fParamA);
 
     NiPoint3 kPointB;
-    m_pkShapeB->m_kLine.FUN_00eb6090(kPointB, m_fParamB);
+    *reinterpret_cast<::NiPoint3 *>(&kPointB) = reinterpret_cast<::OriginDirectionPair *>(&(m_pkShapeB->m_kLine))->FUN_00eb6090(m_fParamB);
 
     if (unk18 == 2)
     {
@@ -181,7 +181,7 @@ void S_00eaef80::UpdatePoints(const S_00eaee50_Point3& kOffsetA, const S_00eaee5
         FUN_Offset(kPointB, kOffsetB, unk1C);
 
         m_kPoint2C = kPointB - kPointA;
-        m_kPoint2C.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(m_kPoint2C))->FUN_004a0c10();
 
         m_kPoint20 = kPointA + m_kPoint2C * m_pkShapeA->m_fBoundRadius;
     }
@@ -190,10 +190,10 @@ void S_00eaef80::UpdatePoints(const S_00eaee50_Point3& kOffsetA, const S_00eaee5
         NiPoint3 kSum = kPointB + kPointA;
         m_kPoint20 = kSum * 0.5;
 
-        if (((Call_439090_tgt*)&kPointB)->Call_439090(kPointA))
+        if (reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&kPointB)))->operator==((const ::NiPlane &)(kPointA)))
         {
             m_kPoint2C = kPointB - kPointA;
-            m_kPoint2C.FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(m_kPoint2C))->FUN_004a0c10();
         }
         else
         {

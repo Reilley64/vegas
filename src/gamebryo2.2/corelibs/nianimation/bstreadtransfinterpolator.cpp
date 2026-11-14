@@ -2,15 +2,31 @@
 // src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include <windows.h>
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a3ca30_shell.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/symbols_00aa0000.h"
 struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
     void* m_ptr_20;
-    int __thiscall FUN_00a43560(short arg);
+    int FUN_00a43560(short arg);
 };
 
 // @fnv 0x00a43560
-int __thiscall FUN_00a43560_shell::FUN_00a43560(short arg)
+int FUN_00a43560_shell::FUN_00a43560(short arg)
 {
     if (arg == 0)
     {
@@ -24,7 +40,7 @@ int __thiscall FUN_00a43560_shell::FUN_00a43560(short arg)
 
 struct FUN_00a43580_shell
 {
-    void* __thiscall FUN_00a43580(unsigned short flag);
+    void* FUN_00a43580(unsigned short flag);
 };
 
 // @fnv 0x00a43580
@@ -55,32 +71,17 @@ void* FUN_00a435a0_shell::FUN_00a435a0(short arg1)
     return 0;
 }
 
-struct BSTreadTransfInterpolator
-{
-    ~BSTreadTransfInterpolator();
-    void* FUN_00a43a50(unsigned int flags);
-};
 
-extern "C" void __cdecl __Dummy_00b6fef0(void* ptr, unsigned int flags);
-
-// @fnv 0x00a43a50
-void* BSTreadTransfInterpolator::FUN_00a43a50(unsigned int flags)
-{
-    this->~BSTreadTransfInterpolator();
-    if (flags & 1)
-        __Dummy_00b6fef0(this, 0x24);
-    return this;
-}
 
 struct FUN_00a435c0_shell
 {
     unsigned char m_auiShapeKeys[0x20];
     void* m_ptr_20;
-    char __thiscall FUN_00a435c0(short arg);
+    char FUN_00a435c0(short arg);
 };
 
 // @fnv 0x00a435c0
-char __thiscall FUN_00a435c0_shell::FUN_00a435c0(short arg)
+char FUN_00a435c0_shell::FUN_00a435c0(short arg)
 {
     if (arg != 0)
         return 0;
@@ -103,7 +104,6 @@ struct SampleTrack
     float* values;
     TrackFlags flags;
 };
-float __cdecl InterpolateKey(float, float*, float*, unsigned int, unsigned int*, TrackFlags);
 struct FUN_00a434b0_shell
 {
     unsigned int unk00;
@@ -115,11 +115,11 @@ struct FUN_00a434b0_shell
     float valueDelta;
     unsigned int sampleIndex;
     SampleTrack* track;
-    bool __thiscall UpdateSampleValue(float time, int, int);
+    bool UpdateSampleValue(float time, int, int);
 };
 // Samples the track at time, updates sampleIndex, computes valueDelta from the previous value, stores previousValue and previousTime, and returns true.
 // @fnv 0x00a434b0
-bool __thiscall FUN_00a434b0_shell::UpdateSampleValue(float time, int, int)
+bool FUN_00a434b0_shell::UpdateSampleValue(float time, int, int)
 {
     SampleTrack* pTrack = track;
     unsigned int count = pTrack->count;
@@ -129,7 +129,7 @@ bool __thiscall FUN_00a434b0_shell::UpdateSampleValue(float time, int, int)
     if (count > 0)
     {
         unsigned int index = sampleIndex;
-        float value = InterpolateKey(time, times, values, count, &index, flags);
+        float value = ::InterpolateKey(time, (const ::S00a26b40_Key *)(times), (uintptr_t)(values), count, &index, (*(unsigned char *)&(const ::TrackFlags &)(flags)));
         sampleIndex = index;
         if (previousTime > time && previousValue > value)
         {
@@ -214,7 +214,7 @@ struct FUN_00a435e0_shell
     int unk1c;
     int unk20;
 
-    bool __thiscall FUN_00a435e0(int arg);
+    bool FUN_00a435e0(int arg);
 };
 
 // @fnv 0x00a435e0
@@ -363,7 +363,6 @@ class A43600Object;
 class A43600Stream
 {
   public:
-    void SerializeString(void* pkString);
     virtual void unk00();
     virtual void unk04();
     virtual void unk08();
@@ -547,7 +546,6 @@ class A43600Color
     float b;
     float a;
 
-    void SaveBinary(A43600Stream& kStream);
 };
 
 struct A43600Entry
@@ -568,7 +566,6 @@ struct A43600Entry
 class A43600Base
 {
   public:
-    void SaveBinaryBase(A43600Stream& kStream);
 };
 
 class A43600Controller : public A43600Base
@@ -591,13 +588,13 @@ class A43600Controller : public A43600Base
 // @fnv 0x00a43600
 void A43600Controller::FUN_00a43600(A43600Stream& kStream)
 {
-    SaveBinaryBase(kStream);
+    reinterpret_cast<::FUN_00a95ca0_shell *>(this)->FUN_00a95ca0((::S_00a58160_Stream &)(kStream));
     A43600SaveBinary(kStream, m_uiNumEntries);
     for (unsigned int i = 0; i < m_uiNumEntries; i++)
     {
-        kStream.SerializeString(&m_pkEntryArray[i].m_kName);
-        m_pkEntryArray[i].m_kColor0.SaveBinary(kStream);
-        m_pkEntryArray[i].m_kColor1.SaveBinary(kStream);
+        reinterpret_cast<::FUN_00a641f0_cls *>(&(kStream))->WriteObjectLink(&m_pkEntryArray[i].m_kName);
+        reinterpret_cast<::DataA38 *>(&(m_pkEntryArray[i].m_kColor0))->FUN_00a38b60((::NiStreamA38 &)(kStream));
+        reinterpret_cast<::DataA38 *>(&(m_pkEntryArray[i].m_kColor1))->FUN_00a38b60((::NiStreamA38 &)(kStream));
     }
     kStream.SaveLinkID(m_pkTarget);
 }
@@ -605,8 +602,6 @@ void A43600Controller::FUN_00a43600(A43600Stream& kStream)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* pvMem, unsigned int stElementSize);
 };
 
 class NiKeyBasedInterpolator : public NiMemObject
@@ -662,7 +657,6 @@ class TreadTransfInterpolator : public NiKeyBasedInterpolator
     virtual ~TreadTransfInterpolator();
 
     TreadTransfInterpolator* FUN_00a439e0(void* kCloning);
-    void FUN_00a43690(TreadTransfInterpolator* pkDest, void* kCloning);
 
     unsigned int m_uiUnk0C;
     unsigned int m_uiUnk10;
@@ -671,18 +665,87 @@ class TreadTransfInterpolator : public NiKeyBasedInterpolator
     unsigned int m_uiSampleIndex;
     NiPointer<NiFloatData> m_spFloatData;
 };
+struct NiQuatTransform
+{
+    float x, y, z;
+    float qx, qy, qz, qw;
+    float scale;
+public:
+    NiQuatTransform();
+    void LoadBinary(::NiStream &);
+    bool IsInvalid() const;
+};
+struct FixedStringHeader
+{
+    volatile long references;
+    unsigned int unk04;
+};
+class NiFixedString
+{
+  public:
+    const char* value;
+    static FixedStringHeader* Header(const char* text)
+    {
+        return reinterpret_cast<FixedStringHeader*>(const_cast<char*>(text)) - 1;
+    }
+    ~NiFixedString()
+    {
+        if (value != ::DAT_0109b220)
+            InterlockedDecrement(&Header(value)->references);
+    }
+    NiFixedString& operator=(const NiFixedString& other)
+    {
+        if (value != other.value)
+        {
+            const char* next = other.value;
+            if (next != ::DAT_0109b220)
+                InterlockedIncrement(&Header(next)->references);
+            if (value != ::DAT_0109b220)
+                InterlockedDecrement(&Header(value)->references);
+            value = next;
+        }
+        return *this;
+    }
+};
+struct TreadTransformEntry
+{
+    NiQuatTransform first;
+    NiQuatTransform second;
+    NiFixedString name;
+    TreadTransformEntry();
+};
+struct NiObject : public NiRefObject
+{
+};
+class NiInterpolator : public NiObject
+{
+  public:
+    float lastTime;
+};
+class BSTreadTransfInterpolator : public NiInterpolator
+{
+  public:
+    TreadTransformEntry* entries;
+    unsigned int count;
+    float firstValue;
+    float secondValue;
+    unsigned int unk1c;
+    NiPointer<NiObject> reference;
+    void FUN_00a43690(BSTreadTransfInterpolator*, void*);
+public:
+    ~BSTreadTransfInterpolator();
+    void* FUN_00a43a50(unsigned int flags);
+};
 
 // Allocates a new TreadTransfInterpolator, passes it and kCloning to FUN_00a43690, then returns it.
 // @fnv 0x00a439e0
 TreadTransfInterpolator* TreadTransfInterpolator::FUN_00a439e0(void* kCloning)
 {
     TreadTransfInterpolator* pkClone = new TreadTransfInterpolator;
-    FUN_00a43690(pkClone, kCloning);
+    reinterpret_cast<::BSTreadTransfInterpolator *>(this)->FUN_00a43690((::BSTreadTransfInterpolator *)(pkClone), kCloning);
     return pkClone;
 }
 
-#include <windows.h>
-extern void* DAT_0109b220;
 
 struct a43840_Ref
 {
@@ -693,10 +756,8 @@ struct a43840_Ref
 
 struct a43840_Mem
 {
-    void __thiscall _DeallocateAlias(void*);
 };
 
-extern a43840_Mem DAT_011f6238;
 
 struct a43840_Elem
 {
@@ -721,8 +782,15 @@ class FUN_00a43840
     a43840_Ref* m_20;
 
     virtual ~FUN_00a43840();
-    void FUN_00a3ca30();
 };
+// @fnv 0x00a43a50
+void* BSTreadTransfInterpolator::FUN_00a43a50(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00a43840 *>((this))->FUN_00a43840::~FUN_00a43840();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x24);
+    return this;
+}
 
 // Frees the element array, decrements the reference count of m_20 and calls Release when it reaches zero, then calls FUN_00a3ca30.
 // @fnv 0x00a43840
@@ -740,18 +808,351 @@ FUN_00a43840::~FUN_00a43840()
             {
                 p = p - 1;
                 void* e = p->m_40;
-                if (e != DAT_0109b220)
+                if (e != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
                 {
                     InterlockedDecrement((long volatile*)((char*)e - 8));
                 }
             } while (--i >= 0);
         }
-        DAT_011f6238._DeallocateAlias((char*)pElements - 4);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::a43840_Mem *>(&::g_memoryManager))))->FUN_00aa4060((char*)pElements - 4);
     }
     a43840_Ref* r = m_20;
     if (r != 0 && InterlockedDecrement((long volatile*)&r->refCount) == 0)
     {
         r->Release();
     }
-    FUN_00a3ca30();
+    reinterpret_cast<::FUN_00a3ca30_shell *>(this)->FUN_00a3ca30();
+}
+
+
+
+struct MemoryManager
+{
+};
+
+class A438D0Object
+{
+  public:
+    virtual void unk00();
+    virtual void DeleteThis();
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+    long m_uiRefCount;
+};
+template <class T> class NiPointerA438
+{
+  public:
+    NiPointerA438& operator=(T* pObject)
+    {
+        if (m_pObject != pObject)
+        {
+            if (m_pObject)
+                m_pObject->DecRefCount();
+            m_pObject = pObject;
+            if (m_pObject)
+                m_pObject->IncRefCount();
+        }
+        return *this;
+    }
+    T* m_pObject;
+};
+
+class A438D0BinaryStream
+{
+  public:
+    void* m_ppVirtualMethodTable;
+    unsigned int m_uiStreamFlags;
+    unsigned int(__cdecl* m_pfnRead)(A438D0BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
+
+    unsigned int BinaryRead(void* p, unsigned int n, unsigned int* sizes, unsigned int count)
+    {
+        unsigned int read = m_pfnRead(this, p, n, sizes, count);
+        m_uiStreamFlags += read;
+        return read;
+    }
+};
+
+struct A438D0Stream
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    A438D0BinaryStream* m_pUnderlyingStream;
+
+};
+
+struct A438D0Transform
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+};
+
+struct A438D0Name
+{
+    void* m_kHandle;
+    A438D0Name() throw()
+    {
+        m_kHandle = 0;
+    }
+    ~A438D0Name() throw();
+};
+
+struct A438D0MemObject
+{
+};
+
+struct A438D0Entry : A438D0MemObject
+{
+    A438D0Transform m_kTransform0;
+    A438D0Transform m_kTransform1;
+    A438D0Name m_kName;
+    A438D0Entry() throw();
+};
+
+template <class T> inline void NiBinaryStreamLoadA438(A438D0BinaryStream* pkIstr, T* pValue, unsigned int uiNumEls)
+{
+    unsigned int uiComponentSize = sizeof(T);
+    pkIstr->BinaryRead(pValue, uiNumEls * sizeof(T), &uiComponentSize, 1);
+}
+template <class T> inline void NiStreamLoadBinaryA438(A438D0Stream& kStream, T& kValue)
+{
+    NiBinaryStreamLoadA438(kStream.m_pUnderlyingStream, &kValue, 1);
+}
+class A438D0Base
+{
+  public:
+};
+
+class A438D0Interpolator : public A438D0Base
+{
+  public:
+    void FUN_00a438d0(A438D0Stream& kStream);
+
+    int unk00;
+    int unk04;
+    int unk08;
+    A438D0Entry* m_pkEntryArray;
+    unsigned int m_uiNumEntries;
+    int unk14;
+    int unk18;
+    int unk1C;
+    NiPointerA438<A438D0Object> m_spReferencedObject;
+};
+
+// @fnv 0x00a438d0
+void A438D0Interpolator::FUN_00a438d0(A438D0Stream& kStream)
+{
+    ::FUN_00aa0ac0();
+    NiStreamLoadBinaryA438(kStream, m_uiNumEntries);
+    m_pkEntryArray = new A438D0Entry[m_uiNumEntries];
+    for (unsigned int i = 0; i < m_uiNumEntries; i++)
+    {
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(kStream))->FUN_00a64df0((*(::fnv_00a64df0::NiFixedString *)(&m_pkEntryArray[i].m_kName)));
+        reinterpret_cast<::NiQuatTransform *>(&(m_pkEntryArray[i].m_kTransform0))->LoadBinary((::NiStream &)(kStream));
+        reinterpret_cast<::NiQuatTransform *>(&(m_pkEntryArray[i].m_kTransform1))->LoadBinary((::NiStream &)(kStream));
+    }
+    m_spReferencedObject = ((::A438D0Object *)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));
+}
+
+class NiRefObject_decl_ehsc_noehsc
+{
+  public:
+    virtual ~NiRefObject_decl_ehsc_noehsc();
+    virtual void DeleteThis();
+    volatile long references;
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&references) == 0)
+            DeleteThis();
+    }
+};
+template <class T> struct NiPointer_decl_ehsc_noehsc
+{
+    T* object;
+    NiPointer_decl_ehsc_noehsc& operator=(const NiPointer_decl_ehsc_noehsc& other)
+    {
+        if (object != other.object)
+        {
+            if (object)
+                object->DecRefCount();
+            object = other.object;
+            if (object)
+                InterlockedIncrement(&object->references);
+        }
+        return *this;
+    }
+};
+// @fnv 0x00a43690
+void BSTreadTransfInterpolator::FUN_00a43690(BSTreadTransfInterpolator* destination, void* context)
+{
+    ::FUN_00aa0ab0();
+    delete[] destination->entries;
+    destination->count = count;
+    destination->entries = new TreadTransformEntry[count];
+    for (unsigned int i = 0; i < count; i++)
+    {
+        destination->entries[i].name = entries[i].name;
+        destination->entries[i].first = entries[i].first;
+        destination->entries[i].second = entries[i].second;
+    }
+    destination->reference = reference;
+    destination->firstValue = firstValue;
+    destination->secondValue = secondValue;
 }

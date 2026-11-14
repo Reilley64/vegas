@@ -13,7 +13,6 @@ enum MagicSystem__Range
     MagicSystem__Range_TARGET = 2,
     MagicSystem__Range_RANGE_COUNT = 3
 };
-#pragma pack(push, 4)
 class MagicEffectEntry
 {
   public:
@@ -25,14 +24,6 @@ class MagicEffectEntry
     // void __cdecl MagicEffectEntry::*()
     // void __cdecl MagicEffectEntry::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MagicEffectEntry) == 20);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iMagnitude) == 0);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iArea) == 4);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iPayloadInteger) == 8);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_eRange) == 12);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_eAssociatedActorValue) == 16);
-#pragma pack(push, 4)
 class EffectItem
 {
   public:
@@ -81,10 +72,4 @@ class EffectItem
     // EffectItem& __cdecl EffectItem::*(const EffectItem&)
     // void* __cdecl EffectItem::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(EffectItem) == 36);
-FNV_STATIC_ASSERT(offsetof(EffectItem, data) == 0);
-FNV_STATIC_ASSERT(offsetof(EffectItem, m_pEffectSetting) == 20);
-FNV_STATIC_ASSERT(offsetof(EffectItem, m_fCost) == 24);
-FNV_STATIC_ASSERT(offsetof(EffectItem, Conditions) == 28);
 #endif

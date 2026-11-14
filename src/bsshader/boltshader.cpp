@@ -1,5 +1,38 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the conversion to T* and
+// operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
+#include <cstdint>
+#include <cstddef>
 // bsshader/boltshader.cpp: BoltShader (9 functions)
 
+#include "fnv/decl/A72BB0_DataStreamOwner.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CloneSourceA5d6.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a51d0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a726a0_cls.h"
+#include "fnv/decl/FUN_00a72ca0_Class.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGPUProgramOwner.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/fnv_00bc0f80__FUN_00bc0f80.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00bc0000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01201000.h"
 #include "boltshader_decls.h"
 
 // Creates a shader declaration, configures its entries via vfn_08c/vfn_094, builds a BoltShader from it, and runs its setup calls before returning it.
@@ -7,16 +40,14 @@
 BSShader* BoltShader::CreateShader()
 {
     BoltShader* shader = 0;
-    NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create(DAT_011f9508, 5, 1);
+    NiD3DVertexDeclaration* declaration = ::FUN_00e76700(DAT_011f9508, 5, 1);
     BoltShaderDeclarationCalls* declarationCalls = (BoltShaderDeclarationCalls*)declaration;
 
-    declarationCalls->vfn_08c((unsigned int)shader, (unsigned int)shader, (unsigned int)shader, 2,
-                              (unsigned int)shader);
-    declarationCalls->vfn_08c(1, 3, 3, 2, (unsigned int)shader);
-    declarationCalls->vfn_08c(2, 5, 4, 3, (unsigned int)shader);
-    declarationCalls->vfn_08c(3, 7, 5, 1, (unsigned int)shader);
-    declarationCalls->vfn_094((unsigned int)shader, 4, 6, 0x80000000, (unsigned int)shader, 10, 1,
-                              (unsigned int)shader);
+    declarationCalls->vfn_08c(0, 0, 0, 2, 0);
+    declarationCalls->vfn_08c(1, 3, 3, 2, 0);
+    declarationCalls->vfn_08c(2, 5, 4, 3, 0);
+    declarationCalls->vfn_08c(3, 7, 5, 1, 0);
+    declarationCalls->vfn_094(0, 4, 6, 0x80000000, 0, 10, 1, 0);
     declarationCalls->vfn_0b4();
 
     shader = new BoltShader(declaration);
@@ -33,34 +64,34 @@ class NiD3DPass
 {
   public:
     static void __cdecl CreateD3DPass(NiPointer<NiD3DPass>&);
+public:
+    void DestroyPass();
 };
 
-void __fastcall ConfigurePassRenderStates(char* pThis);
+void ConfigurePassRenderStates(char* pThis);
 
-// Ensures the NiD3DPass pointer at pThis+0x168 is set, then calls ConfigurePassRenderStates(pThis) and returns true.
+// Ensures the bolt shader's render pass is set, then calls ConfigurePassRenderStates(pThis) and returns true.
 // @fnv 0x00bc1570
-bool __fastcall EnsurePassAndUpdate(char* pThis)
+bool EnsurePassAndUpdate(char* pThis)
 {
-    NiPointer<NiD3DPass>& pass = *(NiPointer<NiD3DPass>*)(pThis + 0x168);
+    NiPointer<NiD3DPass>& pass = reinterpret_cast<BoltShader*>(pThis)->BoltShaderRenderData;
     if (!pass.m_pObject)
         NiD3DPass::CreateD3DPass(pass);
     ConfigurePassRenderStates(pThis);
     return true;
 }
 
-struct X
+struct X_00bc1540
 {
-    void FUN_00bc0f80();
     void* DestroyIfFlagged(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00bc0f80, then if f has bit 1 set calls _delete on this with size 0x194, and returns this.
 // @fnv 0x00bc1540
-void* X::DestroyIfFlagged(unsigned int auiFlags)
+void* X_00bc1540::DestroyIfFlagged(unsigned int auiFlags)
 {
-    FUN_00bc0f80();
+    reinterpret_cast<::fnv_00bc0f80::FUN_00bc0f80 *>(this)->fnv_00bc0f80::FUN_00bc0f80::~FUN_00bc0f80();
     if (auiFlags & 1)
-        _delete(this, 0x194);
+        ::FUN_00aa1460(this, 0x194);
     return this;
 }
 
@@ -68,11 +99,11 @@ struct FUN_00bc1b90_shell
 {
     char pad[0x178];
     int m_178;
-    bool __thiscall FUN_00bc1b90(int value);
+    bool FUN_00bc1b90(int value);
 };
 
 // @fnv 0x00bc1b90
-bool __thiscall FUN_00bc1b90_shell::FUN_00bc1b90(int value)
+bool FUN_00bc1b90_shell::FUN_00bc1b90(int value)
 {
     m_178 = value;
     return 1;
@@ -115,13 +146,11 @@ class D3DRenderStateGroup
 {
   public:
     void SetRenderState(unsigned int, unsigned int, bool);
-    static D3DRenderStateGroup* __cdecl GetCurrentRenderStateGroup();
 };
 struct StageReturn
 {
     char pad[0x60];
     unsigned int m_uiRefCount;
-    void ReturnToPool();
     static unsigned int OMDec(unsigned int& v)
     {
         --v;
@@ -130,11 +159,9 @@ struct StageReturn
     void DecRefCount()
     {
         if (OMDec(m_uiRefCount) == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
-void __cdecl AssignStageFromPool(StageReturn*&);
-void __cdecl ConfigureBeamStage(BeamStage*, unsigned int, unsigned int, unsigned int, bool);
 class NiD3DPass
 {
   public:
@@ -149,7 +176,6 @@ class NiD3DPass
     OMRefPtr m_spVertexShaderObject;
     char pad60[4];
     unsigned int m_uiRefCount;
-    void DestroyPass();
     unsigned int GetStageCount() const
     {
         return m_uiNumberOfStages;
@@ -158,12 +184,11 @@ class NiD3DPass
     {
         ++m_uiRefCount;
     }
-    void FUN_00e802b0(unsigned int, BeamStage*);
     void SetRenderState(unsigned int uiState, unsigned int uiValue)
     {
         if (!m_pRenderStateGroup)
-            m_pRenderStateGroup = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-        m_pRenderStateGroup->SetRenderState(uiState, uiValue, true);
+            m_pRenderStateGroup = ((::fnv_00bc1210::D3DRenderStateGroup *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+        reinterpret_cast<::StateGroup *>((m_pRenderStateGroup))->SetNodeValue(uiState, uiValue, true);
     }
 };
 struct OMPassPtr
@@ -174,14 +199,14 @@ struct OMPassPtr
     ~OMPassPtr()
     {
         if (--m_pObject->m_uiRefCount == 0)
-            m_pObject->DestroyPass();
+            reinterpret_cast<::NiD3DPass *>((m_pObject))->DestroyPass();
     }
     OMPassPtr& operator=(const OMPassPtr& ptr)
     {
         if (m_pObject != ptr.m_pObject)
         {
             if (m_pObject && --m_pObject->m_uiRefCount == 0)
-                m_pObject->DestroyPass();
+                reinterpret_cast<::NiD3DPass *>((m_pObject))->DestroyPass();
             m_pObject = ptr.m_pObject;
             if (m_pObject)
                 m_pObject->IncRefCount();
@@ -208,25 +233,25 @@ struct OMStagePtr
         return (BeamStage*)m_pObject;
     }
 };
-struct FUN_00bc1210_t
+struct FUN_00bc1210_t : ::BoltShader
 {
     void ConfigurePassRenderStates();
 };
-// Copies the pass from this+0x168, creates a stage if it has none, assigns two refs from this+0x18c/0x190, then sets a series of render states.
+// Copies the render pass, creates a stage if it has none, assigns the vertex and pixel shaders, then sets a series of render states.
 // @fnv 0x00bc1210
 void FUN_00bc1210_t::ConfigurePassRenderStates()
 {
     OMPassPtr spRenderPass;
     OMStagePtr spStage;
-    spRenderPass = *(OMPassPtr*)((char*)this + 0x168);
+    spRenderPass = *(OMPassPtr*)&BoltShaderRenderData;
     if (spRenderPass->GetStageCount() < 1)
     {
-        AssignStageFromPool(spStage.m_pObject);
-        ConfigureBeamStage(spStage, 0, 1, 2, true);
-        spRenderPass->FUN_00e802b0(spRenderPass->m_uiStageMask, spStage);
+        ::AssignStageFromPool((::StageReturn *&)(spStage.m_pObject));
+        ::ConfigureBeamStage((::BeamStage *)(::fnv_00bc1210::BeamStage *)(spStage), 0, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(::fnv_00bc1210::BeamStage *)(spStage));
     }
-    spRenderPass->m_spVertexShaderObject = *(OMRef**)((char*)this + 0x18c);
-    spRenderPass->m_spPixelShaderObject = *(OMRef**)((char*)this + 0x190);
+    spRenderPass->m_spVertexShaderObject = reinterpret_cast<OMRef*>(BoltShaderPass.m_pObject);
+    spRenderPass->m_spPixelShaderObject = reinterpret_cast<OMRef*>(BoltShaderResources.m_pObject);
     spRenderPass->SetRenderState(0x16, 1);
     spRenderPass->SetRenderState(0xa8, 0xf);
     spRenderPass->SetRenderState(0x1b, 1);
@@ -247,10 +272,10 @@ struct FUN_00bc1950_shell : public BoltShader
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
-struct NiD3DShaderConstantMap : BSFadeNode
+class NiD3DShaderConstantMap : public BSFadeNode
 {
+  public:
     NiD3DShaderConstantMap(void*, int);
     virtual void Slot0();
     virtual void DeleteThis();
@@ -293,31 +318,29 @@ struct ConstMapPtr
     }
 };
 extern unsigned int DAT_01201f50;
-extern int fnv_particle_shader_renderer_level;
 
 // Creates the vertex and pixel shader constant maps if missing and registers their entries, caching a bolt-data entry count in DAT_01201f50.
 // @fnv 0x00bc1950
 void FUN_00bc1950_shell::InitShaderConstantMaps()
 {
-    char* self = (char*)this;
-    ConstMapPtr& spVS = *(ConstMapPtr*)(self + 0x34);
-    ConstMapPtr& spPS = *(ConstMapPtr*)(self + 0x30);
+    ConstMapPtr& spVS = *(ConstMapPtr*)&m_spSecondShaderConstantMap;
+    ConstMapPtr& spPS = *(ConstMapPtr*)&m_spFirstShaderConstantMap;
     if (spVS == 0)
     {
-        spVS = new NiD3DShaderConstantMap(*(void**)(self + 0x18), 0);
+        spVS = new NiD3DShaderConstantMap(m_pShaderObject, 0);
         spVS->AddEntry("WorldViewProjTranspose", 0x20000009, 0, 0, 4, 0, 0, 0, 0, false);
-        spVS->AddEntry("fVars", 0x10000009, 0, 4, 4, "", 0x40, 4, self + 0x128, false);
-        spVS->AddEntry("EyePosition", 0x10000007, 0, 8, 1, "", 0x10, 4, self + 0x118, false);
+        spVS->AddEntry("fVars", 0x10000009, 0, 4, 4, "", 0x40, 4, m_fMatrix, false);
+        spVS->AddEntry("EyePosition", 0x10000007, 0, 8, 1, "", 0x10, 4, &EyePosition, false);
         if (DAT_01201f50 == 0)
-            DAT_01201f50 = (fnv_particle_shader_renderer_level >= 2) ? 0xeb : 0x4b;
-        spVS->AddEntry("bolt data", 0x10000009, 0, 0xe, DAT_01201f50, "", DAT_01201f50 * 16, 4, *(void**)(self + 0x70),
+            DAT_01201f50 = (::DAT_011f91c0 >= 2) ? 0xeb : 0x4b;
+        spVS->AddEntry("bolt data", 0x10000009, 0, 0xe, DAT_01201f50, "", DAT_01201f50 * 16, 4, BoltShaderSegmentState,
                        false);
     }
     if (spPS == 0)
     {
-        spPS = new NiD3DShaderConstantMap(*(void**)(self + 0x18), 2);
-        spPS->AddEntry("CoreColor", 0x10000007, 0, 0, 1, "", 0x10, 4, self + 0x16c, false);
-        spPS->AddEntry("GlowColor", 0x10000007, 0, 1, 1, "", 0x10, 4, self + 0x17c, false);
+        spPS = new NiD3DShaderConstantMap(m_pShaderObject, 2);
+        spPS->AddEntry("CoreColor", 0x10000007, 0, 0, 1, "", 0x10, 4, &CoreColor, false);
+        spPS->AddEntry("GlowColor", 0x10000007, 0, 1, 1, "", 0x10, 4, &GlowColor, false);
     }
 }
 
@@ -427,12 +450,9 @@ struct Obj_bc18d0
     virtual void v53();
     virtual void v54();
     virtual void AttachChild55(Obj_bc18d0* pkChild, bool abFirstAvailableSlot);
-    Obj_bc18d0* Clone();
-    Prop_bc18d0* GetProperty(int iType);
 };
 
 Obj_bc18d0* __cdecl FUN_00bc15a0();
-void __cdecl FUN_00b57e30(Obj_bc18d0* pkObj, int a2, int a3);
 
 // Clones a node from FUN_00bc15a0, attaches it to pkNode, gets property type 3, and if its m_iType1c is 0xf increments DAT_01201f54 and calls v39 on it.
 // @fnv 0x00bc18d0
@@ -440,10 +460,10 @@ Prop_bc18d0* __cdecl FUN_00bc18d0(Obj_bc18d0* pkNode)
 {
     if (pkNode)
     {
-        Obj_bc18d0* pkClone = FUN_00bc15a0()->Clone();
+        Obj_bc18d0* pkClone = ((::Obj_bc18d0 *)(reinterpret_cast<::CloneSourceA5d6 *>((FUN_00bc15a0()))->FUN_00a5d680()));
         pkNode->AttachChild55(pkClone, true);
-        FUN_00b57e30(pkClone, 0, 0);
-        Prop_bc18d0* pkProp = pkClone->GetProperty(3);
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(pkClone), 0, 0);
+        Prop_bc18d0* pkProp = ((::Prop_bc18d0 *)(reinterpret_cast<::FUN_00a59d30_C *>((pkClone))->FUN_00a59d30(3)));
         int bIsShaderType = 0;
         if (pkProp)
             bIsShaderType = (pkProp->m_iType1c == 0xf);
@@ -473,7 +493,6 @@ struct Fn1470Result
 
 struct Fn1470Item
 {
-    Fn1470Result* FUN_00a59d30(int value);
 };
 
 struct Fn1470Ref
@@ -596,7 +615,6 @@ struct Fn1470Owner
 };
 
 extern int DAT_01201f54;
-extern Fn1470Ref* DAT_01201f58;
 
 // Calls Slot3c for each matching result; when the counter is nonpositive, releases and clears the global reference and resets the counter.
 // @fnv 0x00bc1470
@@ -615,7 +633,7 @@ void __cdecl FUN_00bc1470(Fn1470Owner* pOwner, Fn1470Result* pWanted)
             Fn1470Result* r;
             if (item != 0)
             {
-                r = item->FUN_00a59d30(3);
+                r = ((::Fn1470Result *)(reinterpret_cast<::FUN_00a59d30_C *>((item))->FUN_00a59d30(3)));
             }
             else
             {
@@ -642,48 +660,34 @@ void __cdecl FUN_00bc1470(Fn1470Owner* pOwner, Fn1470Result* pWanted)
     {
         return;
     }
-    if (DAT_01201f58 != 0)
+    if ((*reinterpret_cast<::Fn1470Ref * *>(&::DAT_01201f58)) != 0)
     {
-        DAT_01201f58->DecRefCount();
-        DAT_01201f58 = 0;
+        (*reinterpret_cast<::Fn1470Ref * *>(&::DAT_01201f58))->DecRefCount();
+        (*reinterpret_cast<::Fn1470Ref * *>(&::DAT_01201f58)) = 0;
     }
     DAT_01201f54 = 0;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManager _g_memoryManager;
 
 struct IndexU16
 {
     unsigned short value;
-    static void* operator new[](unsigned int size)
-    {
-        return _g_memoryManager.Allocate(size);
-    }
 };
 
-void* __cdecl GetOrCreateTable();
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
-    static void* operator new[](unsigned int size)
-    {
-        return _g_memoryManager.Allocate(size);
-    }
 };
 
 class FUN_00ba63e0 : public NiObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk08;
     int unk0c;
     int unk10;
@@ -694,9 +698,6 @@ class FUN_00ba63e0 : public NiObject
     int unk24;
     int unk28;
     FUN_00ba63e0(unsigned short, unsigned int);
-    void FUN_00a72ca0(unsigned int);
-    void FUN_00a72bb0(unsigned int, void*, unsigned int, unsigned int);
-    void FUN_00a726a0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 };
 
 struct NiBound
@@ -721,8 +722,6 @@ struct NiBound
 class FUN_00a7b630 : public NiObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk08;
     int unk0c;
     NiBound m_kBound;
@@ -741,20 +740,16 @@ class FUN_00a7b630 : public NiObject
     int unk50;
     int unk54;
     FUN_00a7b630(unsigned short, NiPoint3*, void*, void*, void*, void*, int, unsigned short, unsigned short*);
-    void FUN_00a67260(FUN_00ba63e0*);
 };
 
 class NiAVObject : public NiObject
 {
   public:
-    void AttachProperty(NiObject*);
 };
 
 class FUN_00a74480 : public NiAVObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk08;
     int unk0c;
     int unk10;
@@ -827,8 +822,6 @@ class NiProperty : public NiObject
 class FUN_00bc1d40 : public NiProperty
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk20;
     int unk24;
     int unk28;
@@ -925,15 +918,12 @@ class FUN_00bc1d40 : public NiProperty
 };
 
 extern unsigned int DAT_01201f50;
-extern int DAT_011f91c0;
-extern int DAT_011ae61c;
 struct Fn1470Ref;
-extern Fn1470Ref* DAT_01201f58;
 
 // The file declares the cached shape as a raw pointer; it is used as a NiPointer here.
 static inline NiPointer<FUN_00a74480>& CachedShape()
 {
-    return reinterpret_cast<NiPointer<FUN_00a74480>&>(DAT_01201f58);
+    return reinterpret_cast<NiPointer<FUN_00a74480>&>((*reinterpret_cast<::Fn1470Ref * *>(&::DAT_01201f58)));
 }
 
 inline unsigned int GetSegmentCount()
@@ -954,7 +944,7 @@ Obj_bc18d0* FUN_00bc15a0()
 
     unsigned int uSegments = GetSegmentCount();
     if (!uSegments)
-        return (Obj_bc18d0*)uSegments;
+        return 0;
 
     unsigned int uTotal = DAT_011ae61c * uSegments;
     unsigned int usNumTriangles = (unsigned short)(uTotal + uTotal);
@@ -992,19 +982,21 @@ Obj_bc18d0* FUN_00bc15a0()
     FUN_00a7b630* pkData = new FUN_00a7b630(usNumVertices, pVertices, 0, 0, 0, 0, 0, usNumTriangles, pIndices);
 
     FUN_00ba63e0* pkExt = new FUN_00ba63e0(usNumVertices, 1);
-    pkExt->FUN_00a72ca0(1);
-    pkExt->FUN_00a72bb0(0, GetOrCreateTable(), (unsigned short)usNumVertices * 4, 1);
-    pkExt->FUN_00a726a0(0, 0, 0, 1, usNumVertices, 4, 4);
+    reinterpret_cast<::FUN_00a72ca0_Class *>((pkExt))->FUN_00a72ca0(1);
+    reinterpret_cast<::A72BB0_DataStreamOwner *>((pkExt))->FUN_00a72bb0(0, GetOrCreateTable(), (unsigned short)usNumVertices * 4, 1);
+    reinterpret_cast<::FUN_00a726a0_cls *>((pkExt))->FUN_00a726a0(0, 0, 0, (void *)(1), usNumVertices, 4, 4);
 
-    pkData->FUN_00a67260(pkExt);
+    reinterpret_cast<::NiGPUProgramOwner *>((pkData))->SetProgram((::NiGPUProgram *)(pkExt));
 
     FUN_00a74480* pkShape = new FUN_00a74480(pkData);
 
     NiBound kBound = pkShape->GetModelBound();
-    pkShape->m_spGeometryData->m_kBound.SetCenterAndRadius(kBound.m_kCenter, 2048.0f);
+    reinterpret_cast<::FUN_004a51d0_shell *>(&(pkShape->m_spGeometryData->m_kBound))->FUN_004a51d0((void *)&(kBound.m_kCenter), 2048.0f);
 
-    pkShape->AttachProperty(new FUN_00bc1d40());
+    reinterpret_cast<::FUN_00439410_cls *>((pkShape))->FUN_00439410((::ArgObject *)(::NiObject *)(new FUN_00bc1d40()));
 
     CachedShape() = pkShape;
     return (Obj_bc18d0*)(FUN_00a74480*)CachedShape();
 }
+
+#include "generated/data/bsshader/boltshader.inc"

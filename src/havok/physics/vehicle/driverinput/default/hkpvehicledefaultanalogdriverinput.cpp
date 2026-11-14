@@ -2,6 +2,16 @@
 // src/havok/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
+#include "havok/ScalarConstants.h"
+#include "fnv/symbols_0104d000.h"
 #include "havok/hkpVehicleDefaultAnalogDriverInput.h"
 
 struct FUN_00e43540_Arg1
@@ -243,30 +253,9 @@ hkReal AnalogDriverInput::FUN_00e435a0(hkReal deltaTime, const hkpVehicleDriverI
     return v;
 }
 
-class hkMemoryAllocatorE43A
-{
-  public:
-    virtual ~hkMemoryAllocatorE43A() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterE43A
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorE43A* m_pStreamAllocator;
-
-    hkMemoryAllocatorE43A& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterE43A {
-extern "C" hkMemoryRouterE43A& __cdecl FUN_00c85750() throw();
+
 }
 
 class hkRefObjE43A
@@ -276,9 +265,9 @@ class hkRefObjE43A
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
-        hkRefObjE43A* b = static_cast<hkRefObjE43A*>(hkRouterE43A::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkRefObjE43A* b = static_cast<hkRefObjE43A*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -361,34 +350,11 @@ hkReal AnalogDriverInput::GetOutput(hkReal deltaTime, const void* vehicle, const
 }
 }  // namespace fnv_00e436b0
 
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f0, f1, f2, f3;
-};
-extern "C"
-{
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ss(float*, __m128);
-    float _mm_cvtss_f32(__m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-}
 
-extern const float DAT_01011d78 = 0.0f;
-extern const float DAT_01016248 = 0.5f;
+extern const float DAT_01011d78;
 extern const float DAT_01017718 = 3.0f;
-extern const float DAT_0104da4c = 1.1920928955078125e-07f;
+extern const float DAT_0104da4c;
 extern const float DAT_010ebf10 = 1.38888896f;
-extern const double DAT_0101ffa0 = 0.10000000149011612;
 
 namespace e43780 {
 struct HkVec
@@ -458,7 +424,7 @@ static __forceinline ButtonResult makeBtn(unsigned char v)
 static __forceinline __m128 sqrtInv(__m128 x)
 {
     __m128 r = _mm_rsqrt_ss(x);
-    __m128 nr = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), r),
+    __m128 nr = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r),
                            _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(x, r), r)));
     return _mm_andnot_ps(_mm_cmpeq_ss(x, _mm_set_ss(DAT_01011d78)), nr);
 }

@@ -1,5 +1,74 @@
+#include "AutoMemContext.h"
 // fallout_shared/testerrainlodmanager.cpp: free functions (11 functions)
 
+#include <cstdint>
+#include <new>
+#include <cmath>
+#include "fnv/decl/B3CA80Owner.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/FNv53b450_Source.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00451900_shell.h"
+#include "fnv/decl/FUN_004572e0_shell.h"
+#include "fnv/decl/FUN_004573f0_shell.h"
+#include "fnv/decl/FUN_0045c9a0_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_0053a510.h"
+#include "fnv/decl/FUN_005471e0_shell.h"
+#include "fnv/decl/FUN_0099e040_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FrustumPlanes__Planes.h"
+#include "fnv/decl/GlobalObject_0045cf30.h"
+#include "fnv/decl/GraphicsRenderer.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/S00546fb0_Cell.h"
+#include "fnv/decl/S00b5d9f0_Owner.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TerrainOwner.h"
+#include "fnv/decl/ThisC.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0053fa10__TESObjectLAND.h"
+#include "fnv/decl/xLand.h"
+#include "fnv/decl/xWorldC.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0057c000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_0057e000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00b60000.h"
+#include "fnv/symbols_00b61000.h"
+#include "fnv/symbols_00b62000.h"
+#include "fnv/symbols_0118c000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/image_space_effect_param.h"
 #include "testerrainlodmanager_unit.h"
 
 // @fnv 0x0057d090
@@ -8,8 +77,6 @@ NiFixedString* FUN_0057d090()
     return DAT_011c6224;
 }
 
-extern float DAT_01200500;
-extern float DAT_01200504;
 
 // @fnv 0x0057ce70
 void __cdecl SetWindMagnitudeRange(float afWindMagMin, float afWindMagMax)
@@ -26,16 +93,13 @@ float FUN_0057dd70(float value)
     return FUN_0057dd90(value);
 }
 
-extern "C" double __cdecl FUN_00eca590(double);
 
 // @fnv 0x0057dd90
 float FUN_0057dd90(float value)
 {
-    return static_cast<float>(FUN_00eca590(value));
+    return static_cast<float>(std::tan(value));
 }
 
-extern void* DAT_011ca43c;
-extern void* DAT_011ca440;
 extern int DAT_011ca444;
 
 struct FUN_0057ce90_shell
@@ -49,22 +113,21 @@ FUN_0057ce90_shell::~FUN_0057ce90_shell()
 {
     if (--DAT_011ca444 == 0)
     {
-        if (DAT_011ca43c)
+        if ((*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca43c)))
         {
-            void* p = DAT_011ca43c;
-            operator delete(p);
-            DAT_011ca43c = 0;
+            void* p = (*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca43c));
+            ::FUN_00401030(p);
+            (*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca43c)) = 0;
         }
-        if (DAT_011ca440)
+        if ((*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca440)))
         {
-            void* q = DAT_011ca440;
-            operator delete(q);
-            DAT_011ca440 = 0;
+            void* q = (*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca440));
+            ::FUN_00401030(q);
+            (*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca440)) = 0;
         }
     }
 }
 
-float __cdecl FUN_00404040(float);
 // Truncates p[0] and p[1] to ints via FUN_00404040 and packs x into the high 16 bits and y into the low 16 bits.
 // @fnv 0x0057ddb0
 int __cdecl PackFloatPairToInt(float* afValues)
@@ -78,15 +141,15 @@ int __cdecl PackFloatPairToInt(float* afValues)
 
 struct Setting_S
 {
-    float* Float();
 };
 struct GlobalObject_0045cfe0
 {
-    int* Int();
 };
 struct TallGrassShaderProperty
 {
     static int __cdecl GetCacheIdentifier();
+public:
+    static void ClearCacheData();
 };
 struct B006815c0
 {
@@ -94,12 +157,7 @@ struct B006815c0
     B006815c0();
 };
 void __cdecl SetWindMagnitudeRange(float, float);
-extern void* DAT_011ca43c;
-extern void* DAT_011ca440;
 extern int DAT_011ca444;
-extern Setting_S g_011ca48c;
-extern Setting_S g_011ca510;
-extern GlobalObject_0045cfe0 g_011ca524;
 
 struct FUN_0057cd10
 {
@@ -112,40 +170,30 @@ FUN_0057cd10::FUN_0057cd10()
 {
     if (!DAT_011ca444)
     {
-        int isizecap = (TallGrassShaderProperty::GetCacheIdentifier() << 8) / *g_011ca524.Int();
-        if (!DAT_011ca43c)
-            DAT_011ca43c = new B006815c0[isizecap * isizecap];
-        if (!DAT_011ca440)
-            DAT_011ca440 = new int[isizecap * isizecap];
+        int isizecap = (TallGrassShaderProperty::GetCacheIdentifier() << 8) / *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011ca524))));
+        if (!(*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca43c)))
+            (*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca43c)) = new B006815c0[isizecap * isizecap];
+        if (!(*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca440)))
+            (*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca440)) = new int[isizecap * isizecap];
     }
     DAT_011ca444++;
-    SetWindMagnitudeRange(*g_011ca48c.Float(), *g_011ca510.Float());
+    SetWindMagnitudeRange(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011ca48c)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011ca510)))))));
 }
 
 namespace fnv_0057cf00 {
-struct AutoMemHelper
-{
-    AutoMemHelper(int a, bool b, const char* file, int line);
-    ~AutoMemHelper();
-    int iOld;
-};
+using AutoMemHelper = ::AutoMemContext;
 struct Setting_S
 {
-    float& Float();
 };
 struct GlobalObject_0045cfe0
 {
-    int& Int();
 };
-struct NiAVObject
+class NiAVObject
 {
-    void SetName(const NiFixedString& name);
-    void UpdateSceneObject();
 };
-struct NiNode : public NiAVObject
+class NiNode : public NiAVObject
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
+  public:
     NiNode(unsigned short count);
     char pad[0xac];
 };
@@ -217,16 +265,9 @@ struct BaseNodeV
 };
 struct NiAdditionalGeometryData
 {
-    static BaseNodeV* __cdecl GetShadowSceneNodeForIndex(int index);
 };
 extern double DAT_01011588;
-extern Setting_S DAT_011ca450;
-extern Setting_S g_011ca4ac;
-extern Setting_S g_011ca498;
-extern GlobalObject_0045cfe0 g_011c63cc;
 extern float DAT_011ca434;
-extern NiNode* DAT_011ca438;
-extern bool DAT_011ca430;
 
 // Computes a clamped max range from settings and stores it, then creates a named NiNode, attaches it at index 6, and sets a flag.
 // @fnv 0x0057cf00
@@ -235,27 +276,47 @@ void UpdateTerrainLODMaxRange()
     AutoMemHelper tempMemContext(
         0x1c, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESTerrainLODManager.cpp", 0x90);
     float fmaxrange = 0.0f;
-    if (DAT_011ca450.Float() >= g_011ca4ac.Float() + 0.5f)
-        fmaxrange = DAT_011ca450.Float() + g_011ca498.Float();
-    if (fmaxrange > (float)(unsigned int)(g_011c63cc.Int() << 12))
-        fmaxrange = (float)(unsigned int)(g_011c63cc.Int() << 12);
+    if (::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::fnv_007d1fb0::DAT_011ca450)))) >= ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::g_011ca4ac)))) + 0.5f)
+        fmaxrange = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::fnv_007d1fb0::DAT_011ca450)))) + ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::g_011ca498))));
+    if (fmaxrange > (float)(unsigned int)(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::GlobalObject_0045cfe0 *>(&::g_011c63cc)))) << 12))
+        fmaxrange = (float)(unsigned int)(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::GlobalObject_0045cfe0 *>(&::g_011c63cc)))) << 12);
     DAT_011ca434 = fmaxrange;
-    BaseNodeV* pbasenode = NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
-    DAT_011ca438 = new NiNode(0);
-    DAT_011ca438->SetName(*FUN_0057d090());
-    pbasenode->SetAt(6, DAT_011ca438);
-    DAT_011ca438->UpdateSceneObject();
-    DAT_011ca430 = true;
+    BaseNodeV* pbasenode = ((::fnv_0057cf00::BaseNodeV *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
+    (*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438)) = new NiNode(0);
+    ::AssignFixedString((char *)((*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438))), (std::intptr_t)&(*FUN_0057d090()), {});
+    pbasenode->SetAt(6, (*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438)));
+    reinterpret_cast<::FUN_00a5a040_Class *>(((*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438))))->FUN_00a5a040();
+    ::TerrainLOD::DAT_011ca430 = true;
 }
 }  // namespace fnv_0057cf00
 
-namespace TerrainLOD {
-struct AutoMemContext
+struct NiPoint3
 {
-    int context;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
+  public:
+    float x, y, z;
+    NiPoint3();
+    NiPoint3 operator-(const NiPoint3&) const;
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
+
+namespace fnv_0057de00 {
+struct NiPoint3
+{
+  public:
+    float x, y, z;
+    NiPoint3();
+    NiPoint3(float fX, float fY, float fZ);
+    NiPoint3 operator+(const NiPoint3& kPoint) const;
+    NiPoint3 operator-(const NiPoint3& kPoint) const;
+      // Unitize
+};
+}  // namespace fnv_0057de00
+
+namespace TerrainLOD {
+using ::AutoMemContext;
 extern const char DAT_010310d8[];
 struct Point3
 {
@@ -273,7 +334,6 @@ struct UpdateData
     UpdateData(float, bool, bool);
 };
 struct FixedName;
-FixedName* FUN_0057d090();
 struct TerrainNode
 {
     virtual void slot00();
@@ -375,69 +435,46 @@ struct TerrainNode
     unsigned int unka4;
     unsigned int unka8;
     TerrainNode(unsigned short);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
-    void AssignFixedString(FixedName*);
-    void FUN_00b5d9f0(TerrainNode*, int);
-    void FUN_00a59c60(UpdateData*);
-    void FUN_00a5a040();
 };
 struct Cell
 {
-    float FUN_0054fb70(Point3*);
-    int FUN_00544c60();
-    int FUN_00544c30();
 };
 struct World
 {
-    void* FUN_005f36f0();
-    Cell* FUN_00451900(int, int);
 };
 struct Setting
 {
     bool* FUN_00408d60();
-    float* FUN_00403e20();
-    bool GetBoolValue();
 };
-extern World* DAT_011dea10;
-extern Setting DAT_011ca4f0, DAT_011ca480, DAT_011ca450, DAT_011ca498, DAT_011ca4ac;
-extern bool DAT_0118c000, DAT_011ca430, DAT_011f9ef0;
-extern TerrainNode* DAT_011ca438;
-TerrainNode* FUN_00450b80(int);
-void FUN_00b62970();
-void UpdateTerrainLODMaxRange();
-void FUN_00b60120(float, float, float, float);
-void FUN_0057d4f0(Cell*, TerrainNode*, Point3, Point3, float, float, float);
-void FUN_00b61570(int, int);
 // @fnv 0x0057d0a0
 void FUN_0057d0a0(Point3 position, Point3 direction, float scale)
 {
     AutoMemContext contextSlot1(28, true, DAT_010310d8, 177);
-    if (DAT_011dea10->FUN_005f36f0() || !*DAT_011ca4f0.FUN_00408d60() || !DAT_0118c000)
+    if (((void *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TerrainLOD::World * *>(&::g_TES))))->GetPrevPath())) || !*(*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca4f0)).FUN_00408d60() || !DAT_0118c000)
     {
-        FUN_00b62970();
+        ::TallGrassShaderProperty::ClearCacheData();
         return;
     }
     if (!DAT_011ca430)
-        UpdateTerrainLODMaxRange();
-    DAT_011f9ef0 = *DAT_011ca480.FUN_00408d60();
-    float farDistanceSlot0 = *DAT_011ca450.FUN_00403e20() + *DAT_011ca498.FUN_00403e20();
-    float nearDistanceSlot2 = *DAT_011ca450.FUN_00403e20();
-    if (*DAT_011ca450.FUN_00403e20() < *DAT_011ca4ac.FUN_00403e20() + 0.5f)
+        ::fnv_0057cf00::UpdateTerrainLODMaxRange();
+    ::DAT_011f9ef0 = *(*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca480)).FUN_00408d60();
+    float farDistanceSlot0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::fnv_007d1fb0::DAT_011ca450)))))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca498))))));
+    float nearDistanceSlot2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::fnv_007d1fb0::DAT_011ca450))))));
+    if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::fnv_007d1fb0::DAT_011ca450)))))) < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca4ac)))))) + 0.5f)
         return;
-    if (!DAT_011ca438)
+    if (!(*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)))
     {
-        TerrainNode* rootSlot0 = FUN_00450b80(0);
-        TerrainNode* foundSlot8 = rootSlot0->Find(FUN_0057d090());
-        DAT_011ca438 = foundSlot8;
-        if (!DAT_011ca438)
+        TerrainNode* rootSlot0 = ((::TerrainLOD::TerrainNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
+        TerrainNode* foundSlot8 = rootSlot0->Find(((::TerrainLOD::FixedName *)(::FUN_0057d090())));
+        (*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)) = foundSlot8;
+        if (!(*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)))
         {
-            DAT_011ca438 = new TerrainNode(0);
-            DAT_011ca438->AssignFixedString(FUN_0057d090());
-            rootSlot0->Attach(DAT_011ca438, true);
+            (*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)) = new TerrainNode(0);
+            ::AssignFixedString((char *)((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))), (std::intptr_t)(((::TerrainLOD::FixedName *)(::FUN_0057d090()))), {});
+            rootSlot0->Attach((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)), true);
         }
     }
-    FUN_00b60120(0, 0, nearDistanceSlot2, farDistanceSlot0);
+    ::FUN_00b60120(0, 0, nearDistanceSlot2, farDistanceSlot0);
     if (true)
     {
         int cellXSlot13 = 0;
@@ -448,7 +485,7 @@ void FUN_0057d0a0(Point3 position, Point3 direction, float scale)
             --cellXSlot13;
         if (position.y < 0.0)
             --cellYSlot13;
-        Cell* cellSlot17 = DAT_011dea10->FUN_00451900(cellXSlot13, cellYSlot13);
+        Cell* cellSlot17 = ((::TerrainLOD::Cell *)(reinterpret_cast<::FUN_00451900_shell *>(((*reinterpret_cast<::TerrainLOD::World * *>(&::g_TES))))->FUN_00451900(cellXSlot13, cellYSlot13)));
         TwoComponentVector relativeSlot42(position.x, position.y);
         relativeSlot42.x -= float(cellXSlot13 << 12);
         relativeSlot42.y -= float(cellYSlot13 << 12);
@@ -456,30 +493,30 @@ void FUN_0057d0a0(Point3 position, Point3 direction, float scale)
         {
             for (int column = 0; column < 5; ++column)
             {
-                cellSlot17 = DAT_011dea10->FUN_00451900(cellXSlot13 + row - 2, cellYSlot13 + column - 2);
+                cellSlot17 = ((::TerrainLOD::Cell *)(reinterpret_cast<::FUN_00451900_shell *>(((*reinterpret_cast<::TerrainLOD::World * *>(&::g_TES))))->FUN_00451900(cellXSlot13 + row - 2, cellYSlot13 + column - 2)));
                 if (cellSlot17)
                 {
                     bool skip = true;
                     if (row != 0 && row != 4 && column != 0 && column != 4 &&
-                        farDistanceSlot0 > cellSlot17->FUN_0054fb70(&position))
+                        farDistanceSlot0 > reinterpret_cast<::ThisC *>((cellSlot17))->FUN_0054fb70((::Pt2 *)(::TerrainLOD::Point3 *)(&position)))
                     {
-                        FUN_0057d4f0(cellSlot17, DAT_011ca438, position, direction, nearDistanceSlot2, farDistanceSlot0,
+                        ::FUN_0057d4f0((::Mgr *)(cellSlot17), (std::intptr_t)((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))), (*(::NiPoint3 *)&(const ::TerrainLOD::Point3 &)(position)), (*(::NiPoint3 *)&(const ::TerrainLOD::Point3 &)(direction)), nearDistanceSlot2, farDistanceSlot0,
                                      scale);
                         skip = false;
                     }
                     if (skip)
-                        FUN_00b61570(cellSlot17->FUN_00544c30(), cellSlot17->FUN_00544c60());
+                        ::FUN_00b61570(reinterpret_cast<::TESObjectCELL *>((cellSlot17))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((cellSlot17))->GetCellGridY());
                 }
             }
         }
     }
-    if (DAT_011ca480.GetBoolValue())
-        FUN_00450b80(0)->FUN_00b5d9f0(DAT_011ca438, 0);
-    if (DAT_011ca438)
+    if (((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&((*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca480))))->GetBoolValue())))
+        reinterpret_cast<::S00b5d9f0_Owner *>((((::TerrainLOD::TerrainNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5d9f0((::S00b5d9f0_Obj *)((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))), 0);
+    if ((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)))
     {
         UpdateData update(0, false, false);
-        DAT_011ca438->FUN_00a59c60(&update);
-        DAT_011ca438->FUN_00a5a040();
+        reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))))->FUN_00a59c60((std::intptr_t)(&update));
+        reinterpret_cast<::FUN_00a5a040_Class *>(((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))))->FUN_00a5a040();
     }
 }
 }
@@ -510,20 +547,9 @@ struct CellForm
     virtual void v1a4();
     virtual int Get1a8();
 };
-class NiPoint3
-{
-  public:
-    float x, y, z;
-    NiPoint3();
-    NiPoint3 operator-(const NiPoint3&) const;
-    float Length() const;
-    void FUN_004a0c10();
-};
 struct NiBound
 {
     float x, y, z, radius;
-    const NiPoint3& FUN_006815c0();
-    float FUN_0084d030() const;
 };
 struct NiPlaneX
 {
@@ -535,14 +561,12 @@ struct FUN_0045c620
     unsigned int m_uiActive;
     unsigned int m_uiPad;
     FUN_0045c620();
-    void SetFromFrustum(const void* apFrustum, void* apTransform);
 };
 struct Tmp53a510
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c;
-    void FUN_0053a510();
 };
 struct NiFrustum
 {
@@ -552,65 +576,39 @@ struct NiFrustum
 };
 struct NiRenderer
 {
-    unsigned int FUN_004dee70();
-    unsigned int FUN_004dee10();
 };
-NiRenderer* FUN_0043c4b0();
 struct CamNode
 {
-    const NiFrustum& GetViewFrustum();
-    void* FUN_00461130();
 };
 struct ModelOps
 {
-    CellForm* FUN_0043b230();
 };
 struct Node45
 {
-    ModelOps* FUN_006629f0();
-    float FUN_0099e040();
 };
-Node45* FUN_0045c670();
 struct CellObj
 {
-    const NiBound& FUN_0043d450();
 };
 struct Obj30
 {
-    NiPoint3 FUN_0053b450(unsigned char, unsigned short, int, int);
-    int** FUN_0053ca80(int, int);
 };
 struct NiNodeHelper
 {
-    Node45* FUN_0043b4a0();
 };
 struct FormKind
 {
-    int FUN_0044ddc0();
 };
 struct Mgr
 {
-    int FUN_0054ddd0();
-    Obj30* FUN_00546fb0();
-    float FUN_005471e0();
-    int FUN_00544c30();
-    int FUN_00544c60();
-    CellObj* GetCellNodeAt(unsigned int);
-    NiNodeHelper* FUN_00456fc0(int, unsigned int);
 };
 extern unsigned char DAT_011ca534;
-extern NiPoint3 __NiPoint3_ZERO;
 int FUN_0057ce60();
 bool FUN_00b617b0(const char*, const char*);
-CellForm* _ref_004839c0(int);
-void FUN_00b61370(int);
 float __cdecl FUN_0057dd70(float);
 int __cdecl PackFloatPairToInt(float*);
-void __cdecl GenerateGrassPositions(int, int, int, Obj30*, int, const NiPoint3*, int, NiPoint3, int*, int*, float,
-                                    float, unsigned short, int, float, unsigned char, unsigned char);
 
 // @fnv 0x0057d4f0
-void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDir, float afParam1, float afRadius,
+void __cdecl FUN_0057d4f0(Mgr* apMgr, std::intptr_t aiParam, NiPoint3 akPos, NiPoint3 akDir, float afParam1, float afRadius,
                           float afFov)
 {
     int iQuad;
@@ -621,7 +619,7 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDi
     BSSimpleList<const char*> kModelList;
     CellForm* pBase = 0;
     Tmp53a510 kHelper;
-    kHelper.FUN_0053a510();
+    new ((void *)&(kHelper)) ::FUN_0053a510();
     unsigned short usW = 0;
     unsigned char bFlagA6 = 0;
     unsigned char bFlagB = 0;
@@ -632,44 +630,44 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDi
     int iStart4 = FUN_0057ce60();
     int iDelta = iStart4 * 2;
     int iCount2 = 8;
-    if (apMgr == 0 || apMgr->FUN_0054ddd0() == 0 || apMgr->FUN_00546fb0() == 0)
+    if (apMgr == 0 || ((std::intptr_t)(reinterpret_cast<::TESObjectCELL *>((apMgr))->GetParentWorldSpace())) == 0 || ((::Obj30 *)(reinterpret_cast<::S00546fb0_Cell *>((apMgr))->FUN_00546fb0())) == 0)
         return;
-    float fScaleF4 = apMgr->FUN_005471e0();
-    Obj30* pData30 = apMgr->FUN_00546fb0();
-    int m_iGridPositionX = apMgr->FUN_00544c30();
-    int iLodLevel5 = apMgr->FUN_00544c60();
+    float fScaleF4 = reinterpret_cast<::FUN_005471e0_shell *>((apMgr))->FUN_005471e0();
+    Obj30* pData30 = ((::Obj30 *)(reinterpret_cast<::S00546fb0_Cell *>((apMgr))->FUN_00546fb0()));
+    int m_iGridPositionX = reinterpret_cast<::TESObjectCELL *>((apMgr))->GetCellGridX();
+    int iLodLevel5 = reinterpret_cast<::TESObjectCELL *>((apMgr))->GetCellGridY();
     iSampleIdx = 0;
     akDir.z = 0.0f;
-    akDir.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(akDir))->FUN_004a0c10();
     afFov = afFov * 2.0f;
     NiFrustum kFrust(false);
-    float fW = (float)FUN_0043c4b0()->FUN_004dee70();
-    float fScreenH4 = (float)FUN_0043c4b0()->FUN_004dee10();
+    float fW = (float)reinterpret_cast<::GraphicsRenderer *>((::FUN_0043c4b0()))->GetRenderTargetHeight();
+    float fScreenH4 = (float)reinterpret_cast<::GraphicsRenderer *>((::FUN_0043c4b0()))->GetRenderTargetWidth();
     float kFAspectRatio = fW / fScreenH4;
     float fFactorB = 0.75 / (fW / fScreenH4);
-    float fTheta = FUN_0045c670()->FUN_0099e040() * 0.01745329238474369 * 0.5 + afFov;
+    float fTheta = reinterpret_cast<::FUN_0099e040_shell *>((((::Node45 *)(::FUN_0045c670()))))->FUN_0099e040() * 0.01745329238474369 * 0.5 + afFov;
     kFrust.m_fLeftBound = -FUN_0057dd70(fTheta) * fFactorB;
     kFrust.m_fRightBound = FUN_0057dd70(fTheta) * fFactorB;
     kFrust.m_fBottomBound = -FUN_0057dd70(fTheta) * kFAspectRatio * fFactorB;
     kFrust.m_fTopBound = FUN_0057dd70(fTheta) * kFAspectRatio * fFactorB;
-    NiFrustum kViewFrustum_2 = ((CamNode*)FUN_0045c670()->FUN_006629f0())->GetViewFrustum();
+    NiFrustum kViewFrustum_2 = reinterpret_cast<::NiCamera *>((((CamNode*)((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((((::Node45 *)(::FUN_0045c670()))))->GetAnimationData())))))->GetViewFrustum();
     kFrust.m_fFarPlane = kViewFrustum_2.m_fFarPlane;
     kFrust.m_fNearPlane = kViewFrustum_2.m_fNearPlane;
     FUN_0045c620 kTester;
-    kTester.SetFromFrustum(&kFrust, ((CamNode*)FUN_0045c670()->FUN_006629f0())->FUN_00461130());
+    reinterpret_cast<::FrustumPlanes::Planes *>(&(kTester))->SetFromFrustum((const ::FrustumPlanes::Frustum *)(const void *)(&kFrust), (const ::FrustumPlanes::Transform *)(void *)(((void *)(::FUN_00461130((std::intptr_t)(((CamNode*)((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((((::Node45 *)(::FUN_0045c670()))))->GetAnimationData())))))))));
     for (iQuad = 0; iQuad < 4; iQuad++)
     {
-        CellObj* pCell = apMgr->GetCellNodeAt(iQuad);
+        CellObj* pCell = ((::CellObj *)(reinterpret_cast<::FUN_0045c9a0_shell *>((apMgr))->GetCellNodeAt(iQuad)));
         if (pCell)
         {
-            NiPoint3 kStartPt = pData30->FUN_0053b450(0, 0, 0, 0);
-            int iV1b8 = 0;
-            NiBound kBounds = pCell->FUN_0043d450();
-            NiPoint3 kNone = __NiPoint3_ZERO;
-            float fDist = (akPos - kBounds.FUN_006815c0()).Length() - kBounds.FUN_0084d030();
-            Node45* pAt = apMgr->FUN_00456fc0(2, iQuad)->FUN_0043b4a0();
-            int eState = ((FormKind*)pAt->FUN_006629f0()->FUN_0043b230())->FUN_0044ddc0();
-            unsigned char bProjectedOnScreen = pAt->FUN_006629f0()->FUN_0043b230()->IsInFrustum(&kTester);
+            NiPoint3 kStartPt = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)(0), 0, 0, (const int *)(0), {})));
+            std::intptr_t iV1b8 = 0;
+            NiBound kBounds = (*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pCell))->FUN_0043d450()));
+            NiPoint3 kNone = ::NiPoint3::ZERO;
+            float fDist = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((akPos - (*(const ::NiPoint3 *)((void *)&(kBounds))))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>((void *)&(kBounds))->GetStoredFloatValue();
+            Node45* pAt = ((::Node45 *)(reinterpret_cast<::NiNode *>((((::NiNodeHelper *)(reinterpret_cast<::TESObjectCELL *>((apMgr))->GetCellChildAt(2)))))->GetAt({})));
+            std::intptr_t eState = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FormKind*)((::CellForm *)(::fnv_0043b230::FUN_0043b230((const char *)(((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((pAt))->GetAnimationData())))))))))->GetName()));
+            unsigned char bProjectedOnScreen = ((::CellForm *)(::fnv_0043b230::FUN_0043b230((const char *)(((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((pAt))->GetAnimationData()))))))->IsInFrustum(&kTester);
             if ((eState == 1 || eState == 0 || bProjectedOnScreen) && fDist < afRadius)
             {
                 for (int iX = iStart4; iX < 0x10; iX += iDelta)
@@ -677,20 +675,20 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDi
                     for (int iY = iStart4; iY < 0x10; iY += iDelta)
                     {
                         iSampleIdx = iY * 0x11 + iX;
-                        kPos = pData30->FUN_0053b450((unsigned char)iQuad, (unsigned short)iSampleIdx, 0, 0);
+                        kPos = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)(std::uintptr_t)((unsigned char)iQuad), (unsigned short)iSampleIdx, 0, (const int *)(0), {})));
                         kPos.z = akPos.z;
                         kPos.x = kPos.x - 256.0;
                         kPos.y = kPos.y - 256.0;
                         iV1b8 = PackFloatPairToInt(&kPos.x);
-                        ppEntries = pData30->FUN_0053ca80(iQuad, iSampleIdx);
+                        ppEntries = ((int **)(std::uintptr_t)(reinterpret_cast<::B3CA80Owner *>((pData30))->FUN_0053ca80(iQuad, iSampleIdx)));
                         iEntry = 0;
                         while (ppEntries != 0 && ppEntries[iEntry] != 0 && iEntry < 0x10 && ppEntries[iEntry][0] != 0)
                         {
                             if (ppEntries[iEntry] != 0)
                             {
-                                if (!FUN_00b617b0((const char*)ppEntries[iEntry][1], (const char*)iV1b8))
+                                if (!FUN_00b617b0(*reinterpret_cast<const char**>(&ppEntries[iEntry][1]), (const char*)iV1b8))
                                 {
-                                    pBase = _ref_004839c0(ppEntries[iEntry][1]);
+                                    pBase = ((::CellForm *)(::FUN_004839c0(ppEntries[iEntry][1])));
                                     if (pBase != 0)
                                     {
                                         usW = pBase->Get1a0();
@@ -698,8 +696,8 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDi
                                         bFlagB = pBase->Get190();
                                         bFlagA6 = pBase->Get188();
                                     }
-                                    GenerateGrassPositions(m_iGridPositionX, iLodLevel5, iQuad, pData30, iV1b8, &kPos, aiParam,
-                                                           akPos, ppEntries[iEntry], ppEntries[iEntry] + 8, afParam1,
+                                    ::fnv_0057de00::GenerateGrassPositions(m_iGridPositionX, iLodLevel5, iQuad, (::fnv_0057de00::LODLand *)(pData30), (void *)(iV1b8), (*(const ::fnv_0057de00::NiPoint3 *)(&kPos)), aiParam,
+                                                           (*(::fnv_0057de00::NiPoint3 *)&(const ::NiPoint3 &)(akPos)), (::fnv_0057de00::LODSettings *)(ppEntries[iEntry]), (float *)(int *)(ppEntries[iEntry] + 8), afParam1,
                                                            afRadius, usW, iCount2, fScaleF4, bFlagA6, bFlagB);
                                 }
                             }
@@ -715,16 +713,16 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDi
                     for (int iY2 = iStart4; iY2 < 0x10; iY2 += iDelta)
                     {
                         iSampleIdx = iY2 * 0x11 + iX2;
-                        kPos = pData30->FUN_0053b450((unsigned char)iQuad, (unsigned short)iSampleIdx, 0, 0);
+                        kPos = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)(std::uintptr_t)((unsigned char)iQuad), (unsigned short)iSampleIdx, 0, (const int *)(0), {})));
                         kPos.x = kPos.x - 256.0;
                         kPos.y = kPos.y - 256.0;
-                        int iSample = PackFloatPairToInt(&kPos.x);
-                        FUN_00b61370(iSample);
+                        std::intptr_t iSample = PackFloatPairToInt(&kPos.x);
+                        ::fnv_00b61370::FUN_00b61370((const char *)(iSample));
                     }
                 }
             }
         }
-        kModelList.RemoveAll();
+        reinterpret_cast<::FileMatchList *>((void *)&(kModelList))->RemoveAll();
     }
 }
 
@@ -742,13 +740,7 @@ template <class T> class NiPointer
     ~NiPointer();
 };
 
-class AutoMemContext
-{
-  public:
-    int iPrevious;
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bOverride, const char* pcFile, int iLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class BSFogProperty
 {
@@ -757,23 +749,6 @@ class BSFogProperty
     void DecRefCount();
 };
 
-class NiPoint3
-{
-  public:
-    float x, y, z;
-    NiPoint3();
-    NiPoint3(float fX, float fY, float fZ);
-    NiPoint3 operator+(const NiPoint3& kPoint) const;
-    NiPoint3 operator-(const NiPoint3& kPoint) const;
-    void FUN_004a0c10();  // Unitize
-};
-
-class FUN_00414430_Color
-{
-  public:
-    float r, g, b, a;
-    FUN_00414430_Color(float fR, float fG, float fB, float fA);
-};
 
 class FUN_0053a510_LandData
 {
@@ -804,20 +779,12 @@ class FUN_0053a510_LandData
 class LODLand
 {
   public:
-    bool FUN_005394a0();
-    bool FUN_0053b550(FUN_0053a510_LandData* pkData, NiPoint3* pkPos, int iUnused);
-    void ComputeTerrainNormalAndTangent(FUN_0053a510_LandData* pkData, NiPoint3* pkNormal, NiPoint3* pkSlope);
-    void FUN_0053fa10(FUN_0053a510_LandData* pkData, FUN_00414430_Color* pkColor);
 };
 
 class LODWorld
 {
   public:
-    void GetLandHeightAt(NiPoint3* pkPos, float* pfHeight);
-    void FUN_004573f0(NiPoint3* pkPos, NiPoint3* pkNormal, NiPoint3* pkSlope);
-    void FUN_00457520(NiPoint3* pkPos, FUN_00414430_Color* pkColor);
 };
-extern LODWorld* DAT_011dea10;
 
 struct LODSettings
 {
@@ -835,26 +802,15 @@ struct LODSettings
 
 struct LODIntSetting
 {
-    int* FUN_0043d4d0();
 };
-extern LODIntSetting DAT_011ca524;
-extern NiPoint3* DAT_011ca43c;
-extern float* DAT_011ca440;
 
-float FUN_0057e960(float fAngleDifference);
 int FUN_0057ce60();
-bool FUN_00b61940(LODSettings* pkSettings, void* pvOwner);
 float FUN_004dfea0();
-float FUN_00404040(float fValue);
-int TruncateFloatToInt(float fValue);
-int FUN_00944460(int iMin, int iMax);
-void PopulateGrassInstances(void* pvOwner, int iA, int iB, int iC, LODSettings* pkSettings, NiPoint3* pkPositions,
-                            float* pfValues, int iCount);
 
 // Samples a grid over the land, tests density and height/slope filters, and stores accepted positions and luminance values for the owner.
 // @fnv 0x0057de00
 void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void* pvOwner, const NiPoint3& kBase,
-                            int iC, NiPoint3 akStart, LODSettings* pkSettings, float* afDensityGrid, int iUnused34,
+                            std::intptr_t iC, NiPoint3 akStart, LODSettings* pkSettings, float* afDensityGrid, int iUnused34,
                             float fRadius, unsigned short usRange, int iMode, float afHeight, unsigned char ucMinAngle,
                             unsigned char ucMaxAngle)
 {
@@ -863,17 +819,17 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
                                   522);
     NiPointer<BSFogProperty> spProperty;
     NiPoint3 kUnusedRef;
-    float fMinSlopeRes = FUN_0057e960(ucMinAngle * 0.017453292f);
-    float fMaxSlopeValue = FUN_0057e960(ucMaxAngle * 0.017453292f);
+    float fMinSlopeRes = ::FUN_0057e960(ucMinAngle * 0.017453292f);
+    float fMaxSlopeValue = ::FUN_0057e960(ucMaxAngle * 0.017453292f);
     fRadius *= fRadius;
     void* pvLandOwnerPos = pvOwner;
-    bool bNotLoadedNew = !FUN_00b61940(pkSettings, pvLandOwnerPos);
-    if (!bNotLoadedNew || !pkLand->FUN_005394a0())
+    bool bNotLoadedNew = !::FUN_00b61940(pkSettings, (const char *)(pvLandOwnerPos));
+    if (!bNotLoadedNew || !reinterpret_cast<::TESPackage *>((pkLand))->FUN_005394a0())
         return;
 
     float fLodSize = FUN_0057ce60() << 8;
     unsigned short usSteps = (int)(fLodSize / pkSettings->m_fHorizontalSpacing);
-    unsigned short usMaxStepsNew = (FUN_0057ce60() << 8) / *DAT_011ca524.FUN_0043d4d0();
+    unsigned short usMaxStepsNew = (FUN_0057ce60() << 8) / *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057de00::LODIntSetting *>(&::g_011ca524))))));
     if (usSteps > usMaxStepsNew)
         usSteps = usMaxStepsNew;
     FUN_0053a510_LandData kTheLandData;
@@ -885,8 +841,8 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
             NiPoint3 kPosPos = kBase + NiPoint3(i * (fLodSize / usSteps), j * (fLodSize / usSteps), 0.0f);
             float fNewV = j * (3.0 / usSteps);
             float fTextureCoordinateU = i * (3.0 / usSteps);
-            int iColEntry = TruncateFloatToInt(fTextureCoordinateU);
-            int iRowNew = TruncateFloatToInt(fNewV);
+            int iColEntry = ::FUN_00406d90(fTextureCoordinateU);
+            int iRowNew = ::FUN_00406d90(fNewV);
             fTextureCoordinateU -= iColEntry;
             fNewV -= iRowNew;
             float fDensityAtRowColumn = 0.0f;
@@ -930,18 +886,18 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
                     (1.0f - fNewV) +
                 ((1.0f - fTextureCoordinateU) * fH01Out + fH11Info * fTextureCoordinateU) * fNewV;
             int iChanceRes = (unsigned int)(fDensityIn * 32768.0);
-            if (iChanceRes && FUN_00944460(0, 0x7fff) < iChanceRes)
+            if (iChanceRes && ((int)(::GetRandomNumberInRange(0, 0x7fff))) < iChanceRes)
             {
                 float fGroundZ = 0.0f;
                 float fRandTmp = FUN_004dfea0();
                 kPosPos.x += fRandTmp * pkSettings->m_fHorizontalSpacing;
                 fRandTmp = FUN_004dfea0();
                 kPosPos.y += fRandTmp * pkSettings->m_fHorizontalSpacing;
-                kPosPos.x = FUN_00404040(kPosPos.x);
-                kPosPos.y = FUN_00404040(kPosPos.y);
+                kPosPos.x = ::FUN_00404040(kPosPos.x);
+                kPosPos.y = ::FUN_00404040(kPosPos.y);
                 kPosPos.z = 0.0f;
-                bool bOnLand = pkLand->FUN_0053b550(&kTheLandData, &kPosPos, 0);
-                DAT_011dea10->GetLandHeightAt(&kPosPos, &fGroundZ);
+                bool bOnLand = reinterpret_cast<::xLand *>((pkLand))->FUN_0053b550((*(::xCoordData *)(&kTheLandData)), (*(const ::xPoint3 *)(&kPosPos)), 0);
+                reinterpret_cast<::FUN_004572e0_shell *>(((*reinterpret_cast<::fnv_0057de00::LODWorld * *>(&::g_TES))))->GetLandHeightAt((*(const ::NiPoint3 *)(&kPosPos)), (*(float *)(&fGroundZ)));
                 switch (iMode)
                 {
                 case 0:
@@ -970,19 +926,19 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
                     break;
                 }
                 NiPoint3 kOffsetOld = kPosPos - akStart;
-                kPosPos.z = FUN_00404040(fGroundZ);
+                kPosPos.z = ::FUN_00404040(fGroundZ);
                 NiPoint3 kNormal;
                 NiPoint3 kSlopeValue;
                 if (bOnLand)
-                    pkLand->ComputeTerrainNormalAndTangent(&kTheLandData, &kNormal, &kSlopeValue);
+                    reinterpret_cast<::TerrainOwner *>((pkLand))->ComputeTerrainNormalAndTangent((::TerrainInput *)(::fnv_0057de00::FUN_0053a510_LandData *)(&kTheLandData), (::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kNormal), (::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kSlopeValue));
                 else
-                    DAT_011dea10->FUN_004573f0(&kPosPos, &kNormal, &kSlopeValue);
+                    reinterpret_cast<::FUN_004573f0_shell *>(((*reinterpret_cast<::fnv_0057de00::LODWorld * *>(&::g_TES))))->FUN_004573f0((const ::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kPosPos), (::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kNormal), (std::intptr_t)(&kSlopeValue));
                 if (pkSettings->bUseSlope && pkSettings->bSlopeOnly)
                     kNormal = kSlopeValue;
                 else if (pkSettings->bUseSlope && !pkSettings->bSlopeOnly)
                 {
                     kNormal = kNormal + kSlopeValue;
-                    kNormal.FUN_004a0c10();
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(kNormal))->FUN_004a0c10();
                 }
                 if (kNormal.z < fMaxSlopeValue || kNormal.z > fMinSlopeRes)
                     continue;
@@ -998,11 +954,11 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
                 kPosPos.x += kNormal.x;
                 kPosPos.y += kNormal.y;
                 kPosPos.z += kNormal.z;
-                FUN_00414430_Color kColor(0.0f, 0.0f, 0.0f, 0.0f);
+                ::ImageSpaceEffectParam kColor(0.0f, 0.0f, 0.0f, 0.0f);
                 if (bOnLand)
-                    pkLand->FUN_0053fa10(&kTheLandData, &kColor);
+                    reinterpret_cast<::fnv_0053fa10::TESObjectLAND *>((pkLand))->FUN_0053fa10((const ::fnv_0053fa10::LandscapeColorData *)(::fnv_0057de00::FUN_0053a510_LandData *)(&kTheLandData), (::fnv_0053fa10::RgbaColor *)(::ImageSpaceEffectParam *)(&kColor));
                 else
-                    DAT_011dea10->FUN_00457520(&kPosPos, &kColor);
+                    reinterpret_cast<::xWorldC *>(((*reinterpret_cast<::fnv_0057de00::LODWorld * *>(&::g_TES))))->FUN_00457520((const ::xPt3C *)(::fnv_0057de00::NiPoint3 *)(&kPosPos), (std::intptr_t)(&kColor));
                 float fLuminanceNum = kColor.r * 0.31 + kColor.g * 0.37 + kColor.b * 0.32;
                 kOffsetOld = kPosPos - akStart;
                 DAT_011ca43c[usCountOld] = kPosPos;
@@ -1012,6 +968,8 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
         }
     }
     if (usCountOld > 0)
-        PopulateGrassInstances(pvLandOwnerPos, iA, iB, iC, pkSettings, DAT_011ca43c, DAT_011ca440, usCountOld);
+        ::PopulateGrassInstances(pvLandOwnerPos, iA, iB, (::NiNodeStub *)(iC), (::GrassParamF *)(pkSettings), (float (*)[3])(DAT_011ca43c), DAT_011ca440, usCountOld);
 }
 }  // namespace fnv_0057de00
+
+#include "generated/data/fallout_shared/testerrainlodmanager.inc"

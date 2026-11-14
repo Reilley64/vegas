@@ -1,5 +1,35 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses the destructor.
+#define FNV_KEEPS_OWN_NIPOINTER
 // gamebryo2.2/corelibs/nicollision/nipick.cpp: Results, NiPick (10 functions)
 
+#include <cstdint>
+#include <cstddef>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S_00e98aa0_Holder.h"
+#include "fnv/decl/SphereBVLite.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_00e9c000.h"
+#include "fnv/symbols_00e9d000.h"
+#include "fnv/symbols_00e9e000.h"
+#include "fnv/symbols_00e9f000.h"
+#include "fnv/symbols_00ea0000.h"
+#include "fnv/symbols_00ea2000.h"
+#include "fnv/symbols_00ea3000.h"
+#include "fnv/symbols_00ea7000.h"
+#include "fnv/symbols_00eab000.h"
+#include "fnv/symbols_00eac000.h"
+#include "fnv/symbols_00ead000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nipick_decls.h"
 
 // @fnv 0x00e98b40
@@ -19,23 +49,6 @@ void NiPick::Results::InvokeCallbacks()
             }
         }
     }
-}
-
-// @fnv 0x00e98e20
-bool NiPick::PerformPick(const NiPoint3& origin, const NiPoint3& direction, bool append)
-{
-    if (!append)
-        m_kResults.m_uiValidCount = 0;
-    if (!NiPickIntersections::FindIntersections(origin, direction, *this, GetRoot()) || !m_kResults.m_uiValidCount)
-        return false;
-    if (m_eSortMode != NO_SORT && m_eIntersectionMode != BOUND_INTERSECT && m_kResults.m_uiValidCount > 1)
-    {
-        if (m_ePickMode == FIND_ALL)
-            m_kResults.InvokeCallbacks();
-        else
-            m_kResults.FindHighestPriorityCallback();
-    }
-    return true;
 }
 
 // Destructor for NiPick that calls Clear on the object's member.
@@ -59,11 +72,11 @@ void NiPick::Results::Clear() throw()
                 record->m_pParentNode.m_pObject->DecRefCount();
             if (record->m_pReferencedObject.m_pObject)
                 record->m_pReferencedObject.m_pObject->DecRefCount();
-            g_memoryManager.Deallocate(record);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(record);
         }
     }
     m_ppVirtualMethodTable = DAT_010f16dc;
-    NiFree(m_pBase);
+    ::FUN_00aa10f0(m_pBase);
 }
 
 struct FUN_00e98fd0_shell : NiPick::Results
@@ -77,29 +90,28 @@ void* FUN_00e98fd0_shell::DestroyResults(bool free)
 {
     Clear();
     if (free & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
 extern int DAT_0126fa60;
 void __cdecl InitNiStreamCallbacks();
 void __cdecl FUN_00e99260();
-void __cdecl FUN_00aa2080(void*, void*);
 
 struct FUN_00e99300_shell
 {
-    void* __thiscall FUN_00e99300();
+    void* FUN_00e99300();
 };
 
 // Increments DAT_0126fa60 and, when the previous value was zero, registers InitNiStreamCallbacks and FUN_00e99260 via FUN_00aa2080; returns this.
 // @fnv 0x00e99300
-void* __thiscall FUN_00e99300_shell::FUN_00e99300()
+void* FUN_00e99300_shell::FUN_00e99300()
 {
     void* result = this;
     int iPreviousCount = DAT_0126fa60;
     DAT_0126fa60 = DAT_0126fa60 + 1;
     if (iPreviousCount == 0)
-        FUN_00aa2080((void*)InitNiStreamCallbacks, (void*)FUN_00e99260);
+        ::FUN_00aa2080((void (*)())(void *)((void*)InitNiStreamCallbacks), (intptr_t)((void*)FUN_00e99260));
     return result;
 }
 
@@ -108,57 +120,16 @@ struct NiStream
 {
     static int __cdecl RegisterObjectLoader(const char*, NiObject*(__cdecl*)(void));
 };
-void* __cdecl _NiMalloc(unsigned int);
 typedef void(__cdecl* PFN)();
 extern const char g_0126fab4_arg0[];
-NiObject* __cdecl FUN_00ead090();
-void __cdecl FUN_00ea7490();
 int* __cdecl FUN_00e9c7d0(float, int*);
 struct Obj;
 Obj* __cdecl FUN_00e9c800(float, int*);
-void __cdecl FUN_00e9c850();
-void __cdecl FUN_00e9cd10();
-void __cdecl IsIntersectingFogPlane();
-void __cdecl FUN_00e9cf50();
-void __cdecl FUN_00e9d070();
-void __cdecl FUN_00e9d150();
-void __cdecl FUN_00e9d2c0();
-void __cdecl FUN_00e9d540();
-void __cdecl SweepCapsuleAgainstHalf();
-void __cdecl IntersectPlanes();
-void __cdecl FUN_00e9e2c0();
-void __cdecl CreateBoundingVolumeAndCall();
 struct D_00e9e980;
 bool __cdecl FUN_00e9e980(float, D_00e9e980*, void*, void*, void*);
-void __cdecl FindMatchingItemPair();
-void __cdecl FUN_00e9ea70();
-void __cdecl FindItemByPredicate();
-void __cdecl FindMatchingPair();
-void __cdecl FUN_00e9ec10();
-void __cdecl FUN_00e9efe0();
-void __cdecl FUN_00e9f400();
-void __cdecl FUN_00e9f510();
-void __cdecl SweepSphereAgainstCapsule();
-void __cdecl IsCapsuleSweptHit();
-void __cdecl CapsuleTriangleIntersect();
-void __cdecl FUN_00e9fdc0();
-void __cdecl CreateObjWithArg();
-void __cdecl FUN_00ea0ad0();
-void __cdecl FUN_00ea2030();
-void __cdecl IntersectsTriangle();
-void __cdecl FUN_00ea3950();
-void __cdecl FUN_00ea3c50();
-void __cdecl FUN_00ea3d60();
-void __cdecl IntersectsSphereAndBox();
-void __cdecl FUN_00ea7d40();
-void __cdecl CheckSweptSphereOverlap();
-void __cdecl IntersectSpheres();
 struct NiStream;
 struct FUN_00eac170_Ret;
 FUN_00eac170_Ret* __cdecl FUN_00eac170(NiStream&);
-void __cdecl SphereTriangleSweepTest();
-void __cdecl SphereTriangleCollision();
-void __cdecl ReadObjB0();
 extern bool DAT_0126fa5c;
 extern PFN DAT_0126fa7c;
 extern PFN DAT_0126fa80;
@@ -166,10 +137,6 @@ extern PFN DAT_0126fa84;
 extern PFN DAT_0126fa88;
 extern PFN DAT_0126fa8c;
 extern PFN DAT_0126fa90;
-extern PFN* DAT_0126fa94;
-extern PFN* DAT_0126fa98;
-extern PFN* DAT_0126fa9c;
-extern PFN* DAT_0126faa0;
 extern PFN DAT_0126faa4;
 extern PFN DAT_0126faa8;
 extern PFN DAT_0126faac;
@@ -180,30 +147,30 @@ void __cdecl InitNiStreamCallbacks()
     if (DAT_0126fa5c)
         return;
     DAT_0126fa5c = true;
-    NiStream::RegisterObjectLoader(g_0126fab4_arg0, FUN_00ead090);
-    DAT_0126fa80 = FUN_00ea7490;
-    DAT_0126fa84 = CreateObjWithArg;
-    DAT_0126fa90 = CreateBoundingVolumeAndCall;
-    DAT_0126fa88 = ReadObjB0;
+    NiStream::RegisterObjectLoader(g_0126fab4_arg0, ((NiObject *(&)())::sead090::FUN_00ead090));
+    DAT_0126fa80 = ((void (&)())::FUN_00ea7490);
+    DAT_0126fa84 = ((void (&)())::fnv_00ea04b0::CreateObjWithArg);
+    DAT_0126fa90 = ((void (&)())::CreateBoundingVolumeAndCall);
+    DAT_0126fa88 = ((void (&)())::ReadObjB0);
     DAT_0126fa7c = (PFN)FUN_00eac170;
-    DAT_0126fa8c = FUN_00e9efe0;
+    DAT_0126fa8c = ((void (&)())::FUN_00e9efe0);
 
-    PFN* a = (PFN*)_NiMalloc(0x90);
-    a[0] = CheckSweptSphereOverlap;
+    PFN* a = (PFN*)::FUN_00aa1070(0x90);
+    a[0] = ((void (&)())::SphereBVLite::CheckSweptSphereOverlap);
     a[1] = 0;
     a[2] = 0;
     a[3] = 0;
     a[4] = 0;
     a[5] = 0;
-    a[6] = IntersectsSphereAndBox;
-    a[7] = FUN_00ea0ad0;
-    a[8] = FUN_00ea2030;
+    a[6] = ((void (&)())::fnv_00ea7530::IntersectsSphereAndBox);
+    a[7] = ((void (&)())::FUN_00ea0ad0);
+    a[8] = ((void (&)())::fnv_00ea2030::FUN_00ea2030);
     a[9] = 0;
     a[10] = 0;
     a[11] = 0;
-    a[12] = SweepSphereAgainstCapsule;
+    a[12] = ((void (&)())::SweepSphereAgainstCapsule);
     a[13] = 0;
-    a[14] = IsCapsuleSweptHit;
+    a[14] = ((void (&)())::IsCapsuleSweptHit);
     a[15] = 0;
     a[16] = 0;
     a[17] = 0;
@@ -217,31 +184,31 @@ void __cdecl InitNiStreamCallbacks()
     a[25] = (PFN)FUN_00e9e980;
     a[26] = (PFN)FUN_00e9e980;
     a[27] = 0;
-    a[28] = FindMatchingItemPair;
+    a[28] = ((void (&)())::FindMatchingItemPair);
     a[29] = (PFN)FUN_00e9e980;
-    a[30] = FUN_00e9cd10;
-    a[31] = IsIntersectingFogPlane;
-    a[32] = FUN_00e9cf50;
+    a[30] = ((void (&)())::FUN_00e9cd10);
+    a[31] = ((void (&)())::fnv_00e9cde0::IsIntersectingFogPlane);
+    a[32] = ((void (&)())::FUN_00e9cf50);
     a[33] = 0;
     a[34] = 0;
-    a[35] = FUN_00e9d070;
+    a[35] = ((void (&)())::FUN_00e9d070);
 
-    PFN* b = (PFN*)_NiMalloc(0x90);
-    b[0] = IntersectSpheres;
+    PFN* b = (PFN*)::FUN_00aa1070(0x90);
+    b[0] = ((void (&)())::IntersectSpheres);
     b[1] = 0;
     b[2] = 0;
     b[3] = 0;
     b[4] = 0;
     b[5] = 0;
-    b[6] = FUN_00ea3950;
-    b[7] = FUN_00ea7d40;
-    b[8] = FUN_00ea3c50;
+    b[6] = ((void (&)())::FUN_00ea3950);
+    b[7] = ((void (&)())::FUN_00ea7d40);
+    b[8] = ((void (&)())::FUN_00ea3c50);
     b[9] = 0;
     b[10] = 0;
     b[11] = 0;
-    b[12] = FUN_00e9f400;
+    b[12] = ((void (&)())::FUN_00e9f400);
     b[13] = 0;
-    b[14] = FUN_00e9f510;
+    b[14] = ((void (&)())::FUN_00e9f510);
     b[15] = 0;
     b[16] = 0;
     b[17] = 0;
@@ -251,47 +218,46 @@ void __cdecl InitNiStreamCallbacks()
     b[21] = 0;
     b[22] = 0;
     b[23] = 0;
-    b[24] = FindItemByPredicate;
-    b[25] = FindItemByPredicate;
-    b[26] = FindItemByPredicate;
-    b[27] = FindItemByPredicate;
-    b[28] = FindMatchingPair;
-    b[29] = FindItemByPredicate;
-    b[30] = FUN_00e9d2c0;
-    b[31] = FUN_00e9d540;
-    b[32] = SweepCapsuleAgainstHalf;
+    b[24] = ((void (&)())::FindItemByPredicate);
+    b[25] = ((void (&)())::FindItemByPredicate);
+    b[26] = ((void (&)())::FindItemByPredicate);
+    b[27] = ((void (&)())::FindItemByPredicate);
+    b[28] = ((void (&)())::FindMatchingPair);
+    b[29] = ((void (&)())::FindItemByPredicate);
+    b[30] = ((void (&)())::FUN_00e9d2c0);
+    b[31] = ((void (&)())::FUN_00e9d540);
+    b[32] = ((void (&)())::SweepCapsuleAgainstHalf);
     b[33] = 0;
     b[34] = 0;
-    b[35] = IntersectPlanes;
+    b[35] = ((void (&)())::IntersectPlanes);
 
-    PFN* pTableC = (PFN*)_NiMalloc(0x18);
-    pTableC[0] = SphereTriangleSweepTest;
-    pTableC[1] = IntersectsTriangle;
-    pTableC[2] = CapsuleTriangleIntersect;
+    PFN* pTableC = (PFN*)::FUN_00aa1070(0x18);
+    pTableC[0] = ((void (&)())::SphereTriangleSweepTest);
+    pTableC[1] = ((void (&)())::IntersectsTriangle);
+    pTableC[2] = ((void (&)())::CapsuleTriangleIntersect);
     pTableC[3] = 0;
-    pTableC[4] = FUN_00e9ea70;
-    pTableC[5] = FUN_00e9d150;
+    pTableC[4] = ((void (&)())::FUN_00e9ea70);
+    pTableC[5] = ((void (&)())::FUN_00e9d150);
 
-    PFN* pTableD = (PFN*)_NiMalloc(0x18);
-    pTableD[0] = SphereTriangleCollision;
-    pTableD[1] = FUN_00ea3d60;
-    pTableD[2] = FUN_00e9fdc0;
+    PFN* pTableD = (PFN*)::FUN_00aa1070(0x18);
+    pTableD[0] = ((void (&)())::SphereTriangleCollision);
+    pTableD[1] = ((void (&)())::FUN_00ea3d60);
+    pTableD[2] = ((void (&)())::fnv_00e9fdc0::FUN_00e9fdc0);
     pTableD[3] = 0;
-    pTableD[4] = FUN_00e9ec10;
-    pTableD[5] = FUN_00e9e2c0;
+    pTableD[4] = ((void (&)())::FUN_00e9ec10);
+    pTableD[5] = ((void (&)())::FUN_00e9e2c0);
 
-    DAT_0126fa94 = a;
-    DAT_0126fa98 = b;
-    DAT_0126fa9c = pTableC;
-    DAT_0126faa0 = pTableD;
+    (*reinterpret_cast<void (***)()>(&::DAT_0126fa94)) = a;
+    (*reinterpret_cast<void (***)()>(&::DAT_0126fa98)) = b;
+    (*reinterpret_cast<void (***)()>(&::DAT_0126fa9c)) = pTableC;
+    (*reinterpret_cast<void (***)()>(&::DAT_0126faa0)) = pTableD;
     DAT_0126faa4 = (PFN)FUN_00e9c7d0;
     DAT_0126faa8 = (PFN)FUN_00e9c800;
-    DAT_0126faac = FUN_00e9c850;
+    DAT_0126faac = ((void (&)())::FUN_00e9c850);
 }
 
 struct NiStreamUnreg
 {
-    static void UnregisterObjectLoader(const char*);
 };
 // @fnv 0x00e99260
 void __cdecl FUN_00e99260()
@@ -299,28 +265,28 @@ void __cdecl FUN_00e99260()
     if (DAT_0126fa5c)
     {
         DAT_0126fa5c = false;
-        NiStreamUnreg::UnregisterObjectLoader(g_0126fab4_arg0);
+        ::fnv_00a63520::FUN_00a63520(g_0126fab4_arg0);
         DAT_0126fa80 = 0;
         DAT_0126fa84 = 0;
         DAT_0126fa90 = 0;
         DAT_0126fa88 = 0;
         DAT_0126fa7c = 0;
         DAT_0126fa8c = 0;
-        NiFree(DAT_0126fa94);
-        NiFree(DAT_0126fa98);
-        NiFree(DAT_0126fa9c);
-        NiFree(DAT_0126faa0);
-        DAT_0126fa94 = 0;
-        DAT_0126fa98 = 0;
-        DAT_0126fa9c = 0;
-        DAT_0126faa0 = 0;
+        ::FUN_00aa10f0((*reinterpret_cast<void (***)()>(&::DAT_0126fa94)));
+        ::FUN_00aa10f0((*reinterpret_cast<void (***)()>(&::DAT_0126fa98)));
+        ::FUN_00aa10f0((*reinterpret_cast<void (***)()>(&::DAT_0126fa9c)));
+        ::FUN_00aa10f0((*reinterpret_cast<void (***)()>(&::DAT_0126faa0)));
+        (*reinterpret_cast<void (***)()>(&::DAT_0126fa94)) = 0;
+        (*reinterpret_cast<void (***)()>(&::DAT_0126fa98)) = 0;
+        (*reinterpret_cast<void (***)()>(&::DAT_0126fa9c)) = 0;
+        (*reinterpret_cast<void (***)()>(&::DAT_0126faa0)) = 0;
         DAT_0126faa4 = 0;
         DAT_0126faa8 = 0;
         DAT_0126faac = 0;
     }
 }
 
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     int unk;
@@ -373,6 +339,22 @@ class FUN_00e98be0_queue : public NiTArray<ImageSpaceEffectParam*, NiTMallocInte
 
     void MoveLowestPriorityToFront();
 };
+// @fnv 0x00e98e20
+bool NiPick::PerformPick(const NiPoint3& origin, const NiPoint3& direction, bool append)
+{
+    if (!append)
+        m_kResults.m_uiValidCount = 0;
+    if (!::FUN_00e9c490((::S_00e9c490_Pt *)&(origin), (::S_00e9c490_Pt *)&(direction), (::S_00e9c490_Ctx *)&(*this), (::S_00e9c490_Node *)(::NiAVObject *)(GetRoot())) || !m_kResults.m_uiValidCount)
+        return false;
+    if (m_eSortMode != NO_SORT && m_eIntersectionMode != BOUND_INTERSECT && m_kResults.m_uiValidCount > 1)
+    {
+        if (m_ePickMode == FIND_ALL)
+            m_kResults.InvokeCallbacks();
+        else
+            reinterpret_cast<::FUN_00e98be0_queue *>(&(m_kResults))->MoveLowestPriorityToFront();
+    }
+    return true;
+}
 
 // Finds the element with the lowest fPriority, swaps it with the first element, and sets m_uiCount to 1.
 // @fnv 0x00e98be0
@@ -392,8 +374,8 @@ void FUN_00e98be0_queue::MoveLowestPriorityToFront()
             }
         }
         ImageSpaceEffectParam* pFirstElement = pFirst;
-        SetAt(uiLowestIndex, pFirstElement);
-        SetAt(0, pLowestPriority);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(uiLowestIndex, (::KeyPair **)&(pFirstElement));
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(0, (::KeyPair **)&(pLowestPriority));
         m_uiCount = 1;
     }
 }
@@ -401,7 +383,6 @@ void FUN_00e98be0_queue::MoveLowestPriorityToFront()
 class FUN_00a5e3a0_Helper
 {
   public:
-    void* FUN_00aa3e40(unsigned int uiSize);
 };
 
 struct NiColorAE993
@@ -420,15 +401,14 @@ class ImageSpaceTextureE993
     int unk30;
     NiColorAE993 m_kFogTint;
 
-    ImageSpaceTextureE993(int iParam) : m_unk00(0), m_unk04(0)
+    ImageSpaceTextureE993(intptr_t iParam) : m_unk00(0), m_unk04(0)
     {
-        SetObject(iParam);
+        reinterpret_cast<::S_00e98aa0_Holder *>(this)->SetObject((::S_00e98aa0_RefObj *)(iParam));
     }
-    void SetObject(int iParam);
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
-        return ((FUN_00a5e3a0_Helper*)&g_memoryManager)->FUN_00aa3e40(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void*, int, int);
 };
@@ -444,29 +424,27 @@ class TexturePoolE993
     unsigned short m_usGrowBy;
     unsigned int m_uiNext;
 
-    void FUN_00a90180(unsigned int uiMaxSize);
-    void FUN_00ba3aa0(unsigned int uiIndex, ImageSpaceTextureE993* const& pkElement);
 
     unsigned int Add(ImageSpaceTextureE993* pkElement)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            FUN_00a90180(uiIndex + m_usGrowBy);
-        FUN_00ba3aa0(uiIndex, pkElement);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(uiIndex + m_usGrowBy);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(uiIndex, (::KeyPair **)&(pkElement));
         return uiIndex;
     }
 
-    ImageSpaceTextureE993* GetTexture(int iParam);
+    ImageSpaceTextureE993* GetTexture(intptr_t iParam);
 };
 
 // Returns the next ImageSpaceTextureE993 from the pool, reusing an existing slot or allocating a new one when the pool is exhausted.
 // @fnv 0x00e99330
-ImageSpaceTextureE993* TexturePoolE993::GetTexture(int iParam)
+ImageSpaceTextureE993* TexturePoolE993::GetTexture(intptr_t iParam)
 {
     if (m_uiNext < m_usSize)
     {
         ImageSpaceTextureE993* pkTexture = m_pBase[m_uiNext];
-        pkTexture->SetObject(iParam);
+        reinterpret_cast<::S_00e98aa0_Holder *>((pkTexture))->SetObject((::S_00e98aa0_RefObj *)(iParam));
         m_uiNext++;
         return pkTexture;
     }
@@ -476,3 +454,5 @@ ImageSpaceTextureE993* TexturePoolE993::GetTexture(int iParam)
     m_uiNext++;
     return pkTexture;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/nipick.inc"

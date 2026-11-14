@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkxMaterialShader;
-#pragma pack(push, 1)
 class hkxMaterialShaderSet : public hkReferencedObject
 {
   public:
     hkArray<hkxMaterialShader*> m_spPixelShaders;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxMaterialShaderSet[(sizeof(hkxMaterialShaderSet) == 0x14) ? 1 : -1];
 #endif

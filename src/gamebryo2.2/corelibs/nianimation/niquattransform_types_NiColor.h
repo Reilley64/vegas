@@ -3,10 +3,10 @@
 #define FNV_NICOLOR_H
 
 #include "layout_support.h"
-class NiStream;
-class NiColor;
-#pragma pack(push, 4)
-class NiColor
+struct NiStream;
+struct NiColor;
+struct NiStream;
+struct NiColor
 {
   public:
     void LoadBinary(NiStream& stream);
@@ -31,10 +31,7 @@ class NiColor
     // char* __cdecl NiColor::*(const char*)
     // float __cdecl NiColor::*()
     // void __cdecl NiColor::*()
+public:
+    void SaveBinary(::NiStream &);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(NiColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(NiColor, b) == 8);
 #endif

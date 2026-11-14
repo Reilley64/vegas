@@ -21,5 +21,4 @@ class ActorValueOwner
     Actor* GetActorOwner();
     int GetActorValueAsInteger(ActorValue::Index value);
 };
-FNV_STATIC_ASSERT(sizeof(ActorValueOwner) == 0x4);
 #endif

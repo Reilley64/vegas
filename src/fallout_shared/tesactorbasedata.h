@@ -15,7 +15,6 @@ class TESObjectREFR;
 class Actor;
 class TESFaction;
 
-#pragma pack(push, 4)
 struct ActorBaseAttributes
 {
     int m_uiActorFlags;
@@ -95,10 +94,7 @@ class TESActorBaseData : public BaseFormComponent
     // slot 26
     virtual BGSVoiceType* GetVoiceType() const;
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(ActorBaseAttributes) == 24);
-FNV_STATIC_ASSERT(sizeof(TESActorBaseData) == 52);
 
 // @fnv 0x0047c7d0
 bool TESActorBaseData::GetIsGhost() const

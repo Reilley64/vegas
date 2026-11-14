@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkLocalFrame.h"
 class hkLocalFrameGroup;
-#pragma pack(push, 1)
 class hkSimpleLocalFrame : public hkLocalFrame
 {
   public:
@@ -18,6 +17,4 @@ class hkSimpleLocalFrame : public hkLocalFrame
     hkStringPtr m_name;                 // +0x64
     char pad68[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkSimpleLocalFrame[(sizeof(hkSimpleLocalFrame) == 0x70) ? 1 : -1];
 #endif

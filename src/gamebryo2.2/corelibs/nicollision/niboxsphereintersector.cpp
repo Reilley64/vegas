@@ -2,6 +2,11 @@
 // src/gamebryo2.2/corelibs/nicollision/niboxsphereintersector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niboxsphereintersector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/symbols_00eb4000.h"
+#include "fnv/symbols_01012000.h"
 struct Vec3
 {
     float x;
@@ -53,8 +58,6 @@ struct FUN_00eb3ca0_cls
     float AccumulateAndEvaluate(const float* a, const float* b, float s);
 };
 
-extern float __cdecl GetSqrDistanceToOrientedBox(float* a, float* b, float* c, float* d, float* e);
-extern const double DAT_01012070;
 
 // Scales a and b by s, adds them into the block and vector offsets, then evaluates GetSqrDistanceToOrientedBox and returns the result times m_40 minus DAT_01012070.
 // @fnv 0x00eb3ca0
@@ -81,7 +84,7 @@ float FUN_00eb3ca0_cls::AccumulateAndEvaluate(const float* a, const float* b, fl
     vecSum.y = fSumY;
     vecSum.z = fSumZ;
 
-    return (float)(GetSqrDistanceToOrientedBox(&vecSum.x, &blkAccum.f00, &m_44, &m_48, &m_4c) * m_40 - DAT_01012070);
+    return (float)(::GetSqrDistanceToOrientedBox((const ::BoxVec3 *)(float *)(&vecSum.x), (const ::OrientedBox *)(float *)(&blkAccum.f00), &m_44, &m_48, &m_4c) * m_40 - ::g_01012070);
 }
 
 // Adapted from an unverified contribution by another contributor (2026-10-21).
@@ -140,7 +143,6 @@ struct NiPoint3
         dest.y += pt.y;
         dest.z += pt.z;
     }
-    void Unitize();
 };
 static __forceinline NiPoint3 AddInitial(const NiPoint3* aPtr, const NiPoint3* bPtr)
 {
@@ -185,18 +187,18 @@ struct S_00eb3d90
         NiPoint3& pos = m_pos;
         pos = kBase;
         for (int i = 0; i < 3; i++)
-            pos += m_afOffset[i] * m_frame->m_kBoundsBox.m_akAxes[i];
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(pos))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(m_afOffset[i] * m_frame->m_kBoundsBox.m_akAxes[i]));
     }
     __forceinline void SetFromSphere(const NiPoint3& start)
     {
         NiPoint3 kWorldPosition;
         kWorldPosition = start;
-        kWorldPosition.Unitize();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
         S_00eb3d90_Sphere* pSphere = m_pSphere;
         NiPoint3 kTmp;
         kTmp = m_frame->m_kBoundsBox.m_kCenter - kWorldPosition * (pSphere->m_fSphereRadius * 2.0f);
         kWorldPosition.Sub(kTmp, pSphere->m_kCenterPosition);
-        kWorldPosition.Unitize();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
         m_pos = pSphere->m_kCenterPosition + kWorldPosition * pSphere->m_fSphereRadius;
         m_dir = -kWorldPosition;
     }
@@ -213,11 +215,11 @@ void S_00eb3d90::FUN_00eb3d90(const NiPoint3& start, const NiPoint3& end)
         for (int i = 0; i < 3; i++)
             m_pos.Accumulate(m_afOffset[i] * m_frame->m_kBoundsBox.m_akAxes[i]);
         m_dir = m_pSphere->m_kCenterPosition + end * m_vScale - m_pos;
-        m_dir.Unitize();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(m_dir))->FUN_004a0c10();
         return;
     }
-    float fEndSqrLength = end.SqrLength();
-    float fStartSqrLength = start.SqrLength();
+    float fEndSqrLength = reinterpret_cast<::TESCombatStyle *>((void *)&(end))->UpdateCombatStyle();
+    float fStartSqrLength = reinterpret_cast<::TESCombatStyle *>((void *)&(start))->UpdateCombatStyle();
     float fDiff = fEndSqrLength - fStartSqrLength;
     if (fDiff < -1e-05f)
     {
@@ -235,5 +237,5 @@ void S_00eb3d90::FUN_00eb3d90(const NiPoint3& start, const NiPoint3& end)
         m_pos = (kSphereCenter + kBoxCenter) * 0.5;
     }
     m_dir = m_pSphere->m_kCenterPosition - m_pos;
-    m_dir.Unitize();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(m_dir))->FUN_004a0c10();
 }

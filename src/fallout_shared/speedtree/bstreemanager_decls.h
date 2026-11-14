@@ -1,7 +1,13 @@
+#include "AutoMemContext.h"
 // fallout_shared/speedtree/bstreemanager_decls.h: declares AutoMemContext, MemoryManager
 #ifndef BSTREEMANAGER_DECLS_H
 #define BSTREEMANAGER_DECLS_H
 
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00664000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011fd000.h"
 #include "layout_support.h"
 #include <new>
 class NiAVObject;
@@ -20,25 +26,14 @@ template <> class NiPointer<NiNode>
 };
 #include "bstreemanager_types_BSTreeManager.h"
 #include "bstreemanager_types_TES.h"
-extern BSTreeManager* DAT_011d5c48;
-extern TES* g_TES;
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class MemoryManager
 {
   public:
-    static void* Allocate(unsigned int size);
 };
 void FUN_00664940();
 void* FUN_00664840(bool);
-void SetGlobalValue(bool);
 void SetGlobalFloatFromUInt(unsigned int);
 void ClampAndStoreValue(float);
-extern float DAT_011fd890;
 extern float DAT_011adce0;
 #endif

@@ -3,9 +3,9 @@
 #define FNV_NIOBJECT_LUNA_DEFS_H
 
 template <class T> class NiPointer;
-class NiRTTI;
-class NiStream;
-class NiObject;
+struct NiRTTI;
+struct NiStream;
+struct NiObject;
 template <class T> class NiTPointerAllocator;
 template <class Alloc, class Key, class Data> class NiTMapBase;
 template <> class NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, bool>
@@ -13,13 +13,13 @@ template <> class NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, bool>
   public:
     void SetAt(NiObject*, bool);
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     void* m_pCloneMap;
     NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, bool>* m_pProcessMap;
 };
-class NiObject
+struct NiObject
 {
   public:
     virtual void ProcessClone(CloningProcess&);
@@ -82,12 +82,12 @@ class hkLimitedHingeConstraintCinfo
     hkLimitedHingeConstraintCinfo* Initialize();
     void UpdateNodeState(void*);
 };
-class NiPlane
+struct NiPlane
 {
   public:
     bool operator==(const NiPlane&) const;
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     bool operator==(const ThreeByThreeMatrix&) const;

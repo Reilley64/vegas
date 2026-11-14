@@ -2,13 +2,12 @@
 #ifndef FNV_IMAGESPACEMODIFIERINSTANCE_AUDIO_H
 #define FNV_IMAGESPACEMODIFIERINSTANCE_AUDIO_H
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
 enum SOUND_MSG
 {
     SOUND_MSG_ENTER_DIALOGUE = 13

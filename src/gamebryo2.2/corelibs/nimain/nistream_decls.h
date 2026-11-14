@@ -1,8 +1,10 @@
 // gamebryo2.2/corelibs/nimain/nistream_decls.h: declares NiStream
 #ifndef FNV_NISTREAM_DECLS_H
 #define FNV_NISTREAM_DECLS_H
-class NiObject;
-class NiStream
+#include "fnv/symbols_0044a000.h"
+struct NiObject;
+struct NiObject;
+struct NiStream
 {
   public:
     virtual void vfn_00();
@@ -18,6 +20,9 @@ class NiStream
     virtual void vfn_28();
     virtual unsigned int vfn_2c(const NiObject* object);
     void SaveLinkID(const NiObject* object);
+public:
+    ::NiObject *GetLoadedObject();
+public:
+    void ClearTopLevelObjects();
 };
-void __cdecl FUN_0044adf0(NiStream& stream, const unsigned int& value);
 #endif

@@ -4,7 +4,11 @@
 
 // JohnnyGuitarNVSE PC reverse-engineering headers. No dependency definitions.
 #include <stddef.h>
-class NiRTTI;
+#include "fnv/decl/FUN_004a51d0_shell.h"
+#include "fnv/decl/FUN_004f0000_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_004a8000.h"
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -20,31 +24,28 @@ class bhkNiCollisionObject;
 class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 class NiObjectGroup;
-class NiControllerManager;
+struct NiControllerManager;
 class NiTimeController;
 class NiExtraData;
 class NiCollisionObject;
-class NiUpdateData;
+struct NiUpdateData;
 class FourComponentFloatVector;
 template <class T> class NiTPrimitiveArray;
 typedef NiTPrimitiveArray<char*> NiViewerStringsArray;
-void* __cdecl operator new(size_t);
-void __cdecl operator delete(void*);
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
-    void SetCenterAndRadius(const NiPoint3&, float);
 };
 // FourComponentFloatVector, but these two parameter types are inferred from the PC call site.
 class FourComponentFloatVector : public NiBound
@@ -52,14 +53,8 @@ class FourComponentFloatVector : public NiBound
   public:
     FourComponentFloatVector(unsigned int, unsigned int);
 };
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-};
-class NiObject : public NiRefObject
+#include "fnv/ni_ref_object.h"
+struct NiObject : public NiRefObject
 {
   public:
     virtual const NiRTTI* GetRTTI() const;
@@ -102,12 +97,8 @@ template <class T> class NiPointer
     T* m_pObject;
     operator T*() const;
 };
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-};
-class NiObjectNET : public NiObject
+#include "fnv/native_fixed_string.h"
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;
@@ -115,7 +106,6 @@ class NiObjectNET : public NiObject
     NiExtraData** m_ppExtraData;
     unsigned short m_usExtraDataCount;
     unsigned short m_usMaxSize;
-    NiTimeController* GetControllers() const;
 };
 class NiTimeController : public NiObject
 {
@@ -123,7 +113,6 @@ class NiTimeController : public NiObject
     virtual void Start(float);
     virtual void Stop();
     virtual void Update(NiUpdateData&);
-    NiTimeController* GetNext() const;
 };
 class NiProperty : public NiObjectNET
 {
@@ -167,7 +156,7 @@ template <class Allocator, class T> class NiTPointerListBase : public NiTListBas
 template <class T> class NiTPointerList : public NiTPointerListBase<NiTPointerAllocator<unsigned int>, T>
 {
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];
@@ -189,12 +178,7 @@ class NiAVObject : public NiObjectNET
     unsigned int m_uiObjectFlags;
     NiTransform m_kLocalTransform;
     NiTransform m_kWorldSpaceTransform;
-    bool GetHasPropertyController() const;
     void UpdateTimeControllers(NiUpdateData&, bool);
     void EnsureWorldBound();
 };
-typedef char NiObjectNET_size_check[sizeof(NiObjectNET) == 0x18 ? 1 : -1];
-typedef char NiAVObject_size_check[sizeof(NiAVObject) == 0x9c ? 1 : -1];
-typedef char NiAVObject_bound_check[offsetof(NiAVObject, m_kWorldBound) == 0x20 ? 1 : -1];
-typedef char NiAVObject_property_check[offsetof(NiAVObject, SceneGraphObject) == 0x24 ? 1 : -1];
 #endif

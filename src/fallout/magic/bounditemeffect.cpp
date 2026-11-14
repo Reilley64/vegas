@@ -2,10 +2,82 @@
 // src/fallout/magic/bounditemeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bounditemeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct MagicTarget
+#include <cstdint>
+#include "fnv/save_load_game_view.h"
+#include "InventoryStackRecord.h"
+#include "fnv/effect_item_fields.h"
+#include "fnv/active_effect_fields.h"
+#include "fnv/simple_list_node_view.h"
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/AssociatedItemCopyEntry.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/ExtraDataList.h"
+#include "fnv/decl/FUN_00418770_shell.h"
+#include "fnv/decl/FUN_0041ab70_shell.h"
+#include "fnv/decl/FUN_0041b010.h"
+#include "fnv/decl/FUN_0041b040_shell.h"
+#include "fnv/decl/FUN_00445300_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004811e0_shell.h"
+#include "fnv/decl/FUN_004bc780_shell.h"
+#include "fnv/decl/FUN_004bed00_host.h"
+#include "fnv/decl/FUN_004c8f30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00806c20_cls.h"
+#include "fnv/decl/FUN_00806da0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_0088c650_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/InventoryChanges.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/QueueHelper.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004064d0__EffectItemList.h"
+#include "fnv/decl/fnv_0040fe20__FUN_0040fe20_shell.h"
+#include "fnv/decl/fnv_00412380__FUN_00412380_shell.h"
+#include "fnv/decl/fnv_0041afa0__FUN_0041afa0_Class.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_004be5a0__InventoryChangesSaveSize.h"
+#include "fnv/decl/fnv_004be6f0__SaveInventory.h"
+#include "fnv/decl/fnv_004be930__FUN_004be930_shell.h"
+#include "fnv/decl/fnv_004bfda0__FUN_004bfda0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/decl/fnv_00806de0__AssociatedItemEffect.h"
+#include "fnv/decl/fnv_00806e70__AssociatedItemEffect.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008a6970__FUN_008a6970_shell.h"
+#include "fnv/decl/s88c790__Actor.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_0103b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+class Actor;
+class MagicTarget
 {
+  public:
     virtual ~MagicTarget()
     {}
+public:
+    ::Actor *GetOwnerActor() const;
 };
 
 struct Character : MagicTarget
@@ -16,46 +88,47 @@ struct Character : MagicTarget
 
 struct BoundItemEffect
 {
-    bool __thiscall IsTargetCharacter(MagicTarget* apTarget);
+    bool IsTargetCharacter(MagicTarget* apTarget);
 };
 
 // Returns true if apTarget is a Character, using a dynamic_cast to check the type.
 // @fnv 0x008099c0
-bool __thiscall BoundItemEffect::IsTargetCharacter(MagicTarget* apTarget)
+bool BoundItemEffect::IsTargetCharacter(MagicTarget* apTarget)
 {
     Character* pActor = dynamic_cast<Character*>(apTarget);
     return pActor != 0;
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_00807eb0_shell : BoundItemEffect
 {
-    void* __thiscall FUN_00807eb0(unsigned int flags);
-    void __thiscall FUN_00807ee0();
+    void* FUN_00807eb0(unsigned int flags);
+    void FUN_00807ee0();
 };
-// Calls FUN_00807ee0, then frees this with _Deallocate when flags has bit 1 set, and returns this.
-// @fnv 0x00807eb0
-void* __thiscall FUN_00807eb0_shell::FUN_00807eb0(unsigned int flags)
-{
-    FUN_00807ee0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
+class MagicCaster;
+class MagicItem;
+class EffectItem;
+class InventoryStackRecord;
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
-struct InventoryStackRecord;
-
+class Actor;
 struct AssociatedItemEffect
 {
-    void __thiscall FUN_00806c20(MagicCaster* apCaster, MagicItem* apSpell, EffectItem* apEffect);
+public:
+    void FUN_00806e30(::Actor *);
 };
 
 struct FUN_00807e10 : AssociatedItemEffect
 {
     FUN_00807e10(MagicCaster* apCaster, MagicItem* apSpell, EffectItem* apEffect);
+    char pad00[0x4c];
+    InventoryStackRecord* unk4c;
+    InventoryStackRecord* unk50[0x14];
+    float unka0;
+    char unka4;
+    char unka5;
+    char unka6;
+    char unka7;
+    char unka8;
+    char pada9[0x2];
 };
 
 extern void* DAT_0107979c;
@@ -64,22 +137,23 @@ extern void* DAT_0107979c;
 // @fnv 0x00807e10
 FUN_00807e10::FUN_00807e10(MagicCaster* apCaster, MagicItem* apSpell, EffectItem* apEffect)
 {
-    FUN_00806c20(apCaster, apSpell, apEffect);
+    new ((void *)this) ::FUN_00806c20_cls(apCaster, apSpell, (::FUN_00806c20_helper1 *)(apEffect));
     *(void**)this = &DAT_0107979c;
-    *(InventoryStackRecord**)((char*)this + 0x4c) = 0;
+    this->unk4c = 0;
     int i;
     for (i = 0; i < 0x14; i++)
-        *(InventoryStackRecord**)((char*)this + 0x50 + i * 4) = 0;
-    *(float*)((char*)this + 0xa0) = 0.0f;
-    *((char*)this + 0xa4) = 0;
-    *((char*)this + 0xa5) = 0;
-    *((char*)this + 0xa6) = 0;
-    *((char*)this + 0xa7) = 0;
-    *((char*)this + 0xa8) = 0;
+        this->unk50[i] = 0;
+    this->unka0 = 0.0f;
+    this->unka4 = 0;
+    this->unka5 = 0;
+    this->unka6 = 0;
+    this->unka7 = 0;
+    this->unka8 = 0;
 }
 
-struct TESBoundObject
+class TESBoundObject
 {
+  public:
     virtual void vfunc00();
 };
 
@@ -94,8 +168,9 @@ struct ModelS
     unsigned int GetModelLength() const;
 };
 
-struct TESObjectWEAP : TESBoundObject
+class TESObjectWEAP : public TESBoundObject
 {
+  public:
     int unk04;
     int unk08;
     int unk0c;
@@ -113,20 +188,23 @@ struct TESObjectWEAP : TESBoundObject
     ModelS model;
 };
 
-struct TESNPC : TESBoundObject
+class TESNPC : public TESBoundObject
 {
+  public:
     int GetSex();
 };
 
+class BGSBipedModelList;
+enum BIPED_OBJECT;
 struct TESBipedModelForm
 {
     virtual void vfunc00();
-    const char* GetBipedModel(int aiSex);
+public:
+    bool HasBipedModel(::BIPED_OBJECT, bool, ::BGSBipedModelList *);
 };
 
 struct RefS
 {
-    TESBoundObject* GetBaseObject();
 };
 
 struct CasterS
@@ -137,25 +215,20 @@ struct CasterS
 
 struct XDataS
 {
-    void RemoveInventoryItem();
 };
 
 struct XListS
 {
-    XDataS** GetItem();
 };
 
 struct EntryS
 {
-    XListS* GetExtendData() const;
     TESBoundObject* GetType();
-    void Cleanup();
     ~EntryS();
 };
 
 struct EffItemS
 {
-    void* GetUnk0c();
 };
 
 struct ModelHolderS
@@ -171,7 +244,6 @@ struct ModelHolderS
 
 struct EffListS
 {
-    EffItemS* Find(void* apKey, int aiFlag);
 };
 
 struct MagicItemS
@@ -185,17 +257,12 @@ struct MagicItemS
 
 struct LoaderS
 {
-    void ProcessModelRequest(const char* apPath, bool abFlag, unsigned int auiPriority);
 };
 
-extern LoaderS* g_modelLoader;
 
 struct BaseEffectS
 {
     virtual ~BaseEffectS();
-    MagicItemS* GetMagicItem();
-    EffItemS* GetEffectItem();
-    CasterS* GetCaster();
     int unk04;
     int unk08;
     int unk0c;
@@ -230,84 +297,87 @@ struct FUN_00807ee0 : BaseEffectS
     bool unka7;
     virtual ~FUN_00807ee0();
 };
+// Calls FUN_00807ee0, then frees this with _Deallocate when flags has bit 1 set, and returns this.
+// @fnv 0x00807eb0
+void* FUN_00807eb0_shell::FUN_00807eb0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00807ee0 *>(this)->FUN_00807ee0::~FUN_00807ee0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00807ee0
 FUN_00807ee0::~FUN_00807ee0()
 {
     if (unk4c && unka6)
     {
-        TESBoundObject* pObject = unk4c->GetType();
+        TESBoundObject* pObject = reinterpret_cast<::InventoryStackRecord *>(unk4c)->m_pItemObject;
         TESObjectWEAP* pWeap = dynamic_cast<TESObjectWEAP*>(pObject);
         if (pWeap && pWeap->model.GetModelLength() > 0)
-            g_modelLoader->ProcessModelRequest(pWeap->model.GetModelPath(), false, 1);
+            reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::LoaderS * *>(&::g_modelLoader))))->FUN_00445300((char *)(pWeap->model.GetModelPath()), false, 1);
     }
     if (unka7)
     {
         int iSex = 0;
-        if (GetCaster() && GetCaster()->GetCasterRef())
+        if (((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) && ((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetCasterRef())
         {
-            TESNPC* pNPC = dynamic_cast<TESNPC*>(GetCaster()->GetCasterRef()->GetBaseObject());
+            TESNPC* pNPC = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetCasterRef()))->FUN_007af430())));
             if (pNPC)
                 iSex = pNPC->GetSex();
         }
         for (int i = 0; i < 20; i++)
         {
-            if (unk50[i] && unk50[i]->GetType())
+            if (unk50[i] && reinterpret_cast<::InventoryStackRecord *>(unk50[i])->m_pItemObject)
             {
-                TESBipedModelForm* pBiped = dynamic_cast<TESBipedModelForm*>(unk50[i]->GetType());
+                TESBipedModelForm* pBiped = dynamic_cast<TESBipedModelForm*>(reinterpret_cast<::InventoryStackRecord *>(unk50[i])->m_pItemObject);
                 if (pBiped)
                 {
                     unka7 = true;
-                    g_modelLoader->ProcessModelRequest(pBiped->GetBipedModel(iSex), false, 1);
+                    reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::LoaderS * *>(&::g_modelLoader))))->FUN_00445300((char *)(reinterpret_cast<::FUN_004811e0_shell *>((pBiped))->FUN_004811e0(iSex)), false, 1);
                 }
             }
         }
     }
     if (unk4c)
     {
-        XDataS* pXData = unk4c->GetExtendData() ? *unk4c->GetExtendData()->GetItem() : 0;
+        XDataS* pXData = ((::XListS *)(::FUN_00559450((int *)(unk4c)))) ? *((::XDataS **)(&reinterpret_cast<::SimpleListNodeView*>(((::XListS *)(::FUN_00559450((int *)(unk4c)))))->m_item)) : 0;
         if (pXData)
-            pXData->RemoveInventoryItem();
-        unk4c->Cleanup();
+            reinterpret_cast<::fnv_0041afa0::FUN_0041afa0_Class *>((pXData))->FUN_0041afa0();
+        reinterpret_cast<::FUN_004bc780_shell *>((unk4c))->ClearExtraDataList();
         delete unk4c;
     }
     for (int j = 0; j < 20; j++)
     {
         if (unk50[j])
         {
-            XDataS* pXData2 = unk50[j]->GetExtendData() ? *unk50[j]->GetExtendData()->GetItem() : 0;
+            XDataS* pXData2 = ((::XListS *)(::FUN_00559450((int *)(unk50[j])))) ? *((::XDataS **)(&reinterpret_cast<::SimpleListNodeView*>(((::XListS *)(::FUN_00559450((int *)(unk50[j])))))->m_item)) : 0;
             if (pXData2)
-                pXData2->RemoveInventoryItem();
-            unk50[j]->Cleanup();
+                reinterpret_cast<::fnv_0041afa0::FUN_0041afa0_Class *>((pXData2))->FUN_0041afa0();
+            reinterpret_cast<::FUN_004bc780_shell *>((unk50[j]))->ClearExtraDataList();
             delete unk50[j];
         }
     }
-    if (unka5 && GetMagicItem() && GetEffectItem())
+    if (unka5 && ((::MagicItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)) && ((::EffItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)))
     {
-        ModelHolderS* pHolder = GetMagicItem()->GetHolder(0);
-        EffItemS* pFound = GetMagicItem()->list.Find(GetEffectItem()->GetUnk0c(), 0);
-        if (pHolder->model.GetModelLength() > 0 && GetEffectItem() == pFound)
-            g_modelLoader->ProcessModelRequest(pHolder->model.GetModelPath(), false, 1);
+        ModelHolderS* pHolder = ((::MagicItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->GetHolder(0);
+        EffItemS* pFound = ((::EffItemS *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::MagicItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->list))->FindCostliestEffectItem(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(this)->effect)->range, 0)));
+        if (pHolder->model.GetModelLength() > 0 && ((::EffItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)) == pFound)
+            reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::LoaderS * *>(&::g_modelLoader))))->FUN_00445300((char *)(pHolder->model.GetModelPath()), false, 1);
         unka5 = false;
     }
 }
 
-void* __cdecl FUN_00401000(unsigned int uiSize);
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
 class B085F0Effect
 {
   public:
     B085F0Effect(MagicCaster* pkCaster, MagicItem* pkItem, EffectItem* pkEffectItem);
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00401000(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     int unk00;
     int unk04;
@@ -373,7 +443,6 @@ struct AEEntry
 
 struct AERef
 {
-    TESBoundObject* GetBaseObject();
 };
 
 struct AECaster
@@ -384,11 +453,8 @@ struct AECaster
 
 struct AEModelLoader
 {
-    void ProcessModelRequest(const char* apPath, int aiUnk1, int aiUnk2, int aiUnk3, bool abUnk4, bool abUnk5,
-                             bool abUnk6);
 };
 
-extern AEModelLoader* g_pAEModelLoader;
 
 struct AEEffect
 {
@@ -421,8 +487,6 @@ struct AEEffect
     int unkA8;
 
     AEEffect(MagicCaster* apCaster, MagicItem* apSpell, EffectItem* apEffect);
-    void CopyTo(AEEffect* apTarget);
-    AECaster* GetCaster();
     AEEffect* Clone();
 };
 
@@ -431,7 +495,7 @@ struct AEEffect
 AEEffect* AEEffect::Clone()
 {
     AEEffect* pNewInstance = new AEEffect(m_pEffectInstance, pSpell, pEffect);
-    CopyTo(pNewInstance);
+    reinterpret_cast<::AssociatedItemCopyEntry *>(this)->FUN_00806d50((::ActiveEffect *)(pNewInstance));
     if (pItem)
         pNewInstance->pItem = new AEEntry(pItem);
     for (int i = 0; i < 20; i++)
@@ -442,33 +506,33 @@ AEEffect* AEEffect::Clone()
 
     if (pItem && bWeaponQueued)
     {
-        TESBoundObject* pType = pItem->GetType();
+        TESBoundObject* pType = reinterpret_cast<::InventoryStackRecord *>(pItem)->m_pItemObject;
         TESObjectWEAP* pWeapon = dynamic_cast<TESObjectWEAP*>(pType);
         if (pWeapon && pWeapon->model.GetModelLength() > 0)
         {
             pNewInstance->bWeaponQueued = true;
-            g_pAEModelLoader->ProcessModelRequest(pWeapon->model.GetModelPath(), 0, 0, 0, true, true, false);
+            reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::AEModelLoader * *>(&::g_modelLoader))))->FUN_00444040((intptr_t)(pWeapon->model.GetModelPath()), 0, 0, 0, true, true, false);
         }
     }
 
     if (bBipedQueued)
     {
         int iSex = 0;
-        if (GetCaster()->GetCasterRef())
+        if (((::AECaster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetCasterRef())
         {
-            TESNPC* pNPC = dynamic_cast<TESNPC*>(GetCaster()->GetCasterRef()->GetBaseObject());
+            TESNPC* pNPC = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::AECaster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetCasterRef()))->FUN_007af430())));
             if (pNPC)
                 iSex = pNPC->GetSex();
         }
         for (int j = 0; j < 20; j++)
         {
-            if (pItems[j] && pItems[j]->GetType())
+            if (pItems[j] && reinterpret_cast<::InventoryStackRecord *>(pItems[j])->m_pItemObject)
             {
-                TESBipedModelForm* pBiped = dynamic_cast<TESBipedModelForm*>(pItems[j]->GetType());
+                TESBipedModelForm* pBiped = dynamic_cast<TESBipedModelForm*>(reinterpret_cast<::InventoryStackRecord *>(pItems[j])->m_pItemObject);
                 if (pBiped)
                 {
                     pNewInstance->bBipedQueued = true;
-                    g_pAEModelLoader->ProcessModelRequest(pBiped->GetBipedModel(iSex), 0, 0, 0, true, true, false);
+                    reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::AEModelLoader * *>(&::g_modelLoader))))->FUN_00444040((intptr_t)(reinterpret_cast<::FUN_004811e0_shell *>((pBiped))->FUN_004811e0(iSex)), 0, 0, 0, true, true, false);
                 }
             }
         }
@@ -477,25 +541,23 @@ AEEffect* AEEffect::Clone()
     return pNewInstance;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void formVirtual();
 };
-struct TESObjectARMO : TESForm
+class TESObjectARMO : public TESForm
 {
 };
 struct ItemData
 {
-    void SetEquippedState(bool);
 };
 struct ItemList
 {
-    ItemData** GetItem();
 };
 struct ItemEntry
 {
     TESObjectWEAP* GetType();
-    ItemList* GetExtendData();
 };
 struct Proc
 {
@@ -835,18 +897,12 @@ struct Proc
 };
 struct ActorObj
 {
-    Proc* GetProcess();
-    bool IsBusy();
 };
-extern ActorObj* player;
 struct TargetObj
 {
-    ActorObj* GetActor();
 };
 struct Changes
 {
-    static Changes* GetChanges(ActorObj*);
-    ItemData* Find(TESObjectARMO*, bool);
 };
 struct EffectObj
 {
@@ -896,62 +952,11 @@ struct EffectObj
     char unkA6;
     char unkA7;
     bool pending;
-    void Start();
-    TargetObj* GetTarget();
     TESForm* GetAssociated();
-    void Dispel(bool);
     void Update(float delta);
 };
-// @fnv 0x00808800
-void EffectObj::Update(float delta)
-{
-    if (!started)
-    {
-        if (unk04 >= unka0)
-        {
-            Start();
-            started = true;
-        }
-    }
-    else
-    {
-        ActorObj* actor = GetTarget() ? GetTarget()->GetActor() : 0;
-        TESObjectWEAP* weaponA = dynamic_cast<TESObjectWEAP*>(GetAssociated());
-        if (actor && actor->GetProcess() && weaponA)
-        {
-            actor->GetProcess()->Equip(weaponA);
-            if (pending && actor->GetProcess()->GetEntry())
-            {
-                ItemEntry* entry2 = actor->GetProcess()->GetEntry();
-                if (weaponA == entry2->GetType() && entry2->GetExtendData())
-                {
-                    pending = false;
-                    ItemData* data = *entry2->GetExtendData()->GetItem();
-                    data->SetEquippedState(true);
-                }
-            }
-            if (actor == player && !actor->GetProcess()->IsReady() && !actor->IsBusy())
-                Dispel(false);
-        }
-        else if (pending)
-        {
-            TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(GetAssociated());
-            if (armor)
-            {
-                Changes* changes3 = Changes::GetChanges(actor);
-                ItemData* data = changes3->Find(armor, true);
-                if (data)
-                {
-                    pending = false;
-                    data->SetEquippedState(true);
-                }
-            }
-        }
-    }
-}
-
 namespace fnv_00809a00 {
-struct Actor;
+class Actor;
 
 struct FormIDEntry;
 
@@ -1037,18 +1042,16 @@ class TESForm
     virtual char* GetSaveSizeLabel();
 };
 
-struct EffectItem
+class EffectItem
 
 {
 
-    unsigned short __thiscall FUN_004be5a0();
 };
 
 struct FUN_00806da0_shell
 
 {
 
-    unsigned short __thiscall FUN_00806da0(Actor* apActor);
 };
 
 class TESSaveLoadGame
@@ -1056,27 +1059,21 @@ class TESSaveLoadGame
 {
 
   public:
-    bool __thiscall FUN_00862110();
 
-    unsigned char __thiscall FUN_008df040();
 
-    FormIDEntry* __thiscall GetCurrentFormHeader();
+    FormIDEntry* GetCurrentFormHeader();
 };
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct GlobalObject_0045cf30
 
 {
 
-    unsigned char* __thiscall Bool();
+    unsigned char* Bool();
 };
 
-extern GlobalObject_0045cf30 g_011de4e8;
 
-extern TESForm* __cdecl FUN_004839c0(unsigned int formID);
 
-extern void __cdecl FUN_0040fbe0(const char* format, ...);
 
 struct BoundItemEffectSaveSizeLayout
 
@@ -1124,21 +1121,21 @@ struct BoundItemEffectSaveSizeLayout
 
     EffectItem* effectItems[20];
 
-    unsigned short __thiscall FUN_00809a00(Actor* apActor);
+    unsigned short FUN_00809a00(Actor* apActor);
 };
 
 // @fnv 0x00809a00
-unsigned short __thiscall BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apActor)
+unsigned short BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apActor)
 
 {
 
     unsigned short usSize9 = 0;
 
-    usSize9 += ((FUN_00806da0_shell*)this)->FUN_00806da0(apActor);
+    usSize9 += reinterpret_cast<::FUN_00806da0_shell *>((((FUN_00806da0_shell*)this)))->FUN_00806da0((::Actor *)(apActor));
 
     unsigned short usBaseSize8 = usSize9;
 
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00809a00::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
 
     {
 
@@ -1153,7 +1150,7 @@ unsigned short __thiscall BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apA
 
     {
 
-        usSize9 += unk4c->FUN_004be5a0();
+        usSize9 += reinterpret_cast<::fnv_004be5a0::InventoryChangesSaveSize *>((unk4c))->FUN_004be5a0();
     }
 
     int i6;
@@ -1168,52 +1165,34 @@ unsigned short __thiscall BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apA
 
         {
 
-            usSize9 += effectItems[i6]->FUN_004be5a0();
+            usSize9 += reinterpret_cast<::fnv_004be5a0::InventoryChangesSaveSize *>((effectItems[i6]))->FUN_004be5a0();
         }
     }
 
-    if (g_011de4e8.Bool()[0] != 0)
+    if ((*reinterpret_cast<::fnv_00809a00::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool()[0] != 0)
 
     {
 
-        FormIDEntry* pHeader = g_TESSaveLoadGame->GetCurrentFormHeader();
+        FormIDEntry* pHeader = (*reinterpret_cast<::fnv_00809a00::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))->GetCurrentFormHeader();
 
         if (pHeader != 0)
 
         {
 
-            TESForm* pForm = FUN_004839c0(*(unsigned int*)pHeader);
+            TESForm* pForm = ((::fnv_00809a00::TESForm *)(::FUN_004839c0(*(unsigned int*)pHeader)));
 
-            FUN_0040fbe0("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-
-                         usSize9 - usBaseSize8,
-
-                         *(unsigned int*)pHeader,
-
-                         pForm->GetSaveSizeLabel(),
-
-                         *(unsigned int*)((char*)pHeader + 5),
-
-                         0x29b,
-
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Magic\\BoundItemEffect.cpp");
+            ::FUN_0040fbe0();
         }
 
         else
 
         {
 
-            FUN_0040fbe0("GetSaveSize(): %-5i ending at line %i in file %s",
-
-                         usSize9 - usBaseSize8,
-
-                         0x29b,
-
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Magic\\BoundItemEffect.cpp");
+            ::FUN_0040fbe0();
         }
     }
 
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x41)
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_00809a00::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x41)
 
     {
 
@@ -1222,7 +1201,7 @@ unsigned short __thiscall BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apA
         usSize9 += 1;
     }
 
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x6b)
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_00809a00::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x6b)
 
     {
 
@@ -1235,9 +1214,8 @@ unsigned short __thiscall BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apA
 
 // Adapted from contributor Worker18 (2026-10-23); independently verified and modified.
 
-struct Actor;
+class Actor;
 
-void* operator new(unsigned int);
 
 struct Obj12
 {
@@ -1248,9 +1226,8 @@ struct Obj12
 
     int f00, f04, f08;
 
-    void __thiscall FUN_004be930();
 
-    int __thiscall FUN_004459e0(int a);
+    int FUN_004459e0(int a);
 };
 
 struct Sound
@@ -1411,8 +1388,9 @@ struct Sound
     virtual int VCall130();
 };
 
-struct TESSound
+class TESSound
 {
+  public:
 
     void* m_00;
 };
@@ -1420,48 +1398,37 @@ struct TESSound
 struct FUN_008579e0_shell
 {
 
-    void __thiscall FUN_008579e0(void* buf, unsigned int n);
+    void FUN_008579e0(void* buf, unsigned int n);
 };
 
 struct TimeGlobal : FUN_008579e0_shell
 {
 
-    unsigned int __thiscall GetTimeStamp();
 };
 
-struct EffectSetting : TimeGlobal
+class TESSound;
+class EffectSetting : public TimeGlobal
 {
 
-    TESSound* __thiscall GetBoltSound();
+public:
+    ::TESSound *GetHitSound();
 };
 
 struct TESSaveLoadGame : EffectSetting
 {
 
-    bool __thiscall FUN_00862110();
 
-    unsigned char __thiscall FUN_008df040();
 };
 
-extern TESSaveLoadGame* DAT_011de45c;
 
-extern "C" Sound* __cdecl _ref_004839c0(void* a);
 
-void __cdecl FUN_005b5e40(const char* fmt, ...);
 
-int __fastcall FUN_0044ddc0(Obj12* p);
 
-extern char DAT_01015718;
 
-extern char DAT_010156a8;
 
-extern char DAT_01015588;
 
-extern char DAT_01015500;
 
-extern char DAT_010154a0;
 
-extern char DAT_01015440;
 
 extern char DAT_01079810;
 
@@ -1480,9 +1447,8 @@ struct This
 
     unsigned char fA8;
 
-    void __thiscall FUN_00806e30(Actor* a);
 
-    void __thiscall FUN_00809e60(Actor* param);
+    void FUN_00809e60(Actor* param);
 };
 
 // @fnv 0x00809e60
@@ -1490,56 +1456,55 @@ void This::FUN_00809e60(Actor* apActor)
 
 {
 
-    FUN_00806e30(apActor);
+    reinterpret_cast<::AssociatedItemEffect *>(this)->FUN_00806e30(apActor);
 
     unsigned short w18 = 0;
 
-    int flag = 0;
+    char* flag = 0;
 
-    if (DAT_011de45c->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((::g_TESSaveLoadGame))->FUN_00862110())
     {
 
         unsigned int i;
 
-        DAT_011de45c->FUN_008579e0(&i, 4);
+        ::g_TESSaveLoadGame->FUN_008579e0(&i, 4);
 
         if (i != 0x424c4f4b)
         {
 
-            TESSound* rec = DAT_011de45c->GetBoltSound();
+            TESSound* rec = ((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(::g_TESSaveLoadGame))));
 
             if (rec != 0)
             {
 
                 Sound* pForm;
 
-                pForm = _ref_004839c0(rec->m_00);
+                pForm = ((::Sound *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(rec->m_00))));
 
-                FUN_005b5e40(&DAT_01015718, &DAT_01079810, 0x2da, rec->m_00, pForm->VCall130(),
-                             *(unsigned char*)((char*)rec + 9), *(int*)((char*)rec + 5));
+                ::FUN_005b5e40();
             }
             else
             {
 
-                FUN_005b5e40(&DAT_010156a8, &DAT_01079810, 0x2da, DAT_011de45c->FUN_008df040());
+                ::FUN_005b5e40();
             }
         }
 
-        flag = DAT_011de45c->GetTimeStamp();
+        flag = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
-        DAT_011de45c->FUN_008579e0(&w18, 2);
+        ::g_TESSaveLoadGame->FUN_008579e0(&w18, 2);
     }
 
     unsigned char n1c;
 
-    DAT_011de45c->FUN_008579e0(&n1c, 1);
+    ::g_TESSaveLoadGame->FUN_008579e0(&n1c, 1);
 
     if (n1c)
     {
 
         m_4c = new Obj12;
 
-        m_4c->FUN_004be930();
+        reinterpret_cast<::fnv_004be930::FUN_004be930_shell *>((m_4c))->FUN_004be930();
     }
 
     int rec2 = 0;
@@ -1547,16 +1512,16 @@ void This::FUN_00809e60(Actor* apActor)
     for (; rec2 < 0x14; rec2++)
     {
 
-        DAT_011de45c->FUN_008579e0(&n1c, 1);
+        ::g_TESSaveLoadGame->FUN_008579e0(&n1c, 1);
 
         if (n1c)
         {
 
             m_50[rec2] = new Obj12;
 
-            m_50[rec2]->FUN_004be930();
+            reinterpret_cast<::fnv_004be930::FUN_004be930_shell *>((m_50[rec2]))->FUN_004be930();
 
-            if (!FUN_0044ddc0(m_50[rec2]))
+            if (!((reinterpret_cast<::Twin_0044ddc0 *>((m_50[rec2]))->GetName())))
             {
                 delete m_50[rec2];
                 m_50[rec2] = 0;
@@ -1566,63 +1531,57 @@ void This::FUN_00809e60(Actor* apActor)
 
     fA4 = 1;
 
-    if ((int)DAT_011de45c->FUN_008df040() >= 0x41)
+    if ((int)reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() >= 0x41)
     {
 
-        DAT_011de45c->FUN_008579e0(&fA0, 4);
+        ::g_TESSaveLoadGame->FUN_008579e0(&fA0, 4);
 
-        DAT_011de45c->FUN_008579e0(&fA4, 1);
+        ::g_TESSaveLoadGame->FUN_008579e0(&fA4, 1);
     }
 
-    if ((int)DAT_011de45c->FUN_008df040() >= 0x6b)
+    if ((int)reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() >= 0x6b)
     {
 
-        DAT_011de45c->FUN_008579e0(&fA8, 1);
+        ::g_TESSaveLoadGame->FUN_008579e0(&fA8, 1);
     }
 
-    if (DAT_011de45c->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((::g_TESSaveLoadGame))->FUN_00862110())
     {
 
-        unsigned int ts;
+        char* ts;
 
-        ts = DAT_011de45c->GetTimeStamp();
+        ts = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
-        TESSound* tag = DAT_011de45c->GetBoltSound();
+        TESSound* tag = ((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(::g_TESSaveLoadGame))));
 
         if (tag != 0)
         {
 
-            Sound* snd2 = _ref_004839c0(tag->m_00);
+            Sound* snd2 = ((::Sound *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(tag->m_00))));
 
-            if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
+            if (ts > flag + (unsigned int)w18)
             {
 
-                FUN_005b5e40(&DAT_01015588, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
-                             &DAT_01079810, 0x302, tag->m_00, snd2->VCall130(), *(unsigned char*)((char*)tag + 9),
-                             *(int*)((char*)tag + 5));
+                ::FUN_005b5e40();
             }
-            else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
+            else if (ts < flag + (unsigned int)w18)
             {
 
-                FUN_005b5e40(&DAT_01015500, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
-                             &DAT_01079810, 0x302, tag->m_00, snd2->VCall130(), *(unsigned char*)((char*)tag + 9),
-                             *(int*)((char*)tag + 5));
+                ::FUN_005b5e40();
             }
         }
         else
         {
 
-            if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
+            if (ts > flag + (unsigned int)w18)
             {
 
-                FUN_005b5e40(&DAT_010154a0, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
-                             &DAT_01079810, 0x302, DAT_011de45c->FUN_008df040());
+                ::FUN_005b5e40();
             }
-            else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
+            else if (ts < flag + (unsigned int)w18)
             {
 
-                FUN_005b5e40(&DAT_01015440, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
-                             &DAT_01079810, 0x302, DAT_011de45c->FUN_008df040());
+                ::FUN_005b5e40();
             }
         }
     }
@@ -1635,8 +1594,9 @@ struct SaveHeader
     unsigned char unk04;
     unsigned char flags;
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual void vfunc00();
     virtual void vfunc04();
     virtual void vfunc08();
@@ -1715,100 +1675,83 @@ struct TESForm
     virtual void vfunc12c();
     virtual const char* GetName();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
-void __cdecl FUN_0040fbe0(const char*, ...);
-void __cdecl FNV_Warning(const char*, ...);
 struct TESSaveLoadGame
 {
-    unsigned int FUN_00825c00();
-    bool FUN_00862110();
-    void FUN_008579b0(void*, int);
-    unsigned char FUN_008df040();
-    SaveHeader* FUN_004fd3e0();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-extern GlobalObject_0045cf30 g_011de4e8;
 struct ValueReferencePair
 {
-    void FUN_004be6f0();
 };
 struct SaveEffect : FUN_00807ee0
 {
     bool unka8;
-    void FUN_00806de0(void*);
     void FUN_00809bd0(void* arg);
 };
 // Writes the effect's bound-item references and version-gated fields to the save stream, with optional block header and debug logging.
 // @fnv 0x00809bd0
 void SaveEffect::FUN_00809bd0(void* arg)
 {
-    FUN_00806de0(arg);
+    reinterpret_cast<::fnv_00806de0::AssociatedItemEffect *>(this)->FUN_00806de0((::Actor *)(arg));
     bool present;
     int iSlot;
     unsigned short blockSize = 0;
-    unsigned int blockStart = 0;
+    char* blockStart = 0;
     {
-        unsigned int uiTimestamp = g_TESSaveLoadGame->FUN_00825c00();
-        if (*g_011de4e8.Bool())
-            uiTimestamp = g_TESSaveLoadGame->FUN_00825c00();
-        if (g_TESSaveLoadGame->FUN_00862110())
+        char* uiTimestamp = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
+        if (*(*reinterpret_cast<::fnv_00809bd0::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
+            uiTimestamp = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
             unsigned int tag = 0x424c4f4b;
-            g_TESSaveLoadGame->FUN_008579b0(&tag, 4);
-            blockStart = g_TESSaveLoadGame->FUN_00825c00();
-            g_TESSaveLoadGame->FUN_008579b0(&blockSize, 2);
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&tag, 4);
+            blockStart = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&blockSize, 2);
         }
         present = false;
         if (unk4c)
             present = true;
-        g_TESSaveLoadGame->FUN_008579b0(&present, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&present, 1);
         if (present)
-            ((ValueReferencePair*)unk4c)->FUN_004be6f0();
+            reinterpret_cast<::fnv_004be6f0::SaveInventory *>((((ValueReferencePair*)unk4c)))->FUN_004be6f0();
         for (iSlot = 0; iSlot < 20; iSlot++)
         {
             present = false;
             if (unk50[iSlot])
                 present = true;
-            g_TESSaveLoadGame->FUN_008579b0(&present, 1);
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&present, 1);
             if (present)
-                ((ValueReferencePair*)unk50[iSlot])->FUN_004be6f0();
+                reinterpret_cast<::fnv_004be6f0::SaveInventory *>((((ValueReferencePair*)unk50[iSlot])))->FUN_004be6f0();
         }
-        if (g_TESSaveLoadGame->FUN_008df040() >= 65)
+        if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 65)
         {
-            g_TESSaveLoadGame->FUN_008579b0(&unka0, 4);
-            g_TESSaveLoadGame->FUN_008579b0(&unka4, 1);
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unka0, 4);
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unka4, 1);
         }
-        if (g_TESSaveLoadGame->FUN_008df040() >= 107)
-            g_TESSaveLoadGame->FUN_008579b0(&unka8, 1);
-        if (*g_011de4e8.Bool())
+        if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 107)
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unka8, 1);
+        if (*(*reinterpret_cast<::fnv_00809bd0::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
         {
-            unsigned int uiHeaderPos = g_TESSaveLoadGame->FUN_00825c00();
-            SaveHeader* pSaveHeader = g_TESSaveLoadGame->FUN_004fd3e0();
+            char* uiHeaderPos = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
+            SaveHeader* pSaveHeader = ((::fnv_00809bd0::SaveHeader *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
             if (pSaveHeader)
             {
-                TESForm* form = FUN_004839c0(pSaveHeader->id);
-                FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                             uiHeaderPos - uiTimestamp, pSaveHeader->id, form->GetName(),
-                             *(unsigned int*)&pSaveHeader->flags, 721,
-                             "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Magic\\BoundItemEffect.cpp");
+                TESForm* form = ((::fnv_00809bd0::TESForm *)(::FUN_004839c0(pSaveHeader->id)));
+                ::FUN_0040fbe0();
             }
             else
             {
-                FUN_0040fbe0("SaveGame(): %-5i ending at line %i in file %s", uiHeaderPos - uiTimestamp, 721,
-                             "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Magic\\BoundItemEffect.cpp");
+                ::FUN_0040fbe0();
             }
         }
-        if (g_TESSaveLoadGame->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
-            unsigned int uiFinishPos = g_TESSaveLoadGame->FUN_00825c00();
-            unsigned int uiBeginPos = blockStart;
+            char* uiFinishPos = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
+            char* uiBeginPos = blockStart;
             if (uiFinishPos > uiBeginPos + 65535)
-                FNV_Warning("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
-                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Magic\\BoundItemEffect.cpp", 721);
+                ::FUN_005b5e40();
             *(unsigned short*)blockStart = (unsigned short)(uiFinishPos - uiBeginPos);
         }
     }
@@ -1817,33 +1760,24 @@ void SaveEffect::FUN_00809bd0(void* arg)
 
 struct BIItemData
 {
-    void FUN_0041b040();
-    void FUN_0041afa0();
 };
 struct BIItemNode
 {
-    BIItemData** FUN_006815c0();
 };
 
 struct BIEntry
 {
-    BIItemNode* FUN_00559450();
-    TESBoundObject* FUN_0044ddc0();
-    void ClearExtraDataList();
     ~BIEntry();
 };
 
 struct BIChanges
 {
-    BIItemData* FUN_004bfda0(void* pkForm, int iFlag);
 };
 struct BIWornList
 {
-    BIEntry* FUN_004c8c10();
 };
 struct BIWornSlot
 {
-    BIWornList* FUN_00418520();
 };
 
 class BIProcess
@@ -2126,7 +2060,6 @@ class BIProcess
     virtual void v448();
     virtual void v44c();
     virtual void SetDirty(int iFlag);  // +0x450
-    int FUN_0045cd60();
 };
 
 struct BISound
@@ -2258,12 +2191,6 @@ class BIActor
     virtual void v1c8();
     virtual void v1cc();
     virtual int IsAlive();  // +0x1d0
-    void FUN_0088c790(void* pkForm, int iA, int iB, int iC, int iD, int iE);
-    int FUN_00575610(TESBoundObject* pkBase);
-    void FUN_0088c650(TESBoundObject* pkBase, int iA, int iB, int iC, int iD, int iE);
-    BIWornSlot* FUN_005d43c0(int iSlot, int iFlag);
-    TESBoundObject* FUN_007af430();
-    BIProcess* FUN_008d8520();
     BISound FUN_00933270(const char* pcName, int iA, unsigned int uiFlags, int iB);
 };
 
@@ -2272,7 +2199,6 @@ struct BIArmor
     int unk00[28];
     struct BISlots
     {
-        bool FUN_00480af0(int iSlot, int iA, int iB);
     } m_kSlots;  // +0x70
 };
 
@@ -2283,7 +2209,6 @@ struct BIModelHolder
 };
 struct BIList
 {
-    void* FindCostliestEffectItem(void* pvItem, int iFlag);
 };
 struct BIEffectItem
 {
@@ -2293,7 +2218,6 @@ struct BIEffectItem
 };
 struct BINode
 {
-    BINode* FUN_0084e3a0();
 };
 
 class BIShader
@@ -2350,28 +2274,20 @@ class BIShader
     virtual void v0bc();
     virtual void v0c0();
     virtual bool Init();  // +0xc4
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     int unk04[14];
 };
 
 struct BIModelLoader
 {
-    void FUN_00445300(const char* pcPath, int iA, int iB);
 };
 struct BIShaderManager
 {
-    void FUN_00973fd0(BIShader* pkShader);
 };
-extern BIModelLoader* DAT_011c3b3c;
-extern BIShaderManager DAT_011e0e80;
 
 struct BITarget
 {
-    BIActor* FUN_00822b40();
 };
 
-BIChanges* FUN_004bf220(BIActor* pkActor);
 bool FUN_0080a700(BIActor* pkActor, BIEntry* pkEntry, void* pkEffect);
 
 class BIEffect
@@ -2386,136 +2302,9 @@ class BIEffect
     bool m_bLoadWeaponModel;  // +0xa6
     bool m_bLoadArmorModel;   // +0xa7
 
-    BITarget* FUN_0059bb30();
     TESForm* FUN_006733e0();
-    BIEffectItem* FUN_0044ddc0();
-    BINode* FUN_0084e3a0();
-    BIModelHolder* FUN_007df1d0();
-    void FUN_007037c0(int iFlag);
     void StopEffect();
 };
-
-// @fnv 0x008091a0
-void BIEffect::StopEffect()
-{
-    BIActor* pkActor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    if (m_bModifierActive && pkActor)
-    {
-        TESObjectWEAP* pkWeapon = dynamic_cast<TESObjectWEAP*>(FUN_006733e0());
-        TESObjectARMO* pkArmorRes = dynamic_cast<TESObjectARMO*>(FUN_006733e0());
-        if (pkWeapon)
-        {
-            BIItemData* pkData = 0;
-            BIChanges* pkChanges = FUN_004bf220(pkActor);
-            pkData = pkChanges->FUN_004bfda0(pkWeapon, 0);
-            if (pkData)
-                pkData->FUN_0041b040();
-            pkActor->FUN_0088c790(pkWeapon, 1, 0, 0, 0, 1);
-            pkActor->UnequipItem(pkWeapon, 0, 1, 0, 0, 0, 0, 0, 1, 0);
-            if (m_pkWeaponEntry)
-            {
-                bool bEquipped = false;
-                pkData = m_pkWeaponEntry->FUN_00559450() ? *m_pkWeaponEntry->FUN_00559450()->FUN_006815c0() : 0;
-                if (pkActor->FUN_00575610(m_pkWeaponEntry->FUN_0044ddc0()) >= 1)
-                {
-                    bEquipped = true;
-                    pkActor->FUN_0088c650(m_pkWeaponEntry->FUN_0044ddc0(), 1, 0, 1, 0, 1);
-                }
-                if (m_bLoadWeaponModel)
-                {
-                    TESBoundObject* pkBase = m_pkWeaponEntry->FUN_0044ddc0();
-                    TESObjectWEAP* pkOldWeapon = dynamic_cast<TESObjectWEAP*>(pkBase);
-                    if (pkOldWeapon && pkOldWeapon->model.GetModelLength() > 0)
-                        DAT_011c3b3c->FUN_00445300(pkOldWeapon->model.GetModelPath(), 0, 1);
-                    m_bLoadWeaponModel = false;
-                }
-                if (pkData)
-                    pkData->FUN_0041afa0();
-                m_pkWeaponEntry->ClearExtraDataList();
-                delete m_pkWeaponEntry;
-                m_pkWeaponEntry = 0;
-                pkActor->FUN_008d8520()->SetDirty(1);
-            }
-        }
-        else if (pkArmorRes)
-        {
-            int iSexCur = 0;
-            TESNPC* pkNPC = dynamic_cast<TESNPC*>(pkActor->FUN_007af430());
-            if (pkNPC)
-                iSexCur = pkNPC->GetSex();
-            BIItemData* pkArmorData = 0;
-            BIChanges* pkArmorChanges = FUN_004bf220(pkActor);
-            pkArmorData = pkArmorChanges->FUN_004bfda0(pkArmorRes, 0);
-            if (pkArmorData)
-                pkArmorData->FUN_0041b040();
-            pkActor->FUN_0088c790(pkArmorRes, 1, 0, 0, 0, 1);
-            pkActor->UnequipItem(pkArmorRes, 0, 1, 0, 0, 0, 0, 0, 1, 0);
-            for (int i = 0; i < 0x14; i++)
-            {
-                if (((BIArmor*)pkArmorRes)->m_kSlots.FUN_00480af0(i, 0, 0) && m_apArmorEntries[i])
-                {
-                    BIEntry* pkEntry = m_apArmorEntries[i];
-                    BIItemData* pkEntryData = 0;
-                    if (pkEntry->FUN_00559450())
-                        pkEntryData = *pkEntry->FUN_00559450()->FUN_006815c0();
-                    if (pkEntry)
-                    {
-                        bool bKeepModel = false;
-                        bool bEquipped = false;
-                        if (pkActor->FUN_00575610(pkEntry->FUN_0044ddc0()) >= 1)
-                        {
-                            pkActor->FUN_0088c650(pkEntry->FUN_0044ddc0(), 1, 0, 1, 0, 1);
-                            BIEntry* pkWorn = pkActor->FUN_005d43c0(i, 0)->FUN_00418520()->FUN_004c8c10();
-                            if (!pkWorn || pkWorn->FUN_0044ddc0() != pkEntry->FUN_0044ddc0())
-                                bKeepModel = FUN_0080a700(pkActor, pkEntry, this);
-                            delete pkWorn;
-                            bEquipped = true;
-                        }
-                        if (m_bLoadArmorModel && pkEntry->FUN_0044ddc0() && !bKeepModel)
-                        {
-                            TESBipedModelForm* pkBiped = dynamic_cast<TESBipedModelForm*>(pkEntry->FUN_0044ddc0());
-                            if (pkBiped)
-                                DAT_011c3b3c->FUN_00445300(pkBiped->GetBipedModel(iSexCur), 0, 1);
-                        }
-                        if (pkEntryData)
-                            pkEntryData->FUN_0041afa0();
-                        pkEntry->ClearExtraDataList();
-                        delete pkEntry;
-                        pkEntry = 0;
-                    }
-                    m_apArmorEntries[i] = 0;
-                }
-            }
-            m_bLoadArmorModel = false;
-        }
-        if (pkActor->IsAlive() && pkActor->FUN_008d8520() && !pkActor->FUN_008d8520()->FUN_0045cd60() &&
-            FUN_0044ddc0() && FUN_0084e3a0())
-        {
-            BIModelHolder* pkModelOut = FUN_0044ddc0()->FUN_0040a300(0);
-            void* pvFound = FUN_0044ddc0()->m_kList.FindCostliestEffectItem(FUN_0084e3a0()->FUN_0084e3a0(), 0);
-            if (FUN_0084e3a0() == pvFound)
-            {
-                if (FUN_007df1d0()->m_kModel.GetModelLength() > 0)
-                {
-                    BIShader* pkShader = 0;
-                    pkShader = new BIShader(pkActor, pkModelOut->m_kModel.GetModelPath(), -1.0f);
-                    if (pkShader->Init())
-                        DAT_011e0e80.FUN_00973fd0(pkShader);
-                    else
-                        delete pkShader;
-                    if (m_bShowShader)
-                    {
-                        DAT_011c3b3c->FUN_00445300(pkModelOut->m_kModel.GetModelPath(), 0, 1);
-                        m_bShowShader = false;
-                    }
-                }
-                pkActor->FUN_00933270("ITMBoundDisappear", 0, 0x40000102, 1);
-            }
-        }
-        FUN_007037c0(0);
-        m_bModifierActive = false;
-    }
-}
 
 namespace fnv_00808680 {
 class NiNode;
@@ -2535,10 +2324,9 @@ struct EffectSettingQ
     char pad00[0x18];
     TESModel kModel;
 };
-struct EffectItem;
-struct EffectItemList
+class EffectItem;
+class EffectItemList
 {
-    EffectItem* FindCostliestEffectItem(int m_eRange, int iUnk);
 };
 class MagicItem
 {
@@ -2554,32 +2342,21 @@ class MagicItem
     EffectItemList kList;
     EffectSettingQ* FUN_0040a300(int iUnk);
 };
-struct EffectItem
+class EffectItem
 {
-    int GetRange();
 };
 struct MagicTarget_00822b40
 {
-    void* FUN_00822b40();
 };
 class ModelLoaderQ
 {
   public:
-    NiNode* LoadFile(const char* pPath, int iLOD, bool bUnk1, bool bUnk2, bool bUnk3, bool bUnk4);
-    void FUN_00445300(char* pPath, bool bUnk, unsigned int uiUnk);
 };
-extern const char kMagicModelHitEffectName[];
-extern const char g_011d4c84_arg1[];
-float __cdecl GetAnimValueByPrefix(NiNode* pNode, const char* pName, const char* pArg);
 
 class ActiveEffect
 {
   public:
-    MagicTarget_00822b40* FUN_0059bb30();
     void* FUN_006733e0();
-    MagicItem* FUN_0044ddc0();
-    EffectItem* FUN_0084e3a0();
-    void Dispel(bool bForce);
     void FUN_00808680();
     char pad00[0xa0];
     float fHitEffectTime;
@@ -2589,32 +2366,31 @@ class ActiveEffect
 // @fnv 0x00808680
 void ActiveEffect::FUN_00808680()
 {
-    void* pTarget = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
+    void* pTarget = ((::fnv_00808680::MagicTarget_00822b40 *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((void *)(reinterpret_cast<::MagicTarget *>((((::fnv_00808680::MagicTarget_00822b40 *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!FUN_006733e0() || !pTarget)
     {
-        Dispel(false);
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
         return;
     }
-    if (FUN_0044ddc0() && FUN_0084e3a0())
+    if (((::fnv_00808680::MagicItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)) && ((::fnv_00808680::EffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)))
     {
-        EffectSettingQ* pBaseEffect = FUN_0044ddc0()->FUN_0040a300(0);
-        EffectItem* pRangeItem = FUN_0044ddc0()->kList.FindCostliestEffectItem(FUN_0084e3a0()->GetRange(), 0);
+        EffectSettingQ* pBaseEffect = ((::fnv_00808680::MagicItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->FUN_0040a300(0);
+        EffectItem* pRangeItem = ((::fnv_00808680::EffectItem *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::fnv_00808680::MagicItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->kList))->FindCostliestEffectItem(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_00808680::EffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect))))->FUN_0084e3a0(), 0)));
         if (pBaseEffect->kModel.GetModelLength() > 0)
         {
-            NiNode* pNode = ((ModelLoaderQ*)g_modelLoader)
-                                ->LoadFile(pBaseEffect->kModel.GetModelPath(), 0, true, false, false, false);
-            bool bIsType4 = FUN_0044ddc0()->GetType() == 4;
+            NiNode* pNode = ((::fnv_00808680::NiNode *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((ModelLoaderQ*)(*reinterpret_cast<::LoaderS * *>(&::g_modelLoader)))))->FUN_00447080((char *)(pBaseEffect->kModel.GetModelPath()), 0, true, false, false, false)));
+            bool bIsType4 = ((::fnv_00808680::MagicItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->GetType() == 4;
             if (!bIsType4)
             {
                 if (pNode)
-                    fHitEffectTime = GetAnimValueByPrefix(pNode, kMagicModelHitEffectName, g_011d4c84_arg1);
+                    fHitEffectTime = ::GetAnimValueByPrefix((::NiObj6220 *)(pNode), kMagicModelHitEffectName, ::g_011d4c84_arg1);
             }
             else
             {
                 fHitEffectTime = 0.0f;
             }
-            if (FUN_0084e3a0() != pRangeItem)
-                ((ModelLoaderQ*)g_modelLoader)->FUN_00445300(pBaseEffect->kModel.GetModelPath(), false, 1);
+            if (((::fnv_00808680::EffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)) != pRangeItem)
+                reinterpret_cast<::FUN_00445300_shell *>((((ModelLoaderQ*)(*reinterpret_cast<::LoaderS * *>(&::g_modelLoader)))))->FUN_00445300(pBaseEffect->kModel.GetModelPath(), false, 1);
         }
     }
 }
@@ -2623,24 +2399,15 @@ void ActiveEffect::FUN_00808680()
 struct ExtraP;
 struct ExtraListP
 {
-    ExtraP** FUN_006815c0();
     void FUN_005ae3d0(ExtraP**);
-    void FUN_00905330(ExtraP**);
 };
 struct ExtraP
 {
-    unsigned int FUN_0040fe20();
-    short FUN_00418770();
-    void FUN_0041ab70(int);
-    void FUN_0041b010(int);
-    bool FUN_004bca60();
 };
 struct EntryP
 {
     ExtraListP* list;
     ~EntryP();
-    TESBoundObject* FUN_0044ddc0();
-    ExtraListP* FUN_00559450();
     void* FUN_004459e0(int);
 };
 struct ProcessP
@@ -2981,11 +2748,9 @@ struct ProcessP
 };
 struct InvP
 {
-    EntryP* FUN_004c8c10(int, int);
 };
 struct InvHolderP
 {
-    InvP* FUN_00418520();
 };
 struct ActorP
 {
@@ -3090,55 +2855,31 @@ struct ActorP
     virtual void v188();
     virtual void v18c();
     virtual void AddItem(TESBoundObject*, ExtraP*, int);
-    ProcessP* FUN_008d8520();
-    TESBoundObject* FUN_007af430();
-    InvHolderP* FUN_005d43c0();
-    void FUN_0088c790(TESBoundObject*, int, ExtraP*, int, int, int);
-    void FUN_0088c650(TESBoundObject*, int, int, int, int, int);
 };
 struct CasterP
 {
-    ActorP* FUN_00822b40();
 };
 struct ModelLoaderP
 {
-    void FUN_00447080(const char*, int, int, int, int, int);
 };
 
 struct FUN_00410360 : ExtraP
 {
     int u00, u04, u08, u0c, u10, u14, u18, u1c;
     FUN_00410360();
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00401000(n);
-    }
-    static void operator delete(void*);
-    void FUN_00412380(ExtraP*);
 };
 struct FUN_004bc550 : EntryP
 {
     int u04, u08;
     FUN_004bc550(TESBoundObject*, int);
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00401000(n);
-    }
-    static void operator delete(void*);
 };
 struct FUN_004bc650 : EntryP
 {
     int u04, u08;
     FUN_004bc650(EntryP*);
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00401000(n);
-    }
-    static void operator delete(void*);
 };
 struct ArmorSlotsP
 {
-    bool FUN_00480af0(int, int, int);
 };
 struct SummonArmorLayout : TESBoundObject
 {
@@ -3154,106 +2895,147 @@ struct SexP
 struct ArmorModelP
 {
     virtual void v00();
-    const char* FUN_004811e0(int);
 };
 struct EquipManagerP
 {
-    ExtraP* FUN_004bfda0(TESObjectARMO*, int);
 };
-EquipManagerP* __cdecl FUN_004bf220(ActorP*);
 struct EffectP : FUN_00807ee0
 {
     bool unka8;
-    CasterP* FUN_0059bb30();
     TESForm* FUN_006733e0();
-    void FUN_00804210(int);
     void FUN_00808a30();
 };
+// @fnv 0x00808800
+void EffectObj::Update(float delta)
+{
+    if (!started)
+    {
+        if (unk04 >= unka0)
+        {
+            reinterpret_cast<::EffectP *>(this)->FUN_00808a30();
+            started = true;
+        }
+    }
+    else
+    {
+        ActorObj* actor = ((::TargetObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorObj *)(reinterpret_cast<::MagicTarget *>((((::TargetObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
+        TESObjectWEAP* weaponA = dynamic_cast<TESObjectWEAP*>(GetAssociated());
+        if (actor && ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && weaponA)
+        {
+            ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Equip(weaponA);
+            if (pending && ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetEntry())
+            {
+                ItemEntry* entry2 = ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetEntry();
+                if (weaponA == ((::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>((entry2))->GetName())) && ((::ItemList *)(::FUN_00559450((int *)(entry2)))))
+                {
+                    pending = false;
+                    ItemData* data = *((::ItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::ItemList *)(::FUN_00559450((int *)(entry2)))))->m_item));
+                    reinterpret_cast<::FUN_0041ab70_shell *>((data))->FUN_0041ab70(true);
+                }
+            }
+            if (actor == (*reinterpret_cast<::ActorObj * *>(&::_g_thePlayer)) && !((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->IsReady() && !reinterpret_cast<::fnv_008a6970::FUN_008a6970_shell *>((actor))->FUN_008a6970())
+                reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
+        }
+        else if (pending)
+        {
+            TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(GetAssociated());
+            if (armor)
+            {
+                Changes* changes3 = ((::Changes *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(actor))));
+                ItemData* data = ((::ItemData *)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((changes3))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(armor), true)));
+                if (data)
+                {
+                    pending = false;
+                    reinterpret_cast<::FUN_0041ab70_shell *>((data))->FUN_0041ab70(true);
+                }
+            }
+        }
+    }
+}
 // Applies the effect by equipping the weapon or armor form on the caster actor, loading models and updating the equip manager.
 // @fnv 0x00808a30
 void EffectP::FUN_00808a30()
 {
     TESObjectARMO* armor;
-    ActorP* weapon = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
+    ActorP* weapon = ((::CasterP *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorP *)(reinterpret_cast<::MagicTarget *>((((::CasterP *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     TESObjectWEAP* actor = dynamic_cast<TESObjectWEAP*>(FUN_006733e0());
     armor = dynamic_cast<TESObjectARMO*>(FUN_006733e0());
     if (actor)
     {
-        if (weapon->FUN_008d8520()->Equipped())
+        if (((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())
         {
             ExtraP* old = 0;
-            old = *weapon->FUN_008d8520()->Equipped()->list->FUN_006815c0();
-            if (old->FUN_0040fe20() < 2 || old->FUN_0040fe20() == 2 && old->FUN_00418770() > 1)
+            old = *((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)->m_item));
+            if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((old))->FUN_0040fe20() < 2 || reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((old))->FUN_0040fe20() == 2 && reinterpret_cast<::FUN_00418770_shell *>((old))->FUN_00418770() > 1)
                 old = 0;
-            TESBoundObject* extra = weapon->FUN_008d8520()->Equipped()->FUN_0044ddc0();
+            TESBoundObject* extra = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()))->GetName()));
             if (extra && !unka6)
             {
                 TESObjectWEAP* oldWeapon = dynamic_cast<TESObjectWEAP*>(extra);
                 if (oldWeapon && oldWeapon->model.GetModelLength() > 0)
                 {
-                    ((ModelLoaderP*)DAT_011c3b3c)->FUN_00447080(oldWeapon->model.GetModelPath(), 0, 1, 0, 0, 0);
+                    reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((ModelLoaderP*)(*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader)))))->FUN_00447080((char *)(oldWeapon->model.GetModelPath()), 0, 1, 0, 0, 0);
                     unka6 = true;
                 }
             }
-            weapon->FUN_0088c790(weapon->FUN_008d8520()->Equipped()->FUN_0044ddc0(), 1,
-                                 *weapon->FUN_008d8520()->Equipped()->list->FUN_006815c0(), 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>((weapon))->FUN_0088c790((std::intptr_t)(reinterpret_cast<::InventoryStackRecord *>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())->m_pItemObject), 1,
+                                 (std::intptr_t)(*((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)->m_item))), 0, 0, 1);
             unk4c = (EntryS*)new FUN_004bc550(extra, 0);
             if (old)
             {
                 FUN_00410360* copied = new FUN_00410360;
-                copied->FUN_00412380(old);
+                reinterpret_cast<::fnv_00412380::FUN_00412380_shell *>((copied))->FUN_00412380((::ExtraDataList *)(old));
                 ((EntryP*)unk4c)->list->FUN_005ae3d0((ExtraP**)&copied);
             }
         }
         weapon->AddItem(actor, 0, 1);
-        if (!weapon->FUN_008d8520()->Equipped() || weapon->FUN_008d8520()->Equipped()->FUN_0044ddc0() != actor)
-            weapon->FUN_0088c650(actor, 1, 0, 1, 1, 1);
+        if (!((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped() || ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()))->GetName())) != actor)
+            reinterpret_cast<::FUN_0088c650_shell *>((weapon))->FUN_0088c650(actor, 1, (::ExtraDataList *)(0), 1, 1, 1);
         ExtraP* newExtra = 0;
-        if (weapon->FUN_008d8520() && weapon->FUN_008d8520()->Equipped() &&
-            weapon->FUN_008d8520()->Equipped()->FUN_00559450())
+        if (((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture())) && ((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped() &&
+            ((::ExtraListP *)(::FUN_00559450((int *)(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())))))
         {
-            newExtra = *weapon->FUN_008d8520()->Equipped()->FUN_00559450()->FUN_006815c0();
-            newExtra->FUN_0041ab70(1);
+            newExtra = *((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ExtraListP *)(::FUN_00559450((int *)(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())))))->m_item));
+            reinterpret_cast<::FUN_0041ab70_shell *>((newExtra))->FUN_0041ab70(1);
         }
         else
             unka8 = true;
-        weapon->FUN_008d8520()->Update(1);
-        weapon->FUN_008d8520()->SetWeapon(actor);
+        ((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Update(1);
+        ((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->SetWeapon(actor);
     }
     else if (armor)
     {
         int manager = 0;
-        TESNPC* sex = dynamic_cast<TESNPC*>(weapon->FUN_007af430());
+        TESNPC* sex = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((weapon))->FUN_007af430())));
         if (sex)
             manager = ((SexP*)sex)->FUN_005f0cc0();
         bool worn = unka7;
         for (int slot = 0; slot < 20; slot++)
         {
             EntryP* entry = 0;
-            if (((SummonArmorLayout*)armor)->slots.FUN_00480af0(slot, 0, 0))
+            if (reinterpret_cast<::TESBipedModelForm *>(&(((SummonArmorLayout*)armor)->slots))->HasBipedModel((::BIPED_OBJECT)(slot), 0, (::BGSBipedModelList *)(0)))
             {
-                InvP* inventory = weapon->FUN_005d43c0()->FUN_00418520();
+                InvP* inventory = ((::InvP *)(reinterpret_cast<::ExtraDataList *>((((::InvHolderP *)(reinterpret_cast<::FUN_005d43c0_ *>((weapon))->FUN_005d43c0()))))->GetContainerChangeData()));
                 if (inventory)
-                    entry = inventory->FUN_004c8c10(slot, 0);
+                    entry = ((::EntryP *)(reinterpret_cast<::Target *>((inventory))->FUN_004c8c10(slot, 0)));
             }
             if (entry)
             {
-                if (entry->FUN_0044ddc0() && !worn)
+                if (reinterpret_cast<::InventoryStackRecord *>(entry)->m_pItemObject && !worn)
                 {
-                    TESBipedModelForm* biped = dynamic_cast<TESBipedModelForm*>(entry->FUN_0044ddc0());
+                    TESBipedModelForm* biped = dynamic_cast<TESBipedModelForm*>(reinterpret_cast<::InventoryStackRecord *>(entry)->m_pItemObject);
                     if (biped)
                     {
-                        ((ModelLoaderP*)DAT_011c3b3c)
-                            ->FUN_00447080(((ArmorModelP*)biped)->FUN_004811e0(manager), 0, 1, 0, 0, 0);
+                        reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((ModelLoaderP*)(*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader)))))->FUN_00447080((char *)(reinterpret_cast<::FUN_004811e0_shell *>((((ArmorModelP*)biped)))->FUN_004811e0(manager)), 0, 1, 0, 0, 0);
                         unka7 = true;
                     }
                 }
-                ExtraP* data = *entry->list->FUN_006815c0();
+                ExtraP* data = *((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(entry->list)->m_item));
                 if (data)
                 {
-                    data->FUN_0041b010(0);
-                    if (data->FUN_004bca60())
-                        entry->FUN_00559450()->FUN_00905330(&data);
+                    reinterpret_cast<::FUN_0041b010 *>((data))->Method(0);
+                    if (reinterpret_cast<::ExtraDataList *>((data))->IsEmpty())
+                        reinterpret_cast<::ItemChangeListNode *>((((::ExtraListP *)(::FUN_00559450((int *)(entry))))))->FUN_00905330((*(::InventoryStackRecord *const *)(&data)));
                 }
                 unk50[slot] = (EntryS*)new FUN_004bc650(entry);
                 delete entry;
@@ -3261,16 +3043,16 @@ void EffectP::FUN_00808a30()
         }
         ExtraP* npc = new FUN_00410360;
         weapon->AddItem((TESBoundObject*)armor, npc, 1);
-        weapon->FUN_0088c650((TESBoundObject*)armor, 1, 0, 1, 0, 1);
-        EquipManagerP* preload = FUN_004bf220(weapon);
-        npc = preload->FUN_004bfda0(armor, 1);
+        reinterpret_cast<::FUN_0088c650_shell *>((weapon))->FUN_0088c650((TESBoundObject*)armor, 1, (::ExtraDataList *)(0), 1, 0, 1);
+        EquipManagerP* preload = ((::EquipManagerP *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(weapon))));
+        npc = ((::ExtraP *)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((preload))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(armor), 1)));
         if (npc)
-            npc->FUN_0041ab70(1);
+            reinterpret_cast<::FUN_0041ab70_shell *>((npc))->FUN_0041ab70(1);
         else
             unka8 = true;
     }
     else
-        FUN_00804210(0);
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(0);
 }
 
 struct ArmoViewQ
@@ -3278,8 +3060,10 @@ struct ArmoViewQ
     char pad[0x70];
     BIArmor::BISlots bipedModel;
 };
-struct ActiveEffect
+class EffectSetting;
+class ActiveEffect
 {
+  public:
     virtual ~ActiveEffect();
     int unk04;
     int unk08;
@@ -3300,7 +3084,130 @@ struct ActiveEffect
     int unk44;
     int unk48;
     int unk4C;
+public:
+    ::EffectSetting *GetEffectSetting() const;
 };
+// @fnv 0x008091a0
+void BIEffect::StopEffect()
+{
+    BIActor* pkActor = ((::BITarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::BIActor *)(reinterpret_cast<::MagicTarget *>((((::BITarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
+    if (m_bModifierActive && pkActor)
+    {
+        TESObjectWEAP* pkWeapon = dynamic_cast<TESObjectWEAP*>(FUN_006733e0());
+        TESObjectARMO* pkArmorRes = dynamic_cast<TESObjectARMO*>(FUN_006733e0());
+        if (pkWeapon)
+        {
+            BIItemData* pkData = 0;
+            BIChanges* pkChanges = ((::BIChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(pkActor))));
+            pkData = ((::BIItemData *)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pkChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pkWeapon), 0)));
+            if (pkData)
+                reinterpret_cast<::FUN_0041b040_shell *>((pkData))->FUN_0041b040();
+            reinterpret_cast<::s88c790::Actor *>((pkActor))->FUN_0088c790((intptr_t)(pkWeapon), 1, 0, 0, 0, 1);
+            pkActor->UnequipItem(pkWeapon, 0, 1, 0, 0, 0, 0, 0, 1, 0);
+            if (m_pkWeaponEntry)
+            {
+                bool bEquipped = false;
+                pkData = ((::BIItemNode *)(::FUN_00559450((int *)(m_pkWeaponEntry)))) ? *((::BIItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::BIItemNode *)(::FUN_00559450((int *)(m_pkWeaponEntry)))))->m_item)) : 0;
+                if (reinterpret_cast<::CombatState *>((pkActor))->GetInventoryItemCount((::TESForm *)(::TESBoundObject *)(reinterpret_cast<::InventoryStackRecord *>(m_pkWeaponEntry)->m_pItemObject)) >= 1)
+                {
+                    bEquipped = true;
+                    reinterpret_cast<::FUN_0088c650_shell *>((pkActor))->FUN_0088c650(reinterpret_cast<::InventoryStackRecord *>(m_pkWeaponEntry)->m_pItemObject, 1, (::ExtraDataList *)(0), 1, 0, 1);
+                }
+                if (m_bLoadWeaponModel)
+                {
+                    TESBoundObject* pkBase = reinterpret_cast<::InventoryStackRecord *>(m_pkWeaponEntry)->m_pItemObject;
+                    TESObjectWEAP* pkOldWeapon = dynamic_cast<TESObjectWEAP*>(pkBase);
+                    if (pkOldWeapon && pkOldWeapon->model.GetModelLength() > 0)
+                        reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader))))->FUN_00445300((char *)(pkOldWeapon->model.GetModelPath()), 0, 1);
+                    m_bLoadWeaponModel = false;
+                }
+                if (pkData)
+                    reinterpret_cast<::fnv_0041afa0::FUN_0041afa0_Class *>((pkData))->FUN_0041afa0();
+                reinterpret_cast<::FUN_004bc780_shell *>((m_pkWeaponEntry))->ClearExtraDataList();
+                delete m_pkWeaponEntry;
+                m_pkWeaponEntry = 0;
+                ((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetDirty(1);
+            }
+        }
+        else if (pkArmorRes)
+        {
+            int iSexCur = 0;
+            TESNPC* pkNPC = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkActor))->FUN_007af430())));
+            if (pkNPC)
+                iSexCur = pkNPC->GetSex();
+            BIItemData* pkArmorData = 0;
+            BIChanges* pkArmorChanges = ((::BIChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(pkActor))));
+            pkArmorData = ((::BIItemData *)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pkArmorChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pkArmorRes), 0)));
+            if (pkArmorData)
+                reinterpret_cast<::FUN_0041b040_shell *>((pkArmorData))->FUN_0041b040();
+            reinterpret_cast<::s88c790::Actor *>((pkActor))->FUN_0088c790((intptr_t)(pkArmorRes), 1, 0, 0, 0, 1);
+            pkActor->UnequipItem(pkArmorRes, 0, 1, 0, 0, 0, 0, 0, 1, 0);
+            for (int i = 0; i < 0x14; i++)
+            {
+                if (reinterpret_cast<::TESBipedModelForm *>(&(((BIArmor*)pkArmorRes)->m_kSlots))->HasBipedModel((::BIPED_OBJECT)(i), 0, (::BGSBipedModelList *)(0)) && m_apArmorEntries[i])
+                {
+                    BIEntry* pkEntry = m_apArmorEntries[i];
+                    BIItemData* pkEntryData = 0;
+                    if (((::BIItemNode *)(::FUN_00559450((int *)(pkEntry)))))
+                        pkEntryData = *((::BIItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::BIItemNode *)(::FUN_00559450((int *)(pkEntry)))))->m_item));
+                    if (pkEntry)
+                    {
+                        bool bKeepModel = false;
+                        bool bEquipped = false;
+                        if (reinterpret_cast<::CombatState *>((pkActor))->GetInventoryItemCount((::TESForm *)(::TESBoundObject *)(reinterpret_cast<::InventoryStackRecord *>(pkEntry)->m_pItemObject)) >= 1)
+                        {
+                            reinterpret_cast<::FUN_0088c650_shell *>((pkActor))->FUN_0088c650(reinterpret_cast<::InventoryStackRecord *>(pkEntry)->m_pItemObject, 1, (::ExtraDataList *)(0), 1, 0, 1);
+                            BIEntry* pkWorn = ((::BIEntry *)(reinterpret_cast<::Target *>((((::BIWornList *)(reinterpret_cast<::ExtraDataList *>((((::BIWornSlot *)(reinterpret_cast<::FUN_005d43c0_ *>((pkActor))->FUN_005d43c0()))))->GetContainerChangeData()))))->FUN_004c8c10({}, {})));
+                            if (!pkWorn || reinterpret_cast<::InventoryStackRecord *>(pkWorn)->m_pItemObject != reinterpret_cast<::InventoryStackRecord *>(pkEntry)->m_pItemObject)
+                                bKeepModel = FUN_0080a700(pkActor, pkEntry, this);
+                            delete pkWorn;
+                            bEquipped = true;
+                        }
+                        if (m_bLoadArmorModel && reinterpret_cast<::InventoryStackRecord *>(pkEntry)->m_pItemObject && !bKeepModel)
+                        {
+                            TESBipedModelForm* pkBiped = dynamic_cast<TESBipedModelForm*>(reinterpret_cast<::InventoryStackRecord *>(pkEntry)->m_pItemObject);
+                            if (pkBiped)
+                                reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader))))->FUN_00445300((char *)(reinterpret_cast<::FUN_004811e0_shell *>((pkBiped))->FUN_004811e0(iSexCur)), 0, 1);
+                        }
+                        if (pkEntryData)
+                            reinterpret_cast<::fnv_0041afa0::FUN_0041afa0_Class *>((pkEntryData))->FUN_0041afa0();
+                        reinterpret_cast<::FUN_004bc780_shell *>((pkEntry))->ClearExtraDataList();
+                        delete pkEntry;
+                        pkEntry = 0;
+                    }
+                    m_apArmorEntries[i] = 0;
+                }
+            }
+            m_bLoadArmorModel = false;
+        }
+        if (pkActor->IsAlive() && ((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && !(reinterpret_cast<::FUN_0045cd60_shell *>((((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))))->FUN_0045cd60()) &&
+            ((::BIEffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)) && ((::BINode *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)))
+        {
+            BIModelHolder* pkModelOut = ((::BIEffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->FUN_0040a300(0);
+            void* pvFound = ((void *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::BIEffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->m_kList))->FindCostliestEffectItem(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(this)->effect)->range, 0)));
+            if (((::BINode *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)) == pvFound)
+            {
+                if (((::BIModelHolder *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->m_kModel.GetModelLength() > 0)
+                {
+                    BIShader* pkShader = 0;
+                    pkShader = new BIShader(pkActor, pkModelOut->m_kModel.GetModelPath(), -1.0f);
+                    if (pkShader->Init())
+                        reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::BIShaderManager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(pkShader));
+                    else
+                        delete pkShader;
+                    if (m_bShowShader)
+                    {
+                        reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader))))->FUN_00445300((char *)(pkModelOut->m_kModel.GetModelPath()), 0, 1);
+                        m_bShowShader = false;
+                    }
+                }
+                pkActor->FUN_00933270("ITMBoundDisappear", 0, 0x40000102, 1);
+            }
+        }
+        reinterpret_cast<::TESRecipe *>(this)->SetRequiredSkill((::ActorValue::Index)(0));
+        m_bModifierActive = false;
+    }
+}
 struct BoundSlotItem
 {
     BoundSlotItem(BIEntry* apRef);
@@ -3311,13 +3218,11 @@ struct BoundSlotItem
 struct BoundItemEffectX : ActiveEffect
 {
     BoundSlotItem* slots[20];
-    TESForm* __thiscall FUN_006733e0();
+    TESForm* FUN_006733e0();
 };
 struct EffectNode
 {
-    bool __thiscall FUN_008256d0();
-    ActiveEffect** __thiscall FUN_006815c0();
-    EffectNode* __thiscall FUN_00726070();
+    bool FUN_008256d0();
 };
 struct MagicTargetX
 {
@@ -3373,7 +3278,7 @@ struct ActorX : ActorHead, MagicTargetX
 // @fnv 0x0080a700
 bool FUN_0080a700(BIActor* apActor, BIEntry* apRef, void* apExclude)
 {
-    TESBipedModelForm* pBiped5 = apRef ? dynamic_cast<TESBipedModelForm*>(apRef->FUN_0044ddc0()) : 0;
+    TESBipedModelForm* pBiped5 = apRef ? dynamic_cast<TESBipedModelForm*>(reinterpret_cast<::InventoryStackRecord *>(apRef)->m_pItemObject) : 0;
     if (!apActor || !pBiped5)
     {
         return false;
@@ -3381,7 +3286,7 @@ bool FUN_0080a700(BIActor* apActor, BIEntry* apRef, void* apExclude)
     EffectNode* pNode2 = static_cast<MagicTargetX*>((ActorX*)apActor)->GetEffectList();
     while (pNode2 && !pNode2->FUN_008256d0())
     {
-        ActiveEffect* pEffect = *pNode2->FUN_006815c0();
+        ActiveEffect* pEffect = *((::ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(pNode2)->m_item));
         BoundItemEffectX* pBound6 = (BoundItemEffectX*)dynamic_cast<BoundItemEffect*>(pEffect);
         if (pBound6 && (void*)pBound6 != apExclude)
         {
@@ -3390,8 +3295,8 @@ bool FUN_0080a700(BIActor* apActor, BIEntry* apRef, void* apExclude)
             {
                 for (int i4 = 0; i4 < 20; i4++)
                 {
-                    if (((BIArmor::BISlots*)pBiped5)->FUN_00480af0(i4, 0, 0) &&
-                        ((ArmoViewQ*)aPArmor)->bipedModel.FUN_00480af0(i4, 0, 0) && !pBound6->slots[i4])
+                    if (reinterpret_cast<::TESBipedModelForm *>((((BIArmor::BISlots*)pBiped5)))->HasBipedModel((::BIPED_OBJECT)(i4), 0, (::BGSBipedModelList *)(0)) &&
+                        reinterpret_cast<::TESBipedModelForm *>(&(((ArmoViewQ*)aPArmor)->bipedModel))->HasBipedModel((::BIPED_OBJECT)(i4), 0, (::BGSBipedModelList *)(0)) && !pBound6->slots[i4])
                     {
                         pBound6->slots[i4] = new BoundSlotItem(apRef);
                         return true;
@@ -3399,7 +3304,7 @@ bool FUN_0080a700(BIActor* apActor, BIEntry* apRef, void* apExclude)
                 }
             }
         }
-        pNode2 = pNode2->FUN_00726070();
+        pNode2 = ((::EffectNode *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
     }
     return false;
 }
@@ -3410,17 +3315,13 @@ class TESNPC;
 class TESBipedModelForm;
 struct EntryA
 {
-    TESBoundObject* FUN_0044ddc0();
-    void FUN_004bed00();
     ~EntryA();
 };
 struct InventoryA
 {
-    int FUN_004c8f30(TESBoundObject*);
 };
 struct ExtraA
 {
-    InventoryA* FUN_00418520();
 };
 struct ActorA
 {
@@ -3525,18 +3426,12 @@ struct ActorA
     virtual void v62();
     virtual void v63();
     virtual void Equip(TESBoundObject*, int, int);
-    TESBoundObject* FUN_007af430();
-    ExtraA* FUN_005d43c0();
-    void FUN_0088c790(TESBoundObject*, int, int, int, int, int);
-    void FUN_0088c650(TESBoundObject*, int, int, int, int, int);
 };
 struct TargetA
 {
-    ActorA* FUN_00822b40();
 };
 struct ModelLoaderA
 {
-    void FUN_00444040(const char*, int, int, int, int, int, int);
 };
 struct SexA
 {
@@ -3551,83 +3446,83 @@ struct BoundLoadEffectView : BaseEffectS
     bool a5;
     bool a6;
     bool a7;
-    void FUN_00806e70(int);
-    TargetA* FUN_0059bb30();
     TESForm* FUN_006733e0();
-    void FUN_0080a2d0(int);
+    void FUN_0080a2d0(intptr_t);
 };
 // Loads weapon and armor models when a4 is set, copies their entries below version 0x61, and conditionally equips the bound object.
 // @fnv 0x0080a2d0
-void BoundLoadEffectView::FUN_0080a2d0(int arg)
+void BoundLoadEffectView::FUN_0080a2d0(intptr_t arg)
 {
     int actor;
-    FUN_00806e70(arg);
-    ActorA* j = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
+    reinterpret_cast<::fnv_00806e70::AssociatedItemEffect *>(this)->FUN_00806e70((::fnv_00806e70::Actor *)(arg));
+    ActorA* j = ((::TargetA *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorA *)(reinterpret_cast<::MagicTarget *>((((::TargetA *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (a4)
     {
         if (weapon)
         {
-            TESBoundObject* object = weapon->FUN_0044ddc0();
+            TESBoundObject* object = reinterpret_cast<::InventoryStackRecord *>(weapon)->m_pItemObject;
             TESObjectWEAP* pWeapon = dynamic_cast<TESObjectWEAP*>(object);
             if (pWeapon && pWeapon->model.GetModelLength() > 0)
             {
                 a6 = true;
-                ((ModelLoaderA*)DAT_011c3b3c)->FUN_00444040(pWeapon->model.GetModelPath(), 0, 0, 0, 1, 0, 0);
+                reinterpret_cast<::QueueHelper *>((((ModelLoaderA*)(*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader)))))->FUN_00444040((intptr_t)(pWeapon->model.GetModelPath()), 0, 0, 0, 1, 0, 0);
             }
         }
         int sex = 0;
         if (j)
         {
-            TESNPC* npc = dynamic_cast<TESNPC*>(j->FUN_007af430());
+            TESNPC* npc = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((j))->FUN_007af430())));
             if (npc)
                 sex = ((SexA*)npc)->FUN_005f0cc0();
         }
         for (int i = 0; i < 20; i++)
         {
-            if (armor[i] && armor[i]->FUN_0044ddc0())
+            if (armor[i] && reinterpret_cast<::InventoryStackRecord *>(armor[i])->m_pItemObject)
             {
-                TESBipedModelForm* biped = dynamic_cast<TESBipedModelForm*>(armor[i]->FUN_0044ddc0());
+                TESBipedModelForm* biped = dynamic_cast<TESBipedModelForm*>(reinterpret_cast<::InventoryStackRecord *>(armor[i])->m_pItemObject);
                 if (biped)
                 {
                     a7 = true;
-                    ((ModelLoaderA*)DAT_011c3b3c)->FUN_00444040(biped->GetBipedModel(sex), 0, 0, 0, 1, 1, 0);
+                    reinterpret_cast<::QueueHelper *>((((ModelLoaderA*)(*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader)))))->FUN_00444040((intptr_t)(reinterpret_cast<::FUN_004811e0_shell *>((biped))->FUN_004811e0(sex)), 0, 0, 0, 1, 1, 0);
                 }
             }
         }
     }
     if (weapon)
     {
-        weapon->FUN_004bed00();
-        if (DAT_011de45c->FUN_008df040() < 0x61)
+        reinterpret_cast<::FUN_004bed00_host *>((weapon))->FUN_004bed00();
+        if (reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() < 0x61)
         {
             EntryA* pWeaponCopy = (EntryA*)new FUN_004bc650((EntryP*)weapon);
             delete weapon;
             weapon = pWeaponCopy;
         }
-        j->FUN_0088c790(weapon->FUN_0044ddc0(), 1, 0, 0, 0, 1);
+        reinterpret_cast<::s88c790::Actor *>((j))->FUN_0088c790((std::intptr_t)(reinterpret_cast<::InventoryStackRecord *>(weapon)->m_pItemObject), 1, 0, 0, 0, 1);
     }
     for (actor = 0; actor < 20; actor++)
     {
         if (armor[actor])
         {
-            armor[actor]->FUN_004bed00();
-            if (DAT_011de45c->FUN_008df040() < 0x61)
+            reinterpret_cast<::FUN_004bed00_host *>((armor[actor]))->FUN_004bed00();
+            if (reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() < 0x61)
             {
                 EntryA* pArmorCopy = (EntryA*)new FUN_004bc650((EntryP*)armor[actor]);
                 delete armor[actor];
                 armor[actor] = pArmorCopy;
             }
-            j->FUN_0088c790(armor[actor]->FUN_0044ddc0(), 1, 0, 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>((j))->FUN_0088c790((std::intptr_t)(reinterpret_cast<::InventoryStackRecord *>(armor[actor])->m_pItemObject), 1, 0, 0, 0, 1);
         }
     }
     if (a4)
     {
-        InventoryA* item = j->FUN_005d43c0()->FUN_00418520();
+        InventoryA* item = ((::InventoryA *)(reinterpret_cast<::ExtraDataList *>((((::ExtraA *)(reinterpret_cast<::FUN_005d43c0_ *>((j))->FUN_005d43c0()))))->GetContainerChangeData()));
         TESBoundObject* pBoundForm = dynamic_cast<TESBoundObject*>(FUN_006733e0());
-        if (item && !item->FUN_004c8f30(pBoundForm))
+        if (item && !reinterpret_cast<::FUN_004c8f30_shell *>((item))->FUN_004c8f30((intptr_t)(pBoundForm)))
         {
             j->Equip(pBoundForm, 0, 1);
-            j->FUN_0088c650(pBoundForm, 1, 0, 1, 0, 1);
+            reinterpret_cast<::FUN_0088c650_shell *>((j))->FUN_0088c650(pBoundForm, 1, (::ExtraDataList *)(0), 1, 0, 1);
         }
     }
 }
+
+#include "generated/data/fallout/magic/bounditemeffect.inc"

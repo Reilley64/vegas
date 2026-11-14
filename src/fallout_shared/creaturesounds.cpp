@@ -1,5 +1,27 @@
 // fallout_shared/creaturesounds.cpp: CreatureSoundCollection (14 functions)
 
+#include <new>
+#include <cstring>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e3000.h"
 #include "creaturesounds_decls.h"
 
 class CreatureSoundCollection
@@ -18,9 +40,6 @@ class CreatureSoundCollection
     BSSimpleList<SoundListEntry*>* m_pSoundListsByType[22];
 };
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 // @fnv 0x005f0360
 CreatureSoundCollection::CreatureSoundCollection()
@@ -32,7 +51,7 @@ CreatureSoundCollection::CreatureSoundCollection()
 // @fnv 0x005f0040
 bool CreatureSoundCollection::SetSoundName(const char* text)
 {
-    ((BSStringT<char>*)((char*)this + 0x1c))->Set(text, 0);
+    reinterpret_cast<::TextString *>((((BSStringT<char>*)((char*)this + 0x1c))))->FUN_004037f0(text, 0);
     return true;
 }
 
@@ -47,7 +66,7 @@ void* CreatureSoundCollection::DeleteThis(unsigned int flags)
 {
     ClearSounds();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -63,16 +82,16 @@ void CreatureSoundCollection::AddSoundForType(SoundListEntry* sound, CREATURE_SO
 
         SoundListView* current = (SoundListView*)GetSoundListForType(type);
         SoundListView* previous = 0;
-        while (current && !current->IsEmpty() && current->GetItem()->m_ucSortOrder <= sound->m_ucSortOrder)
+        while (current && !current->IsEmpty() && ((::SoundListEntry *)((void *)(current)))->m_ucSortOrder <= sound->m_ucSortOrder)
         {
             previous = current;
-            current = current->GetNext();
+            current = ((::SoundListView *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         }
 
         if (current)
             current->AddHead(sound);
         else if (previous)
-            previous->AddTail(sound);
+            reinterpret_cast<::Callees *>((previous))->FUN_00905820((void *)&(sound));
     }
 }
 
@@ -83,17 +102,17 @@ bool CreatureSoundCollection::LoadSoundsFromFile(TESFile* file, CREATURE_SOUND_T
     if (file)
     {
         SoundListEntry* sound = 0;
-        if (file->GetChunkID() == 0x49445343)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x49445343)
         {
             unsigned int id = 0;
             file->GetChunkData(&id);
             sound = new SoundListEntry;
             if (id)
             {
-                TESForm::RemapFormIDForFile(id, file);
-                sound->SoundAssetTmp = dynamic_cast<TESSound*>(GetFormByID(id));
+                ::ResolveFormID((unsigned int *)&(id), file);
+                sound->SoundAssetTmp = dynamic_cast<TESSound*>(::FUN_004839c0(id));
                 if (!sound->SoundAssetTmp)
-                    Warning(DAT_010475a0, id, creature->GetName(), creature->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
             {
@@ -101,19 +120,19 @@ bool CreatureSoundCollection::LoadSoundsFromFile(TESFile* file, CREATURE_SOUND_T
             }
             file->NextChunk();
         }
-        else if (file->GetChunkID() == 0x46445343)
+        else if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x46445343)
         {
             char filename[260];
-            file->GetChunkData(filename, 260);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(filename), 260);
             sound = new SoundListEntry;
-            sound->SoundAssetTmp = TESSound::FindSoundByFilename(filename);
+            sound->SoundAssetTmp = ::FUN_005e3570(filename);
             file->NextChunk();
         }
         if (sound)
         {
-            if (file->GetChunkID() == 0x43445343)
+            if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x43445343)
             {
-                file->GetChunkData(&sound->m_ucSortOrder, 1);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&sound->m_ucSortOrder), 1);
                 AddSoundForType(sound, type);
                 result = true;
             }
@@ -128,18 +147,7 @@ bool CreatureSoundCollection::LoadSoundsFromFile(TESFile* file, CREATURE_SOUND_T
 
 struct FUN_005f0860_helper
 {
-    void ClearSoundList(int);
 };
-
-// Calls ClearSoundList for each index from 0 to 21 on this object.
-// @fnv 0x005f0820
-void CreatureSoundCollection::FUN_005f0820()
-{
-    for (char i = 0; i < 22; ++i)
-    {
-        ((FUN_005f0860_helper*)this)->ClearSoundList(i);
-    }
-}
 
 struct SoundListView_helper : SoundListView
 {
@@ -150,6 +158,15 @@ struct CreatureSounds_shell : CreatureSoundCollection
 {
     void ClearSoundList(CREATURE_SOUND_TYPE type);
 };
+// Calls ClearSoundList for each index from 0 to 21 on this object.
+// @fnv 0x005f0820
+void CreatureSoundCollection::FUN_005f0820()
+{
+    for (char i = 0; i < 22; ++i)
+    {
+        reinterpret_cast<::CreatureSounds_shell *>((((FUN_005f0860_helper*)this)))->ClearSoundList((::CREATURE_SOUND_TYPE)(i));
+    }
+}
 
 // @fnv 0x005f0860
 void CreatureSounds_shell::ClearSoundList(CREATURE_SOUND_TYPE type)
@@ -157,8 +174,8 @@ void CreatureSounds_shell::ClearSoundList(CREATURE_SOUND_TYPE type)
     SoundListView* list = (SoundListView*)GetSoundListForType(type);
     while (list && !list->IsEmpty())
     {
-        SoundListEntry* item = list->GetItem();
-        operator delete(item);
+        SoundListEntry* item = ((::SoundListEntry *)((void *)(list)));
+        ::FUN_00401030(item);
         ((SoundListView_helper*)list)->_ref_0063f7b0();
     }
     delete ((BSSimpleList<const char*>**)this)[type];
@@ -206,17 +223,16 @@ void FUN_005f0640_shell::CopyCreatureSoundLists(CreatureSoundCollection* apCopy)
             BSSimpleList<SoundListEntry*>* pCurrentElementNext = apCopy->GetSoundListForType((CREATURE_SOUND_TYPE)i);
             while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
             {
-                SoundListEntry* pdata = pCurrentElementNext->GetItem();
+                SoundListEntry* pdata = (pCurrentElementNext->m_item);
                 SoundListEntry* pnewdata = new SoundListEntry;
                 CopyPointerAndByte(pnewdata, pdata);
                 AddSoundForType(pnewdata, (CREATURE_SOUND_TYPE)i);
-                pCurrentElementNext = pCurrentElementNext->GetNext();
+                pCurrentElementNext = ((::BSSimpleList< ::SoundListEntry *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
             }
         }
     }
 }
 
-unsigned int __cdecl DialogueRandom(void);
 
 struct FUN_005f0a30_shell : CreatureSoundCollection
 {
@@ -227,20 +243,18 @@ struct FUN_005f0a30_shell : CreatureSoundCollection
 // @fnv 0x005f0a30
 unsigned int FUN_005f0a30_shell::GetRandomCreatureSound(CREATURE_SOUND_TYPE aeSoundType)
 {
-    unsigned int result2 = 0;
+    std::uintptr_t result2 = 0;
     BSSimpleList<SoundListEntry*>* pSoundList = GetSoundListForType(aeSoundType);
     while (pSoundList && !pSoundList->IsEmpty() && !result2)
     {
-        SoundListEntry* sound = pSoundList->GetItem();
+        SoundListEntry* sound = (pSoundList->m_item);
         if (sound->SoundAssetTmp && DialogueRandom() % 100 < sound->m_ucSortOrder)
-            result2 = (unsigned int)sound->SoundAssetTmp;
-        pSoundList = pSoundList->GetNext();
+            result2 = (std::uintptr_t)sound->SoundAssetTmp;
+        pSoundList = ((::BSSimpleList< ::SoundListEntry *> *)(reinterpret_cast<::Callees *>((pSoundList))->FUN_00726070()));
     }
     return result2;
 }
 
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
-void __cdecl _FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_005f03a0_shell : public CreatureSoundCollection
 {
@@ -256,20 +270,20 @@ void FUN_005f03a0_shell::FUN_005f03a0()
 
         if (pSoundList && !pSoundList->IsEmpty())
         {
-            _FUN_00485910(0x54445343, i);
+            ::FUN_00485910(0x54445343, i);
 
             while (pSoundList && !pSoundList->IsEmpty())
             {
-                SoundListEntry* SoundAssetTmp = pSoundList->GetItem();
+                SoundListEntry* SoundAssetTmp = (pSoundList->m_item);
                 unsigned int formID = 0;
 
                 if (SoundAssetTmp->SoundAssetTmp)
-                    formID = SoundAssetTmp->SoundAssetTmp->GetFormID();
+                    formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((SoundAssetTmp->SoundAssetTmp))->FUN_0084e3a0()));
 
-                _FUN_00485910(0x49445343, formID);
+                ::FUN_00485910(0x49445343, formID);
                 FUN_004858f0(0x43445343, SoundAssetTmp->m_ucSortOrder);
 
-                pSoundList = pSoundList->GetNext();
+                pSoundList = ((::BSSimpleList< ::SoundListEntry *> *)(reinterpret_cast<::Callees *>((pSoundList))->FUN_00726070()));
             }
         }
     }
@@ -296,8 +310,8 @@ bool FUN_005f06f0_shell::IsDifferentFrom(CreatureSoundCollection* apCompare)
 
         while (pCurrentElementNext != 0 && !pCurrentElementNext->IsEmpty() && pOtherList != 0 && !pOtherList->IsEmpty())
         {
-            SoundListEntry* pdata = pCurrentElementNext->GetItem();
-            SoundListEntry* pOtherEntry = pOtherList->GetItem();
+            SoundListEntry* pdata = (pCurrentElementNext->m_item);
+            SoundListEntry* pOtherEntry = (pOtherList->m_item);
 
             if (pdata->m_ucSortOrder != pOtherEntry->m_ucSortOrder)
                 return true;
@@ -305,8 +319,8 @@ bool FUN_005f06f0_shell::IsDifferentFrom(CreatureSoundCollection* apCompare)
             if (pdata->SoundAssetTmp != pOtherEntry->SoundAssetTmp)
                 return true;
 
-            pCurrentElementNext = pCurrentElementNext->GetNext();
-            pOtherList = pOtherList->GetNext();
+            pCurrentElementNext = ((::BSSimpleList< ::SoundListEntry *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+            pOtherList = ((::BSSimpleList< ::SoundListEntry *> *)(reinterpret_cast<::Callees *>((pOtherList))->FUN_00726070()));
         }
 
         if (pCurrentElementNext != 0 || pOtherList != 0)

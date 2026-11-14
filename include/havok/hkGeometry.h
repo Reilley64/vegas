@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 class hkGeometryTriangle;
-#pragma pack(push, 1)
 class hkGeometry
 {
   public:
     hkArray<hkVector4> m_kVertices;                 // +0x0
     hkArray<hkGeometryTriangle> m_uiTriangleCount;  // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkGeometry[(sizeof(hkGeometry) == 0x18) ? 1 : -1];
 #endif

@@ -1,6 +1,7 @@
 // Source layout: MobileObject. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_MOBILEOBJECT_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_MOBILEOBJECT_H
+#include "fnv/decl/FUN_00935a40_cls.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_TESObjectREFR.h"
 class MobileObject : public TESObjectREFR
@@ -72,24 +73,5 @@ class MobileObject : public TESObjectREFR
     virtual void Unk_BE(void);
     virtual void Unk_BF(void);
     virtual void Unk_C0(void);
-    bool HasSaidTopicInfo(TESTopicInfo* info);
 };
-FNV_STATIC_ASSERT(sizeof(MobileObject) == 0x88);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_pBaseProcess) == 0x68);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_pLinkedReference) == 0x6C);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_pMobileObject) == 0x70);
-FNV_STATIC_ASSERT(offsetof(MobileObject, ProcessReferenceState) == 0x74);
-FNV_STATIC_ASSERT(offsetof(MobileObject, ReferenceMobileState) == 0x78);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bFirstFlag) == 0x7C);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bSecondBooleanValue) == 0x7D);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bThirdFlag) == 0x7E);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bFourthBooleanValue) == 0x7F);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bFifthFlag) == 0x80);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bSixthFlag) == 0x81);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bSeventhFlag) == 0x82);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bEighthFlag) == 0x83);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_cCharacterValue) == 0x84);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bNinthFlag) == 0x85);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bTenthFlag) == 0x86);
-FNV_STATIC_ASSERT(offsetof(MobileObject, m_bThirdActorFlag) == 0x87);
 #endif

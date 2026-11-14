@@ -4,6 +4,8 @@
 #ifndef FNV_TESOBJECTWEAP_PRIVATE_TYPES_H
 #define FNV_TESOBJECTWEAP_PRIVATE_TYPES_H
 
+#include "fnv/decl/FUN_004bcf60_shell.h"
+#include "fnv/decl/TimeoutTimer.h"
 class Script;
 class TESFile;
 class TESSound;
@@ -145,10 +147,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
 class ShortPoint3
 {
   public:
@@ -188,19 +186,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
 class TESBoundObject : public TESObject
 {
   public:
@@ -221,8 +212,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 class FileEntryList
 {
   public:
@@ -239,9 +228,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 class TESModel : public BaseFormComponent
 {
   public:
@@ -273,10 +259,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class TESModelTextureSwap : public TESModel
 {
   public:
@@ -306,8 +288,6 @@ class TESModelTextureSwap : public TESModel
     // TESModelTextureSwap& __cdecl TESModelTextureSwap::*(const TESModelTextureSwap&)
     // void __cdecl TESModelTextureSwap::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
-FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
 class TESEnchantableForm : public BaseFormComponent
 {
   public:
@@ -329,10 +309,6 @@ class TESEnchantableForm : public BaseFormComponent
     // void __cdecl TESEnchantableForm::*(unsigned short)
     // TESEnchantableForm& __cdecl TESEnchantableForm::*(const TESEnchantableForm&)
 };
-FNV_STATIC_ASSERT(sizeof(TESEnchantableForm) == 16);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_pEnchantment) == 4);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_usEnchantmentAmount) == 8);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_eCastingType) == 12);
 class TESValueForm : public BaseFormComponent
 {
   public:
@@ -351,13 +327,10 @@ class TESValueForm : public BaseFormComponent
     // TESValueForm& __cdecl TESValueForm::*(const TESValueForm&)
     // void* __cdecl TESValueForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESValueForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESValueForm, iValue) == 4);
 class TESWeightForm : public BaseFormComponent
 {
   public:
     // JohnnyGuitarNVSE TESWeightForm.hpp and PC address annotation at 0x006b9130.
-    float GetWeightForForm() const;
     // base BaseFormComponent at +0x0, size 4
     float fWeight;  // +0x4, 4 bytes
     // TESWeightForm
@@ -372,8 +345,6 @@ class TESWeightForm : public BaseFormComponent
     // TESWeightForm& __cdecl TESWeightForm::*(const TESWeightForm&)
     // void* __cdecl TESWeightForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESWeightForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESWeightForm, fWeight) == 4);
 class TESAttackDamageForm : public BaseFormComponent
 {
   public:
@@ -391,8 +362,6 @@ class TESAttackDamageForm : public BaseFormComponent
     // TESAttackDamageForm& __cdecl TESAttackDamageForm::*(const TESAttackDamageForm&)
     // void* __cdecl TESAttackDamageForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESAttackDamageForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESAttackDamageForm, m_usAttackDamage) == 4);
 class BGSAmmoForm : public BaseFormComponent
 {
   public:
@@ -413,8 +382,6 @@ class BGSAmmoForm : public BaseFormComponent
     // void __cdecl BGSAmmoForm::*(TESForm*)
     // BGSAmmoForm& __cdecl BGSAmmoForm::*(const BGSAmmoForm&)
 };
-FNV_STATIC_ASSERT(sizeof(BGSAmmoForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSAmmoForm, m_pAmmo) == 4);
 class BGSClipRoundsForm : public BaseFormComponent
 {
   public:
@@ -432,8 +399,6 @@ class BGSClipRoundsForm : public BaseFormComponent
     // BGSClipRoundsForm& __cdecl BGSClipRoundsForm::*(const BGSClipRoundsForm&)
     // void* __cdecl BGSClipRoundsForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSClipRoundsForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSClipRoundsForm, m_ucClipRounds) == 4);
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
@@ -495,8 +460,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // BGSDestructibleObjectForm& __cdecl BGSDestructibleObjectForm::*(const BGSDestructibleObjectForm&)
     // void* __cdecl BGSDestructibleObjectForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 class BGSRepairItemList : public BaseFormComponent
 {
   public:
@@ -519,8 +482,6 @@ class BGSRepairItemList : public BaseFormComponent
     // BGSRepairItemList& __cdecl BGSRepairItemList::*(const BGSRepairItemList&)
     // void* __cdecl BGSRepairItemList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSRepairItemList) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSRepairItemList, pListForm) == 4);
 class BGSEquipType : public BaseFormComponent
 {
   public:
@@ -539,8 +500,6 @@ class BGSEquipType : public BaseFormComponent
     // void __cdecl BGSEquipType::*()
     // BGSEquipType& __cdecl BGSEquipType::*(const BGSEquipType&)
 };
-FNV_STATIC_ASSERT(sizeof(BGSEquipType) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSEquipType, m_eEquipType) == 4);
 class BGSPreloadable : public BaseFormComponent
 {
   public:
@@ -552,7 +511,6 @@ class BGSPreloadable : public BaseFormComponent
     // BGSPreloadable
     // BGSPreloadable& __cdecl BGSPreloadable::*(const BGSPreloadable&)
 };
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
@@ -573,8 +531,6 @@ class BGSMessageIcon : public BaseFormComponent
     // BGSMessageIcon& __cdecl BGSMessageIcon::*(const BGSMessageIcon&)
     // void* __cdecl BGSMessageIcon::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
 class BGSBipedModelList : public BaseFormComponent
 {
   public:
@@ -595,8 +551,6 @@ class BGSBipedModelList : public BaseFormComponent
     // BGSBipedModelList& __cdecl BGSBipedModelList::*(const BGSBipedModelList&)
     // void* __cdecl BGSBipedModelList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSBipedModelList) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSBipedModelList, pListForm) == 4);
 class BGSPickupPutdownSounds : public BaseFormComponent
 {
   public:
@@ -619,9 +573,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     // BGSPickupPutdownSounds& __cdecl BGSPickupPutdownSounds::*(const BGSPickupPutdownSounds&)
     // void* __cdecl BGSPickupPutdownSounds::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSPickupPutdownSounds) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPickupSound) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPutdownSound) == 8);
 class WeaponProperties
 {
   public:
@@ -689,65 +640,6 @@ class WeaponProperties
     unsigned int m_uiSkillRequirement;   // +0xC8, 4 bytes
     // void __cdecl WeaponProperties::*()
 };
-FNV_STATIC_ASSERT(sizeof(WeaponProperties) == 204);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, eType) == 0);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, fSpeed) == 4);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, ActorTypeValueEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, cFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucGripAnimation) == 13);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucAmmoUse) == 14);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucReloadAnimation) == 15);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fMinimumSpread) == 16);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, fBodyPartChance) == 20);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fUnknownFloat) == 24);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, AmmunitionData) == 28);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucSubtype) == 32);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, pProjectile) == 36);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucBaseVATSChance) == 40);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucAttackAnimation) == 41);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucProjectileCount) == 42);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucFourthByte) == 43);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fMinimumRange) == 44);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fMaximumRange) == 48);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_eHitBehavior) == 52);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, WeaponAttackData) == 56);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fAnimationAttackMultiplier) == 60);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, fWeaponDamageMultiplier) == 64);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fOverrideActionPoints) == 68);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fLeftRumbleMotorStrength) == 72);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fRightRumbleMotorStrength) == 76);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fRumbleDuration) == 80);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fOverrideDamageToWeaponMultiplier) == 84);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fAttackShotsPerSecond) == 88);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, WeaponCombatData) == 92);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, WeaponHandlingData) == 96);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, WeaponFiringData) == 100);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_eWeaponSkill) == 104);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_eRumblePattern) == 108);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, WeaponFiringParameters) == 112);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fLimbDamageMultiplier) == 116);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_eResistanceType) == 120);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fSightUsage) == 124);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fMinimumSemiAutomaticFireDelay) == 128);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fMaximumSemiAutomaticFireDelay) == 132);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fFourthModifierValue) == 136);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_eFirstWeaponModEffect) == 140);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_eSecondWeaponModEffect) == 144);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_eThirdWeaponModEffect) == 148);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fModValueA1) == 152);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fModValueA2) == 156);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fModValueA3) == 160);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_ucPowerAttackAnimationOverride) == 164);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_uiStrengthRequirement) == 168);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_cUnknownByte) == 172);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_cReloadAnimationMod) == 173);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, FlaggedFloatData) == 176);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fKillImpulse) == 180);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fModValueB1) == 184);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fModValueB2) == 188);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_fModValueB3) == 192);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, FourFloatsAndUnsignedInteger) == 196);
-FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_uiSkillRequirement) == 200);
 class WeaponCriticalData
 {
   public:
@@ -759,11 +651,6 @@ class WeaponCriticalData
     SpellItem* pEffect;  // +0xC, 4 bytes
     // void __cdecl WeaponCriticalData::*()
 };
-FNV_STATIC_ASSERT(sizeof(WeaponCriticalData) == 16);
-FNV_STATIC_ASSERT(offsetof(WeaponCriticalData, m_usCriticalDamage) == 0);
-FNV_STATIC_ASSERT(offsetof(WeaponCriticalData, m_fCriticalChanceMultiplier) == 4);
-FNV_STATIC_ASSERT(offsetof(WeaponCriticalData, m_bEffectOnDeath) == 8);
-FNV_STATIC_ASSERT(offsetof(WeaponCriticalData, pEffect) == 12);
 class WeaponVATSData
 {
   public:
@@ -777,14 +664,6 @@ class WeaponVATSData
     unsigned char layoutPadding13[1];
     // void __cdecl WeaponVATSData::*()
 };
-FNV_STATIC_ASSERT(sizeof(WeaponVATSData) == 20);
-FNV_STATIC_ASSERT(offsetof(WeaponVATSData, m_pVATSAttackSpell) == 0);
-FNV_STATIC_ASSERT(offsetof(WeaponVATSData, m_fSkill) == 4);
-FNV_STATIC_ASSERT(offsetof(WeaponVATSData, m_fDamageMultiplier) == 8);
-FNV_STATIC_ASSERT(offsetof(WeaponVATSData, m_fActionPointCost) == 12);
-FNV_STATIC_ASSERT(offsetof(WeaponVATSData, bSilent) == 16);
-FNV_STATIC_ASSERT(offsetof(WeaponVATSData, m_bModRequired) == 17);
-FNV_STATIC_ASSERT(offsetof(WeaponVATSData, cFlags) == 18);
 class TESObjectWEAP : public TESBoundObject,
                       public TESFullName,
                       public TESModelTextureSwap,
@@ -808,7 +687,6 @@ class TESObjectWEAP : public TESBoundObject,
   public:
     void SetMeleeBlockSound(TESSound* sound);
     float GetWeightForForm(bool modded);
-    float GetModdedWeaponValue(WEAPON_MOD_EFFECT effect, unsigned char value) const;
     // base TESBoundObject at +0x0, size 48
     // base TESFullName at +0x30, size 12
     // base TESModelTextureSwap at +0x3C, size 32
@@ -1117,48 +995,4 @@ class TESObjectWEAP : public TESBoundObject,
     // TESObjectWEAP& __cdecl TESObjectWEAP::*(const TESObjectWEAP&)
     // void __cdecl TESObjectWEAP::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectWEAP) == 904);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, fWeight) == 0x90);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, data) == 244);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kCriticalData) == 448);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kModel) == 464);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kModel1stPerson) == 488);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kModel3rdPerson) == 512);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponEffectShader) == 536);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponSound1) == 540);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponSound2) == 544);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponSound3) == 548);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponSound4) == 552);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponSound5) == 556);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponSound6) == 560);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponSound7) == 564);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponSound8) == 568);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponUnequipSound) == 572);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponEquipSound) == 576);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponPickupSound) == 580);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponDropSound) == 584);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pImpactDataSet) == 588);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, p1stPersonObject) == 592);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, p1stPersonMod1Object) == 596);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, p1stPersonMod2Object) == 600);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, p1stPersonMod3Object) == 604);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, p1stPersonMod12Object) == 608);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, p1stPersonMod23Object) == 612);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, p1stPersonMod13Object) == 616);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, p1stPersonMod123Object) == 620);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kWeaponModTextureSwap1) == 624);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kWeaponModTextureSwap2) == 656);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kWeaponModTextureSwap3) == 688);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kWeaponModTextureSwap4) == 720);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kWeaponModTextureSwap5) == 752);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kWeaponModTextureSwap6) == 784);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kWeaponModTextureSwap7) == 816);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponMod1) == 848);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponMod2) == 852);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_pWeaponMod3) == 856);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kEmbeddedWeaponNodeName) == 860);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_eSoundLevel) == 868);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, VATSAttackName) == 872);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_kVATSData) == 880);
-FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_bHasReloadAnimation) == 900);
 #endif

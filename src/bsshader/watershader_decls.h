@@ -3,7 +3,15 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef WATERSHADER_DECLS_H
 #define WATERSHADER_DECLS_H
+#include <cstddef>
 
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011ff000.h"
+#include "fnv/symbols_0126f000.h"
 #define NiPointer FNV_STUB_NiPointer
 #include "layout_support.h"
 #include "NiFixedString.h"
@@ -11,8 +19,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 #include "NiRefObject.h"
 #undef NiPointer
@@ -76,7 +82,6 @@ enum BSShaderManager__eBSSMPassEnum
 {
     BSSM_DISABLED = 0
 };
-#pragma pack(push, 4)
 class NiShader : public NiRefObject
 {
   public:
@@ -143,12 +148,6 @@ class NiShader : public NiRefObject
     // NiShader& __cdecl NiShader::*(const NiShader&)
     // void __cdecl NiShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShader) == 20);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_uiShaderIdentifier) == 12);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_bShaderEnabled) == 16);
-#pragma pack(push, 4)
 class NiD3DShaderInterface : public NiShader
 {
   public:
@@ -170,13 +169,6 @@ class NiD3DShaderInterface : public NiShader
     // NiD3DShaderInterface& __cdecl NiD3DShaderInterface::*(const NiD3DShaderInterface&)
     // void __cdecl NiD3DShaderInterface::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderInterface) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pD3DDevice) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pShaderObject) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pRenderState) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_bShaderState) == 32);
-#pragma pack(push, 4)
 class NiD3DShader : public NiD3DShaderInterface
 {
   public:
@@ -229,16 +221,6 @@ class NiD3DShader : public NiD3DShaderInterface
     // NiD3DShader& __cdecl NiD3DShader::*(const NiD3DShader&)
     // void __cdecl NiD3DShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShader) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bIsInitialized) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bSoftwareVertexProcessing) == 37);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spShaderDeclaration) == 40);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_pRenderStateGroup) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spFirstShaderConstantMap) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spSecondShaderConstantMap) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_uiShaderType) == 56);
-#pragma pack(push, 4)
 class NiD3DDefaultShader : public NiD3DShader
 {
   public:
@@ -270,18 +252,6 @@ class NiD3DDefaultShader : public NiD3DShader
     // NiD3DDefaultShader& __cdecl NiD3DDefaultShader::*(const NiD3DDefaultShader&)
     // void __cdecl NiD3DDefaultShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DDefaultShader) == 92);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bUseFog) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bFogEnabled) == 61);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiDefaultShaderFlags) == 64);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassCount) == 68);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiActivePass) == 72);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFlags) == 76);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pPassFogStatus) == 80);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFogStatusCount) == 84);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pDynamicEffectState) == 88);
-#pragma pack(push, 4)
 class BSShader : public NiD3DDefaultShader
 {
   public:
@@ -315,18 +285,8 @@ class BSShader : public NiD3DDefaultShader
     virtual void vfn_118();
     virtual void vfn_11c();
     BSShader();
-    static void GetShaderPath(const char*, char*);
-    NiD3DVertexShader* CompileVertexShader(const char*, const _D3DXMACRO*, const char*, const char*);
-    NiD3DPixelShader* CompilePixelShader(const char*, const _D3DXMACRO*, const char*, const char*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShader) == 108);
-FNV_STATIC_ASSERT(offsetof(BSShader, spRenderPass) == 92);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_ePass) == 96);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_bIsBest) == 100);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_iPassId) == 104);
 
-#pragma pack(push, 4)
 class WaterShader : public BSShader
 {
   public:
@@ -343,9 +303,7 @@ class WaterShader : public BSShader
     NiPointer<NiTexture> m_spFourthWaterTexture;        // +0x24C, 4 bytes
     WaterShader();
     static BSShader* CreateShader();
-    void InitializeShaderData();
     void UpdateShaderConstants();
-    void InitWaterPasses();
     virtual ~WaterShader();
     // const NiRTTI* __cdecl WaterShader::*()
     // WaterShader
@@ -374,25 +332,19 @@ class WaterShader : public BSShader
     // WaterShader& __cdecl WaterShader::*(const WaterShader&)
     // void __cdecl WaterShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(WaterShader) == 592);
-FNV_STATIC_ASSERT(offsetof(WaterShader, spRenderPass) == 108);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_spVertexShader1) == 404);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_spVertexShader2) == 408);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_spVertexShader3) == 412);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_aspPixelShaders) == 416);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_spFirstTexture) == 568);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_spSecondTexture) == 572);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_spThirdTexture) == 576);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_spTexture4) == 580);
-FNV_STATIC_ASSERT(offsetof(WaterShader, WaterShaderTextures) == 584);
-FNV_STATIC_ASSERT(offsetof(WaterShader, m_spFourthWaterTexture) == 588);
 
+template <class> class NiPointer;
 class NiD3DPass
 {
   public:
     void IncRefCount();
     void DecRefCount();
+public:
+    void SetAlphaBlendMode(unsigned int, unsigned int, bool);
+public:
+    void DestroyPass();
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 class NiTexture : public NiRefObject
 {
@@ -409,7 +361,7 @@ class NiD3DVertexShader : public NiD3DShaderProgram
 class NiD3DPixelShader : public NiD3DShaderProgram
 {
 };
-class NiRenderer;
+struct NiRenderer;
 class NiD3DShaderDeclaration : public NiRefObject
 {
   public:
@@ -461,9 +413,7 @@ class NiD3DShaderDeclaration : public NiRefObject
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
 };
-extern NiRenderer* DAT_011f9508;
 class NiShaderConstantMapEntry : public NiRefObject
 {
 };
@@ -508,12 +458,11 @@ struct WaterShaderThreadState
     unsigned char precedingThreadState[0x2b4];
     int m_uiMemoryContext;
 };
-extern "C" volatile unsigned int _tls_index;
 extern "C" unsigned long __readfsdword(unsigned long);
 #pragma intrinsic(__readfsdword)
 inline WaterShaderThreadState* WaterShaderGetThreadState()
 {
-    unsigned int index = _tls_index;
+    unsigned int index = ::DAT_0126fd98;
     return reinterpret_cast<WaterShaderThreadState**>(__readfsdword(0x2c))[index];
 }
 class WaterShaderMemContext
@@ -537,18 +486,7 @@ class WaterShaderMemContext
             WaterShaderGetThreadState()->m_uiMemoryContext = previous;
     }
 };
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" int fnv_particle_shader_renderer_level;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4a0;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4a4;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4a8;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4ac;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4b0;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4b4;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4b8;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4bc;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4c0;
 extern float DAT_011ff548[12];
 extern float DAT_011ff588[28];
 extern float DAT_011ff5f8[4];
@@ -562,22 +500,17 @@ struct RgbaColor
     RgbaColor(float red, float green, float blue, float alpha) : r(red), g(green), b(blue), a(alpha)
     {}
 };
-extern WaterShader* DAT_011ff370;
 extern RgbaColor DAT_011ff458;
 extern bool DAT_011ff100;
 extern bool DAT_011ff102;
-extern bool DAT_011ff103;
-extern bool DAT_011ff104;
 struct WaterShaderFrameState
 {
     unsigned int frame;
     short flags;
 };
-extern WaterShaderFrameState DAT_011ff110;
 struct WaterShaderUpdateState
 {
     unsigned short count;
     unsigned char active;
 };
-extern WaterShaderUpdateState DAT_011ff118;
 #endif

@@ -2,9 +2,12 @@
 // src/havok/physics/dynamics/constraint/bilateral/hinge/hkphingeconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/hinge/hkphingeconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
 #include "havok/hkpHingeConstraintData.h"
 
-struct FUN_00cbe1b0_class
+struct FUN_00cbe1b0_class : public hkpHingeConstraintData
 {
     void FUN_00cbe1b0(int index);
 };
@@ -12,25 +15,24 @@ struct FUN_00cbe1b0_class
 // @fnv 0x00cbe1b0
 void FUN_00cbe1b0_class::FUN_00cbe1b0(int index)
 {
-    reinterpret_cast<unsigned char*>(this)[0xa6] = (unsigned char)(1 << index);
+    m_kBridgeAtoms.m_ballSocket.m_ucBodiesToNotify = (unsigned char)(1 << index);
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void* thisPtr, int size, int param);
 
-struct hkpHingeConstraintData_ : public hkpConstraintData
+struct hkpHingeConstraintData_ : public hkpHingeConstraintData
 {
-    void* __thiscall FUN_00cbe210(int param);
+    void FUN_00cbe210(::GenericConstraintAtomScheme* param) const;
 };
 
 // @fnv 0x00cbe210
-void* __thiscall hkpHingeConstraintData_::FUN_00cbe210(int param)
+void hkpHingeConstraintData_::FUN_00cbe210(::GenericConstraintAtomScheme* param) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0x9c, param);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x9c, param);
 }
 
 // Writes 5 and 0x28 into target[1] and target[0] when param is nonzero, otherwise writes zeros.
 // @fnv 0x00cbe1e0
-void __stdcall SetTargetValues(char param, int* target)
+void SetTargetValues(char param, int* target)
 {
     if (param)
     {
@@ -44,14 +46,17 @@ void __stdcall SetTargetValues(char param, int* target)
     }
 }
 
+// hkpHingeConstraintData::m_atoms.m_ballSocket (+0x94 in the atoms) breach impulse; the generated atoms header is padding only.
 struct FUN_00cbe190_class
 {
+    char pad00[0xa8];
+    float m_ballSocketBreachImpulse;  // +0xa8
     void FUN_00cbe190(float value);
 };
 // @fnv 0x00cbe190
 void FUN_00cbe190_class::FUN_00cbe190(float value)
 {
-    *(float*)((char*)this + 0xa8) = value;
+    m_ballSocketBreachImpulse = value;
 }
 
 struct CpuObject
@@ -214,25 +219,6 @@ hkBoolCBE7 FUN_00cbe750_C::FUN_00cbe750() const
 #include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00cbe240 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-}
 
 union hkVector4q
 {
@@ -248,8 +234,6 @@ union hkVector4q
         return reinterpret_cast<const hkReal*>(&m_vComponents)[i];
     }
 
-    void FUN_004b4ab0(const hkRotation& r, const hkVector4q& v);
-    void FUN_00c7f690(const hkTransform& t, const hkVector4& v);
 };
 
 struct hkpSetLocalTransformsAtom
@@ -339,38 +323,19 @@ void hkpHingeConstraintDataEx::SetLocalTransforms(const hkTransform& bodyATransf
     hkNormalize3(perpToAxle1);
     hkSetCross(perpToAxle2, axle, perpToAxle1);
 
-    t.m_kRotationA[0].FUN_004b4ab0(bodyATransform.m_rotation, axle);
-    t.m_kRotationA[1].FUN_004b4ab0(bodyATransform.m_rotation, perpToAxle1);
-    t.m_kRotationA[2].FUN_004b4ab0(bodyATransform.m_rotation, perpToAxle2);
-    t.m_kTranslationA.FUN_00c7f690(bodyATransform, pivot);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[0]))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(axle));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[1]))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(perpToAxle1));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[2]))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(perpToAxle2));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(t.m_kTranslationA))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
 
-    t.m_kRotationB[0].FUN_004b4ab0(bodyBTransform.m_rotation, axle);
-    t.m_kRotationB[1].FUN_004b4ab0(bodyBTransform.m_rotation, perpToAxle1);
-    t.m_kRotationB[2].FUN_004b4ab0(bodyBTransform.m_rotation, perpToAxle2);
-    t.m_kTranslationB.FUN_00c7f690(bodyBTransform, pivot);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[0]))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(axle));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[1]))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(perpToAxle1));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[2]))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(perpToAxle2));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(t.m_kTranslationB))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 }  // namespace fnv_00cbe240
 
 namespace fnv_00cbe400 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-}
 
 union hkVector4q
 {

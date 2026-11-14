@@ -1,30 +1,29 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e93000.h"
+#include "fnv/symbols_0126f000.h"
 struct ID3DXBuffer
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual void* __stdcall GetBufferPointer() = 0;
-    virtual unsigned long __stdcall GetBufferSize() = 0;
+    virtual long QueryInterface(const void* riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual void* GetBufferPointer() = 0;
+    virtual unsigned long GetBufferSize() = 0;
 };
 
-extern "C" long __stdcall D3DXAssembleShaderFromFileA(const char* pSrcFile, const void* pDefines, void* pInclude,
+extern "C" long D3DXAssembleShaderFromFileA(const char* pSrcFile, const void* pDefines, void* pInclude,
                                                       unsigned long Flags, ID3DXBuffer** ppShader,
                                                       ID3DXBuffer** ppErrorMsgs);
 
-bool ResolveShaderPath(const char* pcName, char* pcPath, unsigned int uiSize);
-int ShaderLog(int iLevel, int aiMemoryContext, const char* pcFormat, ...);
-void* NiMalloc(unsigned int uiSize);
-void NiFree(void* pvMem);
 int strcpy_s(char* dst, unsigned int size, char* src);
-void* memcpy(void* dst, const void* src, unsigned int size);
 
-extern unsigned int g_uiShaderAssembleFlags;
 inline void NiMemcpy(void* d, const void* s, unsigned int n)
 {
-    memcpy(d, s, n);
+    std::memmove(d, s, n);
 }
 
 struct ShaderLoader
@@ -51,13 +50,13 @@ bool ShaderLoader::AssembleShaderFile(const char* pcFile, void** ppvBytecode, un
         ID3DXBuffer* pkErrors;
         ID3DXBuffer* pkShader;
         char acPath[260];
-        if (!ResolveShaderPath(pcFile, acPath, 260))
+        if (!::FindShaderProgramFile(pcFile, acPath, 260))
         {
-            ShaderLog(1, pcLogContext, "Failed to find shader program file %s\n", pcFile);
+            ::FUN_00aa0020(1, pcLogContext, "Failed to find shader program file %s\n", pcFile);
             return false;
         }
 
-        unsigned int uiAssembleFlags = (m_uiValue1 | g_uiShaderAssembleFlags) & 3;
+        unsigned int uiAssembleFlags = (m_uiValue1 | ::DAT_0126fa24) & 3;
         if (D3DXAssembleShaderFromFileA(acPath, 0, 0, uiAssembleFlags, &pkShader, &pkErrors) < 0)
         {
             char* pcErrorText = 0;
@@ -67,24 +66,24 @@ bool ShaderLoader::AssembleShaderFile(const char* pcFile, void** ppvBytecode, un
                 if (pcErrorMsg)
                 {
                     unsigned int uiErrorLen = pkErrors->GetBufferSize();
-                    pcErrorText = (char*)NiMalloc(uiErrorLen);
+                    pcErrorText = (char*)::FUN_00aa1070(uiErrorLen);
                     strcpy_s(pcErrorText, uiErrorLen, pcErrorMsg);
-                    ShaderLog(1, pcLogContext, "Failed to assemble shader %s\nError: %s\n", pcFile, pcErrorText);
+                    ::FUN_00aa0020(1, pcLogContext, "Failed to assemble shader %s\nError: %s\n", pcFile, pcErrorText);
                 }
                 pkErrors->Release();
             }
             else
             {
-                ShaderLog(1, pcLogContext, "Failed to assemble shader %s\nError: NONE REPORTED\n", pcFile);
+                ::FUN_00aa0020(1, pcLogContext, "Failed to assemble shader %s\nError: NONE REPORTED\n", pcFile);
             }
-            NiFree(pcErrorText);
+            ::FUN_00aa10f0(pcErrorText);
             if (pkShader)
                 pkShader->Release();
             return false;
         }
 
         *puiBytecodeSize = pkShader->GetBufferSize();
-        *ppvBytecode = NiMalloc(*puiBytecodeSize);
+        *ppvBytecode = ::FUN_00aa1070(*puiBytecodeSize);
         NiMemcpy(*ppvBytecode, pkShader->GetBufferPointer(), *puiBytecodeSize);
         pkShader->Release();
         if (pkErrors)
@@ -92,14 +91,12 @@ bool ShaderLoader::AssembleShaderFile(const char* pcFile, void** ppvBytecode, un
         return true;
     }
 
-    ShaderLog(1, 0, "Invalid shader file name\n");
+    ::FUN_00aa0020(1, 0, "Invalid shader file name\n");
     return false;
 }
 
-extern "C" long __stdcall FUN_00ee6e52(const char*, unsigned int, const void*, void*, unsigned int, ID3DXBuffer**,
+extern "C" long FUN_00ee6e52(const char*, unsigned int, const void*, void*, unsigned int, ID3DXBuffer**,
                                        ID3DXBuffer**);
-extern "C" void* __cdecl memmove(void*, const void*, unsigned int);
-
 inline void Move266(void* d, const void* s, unsigned int n)
 {
     memmove(d, s, n);
@@ -131,7 +128,7 @@ bool FUN_00e98080_shell::FUN_00e98080(const char* source, unsigned int length, v
         goto invalid;
 
     {
-        unsigned int options = (flags | g_uiShaderAssembleFlags) & 3;
+        unsigned int options = (flags | ::DAT_0126fa24) & 3;
         long status =
             FUN_00ee6e52(source, length, 0, 0, options, (ID3DXBuffer**)&ppBytecode, (ID3DXBuffer**)&puiBytecodeSize);
         if (status < 0)
@@ -144,24 +141,24 @@ bool FUN_00e98080_shell::FUN_00e98080(const char* source, unsigned int length, v
                 if (text)
                 {
                     unsigned int n = ((ID3DXBuffer*)puiBytecodeSize)->GetBufferSize();
-                    pszError = (char*)NiMalloc(n);
+                    pszError = (char*)::FUN_00aa1070(n);
                     strcpy_s(pszError, n, text);
-                    ShaderLog(1, context, "Failed to assemble shader from memory\nError: %s\n", pszError);
+                    ::FUN_00aa0020(1, context, "Failed to assemble shader from memory\nError: %s\n", pszError);
                 }
                 ((ID3DXBuffer*)puiBytecodeSize)->Release();
             }
             else
             {
-                ShaderLog(1, context, "Failed to assemble shader from memory\nError: NONE REPORTED\n");
+                ::FUN_00aa0020(1, context, "Failed to assemble shader from memory\nError: NONE REPORTED\n");
             }
-            NiFree(pszError);
+            ::FUN_00aa10f0(pszError);
             if (ppBytecode)
                 ((ID3DXBuffer*)ppBytecode)->Release();
             return false;
         }
 
         *sizeOut = ((ID3DXBuffer*)ppBytecode)->GetBufferSize();
-        *dataOut = NiMalloc(*sizeOut);
+        *dataOut = ::FUN_00aa1070(*sizeOut);
         Move266(*dataOut, ((ID3DXBuffer*)ppBytecode)->GetBufferPointer(), *sizeOut);
         ((ID3DXBuffer*)ppBytecode)->Release();
         if (puiBytecodeSize)
@@ -170,6 +167,8 @@ bool FUN_00e98080_shell::FUN_00e98080(const char* source, unsigned int length, v
     }
 
 invalid:
-    ShaderLog(1, context, "Invalid shader buffer\n");
+    ::FUN_00aa0020(1, context, "Invalid shader buffer\n");
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/console/nid3dshaderprogramcreatorasm_console.inc"

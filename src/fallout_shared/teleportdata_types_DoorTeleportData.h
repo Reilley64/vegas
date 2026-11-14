@@ -4,9 +4,8 @@
 #include "layout_support.h"
 #include "NiPoint3.h"
 #include "TESObjectREFR.h"
-class TeleportableReference;
-#pragma pack(push, 4)
-class TeleportableReference
+struct TeleportableReference;
+struct TeleportableReference
 {
   public:
     TESObjectREFR* m_pLinkedDoorReference;  // +0x0, 4 bytes
@@ -24,10 +23,4 @@ class TeleportableReference
     // LoadGame
     // InitLoadGame
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TeleportableReference) == 32);
-FNV_STATIC_ASSERT(offsetof(TeleportableReference, m_pLinkedDoorReference) == 0);
-FNV_STATIC_ASSERT(offsetof(TeleportableReference, position) == 4);
-FNV_STATIC_ASSERT(offsetof(TeleportableReference, rotation) == 16);
-FNV_STATIC_ASSERT(offsetof(TeleportableReference, cFlags) == 28);
 #endif

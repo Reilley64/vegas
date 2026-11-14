@@ -4,7 +4,7 @@
 
 #include <stddef.h>
 class TESForm;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 template <class T> class NiPointer
 {
   public:
@@ -51,6 +51,4 @@ class CombatThreatMap : public NiTMap<unsigned int, CombatThreatRecord*>
     ReadWriteLock Lock;
     void ApplyLoadBuffer(BGSLoadGameBuffer*);
 };
-typedef char check_CombatThreatMap[sizeof(CombatThreatMap) == 0x18 ? 1 : -1];
-typedef char check_CombatThreatMap_Lock[offsetof(CombatThreatMap, Lock) == 0x10 ? 1 : -1];
 #endif

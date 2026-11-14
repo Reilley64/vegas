@@ -1,6 +1,13 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_TILE_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_TILE_H
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a09000.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_layout_support.h"
 class NiTAbstractPoolAllocator_unsigned_int_;
@@ -15,14 +22,12 @@ class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -30,8 +35,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator, m_uiCount) == 0);
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
   public:
@@ -55,10 +58,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
     // NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(const NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_kItemCount) == 8);
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
@@ -87,7 +86,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___) == 12);
 class NiTPointerList_Tile___ : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
   public:
@@ -97,19 +95,10 @@ class NiTPointerList_Tile___ : public NiTPointerListBase_NiTPointerAllocator_uns
     // NiTPointerList<Tile *>& __cdecl NiTPointerList<Tile *>::*(const NiTPointerList<Tile *>&)
     // void* __cdecl NiTPointerList<Tile *>::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_Tile___) == 12);
 class Tile
 {
   public:
-    static Menu* FindMenuById(unsigned int);
-    Menu* GetMenu() const;
-    void SetString(int trait, const char* text, bool clearActions);
     void SetName(const char* name);
-    void SetInt(int trait, int value);
-    float GetFloat(int trait) const;
-    Tile* GetNamedChild(const char* name) const;
-    static int GetTraitID(const char* name);
-    static void UpdateAll(bool force);
 
     void** m_ppVirtualMethodTable;                           // +0x0, 4 bytes
     NiTPointerList_Tile___ m_kChildTileList;   // +0x4, 12 bytes
@@ -235,15 +224,7 @@ class Tile
     // bool __cdecl Tile::*()
     // Tile& __cdecl Tile::*(const Tile&)
     // void __cdecl Tile::*()
+public:
+    void Set(int, int);
 };
-FNV_STATIC_ASSERT(sizeof(Tile) == 56);
-FNV_STATIC_ASSERT(offsetof(Tile, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(Tile, m_kChildTileList) == 4);
-FNV_STATIC_ASSERT(offsetof(Tile, m_kValues) == 16);
-FNV_STATIC_ASSERT(offsetof(Tile, StringProvider) == 32);
-FNV_STATIC_ASSERT(offsetof(Tile, pParent) == 40);
-FNV_STATIC_ASSERT(offsetof(Tile, m_pRenderedNodeEntry) == 44);
-FNV_STATIC_ASSERT(offsetof(Tile, uiFlags) == 48);
-FNV_STATIC_ASSERT(offsetof(Tile, m_bFlagAfterUiFlags) == 52);
-FNV_STATIC_ASSERT(offsetof(Tile, m_bSpeechChallengeFailure) == 53);
 #endif

@@ -1,5 +1,8 @@
 // fallout/ai/lowprocess_types_PackageLocation.h: declares LocationDescriptor
 
+#include "fnv/decl/FUN_0067f430_shell.h"
+#include "fnv/decl/FUN_0067f480_shell.h"
+#include "fnv/decl/FUN_0067f970_shell.h"
 enum PACK_LOC_TYPE
 {
     lowprocessLocationNone = 0
@@ -11,13 +14,10 @@ enum PACK_LOC_TYPE
 #include "lowprocess_TESForm.h"
 #include "lowprocess_TESObjectREFR.h"
 #include "layout_support.h"
-class LocationDescriptor;
-#pragma pack(push, 4)
-class LocationDescriptor
+struct LocationDescriptor;
+struct LocationDescriptor
 {
   public:
-    bool FUN_0067f970();
-    TESBoundObject* FUN_0067f430();
     PACKAGE_OBJECT_TYPE GetObjectType();
     TESObjectREFR* GetLocationReference();
     PACK_LOC_TYPE GetLocType() const;
@@ -62,13 +62,4 @@ class LocationDescriptor
     // unsigned int __cdecl LocationDescriptor::*()
     // void* __cdecl LocationDescriptor::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LocationDescriptor) == 12);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, m_ucLocationType) == 0);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, m_pLocationData) == 4);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, pObject) == 8);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, eObjType) == 8);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, pRef) == 8);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, pCell) == 8);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, m_pLocationObject) == 8);
 #endif

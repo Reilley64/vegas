@@ -16,7 +16,7 @@
 #define FNV_BSSTREAM_H
 
 
-class NiObjectNET;
+struct NiObjectNET;
 class BSNodeReferences;
 
 // Shared engine reference-counting pointer. Construction and destruction
@@ -33,14 +33,13 @@ template <class T> class NiPointer
 
 template <class T> class NiTStringMap;
 
-#pragma pack(push, 4)
 
 // Gamebryo asset stream base. The canonical tree does not carry the engine
 // nistream layout yet, so the base is declared here to keep this translation
 // unit self-contained, sized to the PC runtime 0x5c4 (which includes the base
 // vftable pointer) with its out-of-line constructor; BSStream reuses the
 // engine's NiStream constructor body.
-class NiStream
+struct NiStream
 {
   public:
     NiStream();
@@ -63,7 +62,6 @@ class BSStream : public NiStream
     NiPointer<BSNodeReferences> m_spNodeReferences;  // +0x5c8
 };
 
-#pragma pack(pop)
 
 // @fnv 0x0043cfd0
 BSStream::BSStream() : m_spNodeReferences(0)

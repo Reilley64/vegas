@@ -1,20 +1,9 @@
 // fallout/ai/baseprocess_packet.h: declares BaseProcess
 #ifndef FNV_BASEPROCESS_PACKET_H
 #define FNV_BASEPROCESS_PACKET_H
+#include "fnv/decl/FUN_0049bb50_shell.h"
 #include "layout_support.h"
-#pragma pack(push, 4)
-class ActorPackageContext
-{
-  public:
-    TESPackage* pPackage;
-    ActorPackageData* pData;
-    TESObjectREFR* pTarget;
-    int m_iPackageValue;
-    float m_fPackageValue;
-    unsigned int iFlags;
-    void Clear();
-    void AddToProcedureIndex(int);
-};
+#include "../../../include/ActorPackageContext.h"
 class BaseProcess
 {
   public:
@@ -174,7 +163,7 @@ class BaseProcess
     int GetPackageInfoValue();
     void SetPackageExecutionState(int);
     void SetAnimationState(int);
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BaseProcess) == 0x30);
 #endif

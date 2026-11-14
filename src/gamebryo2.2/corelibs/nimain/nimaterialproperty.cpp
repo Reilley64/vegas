@@ -1,11 +1,29 @@
 // gamebryo2.2/corelibs/nimain/nimaterialproperty.cpp: free functions (8 functions)
 
+#include <cstdint>
+#include <new>
+#include <windows.h>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_00a5c240_shell.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a62a40_this.h"
+#include "fnv/decl/FUN_00a755f0_Class.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a5d000.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nimaterialproperty_decls.h"
 
-extern int DAT_0109d6c4;
-void __fastcall DestroyFogProperty(void*);
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
@@ -13,19 +31,18 @@ class NiRenderer
 
 struct NiMemObject_Del
 {
-    static void __cdecl operator delete(void*, size_t);
 };
 
 // @fnv 0x00a756f0
-void* __fastcall NiMaterialProperty_Destructor(NiMaterialProperty* pThis, int, unsigned int flags)
+void* NiMaterialProperty_Destructor(NiMaterialProperty* pThis, int, unsigned int flags)
 {
-    *(int**)pThis = &DAT_0109d6c4;
+    *(int**)pThis = &(*reinterpret_cast<int *>(&::DAT_0109d6c4));
     if (NiRenderer::ms_pRenderer)
-        (*(void(__thiscall**)(NiRenderer*, NiMaterialProperty*))(*(int*)NiRenderer::ms_pRenderer + 0xf4))(
+        (*(void(**)(NiRenderer*, NiMaterialProperty*))(*(intptr_t*)NiRenderer::ms_pRenderer + 0xf4))(
             NiRenderer::ms_pRenderer, pThis);
-    DestroyFogProperty(pThis);
+    reinterpret_cast<::FUN_00a5c240_shell *>((pThis))->DestroyFogProperty();
     if (flags & 1)
-        NiMemObject_Del::operator delete(pThis, 0x4c);
+        ::FUN_00aa1460(pThis, 0x4c);
     return pThis;
 }
 
@@ -45,40 +62,37 @@ void FUN_00a75790_shell::FUN_00a75790(NiStream* pkStream)
         NiColor kDummy;
         kDummy.LoadBinary(stream);
         kDummy.LoadBinary(stream);
-        reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x1C)->LoadBinary(stream);
-        reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x28)->LoadBinary(stream);
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x38));
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x3C));
+        this->m_spec.LoadBinary(stream);
+        this->m_emit.LoadBinary(stream);
+        ReadBinaryValue(stream, this->m_fShine);
+        ReadBinaryValue(stream, this->m_fAlpha);
     }
     else
     {
-        reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x1C)->LoadBinary(stream);
-        reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x28)->LoadBinary(stream);
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x38));
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x3C));
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x40));
+        this->m_spec.LoadBinary(stream);
+        this->m_emit.LoadBinary(stream);
+        ReadBinaryValue(stream, this->m_fShine);
+        ReadBinaryValue(stream, this->m_fAlpha);
+        ReadBinaryValue(stream, this->m_fEmitMult);
     }
 }
 
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
 };
 
-void* __fastcall FUN_00a75650(void* pThis);
-extern void* DAT_011f4a64;
 
 // @fnv 0x00a759e0
 void __cdecl FUN_00a759e0()
 {
-    void* pMemory = BSFadeNode::operator new(0x4c);
+    void* pMemory = ::operator new(0x4c);
     NiRefObject* pFadeNode = (NiRefObject*)(pMemory ? FUN_00a75650(pMemory) : 0);
-    if ((NiRefObject*)DAT_011f4a64 != pFadeNode)
+    if ((NiRefObject*)(*reinterpret_cast<void * *>(&::DAT_011f4a64)) != pFadeNode)
     {
-        if (DAT_011f4a64)
-            ((NiRefObject*)DAT_011f4a64)->DecRefCount();
-        DAT_011f4a64 = pFadeNode;
+        if ((*reinterpret_cast<void * *>(&::DAT_011f4a64)))
+            ((NiRefObject*)(*reinterpret_cast<void * *>(&::DAT_011f4a64)))->DecRefCount();
+        (*reinterpret_cast<void * *>(&::DAT_011f4a64)) = pFadeNode;
         if (pFadeNode)
             pFadeNode->IncRefCount();
     }
@@ -87,10 +101,13 @@ void __cdecl FUN_00a759e0()
 struct NiPlane
 {
     bool operator==(const NiPlane&) const;
+public:
+    bool operator==(const ::NiPlane &);
 };
 struct EqBase
 {
-    bool FUN_00a62140(NiObject*);
+public:
+    bool FUN_00a62140(void *);
 };
 struct FUN_00a75960_shell : public EqBase
 {
@@ -99,15 +116,15 @@ struct FUN_00a75960_shell : public EqBase
 // @fnv 0x00a75960
 bool FUN_00a75960_shell::FUN_00a75960(NiObject* apObject)
 {
-    if (FUN_00a62140(apObject))
+    if (reinterpret_cast<::EqBase *>(this)->FUN_00a62140(apObject))
     {
         NiPlane* pPlaneA = (NiPlane*)((char*)this + 0x1c);
         NiPlane* b = (NiPlane*)((char*)apObject + 0x1c);
-        if (!pPlaneA->operator==(*b))
+        if (!reinterpret_cast<::NiPlane *>((void *)(pPlaneA))->operator==(*b))
         {
             NiPlane* pPlaneC = (NiPlane*)((char*)this + 0x28);
             NiPlane* pPlaneD = (NiPlane*)((char*)apObject + 0x28);
-            if (!pPlaneC->operator==(*pPlaneD))
+            if (!reinterpret_cast<::NiPlane *>((void *)(pPlaneC))->operator==(*pPlaneD))
             {
                 if (*(int*)((char*)this + 0x34) == *(int*)((char*)apObject + 0x34))
                 {
@@ -126,8 +143,6 @@ bool FUN_00a75960_shell::FUN_00a75960(NiObject* apObject)
     return false;
 }
 
-extern void* DAT_011f4a64;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Holder
 {
     virtual void f0();
@@ -137,12 +152,12 @@ struct Holder
 // @fnv 0x00a75a40
 void ReleaseGlobalHolder()
 {
-    if (DAT_011f4a64)
+    if ((*reinterpret_cast<void * *>(&::DAT_011f4a64)))
     {
-        Holder* pHolder = (Holder*)DAT_011f4a64;
-        if (InterlockedDecrement((volatile long*)((char*)DAT_011f4a64 + 4)) == 0)
+        Holder* pHolder = (Holder*)(*reinterpret_cast<void * *>(&::DAT_011f4a64));
+        if (InterlockedDecrement((volatile long*)((char*)(*reinterpret_cast<void * *>(&::DAT_011f4a64)) + 4)) == 0)
             pHolder->f1();
-        DAT_011f4a64 = 0;
+        (*reinterpret_cast<void * *>(&::DAT_011f4a64)) = 0;
     }
 }
 
@@ -151,9 +166,7 @@ class BA75730Cloning;
 class BA75730Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
-    void CopyMembersStream(BA75730Object* pkDest, BA75730Cloning& kCloning);
 };
 
 class FUN_00a75730_cls : public BA75730Object
@@ -161,7 +174,6 @@ class FUN_00a75730_cls : public BA75730Object
   public:
     FUN_00a75730_cls() throw();
     BA75730Object* FUN_00a75730(BA75730Cloning& kCloning);
-    void CopyMemberData(FUN_00a75730_cls* pkDest, BA75730Cloning& kCloning);
 
     int unk00;
     int unk04;
@@ -190,10 +202,10 @@ BA75730Object* FUN_00a75730_cls::FUN_00a75730(BA75730Cloning& kCloning)
     if (m_iArrayLength)
     {
         FUN_00a75730_cls* pkClone = new FUN_00a75730_cls;
-        CopyMemberData(pkClone, kCloning);
+        reinterpret_cast<::FUN_00a755f0_Class *>(this)->CopyCullingData(pkClone, (::CloningProcess &)(kCloning));
         return pkClone;
     }
-    CopyMembersStream(this, kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(this), (void *)&(kCloning));
     return this;
 }
 
@@ -391,7 +403,6 @@ template <class T> inline void BA758C0SaveBinary(BA758C0Stream& kStream, const T
 class BA758C0Color
 {
   public:
-    void SaveBinary(BA758C0Stream& kStream);
 
     float r;
     float g;
@@ -401,7 +412,6 @@ class BA758C0Color
 class BA758C0Property
 {
   public:
-    void SaveBinary(BA758C0Stream& kStream);
 };
 
 class FUN_00a758c0_cls : public BA758C0Property
@@ -428,9 +438,9 @@ class FUN_00a758c0_cls : public BA758C0Property
 // @fnv 0x00a758c0
 void FUN_00a758c0_cls::FUN_00a758c0(BA758C0Stream& kStream)
 {
-    BA758C0Property::SaveBinary(kStream);
-    m_kAmbient.SaveBinary(kStream);
-    m_kDiffuse.SaveBinary(kStream);
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0((::NiStream &)kStream);
+    reinterpret_cast<::NiColor *>(&(m_kAmbient))->SaveBinary((::NiStream &)(kStream));
+    reinterpret_cast<::NiColor *>(&(m_kDiffuse))->SaveBinary((::NiStream &)(kStream));
     BA758C0SaveBinary(kStream, m_fShine);
     BA758C0SaveBinary(kStream, m_fAlpha);
     BA758C0SaveBinary(kStream, m_fEmitMult);
@@ -453,14 +463,12 @@ struct NiViewerStringsArray
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& element);
     unsigned int Add(char* const& element)
     {
         unsigned int idx = m_usSize;
         if (idx >= m_usMaxSize)
-            SetSize(idx + m_usGrowBy);
-        SetAt(idx, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(idx + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(idx, (char *&)(element));
         return idx;
     }
 };
@@ -468,17 +476,12 @@ struct NiViewerStringsArray
 struct ViewerColor
 {
     float r, g, b;
-    char* FormatToBuffer(const char* pcPrefix) const;
 };
 
 struct ViewerPropertyBase
 {
-    void GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
-extern NiRTTI g_011f4a5c;
-char* __cdecl FUN_00a7d330(const char* pcText);
-char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
 
 struct FUN_00a75a70_shell : public ViewerPropertyBase
 {
@@ -502,14 +505,14 @@ struct FUN_00a75a70_shell : public ViewerPropertyBase
 // @fnv 0x00a75a70
 void FUN_00a75a70_shell::FUN_00a75a70(NiViewerStringsArray* pkStrings)
 {
-    ViewerPropertyBase::GetViewerStrings(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_011f4a5c.GetName()));
-    pkStrings->Add(m_spec.FormatToBuffer("m_spec"));
+    reinterpret_cast<::FUN_00a62a40_this *>(this)->AppendString((::StrArr *)(pkStrings));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_011f4a5c)).GetName())));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_spec))->GetFormattedString("m_spec")));
     if (m_external_emit)
-        pkStrings->Add(m_external_emit->FormatToBuffer("m_external_emit"));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)(m_external_emit))->GetFormattedString("m_external_emit")));
     else
-        pkStrings->Add(m_emit.FormatToBuffer("m_emit"));
-    pkStrings->Add(FUN_00a7d550("m_fShine", m_fShine));
-    pkStrings->Add(FUN_00a7d550("m_fAlpha", m_fAlpha));
-    pkStrings->Add(FUN_00a7d550("m_fEmitMult", m_fEmitMult));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_emit))->GetFormattedString("m_emit")));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("m_fShine", m_fShine)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("m_fAlpha", m_fAlpha)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("m_fEmitMult", m_fEmitMult)));
 }

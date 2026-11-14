@@ -1,5 +1,21 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifierctlr.cpp: NiPSysModifierCtlr, NiPSysModifierCtlrRuntime, ModifierControllerStandin (9 functions)
 
+#include <cstdint>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FUN_00a38fe0_shell.h"
+#include "fnv/decl/FUN_00a39030_cls.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00a6d290.h"
+#include "fnv/decl/Holder00a390a0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c1b0f0__FUN_00c1b0f0_cls.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysmodifierctlr_decls.h"
 
 // @fnv 0x00c31340
@@ -7,11 +23,11 @@ void NiPSysModifierCtlr::ProcessClone(CloningProcess& aCloneProcess)
 {
     NiSingleInterpController::ProcessClone(aCloneProcess);
     NiPSysModifierCtlr* clone = 0;
-    aCloneProcess.m_pCloneMap->GetAt((const char*)this, (ShaderBufferRecord*&)clone);
+    reinterpret_cast<::A54440Hash *>((aCloneProcess.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)((const char*)this), (::A54440Manager **)&((ShaderBufferRecord*&)clone));
     NiPSysModifierCtlr* destination = clone;
     if (m_pkTarget && destination->m_pkTarget)
     {
-        aCloneProcess.m_pCloneMap->GetAt((const char*)m_pkTargetModifier, (ShaderBufferRecord*&)clone);
+        reinterpret_cast<::A54440Hash *>((aCloneProcess.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)((const char*)m_pkTargetModifier), (::A54440Manager **)&((ShaderBufferRecord*&)clone));
         destination->m_pkTargetModifier = clone;
     }
 }
@@ -20,8 +36,9 @@ struct NiObjectNET
 {
     virtual ~NiObjectNET();
 };
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual void SetTarget(NiObjectNET*);
 };
 struct NiParticleSystem
@@ -44,7 +61,6 @@ void NiPSysModifierCtlr_shell::FUN_00c31500(NiObjectNET* pkTarget)
 
 struct NiStream
 {
-    void SerializeString(char const*);
 };
 
 struct FUN_00a39010_shell
@@ -62,7 +78,7 @@ void FUN_00a57130_shell::FUN_00a57130(NiStream& kStream)
 {
     FUN_00a39010_shell* pBase = (FUN_00a39010_shell*)this;
     pBase->FUN_00a39010(kStream);
-    kStream.SerializeString((char const*)((char*)this + 0x38));
+    reinterpret_cast<::FUN_00a641f0_cls *>(&(kStream))->WriteObjectLink((void *)((char const*)((char*)this + 0x38)));
 }
 
 struct S_00c313a0_Field
@@ -120,14 +136,13 @@ struct S_00c313a0
 
 struct S_00a39030_Callee
 {
-    bool IsCompatibleWith(S_00c313a0* other);
 };
 
 // Compares this object with other via IsCompatibleWith, matching unk3c presence and contents, and returns whether unk38 is equal.
 // @fnv 0x00c313a0
 unsigned char S_00c313a0::IsEquivalentTo(S_00c313a0* other)
 {
-    if (!reinterpret_cast<S_00a39030_Callee*>(this)->IsCompatibleWith(other))
+    if (!reinterpret_cast<::FUN_00a39030_cls *>((reinterpret_cast<S_00a39030_Callee*>(this)))->IsCompatibleWith((::NiSingleInterpController *)(other)))
         return 0;
 
     if (unk3c && !other->unk3c)
@@ -145,10 +160,7 @@ unsigned char S_00c313a0::IsEquivalentTo(S_00c313a0* other)
     return unk38 == other->unk38;
 }
 
-extern int DAT_010c08ac;
-extern int DAT_0109b220;
-extern int(__stdcall* DAT_00fdf1c4)(void* apMemory);
-void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
+extern int(* DAT_00fdf1c4)(void* apMemory);
 
 struct NiPSysModifierRef
 {
@@ -175,7 +187,6 @@ struct FUN_00c314a0_cls
     NiPSysModifierRef* m_pModifier;
     char* m_kTargetModifierName;
 
-    void FUN_00a6d290();
     FUN_00c314a0_cls* Destroy(unsigned char acFlags);
 };
 
@@ -183,10 +194,10 @@ struct FUN_00c314a0_cls
 // @fnv 0x00c314a0
 FUN_00c314a0_cls* FUN_00c314a0_cls::Destroy(unsigned char acFlags)
 {
-    int(__stdcall * pfnFree)(void*) = DAT_00fdf1c4;
-    *(volatile int*)&m_vptr = (int)&DAT_010c08ac;
+    int(* pfnFree)(void*) = DAT_00fdf1c4;
+    *(volatile intptr_t*)&m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::NiPSysModifierCtlr_vtable));
     char* pName = *(char* volatile*)&m_kTargetModifierName;
-    if (pName != (char*)DAT_0109b220)
+    if (pName != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
     {
         pfnFree(pName - 8);
     }
@@ -198,7 +209,7 @@ FUN_00c314a0_cls* FUN_00c314a0_cls::Destroy(unsigned char acFlags)
             pModifier->Release();
         }
     }
-    FUN_00a6d290();
+    reinterpret_cast<struct ::FUN_00a6d290 *>(this)->FUN_00a6d290::~FUN_00a6d290();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x40);
@@ -212,15 +223,12 @@ struct NiRTTI
     const char* m_pcName;
     const NiRTTI* m_pBaseRTTI;
 };
-extern NiRTTI DAT_012024e0;
-extern void* DAT_0109b220;
 
 struct NiParticleSystemRuntime
 {
     virtual void DeleteThis();
     virtual void LoadBinary();
     virtual const NiRTTI* GetRTTI();
-    void* FUN_00c1b0f0(const void* pkName);
 };
 
 struct NiPSysModifierCtlrRuntime : NiPSysModifierCtlr
@@ -236,11 +244,11 @@ bool NiPSysModifierCtlrRuntime::IsTargetParticleSystem(NiParticleSystemRuntime* 
         const NiRTTI* pkRTTI = pkTarget->GetRTTI();
         while (pkRTTI != 0)
         {
-            if (pkRTTI == &DAT_012024e0)
+            if (pkRTTI == &(*reinterpret_cast<::fnv_00c31530::NiRTTI *>(&::g_012024e0)))
             {
-                if (m_kTargetModifierName != DAT_0109b220 && m_pkTarget != 0)
+                if (m_kTargetModifierName != (*reinterpret_cast<void * *>(&::DAT_0109b220)) && m_pkTarget != 0)
                 {
-                    if (pkTarget->FUN_00c1b0f0(&m_kTargetModifierName))
+                    if (reinterpret_cast<::fnv_00c1b0f0::FUN_00c1b0f0_cls *>((pkTarget))->FUN_00c1b0f0((unsigned int *)(&m_kTargetModifierName)))
                     {
                         return true;
                     }
@@ -257,7 +265,6 @@ bool NiPSysModifierCtlrRuntime::IsTargetParticleSystem(NiParticleSystemRuntime* 
 struct NiStream;
 struct ControllerStandin
 {
-    void __thiscall FUN_00a89af0(NiStream& stream);
     unsigned int unknown_00;
     unsigned int unknown_04;
     unsigned int unknown_08;
@@ -273,15 +280,14 @@ struct ControllerStandin
 };
 struct ModifierControllerStandin : ControllerStandin
 {
-    void __thiscall FUN_00c31400();
-    void __thiscall FUN_00c31590(NiStream& stream);
+    void FUN_00c31590(NiStream& stream);
 };
 // @fnv 0x00c31590
 void ModifierControllerStandin::FUN_00c31590(NiStream& stream)
 {
-    ControllerStandin::FUN_00a89af0(stream);
+    ::FUN_00a89af0((intptr_t)this);
     if (target_2c)
-        FUN_00c31400();
+        reinterpret_cast<::NiParticleSystem *>(this)->FindModifier();
 }
 
 struct FUN_00c315b0_arr
@@ -292,8 +298,6 @@ struct FUN_00c315b0_arr
     unsigned short m_iArrayLength;
     unsigned short unk0C;
     unsigned short m_iGrowBy;
-    void FUN_0096ad30(unsigned int newSize);
-    void FUN_0096ae90(unsigned int index, void*& item);
 };
 
 struct FUN_00c315b0_cls
@@ -316,46 +320,41 @@ struct FUN_00c315b0_cls
     void AppendModifierInfo(void* arg);
 };
 
-extern void __stdcall FUN_00a390a0(FUN_00c315b0_arr* arr);
-extern void* __cdecl FUN_00a7d330(void* p);
-extern void* __cdecl FUN_00a7d5e0(const char* fmt, void* p);
-extern void* DAT_012027c8;
 
 // @fnv 0x00c315b0
 void FUN_00c315b0_cls::AppendModifierInfo(void* arg)
 {
     FUN_00c315b0_arr* arr = (FUN_00c315b0_arr*)arg;
-    FUN_00a390a0(arr);
-    void* v1 = FUN_00a7d330(DAT_012027c8);
+    reinterpret_cast<::Holder00a390a0 *>((arr))->FUN_00a390a0({});
+    void* v1 = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012027c8))))));
     unsigned int count = arr->m_iArrayLength;
     if (count >= arr->m_iCap)
     {
         arg = v1;
-        arr->FUN_0096ad30(count + arr->m_iGrowBy);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(count + arr->m_iGrowBy);
     }
     else
     {
         arg = v1;
     }
-    arr->FUN_0096ae90(count, arg);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(count, (char *&)(arg));
     void* pModifierName = m_pModifierName;
-    void* pNameString = FUN_00a7d5e0("Modifier Name", pModifierName);
+    void* pNameString = ((void *)(::fnv_00a7d5e0::FUN_00a7d5e0("Modifier Name", (const char *)(pModifierName))));
     count = arr->m_iArrayLength;
     if (count >= arr->m_iCap)
     {
         arg = pNameString;
-        arr->FUN_0096ad30(count + arr->m_iGrowBy);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(count + arr->m_iGrowBy);
     }
     else
     {
         arg = pNameString;
     }
-    arr->FUN_0096ae90(count, arg);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(count, (char *&)(arg));
 }
 
 struct BaseFake
 {
-    bool RegisterInterpolatorStreamables(NiStream&);
 };
 struct FUN_00a57780_shell : BaseFake
 {
@@ -364,5 +363,5 @@ struct FUN_00a57780_shell : BaseFake
 // @fnv 0x00a57780
 bool FUN_00a57780_shell::FUN_00a57780(NiStream& stream)
 {
-    return RegisterInterpolatorStreamables(stream);
+    return reinterpret_cast<::FUN_00a38fe0_shell *>(this)->RegisterInterpolatorStreamables(stream);
 }

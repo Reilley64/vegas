@@ -6,6 +6,54 @@
 #ifndef FNV_LOWPROCESS_H
 #define FNV_LOWPROCESS_H
 
+#include <cstdint>
+#include <cstdio>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_005c1a00.h"
+#include "fnv/decl/FUN_0083c850.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00962720_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/State.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00962620__FUN_00962620_cls.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_0090d000.h"
+#include "fnv/symbols_0090e000.h"
+#include "fnv/symbols_00936000.h"
+#include "fnv/symbols_0096a000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "lowprocess_support.h"
 #include "lowprocess_NiPoint3.h"
 #include "lowprocess_PathingLocation.h"
@@ -22,7 +70,6 @@
 #include "lowprocess_types_TESBoundObject.h"
 #include "lowprocess_CombatTimer.h"
 #include "lowprocess_ModifierList.h"
-#pragma pack(push, 4)
 class LowProcess : public BaseProcess
 {
   public:
@@ -59,12 +106,10 @@ class LowProcess : public BaseProcess
     void SetCurrentBoundObject(TESBoundObject*);
     void SetCurrentCombatTarget(TESObjectREFR*);
     TESObjectREFR* GetTarget();
-    void SetPackageObjectType(int);
+    void SetPackageObjectType(intptr_t);
     int GetPackageObjectType();
     TESObjectREFR* GetActiveCombatTarget();
     // Canonical additions requested:
-    void SetFlag(bool, unsigned char);
-    bool GetFlag(unsigned char);
     void SetAnimationComplete(bool);
     bool IsMovementComplete();
     bool IsCurrentProcessComplete();
@@ -120,9 +165,9 @@ class LowProcess : public BaseProcess
     virtual void SetTarget(TESObjectREFR*);
     void OnPackageChanged(Actor*, TESPackage*);
     float GetCurrentActorValue(TESActorBase*, ActorValue__Index, Actor*);
-    static bool HandlePackageTargetLoaded(TESObjectREFR*, long);
+    static bool HandlePackageTargetLoaded(TESObjectREFR*, intptr_t);
     void ProcessDialogueTopic(Actor*, TESTopic*, bool, bool, bool, bool);
-    static bool HandlePackageLocationLoaded(TESObjectREFR*, long);
+    static bool HandlePackageLocationLoaded(TESObjectREFR*, intptr_t);
     void Revert(BGSLoadFormBuffer*);
     void LoadGame(BGSLoadFormBuffer*);
     void InitLoadGame(BGSLoadFormBuffer*);
@@ -147,35 +192,9 @@ class LowProcess : public BaseProcess
     void ClearReferenceRecords(TESObjectREFR*);
     void OnPackageStart(Actor*, TESPackage*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LowProcess) == 0xB4);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_uiObjectFlags) == 0x30);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pCurrentWeapon) == 0x34);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kProcessData38) == 0x38);
-FNV_STATIC_ASSERT(offsetof(LowProcess, pTarget) == 0x40);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pReference40) == 0x44);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pReference44) == 0x48);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pFormList) == 0x4C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_sFourthValue) == 0x50);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pObjectReference) == 0x54);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_iValue58) == 0x58);
-FNV_STATIC_ASSERT(offsetof(LowProcess, ReferenceListNode) == 0x5C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pDetectionData60) == 0x64);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pDetectionData64) == 0x68);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kReferenceList68) == 0x6C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kDetectionDataList) == 0x74);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kReferenceList70) == 0x7C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pBoundObject74) == 0x84);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_pBoundObject78) == 0x88);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_eReferenceTypeInfo) == 0x8C);
-FNV_STATIC_ASSERT(offsetof(LowProcess, PackageFactionTarget) == 0x90);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_kActorValueModifiers) == 0x94);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_fValue88) == 0xA4);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_fValue8C) == 0xA8);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_fValue90) == 0xAC);
-FNV_STATIC_ASSERT(offsetof(LowProcess, m_bHasBoundObject) == 0xB0);
 #endif
 
+class Actor;
 class HighProcess
 {
   public:
@@ -342,17 +361,15 @@ class HighProcess
     virtual void vfn_280();
     virtual void vfn_284();
     virtual void SetProcessTarget(MobileObject*, int);
-    int GetProcessLevel();
+public:
+    unsigned int UpdateHighProcessState(::Actor *);
 };
 class PlayerCharacter : public Actor
 {
   public:
     unsigned char layoutPadding1B4[0x58];
     bool bResting;
-    void FUN_005c1a00(bool, int);
     bool IsSleepingOrResting();
-    bool IsActorInCombatWithPlayer(Actor*);
-    int GetCharacterLevel();
     bool HasCombatState();
 };
 class TargetDoorController
@@ -373,29 +390,18 @@ class Calendar
 {
   public:
     float GetGameTime();
-    char GetGameHour();
+public:
+    int GetDayOfMonth();
 };
 class LowProcessTimer
 {
   public:
     bool IsBoundItem();
 };
-extern Calendar g_calendar;
-extern PlayerCharacter* g_thePlayer;
-extern LowProcessTimer DAT_011e0361;
-extern int* DAT_011a3ff0[];
-extern const char* g_packageTypeNames[];
-extern "C" int __cdecl sprintf(char*, const char*, ...);
-const char* PrepareScriptMessage(const char*, bool);
-void DebugLog(const char*, ...);
-Actor* FUN_00703180();
-extern TESDataHandler* g_dataHandler;
-
 #include "lowprocess_types_PatrolActorPackageData.h"
 class BGSListForm : public TESForm
 {
   public:
-    BSSimpleList<TESForm*>* GetList();
 };
 class TESFaction : public TESForm
 {
@@ -403,9 +409,7 @@ class TESFaction : public TESForm
 class TESValueForm
 {
   public:
-    TESObjectREFR* GetValueFromForm(TESForm*, bool);
 };
-extern TESValueForm DAT_011e0e80;
 union SETTING_VALUE
 {
     int i;
@@ -414,21 +418,12 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
-    SETTING_VALUE* Int();
 };
-extern SettingT_GameSettingCollection_ DAT_011cdebc;
-extern TESBoundObject* DAT_011ca248;
-extern TESBoundObject* DAT_011ca244;
-bool CheckPackageMatch(TESObjectREFR*, long);
 
 class TES
 {
   public:
-    bool IsCellBuffered(TESObjectCELL*, bool);
 };
-extern TES* g_TES;
-float FUN_00404010(float, float);
 class PathingActorData;
 class Pathing
 {
@@ -441,10 +436,7 @@ class Pathing
                                   DOOR_LOCK_DISPOSITION);
 };
 
-extern SettingT_GameSettingCollection_ DAT_011cdad0;
 
-float FUN_006e25d0();
-extern TESBoundObject* DAT_011ca248;
 
 class FormChangeMask
 {
@@ -452,54 +444,41 @@ class FormChangeMask
     unsigned int value;
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     virtual unsigned char GetVersion();
-    void ReadTypedData(void*, unsigned int);
-    bool ReadFormIdentifier(void*);
-    unsigned int FUN_008648a0();
-    int ReadElementCount();
     FormChangeMask GetChangeFlags(unsigned int);
     FormChangeMask GetOldChangeFlags(unsigned int);
 };
-TESForm* GetFormByID(unsigned int);
 
-bool FUN_0090e660(TESObjectREFR*, long);
+bool FUN_0090e660(TESObjectREFR*, intptr_t);
 
 class RegionPoint
 {
   public:
-    float GetX();
 };
-int FUN_0096a820(int);
-extern int* DAT_011a3ff0[];
 void FUN_005ac750(TESForm*, ExtraDataList*, unsigned int);
+class DialogueResponse;
 class DialogueItem
 {
   public:
     bool SelectDefaultResponseList();
-    DialogueResponse* GetCurrentItem();
-    void FUN_0083c850(int);
-    TESTopicInfo* GetInfo();
+public:
+    ::DialogueResponse *GetActiveResponse();
 };
-void HandleMobileObjectResult(unsigned int, bool);
 
 class ActorMover
 {
   public:
     unsigned int GetCurrentMoveModeType();
-    void SetupPackageTarget(TESPackage*);
 };
 
 class ExtraLock
 {
   public:
-    int FUN_0043a320();
-    void FUN_0043a210(TESObjectREFR*, bool);
 };
 namespace ActorValue {
-bool GetFlag(Index, unsigned int);
 }
 class TESGlobal
 {
@@ -511,9 +490,6 @@ class PackageTargetHolder
   public:
     void FUN_00403550(TESObjectREFR*);
 };
-extern float DAT_011e0358;
-extern unsigned int DAT_011a39c4, DAT_011e035c;
-extern signed char DAT_011e0360;
 
 extern SettingT_GameSettingCollection_ DAT_011cdbac;
 extern SettingT_GameSettingCollection_ DAT_011cd82c;
@@ -524,12 +500,11 @@ class Date
   public:
     ~Date();
 };
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
-    unsigned int ReadFormIdentifier();
 };
-class BGSMessageInitAccess
+struct BGSMessageInitAccess
 {
   public:
     unsigned int GetIconFormID();
@@ -545,33 +520,35 @@ class CombatProcedure
     void Initialize(CombatController*);
 };
 class RecipeCraftingInfo;
+namespace ActorValue { enum Index; }
 class TESRecipe
 {
   public:
     RecipeCraftingInfo* GetData();
-    void SetSkill(int);
+public:
+    void SetRequiredSkill(::ActorValue::Index);
 };
 class ActiveEffect
 {
   public:
-    float FUN_007df1f0();
     void FUN_00693d50(float);
+public:
+    float GetDuration() const;
 };
+class TESSound;
 class EffectSetting
 {
   public:
-    TESObjectLIGH* GetLight();
-    void SetLight(TESObjectLIGH*);
+public:
+    ::TESSound *GetHitSound();
 };
 class TESTopicInfo
 {
   public:
-    bool HasResultScript();
 };
 class TESGlobalValueReader
 {
   public:
-    float GetValue();
 };
 class BGSDehydrationStage
 {
@@ -581,17 +558,8 @@ class BGSDehydrationStage
 class TESObjectREFRHelper
 {
   public:
-    void SetTargetingState(bool);
 };
 class BGSPickupPutdownSounds
 {
   public:
-    void SetPutdownSound(TESSound*);
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting132;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting172;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting173;
-extern const float runtimeFloatSettingDefault7;
-extern const float runtimeFloatSettingDefault51;
-extern const float runtimeFloatSettingDefault247;
-extern "C" const double DAT_01012640;

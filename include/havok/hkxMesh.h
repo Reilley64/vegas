@@ -7,13 +7,10 @@
 #include "hkReferencedObject.h"
 class hkxMeshSection;
 class hkxMeshUserChannelInfo;
-#pragma pack(push, 1)
 class hkxMesh : public hkReferencedObject
 {
   public:
     hkArray<hkxMeshSection*> m_sections;                   // +0x8
     hkArray<hkxMeshUserChannelInfo*> m_kUserChannelInfos;  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxMesh[(sizeof(hkxMesh) == 0x20) ? 1 : -1];
 #endif

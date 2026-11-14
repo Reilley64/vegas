@@ -2,6 +2,22 @@
 // src/gamebryo2.2/corelibs/nimain/nipointlight.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nipointlight.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/FUN_00a71f50_cls.h"
+#include "fnv/decl/FUN_00a71f60_cls.h"
+#include "fnv/decl/FUN_00a720f0_shell.h"
+#include "fnv/decl/FUN_00a72160_shell.h"
+#include "fnv/decl/FUN_00a721e0_shell.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiDirectionalLight.h"
+#include "fnv/decl/NiLight.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
 struct NiObject
 {
     virtual ~NiObject();
@@ -11,7 +27,6 @@ struct NiPointLight : NiObject
 {
     NiPointLight();
     ~NiPointLight();
-    bool IsEqual(NiObject* pObject);
     bool FUN_00a7d730(NiObject* pObject);
 };
 
@@ -19,7 +34,7 @@ struct NiPointLight : NiObject
 bool NiPointLight::FUN_00a7d730(NiObject* pObject)
 {
     NiPointLight* pOtherLight = static_cast<NiPointLight*>(pObject);
-    if (IsEqual(pOtherLight))
+    if (reinterpret_cast<::FUN_00a72160_shell *>(this)->FUN_00a72160(pOtherLight))
     {
         if (reinterpret_cast<float*>(this)[0x3C] == reinterpret_cast<float*>(pOtherLight)[0x3C] &&
             reinterpret_cast<float*>(this)[0x3D] == reinterpret_cast<float*>(pOtherLight)[0x3D] &&
@@ -29,12 +44,11 @@ bool NiPointLight::FUN_00a7d730(NiObject* pObject)
     return false;
 }
 
-extern const char* const g_011f5ec4_arg1;
 
 // @fnv 0x00a7d790
 const char* const* __cdecl FUN_00a7d790()
 {
-    return &g_011f5ec4_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4a98));
 }
 
 namespace fnv_00a7d7a0 {
@@ -48,11 +62,9 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 
-struct NiAVObject
+class NiAVObject
 {
-    void UpdateWorldData(NiUpdateData& update);
 };
 
 struct NiPointLight : NiAVObject
@@ -63,32 +75,27 @@ struct NiPointLight : NiAVObject
 // @fnv 0x00a7d7a0
 void NiPointLight::FUN_00a7d7a0(NiUpdateData& update)
 {
-    NiAVObject::UpdateWorldData(update);
+    reinterpret_cast<::NiAVObject *>(this)->UpdateWorldData((::NiUpdateData &)(update));
     ((int*)this)[0xa8 / 4]++;
 }
 }  // namespace fnv_00a7d7a0
 
-extern const void* g_011f5f6c;
 
 // @fnv 0x00a9b390
 const void* __cdecl FUN_00a9b390()
 {
-    return &g_011f5f6c;
+    return &(*reinterpret_cast<const void * *>(&::g_011f5f6c));
 }
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int size);
 };
-extern void __fastcall FUN_00a71f60(void* object);
 struct FUN_00a71ec0_helper
 {
-    void FUN_00a71ec0(void* clone, void* process);
 };
-extern const unsigned int DAT_0109dd0c;
 struct NiPointLightLayout
 {
-    unsigned int vtable;
+    uintptr_t vtable;
     int unk04;
     int unk08;
     int unk0C;
@@ -162,14 +169,14 @@ struct FUN_00a7d7c0_Class
 void* FUN_00a7d7c0_Class::ClonePointLight(void* process)
 {
     NiPointLightLayout* clone;
-    void* allocation = NiMemObject::operator new(0xfc);
+    void* allocation = ::operator new(0xfc);
     if (allocation)
     {
         clone = (NiPointLightLayout*)allocation;
-        FUN_00a71f60(clone);
+        new ((void *)(clone)) ::FUN_00a71f60_cls();
         float zero = 0.0f;
         clone->unkF0 = zero;
-        clone->vtable = (unsigned int)&DAT_0109dd0c;
+        clone->vtable = (uintptr_t)&(*reinterpret_cast<const unsigned int *>(&::DAT_0109dd0c));
         clone->unk9d = 2;
         float one = 1.0f;
         clone->unkF4 = one;
@@ -179,7 +186,7 @@ void* FUN_00a7d7c0_Class::ClonePointLight(void* process)
     {
         clone = 0;
     }
-    ((FUN_00a71ec0_helper*)this)->FUN_00a71ec0(clone, process);
+    reinterpret_cast<::NiDirectionalLight *>((((FUN_00a71ec0_helper*)this)))->CopyMemberData((::NiDirectionalLight *)(clone), (*(::CloningProcess *)(process)));
     clone->unkF0 = ((NiPointLightLayout*)this)->unkF0;
     clone->unkF4 = ((NiPointLightLayout*)this)->unkF4;
     clone->unkF8 = ((NiPointLightLayout*)this)->unkF8;
@@ -363,14 +370,13 @@ struct NiStream
 
 struct NiPointLightSave : NiPointLightLayout
 {
-    void FUN_00a72080(NiStream* stream);
     void SaveToStream(NiStream* stream);
 };
 
 // @fnv 0x00a7d840
 void NiPointLightSave::SaveToStream(NiStream* stream)
 {
-    this->FUN_00a72080(stream);
+    reinterpret_cast<::NiLight *>((this))->LoadBinary((*(::NiStream *)(stream)));
 
     // One block per light radius.  The out value of the callback lives in an
     // inner scope: that is what makes the compiler keep the callback in EDX
@@ -580,7 +586,6 @@ struct NiStream
 
 struct NiPointLightSave : NiPointLightLayout
 {
-    void FUN_00a720f0(NiStream* stream);
     void SavePointLight(NiStream* stream);
 };
 
@@ -588,7 +593,7 @@ struct NiPointLightSave : NiPointLightLayout
 // @fnv 0x00a7d8d0
 void NiPointLightSave::SavePointLight(NiStream* stream)
 {
-    this->FUN_00a720f0(stream);
+    reinterpret_cast<::FUN_00a720f0_shell *>((this))->FUN_00a720f0((*(::NiStream *)(stream)));
 
     // One block per light radius.  The out value of the callback lives in an
     // inner scope: that is what makes the compiler keep the callback in EDX
@@ -627,30 +632,24 @@ struct S_00a7d960_arg
     unsigned short m_0a;
     unsigned short unk0c;
     unsigned short m_0e;
-    void FUN_0096ad30(unsigned int n);
-    void FUN_0096ae90(unsigned int idx, char* const& v);
 };
 
-extern unsigned int DAT_011f4a98;
 extern const char str_0109de00[];
 extern const char str_0109ddf4[];
 extern const char str_0109dde8[];
-char* __cdecl FUN_00a7d330(unsigned int v);
-char* __cdecl FUN_00a7d550(const char* fmt, float v);
 
 inline void S_Push(S_00a7d960_arg* p, char* s)
 {
     unsigned int n = p->m_0a;
     if (n >= p->m_08)
     {
-        p->FUN_0096ad30(n + p->m_0e);
+        reinterpret_cast<::ViewerStrings *>((p))->SetSize(n + p->m_0e);
     }
-    p->FUN_0096ae90(n, s);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((p))->SetAt(n, (char *&)(s));
 }
 
 struct S_00a7d960_base : NiPointLightLayout
 {
-    void AppendEffectProperties(S_00a7d960_arg* p);
 };
 
 struct FUN_00a7d960_cls : S_00a7d960_base
@@ -661,33 +660,32 @@ struct FUN_00a7d960_cls : S_00a7d960_base
 // @fnv 0x00a7d960
 void FUN_00a7d960_cls::FUN_00a7d960(S_00a7d960_arg* pBuffer)
 {
-    AppendEffectProperties(pBuffer);
-    S_Push(pBuffer, FUN_00a7d330(DAT_011f4a98));
+    reinterpret_cast<::FUN_00a721e0_shell *>(this)->AppendEffectProperties((::StrArr *)(pBuffer));
+    S_Push(pBuffer, ::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_011f4a98)))));
     S_Push(pBuffer, FUN_00a7d550(str_0109de00, unkF0));
     S_Push(pBuffer, FUN_00a7d550(str_0109ddf4, unkF4));
     S_Push(pBuffer, FUN_00a7d550(str_0109dde8, unkF8));
 }
 
-void __cdecl FUN_00a71f50();
 
 // @fnv 0x00a9b360
 void __cdecl FUN_00a9b360()
 {
-    FUN_00a71f50();
+    static_cast<::FUN_00a71f50_cls *>(nullptr)->FUN_00a71f50(*(::NiStream *)nullptr);
 }
 
-void __cdecl FUN_00a720f0(int param1, int param2);
 
 // @fnv 0x00a9b370
-void __cdecl FUN_00a9b370(int param1, int param2)
+void __cdecl FUN_00a9b370(intptr_t param1, intptr_t param2)
 {
-    FUN_00a720f0(param1, param2);
+    reinterpret_cast<::FUN_00a720f0_shell *>((param1))->FUN_00a720f0((*(::NiStream *)(param2)));
 }
 
-extern void __cdecl FUN_00a72160();
 
 // @fnv 0x00a9b380
 void __cdecl FUN_00a9b380()
 {
-    FUN_00a72160();
+    static_cast<::FUN_00a72160_shell *>(nullptr)->FUN_00a72160({});
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nipointlight.inc"

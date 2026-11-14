@@ -2,6 +2,13 @@
 // src/havok/common/scenedata/mesh/hkxmesh.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmesh.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include "fnv/decl/SearchObject.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkxMeshSectionImpl.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkxMesh.h"
 
 struct FUN_00e4ae20_MemoryManager
@@ -49,7 +56,7 @@ extern int DAT_010ec1dc;
 
 struct FUN_00e4ad00_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
 
     FUN_00e4ad00_cls* FUN_00e4ad00(unsigned int unusedArg);
 };
@@ -57,7 +64,7 @@ struct FUN_00e4ad00_cls
 // @fnv 0x00e4ad00
 FUN_00e4ad00_cls* FUN_00e4ad00_cls::FUN_00e4ad00(unsigned int unusedArg)
 {
-    m_vptr = (int)&DAT_010ec1dc;
+    m_vptr = (intptr_t)&DAT_010ec1dc;
     return this;
 }
 
@@ -69,7 +76,6 @@ struct MemoryAllocator_CCE530
     virtual void Unknown0C();
     virtual void Free(void* allocation, unsigned int bytes);
 };
-extern "C" FUN_00e4ae20_Router* FUN_00c85750();
 struct ArrayElement_CCE530
 {
     int unk00, unk04, unk08, unk0C;
@@ -81,7 +87,7 @@ struct Array_CCE530
     int capacityAndFlags;
     ~Array_CCE530()
     {
-        FUN_00e4ae20_Router* router = FUN_00c85750();
+        FUN_00e4ae20_Router* router = static_cast<FUN_00e4ae20_Router*>(::FUN_00c85750());
         MemoryAllocator_CCE530* heap = (MemoryAllocator_CCE530*)router->m_pMemoryManager;
         int capacity = capacityAndFlags;
         size = 0;
@@ -105,11 +111,8 @@ struct FUN_00cce530
 FUN_00cce530::~FUN_00cce530()
 {}
 
-extern "C" int DAT_010ec1dc;
-extern "C" int DAT_0102e388;
 struct FNV_00e4ad10_Ref
 {
-    void FUN_00c905b0();
 };
 struct FNV_00e4ad10_Array
 {
@@ -132,20 +135,19 @@ struct FNV_00e4ad10_Layout
     FNV_00e4ad10_Array first;
     FNV_00e4ad10_Array second;
 };
-extern "C" FUN_00e4ae20_Router* __cdecl FUN_00c85750();
 // @fnv 0x00e4ad10
 void FUN_00e4ae20_Object::ClearArrays()
 {
     FNV_00e4ad10_Layout* object = reinterpret_cast<FNV_00e4ad10_Layout*>(this);
     object->vtable = &DAT_010ec1dc;
-    FNV_00e4ad10_Allocator* heap = reinterpret_cast<FNV_00e4ad10_Allocator*>(FUN_00c85750()->m_pMemoryManager);
+    FNV_00e4ad10_Allocator* heap = reinterpret_cast<FNV_00e4ad10_Allocator*>(static_cast<FUN_00e4ae20_Router*>(::FUN_00c85750())->m_pMemoryManager);
     int count = object->second.length;
     FNV_00e4ad10_Ref** ppItems = object->second.objects;
     for (int index = 0; index < count; index++)
     {
         FNV_00e4ad10_Ref* entry = ppItems[index];
         if (entry)
-            entry->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((entry))->FUN_00c905b0();
         ppItems[index] = 0;
     }
     object->second.length = 0;
@@ -154,14 +156,14 @@ void FUN_00e4ae20_Object::ClearArrays()
         heap->Free(object->second.objects, (size & 0x3fffffff) * 4);
     object->second.objects = 0;
     object->second.capacity = 0x80000000;
-    heap = reinterpret_cast<FNV_00e4ad10_Allocator*>(FUN_00c85750()->m_pMemoryManager);
+    heap = reinterpret_cast<FNV_00e4ad10_Allocator*>(static_cast<FUN_00e4ae20_Router*>(::FUN_00c85750())->m_pMemoryManager);
     count = object->first.length;
     ppItems = object->first.objects;
     for (int index = 0; index < count; index++)
     {
         FNV_00e4ad10_Ref* entry = ppItems[index];
         if (entry)
-            entry->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((entry))->FUN_00c905b0();
         ppItems[index] = 0;
     }
     object->first.length = 0;
@@ -170,18 +172,18 @@ void FUN_00e4ae20_Object::ClearArrays()
         heap->Free(object->first.objects, (size & 0x3fffffff) * 4);
     object->first.objects = 0;
     object->first.capacity = 0x80000000;
-    object->vtable = &DAT_0102e388;
+    object->vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 class hkObjectE4AE
 {
   public:
-    int InsertElements(int a, int b, int c, int d, int e);
-    int FUN_00e4ae00(int a, int b, int d, int e);
+    int InsertElements(intptr_t a, int b, int c, intptr_t d, int e);
+    int FUN_00e4ae00(intptr_t a, int b, intptr_t d, int e);
 };
 
 // @fnv 0x00e4ae00
-int hkObjectE4AE::FUN_00e4ae00(int aiArg1, int aiArg2, int aiArg4, int aiArg5)
+int hkObjectE4AE::FUN_00e4ae00(intptr_t aiArg1, int aiArg2, intptr_t aiArg4, int aiArg5)
 {
     return InsertElements(aiArg1, aiArg2, 0, aiArg4, aiArg5);
 }
@@ -190,7 +192,6 @@ struct GeoOutputE4AB80
 {
     hkArray<hkVector4> vertices;
     hkArray<ArrayElement_CCE530> triangles;
-    void FUN_00d5a4c0(void* allocator, int start, const void* values, int count);
 };
 struct GeomArraysE4AB80
 {
@@ -207,16 +208,13 @@ struct GeomPairE4AB80
 class TriangleInsertE4AB80
 {
   public:
-    int FUN_00e4ae00(int allocator, int start, int values, int count);
 };
 class MeshSectionE4AB80
 {
   public:
     int unk00, unk04, unk08, unk0C, unk10, unk14;
     void* material;
-    void FUN_00e61530(GeomPairE4AB80* geometry, int materialIndex);
 };
-void ResizeAudioStream(void* allocator, void* array, int elementSize);
 template <class T> __forceinline void constructWithCopyRange(T* p, int n, T v)
 {
     for (int i = 0; i < n; ++i)
@@ -252,10 +250,10 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
             if (materialIndex == -1)
             {
                 materialIndex = materials->m_iElementCount;
-                FUN_00e4ae20_Router* router = FUN_00c85750();
+                FUN_00e4ae20_Router* router = static_cast<FUN_00e4ae20_Router*>(::FUN_00c85750());
                 if (materials->m_iElementCount == (materials->m_iCapacityState & 0x3fffffff))
                 {
-                    ResizeAudioStream(router->m_pMemoryManager, materials, 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(router->m_pMemoryManager), (::AudioStream *)(materials), 4);
                 }
                 constructWithCopyRange(&materials->m_data[materials->m_iElementCount], 1, material);
                 materials->m_iElementCount++;
@@ -268,7 +266,7 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
         data.first.size = 0;
         data.second.data = 0;
         data.second.size = 0;
-        ((MeshSectionE4AB80*)m_sections.m_data[iSectionIndex])->FUN_00e61530(&data, materialIndex);
+        reinterpret_cast<::hkxMeshSectionImpl *>((((MeshSectionE4AB80*)m_sections.m_data[iSectionIndex])))->FUN_00e61530((*(::hkGeometryData *)(&data)), materialIndex);
         for (int i = 0; i < data.second.size; ++i)
         {
             data.second.data[i].unk00 += baseVertex;
@@ -278,18 +276,18 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
         {
             int vn = data.first.size;
             ArrayElement_CCE530* pVertices = data.first.data;
-            FUN_00e4ae20_Router* pRouter = FUN_00c85750();
+            FUN_00e4ae20_Router* pRouter = static_cast<FUN_00e4ae20_Router*>(::FUN_00c85750());
             void* pAllocator = pRouter->m_pMemoryManager;
-            output->FUN_00d5a4c0(pAllocator, baseVertex, pVertices, vn);
+            reinterpret_cast<::SearchObject *>((output))->FUN_00d5a4c0((uintptr_t)(pAllocator), baseVertex, (uintptr_t)(pVertices), vn);
         }
         {
             int tn = data.second.size;
             int iTriangleStart = output->triangles.m_iElementCount;
             ArrayElement_CCE530* pTriangles = data.second.data;
-            FUN_00e4ae20_Router* r2 = FUN_00c85750();
+            FUN_00e4ae20_Router* r2 = static_cast<FUN_00e4ae20_Router*>(::FUN_00c85750());
             void* al2 = r2->m_pMemoryManager;
-            ((TriangleInsertE4AB80*)&output->triangles)->FUN_00e4ae00((int)al2, iTriangleStart, (int)pTriangles, tn);
+            reinterpret_cast<::hkObjectE4AE *>((((TriangleInsertE4AB80*)&output->triangles)))->FUN_00e4ae00((intptr_t)al2, iTriangleStart, (intptr_t)pTriangles, tn);
         }
-        data.FUN_00cce530();
+        reinterpret_cast<::FUN_00cce530 *>(&(data))->FUN_00cce530::~FUN_00cce530();
     }
 }

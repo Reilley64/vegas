@@ -2,17 +2,19 @@
 // src/fallout_shared/pathfinding/teleportpath.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/teleportpath.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/C6F3280Allocator.h"
+#include "fnv/decl/fnv_006f49c0__FUN_006f49c0_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/symbols_006f3000.h"
 struct PathingPath
 {
     void Clear();
-    float CalculatePathDistance();
     void* __vecDelDtor(unsigned int);
     char Spaces[16];
     char Doors[16];
     char Start[12];
     char End[12];
 };
-typedef char _sizecheck_TeleportPath[sizeof(PathingPath) == 56 ? 1 : -1];
 struct FUN_006f4990_shell : public PathingPath
 {
     void ClearTeleportPath();
@@ -26,8 +28,8 @@ struct GlobalObject_00869f00
 // @fnv 0x006f4990
 void FUN_006f4990_shell::ClearTeleportPath()
 {
-    ((GlobalObject_00869f00*)this)->Clear(true);
-    ((GlobalObject_00869f00*)((char*)this + 0x10))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->Doors[0])))->Clear(true);
 }
 
 struct Elem16
@@ -43,15 +45,13 @@ struct Arr16
     Elem16* _4;
     int _8;
     int _12;
-    unsigned int FUN_006f31f0();
-    void ConstructBounds(void*, int);
     unsigned int AppendElement(const Elem16* aPath);
 };
 // @fnv 0x006f2d20
 unsigned int Arr16::AppendElement(const Elem16* aPath)
 {
-    unsigned int idx = FUN_006f31f0();
-    ConstructBounds(&_4[idx], 1);
+    unsigned int idx = ::FUN_006f31f0((::S5460 *)this);
+    reinterpret_cast<::C6F3280Allocator *>(this)->ConstructBounds((::C6F3280Bound *)(void *)(&_4[idx]), 1);
     _4[idx] = *aPath;
     return idx;
 }

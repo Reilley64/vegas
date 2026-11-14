@@ -3,21 +3,30 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd55d0
-int __stdcall InitIntToZero(int, int* piValue)
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d54000.h"
+int InitIntToZero(int, int* piValue)
 {
     *piValue = 0;
     return 1;
 }
 
+struct FivePointerRecord
+{
+    void* m_values[5];
+};
+
 // Copies five pointer-sized values from src to dst at offsets 0, 4, 8, 0xc and 0x10.
 // @fnv 0x00dd5630
-void __stdcall CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest)
+void CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest)
 {
-    *(void**)apDest = *(void**)apSource;
-    *(void**)((char*)apDest + 4) = *(void**)((char*)apSource + 4);
-    *(void**)((char*)apDest + 8) = *(void**)((char*)apSource + 8);
-    *(void**)((char*)apDest + 0xc) = *(void**)((char*)apSource + 0xc);
-    *(void**)((char*)apDest + 0x10) = *(void**)((char*)apSource + 0x10);
+    const FivePointerRecord* source = static_cast<const FivePointerRecord*>(apSource);
+    FivePointerRecord* dest = static_cast<FivePointerRecord*>(apDest);
+    for (int i = 0; i < 5; ++i)
+        dest->m_values[i] = source->m_values[i];
 }
 
 struct S_00d54cd0_Base
@@ -73,7 +82,6 @@ struct S_00d54cd0_Result
     int unk28;
     bool unk2C;
 };
-S_00d54cd0_Result* FUN_00d54a40(S_00d54cd0_Base* col, void* world, S_00d54cd0_Input* in, void* out) throw();
 // @fnv 0x00d54cd0
 S_00d54cd0_Result* FUN_00d54cd0(void* world, S_00d54cd0_Input* pInput, void* out)
 {
@@ -81,36 +89,19 @@ S_00d54cd0_Result* FUN_00d54cd0(void* world, S_00d54cd0_Input* pInput, void* out
     if (pInput->unk20)
     {
         S_00d54cd0_All col(world);
-        r = FUN_00d54a40(&col, world, pInput, out);
+        r = ((::S_00d54cd0_Result *)(::FUN_00d54a40(&col, world, (::Arg2Struct *)(pInput), (::SearchObject *)(out))));
     }
     else
     {
         S_00d54cd0_Closest col(world);
-        r = FUN_00d54a40(&col, world, pInput, out);
+        r = ((::S_00d54cd0_Result *)(::FUN_00d54a40(&col, world, (::Arg2Struct *)(pInput), (::SearchObject *)(out))));
     }
     r->unk2C = pInput->unk1E == 0;
     return r;
 }
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, unsigned int auiBytes) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct Record
 {
@@ -151,12 +142,12 @@ struct RecordArray
 
     ~RecordArray() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
         if ((uCapacity & 0x80000000) == 0)
-            pAllocator->FreeArray(m_pRecords, (uCapacity & 0x3fffffff) * sizeof(Record));
+            pAllocator->bufFree(m_pRecords, (uCapacity & 0x3fffffff) * sizeof(Record));
         m_pRecords = 0;
         m_uCapacity = 0x80000000;
     }
@@ -206,6 +197,7 @@ struct Mgr
     virtual Item* v14(int, int*);
 };
 
+struct Item_00dd5b00;
 class FUN_00dd5cd0_cls
 {
   public:
@@ -216,33 +208,8 @@ class FUN_00dd5cd0_cls
     int unk10;
     Mgr* m_pMgr;
 
-    void ComputeAxisRanges(Item* item, int m, int a, int b);
-    void ProcessItems(int a, int b);
+    void ProcessItems(::Item_00dd5b00* a, int b);
 };
-
-// Iterates count items from m_pMgr starting at m, calling ComputeAxisRanges on each item whose v14() is nonzero, advancing m via v0c.
-// @fnv 0x00dd5cd0
-void FUN_00dd5cd0_cls::ProcessItems(int aiArg1, int aiArg2)
-{
-    __declspec(align(16)) int slots[127];
-    int i;
-    int count = m_pMgr->v04();
-    int m = m_pMgr->v08();
-    if (count > 0)
-    {
-        i = count;
-        do
-        {
-            Item* item = m_pMgr->v14(m, slots);
-            if (item->v14())
-            {
-                ComputeAxisRanges(item, m, aiArg1, aiArg2);
-            }
-            m = m_pMgr->v0c(m);
-            i = i - 1;
-        } while (i != 0);
-    }
-}
 
 class DD5D50ReferencedObject
 {
@@ -306,16 +273,6 @@ int FUN_00dd5660_cls::FUN_00dd5660()
     return unk18;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct Vec4
 {
@@ -333,7 +290,6 @@ struct Vec4Bits
     unsigned int u3;
 };
 
-void __cdecl ResizeAudioStream(AudioAllocator* apAllocator, void* apVector, int aiElemSize);
 
 struct Src_00dd5b00
 {
@@ -385,6 +341,29 @@ struct Obj_00dd5b00
 
     void ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd5b00* apItems, int aiCount);
 };
+// Iterates count items from m_pMgr starting at m, calling ComputeAxisRanges on each item whose v14() is nonzero, advancing m via v0c.
+// @fnv 0x00dd5cd0
+void FUN_00dd5cd0_cls::ProcessItems(::Item_00dd5b00* aiArg1, int aiArg2)
+{
+    __declspec(align(16)) int slots[127];
+    int i;
+    int count = m_pMgr->v04();
+    int m = m_pMgr->v08();
+    if (count > 0)
+    {
+        i = count;
+        do
+        {
+            Item* item = m_pMgr->v14(m, slots);
+            if (item->v14())
+            {
+                reinterpret_cast<::Obj_00dd5b00 *>(this)->ComputeAxisRanges((::Src_00dd5b00 *)(item), m, aiArg1, aiArg2);
+            }
+            m = m_pMgr->v0c(m);
+            i = i - 1;
+        } while (i != 0);
+    }
+}
 
 inline float Dot3_00dd5b00(const __m128& a, const __m128& b)
 {
@@ -403,16 +382,16 @@ inline float Dot3_00dd5b00(const __m128& a, const __m128& b)
 void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd5b00* apItems, int aiCount)
 {
     int nVerts = apSource->v2c();
-    AudioHolder* pHolder = FUN_00c85750();
-    Vec4* m_pkDeltas = (Vec4*)pHolder->unk00;
-    pHolder->unk00 = (int)m_pkDeltas + ((nVerts * sizeof(Vec4) + 0x7f) & ~0x7f);
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    Vec4* m_pkDeltas = reinterpret_cast<Vec4*>(pHolder->m_stackCurrent);
+    pHolder->m_stackCurrent += (nVerts * sizeof(Vec4) + 0x7f) & ~0x7f;
     apSource->v30(m_pkDeltas);
 
     Vec_00dd5b00* pList = &m_kNode;
-    AudioHolder* pGrow = FUN_00c85750();
+    hkMemoryRouter* pGrow = &hkMemoryRouter::getInstance();
     if (pList->m_iArrayLength == (int)(pList->m_uCapFlags & 0x3fffffff))
     {
-        ResizeAudioStream(pGrow->m_pAllocator, pList, 0x6c);
+        ::ResizeAudioStream((::AudioAllocator *)(pGrow->m_heap), (::AudioStream *)(pList), 0x6c);
     }
     Entry_00dd5b00* pEntry = &pList->m_pData[pList->m_iArrayLength++];
     pEntry->m_iOwnerObjectOffset = aiId;
@@ -463,33 +442,13 @@ void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd
         pEntry->m_ranges[i].m_fHi = hi;
     }
 
-    pHolder = FUN_00c85750();
-    pHolder->unk00 = (int)m_pkDeltas;
+    pHolder = &hkMemoryRouter::getInstance();
+    pHolder->m_stackCurrent = reinterpret_cast<char*>(m_pkDeltas);
 }
 
-struct FUN_00dd5de0_Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct FUN_00dd5de0_MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00dd5de0_Allocator* m_pStreamAllocator;
-
-    FUN_00dd5de0_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
-extern "C" FUN_00dd5de0_MemoryRouter& __cdecl FUN_00c85750();
 }
 
 struct FUN_00dd5de0
@@ -500,10 +459,10 @@ struct FUN_00dd5de0
     FUN_00dd5de0();
     virtual ~FUN_00dd5de0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, size_t nbytes)
     {
         FUN_00dd5de0* b = static_cast<FUN_00dd5de0*>(p);
-        fnvc_adapt::FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -544,4 +503,82 @@ void Owner::FUN_00dd55f0(OutRecord* out)
         ++out;
         current = collection->Next(current);
     }
+}
+
+// Moved from hkpmoppcachedshapemediator_rtm_variant.cpp (VEGAS-15).
+int InitIntToZero(int, int* piValue);
+void CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest);
+
+struct Entry
+{
+    int unk00;
+    int index;
+    Range_00dd5b00 iv;
+    int unk10;
+};
+
+struct IntervalSet : Obj_00dd5b00
+{
+
+    void GetRange(const Entry& e, int axis, float& lo, float& hi) const
+    {
+        lo = m_kNode.m_pData[e.index].m_ranges[axis].m_fLo;
+        hi = m_kNode.m_pData[e.index].m_ranges[axis].m_fHi;
+    }
+
+    void FUN_00dd5670(int a1, int axis, Entry* entries, int count, float* outMin, float* outMax);
+};
+
+// @fnv 0x00dd5670
+void IntervalSet::FUN_00dd5670(int a1, int axis, Entry* entries, int count, float* outMin, float* outMax)
+{
+    float lo, hi;
+    GetRange(entries[0], axis, lo, hi);
+    entries[0].iv.m_fLo = lo;
+    entries[0].iv.m_fHi = hi;
+    float mn = lo;
+    float mx = hi;
+    for (int i = 1; i < count; i++)
+    {
+        GetRange(entries[i], axis, lo, hi);
+        entries[i].iv.m_fLo = lo;
+        entries[i].iv.m_fHi = hi;
+        mn = (mn < lo) ? mn : lo;
+        mx = (mx > hi) ? mx : hi;
+    }
+    *outMin = mn;
+    *outMax = mx;
+}
+
+struct Ent
+{
+    int idx;
+    int unk04, unk08, unk0c, unk10;
+};
+struct Lst
+{
+    int a;
+    Ent e[1];
+};
+struct CachedRangeMediator : Obj_00dd5b00
+{
+    void FUN_00dd58d0(int unused, int k, Lst* l, int count, float* outMin, float* outMax);
+};
+// @fnv 0x00dd58d0
+void CachedRangeMediator::FUN_00dd58d0(int unused, int k, Lst* l, int count, float* outMin, float* outMax)
+{
+    float mn = m_kNode.m_pData[l->e[0].idx].m_ranges[k].m_fLo;
+    float mx = m_kNode.m_pData[l->e[0].idx].m_ranges[k].m_fHi;
+    Ent* p = l->e;
+    for (int i = 1; i < count; i++)
+    {
+        float a0 = m_kNode.m_pData[p[i].idx].m_ranges[k].m_fLo;
+        float a1 = m_kNode.m_pData[p[i].idx].m_ranges[k].m_fHi;
+        if (!(mn < a0))
+            mn = a0;
+        if (!(mx > a1))
+            mx = a1;
+    }
+    *outMin = mn;
+    *outMax = mx;
 }

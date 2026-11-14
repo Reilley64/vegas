@@ -2,26 +2,18 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
+#include "havok/hkUlong.h"
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/decl/SetupTarget.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cab000.h"
 extern const double DAT_01097800;
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-};
-extern "C"
-{
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps1(const float*);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-}
 struct Matrix;
 struct __declspec(align(16)) Vector
 {
@@ -39,7 +31,6 @@ struct Matrix
 };
 struct Shape
 {
-    void FUN_00de4950(float, float, float, int, const Vector*, const Vector*, const Vector*);
 };
 struct Array
 {
@@ -56,22 +47,6 @@ union DrawWork
     LineScratch line;
     Array shapes;
 };
-struct Allocator
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void freeBuffer(void*, int);
-};
-struct Router
-{
-    int a, b, c, d;
-    Allocator* allocator;
-};
-Router* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(Allocator*, Array*, int, int);
-unsigned __cdecl PackColorBigEndian(float, float, float, float);
 struct Display
 {
     virtual void v0();
@@ -83,17 +58,16 @@ struct Display
     virtual void v6();
     virtual void v7();
     virtual void v8();
-    virtual void line(const Vector*, const Vector*, unsigned, int, int);
+    virtual void line(const Vector*, const Vector*, unsigned, hkUlong, int);
     virtual void v10();
     virtual void v11();
     virtual void v12();
     virtual void v13();
-    virtual void geometry(Array*, unsigned, int, int);
+    virtual void geometry(Array*, unsigned, hkUlong, int);
 };
 struct DisplayContext
 {
     int a, b, c, d;
-    void FUN_00e10a10(Display*);
 };
 struct Data
 {
@@ -116,10 +90,7 @@ struct Viewer
     Vector m60, m70, m80, m90, ma0, mb0;
     DisplayContext context;
     Shape shape;
-    void FUN_00de47e0(Input*, Matrix*, Matrix*);
-    void FUN_00de4530(int, int);
-    void FUN_00de44c0(int, int);
-    void FUN_00de7a70(Input*, Display*, int, int);
+    void FUN_00de7a70(Input*, Display*, hkUlong, int);
 };
 __forceinline __m128 broadcast(float value)
 {
@@ -134,16 +105,16 @@ __forceinline __m128 broadcastScalar(float value)
 }
 // Draws lines via display->line and, when data->enabled and the range is small, a shape via display->geometry, using vectors transformed from input->data.
 // @fnv 0x00de7a70
-void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
+void Viewer::FUN_00de7a70(Input* input, Display* display, hkUlong id, int tag)
 {
     Data* data = input->data;
-    context.FUN_00e10a10(display);
+    reinterpret_cast<::CpuObject *>(&(context))->FUN_00e10a10((display));
     Matrix first, second;
-    FUN_00de47e0(input, &first, &second);
+    reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(input, &first, &second);
     origin.FUN_00c7f640(&first, &data->v90);
     pivot.FUN_00c7f640(&second, &data->v50);
-    FUN_00de4530(id, tag);
-    FUN_00de44c0(id, tag);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(id, tag);
     AxisPair axes;
     DrawWork scratch;
     axes.axis.FUN_00c7f700(&m90, &data->v60);
@@ -171,28 +142,28 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
         float high = data->maximum, low = data->minimum;
         if (high - low < 100000000376832.0)
         {
-            shape.FUN_00de4950(scale * multiplier, low, high, flags, &origin, &axes.axis, &axes.other);
+            reinterpret_cast<::SetupTarget *>(&(shape))->FUN_00de4950(scale * multiplier, low, high, flags, (*(const ::Vec4 *)(&origin)), (*(const ::Vec4 *)(&axes.axis)), (*(const ::Vec4 *)(&axes.other)));
             scratch.shapes.data = 0;
             scratch.shapes.size = 0;
             scratch.shapes.capacity = 0x80000000;
-            Router* router = FUN_00c85750();
-            Allocator* allocator = router->allocator;
+            hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+            hkMemoryAllocator* allocator = router->m_heap;
             int capacity = scratch.shapes.capacity & 0x3fffffff;
             if (capacity < 1)
             {
                 capacity *= 2;
                 if (capacity <= 1)
                     capacity = 1;
-                FUN_00c908c0(allocator, &scratch.shapes, capacity, 4);
+                ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(::Array *)(&scratch.shapes), capacity, sizeof(void*));
             }
             scratch.shapes.size = 1;
             scratch.shapes.data[0] = &shape;
             display->geometry(&scratch.shapes, 0xffffffff, id, tag);
-            router = FUN_00c85750();
-            allocator = router->allocator;
+            router = &hkMemoryRouter::getInstance();
+            allocator = router->m_heap;
             scratch.shapes.size = 0;
             if ((scratch.shapes.capacity & 0x80000000) == 0)
-                allocator->freeBuffer(scratch.shapes.data, (scratch.shapes.capacity & 0x3fffffff) * 4);
+                allocator->bufFree(scratch.shapes.data, (scratch.shapes.capacity & 0x3fffffff) * (int)sizeof(scratch.shapes.data[0]));
         }
     }
     {
@@ -225,3 +196,5 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
         display->line(&scratch.line.base, &scratch.line.end, 0xffffff00, id, tag);
     }
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.inc"

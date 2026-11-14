@@ -2,6 +2,10 @@
 #ifndef BGSREPAIRITEMLIST_DECLS_H
 #define BGSREPAIRITEMLIST_DECLS_H
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 class TESFile;
 class TESForm
 {
@@ -84,9 +88,8 @@ class TESForm
     virtual void vfn_12c();
     virtual const char* GetEditorID();
     TESFile* GetFile(int);
-    unsigned int GetFormID();
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
+public:
+    void ClearData();
 };
 class BGSListForm : public TESForm
 {
@@ -103,5 +106,4 @@ class BGSRepairItemList
     BGSListForm* pRepairItemList;
     void InitItem(TESForm* owner);
 };
-int Warning(const char*, ...);
 #endif

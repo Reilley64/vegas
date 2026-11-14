@@ -1,5 +1,22 @@
 // fallout_shared/tesscriptvariable.cpp: SL_standin, Rec (6 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00501c10_cls.h"
+#include "fnv/decl/T2870.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00472000.h"
 #include "tesscriptvariable_decls.h"
 #include "TESFile.h"
 #include "ScriptVariableInfo.h"
@@ -8,35 +25,35 @@
 // @fnv 0x005e2a20
 void ScriptVariableInfo::Load(TESFile* file)
 {
-    if (file && file->GetChunkID() == 0x44534c53)
+    if (file && ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x44534c53)
     {
-        file->GetChunkData(this, 24);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(this), 24);
         if (file->IsEndianConversionRequired())
-            reinterpret_cast<ScriptVariableEndian*>(this)->FUN_005e2870();
+            reinterpret_cast<::T2870 *>((reinterpret_cast<ScriptVariableEndian*>(this)))->FUN_005e2870();
     }
 }
 
-struct SL_standin
+struct SL_standin : ScriptLocalVariable
 {
     SL_standin* FUN_005ac150(SL_standin* apCopy);
 };
-// Copies the byte at offset 0x10, the uint at offset 0, and the double at offset 8 from apCopy into this, then returns this.
+// Copies m_bIsString, uiID and fValue from apCopy into this, then returns this.
 // @fnv 0x005ac150
 SL_standin* SL_standin::FUN_005ac150(SL_standin* apCopy)
 {
-    *((char*)this + 0x10) = *((char*)apCopy + 0x10);
-    *(unsigned int*)this = *(unsigned int*)apCopy;
-    *(double*)((char*)this + 8) = *(double*)((char*)apCopy + 8);
+    m_bIsString = apCopy->m_bIsString;
+    uiID = apCopy->uiID;
+    fValue = apCopy->fValue;
     return this;
 }
 
-// Zeroes the object's first field, sets the double at offset 0x8 to 0.0, clears the bool at 0x10, and returns the object.
+// Zeroes uiID and fValue, clears m_bIsString, and returns the object.
 // @fnv 0x005e28e0
-ScriptLocalVariable* __fastcall FUN_005e28e0(ScriptLocalVariable* apObject)
+ScriptLocalVariable* FUN_005e28e0(ScriptLocalVariable* apObject)
 {
-    *(unsigned int*)((char*)apObject + 0x0) = 0;
-    *(double*)((char*)apObject + 0x8) = 0.0;
-    *(bool*)((char*)apObject + 0x10) = false;
+    apObject->uiID = 0;
+    apObject->fValue = 0.0;
+    apObject->m_bIsString = false;
     return apObject;
 }
 
@@ -51,6 +68,7 @@ struct FUN_005e29a0_shell
     double m_iFourthElementInteger;
     unsigned char m_kPointB;
     char m_pAuxiliaryObject[3];
+    char pad14[0x18 - 0x14];
     Dummy00501c30 m_dum;
     bool FUN_005e29a0(FUN_005e29a0_shell* other);
 };
@@ -66,7 +84,7 @@ bool FUN_005e29a0_shell::FUN_005e29a0(FUN_005e29a0_shell* other)
         return true;
     if (m_iFourthElementInteger != other->m_iFourthElementInteger)
         return true;
-    if (((Dummy00501c30*)((char*)this + 0x18))->FUN_00501c30((const char*)other + 0x18))
+    if (m_dum.FUN_00501c30((const char*)&other->m_dum))
         return true;
     return false;
 }
@@ -76,22 +94,23 @@ template <int N> struct EndianSizeTag
     char v;
 };
 
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<1>);
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<10>);
 
 struct FUN_00414220_shell
 {
+    unsigned int variableCount;
+    unsigned int m_uiReferenceID;
+    unsigned int dataSize;
+    unsigned int m_uiDataOffset;
     void FUN_00414220();
 };
 
 // @fnv 0x00414220
 void FUN_00414220_shell::FUN_00414220()
 {
-    BSEndian((unsigned char*)this, EndianSizeTag<0>());
-    BSEndian((unsigned char*)this + 4, EndianSizeTag<1>());
-    BSEndian((unsigned char*)this + 8, EndianSizeTag<0>());
-    BSEndian((unsigned char*)this + 12, EndianSizeTag<0>());
+    ::FUN_00401080((int *)&variableCount);
+    ::FUN_00401080((int *)&m_uiReferenceID);
+    ::FUN_00401080((int *)&dataSize);
+    ::FUN_00401080((int *)&m_uiDataOffset);
 }
 
 namespace fnv_005e2910 {
@@ -105,10 +124,9 @@ struct FUN_004037b0
     int a, b;
     FUN_004037b0();
     ~FUN_004037b0();
-    FUN_004037b0& CallAndReturnSelf(const FUN_004037b0&);
     FUN_004037b0& operator=(const FUN_004037b0& o)
     {
-        return CallAndReturnSelf(o);
+        return (*(::fnv_005e2910::FUN_004037b0 *)(reinterpret_cast<::FUN_00501c10_cls *>(this)->CallAndReturnSelf((std::intptr_t)&(o))));
     }
 };
 struct Rec
@@ -131,6 +149,6 @@ Rec::Rec(const Rec& aRec)
     m0.v = aRec.m0.v;
     d8 = aRec.d8;
     c10 = aRec.c10;
-    m18.CallAndReturnSelf(aRec.m18);
+    reinterpret_cast<::FUN_00501c10_cls *>(&(m18))->CallAndReturnSelf((std::intptr_t)&(aRec.m18));
 }
 }  // namespace fnv_005e2910

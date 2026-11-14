@@ -2,6 +2,24 @@
 // src/havok/physics/dynamics/collide/contactlistener/util/hkpcollisioncallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/contactlistener/util/hkpcollisioncallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <new>
+#include "fnv/decl/FUN_00d92820_cls.h"
+#include "fnv/decl/FUN_00d9e860.h"
+#include "fnv/decl/S_00d9e280_D.h"
+#include "fnv/decl/fnv_00c937e0__hkpWorldXc937e0.h"
+#include "fnv/decl/fnv_00d0b0d0__FUN_00d0b0d0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkWorldC9175.h"
+#include "fnv/decl/hkWorldXc91a70.h"
+#include "fnv/decl/hkpWorld_Listener.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d9e000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d0b1e0
 {
     void* unk00;
@@ -12,44 +30,30 @@ struct FUN_00d0b1e0
     int unk10;
     struct Base
     {
-        void FUN_00d0b0d0();
     };
+    Base m_base14;  // +0x14
     FUN_00d0b1e0(int flags);
 };
-extern int DAT_0102e388;
 extern int DAT_010cb1e4;
-extern int DAT_010cb1c4;
-extern "C" void* __cdecl FUN_00c85750();
-struct CallbackInterface
-{
-    virtual void f0();
-    virtual void f1();
-    virtual void callback(void*, unsigned short);
-};
-struct Manager
-{
-    int unk00[4];
-    CallbackInterface* interface10;
-};
+
+
 // Initializes the object's base subobject and pointers, then if flags bit 0 is set calls callback on the manager's interface with this and unk04.
 // @fnv 0x00d0b1e0
 FUN_00d0b1e0::FUN_00d0b1e0(int flags)
 {
-    ((Base*)((char*)this + 0x14))->FUN_00d0b0d0();
+    reinterpret_cast<::fnv_00d0b0d0::FUN_00d0b0d0 *>((&m_base14))->fnv_00d0b0d0::FUN_00d0b0d0::~FUN_00d0b0d0();
     unk0c = &DAT_010cb1c4;
     unk08 = &DAT_010cb1e4;
-    unk00 = &DAT_0102e388;
+    unk00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {
-        Manager* manager = (Manager*)FUN_00c85750();
-        manager->interface10->callback(this, unk04);
+        hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
+        manager->m_heap->blockFree(this, unk04);
     }
 }
 
 struct CallbackTarget
 {
-    void FUN_00c91750(void* apValue);
-    void FUN_00c91a70(void* apValue);
 };
 
 struct OuterRefHolder
@@ -58,16 +62,17 @@ struct OuterRefHolder
     int unk04;
     int unk08;
 
-    void FUN_00c905b0();
 };
 
 struct SubEntry
 {
     int unk00;
 
-    void FUN_00d9e280(CallbackTarget* apTarget);
 };
 
+// hkpCollisionCallbackUtil's listener bases: post-simulation at +0x8, world deletion at +0xc (x86 layout).
+static const int kPostSimulationListenerOffset = 0x8;
+static const int kDeletionListenerOffset = 0xc;
 struct FUN_00d0ae30_cls
 {
     int unk00;
@@ -80,21 +85,21 @@ struct FUN_00d0ae30_cls
 // @fnv 0x00d0ae30
 void FUN_00d0ae30_cls::FUN_00d0ae30(CallbackTarget* apTarget)
 {
-    m_08.FUN_00d9e280(apTarget);
-    apTarget->FUN_00c91750(((char*)this - 0xc) != 0 ? (char*)this - 4 : 0);
-    apTarget->FUN_00c91a70(((char*)this - 0xc) != 0 ? (char*)this : 0);
-    ((OuterRefHolder*)((char*)this - 0xc))->FUN_00c905b0();
+    reinterpret_cast<::S_00d9e280_D *>(&(m_08))->FUN_00d9e280((::S_00d9e280_World *)(apTarget));
+    OuterRefHolder* owner = reinterpret_cast<OuterRefHolder*>((char*)this - kDeletionListenerOffset);
+    char* postSimulationListener = (char*)owner + kPostSimulationListenerOffset;
+    reinterpret_cast<::hkWorldC9175 *>((apTarget))->FUN_00c91750(owner != 0 ? postSimulationListener : 0);
+    reinterpret_cast<::hkWorldXc91a70 *>((apTarget))->FUN_00c91a70(owner != 0 ? (char*)this : 0);
+    reinterpret_cast<::hkReferencedObjectC905 *>(owner)->FUN_00c905b0();
 }
 
 extern int DAT_010cb1e4;
-extern int DAT_010cb1c4;
 extern int DAT_010cd33c;
 extern int DAT_010cd31c;
 extern int DAT_010cd30c;
 
 struct FUN_00d0b180_sub
 {
-    void FUN_00d9e860();
 };
 
 struct FUN_00d0b180_cls
@@ -121,16 +126,13 @@ FUN_00d0b180_cls* FUN_00d0b180_cls::Initialize()
     unk08 = &DAT_010cd31c;
     unk0c = &DAT_010cd30c;
     unk10 = 1;
-    sub->FUN_00d9e860();
+    new ((void *)(sub)) ::FUN_00d9e860();
     return this;
 }
 
 #include <windows.h>
-extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {
@@ -162,7 +164,6 @@ struct Collider
     virtual int v20();
     void* unk04;
     void* unk08;
-    void* GetBase();
 };
 
 struct Node
@@ -191,12 +192,10 @@ struct Data
     void* c;
 };
 
-extern "C" void __cdecl DispatchCollisionEvents(void* obj, Data* data);
-extern "C" void __cdecl FUN_00cfffb0(void* obj, Data* data);
 
 // Records a profiler tick, then if pObj->v20() is 11 calls DispatchCollisionEvents once and FUN_00cfffb0 twice with a Data record, and records an end tick.
 // @fnv 0x00d0ae80
-void __stdcall FUN_00d0ae80(Params* p)
+void FUN_00d0ae80(Params* p)
 {
     PFN_TlsGetValue pfnTls = TlsGetValue;
     Data data;
@@ -217,17 +216,17 @@ void __stdcall FUN_00d0ae80(Params* p)
     Collider* pCollider = p->unk0c;
     if (pCollider->v20() == 11)
     {
-        data.c = pCollider->GetBase();
+        data.c = ((void *)(reinterpret_cast<::FUN_00d92820_cls *>((pCollider))->FUN_00d92820()));
         Node* a = p->unk14;
         void* b = p->unk18;
         data.kind = 2;
         data.a = a;
         data.b = b;
-        DispatchCollisionEvents(a->unk08, &data);
+        ::fnv_00d00d40::DispatchCollisionEvents((::fnv_00d00d40::World833 *)(a->unk08), (::fnv_00d00d40::CollisionEvent *)(::Data *)(&data));
         data.kind = 0;
-        FUN_00cfffb0(a, &data);
+        ::FUN_00cfffb0(a, &data);
         data.kind = 1;
-        FUN_00cfffb0(b, &data);
+        ::FUN_00cfffb0(b, &data);
     }
 
     volatile DWORD tickExit;
@@ -245,7 +244,6 @@ void __stdcall FUN_00d0ae80(Params* p)
     }
 }
 
-extern DWORD hkMonitorStreamTls;
 
 struct S_00d0af60_TimerCommand
 {
@@ -264,7 +262,7 @@ struct S_00d0af60_MonitorStream
 
 static inline void S_00d0af60_Timer(const char* name)
 {
-    S_00d0af60_MonitorStream* s = (S_00d0af60_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00d0af60_MonitorStream* s = (S_00d0af60_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00d0af60_TimerCommand* h = (S_00d0af60_TimerCommand*)s->m_kRayEnd;
@@ -272,7 +270,7 @@ static inline void S_00d0af60_Timer(const char* name)
         _ReadWriteBarrier();
         volatile unsigned int t = (unsigned int)__rdtsc();
         h->m_uiStartTicks = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -287,7 +285,6 @@ struct S_00d0af60_Shape
     virtual void v18();
     virtual void v1c();
     virtual int getType();
-    void* FUN_00d92820();
 };
 
 struct S_00d0af60_Entity
@@ -316,99 +313,83 @@ struct S_00d0af60_Input
     S_00d0af60_Entity* unk18;
 };
 
-void FUN_00d00de0(void*, S_00d0af60_Event*);
-void FUN_00d00060(S_00d0af60_Entity*, S_00d0af60_Event*);
 
 // Between two profiler timers, if the shape's type is 11, builds an event and calls FUN_00d00de0 with a->unk8, then FUN_00d00060 for each entity.
 // @fnv 0x00d0af60
-void __stdcall FUN_00d0af60(S_00d0af60_Input* in)
+void FUN_00d0af60(S_00d0af60_Input* in)
 {
     S_00d0af60_Timer("TtCollLfUtil");
     S_00d0af60_Shape* shape = in->unkC;
     if (shape->getType() == 11)
     {
         S_00d0af60_Event ev;
-        void* obj = shape->FUN_00d92820();
+        void* obj = ((void *)(reinterpret_cast<::FUN_00d92820_cls *>((shape))->FUN_00d92820()));
         S_00d0af60_Entity* a = in->unk14;
         S_00d0af60_Entity* b = in->unk18;
         ev.m_obj = obj;
         ev.m_type = 2;
         ev.m_kPointA = a;
         ev.m_kPointB = b;
-        FUN_00d00de0(a->unk8, &ev);
+        ::FUN_00d00de0((::D00DE0World *)(a->unk8), &ev);
         ev.m_type = 0;
-        FUN_00d00060(a, &ev);
+        ::fnv_00d00060::FUN_00d00060((::fnv_00d00060::World833 *)(a), (::fnv_00d00060::ContactPointEvent *)(::S_00d0af60_Event *)(&ev));
         ev.m_type = 1;
-        FUN_00d00060(b, &ev);
+        ::fnv_00d00060::FUN_00d00060((::fnv_00d00060::World833 *)(b), (::fnv_00d00060::ContactPointEvent *)(::S_00d0af60_Event *)(&ev));
     }
     S_00d0af60_Timer("Et");
 }
 
 // sub ecx,8; jmp target: MSVC adjustor thunk for the SecondaryBase slot of a
 // class deriving from two bases; PrimaryBase is 8 bytes (vptr + one int).
-struct AdjPrimaryBase
+struct FnvHavok00d0b1c0_AdjPrimaryBase
 {
     virtual void FUN_00d0b1c0();
     int unk04;
 };
 
-struct AdjSecondaryBase
+struct FnvHavok00d0b1c0_AdjSecondaryBase
 {
     virtual void FUN_00d0b1c0();
 };
 
-struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
+struct FnvHavok00d0b1c0_AdjDerived : FnvHavok00d0b1c0_AdjPrimaryBase, FnvHavok00d0b1c0_AdjSecondaryBase
 {
-    AdjDerived();
+    FnvHavok00d0b1c0_AdjDerived();
 // @fnv 0x00d0b1c0
     virtual void FUN_00d0b1c0();
 };
 
-AdjDerived::AdjDerived()
+FnvHavok00d0b1c0_AdjDerived::FnvHavok00d0b1c0_AdjDerived()
 {}
 
 // sub ecx,0xc; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0xc).
-struct PrimaryBase
+struct FnvHavok00d0b1d0_PrimaryBase
 {
     virtual void FUN_00d0b1d0();
     int unk04;
     int unk08;
 };
 
-struct SecondaryBase
+struct FnvHavok00d0b1d0_SecondaryBase
 {
     virtual void FUN_00d0b1d0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00d0b1d0_Derived : FnvHavok00d0b1d0_PrimaryBase, FnvHavok00d0b1d0_SecondaryBase
 {
-    Derived();
+    FnvHavok00d0b1d0_Derived();
 // @fnv 0x00d0b1d0
     virtual void FUN_00d0b1d0();
 };
 
-Derived::Derived()
+FnvHavok00d0b1d0_Derived::FnvHavok00d0b1d0_Derived()
 {}
 
 namespace fnv_00d0b040 {
-struct hkMemory
-{
-    virtual void unk00();
-    virtual void* allocateChunk(int size);
-};
-
-struct hkThreadMemory
-{
-    char pad00[0x10];
-    hkMemory* m_pMemoryAllocator;
-};
-
-extern "C" hkThreadMemory* __cdecl FUN_00c85750();
 
 struct SubObj
 {
-    void __thiscall PassObjectToTarget(void* obj);
 };
 
 struct hkpCollisionCallbackUtil
@@ -421,7 +402,6 @@ struct hkpCollisionCallbackUtil
     int m_sReferenceCount;
     SubObj field_14;
 
-    hkpCollisionCallbackUtil* __thiscall Initialize();
 };
 
 struct TargetClass
@@ -429,8 +409,6 @@ struct TargetClass
     char pad00[0x1c0];
     hkpCollisionCallbackUtil* m_pCallbackData;
 
-    void __thiscall FUN_00c93a60(void* p);
-    void __thiscall FUN_00c937e0(void* p);
 };
 
 // Increments the reference count of m_pCallbackData if present, otherwise allocates a 0x4c chunk, initializes it, and wires it into the object.
@@ -444,14 +422,14 @@ void __cdecl FUN_00d0b040(TargetClass* obj)
         return;
     }
 
-    hkThreadMemory* threadMem = FUN_00c85750();
-    hkpCollisionCallbackUtil* mem = (hkpCollisionCallbackUtil*)threadMem->m_pMemoryAllocator->allocateChunk(0x4c);
+    hkMemoryRouter* threadMem = &hkMemoryRouter::getInstance();
+    hkpCollisionCallbackUtil* mem = (hkpCollisionCallbackUtil*)threadMem->m_heap->blockAlloc(0x4c);
     mem->m_usMemSizeAndFlags = 0x4c;
-    util = mem->Initialize();
+    util = ((::fnv_00d0b040::hkpCollisionCallbackUtil *)(reinterpret_cast<::FUN_00d0b180_cls *>((mem))->Initialize()));
     obj->m_pCallbackData = util;
 
-    obj->FUN_00c93a60(util ? &util->field_0C : 0);
-    obj->FUN_00c937e0(util ? &util->field_08 : 0);
-    util->field_14.PassObjectToTarget(obj);
+    reinterpret_cast<::hkpWorld_Listener *>((obj))->FUN_00c93a60(util ? &util->field_0C : 0);
+    reinterpret_cast<::fnv_00c937e0::hkpWorldXc937e0 *>((obj))->FUN_00c937e0((::fnv_00c937e0::hkpEntityListenerXc937e0 *)(void *)(util ? &util->field_08 : 0));
+    ::PassObjectToTarget((::Derived *)&(util->field_14), obj, {});
 }
 }  // namespace fnv_00d0b040

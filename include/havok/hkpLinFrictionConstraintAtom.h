@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpLinFrictionConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -13,6 +12,4 @@ class hkpLinFrictionConstraintAtom : public hkpConstraintAtom
     hkUint8 m_ucFrictionAxis;  // +0x3
     hkReal m_fFriction;        // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpLinFrictionConstraintAtom[(sizeof(hkpLinFrictionConstraintAtom) == 0x8) ? 1 : -1];
 #endif

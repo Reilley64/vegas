@@ -1,106 +1,30 @@
 // bscore/bssimplelist.cpp: TargetClass, ObsList, GList, ActList and more (39 functions)
 
+#include <new>
+#include <malloc.h>
+#include "fnv/decl/ActorValueModifierList.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/EffectSettingList.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/LinkedListNode.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00430000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_011f6000.h"
 #include "InventoryStackRecord.h"
-
-// Reusable definitions from bscore/bssimplelist.inl. Explicit pointer-list
-// instantiations below select the original linker-folded bodies.
-
-// Default constructor for BSSimpleList that initializes m_item and m_pkNext to null.
-// @fnv 0x0096a2d0
-template <class T> BSSimpleList<T>::BSSimpleList() : m_item(0), m_pkNext(0)
-{}
-
-// Initializes m_item from item and sets m_pkNext to null.
-// @fnv 0x00470440
-template <class T> BSSimpleList<T>::BSSimpleList(T& item) : m_item(item), m_pkNext(0)
-{}
-
-// @fnv 0x00905820
-template <class T> void BSSimpleList<T>::AddTail(T& item)
-{
-    if (!item)
-        return;
-    BSSimpleList<T>* tail = this;
-    while (tail->m_pkNext)
-        tail = tail->m_pkNext;
-    if (tail->m_item)
-        tail->m_pkNext = new BSSimpleList<T>(item);
-    else
-        tail->m_item = item;
-}
-
-// @fnv 0x006815c0
-template <class T> T& BSSimpleList<T>::GetItem()
-{
-    return m_item;
-}
-
-// @fnv 0x00726070
-template <class T> BSSimpleList<T>* BSSimpleList<T>::GetNext()
-{
-    return m_pkNext;
-}
-
-// Returns true when the BSSimpleList has no next node and no item.
-// @fnv 0x008256d0
-template <class T> bool BSSimpleList<T>::IsEmpty()
-{
-    return !m_pkNext && !m_item;
-}
-
-// Deletes every node after this one, then clears this node's m_item and next pointer.
-// @fnv 0x00470470
-template <class T> void BSSimpleList<T>::RemoveAll()
-{
-    while (m_pkNext)
-    {
-        BSSimpleList<T>* next = m_pkNext->m_pkNext;
-        m_pkNext->m_pkNext = 0;
-        delete m_pkNext;
-        m_pkNext = next;
-    }
-    m_item = 0;
-}
-
-// @fnv 0x0046ffb0
-template <class T> BSSimpleList<T>::~BSSimpleList()
-{
-    RemoveAll();
-}
-
-// @fnv 0x005ae3d0
-template <class T> void BSSimpleList<T>::AddHead(T& item)
-{
-    if (!item)
-        return;
-    if (m_item)
-    {
-        BSSimpleList<T>* node = new BSSimpleList<T>(m_item);
-        node->m_pkNext = m_pkNext;
-        m_pkNext = node;
-        m_item = item;
-    }
-    else
-        m_item = item;
-}
-
-// When m_pkNext is nonnull, copies its item and successor into this node and deletes it; otherwise sets m_item to 0.
-// @fnv 0x0063f7b0
-template <class T> void BSSimpleList<T>::RemoveHead()
-{
-    if (m_pkNext)
-    {
-        BSSimpleList<T>* node = m_pkNext;
-        m_pkNext = node->m_pkNext;
-        m_item = node->m_item;
-        node->m_pkNext = 0;
-        delete node;
-    }
-    else
-        m_item = 0;
-}
-
-template class BSSimpleList<InventoryStackRecord*>;
+#include "fnv/decl/FNV_MemoryManager.h"
 
 struct ListX
 {
@@ -114,10 +38,10 @@ struct W004702f0 : ListX
 // @fnv 0x004702f0
 W004702f0* W004702f0::FUN_004702f0(unsigned int flags)
 {
-    ListX::~ListX();
+    reinterpret_cast<::EffectSettingList *>(this)->EffectSettingList::~EffectSettingList();
     if (flags & 1)
     {
-        ::operator delete(this);
+        ::FUN_00401030(this);
     }
     return this;
 }
@@ -137,7 +61,7 @@ FUN_004818b0::FUN_004818b0()
     c = 0;
 }
 
-struct NiNode;
+class NiNode;
 struct EqHelper
 {
     bool operator==(NiNode*) const;
@@ -152,10 +76,9 @@ struct ObsList
 // @fnv 0x004a4460
 bool ObsList::FUN_004a4460()
 {
-    return (m_pkNext == 0 && *reinterpret_cast<EqHelper*>(this) == 0) ? 1 : 0;
+    return (m_pkNext == 0 && reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::EqHelper &)(*reinterpret_cast<EqHelper*>(this)))->operator==((int)(0))) ? 1 : 0;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct SL
 {
@@ -206,7 +129,6 @@ struct V3
     float x, y, z;
     V3();
 };
-extern V3 _NiPoint3_ZERO;
 struct FUN_004d9330
 {
     char c;
@@ -220,14 +142,12 @@ FUN_004d9330::FUN_004d9330()
 {
     c = 0;
     p = 0;
-    v = _NiPoint3_ZERO;
+    v = (*reinterpret_cast<::V3 *>((void *)&::NiPoint3::ZERO));
 }
 
 struct GObj;
 struct GNode
 {
-    GObj** _ref_006815c0();
-    GNode* _ref_00726070();
 };
 struct GList
 {
@@ -241,15 +161,14 @@ GObj* GList::FUN_004f35b0(int key)
     GObj* pObj = 0;
     while (node)
     {
-        pObj = *node->_ref_006815c0();
-        if (pObj && reinterpret_cast<int(__thiscall*)(GObj*)>((*reinterpret_cast<void***>(pObj))[4])(pObj) == key)
+        pObj = *((::GObj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
+        if (pObj && reinterpret_cast<int(*)(GObj*)>((*reinterpret_cast<void***>(pObj))[4])(pObj) == key)
             return pObj;
-        node = node->_ref_00726070();
+        node = ((::GNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     return 0;
 }
 
-extern float _DAT_01015f5c;
 
 // @fnv 0x004f7680
 FUN_004f7680::FUN_004f7680(bool abOwnsPointMemory)
@@ -259,8 +178,8 @@ FUN_004f7680::FUN_004f7680(bool abOwnsPointMemory)
     iCount = 0;
     m_kMinimums.y = 3.4028234663852886e+38f;
     m_kMinimums.x = 3.4028234663852886e+38f;
-    Maximums.y = _DAT_01015f5c;
-    Maximums.x = _DAT_01015f5c;
+    Maximums.y = ::DAT_01015f5c;
+    Maximums.x = ::DAT_01015f5c;
     m_pScaleResult = 0;
 }
 
@@ -275,9 +194,6 @@ struct ScriptS
     char pad[84];
     ScriptS();
     ~ScriptS();
-    void FUN_00484ab0(int);
-    void NotifySaveLoadGameOfFormChange();
-    void* GetHeader();
 };
 struct CondS
 {
@@ -316,9 +232,9 @@ FUN_00500910::FUN_00500910()
 // @fnv 0x00500960
 FUN_00500960::FUN_00500960()
 {
-    m_kScript.FUN_00484ab0(0);
-    m_kScript.NotifySaveLoadGameOfFormChange();
-    ((char*)m_kScript.GetHeader())[0x10] = 0;
+    reinterpret_cast<::TESForm *>(&(m_kScript))->SetInitializationState(0);
+    reinterpret_cast<::TESForm *>(&(m_kScript))->NotifySaveLoadGameOfFormChange();
+    ((char*)((void *)(reinterpret_cast<::BGSCameraPath *>(&(m_kScript))->GetConditions())))[0x10] = 0;
     m_pNote = 0;
     m_pTerminal = 0;
     cFlags = 0;
@@ -340,7 +256,6 @@ FUN_00513d60::FUN_00513d60()
     c = 0;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct _FUN_0052aa80_shell
 {
@@ -370,7 +285,7 @@ struct TargetClass
 // @fnv 0x0052a9b0
 void TargetClass::FUN_0052a9b0(const NiPointer<NiNode>& item)
 {
-    if (item == 0)
+    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NiPointer< ::NiNode> &)(item))->operator==((int)(0)))
         return;
 
     TargetClass* pkCur = this;
@@ -397,18 +312,15 @@ struct FUN_00590b60
 FUN_00590b60::FUN_00590b60()
 {}
 
-struct TESForm;
+class TESForm;
 struct FormFlagRecord
 {
     TESForm* pForm;
     unsigned int iFlags;
 };
-typedef char _sizecheck_ACTION_OBJECT[sizeof(FormFlagRecord) == 8 ? 1 : -1];
 
 struct ActNode
 {
-    FormFlagRecord** _ref_006815c0();
-    ActNode* _ref_00726070();
 };
 struct ActList
 {
@@ -426,14 +338,14 @@ FormFlagRecord* ActList::FUN_005a90b0(TESForm* form, bool create)
     FormFlagRecord* empty4;
     ActNode* cur = head;
     empty4 = 0;
-    while (cur && *cur->_ref_006815c0())
+    while (cur && *((::FormFlagRecord **)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item)))
     {
-        FormFlagRecord* obj = *cur->_ref_006815c0();
+        FormFlagRecord* obj = *((::FormFlagRecord **)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item));
         if (obj->pForm == form)
             return obj;
         if (obj->pForm == 0)
             empty4 = obj;
-        cur = cur->_ref_00726070();
+        cur = ((::ActNode *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
     }
     if (create)
         return empty4;
@@ -457,8 +369,9 @@ bool RefList::FUN_005f65d0(void** item)
     return pNode != 0;
 }
 
-struct TESTexture
+class TESTexture
 {
+  public:
     char b[8];
     TESTexture();
 };
@@ -483,7 +396,7 @@ struct Dummy_0061bf20
 {
     char b[0x10];
 };
-Dummy_0061bf20* __fastcall ConstructDummy(Dummy_0061bf20*);
+Dummy_0061bf20* ConstructDummy(Dummy_0061bf20*);
 struct FUN_00619740
 {
     void* pQuest;
@@ -504,7 +417,6 @@ FUN_00619740::FUN_00619740()
 }
 
 namespace fnv_00631540 {
-void* __cdecl operator new(unsigned int);
 
 struct _FUN_0052aa80_shell
 {
@@ -533,10 +445,10 @@ struct TargetClass
 // @fnv 0x00631540
 void TargetClass::FUN_00631540(const NiPointer<NiNode>& item)
 {
-    if (item == 0)
+    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NiPointer< ::NiNode> &)(item))->operator==((int)(0)))
         return;
 
-    if (m_item != 0)
+    if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)&(const ::fnv_00631540::_FUN_0052aa80_shell &)(m_item))->operator!=(0))
     {
         TargetClass* pkTmp = (TargetClass*)new FUN_006317f0(this);
         pkTmp->m_pkNext = m_pkNext;
@@ -563,19 +475,18 @@ struct ListReader
     NodeValue item;
     ListReader* next;
     ~ListReader();
-    bool IsEmpty();
     void FUN_00631620(const NodeValue& value);
 };
 // Removes the node whose item equals value; if it is the only node, clears item.
 // @fnv 0x00631620
 void ListReader::FUN_00631620(const NodeValue& value)
 {
-    if (value == 0 || IsEmpty())
+    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NodeValue &)(value))->operator==((int)(0)) || reinterpret_cast<::ObsList *>(this)->FUN_004a4460())
         return;
     ListReader* previous;
     ListReader* current = this;
     previous = this;
-    while (current && current->item != value)
+    while (current && reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::NodeValue &)(current->item))->IsNotEqual((const ::DummyStruct_00631820 &)(value)))
     {
         previous = current;
         current = current->next;
@@ -632,7 +543,6 @@ struct B006815c0
 struct NiPoint3
 {
     float x, y, z;
-    static const NiPoint3 ZERO;
 };
 
 struct CombatTargetTimestamp
@@ -641,7 +551,6 @@ struct CombatTargetTimestamp
     CombatTargetTimestamp(float);
 };
 
-CombatTargetTimestamp* __fastcall FUN_004300a0(CombatTargetTimestamp*);
 extern float DAT_010673a0;
 
 struct FUN_0066e590
@@ -664,13 +573,13 @@ struct FUN_0066e590
 // @fnv 0x0066e590
 FUN_0066e590::FUN_0066e590()
 {
-    FUN_004300a0((CombatTargetTimestamp*)m_abyActorState);
+    ::FUN_004300a0((::CombatTargetTimestamp *)(::fnv_0066e590::CombatTargetTimestamp *)((CombatTargetTimestamp*)m_abyActorState));
     pActor = 0;
     m_eDetectionLevel = 0;
     m_bHasLineOfSight = false;
     m_bIsDetected = true;
     iLevel = -100;
-    *(NiPoint3*)&m_kActorPosition = NiPoint3::ZERO;
+    *(NiPoint3*)&m_kActorPosition = (*reinterpret_cast<const ::fnv_0066e590::NiPoint3 *>((void *)&::NiPoint3::ZERO));
     CombatTargetTimestamp timeStamp(-DAT_010673a0);
     *(CombatTargetTimestamp*)m_abyActorState = timeStamp;
     b360view = false;
@@ -733,20 +642,18 @@ struct Date
     virtual ~Date();
     void* FUN_007b3fa0(unsigned int flags);
 };
-void __cdecl Deallocate(void*);
 // Destroys the Date object and, if the low bit of flags is set, frees the object memory via Deallocate, returning the original this pointer.
 // @fnv 0x007b3fa0
 void* Date::FUN_007b3fa0(unsigned int flags)
 {
-    this->Date::~Date();
+    reinterpret_cast<::TESForm *>((this))->ClearData();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct Cur
 {
-    int* _ref_006815c0();
 };
 struct TopicS
 {
@@ -759,19 +666,15 @@ struct TopicS
 bool TopicS::HasCur()
 {
     cur = reinterpret_cast<Cur*>(reinterpret_cast<char*>(this) + 0xc);
-    return (cur && *cur->_ref_006815c0() != 0) ? 1 : 0;
+    return (cur && *((int *)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item)) != 0) ? 1 : 0;
 }
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct ItemChangeList : BSSimpleList<InventoryStackRecord*>
 {
 
     int ItemsInList();
 
-    void FUN_007653f0(InventoryStackRecord**, int(__cdecl*)(InventoryStackRecord*, InventoryStackRecord*), int);
 
-    void FUN_007a8790(int(__cdecl*)(InventoryStackRecord*, InventoryStackRecord*));
 
     void SortItems(int(__cdecl* compare)(InventoryStackRecord*, InventoryStackRecord*));
 };
@@ -788,7 +691,7 @@ void ItemChangeList::SortItems(int(__cdecl* compare)(InventoryStackRecord*, Inve
     if (!puStack_10)
     {
 
-        FUN_007a8790(compare);
+        reinterpret_cast<::LinkedListNode *>(this)->FUN_007a8790((int (*)(void *, void *))(compare));
 
         return;
     }
@@ -803,9 +706,9 @@ void ItemChangeList::SortItems(int(__cdecl* compare)(InventoryStackRecord*, Inve
         puStack_10[iStack_20] = _puStack_18->m_item;
     }
 
-    FUN_007653f0(puStack_10, compare, iStack6);
+    reinterpret_cast<::FUN_007653f0_class *>(this)->FUN_007653f0((void **)(puStack_10), (int (*)(const void *, const void *))(compare), iStack6);
 
-    RemoveAll();
+    reinterpret_cast<::FileMatchList *>(this)->RemoveAll();
 
     _puStack_18 = this;
 
@@ -885,12 +788,10 @@ void ItemChangeListNode::FUN_00905330(InventoryStackRecord* const& item)
     }
 }
 
-void __cdecl _Deallocate(void*);
 
 struct List_009e03e0
 {
     ~List_009e03e0();
-    void** _ref_006815c0();
     void _ref_0063f7b0();
 };
 
@@ -908,11 +809,11 @@ void FUN_00967290_struct::FUN_00967290()
     if (m_kNode)
     {
         void* item = 0;
-        while (m_kNode && *m_kNode->_ref_006815c0())
+        while (m_kNode && *((void **)(&reinterpret_cast<::BSSimpleList<void*>*>(m_kNode)->m_item)))
         {
-            item = *m_kNode->_ref_006815c0();
+            item = *((void **)(&reinterpret_cast<::BSSimpleList<void*>*>(m_kNode)->m_item));
             void* pItem = item;
-            _Deallocate(pItem);
+            ::FUN_00401030(pItem);
             m_kNode->_ref_0063f7b0();
         }
         delete m_kNode;
@@ -922,10 +823,8 @@ void FUN_00967290_struct::FUN_00967290()
 
 struct S_00aa3e40
 {
-    void* FUN_00aa3e40(unsigned int n);
 };
 
-extern S_00aa3e40 DAT_011f6238;
 
 struct S_00a0c7c0_Node
 {
@@ -949,7 +848,7 @@ void S_00a0c7c0_List::AddToHead(void** apItem)
         return;
     if (m_item)
     {
-        S_00a0c7c0_Node* p2 = (S_00a0c7c0_Node*)DAT_011f6238.FUN_00aa3e40(8);
+        S_00a0c7c0_Node* p2 = (S_00a0c7c0_Node*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00aa3e40 *>(&::g_memoryManager))))->FUN_00aa3e40(8);
         S_00a0c7c0_Node* a = p2 ? (p2->m_item = m_item, p2->m_pkNext = 0, p2) : 0;
         S_00a0c7c0_Node* b5 = a;
         b5->m_pkNext = m_pkNext;
@@ -964,7 +863,6 @@ void S_00a0c7c0_List::AddToHead(void** apItem)
 
 struct ModifierEntryView
 {
-    char FUN_009373f0();
 };
 
 struct ModifierFormView
@@ -1007,12 +905,10 @@ struct ModifierActorValueView
 
 struct ModifierRoutingList : BSSimpleList<ModifierEntryView*>
 {
-    void FUN_00937280(char, ModifierEntryView*);
     void FUN_00937380(ModifierEntryView* mod);
 };
 
 namespace ActorValue {
-ActorValueInfo* __cdecl GetActorValueInfo(Index);
 }
 
 // Looks up the modifier key; calls the other routing method when info has bit 0 set, otherwise adds the entry at the head.
@@ -1021,10 +917,143 @@ void ModifierRoutingList::FUN_00937380(ModifierEntryView* apEntry)
 {
     if (!apEntry)
         return;
-    char key = apEntry->FUN_009373f0();
-    ActorValueInfo* info = ActorValue::GetActorValueInfo(static_cast<ActorValue::Index>(key));
+    char key = ((char)(reinterpret_cast<::FUN_009373f0_shell *>((apEntry))->FUN_009373f0()));
+    ActorValueInfo* info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(const ::ActorValue::Index &)(static_cast<ActorValue::Index>(key))))));
     if (info && (reinterpret_cast<ModifierActorValueView*>(info)->flags & 1))
-        FUN_00937280(key, apEntry);
+        reinterpret_cast<::ActorValueModifierList *>(this)->AddFastModifier(key, (::Modifier *)(apEntry));
     else
         AddHead(apEntry);
 }
+
+struct MyRTTI
+{
+    void* m_pName;
+    const MyRTTI* m_base;
+};
+
+struct MyCtrl
+{
+    virtual void f0();
+    virtual void f1();
+    virtual const MyRTTI* GetRTTI();
+    char _pad[0x2C];
+    MyCtrl* m_next;
+};
+
+struct MyHost
+{
+    char _pad[0xC];
+    MyCtrl* m_pFirstNode;
+    MyCtrl* FUN_00a5c570(const MyRTTI* pkRTTI) const;
+};
+
+// @fnv 0x00a5c570
+MyCtrl* MyHost::FUN_00a5c570(const MyRTTI* pkRTTI) const
+{
+    MyCtrl* pkCtrl = m_pFirstNode;
+    while (pkCtrl)
+    {
+        const MyRTTI* pkR = pkCtrl->GetRTTI();
+        while (pkR)
+        {
+            if (pkR == pkRTTI)
+                return pkCtrl;
+            pkR = pkR->m_base;
+        }
+        pkCtrl = pkCtrl->m_next;
+    }
+    return 0;
+}
+
+struct Memory185
+{
+};
+
+struct Node185
+{
+    InventoryStackRecord* item;
+    Node185* next;
+    void FUN_00ae83e0();
+// @fnv 0x00ae83e0
+    inline ~Node185()
+    {
+        FUN_00ae83e0();
+    }
+};
+
+void Node185::FUN_00ae83e0()
+{
+    while (next)
+    {
+        Node185* successor = next->next;
+        next->next = 0;
+        delete next;
+        next = successor;
+    }
+    item = 0;
+}
+
+struct Mem_00a0cbe0
+{
+};
+
+template <class T> struct List_00a0cbe0
+{
+    T m_item;
+    List_00a0cbe0<T>* m_pkNext;
+
+    ~List_00a0cbe0()
+    {
+        int u1, u2, u3;
+        reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
+    }
+    bool IsEmpty()
+    {
+        return m_pkNext == 0 && m_item == 0;
+    }
+    void RemoveAll();
+    void FUN_00a0cbe0(const T& item);
+};
+
+// @fnv 0x00a0cbe0
+template <class T> void List_00a0cbe0<T>::FUN_00a0cbe0(const T& item)
+{
+    if (!item || IsEmpty())
+        return;
+
+    List_00a0cbe0<T>* pkCur = this;
+    List_00a0cbe0<T>* pkPrev = this;
+    while (pkCur && pkCur->m_item != item)
+    {
+        pkPrev = pkCur;
+        pkCur = pkCur->m_pkNext;
+    }
+    if (pkCur)
+    {
+        if (pkCur == this)
+        {
+            if (m_pkNext)
+            {
+                pkPrev = m_pkNext;
+                m_pkNext = pkPrev->m_pkNext;
+                m_item = pkPrev->m_item;
+                pkPrev->m_pkNext = 0;
+                delete pkPrev;
+            }
+            else
+            {
+                m_item = 0;
+            }
+        }
+        else
+        {
+            pkPrev->m_pkNext = pkCur->m_pkNext;
+            pkCur->m_pkNext = 0;
+            delete pkCur;
+        }
+    }
+}
+
+template struct List_00a0cbe0<InventoryStackRecord*>;
+
+#include "generated/data/bscore/bssimplelist.inc"

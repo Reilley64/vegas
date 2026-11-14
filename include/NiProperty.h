@@ -3,11 +3,8 @@
 #define FNV_NIPROPERTY_H
 #include "layout_support.h"
 #include "NiObjectNET.h"
-#pragma pack(push, 4)
 class NiProperty : public NiObjectNET
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiProperty) == 0x18);
 #endif

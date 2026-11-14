@@ -38,6 +38,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: "Setup: Install Go"
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6; public upstream revision, gitleaks:allow
+        with:
+          go-version: "1.27.2"
+          cache: false
+
+      - name: "Setup: Build the policy range scanner"
+        working-directory: tools/public-check-batch
+        run: go build -trimpath -o "$RUNNER_TEMP/public-check-batch" .
+
       - name: "Setup: Install gitleaks"
         run: |
           curl -sSfL -o gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
@@ -54,5 +64,5 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          tools/hooks/public-check range "$BASE_SHA..$HEAD_SHA"
+          "$RUNNER_TEMP/public-check-batch" --patterns tools/hooks/public-patterns.txt range "$BASE_SHA..$HEAD_SHA"
           printf '%s\n%s\n' "$PR_TITLE" "$PR_BODY" | tools/hooks/public-check text

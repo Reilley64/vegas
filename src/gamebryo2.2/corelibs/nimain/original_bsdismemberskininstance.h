@@ -13,19 +13,22 @@
 // (BSDismemberSkinInstance derives from NiSkinInstance, exposes ms_kRTTI and
 // the virtual GetRTTI override).
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;
     const NiRTTI* m_pBaseRTTI;
 };
 
+struct NiStream;
 class NiSkinInstance
 {
   public:
     virtual ~NiSkinInstance();
     virtual const NiRTTI* GetRTTI() const;
     static const NiRTTI ms_kRTTI;
+public:
+    void LoadBinary(::NiStream &);
 };
 
 class BSDismemberSkinInstance : public NiSkinInstance

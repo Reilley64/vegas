@@ -1,6 +1,7 @@
 // bsshader/shadowscenenode_fog_decls.h: declares NiMemObject, NiColor, NiFogProperty, BSFogProperty, ShadowSceneNode
 #ifndef FNV_SHADOWSCENENODE_FOG_DECLS_H
 #define FNV_SHADOWSCENENODE_FOG_DECLS_H
+#include <cstddef>
 
 
 #include "layout_support.h"
@@ -11,14 +12,12 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 #endif
 
 #include "NiProperty.h"
 
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
@@ -94,7 +93,7 @@ template <> class NiPointer<BSFogProperty>
 };
 
 // Only the PC prefix through m_spFogProperty is needed by this header unit.
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     unsigned char sceneNodePrefix[0x134];
@@ -102,11 +101,4 @@ class ShadowSceneNode
     void SetFogPropertyForIndex(BSFogProperty* property);
 };
 
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(sizeof(NiFogProperty) == 44);
-FNV_STATIC_ASSERT(sizeof(BSFogProperty) == 100);
-FNV_STATIC_ASSERT(offsetof(BSFogProperty, m_fFogStartDistance) == 0x2c);
-FNV_STATIC_ASSERT(offsetof(BSFogProperty, m_kFogColor) == 0x54);
-FNV_STATIC_ASSERT(offsetof(BSFogProperty, m_fAlpha) == 0x60);
-FNV_STATIC_ASSERT(offsetof(ShadowSceneNode, m_spFogProperty) == 0x134);
 #endif

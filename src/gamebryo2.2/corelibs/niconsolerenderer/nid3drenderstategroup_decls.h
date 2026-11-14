@@ -2,14 +2,16 @@
 #ifndef NID3DRENDERSTATEGROUP_DECLS_H
 #define NID3DRENDERSTATEGROUP_DECLS_H
 
+#include "fnv/decl/fnv_00e7f210__FUN_00e7f210_cls.h"
 class D3DRenderStateGroup;
 template <class T> class NiTNewInterface
 {
 };
 template <class T, class A> class ObjectPool;
 extern ObjectPool<D3DRenderStateGroup, NiTNewInterface<D3DRenderStateGroup> >* DAT_0126f718;
-struct D3DRenderStateGroup
+class D3DRenderStateGroup
 {
+  public:
     bool m_bHasBeenApplied;
     static D3DRenderStateGroup* GetCurrentRenderStateGroup();
 };
@@ -27,7 +29,7 @@ template <class T, class A> class ObjectPool
     {
         if (!used)
         {
-            AddPoolBlock(currentSize);
+            reinterpret_cast<::fnv_00e7f210::FUN_00e7f210_cls *>(this)->AppendItems(currentSize);
             currentSize *= 2;
         }
         T* result = objects[0];

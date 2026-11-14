@@ -1,5 +1,10 @@
 
 // NiPixelFormat: Gamebryo pixel format description.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/ni_point3_startup_table.h"
 #include "layout_support.h"
 
 class NiPixelFormat
@@ -91,7 +96,6 @@ class NiPixelFormat
     NiComponentSpec m_akComponents[NUM_COMPS];
 };
 
-FNV_STATIC_ASSERT(sizeof(NiPixelFormat) == 0x44);
 
 // Initializes the pixel format to an 8-bit palettized format with an index component and three empty components.
 // @fnv 0x00a7cca0
@@ -435,21 +439,6 @@ void PixelFormatReader::ReadFromStream(PixelStream& stream)
     }
 }
 
-extern const NiPixelFormat kBGR888;
-extern const NiPixelFormat kRGB888;
-extern const NiPixelFormat kRGB565;
-extern const NiPixelFormat kRGBA32;
-extern const NiPixelFormat kBGRA32;
-extern const NiPixelFormat kRGBA5551;
-extern const NiPixelFormat kBGRA5551;
-extern const NiPixelFormat kRGBA4444;
-extern const NiPixelFormat kPAL8;
-extern const NiPixelFormat kPALA8;
-extern const NiPixelFormat kDXT1;
-extern const NiPixelFormat kDXT3;
-extern const NiPixelFormat kDXT5;
-extern const NiPixelFormat kBUMP16;
-extern const NiPixelFormat kBUMPLUMA32;
 
 // Stores the format, bits per pixel, and renderer hint, then maps the format and color masks to a NiPixelFormat constant or marks it unknown.
 // @fnv 0x00a7c9f0
@@ -469,15 +458,15 @@ void PixelFormatReader::FUN_00a7c9f0(Format eFormat, unsigned char ucBitsPerPixe
         {
         case 16:
             if (apuiMasks[0] == 0xf800 && apuiMasks[1] == 0x7e0 && apuiMasks[2] == 0x1f && apuiMasks[3] == 0)
-                *(NiPixelFormat*)this = kRGB565;
+                *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa8d0));
             else
                 m_eFormat = FORMAT_UNKNOWN;
             break;
         case 24:
             if (apuiMasks[0] == 0xff && apuiMasks[1] == 0xff00 && apuiMasks[2] == 0xff0000 && apuiMasks[3] == 0)
-                *(NiPixelFormat*)this = kBGR888;
+                *(NiPixelFormat*)this = ::DAT_011aa2e8;
             else if (apuiMasks[0] == 0xff0000 && apuiMasks[1] == 0xff00 && apuiMasks[2] == 0xff && apuiMasks[3] == 0)
-                *(NiPixelFormat*)this = kRGB888;
+                *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aaa80));
             else
                 m_eFormat = FORMAT_UNKNOWN;
             break;
@@ -491,20 +480,20 @@ void PixelFormatReader::FUN_00a7c9f0(Format eFormat, unsigned char ucBitsPerPixe
         {
         case 16:
             if (apuiMasks[0] == 0x1f && apuiMasks[1] == 0x3e0 && apuiMasks[2] == 0x7c00 && apuiMasks[3] == 0x8000)
-                *(NiPixelFormat*)this = kBGRA5551;
+                *(NiPixelFormat*)this = ::DAT_011aa330;
             else if (apuiMasks[0] == 0x7c00 && apuiMasks[1] == 0x3e0 && apuiMasks[2] == 0x1f && apuiMasks[3] == 0x8000)
-                *(NiPixelFormat*)this = kRGBA5551;
+                *(NiPixelFormat*)this = ::DAT_011aa3c0;
             else if (apuiMasks[0] == 0xf00 && apuiMasks[1] == 0xf0 && apuiMasks[2] == 0xf && apuiMasks[3] == 0xf000)
-                *(NiPixelFormat*)this = kRGBA4444;
+                *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa9f0));
             else
                 m_eFormat = FORMAT_UNKNOWN;
             break;
         case 32:
             if (apuiMasks[0] == 0xff0000 && apuiMasks[1] == 0xff00 && apuiMasks[2] == 0xff &&
                 apuiMasks[3] == 0xff000000)
-                *(NiPixelFormat*)this = kRGBA32;
+                *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aaac8));
             else
-                *(NiPixelFormat*)this = kBGRA32;
+                *(NiPixelFormat*)this = ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc);
             break;
         default:
             m_eFormat = FORMAT_UNKNOWN;
@@ -515,7 +504,7 @@ void PixelFormatReader::FUN_00a7c9f0(Format eFormat, unsigned char ucBitsPerPixe
         switch (ucBitsPerPixel)
         {
         case 8:
-            *(NiPixelFormat*)this = kPAL8;
+            *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa210));
             break;
         default:
             m_eFormat = FORMAT_UNKNOWN;
@@ -526,7 +515,7 @@ void PixelFormatReader::FUN_00a7c9f0(Format eFormat, unsigned char ucBitsPerPixe
         switch (ucBitsPerPixel)
         {
         case 8:
-            *(NiPixelFormat*)this = kPALA8;
+            *(NiPixelFormat*)this = ::DAT_011aa258;
             break;
         default:
             m_eFormat = FORMAT_UNKNOWN;
@@ -534,19 +523,19 @@ void PixelFormatReader::FUN_00a7c9f0(Format eFormat, unsigned char ucBitsPerPixe
         }
         break;
     case FORMAT_DXT1:
-        *(NiPixelFormat*)this = kDXT1;
+        *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa498));
         break;
     case FORMAT_DXT3:
-        *(NiPixelFormat*)this = kDXT3;
+        *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa4e0));
         break;
     case FORMAT_DXT5:
-        *(NiPixelFormat*)this = kDXT5;
+        *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa528));
         break;
     case FORMAT_BUMP:
-        *(NiPixelFormat*)this = kBUMP16;
+        *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa408));
         break;
     case FORMAT_BUMPLUMA:
-        *(NiPixelFormat*)this = kBUMPLUMA32;
+        *(NiPixelFormat*)this = ::DAT_011aa450;
         break;
     default:
         m_eFormat = FORMAT_UNKNOWN;

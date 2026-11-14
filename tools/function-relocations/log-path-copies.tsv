@@ -1,0 +1,13 @@
+# WinMain's four log-path builders, statements S2 to S5 (VEGAS-130). Under
+# the ruling of 2026-11-14 all four copy and append with fnv::crt's strcpy_s
+# and strcat_s, which leave the buffer empty when the path does not fit.
+# Format: README.md.
+# The C runtime's functions, which end the process when the path does not
+# fit, and which S2 and S4 called before:
+forbid	strcpy_s
+forbid	strcat_s
+# batch, unit, function, fnv::crt's two functions:
+function	builders	src/fallout/misc/log_paths.cpp	?FUN_00c3bb90@@YAXPEBD@Z	?strcpy_s@crt@fnv@@YAHPEAD_KPEBD@Z ?strcat_s@crt@fnv@@YAHPEAD_KPEBD@Z
+function	builders	src/fallout/misc/log_paths.cpp	?FUN_00c3bbe0@fnv_00c3bbe0@@YAXPEBD@Z	?strcpy_s@crt@fnv@@YAHPEAD_KPEBD@Z ?strcat_s@crt@fnv@@YAHPEAD_KPEBD@Z
+function	builders	src/fallout/misc/log_paths.cpp	?FUN_00c3bc30@@YAXPEBD@Z	?strcpy_s@crt@fnv@@YAHPEAD_KPEBD@Z ?strcat_s@crt@fnv@@YAHPEAD_KPEBD@Z
+function	builders	src/fallout/misc/log_paths.cpp	?FUN_00c3bc80@fnv_00c3bc80@@YAXPEBD@Z	?strcpy_s@crt@fnv@@YAHPEAD_KPEBD@Z ?strcat_s@crt@fnv@@YAHPEAD_KPEBD@Z

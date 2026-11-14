@@ -2,8 +2,7 @@
 #ifndef NIOLD_SCREENSPACE_DECLS_H
 #define NIOLD_SCREENSPACE_DECLS_H
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
+#include <windows.h>
 class ScreenReference
 {
   public:

@@ -2,14 +2,20 @@
 #ifndef RAGDOLLDATA_DECLS_H
 #define RAGDOLLDATA_DECLS_H
 
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_006fa000.h"
 #include "ragdolldata_types_NiMatrix3.h"
 class NiNode;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
+public:
+    static const ::NiPoint3 ZERO;
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -21,14 +27,13 @@ class bhkFilter
 {
   public:
     unsigned int value;
-    int FUN_004d9da0();
 };
 class bhkWorldObject
 {
   public:
     bhkFilter FUN_0043b4f0();
 };
-class bhkCollisionObject
+struct bhkCollisionObject
 {
   public:
     virtual void vfn_0();
@@ -76,9 +81,8 @@ class bhkCollisionObject
     virtual void vfn_a8();
     virtual void vfn_ac();
     virtual void vfn_b0(int, int, int);
-    bhkWorldObject* FUN_006fa820();
-    void FUN_004d9fa0(bool);
 };
+struct NiPoint3;
 class NiAVObject
 {
   public:
@@ -129,16 +133,17 @@ class NiAVObject
     virtual void vfn_b0();
     virtual void vfn_b4();
     virtual void UpdateWorldData(const NiUpdateData&);
-    void FUN_00440460(const NiPoint3&);
+public:
+    ::NiPoint3 &FUN_0043c490();
 };
+class NiAVObject;
 class NiNode : public NiAVObject
 {
   public:
     unsigned int FUN_0043b480();
-    NiAVObject* FUN_0043b4a0(int);
-    void FUN_0043fa80(void*);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
-bhkCollisionObject* FUN_004a8b00(NiNode*);
 struct TransformEntry
 {
     signed char id;

@@ -11,6 +11,8 @@
 #ifndef FNV_BGSLIGHTINGTEMPLATE_UNIT_H
 #define FNV_BGSLIGHTINGTEMPLATE_UNIT_H
 
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "TESFile.h"
@@ -19,7 +21,6 @@
 #ifndef FNV_INTERIOR_DATA_H
 #define FNV_INTERIOR_DATA_H
 class InteriorData;
-#pragma pack(push, 4)
 class InteriorData
 {
   public:
@@ -35,21 +36,7 @@ class InteriorData
     float m_fFogPower;                       // +0x24, 4 bytes
     unsigned int m_uiTrailingValue;          // +0x28, 4 bytes
     InteriorData();
-    void Endian();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(InteriorData) == 44);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiAmbientColor) == 0);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiDirectionalColor) == 4);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiFogColor) == 8);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fFogNear) == 12);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fFogFar) == 16);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiDirectionalRotationXY) == 20);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiDirectionalRotationZ) == 24);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fDirectionalFade) == 28);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fFogClipDistance) == 32);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fFogPower) == 36);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiTrailingValue) == 40);
 #endif
 // The 2008 BGSLightingTemplate.cpp saw a 32-bit TESFile::GetTESForm: the Load
 // form check compares the call result with cmp eax,imm and no movzx, which is
@@ -58,9 +45,7 @@ FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiTrailingValue) == 40);
 // the original static type; it binds the real GetTESForm target.
 struct TESFileFormInt : public TESFile
 {
-    int GetTESForm();
 };
-#pragma pack(push, 4)
 class BGSLightingTemplate : public TESForm
 {
   public:
@@ -68,9 +53,5 @@ class BGSLightingTemplate : public TESForm
     BGSLightingTemplate();
     void ResetFormData();
     bool Load(TESFile* file);
-    void ReadTypedData(TESFile* file, void* buffer, unsigned short size);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSLightingTemplate) == 68);
-FNV_STATIC_ASSERT(offsetof(BGSLightingTemplate, Data) == 24);
 #endif

@@ -1,20 +1,36 @@
 // gamebryo2.2/corelibs/niparticle/nipsyscolormodifier.cpp: NiPSysColorModifier, Host, NiPSysColorModifierLocal (9 functions)
 
+#include <cstdint>
+#include "generated/data/vtables.h"
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiPSysPositionModifier.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01202000.h"
 #include "NiPSysColorModifier.h"
 
 // @fnv 0x00C2CF90
 void NiPSysColorModifier::LoadBinary(NiStream& kStream)
 {
     NiPSysModifier::LoadBinary(kStream);
-    kStream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }
 
-extern "C" void* g_01202778;
 
 // @fnv 0x00c2d170
 void* __cdecl FUN_00c2d170()
 {
-    return &g_01202778;
+    return &(*reinterpret_cast<void * *>(&::g_01202778));
 }
 
 struct Fake00c2d0d0
@@ -54,34 +70,32 @@ bool FUN_00c2d0d0_Class::FUN_00c2d0d0(NiObject* pkObject)
     NiPSysColorModifier* pkDest;
     Fake00c2d0d0* pSrc;
     void* pDst;
-    if (!NiPSysModifier::IsEqual(pkObject))
+    if (!reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830(pkObject))
         return false;
     pkDest = (NiPSysColorModifier*)pkObject;
-    pSrc = *(Fake00c2d0d0**)((char*)this + 0x18);
+    pSrc = *(Fake00c2d0d0**)&this->m_spColorData.m_pObject;
     pDst = *(void**)((char*)pkDest + 0x18);
     return pSrc->Foo(pDst);
 }
 
 struct Holder31750
 {
-    void __thiscall FUN_00c31750();
 };
-void __cdecl _delete(void*, unsigned int);
 struct Host
 {
     char _pad[0x18];
     NiObject* m_at18;
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // Releases m_at18, calls FUN_00c31750, and deletes this with size 0x24 when f has bit 0 set; returns this.
 // @fnv 0x00c2d1f0
-void* __thiscall Host::Destroy(unsigned int auiFlags)
+void* Host::Destroy(unsigned int auiFlags)
 {
     if (m_at18)
         m_at18->DecRefCount();
-    ((Holder31750*)this)->FUN_00c31750();
+    reinterpret_cast<::PositionState *>((((Holder31750*)this)))->FUN_00c31750();
     if (auiFlags & 1)
-        _delete(this, 0x24);
+        ::FUN_00aa1460(this, 0x24);
     return this;
 }
 
@@ -91,7 +105,6 @@ struct C8C330Source : public NiObject
 
 struct C8C330Node
 {
-    C8C330Source* __thiscall FUN_00a63430();
 };
 
 struct FUN_00c2d1c0_Class : NiPSysColorModifier
@@ -100,27 +113,15 @@ struct FUN_00c2d1c0_Class : NiPSysColorModifier
     void FUN_00c2d1c0(NiStream& kStream);
 };
 
-// @fnv 0x00c2d1c0
-void FUN_00c2d1c0_Class::FUN_00c2d1c0(NiStream& kStream)
-{
-    NiPSysModifier::LinkObject(kStream);
-    SetColorData(reinterpret_cast<C8C330Node*>(&kStream)->FUN_00a63430());
-}
-
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
-char* _FUN_00a7d330(void*);
 
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr*);
 };
 
-extern void* _g_01202778;
 
 struct FUN_00c2d2a0_Class : NiPSysColorModifier
 {
@@ -130,19 +131,19 @@ struct FUN_00c2d2a0_Class : NiPSysColorModifier
 // @fnv 0x00c2d2a0
 void FUN_00c2d2a0_Class::FUN_00c2d2a0(StrArr* pkStrings)
 {
-    ((Base00c319e0*)this)->FUN_00c319e0(pkStrings);
-    char* str = _FUN_00a7d330(_g_01202778);
+    reinterpret_cast<::FUN_00c319e0_cls *>((((Base00c319e0*)this)))->FUN_00c319e0(pkStrings);
+    char* str = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202778))));
     unsigned int idx = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int size = *(unsigned short*)((char*)pkStrings + 8);
     if (idx >= size)
     {
         unsigned int grow = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(grow + idx);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(grow + idx);
     }
-    pkStrings->SetAt(idx, str);
-    NiObject* obj = *(NiObject**)((char*)this + 0x18);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(idx, str);
+    NiObject* obj = *(NiObject**)&this->m_spColorData.m_pObject;
     void** vt = *(void***)obj;
-    void(__thiscall * fn)(NiObject*, StrArr*) = (void(__thiscall*)(NiObject*, StrArr*))vt[0x60 / 4];
+    void(* fn)(NiObject*, StrArr*) = (void(*)(NiObject*, StrArr*))vt[0x60 / 4];
     fn(obj, pkStrings);
 }
 
@@ -164,6 +165,12 @@ class NiPSysColorModifierLocal : public NiPSysColorModifier
   public:
     void SetColorData(NiColorData* pkColorData);
 };
+// @fnv 0x00c2d1c0
+void FUN_00c2d1c0_Class::FUN_00c2d1c0(NiStream& kStream)
+{
+    NiPSysModifier::LinkObject(kStream);
+    reinterpret_cast<::NiPSysColorModifierLocal *>(this)->SetColorData((::NiColorData *)(::NiObject *)(((::C8C330Source *)(reinterpret_cast<::NiStream *>((reinterpret_cast<C8C330Node*>(&kStream)))->GetLoadedObject()))));
+}
 
 // Replaces the stored color data with pkColorData, updating reference counts and recomputing the low and high key times from its key times.
 // @fnv 0x00c2d100
@@ -204,7 +211,6 @@ void NiPSysColorModifierLocal::SetColorData(NiColorData* pkColorData)
 
 struct Ctor00c2d240
 {
-    void Ctor();
 };
 struct HostLike
 {
@@ -213,20 +219,19 @@ struct HostLike
 
 struct S00c2d240
 {
-    void FUN_00c31780(void*, int);
-    void* CreateAndInit(int arg);
+    void* CreateAndInit(intptr_t arg);
 };
 
 extern "C" void* __cdecl Alloc00c2d240(unsigned int);
 
 // @fnv 0x00c2d240
-void* S00c2d240::CreateAndInit(int arg)
+void* S00c2d240::CreateAndInit(intptr_t arg)
 {
     void* pObject = Alloc00c2d240(0x24);
     if (pObject)
     {
-        ((Ctor00c2d240*)pObject)->Ctor();
-        *(void**)pObject = (void*)0x010bffe4;
+        new ((void *)(((Ctor00c2d240*)pObject))) ::NiPSysPositionModifier();
+        *(void**)pObject = (void*)fnv_vftable_PSysColorModifierStandIn;
         *(volatile int*)((char*)pObject + 0x18) = 0;
         *(volatile float*)((char*)pObject + 0x1c) = 0.0f;
         *(volatile float*)((char*)pObject + 0x20) = 0.0f;
@@ -235,9 +240,9 @@ void* S00c2d240::CreateAndInit(int arg)
     {
         pObject = 0;
     }
-    this->FUN_00c31780(pObject, arg);
+    reinterpret_cast<::NiPSysModifier *>((this))->CopyMemberData((::NiPSysModifier *)(pObject), (*(::CloningProcess *)(arg)));
     void* tmp = *(void**)((char*)this + 0x18);
-    ((HostLike*)pObject)->SetColorData(tmp);
+    reinterpret_cast<::NiPSysColorModifierLocal *>((((HostLike*)pObject)))->SetColorData((::NiColorData *)(tmp));
     return pObject;
 }
 
@@ -287,7 +292,6 @@ struct PSysModifierBase
 
 struct PSysColorModifierStandIn : PSysModifierBase
 {
-    static void* __cdecl operator new(unsigned int uiSize);
     PSysColorModifierStandIn() throw() : m_spColorData(0), m_fLoKeyTime(0.0f), m_fHiKeyTime(0.0f)
     {}
     virtual ~PSysColorModifierStandIn();

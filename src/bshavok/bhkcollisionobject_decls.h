@@ -2,17 +2,17 @@
 #ifndef BHKCOLLISIONOBJECT_DECLS_H
 #define BHKCOLLISIONOBJECT_DECLS_H
 
-class NiRTTI;
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/symbols_00653000.h"
+struct NiRTTI;
 class NiProperty;
 class SkyShaderProperty;
 class NiAVObject;
 class BGSBodyPart
 {
   public:
-    const char* GetPartName();
 };
 class NiNode;
-void* DynamicCastByRTTI(void*, NiNode*);
 class NiShader
 {
   public:

@@ -4,13 +4,8 @@
 #define FNV_HAVOK_HKPVISCOUSSURFACEMODIFIERCONSTRAINTATOM_H
 #include "hkBase.h"
 #include "hkpModifierConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpViscousSurfaceModifierConstraintAtom : public hkpModifierConstraintAtom
 {
   public:
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpViscousSurfaceModifierConstraintAtom[(sizeof(hkpViscousSurfaceModifierConstraintAtom) == 0x20) ? 1
-                                                                                                                  : -1];
 #endif

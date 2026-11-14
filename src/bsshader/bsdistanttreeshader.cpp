@@ -1,16 +1,50 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*,
+// the destructor, the conversion to T*, operator-> and operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
+#include <cstddef>
 // bsshader/bsdistanttreeshader.cpp: ZTree, This, BSDistantTreeShaderPasses, GeomShader (14 functions)
 
+#include <cstring>
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/FUN_00b7e330.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00b98000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_0126f000.h"
 #include "bsdistanttreeshader_decls.h"
 
-extern int g_012007bc;
 
 // @fnv 0x00bb6490
 int* __cdecl FUN_00bb6490()
 {
-    return &g_012007bc;
+    return &(*reinterpret_cast<int *>(&::g_012007bc));
 }
 
-extern int DAT_0126f74c;
 struct Unknown_00bb62b0
 {
     char _0[0x6c];
@@ -28,14 +62,13 @@ NiPointer_NiGPUProgram_& Unknown_00bb62b0::FUN_00bb62b0(int a)
     {
     case 0x236:
         DAT_0126f74c = m_6c;
-        return ((NiPointerDispatch*)((char*)this + 0x28))->Replace(m_80);
+        return ((NiPointerDispatch*)&this->_0[40])->Replace(m_80);
     case 0x237:
         DAT_0126f74c = m_70;
-        return ((NiPointerDispatch*)((char*)this + 0x28))->Replace(m_80);
+        return ((NiPointerDispatch*)&this->_0[40])->Replace(m_80);
     }
 }
 
-void __cdecl FUN_00b98480(int, int);
 struct S_00bb6b60_a
 {
     char _0[0x24];
@@ -47,37 +80,23 @@ struct S_00bb6b60_b
     S_00bb6b60_a* m_C;
 };
 // @fnv 0x00bb6b60
-void __stdcall FUN_00bb6b60(S_00bb6b60_b* p)
+void FUN_00bb6b60(S_00bb6b60_b* p)
 {
     S_00bb6b60_a* pFlagHolder = p->m_C;
     if (pFlagHolder && ((pFlagHolder->m_24 & 0x10000) > 0))
-        FUN_00b98480(0, 0);
+        ::FUN_00b98480(0, 0);
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct Struct00bb6e00
 {
     void FUN_00bb6300();
     void* FUN_00bb6e00(unsigned int);
 };
-// Calls FUN_00bb6300, then deletes this with size 0xfc when flags has bit 0 set, and returns this.
-// @fnv 0x00bb6e00
-void* Struct00bb6e00::FUN_00bb6e00(unsigned int flags)
-{
-    FUN_00bb6300();
-    if (flags & 1)
-        _delete(this, 0xfc);
-    return this;
-}
-
 struct FUN_00bb6060_shell : public BSDistantTreeShader
 {
     void FUN_00bb6060();
 };
 
-int _sprintf_s(char*, unsigned int, const char*, ...);
-void __cdecl FUN_00be0c00(const char*, char*);
-void* fnv_zlib_memset(void*, int, int);
 struct ShMacro
 {
     const char* Name;
@@ -133,39 +152,37 @@ void FUN_00bb6060_shell::FUN_00bb6060()
     vertexShaderParams.macros[0].Name = "DTTEST";
     vertexShaderParams.macros[0].Definition = "";
     vertexShaderParams.macros[1].Name = 0;
-    fnv_zlib_memset(&vertexShaderParams.macros[1].Definition, 0, 0x3c);
+    std::memset(&vertexShaderParams.macros[1].Definition, 0, 15 * sizeof(const char*));
     pixelShaderParams.pFile = "distanttree\\DistantTree.p.hlsl";
     pixelShaderParams.macros[0].Name = "DTTEST";
     pixelShaderParams.macros[0].Definition = "";
     pixelShaderParams.macros[1].Name = 0;
-    fnv_zlib_memset(&pixelShaderParams.macros[1].Definition, 0, 0x3c);
+    std::memset(&pixelShaderParams.macros[1].Definition, 0, 15 * sizeof(const char*));
     pixelShaderParamsSilhouette.pFile = "distanttree\\DistantTree.p.hlsl";
     pixelShaderParamsSilhouette.macros[0].Name = "DTTEST";
     pixelShaderParamsSilhouette.macros[0].Definition = "";
     pixelShaderParamsSilhouette.macros[1].Name = "SILHOUETTE";
     pixelShaderParamsSilhouette.macros[1].Definition = "";
     pixelShaderParamsSilhouette.macros[2].Name = 0;
-    fnv_zlib_memset(&pixelShaderParamsSilhouette.macros[2].Definition, 0, 0x34);
+    std::memset(&pixelShaderParamsSilhouette.macros[2].Definition, 0, 13 * sizeof(const char*));
 
-    char* pThis = (char*)this;
     FUN_00be0c00(vertexShaderParams.pFile, cacheName);
-    _sprintf_s(tempName, 260, "DISTTREE.vso");
-    *(ShPtr*)(pThis + 0x74) =
-        (ShRefObj*)CompileVertexShader(cacheName, (const _D3DXMACRO*)vertexShaderParams.macros, "vs_1_1", tempName);
+    ::FUN_00406d00(tempName, 260, "DISTTREE.vso");
+    *(ShPtr*)&m_spTreeVertexShader =
+        (ShRefObj*)((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(cacheName, (::_D3DXMACRO *)(vertexShaderParams.macros), "vs_1_1", tempName)));
     FUN_00be0c00(pixelShaderParams.pFile, cacheName);
-    _sprintf_s(tempName, 260, "DISTTREE.pso");
-    *(ShPtr*)(pThis + 0x78) =
-        (ShRefObj*)CompilePixelShader(cacheName, (const _D3DXMACRO*)pixelShaderParams.macros, "ps_2_a", tempName);
+    ::FUN_00406d00(tempName, 260, "DISTTREE.pso");
+    *(ShPtr*)&m_spPixelShaderVariants[0] =
+        (ShRefObj*)reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(cacheName), (void *)((const _D3DXMACRO*)pixelShaderParams.macros), (char *)("ps_2_a"), (char *)(tempName));
     FUN_00be0c00(pixelShaderParamsSilhouette.pFile, cacheName);
-    _sprintf_s(tempName, 260, "DISTTREESil.pso");
-    *(ShPtr*)(pThis + 0x7c) = (ShRefObj*)CompilePixelShader(
-        cacheName, (const _D3DXMACRO*)pixelShaderParamsSilhouette.macros, "ps_2_a", tempName);
+    ::FUN_00406d00(tempName, 260, "DISTTREESil.pso");
+    *(ShPtr*)&m_spPixelShaderVariants[1] = (ShRefObj*)reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(
+        (char *)(cacheName), (void *)((const _D3DXMACRO*)pixelShaderParamsSilhouette.macros), (char *)("ps_2_a"), (char *)(tempName));
 }
 
-extern MemoryManager g_memoryManager;
 inline void FreeTreeMemory(void* ptr)
 {
-    g_memoryManager.Deallocate(ptr);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(ptr);
 }
 struct TreePass
 {
@@ -195,7 +212,6 @@ struct TreePass
     unsigned int unk5C;
     unsigned int unk60;
     unsigned int refCount;
-    void FUN_00e80190();
     void IncRefCount()
     {
         ++refCount;
@@ -203,7 +219,7 @@ struct TreePass
     void DecRefCount()
     {
         if (--refCount == 0)
-            FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>(this)->DestroyPass();
     }
 };
 struct TreeShaderBase : BSShader
@@ -221,6 +237,15 @@ struct FUN_00bb6300 : TreeShaderBase
     void* instances;
     virtual ~FUN_00bb6300();
 };
+// Calls FUN_00bb6300, then deletes this with size 0xfc when flags has bit 0 set, and returns this.
+// @fnv 0x00bb6e00
+void* Struct00bb6e00::FUN_00bb6e00(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00bb6300 *>(this)->FUN_00bb6300::~FUN_00bb6300();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0xfc);
+    return this;
+}
 // Releases the shader's pass, vertex, pixel and declaration references, frees the instances buffer, and clears the declaration pointer.
 // @fnv 0x00bb6300
 FUN_00bb6300::~FUN_00bb6300()
@@ -235,10 +260,7 @@ FUN_00bb6300::~FUN_00bb6300()
     decl = 0;
 }
 
-extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int size);
-
 extern unsigned int DAT_012007b8;
-extern "C" int fnv_particle_shader_renderer_level;
 
 struct BB6B90Particle
 {
@@ -339,7 +361,7 @@ struct BB6B90ParticleShader
     static unsigned int GetMaxParticles()
     {
         if (!DAT_012007b8)
-            DAT_012007b8 = fnv_particle_shader_renderer_level >= 2 ? 114 : 40;
+            DAT_012007b8 = ::DAT_011f91c0 >= 2 ? 114 : 40;
         return DAT_012007b8;
     }
 
@@ -367,7 +389,6 @@ void BB6B90ParticleShader::CopyParticlesFromSource(BB6B90ParticleSource* source)
     }
 }
 
-extern MemoryManager g_memoryManager;
 
 class DTPass : public NiRefObject
 {
@@ -392,12 +413,8 @@ struct DistantTreeInstance
     static unsigned int GetMaxCount()
     {
         if (!DAT_012007b8)
-            DAT_012007b8 = fnv_particle_shader_renderer_level >= 2 ? 114 : 40;
+            DAT_012007b8 = ::DAT_011f91c0 >= 2 ? 114 : 40;
         return DAT_012007b8;
-    }
-    static void* operator new[](unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
     }
 };
 
@@ -520,7 +537,6 @@ struct TreeVertexDecl
     virtual void Finalize();
 };
 
-TreeVertexDecl* FUN_00e76700(void*, int, bool);
 void* FUN_00aa13e0(unsigned int);
 struct FUN_00bb6c30
 {
@@ -658,18 +674,13 @@ struct FUN_00bb6c30
     int unkf0;
     int unkf4;
     int unkf8;
-    static void* operator new(unsigned int bytes)
-    {
-        return FUN_00aa13e0(bytes);
-    }
     FUN_00bb6c30(TreeVertexDecl*);
-    void FUN_00bb6060();
     void FUN_00bb64a0();
 };
 // @fnv 0x00bb6e30
 FUN_00bb6c30* CreateTreeShader()
 {
-    TreeVertexDecl* declaration = FUN_00e76700(DAT_011f9508, 4, true);
+    TreeVertexDecl* declaration = ((::fnv_00bb6e30::TreeVertexDecl *)(::FUN_00e76700((::NiRenderer *)(DAT_011f9508), 4, true)));
     declaration->SetElement(0, 0, 0, 2, 0);
     declaration->SetElement(1, 1, 5, 1, 0);
     declaration->SetElement(2, 2, 3, 2, 0);
@@ -677,7 +688,7 @@ FUN_00bb6c30* CreateTreeShader()
     declaration->Finalize();
     FUN_00bb6c30* shader = new FUN_00bb6c30(declaration);
     shader->Initialize();
-    shader->FUN_00bb6060();
+    reinterpret_cast<::FUN_00bb6060_shell *>((shader))->FUN_00bb6060();
     shader->FUN_00bb64a0();
     shader->Complete();
     shader->SetDecl(declaration);
@@ -696,7 +707,6 @@ struct ZColor
 struct ZVec
 {
     float x, y, z;
-    void FUN_004a0c10();
 };
 struct ZFog
 {
@@ -1099,12 +1109,6 @@ struct ZSky
     int unk150;
     ZColor unk154;
 };
-ZFog* __cdecl FUN_00b55520(int);
-ZRenderer* __cdecl FUN_00b4f5c0();
-ZSky* __cdecl FUN_00b4f5d0();
-extern unsigned char DAT_011f91c4;
-extern unsigned int DAT_011f91b8;
-extern ZColor DAT_011a9bd0;
 struct ZTree
 {
     int unk00;
@@ -1149,7 +1153,7 @@ struct ZTree
 // @fnv 0x00bb6700
 void ZTree::UpdateLighting(int arg)
 {
-    ZFog* fog = FUN_00b55520(DAT_011f91c4);
+    ZFog* fog = ((::ZFog *)(::FUN_00b55520(DAT_011f91c4)));
     if (fog)
     {
         float fFogStart = fog->unk2C;
@@ -1159,7 +1163,7 @@ void ZTree::UpdateLighting(int arg)
         if (fFogEnd == 0.0f && fFogStart == 0.0f)
         {
             unk84 = ZColor(500000.0f, 0.0f, power, 0.0f);
-            unk94 = DAT_011a9bd0;
+            unk94 = (*reinterpret_cast<::ZColor *>(&::DAT_011a9bd0));
         }
         else
         {
@@ -1169,16 +1173,16 @@ void ZTree::UpdateLighting(int arg)
     }
     if (DAT_011f91b8 == 15)
     {
-        unkAC = FUN_00b4f5d0()->unk154;
-        unkCC = DAT_011a9bd0;
-        unkBC = DAT_011a9bd0;
+        unkAC = ((::ZSky *)(::FUN_00b4f5d0()))->unk154;
+        unkCC = (*reinterpret_cast<::ZColor *>(&::DAT_011a9bd0));
+        unkBC = (*reinterpret_cast<::ZColor *>(&::DAT_011a9bd0));
         return;
     }
-    ZLight* light = FUN_00b4f5c0()->unk194->unkE0->unkF8;
+    ZLight* light = ((::ZRenderer *)(::FUN_00b4f5c0()))->unk194->unkE0->unkF8;
     if (light)
     {
         ZVec lightDir = light->unkF0;
-        lightDir.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(lightDir))->FUN_004a0c10();
         ZVec ambient = light->unkC8;
         unkAC = ZColor(ambient.x, ambient.y, ambient.z, 1.0f);
         ambient = light->unkD4;
@@ -1188,11 +1192,9 @@ void ZTree::UpdateLighting(int arg)
 }
 
 extern unsigned int DAT_012007b8;
-extern char DAT_01011584;
 
 struct Obj
 {
-    static void* operator new(unsigned int size);
     Obj(int a, int b);
     virtual void Slot0();
     virtual void DeleteThis();
@@ -1207,11 +1209,11 @@ static void AssignRef(Obj*& slot, Obj* nobj)
     Obj* old = slot;
     if (old != nobj)
     {
-        if (old && InterlockedDecrement((long*)((char*)old + 4)) == 0)
+        if (old && InterlockedDecrement((long*)&old->m_uiRefCount) == 0)
             old->DeleteThis();
         slot = nobj;
         if (nobj)
-            InterlockedIncrement((long*)((char*)nobj + 4));
+            InterlockedIncrement((long*)&nobj->m_uiRefCount);
     }
 }
 
@@ -1246,12 +1248,12 @@ void This::InitShaderParams()
         Obj* nobj = new Obj(this->m_18, 0);
         AssignRef(this->m_34, nobj);
         this->m_34->SetParam("WorldViewProjTranspose", 0x20000009, 0, 0, 4, 0, 0, 0, 0, 0);
-        this->m_34->SetParam("fog", 0x10000009, 0, 4, 2, &DAT_01011584, 0x20, 4, &this->m_84, 0);
-        this->m_34->SetParam("instances", 0x10000009, 0, 9, DAT_012007b8 + DAT_012007b8, &DAT_01011584,
+        this->m_34->SetParam("fog", 0x10000009, 0, 4, 2, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x20, 4, &this->m_84, 0);
+        this->m_34->SetParam("instances", 0x10000009, 0, 9, DAT_012007b8 + DAT_012007b8, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)),
                              DAT_012007b8 << 5, 4, this->m_a8, 0);
-        this->m_34->SetParam("Diffuse Light direction", 0x10000007, 0, 6, 1, &DAT_01011584, 0x10, 4, &this->m_bc, 0);
-        this->m_34->SetParam("Diffuse Light color", 0x10000007, 0, 7, 1, &DAT_01011584, 0x10, 4, &this->m_cc, 0);
-        this->m_34->SetParam("ambient color", 0x10000007, 0, 8, 1, &DAT_01011584, 0x10, 4, &this->m_ac, 0);
+        this->m_34->SetParam("Diffuse Light direction", 0x10000007, 0, 6, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4, &this->m_bc, 0);
+        this->m_34->SetParam("Diffuse Light color", 0x10000007, 0, 7, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4, &this->m_cc, 0);
+        this->m_34->SetParam("ambient color", 0x10000007, 0, 8, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4, &this->m_ac, 0);
     }
 }
 
@@ -1297,7 +1299,7 @@ struct TreeTextureStage : public BeamStage
     void DecRefCount()
     {
         if (--m_uiRefCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 
@@ -1344,19 +1346,19 @@ bool BSDistantTreeShaderPasses::FUN_00bb64a0()
 {
     NiD3DPass::CreateD3DPass(spRenderPass[0]);
     NiPointer<TreeTextureStage> spStage;
-    BeamStage::CreateNewStage((NiPointer<BeamStage>&)spStage);
-    ConfigureBeamStage(spStage, 0, 3, 2, true);
-    spStage->FUN_00e7def0(1);
-    spRenderPass[0]->FUN_00e802b0(GetPassData(0)->m_uiField14, spStage);
+    ::AssignStageFromPool((::StageReturn *&)((NiPointer<BeamStage>&)spStage));
+    ::ConfigureBeamStage(spStage, 0, 3, 2, true);
+    reinterpret_cast<::E7DEF0TextureStage *>(((spStage).operator->()))->FUN_00e7def0(1);
+    reinterpret_cast<::StageSet *>(((spRenderPass[0]).operator->()))->FUN_00e802b0(GetPassData(0)->m_uiField14, (::Stage321 *)(::BeamStage *)(spStage));
     GetPassData(0)->m_spVertexShaderObject = (NiD3DVertexShader*)m_spTreeVertexShader;
     GetPassData(0)->m_spPixelShaderObject = (NiD3DPixelShader*)m_spPixelShaderVariants[0];
 
     NiD3DPass::CreateD3DPass(spRenderPass[1]);
     spStage = 0;
-    BeamStage::CreateNewStage((NiPointer<BeamStage>&)spStage);
-    ConfigureBeamStage(spStage, 0, 3, 2, true);
-    spStage->FUN_00e7def0(1);
-    spRenderPass[1]->FUN_00e802b0(GetPassData(1)->m_uiField14, spStage);
+    ::AssignStageFromPool((::StageReturn *&)((NiPointer<BeamStage>&)spStage));
+    ::ConfigureBeamStage(spStage, 0, 3, 2, true);
+    reinterpret_cast<::E7DEF0TextureStage *>(((spStage).operator->()))->FUN_00e7def0(1);
+    reinterpret_cast<::StageSet *>(((spRenderPass[1]).operator->()))->FUN_00e802b0(GetPassData(1)->m_uiField14, (::Stage321 *)(::BeamStage *)(spStage));
     GetPassData(1)->m_spVertexShaderObject = (NiD3DVertexShader*)m_spTreeVertexShader;
     GetPassData(1)->m_spPixelShaderObject = (NiD3DPixelShader*)m_spPixelShaderVariants[1];
 
@@ -1365,16 +1367,14 @@ bool BSDistantTreeShaderPasses::FUN_00bb64a0()
 
 struct FUN_00bb66b0
 {
-    void FUN_00bb6060();
-    void FUN_00bb64a0();
     void Call();
 };
 
 // @fnv 0x00bb66b0
 void FUN_00bb66b0::Call()
 {
-    FUN_00bb6060();
-    FUN_00bb64a0();
+    reinterpret_cast<::FUN_00bb6060_shell *>(this)->FUN_00bb6060();
+    reinterpret_cast<::BSDistantTreeShaderPasses *>(this)->FUN_00bb64a0();
 }
 
 struct GeomB8
@@ -1481,7 +1481,6 @@ struct GeomRenderer
 };
 struct GeomPass
 {
-    void FUN_00e6fbb0(int* p, int b);
 };
 struct GeomSettings
 {
@@ -1510,8 +1509,6 @@ struct GeomSettings
     int unk58;
     int unk5C;
 };
-extern GeomObj** DAT_011f91e0;
-extern char DAT_011f4288[];
 struct GeomShader
 {
     virtual void V00();
@@ -1613,15 +1610,15 @@ struct GeomShader
 // @fnv 0x00bb6a80
 void GeomShader::RenderGeometry(int arg)
 {
-    GeomObj* geom = *DAT_011f91e0;
+    GeomObj* geom = *(*reinterpret_cast<::GeomObj ** *>(&::DAT_011f91e0));
     int* bound = &geom->unk68;
     char* name = geom->unk20;
     if (!name)
-        name = DAT_011f4288;
+        name = (*reinterpret_cast<char (*)[]>(&::g_defaultBound));
     int b8 = geom->unkB8->unk34;
     int bc = geom->unkBC;
     SetupGeometry(arg);
-    unk18->FUN_00e6fbb0(bound, 0);
+    reinterpret_cast<::XRenderer *>((unk18))->FUN_00e6fbb0((*(const ::XTransform *)(bound)), 0);
     GeomRenderer* r = unk30;
     if (r)
     {
@@ -1637,3 +1634,5 @@ void GeomShader::RenderGeometry(int arg)
             r->Render(iSetting, geom, bc, 0, b8, arg, 0, bound, name, 0, 1);
     }
 }
+
+#include "generated/data/bsshader/bsdistanttreeshader.inc"

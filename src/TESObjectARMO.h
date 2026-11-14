@@ -29,7 +29,6 @@ class SoundDescriptor
     unsigned char layoutPadding4[4];
     int eType;
 };
-FNV_STATIC_ASSERT(sizeof(SoundDescriptor) == 12);
 class ShortPoint3;
 class ArmorData;
 class TESBipedModelForm;
@@ -79,10 +78,6 @@ class TESObject : public TESForm
     TESObject* m_pPreviousObject;  // +0x1C, 4 bytes
     TESObject* m_pNextObject;      // +0x20, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
 class ShortPoint3
 {
   public:
@@ -93,27 +88,18 @@ class ShortPoint3
     // short __cdecl ShortPoint3::*()
     // short __cdecl ShortPoint3::*(const ShortPoint3&)
 };
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
 class TESBoundObject : public TESObject
 {
   public:
     // base TESObject at +0x0, size 36
     TESBoundObject__BOUND_DATA TESBoundObjectBounds;  // +0x24, 12 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 class TESEnchantableForm : public BaseFormComponent
 {
   public:
@@ -126,26 +112,18 @@ class TESEnchantableForm : public BaseFormComponent
     unsigned char layoutPaddingA[2];
     MagicSystem__CastingType m_eCastingType;  // +0xC, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESEnchantableForm) == 16);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_pEnchantment) == 4);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_usEnchantmentAmount) == 8);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_eCastingType) == 12);
 class TESValueForm : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
     unsigned int iValue;  // +0x4, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESValueForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESValueForm, iValue) == 4);
 class TESWeightForm : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
     float fWeight;  // +0x4, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESWeightForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESWeightForm, fWeight) == 4);
 class BipedModelForm
 {
   public:
@@ -153,9 +131,6 @@ class BipedModelForm
     unsigned char m_ucBipedModelData;  // +0x4, 1 bytes
     unsigned char layoutPadding5[3];
 };
-FNV_STATIC_ASSERT(sizeof(BipedModelForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BipedModelForm, m_uiBipedModelFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(BipedModelForm, m_ucBipedModelData) == 4);
 class FileEntryList
 {
   public:
@@ -164,9 +139,6 @@ class FileEntryList
     BSFileEntry** m_ppFileEntries;  // +0x4, 4 bytes
     // BSFileEntry** __cdecl FileEntryList::*()
 };
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 class TESModel : public BaseFormComponent
 {
   public:
@@ -176,10 +148,6 @@ class TESModel : public BaseFormComponent
     unsigned char cFlags;              // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class TESModelTextureSwap : public TESModel
 {
   public:
@@ -188,22 +156,17 @@ class TESModelTextureSwap : public TESModel
     // BSSimpleList<DistantTreeTextureInfo *>* __cdecl TESModelTextureSwap::*()
     // DistantTreeTextureInfo* __cdecl TESModelTextureSwap::*(int)
 };
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
-FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
     TESIcon Icon;  // +0x4, 12 bytes
 };
-FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
 class TESModelRDT : public TESModel
 {
   public:
     // base TESModel at +0x0, size 24
 };
-FNV_STATIC_ASSERT(sizeof(TESModelRDT) == 24);
 class TESBipedModelForm : public BaseFormComponent
 {
   public:
@@ -218,13 +181,6 @@ class TESBipedModelForm : public BaseFormComponent
     BGSMessageIcon messageIcon[2];      // +0xA4, 32 bytes
     TESModelRDT m_kFaceGenModel;        // +0xC4, 24 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESBipedModelForm) == 220);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, m_kBipedModelForm) == 4);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, bipedModel) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, worldModel) == 76);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, m_kIcon) == 140);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, messageIcon) == 164);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, m_kFaceGenModel) == 196);
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
@@ -233,16 +189,12 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     CollisionComponent* pData;  // +0x4, 4 bytes
     // CollisionComponent* __cdecl BGSDestructibleObjectForm::*()
 };
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 class BGSEquipType : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
     BGSEquipType__EQUIP_TYPE m_eEquipType;  // +0x4, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(BGSEquipType) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSEquipType, m_eEquipType) == 4);
 class BGSRepairItemList : public BaseFormComponent
 {
   public:
@@ -251,8 +203,6 @@ class BGSRepairItemList : public BaseFormComponent
     BGSListForm* pListForm;  // +0x4, 4 bytes
     // BSSimpleList<TESForm *>* __cdecl BGSRepairItemList::*(TESForm*)
 };
-FNV_STATIC_ASSERT(sizeof(BGSRepairItemList) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSRepairItemList, pListForm) == 4);
 class BGSBipedModelList : public BaseFormComponent
 {
   public:
@@ -260,8 +210,6 @@ class BGSBipedModelList : public BaseFormComponent
     // base BaseFormComponent at +0x0, size 4
     BGSListForm* pListForm;  // +0x4, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(BGSBipedModelList) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSBipedModelList, pListForm) == 4);
 class BGSPickupPutdownSounds : public BaseFormComponent
 {
   public:
@@ -270,9 +218,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     TESSound* m_pPickupSound;   // +0x4, 4 bytes
     TESSound* m_pPutdownSound;  // +0x8, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(BGSPickupPutdownSounds) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPickupSound) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPutdownSound) == 8);
 class ArmorData
 {
   public:
@@ -283,11 +228,6 @@ class ArmorData
     unsigned char m_ucSubtype;    // +0x9, 1 bytes
     unsigned char layoutPaddingA[2];
 };
-FNV_STATIC_ASSERT(sizeof(ArmorData) == 12);
-FNV_STATIC_ASSERT(offsetof(ArmorData, m_usArmorRating) == 0);
-FNV_STATIC_ASSERT(offsetof(ArmorData, fArmorProtectionValue) == 4);
-FNV_STATIC_ASSERT(offsetof(ArmorData, cFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(ArmorData, m_ucSubtype) == 9);
 class TESObjectARMO : public TESBoundObject,
                       public TESFullName,
                       public TESScriptableForm,
@@ -330,10 +270,4 @@ class TESObjectARMO : public TESBoundObject,
     bool m_bUsesSoundList;  // +0x18C, 1 bytes
     unsigned char layoutPadding18D[3];
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectARMO) == 400);
-FNV_STATIC_ASSERT(offsetof(TESObjectARMO, data) == 376);
-FNV_STATIC_ASSERT(offsetof(TESObjectARMO, flags) == 388);
-FNV_STATIC_ASSERT(offsetof(TESObjectARMO, m_pPickupPutdownSoundList) == 392);
-FNV_STATIC_ASSERT(offsetof(TESObjectARMO, m_pSoundSourceArmor) == 392);
-FNV_STATIC_ASSERT(offsetof(TESObjectARMO, m_bUsesSoundList) == 396);
 #endif

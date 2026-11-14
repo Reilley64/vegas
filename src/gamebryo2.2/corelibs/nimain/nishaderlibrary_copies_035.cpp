@@ -1,6 +1,9 @@
 
 // Provisional build file (plan B2): exact copies of the nishaderlibrary recipe for other original addresses.
 // Twin_<addr>/FUN_<addr> are placeholder names; the original identities of these functions are unknown.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "NiRefObject.h"
 
 class RefCountedNamedObject : public NiRefObject

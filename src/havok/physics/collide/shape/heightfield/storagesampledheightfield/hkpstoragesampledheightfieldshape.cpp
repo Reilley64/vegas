@@ -2,10 +2,14 @@
 // src/havok/physics/collide/shape/heightfield/storagesampledheightfield/hkpstoragesampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/storagesampledheightfield/hkpstoragesampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv/decl/Foo00d24660.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_011b1000.h"
 #include "havok/hkpStorageSampledHeightFieldShape.h"
 
 // @fnv 0x00d496b0
-int __stdcall FUN_00d496b0(int unused, int aiValue)
+int FUN_00d496b0(int unused, int aiValue)
 {
     int r = (aiValue >= 0x80);
     --r;
@@ -14,23 +18,25 @@ int __stdcall FUN_00d496b0(int unused, int aiValue)
     return r;
 }
 
-extern "C" void __cdecl Deallocate(void*);
 extern int DAT_010cfb34;
 
 struct FUN_00d496d0
 {
-    int vtbl;
-    void FUN_00d24660();
+    const void* vtbl;
+    unsigned char m_pad04[0x5c];
+    void* m_storage;              // +0x60
+    unsigned char m_pad64[0xc];
+    char m_ownsStorage;           // +0x70, the destructor frees m_storage when set
     ~FUN_00d496d0();
 };
 
 // @fnv 0x00d496d0
 FUN_00d496d0::~FUN_00d496d0()
 {
-    *(void**)this = &DAT_010cfb34;
-    if (*(char*)((char*)this + 0x70))
-        Deallocate(*(void**)((char*)this + 0x60));
-    FUN_00d24660();
+    vtbl = &DAT_010cfb34;
+    if (m_ownsStorage)
+        ::FUN_00401030(m_storage);
+    reinterpret_cast<::Foo00d24660 *>(this)->FUN_00d24660();
 }
 
 struct FUN_00d248a0
@@ -63,42 +69,23 @@ struct FUN_00d49700 : public FUN_00d248a0
     int capacity;
     float scale;
     bool initialized;
-    FUN_00d49700(int resolution, int* source, float value);
+    FUN_00d49700(int resolution, int* const* source, float value);
     virtual ~FUN_00d49700();
 };
 // Initializes the base with resolution and mode 0, then stores the source pointer, capacity (zResolution - 1) and scale, clearing the flags.
 // @fnv 0x00d49700
-FUN_00d49700::FUN_00d49700(int resolution, int* source, float value) : FUN_00d248a0(resolution, 0)
+FUN_00d49700::FUN_00d49700(int resolution, int* const* source, float value) : FUN_00d248a0(resolution, 0)
 {
     const int& zResolution = m_zResolution;
     cleared = false;
     double convertedResolution(zResolution);
     initialized = false;
-    int* inputValues = (int*)*source;
+    int* inputValues = *source;
     values = inputValues;
     capacity = static_cast<int>(convertedResolution - 1.0);
     scale = value;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
 
 struct HfVec_d49850
 {
@@ -148,15 +135,14 @@ struct HfVec_d49850
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<const float*>(&m_vComponents)[i];
     }
 };
 
-extern const HfVec_d49850 DAT_011b1bd0;
 
 struct HfInput_d49850
 {
@@ -340,8 +326,8 @@ struct HeightFieldVtable
     void* v28;
     void* v2c;
     void* v30;
-    float(__thiscall* GetHeightAt)(HeightFieldSource*, int, int);
-    void(__thiscall* GetTriangleFlip)(HeightFieldSource*, unsigned char*);
+    float(* GetHeightAt)(HeightFieldSource*, int, int);
+    void(* GetTriangleFlip)(HeightFieldSource*, unsigned char*);
 };
 struct HeightFieldSource
 {
@@ -415,3 +401,5 @@ FUN_00d49750::FUN_00d49750(HeightFieldSource* source) : m_sReferenceCount(1)
         }
     }
 }
+
+#include "generated/data/havok/physics/collide/shape/heightfield/storagesampledheightfield/hkpstoragesampledheightfieldshape.inc"

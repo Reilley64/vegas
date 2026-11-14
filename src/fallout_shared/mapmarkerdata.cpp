@@ -1,5 +1,13 @@
 // fallout_shared/mapmarkerdata.cpp: MapMarkerData, MapMarkerCompare, StringHolder (7 functions)
 
+#include "fnv/decl/ChunkOffsetFile.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00487000.h"
 #include "layout_support.h"
 #include "TESFullName.h"
 #include "TESFile.h"
@@ -18,7 +26,6 @@ enum
 };
 
 // member functions matched in this unit added.
-#pragma pack(push, 4)
 class MapMarkerData
 {
   public:
@@ -34,26 +41,16 @@ class MapMarkerData
     bool IsTravelLocation();
     void SetTravelLocation(bool travelLoc);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MapMarkerData) == 20);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, LocationName) == 0);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, cFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, m_ucAdditionalFlags) == 13);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, sType) == 14);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, pReputationData) == 16);
 
 // TESFile::GetChunkData(unsigned short*) and the offset-chunk accessors are not
 // declared in the bundled TESFile.h; declared here on shims following the same
 // precedent.
 struct TESFileChunkData16 : public TESFile
 {
-    bool GetChunkData(unsigned short* value);
 };
 
 struct TESFileOffsetChunk : public TESFile
 {
-    unsigned int GetOffsetChunk();
-    bool SetOffsetChunk(unsigned int offset);
 };
 
 // @fnv 0x00438ca0
@@ -61,20 +58,20 @@ bool MapMarkerData::Load(TESFile* file)
 {
     if (!file)
         return false;
-    if (file->GetChunkID() != kMapMarkerDataChunk)
+    if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != kMapMarkerDataChunk)
         return false;
     if (!file->NextChunk())
         return false;
-    if (file->GetChunkID() == kMapMarkerTypeChunk)
+    if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == kMapMarkerTypeChunk)
     {
-        file->GetChunkData(&cFlags, 1);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&cFlags), 1);
         m_ucAdditionalFlags = cFlags;
         if (!file->NextChunk())
             return false;
     }
-    if (file->GetChunkID() == kMapMarkerNameChunk)
+    if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == kMapMarkerNameChunk)
     {
-        TESFullNameLoader::LoadFullNameChunk(&LocationName, file);
+        ::ReadFullName(&LocationName, file);
     }
     else
     {
@@ -82,27 +79,27 @@ bool MapMarkerData::Load(TESFile* file)
     }
     if (!file->NextChunk())
         return false;
-    if (file->GetChunkID() == kMapMarkerTravelChunk)
+    if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == kMapMarkerTravelChunk)
     {
-        ((TESFileChunkData16*)file)->GetChunkData(&sType);
+        reinterpret_cast<::FUN_00472840_impl *>((((TESFileChunkData16*)file)))->ReadChunkData(&sType);
     }
     else
     {
         return false;
     }
-    unsigned int chunkOffset = ((TESFileOffsetChunk*)file)->GetOffsetChunk();
+    unsigned int chunkOffset = reinterpret_cast<::TESFile *>((((TESFileOffsetChunk*)file)))->GetOffsetChunk();
     if (!file->NextChunk())
         return false;
-    if (file->GetChunkID() == kMapMarkerReputationChunk)
+    if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == kMapMarkerReputationChunk)
     {
         unsigned int reputationID = 0;
         file->GetChunkData(&reputationID);
         if (reputationID)
-            pReputationData = (TESReputation*)reputationID;
+            pReputationData = (TESReputation*)(std::uintptr_t)reputationID;
     }
     else
     {
-        ((TESFileOffsetChunk*)file)->SetOffsetChunk(chunkOffset);
+        reinterpret_cast<::ChunkOffsetFile *>((((TESFileOffsetChunk*)file)))->FUN_004724f0(chunkOffset);
     }
     return true;
 }
@@ -184,11 +181,10 @@ bool MapMarkerCompare::FUN_00438e40(MapMarkerData* other)
 
 struct StringHolder
 {
-    const char* FUN_00408da0();
     const char* FUN_00438eb0();
 };
 // @fnv 0x00438eb0
 const char* StringHolder::FUN_00438eb0()
 {
-    return FUN_00408da0();
+    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(this)->FUN_00408da0()));
 }

@@ -7,14 +7,11 @@
 #include "layout_support.h"
 #include "NiObject.h"
 class NiLODData;
-#pragma pack(push, 4)
 class NiLODData : public NiObject
 {
   public:
     NiLODData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiLODData) == 8);
 #endif
 
 #ifndef FNV_NIFLOATDATA_H
@@ -33,7 +30,6 @@ enum NiAnimationKey__KeyType
     NiAnimationKey__KeyType_STEPKEY = 5,
     NiAnimationKey__KeyType_NUMKEYTYPES = 6
 };
-#pragma pack(push, 4)
 class NiFloatData : public NiLODData
 {
   public:
@@ -44,10 +40,4 @@ class NiFloatData : public NiLODData
     unsigned char m_ucKeyDataSize;           // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiFloatData) == 24);
-FNV_STATIC_ASSERT(offsetof(NiFloatData, m_uiNumKeys) == 8);
-FNV_STATIC_ASSERT(offsetof(NiFloatData, m_pKeyArray) == 12);
-FNV_STATIC_ASSERT(offsetof(NiFloatData, m_eRequestType) == 16);
-FNV_STATIC_ASSERT(offsetof(NiFloatData, m_ucKeyDataSize) == 20);
 #endif

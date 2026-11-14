@@ -1,5 +1,158 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses operator->.
+#define FNV_KEEPS_OWN_NIPOINTER
 // fallout/ai/movement/actormover.cpp: ActorMover, Mover, Tgt_b, MobileObject and more (79 functions)
 
+#include "fnv/pathing_location_fields.h"
+#include "fnv/game_timer.h"
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include "fnv/result_slot.h"
+#include <new>
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Dummy.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cbc0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00505c00_shell.h"
+#include "fnv/decl/FUN_00507e10_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005f0b50_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_006a9520_Class.h"
+#include "fnv/decl/FUN_006a9560_Class.h"
+#include "fnv/decl/FUN_006b05d0_shell.h"
+#include "fnv/decl/FUN_006d2c00_shell.h"
+#include "fnv/decl/FUN_006d3ac0_Class.h"
+#include "fnv/decl/FUN_006dc6e0_Class.h"
+#include "fnv/decl/FUN_006e22f0_shell.h"
+#include "fnv/decl/FUN_006e2330_shell.h"
+#include "fnv/decl/FUN_006e2b50_shell.h"
+#include "fnv/decl/FUN_006e2b70_shell.h"
+#include "fnv/decl/FUN_006e2b90.h"
+#include "fnv/decl/FUN_006e2bb0_shell.h"
+#include "fnv/decl/FUN_006e78b0_shell.h"
+#include "fnv/decl/FUN_006e8d50_shell.h"
+#include "fnv/decl/FUN_0072ba80_shell.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865db0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_0087f350_shell.h"
+#include "fnv/decl/FUN_0087f390_shell.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_008843a0_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008985d0_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008ad8f0Class.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_008c6b00_shell.h"
+#include "fnv/decl/FUN_008df1c0_Class.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009d9ec0_shell.h"
+#include "fnv/decl/FakeHolder.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/Owner45A.h"
+#include "fnv/decl/PathBuilder.h"
+#include "fnv/decl/Pathing.h"
+#include "fnv/decl/PathingActorData.h"
+#include "fnv/decl/PathingLocationProxy.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_FUN_006b05a0.h"
+#include "fnv/decl/SaveSolution.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WaitableObject.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00494390__MovementAnimation.h"
+#include "fnv/decl/fnv_00495be0__PriorityAnimation.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00587550__FUN_00587550_shell.h"
+#include "fnv/decl/fnv_006b7850__FUN_006b7850_shell.h"
+#include "fnv/decl/fnv_006e78d0__FUN_006e78d0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_0088d640__FUN_0088d640_shell.h"
+#include "fnv/decl/fnv_008a0b10__FUN_008a0b10_shell.h"
+#include "fnv/decl/fnv_008ad1c0__MoveSelf454.h"
+#include "fnv/decl/fnv_008bc7f0__FUN_008bc7f0_holder.h"
+#include "fnv/decl/fnv_008be280__FloatValueProvider.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_009d9f20__FUN_009d9f20_shell.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0047d000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00573000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006c9000.h"
+#include "fnv/symbols_006ca000.h"
+#include "fnv/symbols_006d5000.h"
+#include "fnv/symbols_008b6000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_008e7000.h"
+#include "fnv/symbols_00984000.h"
+#include "fnv/symbols_009da000.h"
+#include "fnv/symbols_009db000.h"
+#include "fnv/symbols_009e7000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 #include "actormover_fnv_decls.h"
 
 // @fnv 0x008b3d10
@@ -23,37 +176,22 @@ void ActorMover::ResetMovementData()
 void ActorMover::StopMoving()
 {
     ClearMovementPath();
-    RefreshMovementState();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }
 
 // @fnv 0x00931850
 PROCESS_TYPE MobileObject::GetCurrentProcessLevel()
 {
     if (m_pBaseProcess)
-        return m_pBaseProcess->GetProcessLevel();
+        return (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60()));
     return PROCESS_TYPE_PROCESS_TYPE_NONE;
-}
-// Returns the preferred move mode type when pathing failed, otherwise returns the stored move mode.
-// @fnv 0x009ddb70
-unsigned int ActorMover::GetActorStateFlags()
-{
-    unsigned int uiMoveMode = bPathingFailed ? GetPreferredMoveModeType() : m_uiMovementMode;
-    return uiMoveMode;
 }
 // @fnv 0x009de230
 void ActorMover::RunProcedure()
 {
-    m_kLookAtTargetPosition = NiPoint3_ZERO;
+    m_kLookAtTargetPosition = ::NiPoint3::ZERO;
     m_bHasLookAtTarget = false;
-    RefreshMovementState();
-}
-// @fnv 0x009dc590
-void ActorMover::UpdateMovement(float elapsed)
-{
-    if (m_bMovementPaused)
-        return;
-    ActorPathHandler::PATH_HANDLER_RESULT result = m_pPathHandler->vfn_0c(elapsed);
-    HandlePathingResult(result);
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }
 // @fnv 0x009ddbb0
 bool ActorMover::GetPathingDelta(NiPoint3& delta)
@@ -80,36 +218,6 @@ void ActorMover::ClearMovementPath()
         m_bMovementComplete = true;
     UpdateMovementStatus(false);
 }
-// @fnv 0x009dcdb0
-bool ActorMover::HasActiveMovement()
-{
-    if (m_bHasMovementData)
-        return false;
-    if (eState == 4)
-        return true;
-    if (m_bMovementActive)
-        return true;
-    if (!m_pActorNode.operator->() || !m_pActorNode->FUN_009dc530() || bPathingFailed)
-        return false;
-    return true;
-}
-
-// New bodies are reconstructed from the complete supplied PC instruction spans.
-// @fnv 0x009dd0c0
-void ActorMover::ForceStopMoving()
-{
-    ClearMovementPath();
-    if (m_bMovementComplete)
-    {
-        m_bMovementComplete = false;
-        SetMovementMode(true);
-        m_uiMovementMode = GetPreferredMoveModeType();
-        m_kPathingDelta = NiPoint3_ZERO;
-        m_bHasPathingDelta = true;
-    }
-    DebugOnStopMoving();
-}
-
 #include "actormover_tesobjectmisc.h"
 
 // @fnv 0x009db930
@@ -120,7 +228,6 @@ void TESObjectMISC::SetLoopingSound(TESSound* sound)
 
 struct GameSettingCollection
 {
-    static GameSettingCollection* Instance();
     virtual void v0();
     virtual void v1(void*);
 };
@@ -137,14 +244,12 @@ struct FUN_0040e0b0 : public FUN_0040e130
 // @fnv 0x0040e0b0
 FUN_0040e0b0::FUN_0040e0b0(int a, float b) : FUN_0040e130(a, b)
 {
-    GameSettingCollection::Instance()->v1(this);
+    ::GetGameSettingCollection()->v1(this);
 }
 
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 class ActorPathingMessageQueue : public BSFadeNode
@@ -166,7 +271,6 @@ struct Deletable_009daf80
 
 struct Sub_009057d0
 {
-    void AssignObject(ActorPathingMessageQueue*);
 };
 
 struct VTable_009daf80
@@ -179,7 +283,7 @@ struct VTable_009daf80
 };
 
 // @fnv 0x009daf80
-void __fastcall FUN_009daf80(TESForm* pForm)
+void FUN_009daf80(TESForm* pForm)
 {
     *(int*)((char*)pForm + 0x6c) = 6;
     ((Ptr_0066b0d0*)((char*)pForm + 0x1c))->FUN_0066b0d0(0);
@@ -191,18 +295,17 @@ void __fastcall FUN_009daf80(TESForm* pForm)
     }
     if (*(unsigned char*)((char*)pForm + 0x74) != 0)
     {
-        ((Sub_009057d0*)((char*)pForm + 0x30))->AssignObject(new ActorPathingMessageQueue);
+        reinterpret_cast<::FakeHolder *>((((Sub_009057d0*)((char*)pForm + 0x30))))->AssignObject(new ActorPathingMessageQueue);
         *(unsigned char*)((char*)pForm + 0x74) = 0;
     }
     ((VTable_009daf80*)pForm)->vfn_4();
     pForm->TESForm::ClearData();
 }
 
-class PathingRequest;
+struct PathingRequest;
 
 struct FUN_009db090_shell
 {
-    bool FUN_009db090(const PathingRequest* apRequest);
 };
 
 struct FUN_009dba30_fix : public ActorMover
@@ -210,33 +313,38 @@ struct FUN_009dba30_fix : public ActorMover
     bool FUN_009dba30(const PathingRequest* apRequest);
 };
 
-// @fnv 0x009dba30
-bool FUN_009dba30_fix::FUN_009dba30(const PathingRequest* apRequest)
+class PathingSolution
 {
-    return ((FUN_009db090_shell*)this)->FUN_009db090(apRequest);
-}
-
-struct PathingSolution
-{
-    bool FUN_006b05d0();
 };
 struct ArrHelper
 {
-    bool FUN_0076b610() const;
 };
 struct Mover : public ActorMover
 {
     bool FUN_009dc530();
 };
+// @fnv 0x009dcdb0
+bool ActorMover::HasActiveMovement()
+{
+    if (m_bHasMovementData)
+        return false;
+    if (eState == 4)
+        return true;
+    if (m_bMovementActive)
+        return true;
+    if (!m_pActorNode.operator->() || !reinterpret_cast<::Mover *>(((m_pActorNode).operator->()))->FUN_009dc530() || bPathingFailed)
+        return false;
+    return true;
+}
 // @fnv 0x009dc530
 bool Mover::FUN_009dc530()
 {
-    if (((ArrHelper*)((char*)this + 8))->FUN_0076b610())
+    if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((ArrHelper*)&this->m_kLookAtTargetPosition.y)))->FUN_0076b610())
         return false;
-    if (*(int*)((char*)this + 0x18) != -1 && *(int*)((char*)this + 0x1c) != -1 &&
-        ((ArrHelper*)((char*)this + 0x20))->FUN_0076b610())
+    if (*(int*)&this->m_kPathingDelta.z != -1 && *(int*)((char*)this + 0x1c) != -1 &&
+        reinterpret_cast<::FUN_0076b610_Class *>((void *)(((ArrHelper*)((char*)this + 0x20))))->FUN_0076b610())
         return false;
-    if (((PathingSolution*)this)->FUN_006b05d0())
+    if (reinterpret_cast<::FUN_006b05d0_shell *>((((PathingSolution*)this)))->FUN_006b05d0())
         return true;
     return true;
 }
@@ -282,7 +390,7 @@ struct FUN_009dc950_Arg
 
 // If pThis->p24 is set, calls its vtable slot v5c with a1.val.
 // @fnv 0x009dc950
-void __fastcall ForwardValueToVtbl(FUN_009dc950_Obj* pThis, FUN_009dc950_Arg aArg)
+void ForwardValueToVtbl(FUN_009dc950_Obj* pThis, FUN_009dc950_Arg aArg)
 {
     if (pThis->p24)
     {
@@ -296,7 +404,6 @@ class BSOcclusionPlane
     int GetCullResult() const;
 };
 
-extern PlayerCharacter* pPlayer;
 
 struct FUN_009dcae0_struct
 {
@@ -305,11 +412,11 @@ struct FUN_009dcae0_struct
 };
 
 // @fnv 0x009dcae0
-bool __fastcall FUN_009dcae0(FUN_009dcae0_struct* pOcclusionPlaneStruct)
+bool FUN_009dcae0(FUN_009dcae0_struct* pOcclusionPlaneStruct)
 {
     if (!pOcclusionPlaneStruct->ptr->GetCullResult() ||
-        !reinterpret_cast<TESObjectCELL*>(pOcclusionPlaneStruct->ptr->GetCullResult())->IsOutdoorCell() ||
-        pPlayer->IsSleepingOrResting())
+        !::FUN_00450ff0((void *)(reinterpret_cast<TESObjectCELL*>(pOcclusionPlaneStruct->ptr->GetCullResult()))) ||
+        ::_g_thePlayer->IsSleepingOrResting())
     {
         return false;
     }
@@ -328,17 +435,17 @@ struct Mover : public ActorMover
 // @fnv 0x009dcd40
 bool Mover::FUN_009dcd40()
 {
-    if (*((unsigned char*)this + 0x74))
+    if (*((unsigned char*)&this->m_bMovementActive))
     {
         return false;
     }
-    else if (*(int*)((char*)this + 0x6c) == 6 || *(int*)((char*)this + 0x6c) == 7)
+    else if (this->eState == 6 || this->eState == 7)
     {
         return true;
     }
     else if (((const char*)*(StrHelper*)((char*)this + 0x20) &&
-              ((NiNode*)(const char*)*(StrHelper*)((char*)this + 0x20))->FUN_009dc530()) ||
-             *(int*)((char*)this + 0x6c) == 4)
+              reinterpret_cast<::Mover *>((((NiNode*)(const char*)*(StrHelper*)((char*)this + 0x20))))->FUN_009dc530()) ||
+             this->eState == 4)
     {
         return false;
     }
@@ -353,11 +460,33 @@ struct FUN_009dd130_shell : public ActorMover
 {
     unsigned int FUN_009dd130();
 };
+// Returns the preferred move mode type when pathing failed, otherwise returns the stored move mode.
+// @fnv 0x009ddb70
+unsigned int ActorMover::GetActorStateFlags()
+{
+    unsigned int uiMoveMode = bPathingFailed ? reinterpret_cast<::FUN_009dd130_shell *>(this)->FUN_009dd130() : m_uiMovementMode;
+    return uiMoveMode;
+}
+// New bodies are reconstructed from the complete supplied PC instruction spans.
+// @fnv 0x009dd0c0
+void ActorMover::ForceStopMoving()
+{
+    ClearMovementPath();
+    if (m_bMovementComplete)
+    {
+        m_bMovementComplete = false;
+        SetMovementMode(true);
+        m_uiMovementMode = reinterpret_cast<::FUN_009dd130_shell *>(this)->FUN_009dd130();
+        m_kPathingDelta = ::NiPoint3::ZERO;
+        m_bHasPathingDelta = true;
+    }
+    reinterpret_cast<::TESForm *>(this)->ClearData();
+}
 
 // @fnv 0x009dd130
 unsigned int FUN_009dd130_shell::FUN_009dd130()
 {
-    return *(unsigned int*)((char*)this + 0x34) & 0xff00;
+    return this->unk34 & 0xff00;
 }
 
 namespace fnv_009dd1c0 {
@@ -369,8 +498,6 @@ struct FUN_009dd1c0_shell : public ActorMover
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 class ActorPathingMessageQueue
@@ -378,16 +505,10 @@ class ActorPathingMessageQueue
   public:
     char pad[0x1c];
     ActorPathingMessageQueue();
-    static void* __cdecl operator new(unsigned int s)
-    {
-        return BSFadeNode::operator new(s);
-    }
-    static void operator delete(void*, unsigned int);
 };
 
 struct Helper_009057d0
 {
-    void AssignObject(ActorPathingMessageQueue*);
 };
 
 struct Helper_PathHandler_70
@@ -423,11 +544,13 @@ struct Helper_PathHandler_70
     virtual void v70();
 };
 
+}  // namespace fnv_009dd1c0
 template <> class NiPointer<NiNode*>
 {
   public:
     NiPointer<NiNode>& operator=(NiNode*);
 };
+namespace fnv_009dd1c0 {
 
 // @fnv 0x009dd1c0
 void FUN_009dd1c0_shell::FUN_009dd1c0(bool abClearHandler)
@@ -450,7 +573,7 @@ void FUN_009dd1c0_shell::FUN_009dd1c0(bool abClearHandler)
 
     if (m_bMovementActive)
     {
-        ((Helper_009057d0*)((char*)this + 0x30))->AssignObject(new ActorPathingMessageQueue);
+        reinterpret_cast<::FakeHolder *>((((Helper_009057d0*)((char*)this + 0x30))))->AssignObject(new ActorPathingMessageQueue);
         m_bMovementActive = false;
     }
 
@@ -464,8 +587,7 @@ struct FUN_009ddf60_shell : public ActorMover
     void SetMoveModeFlags(unsigned int);
 };
 
-void* __cdecl operator new(unsigned int);
-void* __fastcall FUN_009dff40(void*, int, void*, void*);
+void* FUN_009dff40(void*, int, void*, void*);
 
 struct Dummy_0xe4
 {
@@ -482,26 +604,26 @@ void FUN_009ddf60_shell::SetMoveModeFlags(unsigned int auiPreferredMoveMode)
 {
     if (auiPreferredMoveMode & 0xff00)
     {
-        if (*(void**)((char*)this + 0x24) == 0)
+        if (*(void**)&this->m_pPathHandler == 0)
         {
-            *(void**)((char*)this + 0x24) = new Dummy_0xe4(*(void**)((char*)this + 0x28), this);
+            *(void**)&this->m_pPathHandler = new Dummy_0xe4(this->unk28, this);
         }
-        *(unsigned int*)((char*)this + 0x34) =
-            (*(unsigned int*)((char*)this + 0x34) & 0xf) | (auiPreferredMoveMode & 0xff00);
+        this->unk34 =
+            (this->unk34 & 0xf) | (auiPreferredMoveMode & 0xff00);
     }
     if (auiPreferredMoveMode & 0xf)
     {
-        *(unsigned int*)((char*)this + 0x34) =
-            (auiPreferredMoveMode & 0xf) | (*(unsigned int*)((char*)this + 0x34) & 0xff00);
+        this->unk34 =
+            (auiPreferredMoveMode & 0xf) | (this->unk34 & 0xff00);
     }
 }
 
 namespace fnv_009dfa00 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -543,7 +665,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -580,18 +701,16 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_009dfa00_shell : public ActorMover
 {
     void FUN_009dfa00(BGSLoadFormBuffer*);
 };
 
-class PathingRequest
+struct PathingRequest
 {
   public:
     virtual void vfn_00();
@@ -605,48 +724,46 @@ class ActorPathingMessageQueue
 {
   public:
     char pad[0x1c];
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*, unsigned int);
     ActorPathingMessageQueue();
 };
 
 class PathManager
 {
   public:
-    static PathManager* __cdecl GetRandomGenerator();
     bool BuildPath(NiPointer<PathingRequest>, NiPointer<ActorPathingMessageQueue>, bool);
 };
 
-template <> class NiPointer<PathingRequest>
+}  // namespace fnv_009dfa00
+template <> class NiPointer<fnv_009dfa00::PathingRequest>
 {
   public:
-    PathingRequest* p;
-    NiPointer(const NiPointer<PathingRequest>&);
+    fnv_009dfa00::PathingRequest* p;
+    NiPointer(const NiPointer<fnv_009dfa00::PathingRequest>&);
     ~NiPointer();
-    operator PathingRequest*() const;
-    PathingRequest* operator->() const;
+    operator fnv_009dfa00::PathingRequest*() const;
+    fnv_009dfa00::PathingRequest* operator->() const;
 };
 
-template <> class NiPointer<ActorPathingMessageQueue>
+template <> class NiPointer<fnv_009dfa00::ActorPathingMessageQueue>
 {
   public:
-    ActorPathingMessageQueue* p;
-    NiPointer(const NiPointer<ActorPathingMessageQueue>&);
+    fnv_009dfa00::ActorPathingMessageQueue* p;
+    NiPointer(const NiPointer<fnv_009dfa00::ActorPathingMessageQueue>&);
     ~NiPointer();
-    operator ActorPathingMessageQueue*() const;
-    NiPointer<ActorPathingMessageQueue>& operator=(ActorPathingMessageQueue*);
+    operator fnv_009dfa00::ActorPathingMessageQueue*() const;
+    NiPointer<fnv_009dfa00::ActorPathingMessageQueue>& operator=(fnv_009dfa00::ActorPathingMessageQueue*);
 };
 
-template <> class NiPointer<Actor>
+template <> class NiPointer<fnv_009dfa00::Actor>
 {
   public:
-    Actor* p;
-    operator Actor*() const;
+    fnv_009dfa00::Actor* p;
+    operator fnv_009dfa00::Actor*() const;
 };
 
+namespace fnv_009dfa00 {
 struct PathingRequestLOS
 {
-    const NiPointer<Actor>& GetLOSActor() const;
 };
 
 // @fnv 0x009dfa00
@@ -659,13 +776,13 @@ void FUN_009dfa00_shell::FUN_009dfa00(BGSLoadFormBuffer* apLoadGameBuffer)
         {
             PathingRequestLOS* plosRequest =
                 (PathingRequestLOS*)(PathingRequest*)*(NiPointer<PathingRequest>*)((char*)this + 0x1c);
-            if (!plosRequest->GetLOSActor())
+            if (!(*(const ::NiPointer< ::fnv_009dfa00::Actor> *)(::FUN_00984230((char *)(plosRequest)))))
                 bforceFail = true;
         }
         if (!*(NiPointer<ActorPathingMessageQueue>*)((char*)this + 0x30))
             *(NiPointer<ActorPathingMessageQueue>*)((char*)this + 0x30) = new ActorPathingMessageQueue();
         if (bforceFail ||
-            !PathManager::GetRandomGenerator()->BuildPath(*(NiPointer<PathingRequest>*)((char*)this + 0x1c),
+            !((::fnv_009dfa00::PathManager *)(::GetPathManager()))->BuildPath(*(NiPointer<PathingRequest>*)((char*)this + 0x1c),
                                                  *(NiPointer<ActorPathingMessageQueue>*)((char*)this + 0x30), true))
         {
             UpdateMovementStatus(true);
@@ -675,34 +792,12 @@ void FUN_009dfa00_shell::FUN_009dfa00(BGSLoadFormBuffer* apLoadGameBuffer)
 }
 }  // namespace fnv_009dfa00
 
-void __cdecl Deallocate(void*);
-namespace p07 {
-struct DtorStandIn
-{
-    void FUN_0083dec0();
-};
-struct DelStandIn
-{
-    void* DestroyIfFlagged(unsigned int flags);
-};
-// Calls the destructor on this, then frees this via Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x009daec0
-void* DelStandIn::DestroyIfFlagged(unsigned int flags)
-{
-    ((DtorStandIn*)this)->FUN_0083dec0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-}
-
 namespace p07 {
 struct NiPoint3
 {
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
 };
-float __cdecl GetDirectionAngle(const NiPoint3&);
 struct PosObj
 {
     virtual void v0();
@@ -844,7 +939,7 @@ void* FUN_008bb5c0_tgt::FUN_009dce20(NiPoint3 aPoint, bool abFlag)
 {
     NiPoint3 kDelta = aPoint - *obj->GetPos();
     {
-        float fDistance = GetDirectionAngle(kDelta);
+        float fDistance = ::GetDirectionAngle((const ::NiPoint3 *)&(kDelta));
         return FUN_009dce80(fDistance, abFlag);
     }
 }
@@ -860,9 +955,8 @@ struct Flt
 {
     operator unsigned int() const;
 };
-struct PathingSolution
+class PathingSolution
 {
-    bool FUN_006b05d0();
 };
 
 // Returns true if the Flt at offset 0x20 is non-zero and its PathingSolution FUN_006b05d0 check succeeds; otherwise false.
@@ -870,7 +964,7 @@ struct PathingSolution
 bool FUN_009de420_shell::HasPathingSolution()
 {
     if (*(const Flt*)((char*)this + 0x20) &&
-        ((PathingSolution*)(unsigned int)*(const Flt*)((char*)this + 0x20))->FUN_006b05d0())
+        reinterpret_cast<::FUN_006b05d0_shell *>((((PathingSolution*)(uintptr_t)*(const Flt*)((char*)this + 0x20))))->FUN_006b05d0())
         return true;
     return false;
 }
@@ -891,7 +985,7 @@ struct _Mem_2064
     int d[2];
     ~_Mem_2064();
 };
-void __fastcall FUN_009daf80(TESForm*);
+void FUN_009daf80(TESForm*);
 struct FUN_009daef0
 {
     virtual ~FUN_009daef0();
@@ -910,12 +1004,31 @@ FUN_009daef0::~FUN_009daef0()
     FUN_009daf80((TESForm*)this);
 }
 
+namespace fnv_009daec0 {
+namespace p07 {
+struct DtorStandIn
+{
+};
+struct DelStandIn
+{
+    void* DestroyIfFlagged(unsigned int flags);
+};
+// Calls the destructor on this, then frees this via Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x009daec0
+void* DelStandIn::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009daef0 *>((((DtorStandIn*)this)))->FUN_009daef0::~FUN_009daef0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+}
+}  // namespace fnv_009daec0
+
 namespace fnv_009db950 {
 struct ActorPathingMessageQueue
 {
     char data[0x1c];
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     ActorPathingMessageQueue();
 };
 struct NP_0081c630
@@ -926,7 +1039,6 @@ struct NP_0081c630
 struct Sub_009057d0
 {
     void* p;
-    void AssignObject(ActorPathingMessageQueue* q);
 };
 struct MoverState
 {
@@ -955,7 +1067,7 @@ void MoverState::ResetMoverState(bool clearWaiting)
     m_kFirstNP = 0;
     if (m_bMovementActive)
     {
-        m_pPointer.AssignObject(new ActorPathingMessageQueue());
+        reinterpret_cast<::FakeHolder *>(&(m_pPointer))->AssignObject(new ActorPathingMessageQueue());
         if (clearWaiting)
             m_bMovementActive = false;
     }
@@ -975,17 +1087,15 @@ struct Tgt_b
 {
     char pad[0x28];
     void* pActor;
-    bool FUN_009dba30(PathingRequestHelper* request);
-    bool FUN_009dba50(int a, int b, int c, float d, int e);
+    bool FUN_009dba50(intptr_t a, intptr_t b, intptr_t c, float d, intptr_t e);
 };
-void __cdecl SetupPathingRequest(void* actor, PathingRequestHelper* request, int a, int b, int c, float d, int e);
 // Builds a PathingRequestHelper via SetupPathingRequest from pActor and the given arguments, then returns the result of FUN_009dba30 on it.
 // @fnv 0x009dba50
-bool Tgt_b::FUN_009dba50(int aiArg1, int aiArg2, int aiArg3, float afArg4, int aiArg5)
+bool Tgt_b::FUN_009dba50(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, float afArg4, intptr_t aiArg5)
 {
     PathingRequestHelper request;
-    SetupPathingRequest(pActor, &request, aiArg1, aiArg2, aiArg3, afArg4, aiArg5);
-    return FUN_009dba30(&request);
+    ::fnv_009dbc90::SetupPathingRequest((::Actor *)(pActor), (::fnv_009dbc90::PathingRequest *)(::PathingRequestHelper *)(&request), (*(const ::NiPoint3 *)(aiArg1)), (::TESObjectCELL *)(aiArg2), (::TESWorldSpace *)(aiArg3), afArg4, (void *)(aiArg5));
+    return reinterpret_cast<::FUN_009dba30_fix *>(this)->FUN_009dba30((const ::PathingRequest *)(::PathingRequestHelper *)(&request));
 }
 
 namespace fnv_009dbb60 {
@@ -993,35 +1103,30 @@ struct PathingRequestHelper
 {
     int data[0x2a];
     PathingRequestHelper();
-    void SetTargetAngle(float f);
     virtual ~PathingRequestHelper();
 };
 struct Tgt_b
 {
     char pad[0x28];
     void* pActor;
-    bool FUN_009dba30(PathingRequestHelper* request);
-    bool FUN_009dbb60(int a, int b, int c, float d, float e, int f);
+    bool FUN_009dbb60(intptr_t a, intptr_t b, intptr_t c, float d, float e, intptr_t f);
 };
-void __cdecl SetupPathingRequest(void* actor, PathingRequestHelper* request, int a, int b, int c, float e, int f);
 // @fnv 0x009dbb60
-bool Tgt_b::FUN_009dbb60(int aiArg1, int aiArg2, int aiArg3, float afValue, float afArg4, int aiArg5)
+bool Tgt_b::FUN_009dbb60(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, float afValue, float afArg4, intptr_t aiArg5)
 {
     PathingRequestHelper request;
-    SetupPathingRequest(pActor, &request, aiArg1, aiArg2, aiArg3, afArg4, aiArg5);
-    request.SetTargetAngle(afValue);
-    return FUN_009dba30(&request);
+    ::fnv_009dbc90::SetupPathingRequest((::Actor *)(pActor), (::fnv_009dbc90::PathingRequest *)(::fnv_009dbb60::PathingRequestHelper *)(&request), (*(const ::NiPoint3 *)(aiArg1)), (::TESObjectCELL *)(aiArg2), (::TESWorldSpace *)(aiArg3), afArg4, (void *)(aiArg5));
+    ::SetTargetAngle((char *)&(request), afValue);
+    return reinterpret_cast<::FUN_009dba30_fix *>(this)->FUN_009dba30((const ::PathingRequest *)(::fnv_009dbb60::PathingRequestHelper *)(&request));
 }
 }  // namespace fnv_009dbb60
 
 namespace fnv_00564db0 {
-struct TESObjectREFR
+class TESObjectREFR
 {
-    void SetFlags(unsigned int);
 };
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_00564db0_cls
@@ -1030,14 +1135,14 @@ struct FUN_00564db0_cls
 };
 
 // @fnv 0x00564db0
-void __thiscall FUN_00564db0_cls::FUN_00564db0(bool abVal)
+void FUN_00564db0_cls::FUN_00564db0(bool abVal)
 {
-    int iflags = ((ArrSI*)this)->GetFlags();
+    intptr_t iflags = SimpleArraySize((((ArrSI*)this)));
     if (abVal)
         iflags |= 0x40000;
     else
         iflags &= 0xfffbffff;
-    ((TESObjectREFR*)this)->SetFlags(iflags);
+    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)this)))->AssignLandTexture((::TESLandTexture *)(iflags));
 }
 }  // namespace fnv_00564db0
 
@@ -1047,7 +1152,6 @@ struct TypeValueCount
     float fValue;
     int iCount;
 };
-unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
 struct FUN_00691c90_shell
 {
     virtual ~FUN_00691c90_shell();
@@ -1055,27 +1159,27 @@ struct FUN_00691c90_shell
     unsigned int iSize;
     unsigned int iAllocSize;
     void FUN_00691c90(unsigned int auiIndex, unsigned int auiCount);
-    void FUN_0072ba80(TypeValueCount*, unsigned int);
-    void FUN_006dc6e0(TypeValueCount*, TypeValueCount*, unsigned int);
 };
 // @fnv 0x00691c90
 void FUN_00691c90_shell::FUN_00691c90(unsigned int auiIndex, unsigned int auiCount)
 {
     unsigned int uiMoveCount = FUN_0042f5a0(iSize - auiIndex - auiCount, auiCount);
-    FUN_0072ba80(&pBuffer[auiIndex], auiCount);
-    FUN_006dc6e0(&pBuffer[auiIndex], pBuffer + iSize - uiMoveCount, uiMoveCount);
+    reinterpret_cast<::FUN_0072ba80_shell *>(this)->FUN_0072ba80(&pBuffer[auiIndex], auiCount);
+    reinterpret_cast<::FUN_006dc6e0_Class *>(this)->FUN_006dc6e0((char *)(::TypeValueCount *)(&pBuffer[auiIndex]), (char *)(::TypeValueCount *)(pBuffer + iSize - uiMoveCount), uiMoveCount);
     iSize -= auiCount;
 }
 
 struct FUN_006d3ae0
 {
     void SetValue(float value);
+    unsigned int pad00[0x1a];
+    float unk68;
 };
 
 // @fnv 0x006d3ae0
 void FUN_006d3ae0::SetValue(float value)
 {
-    *(float*)((char*)this + 0x68) = value;
+    this->unk68 = value;
 }
 
 struct FUN_009de060_Class
@@ -1083,17 +1187,21 @@ struct FUN_009de060_Class
     unsigned char m_071;
     int m_038;
     void FUN_009de060(int param);
+    char pad08[0x30];
+    int unk38;
+    char pad3c[0x35];
+    unsigned char unk71;
 };
 
 // @fnv 0x009de060
 void FUN_009de060_Class::FUN_009de060(int aiValue)
 {
-    *(unsigned char*)((char*)this + 0x71) = 1;
-    *(int*)((char*)this + 0x38) = aiValue;
+    this->unk71 = 1;
+    this->unk38 = aiValue;
 }
 
 namespace fnv_009de160 {
-struct PathingSolution;
+class PathingSolution;
 struct ActorAvoidListNode
 {
     Actor* pItem;
@@ -1157,10 +1265,10 @@ void FUN_009de160_shell::SetMoveTarget(NiPoint3 aTarget)
 {
     m_kLookAtTargetPosition = aTarget;
     m_bHasLookAtTarget = true;
-    if (((MobileObject*)*(Actor**)((char*)this + 0x28))->GetCurrentProcessLevel())
+    if (((MobileObject*)*(Actor**)&this->unk28)->GetCurrentProcessLevel())
         return;
     if (!m_pPathHandler)
-        m_pPathHandler = new Dummy_0xe4(*(Actor**)((char*)this + 0x28), this);
+        m_pPathHandler = new Dummy_0xe4(*(Actor**)&this->unk28, this);
     ((TESForm*)this)->TESForm::ClearData();
 }
 }  // namespace fnv_009de160
@@ -1168,19 +1276,19 @@ void FUN_009de160_shell::SetMoveTarget(NiPoint3 aTarget)
 struct FUN_009deff0_Class
 {
     void SetFlagA3(bool b);
+    char pad00[0xa3];
+    char unka3;
 };
 // @fnv 0x009deff0
 void FUN_009deff0_Class::SetFlagA3(bool abValue)
 {
-    ((char*)this)[0xa3] = abValue;
+    this->unka3 = abValue;
 }
 
 namespace fnv_009dfb80 {
 struct ActorPathingMessageQueue
 {
     ActorPathingMessageQueue();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     void* vtable;
     unsigned int m_uiRefCount;
     void* pHead;
@@ -1195,28 +1303,31 @@ struct NP
 };
 struct Sub_009057d0
 {
-    void AssignObject(ActorPathingMessageQueue*);
 };
 struct PathHandlerBase
 {
     virtual ~PathHandlerBase();
 };
-extern NiPoint3 _NiPoint3_ZERO;
 struct FUN_009dfb80_t : ActorMover
 {
     void ResetPathingState(BGSLoadFormBuffer* apLoadGameBuffer);
+    bool unk78;
+    char pad79[0x3];
+    unsigned int unk7c;
+    unsigned int unk80;
+    int unk84;
 };
 // @fnv 0x009dfb80
 void FUN_009dfb80_t::ResetPathingState(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (m_bMovementActive)
-        ((Sub_009057d0*)((char*)this + 0x30))->AssignObject(new ActorPathingMessageQueue);
+        reinterpret_cast<::FakeHolder *>((((Sub_009057d0*)((char*)this + 0x30))))->AssignObject(new ActorPathingMessageQueue);
     eState = 0;
     *(NP*)&request = 0;
     *(NP*)&m_pActorNode = 0;
     delete (PathHandlerBase*)m_pPathHandler;
     m_pPathHandler = 0;
-    *(unsigned int*)((char*)this + 0x34) = 0x101;
+    this->unk34 = 0x101;
     UpdateMovementStatus(false);
     *(unsigned short*)((char*)this + 0x40) = 0xffff;
     *(unsigned short*)((char*)this + 0x42) = 0xffff;
@@ -1224,43 +1335,41 @@ void FUN_009dfb80_t::ResetPathingState(BGSLoadFormBuffer* apLoadGameBuffer)
     m_bMovementComplete = false;
     m_bMovementActive = false;
     m_bMovementPaused = false;
-    m_kLookAtTargetPosition = _NiPoint3_ZERO;
-    m_kPathingDelta = _NiPoint3_ZERO;
+    m_kLookAtTargetPosition = ::NiPoint3::ZERO;
+    m_kPathingDelta = ::NiPoint3::ZERO;
     m_bHasLookAtTarget = false;
     m_bHasMovementData = false;
-    *(bool*)((char*)this + 0x78) = false;
+    this->unk78 = false;
     m_bHasPathingDelta = false;
     m_uiMovementFlags = 0;
     m_uiMovementMode = 0;
-    *(unsigned int*)((char*)this + 0x2c) = 0;
-    *(int*)((char*)this + 0x84) = 0;
-    *(unsigned int*)((char*)this + 0x7c) = 0;
-    *(unsigned int*)((char*)this + 0x80) = 0;
+    this->unk2c = 0;
+    this->unk84 = 0;
+    this->unk7c = 0;
+    this->unk80 = 0;
 }
 }  // namespace fnv_009dfb80
 
 struct SeqObj
 {
-    void __thiscall FUN_00401970();
 };
 
 struct FUN_0045cec0_Class
 {
-    void __thiscall FUN_0045cec0();
+    void FUN_0045cec0();
 };
 
 // @fnv 0x0045cec0
-void __thiscall FUN_0045cec0_Class::FUN_0045cec0()
+void FUN_0045cec0_Class::FUN_0045cec0()
 {
     if (*(void**)this != 0)
     {
-        ((SeqObj*)*(void**)this)->FUN_00401970();
+        reinterpret_cast<::WaitableObject *>((((SeqObj*)*(void**)this)))->FUN_00401970();
     }
 }
 
 struct FUN_009dfd50Class
 {
-    void FUN_009dfd50();
 };
 
 struct FUN_009ddb30Class
@@ -1269,9 +1378,9 @@ struct FUN_009ddb30Class
 };
 
 // @fnv 0x009ddb30
-void __thiscall FUN_009ddb30Class::FUN_009ddb30()
+void FUN_009ddb30Class::FUN_009ddb30()
 {
-    ((FUN_009dfd50Class*)((char*)this + 8))->FUN_009dfd50();
+    reinterpret_cast<::PathBuilder *>((((FUN_009dfd50Class*)((char*)this + 8))))->FUN_009dfd50();
 }
 
 namespace fnv_009dbb10 {
@@ -1281,33 +1390,34 @@ struct LowProcess
 };
 struct Tgt_b
 {
-    bool FUN_009dba50(int, int, int, float, int);
     bool FUN_009dbb10(TESObjectREFR*, float, int);
 };
 // @fnv 0x009dbb10
 bool Tgt_b::FUN_009dbb10(TESObjectREFR* apRef, float afValue, int aiValue)
 {
-    return FUN_009dba50((int)apRef->GetPos(), (int)((LowProcess*)apRef)->GetTarget(), (int)apRef->GetParentWorldSpace(),
+    return reinterpret_cast<::Tgt_b *>(this)->FUN_009dba50((intptr_t)apRef->GetPos(), (intptr_t)((LowProcess*)apRef)->GetTarget(), (intptr_t)((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)(apRef))->FUN_00575d70())),
                         afValue, aiValue);
 }
 }  // namespace fnv_009dbb10
 
 class TESSound;
+class TESObjectREFR;
 struct LowProcess
 {
     TESSound* GetTarget();
+public:
+    ::TESObjectREFR *GetActiveCombatTarget();
 };
 struct H009dbc30
 {
-    void FUN_009dbb60(NiPoint3*, TESSound*, TESWorldSpace*, float, float, int);
-    void FUN_009dbc30(TESObjectREFR*, float, int);
+    void FUN_009dbc30(TESObjectREFR*, float, intptr_t);
 };
 // Calls FUN_009dbb60 with the reference's position, target sound, world space, Z angle, and the two given values.
 // @fnv 0x009dbc30
-void H009dbc30::FUN_009dbc30(TESObjectREFR* apReference, float afValue, int aiValue)
+void H009dbc30::FUN_009dbc30(TESObjectREFR* apReference, float afValue, intptr_t aiValue)
 {
-    FUN_009dbb60(apReference->GetPos(), ((LowProcess*)apReference)->GetTarget(), apReference->GetParentWorldSpace(),
-                 apReference->GetAngleOnReference().z, afValue, aiValue);
+    reinterpret_cast<::fnv_009dbb60::Tgt_b *>(this)->FUN_009dbb60((intptr_t)(apReference->GetPos()), (intptr_t)(((LowProcess*)apReference)->GetTarget()), (intptr_t)(((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)(apReference))->FUN_00575d70()))),
+                 (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(apReference))->GetData())).z, afValue, aiValue);
 }
 
 struct Inner009dcab0
@@ -1377,7 +1487,7 @@ struct Holder009dcb30
 // @fnv 0x009dcb30
 bool Holder009dcb30::FUN_009dcb30()
 {
-    if (_o && (unsigned int)_f && ((NiNode*)(unsigned int)_f)->FUN_009dc530())
+    if (_o && (unsigned int)_f && reinterpret_cast<::Mover *>((((NiNode*)(uintptr_t)_f)))->FUN_009dc530())
         return _o->f15();
     return true;
 }
@@ -1419,7 +1529,7 @@ struct MyHolder
 // @fnv 0x009dcb90
 bool MyHolder::FUN_009dcb90()
 {
-    if (_p && (unsigned int)_f && ((NiNode*)(unsigned int)_f)->FUN_009dc530())
+    if (_p && (unsigned int)_f && reinterpret_cast<::Mover *>((((NiNode*)(uintptr_t)_f)))->FUN_009dc530())
         return _p->vf16();
     return 0;
 }
@@ -1599,7 +1709,7 @@ struct S009dccf0
 // @fnv 0x009dccf0
 bool S009dccf0::FUN_009dccf0()
 {
-    if (!(unsigned int)m_kHandle || !((NiNode*)(unsigned int)m_kHandle)->FUN_009dc530())
+    if (!(unsigned int)m_kHandle || !reinterpret_cast<::Mover *>((((NiNode*)(uintptr_t)m_kHandle)))->FUN_009dc530())
         return false;
     return _h->v17();
 }
@@ -1608,12 +1718,14 @@ bool S009dccf0::FUN_009dccf0()
 struct FUN_009de040_class
 {
     void ClearFlags(unsigned int mask);
+    unsigned int pad00[0xd];
+    unsigned int unk34;
 };
 
 // @fnv 0x009de040
 void FUN_009de040_class::ClearFlags(unsigned int mask)
 {
-    *(unsigned int*)((char*)this + 0x34) &= ~mask;
+    this->unk34 &= ~mask;
 }
 
 namespace fnv_009de110 {
@@ -1655,12 +1767,14 @@ bool Unk::FUN_009de110(int aiArg1, int aiArg2)
 struct Unk009DE3A0
 {
     void SetFormID(TESForm*);
+    unsigned int pad00[0xb];
+    unsigned int unk2c;
 };
 // Stores the form's form ID at offset 0x2c, or 0 when pForm is null.
 // @fnv 0x009de3a0
 void Unk009DE3A0::SetFormID(TESForm* pForm)
 {
-    *(unsigned int*)((char*)this + 0x2c) = pForm ? pForm->GetFormID() : 0;
+    this->unk2c = pForm ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0())) : 0;
 }
 
 namespace fnv_009de3e0 {
@@ -1677,15 +1791,23 @@ struct StandIn009DE3E0
 // @fnv 0x009de3e0
 bool StandIn009DE3E0::FUN_009de3e0()
 {
-    if ((unsigned int)m_kHandle && ((NiNode*)(unsigned int)m_kHandle)->FUN_009dc530())
+    if ((unsigned int)m_kHandle && reinterpret_cast<::Mover *>((((NiNode*)(uintptr_t)m_kHandle)))->FUN_009dc530())
         return true;
     return false;
 }
 }  // namespace fnv_009de3e0
 
+class TESObjectCELL;
 struct PathingLocation
 {
-    bool FUN_006a9520(void);
+public:
+    ::PathingLocation &operator=(const ::PathingLocation &);
+public:
+    ::TESObjectCELL *GetContainingCell();
+public:
+    bool HasValidTriangle_006dd6a0();
+public:
+    void ResetLocation();
 };
 
 struct FUN_009de460
@@ -1699,7 +1821,7 @@ struct FUN_009de460
 // @fnv 0x009de460
 PathingLocation* FUN_009de460::GetPathingLocation()
 {
-    if (!m_pathingLocation.FUN_006a9520())
+    if (!reinterpret_cast<::FUN_006a9520_Class *>(&(m_pathingLocation))->FUN_006a9520())
         return &m_pathingLocation;
     return 0;
 }
@@ -1717,35 +1839,27 @@ struct PathingLocation : _Mem_2064
 };
 struct FUN_006d3ae0
 {
-    void SetValue(float v);
 };
-struct PathingActorData
+class PathingActorData
 {
+  public:
     PathingActorData& operator=(const PathingActorData& o);
 };
 struct FUN_006e2b50_shell
 {
-    void SetCantOpenDoors(bool b);
 };
 struct FUN_006e2b70_shell
 {
-    void SetCanSwim(bool b);
 };
 struct FUN_006e2b90
 {
-    void SetFlag(unsigned char f);
 };
 struct FUN_006e2bb0_shell
 {
-    void SetInitialPathHeading(float f);
 };
 struct FUN_008be280_shell
 {
-    float FUN_008be280();
 };
-bool __fastcall FUN_0087f350(Actor* a);
-bool __fastcall FUN_0087f390(Actor* a);
-extern const double DAT_010290b8;
 struct FUN_006e29f0_sub
 {
     virtual void v0();
@@ -1769,17 +1883,16 @@ struct FUN_006e29f0_shell
 // @fnv 0x006e29f0
 void FUN_006e29f0_shell::InitFromActor(Actor* apActor)
 {
-    *(PathingLocation*)((char*)this + 0xc) = PathingLocation((TESObjectREFR*)apActor);
-    ((FUN_006d3ae0*)this)->SetValue((float)(((FUN_008be280_shell*)apActor)->FUN_008be280() * DAT_010290b8));
-    *(PathingActorData*)this = *(PathingActorData*)apActor;
-    ((FUN_006e2b70_shell*)this)->SetCanSwim(FUN_0087f350(apActor));
-    ((FUN_006e2b90*)this)->SetFlag(FUN_0087f390(apActor));
+    reinterpret_cast<::PathingLocation *>((void *)&(const ::fnv_006e29f0::PathingLocation &)(*(PathingLocation*)((char*)this + 0xc)))->operator=((const ::PathingLocation &)((const ::fnv_006e29f0::PathingLocation &)(PathingLocation((TESObjectREFR*)apActor))));
+    reinterpret_cast<::FUN_006d3ae0 *>((((FUN_006d3ae0*)this)))->SetValue((float)(reinterpret_cast<::fnv_008be280::FloatValueProvider *>((((FUN_008be280_shell*)apActor)))->FUN_008be280() * ::DAT_010290b8));
+    reinterpret_cast<::PathingActorData *>((void *)&(const ::fnv_006e29f0::PathingActorData &)(*(PathingActorData*)this))->operator=((const ::PathingActorData &)(*(PathingActorData*)apActor));
+    reinterpret_cast<::FUN_006e2b70_shell *>((((FUN_006e2b70_shell*)this)))->SetCanSwim(reinterpret_cast<::FUN_0087f350_shell *>((apActor))->FUN_0087f350());
+    reinterpret_cast<::FUN_006e2b90 *>((((FUN_006e2b90*)this)))->SetFlag(reinterpret_cast<::FUN_0087f390_shell *>((apActor))->FUN_0087f390());
     if (apActor->Unk_87())
     {
-        ((FUN_006e2b50_shell*)this)
-            ->SetCantOpenDoors(((FUN_006e29f0_sub*)((char*)apActor->GetActorBase() + 0x30))->v10());
+        reinterpret_cast<::FUN_006e2b50_shell *>((((FUN_006e2b50_shell*)this)))->SetCantOpenDoors(((FUN_006e29f0_sub*)((char*)apActor->GetActorBase() + 0x30))->v10());
     }
-    ((FUN_006e2bb0_shell*)this)->SetInitialPathHeading(apActor->GetCurrentTargetDistance(false));
+    reinterpret_cast<::FUN_006e2bb0_shell *>((((FUN_006e2bb0_shell*)this)))->SetInitialPathHeading(apActor->GetCurrentTargetDistance(false));
 }
 }  // namespace fnv_006e29f0
 
@@ -1790,19 +1903,18 @@ class _Mem_2064
     ~_Mem_2064();
 };
 
-class PathingLocation : public _Mem_2064
+struct PathingLocation : public _Mem_2064
 {
   public:
     PathingLocation(NiPoint3 const& arPoint, TESObjectCELL* apCell, TESWorldSpace* apWorldSpace);
     int data[10];
 };
 
-class PathingRequest
+struct PathingRequest
 {
   public:
     void SetDestination(PathingLocation* apDest);
     void SetCenterRadius(float afRadius);
-    void InitFromActor(Actor* apActor);
 };
 
 struct PathingRequest_b
@@ -1812,30 +1924,24 @@ struct PathingRequest_b
 
 struct FUN_006e2b50_shell
 {
-    void SetCantOpenDoors(bool);
 };
 
 struct FUN_006e2b70_shell
 {
-    void SetCanSwim(bool);
 };
 
 struct FUN_006e2b90
 {
-    void SetFlag(unsigned char);
 };
 
-struct TESPackage
+class TESPackage
 {
-    static float __cdecl GetPackageDefaultFloat();
 };
 
 struct Dummy
 {
-    bool FUN_005f0c40();
 };
 
-bool __fastcall FUN_005f0b50(TESActorBase*);
 
 struct ActorBaseComponent30
 {
@@ -1858,11 +1964,11 @@ void __cdecl SetupPathingRequest(Actor* apActor, PathingRequest* apRequest, NiPo
                                  void* apAvoidNodes)
 {
     PathingLocation pathingLocation(aGoalLocation, apCell, apWorldSpace);
-    apRequest->InitFromActor(apActor);
+    reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>((apRequest))->InitFromActor(apActor);
     apRequest->SetDestination(&pathingLocation);
     if (afTargetRadius <= 0.0)
     {
-        apRequest->SetCenterRadius(TESPackage::GetPackageDefaultFloat());
+        apRequest->SetCenterRadius(::TESPackage::GetPackageDefaultFloat());
     }
     else
     {
@@ -1871,31 +1977,26 @@ void __cdecl SetupPathingRequest(Actor* apActor, PathingRequest* apRequest, NiPo
     ((PathingRequest_b*)apRequest)->SetAvoidNodeArray(apAvoidNodes);
     if (apActor->Unk_87())
     {
-        ((FUN_006e2b50_shell*)apRequest)
-            ->SetCantOpenDoors(((ActorBaseComponent30*)((char*)apActor->GetActorBase() + 0x30))->v10());
+        reinterpret_cast<::FUN_006e2b50_shell *>((((FUN_006e2b50_shell*)apRequest)))->SetCantOpenDoors(((ActorBaseComponent30*)((char*)apActor->GetActorBase() + 0x30))->v10());
     }
-    ((FUN_006e2b70_shell*)apRequest)->SetCanSwim(FUN_005f0b50(apActor->GetActorBase()));
-    ((FUN_006e2b90*)apRequest)->SetFlag(((Dummy*)apActor->GetActorBase())->FUN_005f0c40());
+    reinterpret_cast<::FUN_006e2b70_shell *>((((FUN_006e2b70_shell*)apRequest)))->SetCanSwim(reinterpret_cast<::FUN_005f0b50_shell *>((apActor->GetActorBase()))->FUN_005f0b50());
+    reinterpret_cast<::FUN_006e2b90 *>((((FUN_006e2b90*)apRequest)))->SetFlag(reinterpret_cast<::Dummy *>((((Dummy*)apActor->GetActorBase())))->FUN_005f0c40());
 }
 }  // namespace fnv_009dbc90
 
 namespace fnv_009dc7f0 {
 struct BGSSaveLoadGame
 {
-    bool FUN_0042ce10();
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 struct Flt
 {
     operator unsigned int();
 };
-struct PathingSolution
+class PathingSolution
 {
-    unsigned int GetVirtualNodeCount();
 };
 struct ActorStub_009dc7f0
 {
-    void FUN_0088d640();
     void TryMove(int);
 };
 struct VObj_009dc7f0
@@ -1927,30 +2028,29 @@ struct DoorTeleportSpaceReceiver
     unsigned short usLastNode;
     char pad44[0x31];
     bool bFlag;
-    bool FUN_009dcd40();
     void UpdateTeleportPathState();
 };
 // Updates the actor's sit/sleep handling and the teleport path flag based on the path object's state and node counts.
 // @fnv 0x009dc7f0
 void DoorTeleportSpaceReceiver::UpdateTeleportPathState()
 {
-    if (pActor->GetProcess()->GetSitSleepState() == 4 || pActor->GetProcess()->GetSitSleepState() == 9)
+    if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()))->GetSitSleepState() == 4 || ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()))->GetSitSleepState() == 9)
         return;
-    else if (pActor->GetProcess()->GetSitSleepState())
+    else if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()))->GetSitSleepState())
     {
-        ((ActorStub_009dc7f0*)pActor)->FUN_0088d640();
+        reinterpret_cast<::fnv_0088d640::FUN_0088d640_shell *>((((ActorStub_009dc7f0*)pActor)))->FUN_0088d640();
         return;
     }
-    if (!pObj || FUN_009dcd40())
+    if (!pObj || reinterpret_cast<::fnv_009dcd40::Mover *>(this)->FUN_009dcd40())
     {
-        if (!g_BGSSaveLoadGame->FUN_0042ce10())
+        if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_009dc7f0::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             ((ActorStub_009dc7f0*)pActor)->TryMove(0);
     }
     else if (bFlag && pObj->v0d())
     {
         if (!kPath)
             return;
-        if (usNode == usLastNode && usNode < ((PathingSolution*)(unsigned int)kPath)->GetVirtualNodeCount() - 1)
+        if (usNode == usLastNode && usNode < ::FUN_005a4320((char *)(((PathingSolution*)(uintptr_t)kPath))) - 1)
             return;
         bFlag = false;
     }
@@ -1964,40 +2064,40 @@ void DoorTeleportSpaceReceiver::UpdateTeleportPathState()
 }  // namespace fnv_009dc7f0
 
 namespace fnv_009df8c0 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct BGSIdleCollection;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
-struct CombatAction;
-struct CombatGoal;
+class SaveLoadFile;
+class CombatAction;
+class CombatGoal;
 struct ActorCombatGroup;
 struct CombatPlan;
 struct CombatBehavior;
-struct CombatProcedure;
+class CombatProcedure;
 struct CombatState;
 struct IDebugText;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
+class NiQuaternion;
 struct LocationDescriptor;
-struct DurationData;
-struct PackageTargetRecord;
-struct Projectile;
-struct Script;
+class DurationData;
+class PackageTargetRecord;
+class Projectile;
+class Script;
 struct TESCombatStyle;
-struct PerkEntryConditionSet;
+class PerkEntryConditionSet;
 struct TESEscortPackageData;
-struct TESFile;
-struct TESIdleForm;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESFile;
+class TESIdleForm;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESPackageData;
 struct TESPatrolPackageData;
-struct TESTopic;
+class TESTopic;
 struct TESUseWeaponPackageData;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct hkVector4;
 struct blob4
 {
@@ -2043,7 +2143,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -2080,7 +2179,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_009df8c0_shell : public ActorMover
 {
     void FUN_009df8c0(BGSLoadFormBuffer*);
@@ -2093,11 +2191,10 @@ struct CombatController
 class BSPortalGraph;
 struct HighActorCullerCell
 {
-    BSPortalGraph* FUN_009d9f20();
 };
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
     ~GO();
     void* p;
 };
@@ -2112,7 +2209,6 @@ class PathingActorData
 };
 struct FUN_009d9ec0_shell
 {
-    void AssignAtOffsetB0(void*);
 };
 struct SPathHandler
 {
@@ -2448,30 +2544,28 @@ void FUN_009df8c0_shell::FUN_009df8c0(BGSLoadFormBuffer* apLoadGameBuffer)
         ((MoverView*)this)->m_pPathHandler->LoadGame(apLoadGameBuffer);
     if (((MoverView*)this)->m_kFirstNP)
     {
-        if (((SPathReq*)(unsigned int)((MoverView*)this)->m_kFirstNP)->GetType() == 5)
+        if (((SPathReq*)(uintptr_t)((MoverView*)this)->m_kFirstNP)->GetType() == 5)
         {
-            FUN_009d9ec0_shell* plosRequest = (FUN_009d9ec0_shell*)(unsigned int)((MoverView*)this)->m_kFirstNP;
+            FUN_009d9ec0_shell* plosRequest = (FUN_009d9ec0_shell*)(uintptr_t)((MoverView*)this)->m_kFirstNP;
             CombatController* pcombatController = ((MoverView*)this)->pActor->GetCombatController();
-            if (pcombatController && pcombatController->GetCombatGroup())
+            if (pcombatController && ((::fnv_009df8c0::ActorCombatGroup *)(reinterpret_cast<::EffectSetting *>((pcombatController))->GetCastSound())))
             {
-                GO kGraph((int)((HighActorCullerCell*)pcombatController->GetCombatGroup())->FUN_009d9f20());
-                plosRequest->AssignAtOffsetB0(&kGraph);
+                GO kGraph((intptr_t)((::fnv_009df8c0::BSPortalGraph *)(reinterpret_cast<::fnv_009d9f20::FUN_009d9f20_shell *>((((HighActorCullerCell*)((::fnv_009df8c0::ActorCombatGroup *)(reinterpret_cast<::EffectSetting *>((pcombatController))->GetCastSound())))))->FUN_009d9f20())));
+                reinterpret_cast<::FUN_009d9ec0_shell *>((plosRequest))->AssignAtOffsetB0(&kGraph);
             }
         }
-        ((SPathReq*)(unsigned int)((MoverView*)this)->m_kFirstNP)->LoadGame(apLoadGameBuffer);
-        *(PathingActorData*)(unsigned int)((MoverView*)this)->m_kFirstNP =
-            *(PathingActorData*)((MoverView*)this)->pActor;
+        ((SPathReq*)(uintptr_t)((MoverView*)this)->m_kFirstNP)->LoadGame(apLoadGameBuffer);
+        reinterpret_cast<::PathingActorData *>((void *)&(const ::fnv_009df8c0::PathingActorData &)(*(PathingActorData*)(uintptr_t)((MoverView*)this)->m_kFirstNP))->operator=((const ::PathingActorData &)(*(PathingActorData*)((MoverView*)this)->pActor));
     }
 }
 }  // namespace fnv_009df8c0
 
 struct PathingRequest;
-struct PathingSolution;
+class PathingSolution;
 struct FUN_006d0b80
 {
     FUN_006d0b80(PathingRequest*, PathingSolution*);
     ~FUN_006d0b80();
-    int FUN_006c93d0();
     int f0;
     int f1;
     int f2;
@@ -2491,22 +2585,17 @@ struct FUN_006d0b80
 int FUN_006d53b0(PathingRequest* pRequest, PathingSolution* b)
 {
     FUN_006d0b80 obj(pRequest, b);
-    return obj.FUN_006c93d0();
+    return ::fnv_006c93d0::FUN_006c93d0((::fnv_006c93d0::Dummy_006c93a0 *)&(obj));
 }
 
-struct TESForm;
-void __fastcall FUN_009daf80(TESForm*);
+class TESForm;
+void FUN_009daf80(TESForm*);
 struct Sol11
 {
-    bool FUN_009dc530();
-    int FUN_00441110();
-    unsigned int FUN_005a4320();
-    void* FUN_006e78b0(unsigned int);
 };
 struct QueueVt11;
 struct Req11
 {
-    bool GetByteAtOffset9B();
 };
 struct Node11
 {
@@ -2516,7 +2605,6 @@ struct Loc11
 {
     int m_00;
     Loc11& operator=(const Loc11&);
-    void FUN_006ddbe0();
 };
 template <class T> class NiPointer;
 template <> class NiPointer<Sol11>
@@ -3193,12 +3281,9 @@ struct QueueVt11
 };
 struct Proc11 : public ProcVt11
 {
-    int FUN_0045cd60();
 };
 struct Actor11 : public ActorVt11
 {
-    Proc11* FUN_008d8520();
-    int GetCellLoadState();
 };
 struct Mover11
 {
@@ -3235,132 +3320,9 @@ struct Mover11
     unsigned char m_76;
     unsigned char m_77;
     unsigned char m_78;
-    void FUN_009dd1c0(int);
-    void UpdatePathMovement();
-    void FUN_009dc590(float);
-    void UpdatePathingState(float);
     void SetEnabled(int);
-    void FUN_009ddc00();
-    void FUN_00483710();
     void FUN_009dc120(float f);
 };
-
-// @fnv 0x009dc120
-void Mover11::FUN_009dc120(float f)
-{
-    if (m_72)
-    {
-        m_78 = 1;
-        FUN_009dd1c0(1);
-        m_72 = 0;
-    }
-    if (m_actor->v22c(0))
-    {
-        if (m_handler)
-        {
-            m_handler->v70();
-        }
-        goto END;
-    }
-    {
-        Proc11* proc = m_actor->FUN_008d8520();
-        if (proc == 0)
-            goto END;
-        if (proc->v610() == 4)
-            goto END;
-        if (proc->FUN_0045cd60() != m_actor->GetCellLoadState())
-            goto END;
-        if (proc->v4bc() != 0)
-            goto END;
-        if (m_actor->v230())
-            goto END;
-        if (proc->v40c() != 0)
-            goto END;
-        if (proc->v6fc())
-            goto END;
-        if (m_75)
-        {
-            m_75 = 0;
-            UpdatePathMovement();
-        }
-        if (!m_failed)
-        {
-            if (!m_waiting)
-            {
-                if ((Sol11*)m_path && ((Sol11*)m_path)->FUN_009dc530())
-                {
-                    m_uiContentCount = 3;
-                    FUN_009dc590(f);
-                    goto END;
-                }
-            }
-            else
-            {
-                Msg11 msg;
-                if (((QueueVt11*)m_queue)->v10(&msg))
-                {
-                    switch (msg.m_type)
-                    {
-                    case 0:
-                        m_uiContentCount = 3;
-                        m_waiting = 0;
-                        m_path = msg.m_sol;
-                        UpdatePathingState(f);
-                        break;
-                    case 1: {
-                        m_waiting = 0;
-                        m_path = msg.m_sol;
-                        if ((Sol11*)m_path && ((Sol11*)m_path)->FUN_009dc530() && ((Req11*)m_req)->GetByteAtOffset9B())
-                        {
-                            m_uiContentCount = 3;
-                            UpdatePathingState(f);
-                            break;
-                        }
-                        m_uiContentCount = 7;
-                        SetEnabled(1);
-                        if ((Sol11*)m_path)
-                        {
-                            int idx = ((Sol11*)m_path)->FUN_00441110();
-                            if (idx != -1)
-                            {
-                                if (((Sol11*)m_path)->FUN_005a4320() > 0)
-                                {
-                                    void* node = ((Sol11*)m_path)->FUN_006e78b0(idx);
-                                    if (node)
-                                    {
-                                        m_loc = *(Loc11*)((Node11*)node)->FUN_00717e50();
-                                        m_loc.FUN_006ddbe0();
-                                    }
-                                }
-                            }
-                        }
-                        FUN_009daf80((TESForm*)this);
-                        break;
-                    }
-                    default:
-                        break;
-                    }
-                    goto END;
-                }
-                goto SECB;
-            }
-        }
-    }
-SECB:
-    if (!((Sol11*)m_path && ((Sol11*)m_path)->FUN_009dc530() && !m_failed))
-    {
-        if (m_handler)
-        {
-            if (m_handler->v10(f) == 5)
-            {
-                m_uiContentCount = 6;
-            }
-        }
-    }
-END:
-    FUN_009ddc00();
-    FUN_00483710();
-}
 
 // UpdateFlagFromTarget: thiscall, void. Calls bool vslot 0x34 on the object at this+0x24.
 // Stand-in layout: vptr at 0, pointer at +0x24, flag byte at +0x75.
@@ -3791,7 +3753,6 @@ class PkgSlotHolder
 class PkgHelperObj
 {
   public:
-    int FUN_00559450();
 };
 
 class FUN_009de0a0_cls
@@ -3809,7 +3770,7 @@ class FUN_009de0a0_cls
 // @fnv 0x009de0a0
 PkgTriple* FUN_009de0a0_cls::FUN_009de0a0(PkgTriple* out)
 {
-    if (reinterpret_cast<PkgHelperObj*>(&m_20)->FUN_00559450() == 0 || m_24 == 0)
+    if (::FUN_00559450((int *)(reinterpret_cast<PkgHelperObj*>(&m_20))) == 0 || m_24 == 0)
     {
         *out = *m_28->GetTriple();
         return out;
@@ -3823,7 +3784,6 @@ PkgTriple* FUN_009de0a0_cls::FUN_009de0a0(PkgTriple* out)
 
 struct PathCoordinate
 {
-    NiPoint3* FUN_005c3420();
 };
 struct PathQuery
 {
@@ -3838,41 +3798,22 @@ struct FUN_009de2b0_shell : ActorMover
     bool GetPathCoordinate(NiPoint3* position);
 };
 
-// @fnv 0x009de2b0
-bool FUN_009de2b0_shell::GetPathCoordinate(NiPoint3* position)
-{
-    if (m_pActorNode.operator->() && m_pActorNode.operator->()->FUN_009dc530())
-    {
-        PathQuery* query = reinterpret_cast<PathNode*>(m_pActorNode.operator->())->FUN_009ddb30();
-        if (query)
-        {
-            NiPoint3 coordinate;
-            *position = *query->FUN_00717e50(&coordinate)->FUN_005c3420();
-            return true;
-        }
-    }
-    return false;
-}
-
 struct Fx_Arg
 {
-    void Apply(int v);
 };
 
 struct Fx_Obj
 {
-    int Lookup();
+    intptr_t Lookup();
 };
 
 struct Fx_Node
 {
-    bool Test();
     Fx_Obj* Find();
 };
 
 struct Fx_Sub
 {
-    Fx_Node* GetNode();
 };
 
 struct FUN_009de330_cls
@@ -3889,14 +3830,14 @@ bool FUN_009de330_cls::ApplyNodeLookup(Fx_Arg* arg)
 {
     Fx_Obj* obj;
 
-    if (sub.GetNode() != 0)
+    if (((::Fx_Node *)(::FUN_00559450((int *)&(sub)))) != 0)
     {
-        if (sub.GetNode()->Test())
+        if (reinterpret_cast<::Mover *>((((::Fx_Node *)(::FUN_00559450((int *)&(sub))))))->FUN_009dc530())
         {
-            obj = sub.GetNode()->Find();
+            obj = ((::Fx_Node *)(::FUN_00559450((int *)&(sub))))->Find();
             if (obj != 0)
             {
-                arg->Apply(obj->Lookup());
+                reinterpret_cast<::PathingLocation *>((arg))->operator=((*(const ::PathingLocation *)(obj->Lookup())));
                 return true;
             }
         }
@@ -3907,20 +3848,14 @@ bool FUN_009de330_cls::ApplyNodeLookup(Fx_Arg* arg)
 struct ActorX
 {
     int FUN_00931850();
-    void TryMove(int a);
 };
 
 struct ReqT
 {
-    void FUN_006e2b20(ActorX* a);
 };
 
 struct SolT
 {
-    unsigned int GetObjectFlags();
-    int FUN_009611e0();
-    int FUN_00441110();
-    int FUN_005a4320();
 };
 
 template <class T> struct RefPtr
@@ -3988,9 +3923,7 @@ struct ThisCls
     void* m_64;
     void* m_68;
     int m_6c;
-    bool FUN_00483710();
     void SetEnabled(int a);
-    void HandlePathResult(int a);
     void UpdatePathingState(float a1);
 };
 
@@ -4069,84 +4002,8 @@ struct FUN_009ea770
     FUN_009ea770(ActorX* a, ThisCls* b, RefPtr<SolT>& c, ReqT* d);
 };
 
-class PathingRequest;
-struct PathingSolution;
-int QueryPathScope(PathingRequest* a, PathingSolution* b, int c);
-
-// Checks the pathing request/solution state, swaps m_24 for a new handler, then calls vfn_04 and HandlePathResult with the result.
-// @fnv 0x009dbdc0
-void ThisCls::UpdatePathingState(float a1)
-{
-    FUN_00483710();
-    bool flag;
-    if (m_20.FUN_00559450()->GetObjectFlags() > 0)
-    {
-        if (m_28->FUN_00931850())
-        {
-            flag = false;
-            m_1c.FUN_00559450()->FUN_006e2b20(m_28);
-            switch (FUN_006d53b0((PathingRequest*)m_1c.FUN_00559450(), (PathingSolution*)m_20.FUN_00559450()))
-            {
-                break;
-            case -1:
-            case 0:
-                m_6c = 7;
-                SetEnabled(1);
-                return;
-            }
-        }
-        else
-        {
-            flag = true;
-        }
-    }
-    else
-    {
-        if (!m_28->FUN_00931850())
-        {
-            flag = true;
-            m_1c.FUN_00559450()->FUN_006e2b20(m_28);
-            switch (QueryPathScope((PathingRequest*)m_1c.FUN_00559450(), (PathingSolution*)m_20.FUN_00559450(), 0))
-            {
-                break;
-            case -1:
-            case 0:
-                m_28->TryMove(1);
-                m_6c = 7;
-                SetEnabled(1);
-                return;
-            }
-        }
-        else
-        {
-            flag = false;
-        }
-    }
-    if (flag)
-    {
-        m_40 = m_20.FUN_00559450()->FUN_009611e0();
-        m_42 = m_20.FUN_00559450()->FUN_00441110();
-        HandlerX* old = m_24;
-        m_24 = (HandlerX*)new FUN_009e0190(m_28, this, m_20, m_1c.FUN_00559450());
-        m_24->vfn_58(old);
-        if (old)
-        {
-            delete old;
-        }
-    }
-    else
-    {
-        m_40 = 0;
-        m_42 = m_20.FUN_00559450()->FUN_005a4320() - 1;
-        if (m_24)
-        {
-            delete m_24;
-        }
-        m_24 = (HandlerX*)new FUN_009ea770(m_28, this, m_20, m_1c.FUN_00559450());
-    }
-    int res = m_24->vfn_04(0.0f, a1);
-    HandlePathResult(res);
-}
+struct PathingRequest;
+class PathingSolution;
 
 class PointX
 {
@@ -4155,13 +4012,11 @@ class PointX
     float y;
     float z;
     PointX operator-(const PointX& arPoint) const;
-    float GetLength() const;
 };
 
 class PathingLocationX
 {
   public:
-    PointX GetPoint() const;
 };
 
 class VirtualPathingNodeX
@@ -4173,16 +4028,11 @@ class VirtualPathingNodeX
 class PathingSolutionX
 {
   public:
-    bool IsComplete();
-    unsigned int GetNodeCount();
-    unsigned int GetLastNodeIndex();
-    VirtualPathingNodeX* GetVirtualNode(unsigned int auiIndex);
 };
 
 class PathingRequestX
 {
   public:
-    float GetCenterRadius() const;
 };
 
 class MoverActorX
@@ -4317,7 +4167,6 @@ class MoverActorX
 };
 
 class ActorMoverX;
-void __fastcall ActorMover_ClearPath(ActorMoverX* apMover);
 
 class ActorMoverX
 {
@@ -4348,61 +4197,20 @@ class ActorMoverX
     int eState;
 
     int UpdatePathHandler();
-    void ResetPathing();
     void SetPathFailed(bool abFailed);
     void HandlePathResult(int aiResult);
 };
-
-// Handles a pathing result code: on failure sets state 7 and resets the path, on success checks completion and distance to the last node.
-// @fnv 0x009dc5e0
-void ActorMoverX::HandlePathResult(int aiResult)
+// @fnv 0x009dc590
+void ActorMover::UpdateMovement(float elapsed)
 {
-    switch (aiResult)
-    {
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-        eState = 7;
-        ResetPathing();
-        SetPathFailed(true);
-        break;
-    case 5:
-    case 6: {
-        int iUpdateResult = UpdatePathHandler();
-        if (!m_pActorNode->IsComplete())
-        {
-            if (aiResult == 6 && eState != 7)
-            {
-                eState = 3;
-            }
-            ResetPathing();
-        }
-        else if (iUpdateResult != 1)
-        {
-            if (m_pActorNode->GetNodeCount() > 0)
-            {
-                PointX kDelta =
-                    m_pActorNode->GetVirtualNode(m_pActorNode->GetLastNodeIndex())->GetLocation().GetPoint() -
-                    *pActor->GetPos();
-                if (kDelta.GetLength() <= m_kFirstNP->GetCenterRadius() * m_kFirstNP->GetCenterRadius())
-                {
-                    break;
-                }
-            }
-            eState = 7;
-            SetPathFailed(true);
-            ActorMover_ClearPath(this);
-            ResetPathing();
-        }
-    }
-    break;
-    }
+    if (m_bMovementPaused)
+        return;
+    ActorPathHandler::PATH_HANDLER_RESULT result = m_pPathHandler->vfn_0c(elapsed);
+    reinterpret_cast<::ActorMoverX *>(this)->HandlePathResult((*(int *)&(result)));
 }
 
 struct MovementStatus
 {
-    bool IsHighestPriority();
 };
 struct MovementActor
 {
@@ -4584,7 +4392,6 @@ struct MovementActor
     virtual void slot2bc();
     virtual void slot2c0();
     virtual void UpdateBlockedMovement(float);
-    bool FUN_008843a0();
 };
 struct MovementHandler
 {
@@ -4605,7 +4412,6 @@ struct MovementHandler
 };
 struct MovementUpdate : Mover11
 {
-    void ResetMoverState(int);
     bool FUN_009dce80(float delta, bool force);
 };
 
@@ -4613,10 +4419,10 @@ struct MovementUpdate : Mover11
 bool MovementUpdate::FUN_009dce80(float delta, bool force)
 {
     bool result = false;
-    ResetMoverState(1);
-    if (((MovementActor*)m_actor)->GetStatus() && ((MovementActor*)m_actor)->GetStatus()->IsHighestPriority())
+    reinterpret_cast<::fnv_009db950::MoverState *>(this)->ResetMoverState(1);
+    if (((MovementActor*)m_actor)->GetStatus() && reinterpret_cast<::fnv_00495be0::PriorityAnimation *>((((MovementActor*)m_actor)->GetStatus()))->IsHighestPriority())
         m_78 = true;
-    if (!((MovementActor*)m_actor)->FUN_008843a0() || ((MovementActor*)m_actor)->CanMove())
+    if (!reinterpret_cast<::FUN_008843a0_shell *>((((MovementActor*)m_actor)))->FUN_008843a0() || ((MovementActor*)m_actor)->CanMove())
     {
         m_uiContentCount = 6;
         result = true;
@@ -4647,7 +4453,7 @@ bool MovementUpdate::FUN_009dce80(float delta, bool force)
             result = false;
         }
     }
-    FUN_00483710();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
     return result;
 }
 
@@ -4655,11 +4461,9 @@ struct PathVec
 {
     float x, y, z;
     PathVec operator-(const PathVec&) const;
-    float Length() const;
 };
 struct PathPosition
 {
-    PathVec GetPosition();
 };
 struct PathEntry
 {
@@ -4673,13 +4477,9 @@ struct PathRequest
 };
 struct PathSolution
 {
-    unsigned Count();
     PathEntry* Last();
     unsigned Start();
-    unsigned End();
     bool IsValid();
-    void* Extra();
-    PathEntry* At(unsigned);
 };
 template <class T> struct PathPtr
 {
@@ -4706,7 +4506,6 @@ struct PathHandler
 struct PathActor
 {
     int Exists();
-    void Stop(int);
 };
 struct SmallPathHandler : PathHandler
 {
@@ -4723,15 +4522,10 @@ struct LargePathHandler : SmallPathHandler
     int unkc0, unkc4, unkc8, unkcc, unkd0, unkd4, unkd8, unkdc, unke0;
     LargePathHandler(PathActor*, void*, PathPtr<PathSolution>*, PathRequest*);
 };
-extern float RoundPath(float);
-extern int UpdatePath(PathRequest*, PathSolution*);
-extern int ExtendPath(PathRequest*, PathSolution*, unsigned);
-extern bool SpecialMovement();
 struct SpecialPathActor
 {
     void MoveTo(const PathVec&);
 };
-extern SpecialPathActor* __stdcall GetSpecialActor(PathActor*);
 struct RegularPathActor
 {
     virtual void v000();
@@ -4749,8 +4543,6 @@ struct FUN_009dd2d0_cls
     int unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68;
     int state;
     void Finish(int);
-    void Complete(int);
-    void Handle(int);
     void UpdatePathMovement();
 };
 struct MoveActor
@@ -4926,115 +4718,9 @@ struct MoveActor
     virtual void v2a0();
     virtual void v2a4();
     virtual void MoveTo(const PathVec&);
+public:
+    bool TryMove(bool);
 };
-// Advances the actor along the path: recomputes the current segment from handler progress, updates or extends the path, and rebuilds the handler.
-// @fnv 0x009dd2d0
-void FUN_009dd2d0_cls::UpdatePathMovement()
-{
-    unsigned current;
-    float progress;
-    unsigned next;
-    int result6;
-    float fraction;
-    if (!path.Get() || !request.Get())
-    {
-        delete handler;
-        handler = 0;
-        state = 6;
-        Finish(0);
-        return;
-    }
-    if (actor->Exists())
-    {
-        if (!handler->Finished())
-            return;
-        if (last == first)
-            current = last + 1;
-        else
-        {
-            progress = handler->Progress();
-            current = (unsigned)(int)RoundPath((last - first) * progress);
-            current += first;
-        }
-        if (current > path.Get()->Count() - 1)
-            current = path.Get()->Count() - 1;
-        request.Get()->Update(actor);
-        switch (UpdatePath(request.Get(), path.Get()))
-        {
-        case 1:
-            first = (unsigned short)current;
-            last = (unsigned short)(path.Get()->Count() - 1);
-            break;
-        case -1:
-        case 0:
-            state = 7;
-            Finish(1);
-            return;
-        }
-        delete handler;
-        handler = new SmallPathHandler(actor, this, &path, request.Get());
-        handler->Start((float)first, 0.0f);
-        return;
-    }
-    if (handler->Finished())
-        next = first + 1;
-    else
-        next = handler->Current() > 0 ? handler->Current() - 1 : 0;
-    if (next >= path.Get()->Count() - 1)
-    {
-        if (SpecialMovement())
-            GetSpecialActor(actor)->MoveTo(path.Get()->Last()->GetData()->GetPosition());
-        else
-            ((MoveActor*)actor)->MoveTo(path.Get()->Last()->GetData()->GetPosition());
-        Complete(1);
-        return;
-    }
-    request.Get()->Update(actor);
-    switch (ExtendPath(request.Get(), path.Get(), next))
-    {
-    case 2:
-        first = path.Get()->Start();
-        last = path.Get()->End();
-        break;
-    case -1:
-    case 0:
-        if (path.Get()->IsValid() && request.Get()->IsValid() && path.Get()->Extra())
-        {
-            first = path.Get()->Start();
-            last = path.Get()->End();
-        }
-        else
-        {
-            actor->Stop(1);
-            state = 8;
-            Finish(1);
-            return;
-        }
-        break;
-    }
-    if (first == last)
-    {
-        Complete(1);
-        return;
-    }
-    fraction = 0.0f;
-    if (!handler->Finished())
-    {
-        PathVec startPoint = path.Get()->At(path.Get()->Start())->GetData()->GetPosition();
-        PathVec endPoint6 = path.Get()->At(path.Get()->End())->GetData()->GetPosition();
-        float distance = (endPoint6 - startPoint).Length();
-        fraction = handler->Distance() / distance;
-    }
-    delete handler;
-    handler = new LargePathHandler(actor, this, &path, request.Get());
-    result6 = handler->Start(fraction, 0.0f);
-    if (result6 == 5 || result6 == 6)
-    {
-        Handle(result6);
-        Complete(1);
-    }
-}
-
 namespace ActorMovement {
 struct Vec
 {
@@ -5042,24 +4728,19 @@ struct Vec
 };
 struct Cell
 {
-    bool FUN_00425fd0();
 };
 struct World
 {
 };
 struct Area
 {
-    int FUN_006b7850();
 };
 struct Map
 {
-    Area* FUN_0045af00(World*, unsigned int);
-    double GetCellHeightAtPosition(const Vec&, Cell*);
 };
-extern Map* DAT_011dea10;
-unsigned int PackShortPair(unsigned short, unsigned short);
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v4();
     virtual void v8();
@@ -5188,39 +4869,26 @@ struct Actor
     virtual Vec* Position();
     int FUN_00931850();
     Cell* FUN_008d6f30();
-    World* FUN_00575d70();
-    void FUN_008ad1c0(const Vec&, float, int, int, int, int);
-    bool FUN_008b0190(int);
 };
 struct Reference
 {
-    int FUN_00441110();
-    int FUN_009611e0();
     Vec FUN_005c3420();
-    Cell* FUN_006dd4f0();
 };
 struct Request
 {
-    Reference* FUN_006a9540();
-    Reference* GetOffsetC();
 };
 struct Pointer
 {
     Request* value;
-    Request* FUN_00559450();
 };
 struct Queue
 {
     unsigned int value;
-    void FUN_006d2c00();
 };
 struct Clock
 {
-    unsigned int FUN_00825c00();
 };
-extern Clock DAT_011f6394;
 extern float DAT_0109222c, DAT_01092230, DAT_01092234;
-extern double DAT_01016978;
 struct Mover
 {
     unsigned int unk0;
@@ -5260,69 +4928,87 @@ struct Mover
     int retries;
     void SetEnabled(bool);
     void UpdateTargeting();
-    void FUN_00483710();
 };
 // @fnv 0x009de490
 void Mover::SetEnabled(bool abEnabled)
 {
     enabled = abEnabled;
     if (!abEnabled)
-        queue.FUN_006d2c00();
+        reinterpret_cast<::FUN_006d2c00_shell *>(&(queue))->FUN_006d2c00();
     if (abEnabled)
     {
-        if (actor->FUN_00931850() == 3 && (!actor->FUN_008d6f30() || !actor->FUN_008d6f30()->FUN_00425fd0()))
+        if (actor->FUN_00931850() == 3 && (!actor->FUN_008d6f30() || !reinterpret_cast<::TESObjectCELL *>((actor->FUN_008d6f30()))->IsCellInterior()))
         {
             int xSlot14 = int(actor->Position()->x) >> 12;
             int y = int(actor->Position()->y) >> 12;
             if (!xSlot14 && !y &&
-                !DAT_011dea10
-                     ->FUN_0045af00(actor->FUN_00575d70(), PackShortPair((unsigned short)xSlot14, (unsigned short)y))
-                     ->FUN_006b7850())
-                actor->FUN_008ad1c0(request.FUN_00559450()->FUN_006a9540()->FUN_005c3420(), 0.0f,
-                                    request.FUN_00559450()->FUN_006a9540()->FUN_009611e0(),
-                                    request.FUN_00559450()->FUN_006a9540()->FUN_00441110(), 0, 1);
+                !((intptr_t)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((::ActorMovement::Area *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::ActorMovement::Map * *>(&::g_TES))))->FUN_0045af00()))))->FUN_006b7850({}, {}))))
+                reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((actor))->FUN_008ad1c0((intptr_t)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), 0.0f,
+                                    (::TESObjectCELL *)(reinterpret_cast<::FUN_009611e0_shell *>((((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->FUN_009611e0()),
+                                    (::TESWorldSpace *)(reinterpret_cast<PathingLocationFields*>(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request)))))))->m_pContainingWorldspace), 0, 1);
         }
-        float intervalSlot1 = actor->FUN_008b0190(7) ? DAT_0109222c : DAT_01092230;
-        if (request.FUN_00559450())
+        float intervalSlot1 = reinterpret_cast<::Actor *>((actor))->IsVisible(7) ? DAT_0109222c : DAT_01092230;
+        if (((::ActorMovement::Request *)(::FUN_00559450((int *)&(request)))))
         {
-            Cell* fromSlot12 = request.FUN_00559450()->GetOffsetC()->FUN_006dd4f0();
-            Cell* to = request.FUN_00559450()->FUN_006a9540()->FUN_006dd4f0();
+            Cell* fromSlot12 = ((::ActorMovement::Cell *)(reinterpret_cast<::PathingLocation *>((((::ActorMovement::Reference *)(::GetOffsetC((intptr_t)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->GetContainingCell()));
+            Cell* to = ((::ActorMovement::Cell *)(reinterpret_cast<::PathingLocation *>((((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->GetContainingCell()));
             if (fromSlot12 && to)
             {
-                bool fromAboveSlot13 = DAT_011dea10->GetCellHeightAtPosition(
-                                           request.FUN_00559450()->GetOffsetC()->FUN_005c3420(), fromSlot12) >
-                                       request.FUN_00559450()->GetOffsetC()->FUN_005c3420().z;
+                bool fromAboveSlot13 = ((double)(reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::ActorMovement::Map * *>(&::g_TES))))->GetCellHeightAtPosition(
+                                           (const ::NiPoint3 *)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::GetOffsetC((intptr_t)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), (::CellView *)(fromSlot12)))) >
+                                       ((::ActorMovement::Reference *)(::GetOffsetC((intptr_t)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420().z;
                 bool toAboveSlot1 =
-                    DAT_011dea10->GetCellHeightAtPosition(request.FUN_00559450()->FUN_006a9540()->FUN_005c3420(), to) >
-                    request.FUN_00559450()->FUN_006a9540()->FUN_005c3420().z;
+                    ((double)(reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::ActorMovement::Map * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), (::CellView *)(to)))) >
+                    ((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420().z;
                 if (fromAboveSlot13 != toAboveSlot1)
                     intervalSlot1 = DAT_01092234;
             }
         }
-        float elapsedSlot0 = (DAT_011f6394.FUN_00825c00() - lastTime) * DAT_01016978;
-        float total = (DAT_011f6394.FUN_00825c00() - startTime) * DAT_01016978;
+        float elapsedSlot0 = (::fnv::timer::Time() - lastTime) * ::DAT_01016978;
+        float total = (::fnv::timer::Time() - startTime) * ::DAT_01016978;
         if (elapsedSlot0 >= intervalSlot1)
         {
             retries = 0;
-            lastTime = DAT_011f6394.FUN_00825c00();
-            startTime = DAT_011f6394.FUN_00825c00();
+            lastTime = ::fnv::timer::Time();
+            startTime = ::fnv::timer::Time();
         }
         else if (total >= intervalSlot1 && retries >= 2)
         {
             UpdateTargeting();
             retries = 0;
-            lastTime = DAT_011f6394.FUN_00825c00();
-            startTime = DAT_011f6394.FUN_00825c00();
+            lastTime = ::fnv::timer::Time();
+            startTime = ::fnv::timer::Time();
         }
         else
         {
             ++retries;
-            lastTime = DAT_011f6394.FUN_00825c00();
+            lastTime = ::fnv::timer::Time();
         }
-        FUN_00483710();
+        reinterpret_cast<::TESForm *>(this)->ClearData();
     }
 }
 }
+
+class BackgroundPathLocation14
+{
+  public:
+};
+
+struct PathingRequest
+{
+  public:
+    virtual void vfn_00();
+    virtual void vfn_04();
+    virtual void vfn_08();
+    virtual void vfn_0c();
+    virtual unsigned int vfn_10();
+    BackgroundPathLocation14& GetOffsetC();
+    float GetSmoothingRandomness();
+    void IncRefCount();
+    void DecRefCount();
+public:
+    float GetCenterRadius();
+};
 
 namespace fnv_009de8b0 {
 struct Vec3
@@ -5330,15 +5016,12 @@ struct Vec3
     float x;
     float y;
     float z;
-    Vec3 FUN_00439ef0(Vec3* other);
-    float FUN_00589850();
 };
 struct Pt3
 {
     float x;
     float y;
     float z;
-    void FUN_006815c0();
 };
 struct PLoc
 {
@@ -5354,21 +5037,11 @@ struct PLoc
     int m_24;
     PLoc(void* refr);
     ~PLoc();
-    unsigned int FUN_006dd4f0() const;
     Vec3 FUN_005c3420();
-    void FUN_006dd6f0(int a);
-    bool FUN_006dd6a0();
-};
-struct Req
-{
-    PLoc* GetOffsetC();
-    PLoc* FUN_006a9540();
-    float FUN_009b0bd0();
 };
 struct SPtr
 {
     void* p;
-    void* FUN_00559450();
 };
 struct HandlerV
 {
@@ -5408,12 +5081,9 @@ struct HandlerV
 };
 struct PathSol
 {
-    bool FUN_006b05d0();
 };
 struct ProjBase
 {
-    bool FUN_005f0b50();
-    bool FUN_005f0c40();
 };
 struct RefrV
 {
@@ -5591,11 +5261,7 @@ struct RefrV
 };
 struct Actor13 : public RefrV
 {
-    bool FUN_008bc7f0(void* player);
-    void FUN_008985d0();
     int FUN_00931850();
-    ProjBase* FUN_004181e0();
-    float FUN_008be280();
 };
 struct Player13 : public RefrV
 {
@@ -5603,16 +5269,9 @@ struct Player13 : public RefrV
 };
 struct TES
 {
-    float GetCellHeightAtPosition(Vec3* p, int a);
 };
-extern TES* g_TES;
-extern "C" Player13* g_thePlayer;
-extern "C" float _runtimeFloatSettingDefault38;
-extern "C" double _gModifierZero;
-struct TESWorldSpace;
-struct TESObjectREFR;
-TESWorldSpace* __fastcall FUN_00575d70(TESObjectREFR* refr);
-void __cdecl FUN_00573800(void* actor, void* cell, void* ws);
+class TESWorldSpace;
+class TESObjectREFR;
 struct Helper13
 {
     int m_00;
@@ -5661,24 +5320,16 @@ struct Helper13
     int m_b0;
     Helper13();
     ~Helper13();
-    void AssignPathingLocation(PLoc* loc);
     void FUN_006d1bc0(const PLoc& loc);
     void FUN_006d3b00(float f);
     void FUN_006d3ae0(float f);
-    void FUN_006e2b20(void* actor);
-    void SetByteAtOffset9B(int a);
-    void SetFlagA3(bool b);
-    void SetCantOpenDoors(bool b);
-    void SetCanSwim(bool b);
     void FUN_006e2b90(bool b);
-    void SetByteAtA1(int a);
 };
 struct S_FUN_006b05a0
 {
-    void* FUN_006b05a0();
 };
 struct ContNode;
-ContNode* __fastcall FUN_00717e50(void* p);
+ContNode* FUN_00717e50(void* p);
 struct Sol13
 {
     int m_00;
@@ -5701,11 +5352,8 @@ struct Sol13
     int m_48;
     Sol13();
     ~Sol13();
-    unsigned int GetObjectFlags();
-    float GetTotalPathLength();
     Vec3 GetPointAtDistance(float a, float b);
 };
-bool __cdecl FUN_006d0900(Helper13* h, Sol13* s);
 struct Tgt13
 {
     int m_00;
@@ -5719,7 +5367,6 @@ struct Tgt13
     SPtr pCurrentPathingSolution;
     HandlerV* handler;
     Actor13* actor;
-    bool FUN_00483710();
     void FUN_009df010(Pt3* p);
     void UpdateTargeting();
 };
@@ -5728,94 +5375,93 @@ void Tgt13::UpdateTargeting()
 {
     if (handler != 0)
     {
-        if (handler->sp0c.FUN_00559450() != 0)
+        if (((void *)(::FUN_00559450((int *)&(handler->sp0c)))) != 0)
         {
             if (handler->V74())
             {
-                FUN_00483710();
+                reinterpret_cast<::TESForm *>(this)->ClearData();
                 return;
             }
         }
     }
-    unsigned long bA4;
-    unsigned int zX;
+    uintptr_t bA4;
+    uintptr_t zX;
     bool iAB;
     iAB = false;
-    if (spReq.FUN_00559450() == 0)
+    if (((void *)(::FUN_00559450((int *)&(spReq)))) == 0)
         return;
-    if (actor->FUN_008bc7f0(g_thePlayer))
+    if (reinterpret_cast<::fnv_008bc7f0::FUN_008bc7f0_holder *>((actor))->FUN_008bc7f0((intptr_t)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer)))))
     {
         if (handler != 0)
         {
-            if (pCurrentPathingSolution.FUN_00559450() != 0)
+            if (((void *)(::FUN_00559450((int *)&(pCurrentPathingSolution)))) != 0)
             {
                 if (!handler->V34())
                 {
-                    if (!((PathSol*)pCurrentPathingSolution.FUN_00559450())->FUN_006b05d0())
+                    if (!reinterpret_cast<::FUN_006b05d0_shell *>((((PathSol*)((void *)(::FUN_00559450((int *)&(pCurrentPathingSolution)))))))->FUN_006b05d0())
                     {
-                        actor->FUN_008985d0();
+                        reinterpret_cast<::FUN_008985d0_shell *>((actor))->FUN_008985d0();
                         return;
                     }
                 }
             }
         }
-        if (actor->GetPos()->FUN_00439ef0(g_thePlayer->GetPos()).FUN_00589850() >
-            ((Req*)spReq.FUN_00559450())->FUN_009b0bd0() * 2)
+        if (reinterpret_cast<::FUN_00589850_Class *>((void *)&(const ::fnv_009de8b0::Vec3 &)((*(::fnv_009de8b0::Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((actor->GetPos()))->FUN_00439ef0((::NiPoint3 *)(::fnv_009de8b0::Vec3 *)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))->GetPos()), *(const ::NiPoint3 *)nullptr)))))->FUN_00589850() >
+            ((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))->GetCenterRadius() * 2)
             iAB = true;
     }
     if (actor->FUN_00931850() == 0)
     {
-        bA4 = ((Req*)spReq.FUN_00559450())->GetOffsetC()->FUN_006dd4f0();
-        zX = ((Req*)spReq.FUN_00559450())->FUN_006a9540()->FUN_006dd4f0();
+        bA4 = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
+        zX = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
         if (0 != bA4 && 0 != zX)
         {
             bool resultB;
-            resultB = g_TES->GetCellHeightAtPosition(&((Req*)spReq.FUN_00559450())->GetOffsetC()->FUN_005c3420(), bA4) >
-                      ((Req*)spReq.FUN_00559450())->GetOffsetC()->FUN_005c3420().z;
+            resultB = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&ResultSlot(((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420())), (::CellView *)(bA4)) >
+                      ((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
             bool y6;
-            y6 = g_TES->GetCellHeightAtPosition(&((Req*)spReq.FUN_00559450())->FUN_006a9540()->FUN_005c3420(), zX) >
-                 ((Req*)spReq.FUN_00559450())->FUN_006a9540()->FUN_005c3420().z;
+            y6 = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&ResultSlot(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420())), (::CellView *)(zX)) >
+                 ((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
             if (resultB != y6)
                 iAB = true;
         }
         PLoc aLoc4(actor);
-        aLoc4.FUN_006dd6f0(0);
-        if (!aLoc4.FUN_006dd6a0())
+        reinterpret_cast<::PathingLocationProxy *>(&(aLoc4))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0));
+        if (!reinterpret_cast<::PathingLocation *>(&(aLoc4))->HasValidTriangle_006dd6a0())
             iAB = true;
     }
     if (iAB)
     {
         Helper13 solution4;
-        solution4.AssignPathingLocation(((Req*)spReq.FUN_00559450())->FUN_006a9540());
+        reinterpret_cast<::FUN_006d3ac0_Class *>(&(solution4))->AssignPathingLocation((*(const ::PathingLocation *)(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq))))))))))));
         solution4.FUN_006d1bc0(actor);
         solution4.FUN_006d3b00(10.0f);
-        solution4.FUN_006d3ae0((float)(actor->FUN_008be280() * (double)0.6f));
-        solution4.FUN_006e2b20(actor);
-        solution4.SetByteAtOffset9B(1);
-        solution4.SetFlagA3(true);
-        solution4.SetCantOpenDoors(false);
-        solution4.SetCanSwim(actor->FUN_004181e0()->FUN_005f0b50());
-        solution4.FUN_006e2b90(actor->FUN_004181e0()->FUN_005f0c40());
-        solution4.SetByteAtA1(1);
+        reinterpret_cast<::FUN_006d3ae0 *>(&(solution4))->SetValue((float)(reinterpret_cast<::fnv_008be280::FloatValueProvider *>((actor))->FUN_008be280() * (double)0.6f));
+        reinterpret_cast<::PathingActorData *>(&(solution4))->operator=((*(const ::PathingActorData *)(actor)));
+        reinterpret_cast<::FUN_008ad8f0Class *>(&(solution4))->SetByteAtOffset9B(1);
+        reinterpret_cast<::FUN_009deff0_Class *>(&(solution4))->SetFlagA3(true);
+        reinterpret_cast<::FUN_006e2b50_shell *>(&(solution4))->SetCantOpenDoors(false);
+        reinterpret_cast<::FUN_006e2b70_shell *>(&(solution4))->SetCanSwim(reinterpret_cast<::FUN_005f0b50_shell *>((((::fnv_009de8b0::ProjBase *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))))->FUN_005f0b50());
+        reinterpret_cast<::FUN_006e2b90 *>(&(solution4))->SetFlag(reinterpret_cast<::Dummy *>((((::fnv_009de8b0::ProjBase *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))))->FUN_005f0c40());
+        reinterpret_cast<::FUN_008df1c0_Class *>(&(solution4))->SetByteAtA1(1);
         Pt3 idx;
-        idx.FUN_006815c0();
         void* _limitA;
-        _limitA = g_thePlayer->FUN_008d6f30();
+        _limitA = (*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))->FUN_008d6f30();
         {
             Sol13 bB4;
-            if (FUN_006d0900(&solution4, &bB4))
+            if (::Pathing::BuildPath((::PathingRequest *)(::fnv_009de8b0::Helper13 *)(&solution4), (::PathingSolution *)(::fnv_009de8b0::Sol13 *)(&bB4)))
             {
-                if (bB4.GetObjectFlags() >= 2)
+                if (::GetObjectFlags((char *)&(bB4)) >= 2)
                 {
                     float iB2;
                     iB2 = 128.0f;
-                    if (actor->FUN_008be280() * (double)0.5f > 100.0)
-                        iB2 = _runtimeFloatSettingDefault38;
+                    if (reinterpret_cast<::fnv_008be280::FloatValueProvider *>((actor))->FUN_008be280() * (double)0.5f > 100.0)
+                        iB2 = ::DAT_01032adc;
                     float i4;
-                    i4 = bB4.GetTotalPathLength();
+                    i4 = reinterpret_cast<::fnv_006e78d0::FUN_006e78d0_shell *>(&(bB4))->GetTotalPathLength();
                     float cell3;
                     cell3 = i4 - iB2;
-                    if (cell3 < _gModifierZero)
+                    if (cell3 < ::_DAT_01012060)
                         cell3 = (float)(i4 * (double)0.5f);
                     *(Vec3*)&idx = bB4.GetPointAtDistance(0.0f, cell3);
                 }
@@ -5826,20 +5472,20 @@ void Tgt13::UpdateTargeting()
             }
             else
             {
-                if (bB4.GetObjectFlags() == 0)
+                if (::GetObjectFlags((char *)&(bB4)) == 0)
                 {
                     return;
                 }
                 else
                 {
-                    *(Vec3*)&idx = ((PLoc*)FUN_00717e50(((S_FUN_006b05a0*)&bB4)->FUN_006b05a0()))->FUN_005c3420();
+                    *(Vec3*)&idx = ((PLoc*)FUN_00717e50(reinterpret_cast<::S_FUN_006b05a0 *>((((S_FUN_006b05a0*)&bB4)))->FUN_006b05a0()))->FUN_005c3420();
                 }
             }
-            FUN_00483710();
-            if (actor->FUN_008bc7f0(g_thePlayer) &&
-                FUN_00575d70((TESObjectREFR*)actor) != FUN_00575d70((TESObjectREFR*)g_thePlayer))
+            reinterpret_cast<::TESForm *>(this)->ClearData();
+            if (reinterpret_cast<::fnv_008bc7f0::FUN_008bc7f0_holder *>((actor))->FUN_008bc7f0((intptr_t)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer)))) &&
+                ((::fnv_009de8b0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)actor))->FUN_00575d70())) != ((::fnv_009de8b0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)(*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))))->FUN_00575d70())))
             {
-                FUN_00573800(actor, g_thePlayer->FUN_008d6f30(), FUN_00575d70((TESObjectREFR*)g_thePlayer));
+                ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(actor), (::fnv_00573800::MoveCell *)(void *)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))->FUN_008d6f30()), (::fnv_00573800::MoveWorld *)(void *)(((::fnv_009de8b0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)(*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))))->FUN_00575d70()))));
                 actor->Call2a8((Vec3*)&idx);
             }
             else
@@ -5851,17 +5497,13 @@ void Tgt13::UpdateTargeting()
 }
 }  // namespace fnv_009de8b0
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
-    void FUN_00865e50(void*, unsigned int, int);
-    void FUN_00865db0(unsigned int, unsigned int);
 };
 struct TimeGlobal
 {
-    unsigned int GetTimeStamp();
 };
-extern TimeGlobal g_timeGlobal;
 struct SavedRequest
 {
     virtual void v00();
@@ -5874,7 +5516,6 @@ struct SavedRequest
 };
 struct SavedSolution
 {
-    void FUN_006e8b10(BGSSaveFormBuffer*);
 };
 template <class T> struct SavePointer
 {
@@ -5950,44 +5591,44 @@ struct FUN_009df100_shell
 // @fnv 0x009df100
 void FUN_009df100_shell::FUN_009df100(BGSSaveFormBuffer* buffer)
 {
-    buffer->FUN_00865e50(&movement40, 2, 0);
-    buffer->FUN_00865e50(&movement42, 2, 0);
-    buffer->FUN_00865e50(&pathingFailed, 1, 0);
-    buffer->FUN_00865e50(&movement34, 4, 0);
-    buffer->FUN_00865e50(&forceMoveMode, 1, 0);
-    buffer->FUN_00865e50(&movement38, 4, 0);
-    buffer->FUN_00865e50(&stopNextUpdate, 1, 0);
-    buffer->FUN_00865e50(&faceTarget, 1, 0);
-    buffer->FUN_00865e50(&lookAtPoint, 12, 0);
-    buffer->FUN_00865e50(&cachedMoveDelta, 12, 0);
-    buffer->FUN_00865e50(&movement3c, 4, 0);
-    buffer->FUN_00865e50(&waitingForPath, 1, 0);
-    buffer->FUN_00865e50(&processLevelChanged, 1, 0);
-    buffer->FUN_00865e50(&validDelta, 1, 0);
-    buffer->FUN_00865e50(&inDialog, 1, 0);
-    buffer->FUN_00865e50(&field78, 1, 0);
-    buffer->FUN_00865e50(&state, 4, 0);
-    unsigned int elapsed = g_timeGlobal.GetTimeStamp() - timeStamp;
-    buffer->FUN_00865e50(&elapsed, 4, 0);
-    buffer->FUN_00865e50(&field84, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&movement40, 2, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&movement42, 2, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&pathingFailed, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&movement34, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&forceMoveMode, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&movement38, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&stopNextUpdate, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&faceTarget, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&lookAtPoint, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&cachedMoveDelta, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&movement3c, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&waitingForPath, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&processLevelChanged, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&validDelta, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&inDialog, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&field78, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&state, 4, 0);
+    unsigned int elapsed = ::fnv::timer::Time() - timeStamp;
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&elapsed, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&field84, 4, 0);
     location.Save(buffer);
-    buffer->FUN_00865db0(reference, 0);
+    reinterpret_cast<::FUN_00865db0_shell *>((buffer))->FUN_00865db0(reference, 0);
     unsigned char flags = 0;
-    if (request.FUN_00559450())
+    if (((::SavedRequest *)(::FUN_00559450((int *)&(request)))))
         flags |= 1;
-    if (path.FUN_00559450())
+    if (((::SavedSolution *)(::FUN_00559450((int *)&(path)))))
         flags |= 2;
     if (handler)
         flags |= handler->vfn_34() ? 8 : 4;
-    buffer->FUN_00865e50(&flags, 1, 0);
-    if (request.FUN_00559450())
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&flags, 1, 0);
+    if (((::SavedRequest *)(::FUN_00559450((int *)&(request)))))
     {
-        unsigned char type = request.FUN_00559450()->GetType();
-        buffer->FUN_00865e50(&type, 1, 0);
-        request.FUN_00559450()->Save(buffer);
+        unsigned char type = ((::SavedRequest *)(::FUN_00559450((int *)&(request))))->GetType();
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&type, 1, 0);
+        ((::SavedRequest *)(::FUN_00559450((int *)&(request))))->Save(buffer);
     }
-    if (path.FUN_00559450())
-        path.FUN_00559450()->FUN_006e8b10(buffer);
+    if (((::SavedSolution *)(::FUN_00559450((int *)&(path)))))
+        reinterpret_cast<::SaveSolution *>((((::SavedSolution *)(::FUN_00559450((int *)&(path))))))->FUN_006e8b10((::SaveBuffer *)(buffer));
     if (handler)
         handler->Save(buffer);
 }
@@ -5996,27 +5637,19 @@ namespace loadpath {
 struct Buffer
 {
     virtual unsigned char Version();
-    void Read(void*, unsigned int);
-    void ReadRef(void*);
 };
 struct Clock
 {
-    unsigned int Now();
 };
-extern Clock g_timeGlobal;
 struct ObjectResolver
 {
-    void* Resolve();
 };
 struct Node
 {
-    bool Valid();
     ObjectResolver* Data();
 };
 struct Solution
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Solution();
     int a00;
     int a04;
@@ -6035,9 +5668,6 @@ struct Solution
     int a38;
     int a3c;
     int a40;
-    void FUN_006e8d50(Buffer*);
-    unsigned int FUN_005a4320();
-    Node* FUN_006e78b0(unsigned int);
 };
 struct Request
 {
@@ -6049,7 +5679,6 @@ struct Request
     virtual void v14();
     virtual void v18();
     virtual void Load(Buffer*);
-    void Attach(void*);
 };
 Request* MakeRequest(unsigned int);
 template <class T> struct Ptr
@@ -6061,15 +5690,15 @@ template <class T> struct Ptr
 };
 struct ProcessFlags
 {
-    bool Test(int);
 };
 struct Process
 {
     int a00;
     ProcessFlags flags;
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v000();
     virtual void v004();
     virtual void v008();
@@ -6147,8 +5776,6 @@ struct Actor
     virtual void v128();
     virtual void v12c();
     virtual const char* Name();
-    Process* GetProcess();
-    unsigned int ID();
 };
 struct Location
 {
@@ -6262,7 +5889,6 @@ struct NormalHandler : Handler
     int adc;
     int ae0;
 };
-void Warning(const char*, ...);
 struct Mover
 {
     int a00;
@@ -6296,65 +5922,62 @@ struct Mover
     unsigned int elapsed;
     int a80;
     int a84;
-    void FUN_009daf80();
-    void SetEnabled(int);
     void FUN_009df3d0(Buffer*);
 };
 // Reads the mover's saved fields from a buffer, reconstructs its request, path and handler, and forces a failure if the path is stale.
 // @fnv 0x009df3d0
 void Mover::FUN_009df3d0(Buffer* buffer)
 {
-    buffer->Read(&a40, 2);
-    buffer->Read(&a42, 2);
-    buffer->Read(&a70, 1);
-    buffer->Read(&a34, 4);
-    buffer->Read(&a71, 1);
-    buffer->Read(&a38, 4);
-    buffer->Read(&a72, 1);
-    buffer->Read(&a73, 1);
-    buffer->Read(&look, 12);
-    buffer->Read(&delta, 12);
-    buffer->Read(&a3c, 4);
-    buffer->Read(&a74, 1);
-    buffer->Read(&a75, 1);
-    buffer->Read(&a77, 1);
-    buffer->Read(&a76, 1);
-    buffer->Read(&a78, 1);
-    buffer->Read(&state, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a40), 2);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a42), 2);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a70), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a34), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a71), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a38), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a72), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a73), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&look), 12);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&delta), 12);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a3c), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a74), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a75), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a77), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a76), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a78), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&state), 4);
     if (buffer->Version() >= 14)
     {
         unsigned int uiSavedTime = 0;
-        buffer->Read(&uiSavedTime, 4);
-        if (uiSavedTime < g_timeGlobal.Now())
-            elapsed = g_timeGlobal.Now() - uiSavedTime;
-        buffer->Read(&a84, 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&uiSavedTime), 4);
+        if (uiSavedTime < ::fnv::timer::Time())
+            elapsed = ::fnv::timer::Time() - uiSavedTime;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a84), 4);
     }
     if (buffer->Version() >= 7)
         loc.Load(buffer);
-    buffer->ReadRef(&ref);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&ref));
     unsigned char uiStaleFlags = 0;
-    buffer->Read(&uiStaleFlags, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&uiStaleFlags), 1);
     if (uiStaleFlags & 1)
     {
         unsigned char uiRequestKind = 0;
-        buffer->Read(&uiRequestKind, 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&uiRequestKind), 1);
         request.FUN_0066b0d0(MakeRequest(uiRequestKind));
         ((Request*)request)->Load(buffer);
-        if (actor && actor->GetProcess() && !actor->GetProcess()->flags.Test(0))
-            ((Request*)request)->Attach(actor);
+        if (actor && ((::loadpath::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && !reinterpret_cast<::FUN_008c6b00_shell *>(&(((::loadpath::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->flags))->FUN_008c6b00(0))
+            reinterpret_cast<::PathingActorData *>((((Request*)request)))->operator=((*(const ::PathingActorData *)(actor)));
     }
     bool flags = false;
     if (uiStaleFlags & 2)
     {
         path.FUN_0066b0d0(new Solution);
-        ((Solution*)path)->FUN_006e8d50(buffer);
-        for (unsigned int index = 0; index < ((Solution*)path)->FUN_005a4320(); ++index)
+        reinterpret_cast<::FUN_006e8d50_shell *>((((Solution*)path)))->FUN_006e8d50((::BGSLoadFormBuffer *)(buffer));
+        for (unsigned int index = 0; index < ::FUN_005a4320((char *)(((Solution*)path))); ++index)
         {
-            if (((Solution*)path)->FUN_006e78b0(index)->Valid() &&
-                !((ObjectResolver*)((Solution*)path)->FUN_006e78b0(index)->Data())->Resolve())
+            if (::FUN_006ca830((const unsigned int *)(((::loadpath::Node *)(reinterpret_cast<::FUN_006e78b0_shell *>((((Solution*)path)))->FUN_006e78b0(index))))) &&
+                !((void *)(reinterpret_cast<::PathingLocationProxy *>((((ObjectResolver*)((::loadpath::Node *)(reinterpret_cast<::FUN_006e78b0_shell *>((((Solution*)path)))->FUN_006e78b0(index)))->Data())))->GetAssociatedNavMesh())))
             {
-                Warning("PATHFINDING: Actor %s (0x%08x) is using a stale path (the navmesh changed), forcing a failure",
-                        actor->Name(), actor->ID());
+                ::FUN_005b5e40();
                 flags = true;
                 break;
             }
@@ -6372,9 +5995,9 @@ void Mover::FUN_009df3d0(Buffer* buffer)
         handler->Load(buffer);
     if (flags)
     {
-        FUN_009daf80();
+        ::FUN_009daf80((::TESForm *)this);
         state = 7;
-        SetEnabled(1);
+        reinterpret_cast<::ActorMovement::Mover *>(this)->SetEnabled(1);
     }
 }
 }
@@ -6669,30 +6292,20 @@ struct Actor884750
     int unk60;
     int unk64;
     Process884750* m_pkProcess;
-    bool IsLoading();
     int GetAnimAction();
     bool FUN_00884750();
 };
-extern Actor884750* g_thePlayer;
 
-// Returns false if the actor is loading, has anim action 7, or is the busy player, otherwise true.
-// @fnv 0x00884750
-bool Actor884750::FUN_00884750()
+class ActorPathingMessageQueue;
+struct PathingRequest;
+template <class> class NiPointer;
+class PathManager
 {
-    if (IsLoading())
-        return false;
-    int iAction = GetAnimAction();
-    if (iAction == 7)
-        return false;
-    if (this == g_thePlayer && m_pkProcess && m_pkProcess->IsBusy())
-        return false;
-    return true;
-}
-
-struct PathManager
-{
+  public:
     PathManager();
     virtual ~PathManager();
+public:
+    bool BuildPath(::NiPointer< ::PathingRequest>, ::NiPointer< ::ActorPathingMessageQueue>, bool);
 };
 extern PathManager DAT_011c5290;
 void __cdecl FUN_00fc8480();
@@ -6712,17 +6325,28 @@ struct FUN_0050d4a0_shell
 
 struct FUN_008a0b10_shell
 {
-    float FUN_008a0b10();
 };
 
 struct FUN_008a7570_shell
 {
     int FUN_008a7570();
 };
+// Returns false if the actor is loading, has anim action 7, or is the busy player, otherwise true.
+// @fnv 0x00884750
+bool Actor884750::FUN_00884750()
+{
+    if (reinterpret_cast<::FUN_0047c850 *>(this)->EvaluateCondition())
+        return false;
+    int iAction = reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570();
+    if (iAction == 7)
+        return false;
+    if (this == (*reinterpret_cast<::Actor884750 * *>(&::_g_thePlayer)) && m_pkProcess && m_pkProcess->IsBusy())
+        return false;
+    return true;
+}
 
 struct FUN_00884750_shell
 {
-    bool FUN_00884750();
 };
 
 struct FUN_008eea60_shell
@@ -6732,23 +6356,19 @@ struct FUN_008eea60_shell
 
 struct DummyTimer
 {
-    void FUN_00483710();
 };
 
 struct FrameMoveTimeView14
 {
-    float FUN_0084d030();
 };
 struct TimeGlobal;
-extern TimeGlobal g_timeGlobal;
 
 class NiControllerSequence
 {
   public:
-    int GetState();
 };
 
-struct BSAnimGroupSequence : public NiControllerSequence
+class BSAnimGroupSequence : public NiControllerSequence
 {
 };
 
@@ -6761,8 +6381,6 @@ class FUN_00491040_shell
 class AnimData : public FUN_00491040_shell
 {
   public:
-    void GetMovement(NiPoint3* outDelta, Actor* actor, int a3, int a4);
-    bool IsHighestPriority();
 };
 
 class ActorPathHandler_Standin : public ActorPathHandler
@@ -6809,6 +6427,122 @@ class ActorMover_Standin
 
     void FUN_009ddc00();
 };
+// @fnv 0x009dc120
+void Mover11::FUN_009dc120(float f)
+{
+    if (m_72)
+    {
+        m_78 = 1;
+        reinterpret_cast<::fnv_009dd1c0::FUN_009dd1c0_shell *>(this)->FUN_009dd1c0(1);
+        m_72 = 0;
+    }
+    if (m_actor->v22c(0))
+    {
+        if (m_handler)
+        {
+            m_handler->v70();
+        }
+        goto END;
+    }
+    {
+        Proc11* proc = ((::Proc11 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((m_actor))->GetBaseTexture()));
+        if (proc == 0)
+            goto END;
+        if (proc->v610() == 4)
+            goto END;
+        if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((proc))->FUN_0045cd60())) != reinterpret_cast<::fnv_009334b0::FUN_009334b0_shell *>((m_actor))->GetCellLoadState())
+            goto END;
+        if (proc->v4bc() != 0)
+            goto END;
+        if (m_actor->v230())
+            goto END;
+        if (proc->v40c() != 0)
+            goto END;
+        if (proc->v6fc())
+            goto END;
+        if (m_75)
+        {
+            m_75 = 0;
+            reinterpret_cast<::FUN_009dd2d0_cls *>(this)->UpdatePathMovement();
+        }
+        if (!m_failed)
+        {
+            if (!m_waiting)
+            {
+                if ((Sol11*)m_path && reinterpret_cast<::Mover *>((((Sol11*)m_path)))->FUN_009dc530())
+                {
+                    m_uiContentCount = 3;
+                    reinterpret_cast<::ActorMover *>(this)->UpdateMovement(f);
+                    goto END;
+                }
+            }
+            else
+            {
+                Msg11 msg;
+                if (((QueueVt11*)m_queue)->v10(&msg))
+                {
+                    switch (msg.m_type)
+                    {
+                    case 0:
+                        m_uiContentCount = 3;
+                        m_waiting = 0;
+                        m_path = msg.m_sol;
+                        reinterpret_cast<::ThisCls *>(this)->UpdatePathingState(f);
+                        break;
+                    case 1: {
+                        m_waiting = 0;
+                        m_path = msg.m_sol;
+                        if ((Sol11*)m_path && reinterpret_cast<::Mover *>((((Sol11*)m_path)))->FUN_009dc530() && ((bool)(reinterpret_cast<::FUN_006a9560_Class *>((((Req11*)m_req)))->GetByteAtOffset9B())))
+                        {
+                            m_uiContentCount = 3;
+                            reinterpret_cast<::ThisCls *>(this)->UpdatePathingState(f);
+                            break;
+                        }
+                        m_uiContentCount = 7;
+                        SetEnabled(1);
+                        if ((Sol11*)m_path)
+                        {
+                            int idx = ((int)(reinterpret_cast<::BGSTerrainManager *>((((Sol11*)m_path)))->GetMinLevel()));
+                            if (idx != -1)
+                            {
+                                if (::FUN_005a4320((char *)(((Sol11*)m_path))) > 0)
+                                {
+                                    void* node = reinterpret_cast<::FUN_006e78b0_shell *>((((Sol11*)m_path)))->FUN_006e78b0(idx);
+                                    if (node)
+                                    {
+                                        reinterpret_cast<::PathingLocation *>((void *)&(const ::Loc11 &)(m_loc))->operator=((const ::PathingLocation &)(*(Loc11*)((Node11*)node)->FUN_00717e50()));
+                                        reinterpret_cast<::PathingLocation *>(&(m_loc))->ResetLocation();
+                                    }
+                                }
+                            }
+                        }
+                        FUN_009daf80((TESForm*)this);
+                        break;
+                    }
+                    default:
+                        break;
+                    }
+                    goto END;
+                }
+                goto SECB;
+            }
+        }
+    }
+SECB:
+    if (!((Sol11*)m_path && reinterpret_cast<::Mover *>((((Sol11*)m_path)))->FUN_009dc530() && !m_failed))
+    {
+        if (m_handler)
+        {
+            if (m_handler->v10(f) == 5)
+            {
+                m_uiContentCount = 6;
+            }
+        }
+    }
+END:
+    reinterpret_cast<::ActorMover_Standin *>(this)->FUN_009ddc00();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
+}
 
 // Computes the actor's movement delta from animation or pathing, adjusts movement mode flags, and stores the result in m_kPathingDelta.
 // @fnv 0x009ddc00
@@ -6816,7 +6550,7 @@ void ActorMover_Standin::FUN_009ddc00()
 {
     bool bHaveValidDelta = false;
     unsigned int mode = 0;
-    NiPoint3 moveDelta = NiPoint3_ZERO;
+    NiPoint3 moveDelta = ::NiPoint3::ZERO;
 
     if (this->m_bHasMovementData)
     {
@@ -6826,11 +6560,11 @@ void ActorMover_Standin::FUN_009ddc00()
         {
             if (((FUN_0050d4a0_shell*)this->pActor)->FUN_0050d4a0())
             {
-                anim->GetMovement(&moveDelta, this->pActor, 1, 0);
+                reinterpret_cast<::fnv_00494390::MovementAnimation *>((anim))->GetMovement((::fnv_00494390::MotionPoint *)(::NiPoint3 *)(&moveDelta), (::fnv_00494390::MotionActor *)(this->pActor), 1, 0);
             }
             else
             {
-                anim->GetMovement(&moveDelta, this->pActor, 0, 1);
+                reinterpret_cast<::fnv_00494390::MovementAnimation *>((anim))->GetMovement((::fnv_00494390::MotionPoint *)(::NiPoint3 *)(&moveDelta), (::fnv_00494390::MotionActor *)(this->pActor), 0, 1);
             }
         }
         else
@@ -6838,8 +6572,8 @@ void ActorMover_Standin::FUN_009ddc00()
             if (!this->pActor->IsVisible(7))
             {
                 moveDelta = NiPoint3Ex(0.0f,
-                                       ((FUN_008a0b10_shell*)this->pActor)->FUN_008a0b10() *
-                                           ((FrameMoveTimeView14*)&g_timeGlobal)->FUN_0084d030(),
+                                       reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((((FUN_008a0b10_shell*)this->pActor)))->FUN_008a0b10() *
+                                           ::fnv::timer::Seconds(),
                                        0.0f);
             }
         }
@@ -6857,7 +6591,7 @@ void ActorMover_Standin::FUN_009ddc00()
             if (this->bUnk78)
             {
                 mode &= ~0xF;
-                moveDelta = NiPoint3_ZERO;
+                moveDelta = ::NiPoint3::ZERO;
                 bHaveValidDelta = true;
                 switch (((FUN_008a7570_shell*)this->pActor)->FUN_008a7570())
                 {
@@ -6869,7 +6603,7 @@ void ActorMover_Standin::FUN_009ddc00()
                     break;
                 default:
                     AnimData* anim = this->pActor->GetAnimData();
-                    if (!anim || !anim->IsHighestPriority())
+                    if (!anim || !reinterpret_cast<::fnv_00495be0::PriorityAnimation *>((anim))->IsHighestPriority())
                     {
                         this->bUnk78 = false;
                     }
@@ -6881,7 +6615,7 @@ void ActorMover_Standin::FUN_009ddc00()
 
     if (mode & 0x200)
     {
-        if (!((FUN_00884750_shell*)this->pActor)->FUN_00884750())
+        if (!reinterpret_cast<::Actor884750 *>((((FUN_00884750_shell*)this->pActor)))->FUN_00884750())
         {
             mode &= ~0x200;
             mode |= 0x100;
@@ -6899,9 +6633,9 @@ void ActorMover_Standin::FUN_009ddc00()
     if ((mode & 0x400) != (this->m_uiMovementMode & 0x400))
     {
         AnimData* anim = this->pActor->GetAnimData();
-        if (!anim || (anim->FUN_00491040(0) && anim->FUN_00491040(0)->GetState() != 1) ||
-            (anim->FUN_00491040(1) && anim->FUN_00491040(1)->GetState() != 1) ||
-            (anim->FUN_00491040(4) && anim->FUN_00491040(4)->GetState() != 1) ||
+        if (!anim || (anim->FUN_00491040(0) && ((intptr_t)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(0)))->GetActiveCombatTarget())) != 1) ||
+            (anim->FUN_00491040(1) && ((intptr_t)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(1)))->GetActiveCombatTarget())) != 1) ||
+            (anim->FUN_00491040(4) && ((intptr_t)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(4)))->GetActiveCombatTarget())) != 1) ||
             ((FUN_008a7570_shell*)this->pActor)->FUN_008a7570() != -1)
         {
             mode &= ~0x400;
@@ -6912,68 +6646,30 @@ void ActorMover_Standin::FUN_009ddc00()
     this->m_uiMovementMode = mode;
     this->m_kPathingDelta = moveDelta;
     this->m_bHasPathingDelta = bHaveValidDelta;
-    ((DummyTimer*)this)->FUN_00483710();
+    reinterpret_cast<::TESForm *>((((DummyTimer*)this)))->ClearData();
 }
-
-class BackgroundPathLocation14
-{
-  public:
-    bool FUN_006a9520();
-    unsigned int FUN_006dd4f0() const;
-    void* FUN_00441110();
-    NiPoint3 FUN_005c3420() const;
-    void FUN_006ddbe0();
-};
 
 struct Cell14
 {
-    bool FUN_00425fd0();
 };
 
 struct MobileObject_Helper
 {
-    float GetRelevantWaterHeight() const;
     void* FUN_008d6f30();
 };
 
 struct NiPoint3_sub
 {
-    float GetSquaredXYLength() const;
 };
 
-namespace std {
-float abs(float);
-}
 
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 
 struct BackgroundQueueAssign14
 {
-    void AssignObject(ActorPathingMessageQueue*);
-};
-
-class PathingRequest
-{
-  public:
-    virtual void vfn_00();
-    virtual void vfn_04();
-    virtual void vfn_08();
-    virtual void vfn_0c();
-    virtual unsigned int vfn_10();
-    BackgroundPathLocation14& GetOffsetC();
-    BackgroundPathLocation14* FUN_006a9540();
-    float FUN_009b0bd0() const;
-    float GetSmoothingRandomness();
-    bool FUN_00505c00();
-    float FUN_00507e10();
-    void FUN_006e2b20(void*);
-    void FUN_009db930(unsigned int);
-    void IncRefCount();
-    void DecRefCount();
 };
 
 template <> class NiPointer<PathingRequest>
@@ -7398,14 +7094,11 @@ struct FUN_006e4d20 : public NiMemObject, public PathingRequest
 
 struct PathManager14
 {
-    bool BuildPath(NiPointer<PathingRequest>, NiPointer<ActorPathingMessageQueue>, bool);
 };
 
-struct PathManager;
+class PathManager;
 PathManager* __cdecl GetPathManager();
-bool __fastcall FUN_00450ff0(void*);
-void __cdecl FUN_009e71b0(void*, PathingRequest*, void*);
-void __fastcall FUN_009daf80(TESForm*);
+void FUN_009daf80(TESForm*);
 
 struct Handler14
 {
@@ -7464,19 +7157,88 @@ class ActorMoverBuildPath14
     int m_78;
     int m_7c;
     int m_80;
-    int m_84;
+    intptr_t m_84;
 
-    void ResetMoverState(int);
-    void FUN_009dd1c0(int);
-    void SetEnabled(int);
-    void DebugOnStopMoving();
-    bool FUN_009dce80(float, bool);
 
     bool FUN_009db090(const PathingRequest* apRequest);
 };
+// @fnv 0x009dba30
+bool FUN_009dba30_fix::FUN_009dba30(const PathingRequest* apRequest)
+{
+    return reinterpret_cast<::ActorMoverBuildPath14 *>((((FUN_009db090_shell*)this)))->FUN_009db090(apRequest);
+}
 
-extern PlayerCharacter* _g_thePlayer;
 
+
+struct NiPoint3;
+struct TaskQueueInterface
+{
+public:
+    static ::TaskQueueInterface *GetSingleton();
+public:
+    ::NiPoint3 &QueueActorAnimationTask(::NiPoint3 &);
+};
+// @fnv 0x009de2b0
+bool FUN_009de2b0_shell::GetPathCoordinate(NiPoint3* position)
+{
+    if (m_pActorNode.operator->() && reinterpret_cast<::Mover *>((m_pActorNode.operator->()))->FUN_009dc530())
+    {
+        PathQuery* query = reinterpret_cast<PathNode*>(m_pActorNode.operator->())->FUN_009ddb30();
+        if (query)
+        {
+            NiPoint3 coordinate;
+            *position = *((::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((query->FUN_00717e50(&coordinate)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+            return true;
+        }
+    }
+    return false;
+}
+// Handles a pathing result code: on failure sets state 7 and resets the path, on success checks completion and distance to the last node.
+// @fnv 0x009dc5e0
+void ActorMoverX::HandlePathResult(int aiResult)
+{
+    switch (aiResult)
+    {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        eState = 7;
+        reinterpret_cast<::ActorMover *>(this)->ClearMovementPath();
+        SetPathFailed(true);
+        break;
+    case 5:
+    case 6: {
+        int iUpdateResult = UpdatePathHandler();
+        if (!reinterpret_cast<::FUN_006b05d0_shell *>(((m_pActorNode).operator->()))->FUN_006b05d0())
+        {
+            if (aiResult == 6 && eState != 7)
+            {
+                eState = 3;
+            }
+            reinterpret_cast<::ActorMover *>(this)->ClearMovementPath();
+        }
+        else if (iUpdateResult != 1)
+        {
+            if (::GetObjectFlags((char *)((m_pActorNode).operator->())) > 0)
+            {
+                PointX kDelta =
+                    (*(::PointX *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(((::VirtualPathingNodeX *)(reinterpret_cast<::FUN_006e78b0_shell *>(((m_pActorNode).operator->()))->FUN_006e78b0(reinterpret_cast<::BGSTerrainManager *>(((m_pActorNode).operator->()))->GetMinLevel())))->GetLocation()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) -
+                    *pActor->GetPos();
+                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(kDelta))->GetSquaredXYLength() <= reinterpret_cast<::PathingRequest *>((void *)((m_kFirstNP).operator->()))->GetCenterRadius() * reinterpret_cast<::PathingRequest *>((void *)((m_kFirstNP).operator->()))->GetCenterRadius())
+                {
+                    break;
+                }
+            }
+            eState = 7;
+            SetPathFailed(true);
+            ::FUN_009daf80((::TESForm *)(::ActorMoverX *)(this));
+            reinterpret_cast<::ActorMover *>(this)->ClearMovementPath();
+        }
+    }
+    break;
+    }
+}
 // Builds a request from apRequest, notifies the handler when present, then submits it to the path manager or returns early.
 // @fnv 0x009db090
 bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
@@ -7485,31 +7247,31 @@ bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
     bool sleeping;
     ((PathingRequest*)apRequest)->vfn_0c();
     m_uiContentCount = 1;
-    ResetMoverState(0);
-    if (!((PathingRequest*)apRequest)->FUN_006a9540()->FUN_006a9520())
+    reinterpret_cast<::fnv_009db950::MoverState *>(this)->ResetMoverState(0);
+    if (!reinterpret_cast<::FUN_006a9520_Class *>((((::BackgroundPathLocation14 *)(::FUN_006a9540((char *)(((PathingRequest*)apRequest)))))))->FUN_006a9520())
     {
         BackgroundPathLocation14* locA5 = &((PathingRequest*)apRequest)->GetOffsetC();
-        BackgroundPathLocation14* locB2 = ((PathingRequest*)apRequest)->FUN_006a9540();
-        unsigned int cell2 = locA5->FUN_006dd4f0();
-        bool bNotInterior2 = !(cell2 != 0 && ((Cell14*)cell2)->FUN_00425fd0());
+        BackgroundPathLocation14* locB2 = ((::BackgroundPathLocation14 *)(::FUN_006a9540((char *)(((PathingRequest*)apRequest)))));
+        uintptr_t cell2 = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(locA5))->GetContainingCell()));
+        bool bNotInterior2 = !(cell2 != 0 && reinterpret_cast<::TESObjectCELL *>((((Cell14*)cell2)))->IsCellInterior());
         bool same3 =
-            bNotInterior2 ? (locA5->FUN_00441110() == locB2->FUN_00441110()) : (cell2 == locB2->FUN_006dd4f0());
-        bool zA3 = (locA5->FUN_005c3420().z < m_actor->GetRelevantWaterHeight() + 50.0f);
-        bool zB9 = (locB2->FUN_005c3420().z < m_actor->GetRelevantWaterHeight() + 50.0f);
+            bNotInterior2 ? (((void *)(reinterpret_cast<::BGSTerrainManager *>((locA5))->GetMinLevel())) == ((void *)(reinterpret_cast<::BGSTerrainManager *>((locB2))->GetMinLevel()))) : (cell2 == ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(locB2))->GetContainingCell())));
+        bool zA3 = (reinterpret_cast<::TaskQueueInterface *>((void *)(locA5))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z < reinterpret_cast<::FUN_0057b0a0_shell *>((void *)(m_actor))->FUN_0057b0a0() + 50.0f);
+        bool zB9 = (reinterpret_cast<::TaskQueueInterface *>((void *)(locB2))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z < reinterpret_cast<::FUN_0057b0a0_shell *>((void *)(m_actor))->FUN_0057b0a0() + 50.0f);
         if (same3 && !zA3 && !zB9)
         {
-            NiPoint3 diff8 = locA5->FUN_005c3420() - locB2->FUN_005c3420();
-            if ((double)((NiPoint3_sub*)&diff8)->GetSquaredXYLength() <=
-                (double)((PathingRequest*)apRequest)->FUN_009b0bd0() *
-                    (double)((PathingRequest*)apRequest)->FUN_009b0bd0())
+            NiPoint3 diff8 = reinterpret_cast<::TaskQueueInterface *>((void *)(locA5))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - reinterpret_cast<::TaskQueueInterface *>((void *)(locB2))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+            if ((double)reinterpret_cast<::FUN_00595c80_shell *>((void *)(((NiPoint3_sub*)&diff8)))->GetSquaredXYLength() <=
+                (double)reinterpret_cast<::PathingRequest *>((void *)(((PathingRequest*)apRequest)))->GetCenterRadius() *
+                    (double)reinterpret_cast<::PathingRequest *>((void *)(((PathingRequest*)apRequest)))->GetCenterRadius())
             {
                 if ((double)std::abs(diff8.z) <= (double)((PathingRequest*)apRequest)->GetSmoothingRandomness())
                 {
-                    FUN_009dd1c0(1);
+                    reinterpret_cast<::fnv_009dd1c0::FUN_009dd1c0_shell *>(this)->FUN_009dd1c0(1);
                     bool flag = true;
-                    if (((PathingRequest*)apRequest)->FUN_00505c00())
+                    if (reinterpret_cast<::FUN_00505c00_shell *>((((PathingRequest*)apRequest)))->FUN_00505c00())
                     {
-                        flag = FUN_009dce80(((PathingRequest*)apRequest)->FUN_00507e10(), true);
+                        flag = reinterpret_cast<::MovementUpdate *>(this)->FUN_009dce80(reinterpret_cast<::FUN_00507e10_shell *>((((PathingRequest*)apRequest)))->FUN_00507e10(), true);
                     }
                     return flag;
                 }
@@ -7547,18 +7309,18 @@ bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
         break;
     }
     }
-    ((PathingRequest*)m_req)->GetOffsetC().FUN_006ddbe0();
-    ((PathingRequest*)m_req)->FUN_006a9540()->FUN_006ddbe0();
-    ((PathingRequest*)m_req)->FUN_006e2b20(m_actor);
-    DebugOnStopMoving();
-    ((PathingRequest*)m_req)->FUN_009db930(m_84 + 3);
+    reinterpret_cast<::PathingLocation *>(&(((PathingRequest*)m_req)->GetOffsetC()))->ResetLocation();
+    reinterpret_cast<::PathingLocation *>((((::BackgroundPathLocation14 *)(::FUN_006a9540((char *)(((PathingRequest*)m_req)))))))->ResetLocation();
+    reinterpret_cast<::PathingActorData *>((((PathingRequest*)m_req)))->operator=((*(const ::PathingActorData *)(m_actor)));
+    reinterpret_cast<::TESForm *>(this)->ClearData();
+    reinterpret_cast<::TESObjectMISC *>((((PathingRequest*)m_req)))->SetLoopingSound((::TESSound *)(m_84 + 3));
     if (!m_failed && m_handler != 0)
     {
         m_handler->v38((PathingRequest*)m_req);
     }
     if (m_handler != 0 && m_handler->v34())
     {
-        FUN_009e71b0(m_actor, (PathingRequest*)m_req, m_handler);
+        ::fnv_009e71b0::FUN_009e71b0(m_actor, (::fnv_009e71b0::Request75 *)(::PathingRequest *)((PathingRequest*)m_req), (::fnv_009e71b0::Handler75 *)(m_handler));
     }
     else
     {
@@ -7566,7 +7328,7 @@ bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
         {
             if (FUN_00450ff0(m_actor->FUN_008d6f30()))
             {
-                FUN_009e71b0(m_actor, (PathingRequest*)m_req, 0);
+                ::fnv_009e71b0::FUN_009e71b0(m_actor, (::fnv_009e71b0::Request75 *)(::PathingRequest *)((PathingRequest*)m_req), (::fnv_009e71b0::Handler75 *)(void *)(0));
             }
         }
     }
@@ -7574,13 +7336,13 @@ bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
         sleeping = _g_thePlayer->IsSleepingOrResting();
         if ((ActorPathingMessageQueue*)m_queue == 0)
         {
-            ((BackgroundQueueAssign14*)&m_queue)->AssignObject(new ActorPathingMessageQueue());
+            reinterpret_cast<::FakeHolder *>((((BackgroundQueueAssign14*)&m_queue)))->AssignObject(new ActorPathingMessageQueue());
         }
-        if (!((PathManager14*)GetPathManager())->BuildPath(m_req, m_queue, !sleeping))
+        if (!reinterpret_cast<::PathManager *>((((PathManager14*)GetPathManager())))->BuildPath(m_req, m_queue, !sleeping))
         {
             (FUN_009daf80)((TESForm*)this);
             m_uiContentCount = 7;
-            SetEnabled(1);
+            reinterpret_cast<::ActorMovement::Mover *>(this)->SetEnabled(1);
         }
         else
         {
@@ -7591,17 +7353,193 @@ bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
     return result5;
 }
 
-bool IsConditionMet();
-
-struct TaskQueueInterface
-{
-    static TaskQueueInterface* GetInstance();
-};
-
+class Actor;
 struct FUN_0087b650_shell
 {
-    void QueueActorLocationTask(Actor*, const NiPoint3*);
+public:
+    void QueueActorLocationTask(::Actor *, void *);
 };
+// Checks the pathing request/solution state, swaps m_24 for a new handler, then calls vfn_04 and HandlePathResult with the result.
+// @fnv 0x009dbdc0
+void ThisCls::UpdatePathingState(float a1)
+{
+    reinterpret_cast<::TESForm *>(this)->ClearData();
+    bool flag;
+    if (::GetObjectFlags((char *)(((::SolT *)(::FUN_00559450((int *)&(m_20)))))) > 0)
+    {
+        if (m_28->FUN_00931850())
+        {
+            flag = false;
+            reinterpret_cast<::PathingActorData *>((((::ReqT *)(::FUN_00559450((int *)&(m_1c))))))->operator=((*(const ::PathingActorData *)(m_28)));
+            switch (FUN_006d53b0((PathingRequest*)((::ReqT *)(::FUN_00559450((int *)&(m_1c)))), (PathingSolution*)((::SolT *)(::FUN_00559450((int *)&(m_20))))))
+            {
+                break;
+            case -1:
+            case 0:
+                m_6c = 7;
+                SetEnabled(1);
+                return;
+            }
+        }
+        else
+        {
+            flag = true;
+        }
+    }
+    else
+    {
+        if (!m_28->FUN_00931850())
+        {
+            flag = true;
+            reinterpret_cast<::PathingActorData *>((((::ReqT *)(::FUN_00559450((int *)&(m_1c))))))->operator=((*(const ::PathingActorData *)(m_28)));
+            switch (::QueryPathScope((PathingRequest*)((::ReqT *)(::FUN_00559450((int *)&(m_1c)))), (PathingSolution*)((::SolT *)(::FUN_00559450((int *)&(m_20)))), (void *)(0)))
+            {
+                break;
+            case -1:
+            case 0:
+                reinterpret_cast<::MoveActor *>((m_28))->TryMove(1);
+                m_6c = 7;
+                SetEnabled(1);
+                return;
+            }
+        }
+        else
+        {
+            flag = false;
+        }
+    }
+    if (flag)
+    {
+        m_40 = reinterpret_cast<::FUN_009611e0_shell *>((((::SolT *)(::FUN_00559450((int *)&(m_20))))))->FUN_009611e0();
+        m_42 = ((int)(reinterpret_cast<::BGSTerrainManager *>((((::SolT *)(::FUN_00559450((int *)&(m_20))))))->GetMinLevel()));
+        HandlerX* old = m_24;
+        m_24 = (HandlerX*)new FUN_009e0190(m_28, this, m_20, ((::ReqT *)(::FUN_00559450((int *)&(m_1c)))));
+        m_24->vfn_58(old);
+        if (old)
+        {
+            delete old;
+        }
+    }
+    else
+    {
+        m_40 = 0;
+        m_42 = ((int)(::FUN_005a4320((char *)(((::SolT *)(::FUN_00559450((int *)&(m_20)))))))) - 1;
+        if (m_24)
+        {
+            delete m_24;
+        }
+        m_24 = (HandlerX*)new FUN_009ea770(m_28, this, m_20, ((::ReqT *)(::FUN_00559450((int *)&(m_1c)))));
+    }
+    int res = m_24->vfn_04(0.0f, a1);
+    reinterpret_cast<::ActorMoverX *>(this)->HandlePathResult(res);
+}
+// Advances the actor along the path: recomputes the current segment from handler progress, updates or extends the path, and rebuilds the handler.
+// @fnv 0x009dd2d0
+void FUN_009dd2d0_cls::UpdatePathMovement()
+{
+    unsigned current;
+    float progress;
+    uintptr_t next;
+    int result6;
+    float fraction;
+    if (!((::PathSolution *)(::FUN_00559450((int *)&(path)))) || !((::PathRequest *)(::FUN_00559450((int *)&(request)))))
+    {
+        delete handler;
+        handler = 0;
+        state = 6;
+        Finish(0);
+        return;
+    }
+    if (actor->Exists())
+    {
+        if (!handler->Finished())
+            return;
+        if (last == first)
+            current = last + 1;
+        else
+        {
+            progress = handler->Progress();
+            current = (unsigned)(int)::FUN_004e4450((last - first) * progress);
+            current += first;
+        }
+        if (current > ::FUN_005a4320((char *)(((::PathSolution *)(::FUN_00559450((int *)&(path)))))) - 1)
+            current = ::FUN_005a4320((char *)(((::PathSolution *)(::FUN_00559450((int *)&(path)))))) - 1;
+        reinterpret_cast<::PathingActorData *>((((::PathRequest *)(::FUN_00559450((int *)&(request))))))->operator=((*(const ::PathingActorData *)(actor)));
+        switch (::FUN_006d53b0((::PathingRequest *)(::PathRequest *)(((::PathRequest *)(::FUN_00559450((int *)&(request))))), (::PathingSolution *)(::PathSolution *)(((::PathSolution *)(::FUN_00559450((int *)&(path)))))))
+        {
+        case 1:
+            first = (unsigned short)current;
+            last = (unsigned short)(::FUN_005a4320((char *)(((::PathSolution *)(::FUN_00559450((int *)&(path)))))) - 1);
+            break;
+        case -1:
+        case 0:
+            state = 7;
+            Finish(1);
+            return;
+        }
+        delete handler;
+        handler = new SmallPathHandler(actor, this, &path, ((::PathRequest *)(::FUN_00559450((int *)&(request)))));
+        handler->Start((float)first, 0.0f);
+        return;
+    }
+    if (handler->Finished())
+        next = first + 1;
+    else
+        next = handler->Current() > 0 ? handler->Current() - 1 : 0;
+    if (next >= ::FUN_005a4320((char *)(((::PathSolution *)(::FUN_00559450((int *)&(path)))))) - 1)
+    {
+        if (::FUN_008c7aa0())
+            reinterpret_cast<::FUN_0087b650_shell *>((((::SpecialPathActor *)(::TaskQueueInterface::GetSingleton()))))->QueueActorLocationTask((::Actor *)&(const ::PathVec &)((*(::PathVec *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))->Last()->GetData()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), {});
+        else
+            ((MoveActor*)actor)->MoveTo((*(::PathVec *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))->Last()->GetData()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))));
+        reinterpret_cast<::fnv_009dd1c0::FUN_009dd1c0_shell *>(this)->FUN_009dd1c0(1);
+        return;
+    }
+    reinterpret_cast<::PathingActorData *>((((::PathRequest *)(::FUN_00559450((int *)&(request))))))->operator=((*(const ::PathingActorData *)(actor)));
+    switch (::QueryPathScope(((::PathRequest *)(::FUN_00559450((int *)&(request)))), ((::PathSolution *)(::FUN_00559450((int *)&(path)))), (void *)(next)))
+    {
+    case 2:
+        first = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->FUN_009611e0()));
+        last = reinterpret_cast<::BGSTerrainManager *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->GetMinLevel();
+        break;
+    case -1:
+    case 0:
+        if (reinterpret_cast<::FUN_006b05d0_shell *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->FUN_006b05d0() && ((bool)(reinterpret_cast<::FUN_006a9560_Class *>((((::PathRequest *)(::FUN_00559450((int *)&(request))))))->GetByteAtOffset9B())) && ((void *)(::GetObjectFlags((char *)(((::PathSolution *)(::FUN_00559450((int *)&(path)))))))))
+        {
+            first = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->FUN_009611e0()));
+            last = reinterpret_cast<::BGSTerrainManager *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->GetMinLevel();
+        }
+        else
+        {
+            reinterpret_cast<::MoveActor *>((actor))->TryMove(1);
+            state = 8;
+            Finish(1);
+            return;
+        }
+        break;
+    }
+    if (first == last)
+    {
+        reinterpret_cast<::fnv_009dd1c0::FUN_009dd1c0_shell *>(this)->FUN_009dd1c0(1);
+        return;
+    }
+    fraction = 0.0f;
+    if (!handler->Finished())
+    {
+        PathVec startPoint = (*(::PathVec *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathEntry *)(reinterpret_cast<::FUN_006e78b0_shell *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->FUN_006e78b0(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->FUN_009611e0())))))->GetData()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        PathVec endPoint6 = (*(::PathVec *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathEntry *)(reinterpret_cast<::FUN_006e78b0_shell *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->FUN_006e78b0(reinterpret_cast<::BGSTerrainManager *>((((::PathSolution *)(::FUN_00559450((int *)&(path))))))->GetMinLevel())))->GetData()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        float distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PathVec &)((endPoint6 - startPoint)))->ComputeMagnitude();
+        fraction = handler->Distance() / distance;
+    }
+    delete handler;
+    handler = new LargePathHandler(actor, this, &path, ((::PathRequest *)(::FUN_00559450((int *)&(request)))));
+    result6 = handler->Start(fraction, 0.0f);
+    if (result6 == 5 || result6 == 6)
+    {
+        reinterpret_cast<::ActorMoverX *>(this)->HandlePathResult(result6);
+        reinterpret_cast<::fnv_009dd1c0::FUN_009dd1c0_shell *>(this)->FUN_009dd1c0(1);
+    }
+}
 
 struct FUN_0087b190_shell
 {
@@ -7610,21 +7548,17 @@ struct FUN_0087b190_shell
 
 struct SetLoc_S
 {
-    void SetLocationOnReference(const NiPoint3&);
 };
 
 struct PlayerSleepView
 {
-    bool IsSleepingOrResting();
 };
 struct TESWorldSpace_SV
 {
-    TESObjectCELL* GetCellByWorldPosition(const NiPoint3&);
 };
 
 struct TESObjectREFR_Ext : TESObjectREFR
 {
-    static void SetParentCellAndWorldspace(TESObjectREFR*, TESObjectCELL*, TESWorldSpace_SV*);
 };
 
 struct ActorMoverLocation14
@@ -7643,30 +7577,30 @@ struct ActorMoverLocation14
 // @fnv 0x009df010
 bool ActorMoverLocation14::FUN_009df010(const NiPoint3& aNewLoc)
 {
-    if (IsConditionMet())
+    if (::FUN_008c7aa0())
     {
-        ((FUN_0087b650_shell*)TaskQueueInterface::GetInstance())->QueueActorLocationTask(pActor, &aNewLoc);
-        ((FUN_0087b190_shell*)TaskQueueInterface::GetInstance())->QueueActorTask(pActor);
+        ((FUN_0087b650_shell*)::TaskQueueInterface::GetSingleton())->QueueActorLocationTask(pActor, (void *)(&aNewLoc));
+        ((FUN_0087b190_shell*)::TaskQueueInterface::GetSingleton())->QueueActorTask(pActor);
     }
     else
     {
         pActor->Unk_AA((NiPoint3&)aNewLoc);
     }
 
-    ((SetLoc_S*)pActor)->SetLocationOnReference(aNewLoc);
+    reinterpret_cast<::Reference *>((((SetLoc_S*)pActor)))->FUN_00575830((::Position *)&(aNewLoc));
 
-    TESWorldSpace_SV* pworld = (TESWorldSpace_SV*)pActor->GetParentWorldSpace();
+    TESWorldSpace_SV* pworld = (TESWorldSpace_SV*)((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)(pActor))->FUN_00575d70()));
     if (!pworld)
         return true;
 
     TESObjectCELL* pcurrentCell = pActor->GetParentCell();
-    TESObjectCELL* pnewcell = pworld->GetCellByWorldPosition(aNewLoc);
+    TESObjectCELL* pnewcell = reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((pworld))->FUN_00587550((const ::fnv_00587550::NiPoint3 &)(aNewLoc));
     if (pcurrentCell != pnewcell)
     {
-        TESObjectREFR_Ext::SetParentCellAndWorldspace(pActor, 0, pworld);
+        ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(pActor), (::fnv_00573800::MoveCell *)(::TESObjectCELL *)(0), (::fnv_00573800::MoveWorld *)(pworld));
     }
 
-    if (!pActor->GetProcessTier() && !((PlayerSleepView*)g_thePlayer)->IsSleepingOrResting())
+    if (!pActor->GetProcessTier() && !reinterpret_cast<::PlayerCharacter *>((((PlayerSleepView*)(*reinterpret_cast<::Actor884750 * *>(&::_g_thePlayer)))))->IsSleepingOrResting())
         return false;
 
     return true;
@@ -7675,19 +7609,13 @@ bool ActorMoverLocation14::FUN_009df010(const NiPoint3& aNewLoc)
 namespace PathEndCheck14 {
 struct Node
 {
-    bool FUN_006e2330();
-    bool FUN_006e22f0(::TESObjectREFR*);
 };
 struct Solution
 {
-    unsigned int GetObjectFlags();
-    Node& FUN_006b05a0();
-    unsigned int FUN_005a4320();
 };
 struct SolutionPtr
 {
     Solution* object;
-    Solution* FUN_00559450();
 };
 struct Handler
 {
@@ -7695,7 +7623,6 @@ struct Handler
     unsigned int unk04, unk08;
     SolutionPtr path;
 };
-void __fastcall FUN_006c93a0(Solution*);
 struct Mover
 {
     void* vtable;
@@ -7709,9 +7636,6 @@ struct Mover
     unsigned short currentNode, lastNode;
     unsigned int unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68;
     int eState;
-    void SetEnabled(bool);
-    void FUN_009dd0a0();
-    void FUN_009dd150();
     int FUN_009dc980();
 };
 
@@ -7723,32 +7647,34 @@ int Mover::FUN_009dc980()
     if (!lastNode)
     {
         eState = 7;
-        SetEnabled(true);
-        FUN_009dd0a0();
+        reinterpret_cast<::ActorMovement::Mover *>(this)->SetEnabled(true);
+        reinterpret_cast<::ActorMover *>(this)->StopMoving();
         return 2;
     }
     currentNode = lastNode;
-    if (currentPath.FUN_00559450()->GetObjectFlags() > 0)
+    if (::GetObjectFlags((char *)(((::PathEndCheck14::Solution *)(::FUN_00559450((int *)&(currentPath)))))) > 0)
     {
-        pnode = &currentPath.FUN_00559450()->FUN_006b05a0();
-        if (pnode->FUN_006e2330())
+        pnode = &(*(::PathEndCheck14::Node *)(reinterpret_cast<::S_FUN_006b05a0 *>((((::PathEndCheck14::Solution *)(::FUN_00559450((int *)&(currentPath))))))->FUN_006b05a0()));
+        if (reinterpret_cast<::FUN_006e2330_shell *>((pnode))->FUN_006e2330())
         {
-            if (!pnode->FUN_006e22f0(pActor) && !pActor->GetCurrentAIProcess()->GetCurrentFadeState())
+            if (!reinterpret_cast<::FUN_006e22f0_shell *>((pnode))->FUN_006e22f0(pActor) && !((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pActor))->GetBaseTexture()))->GetCurrentFadeState())
             {
                 eState = 7;
-                SetEnabled(true);
-                FUN_009dd150();
+                reinterpret_cast<::ActorMovement::Mover *>(this)->SetEnabled(true);
+                reinterpret_cast<::ActorMover *>(this)->ClearMovementPath();
                 return 2;
             }
             else
             {
-                FUN_006c93a0(currentPath.FUN_00559450());
+                ::FUN_006c93a0((::Dummy_006c93a0 *)(::PathEndCheck14::Solution *)(((::PathEndCheck14::Solution *)(::FUN_00559450((int *)&(currentPath))))));
                 return 1;
             }
         }
     }
-    if (currentNode >= m_pPathHandler->path.FUN_00559450()->FUN_005a4320() - 1)
-        FUN_009dd150();
+    if (currentNode >= ::FUN_005a4320((char *)(((::PathEndCheck14::Solution *)(::FUN_00559450((int *)&(m_pPathHandler->path)))))) - 1)
+        reinterpret_cast<::ActorMover *>(this)->ClearMovementPath();
     return 0;
 }
 }
+
+#include "generated/data/fallout/ai/movement/actormover.inc"

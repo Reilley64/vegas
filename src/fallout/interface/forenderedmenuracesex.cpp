@@ -2,6 +2,114 @@
 // src/fallout/interface/forenderedmenuracesex.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/forenderedmenuracesex.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/native_fixed_string.h"
+#include "fallout/interface/rendered_menu_fields.h"
+#include "fnv/game_timer.h"
+#include <cstdint>
+#include <new>
+#include <cstdlib>
+#include "fnv/decl/BB97550Shader.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BSRenderedTexture.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CameraWindowRay.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FOPipboyManager.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00458b30_class.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a0fd0_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_004bc280_S.h"
+#include "fnv/decl/FUN_004dc540_shell.h"
+#include "fnv/decl/FUN_00503650_shell.h"
+#include "fnv/decl/FUN_00507700_cls.h"
+#include "fnv/decl/FUN_00507e10_shell.h"
+#include "fnv/decl/FUN_0050c630_helper.h"
+#include "fnv/decl/FUN_006b0570_shell.h"
+#include "fnv/decl/FUN_00733fd0_shell.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/FUN_00792780_Class.h"
+#include "fnv/decl/FUN_007f7fb0_Class.h"
+#include "fnv/decl/FUN_007faf10_shell.h"
+#include "fnv/decl/FUN_007fd620_Class.h"
+#include "fnv/decl/FUN_007fecc0_Class.h"
+#include "fnv/decl/FUN_00810530_c.h"
+#include "fnv/decl/FUN_008d7f00_class.h"
+#include "fnv/decl/FUN_008eeaa0Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00965580_shell.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00c4f270_Class.h"
+#include "fnv/decl/FUN_00c4f2d0_class.h"
+#include "fnv/decl/M3_.h"
+#include "fnv/decl/Manager.h"
+#include "fnv/decl/MenuStub.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiPick.h"
+#include "fnv/decl/NiPointLight.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/Pool.h"
+#include "fnv/decl/Rendered82.h"
+#include "fnv/decl/RenderedMenu7fb7.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/decl/SystemColorManager.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/UAMActor.h"
+#include "fnv/decl/_Cam_00712e60.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_0050c660__FUN_0050c660_shell.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/decl/fnv_007fd640__FUN_007fd640Class.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008b6200__FUN_008b6200.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040d000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_0050c000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01203000.h"
 struct S16
 {
     int a, b, c, d;
@@ -21,10 +129,11 @@ S16* FUN_007feb40_This::GetValueAtC0(S16* pValue)
 
 struct Animation
 {
-    void FUN_008eeaa0(char);
 };
-struct PlayerCharacter
+struct Animation;
+class PlayerCharacter
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -146,29 +255,26 @@ struct PlayerCharacter
     virtual void v76();
     virtual void v77();
     virtual void Refresh();
-    Animation* GetAnimation(bool);
-    void UpdateAnimationMovement(Animation*, float);
+public:
+    ::Animation *GetAnimation(bool) const;
 };
-extern PlayerCharacter* g_thePlayer;
-void _FUN_007037e0();
-struct Menu
+class Menu
 {
-    bool IsUnk28Set();
-    bool UpdateScreenEffect();
+  public:
     bool FUN_007fe4e0();
 };
 // @fnv 0x007fe4e0
 bool Menu::FUN_007fe4e0()
 {
-    if (!IsUnk28Set())
+    if (!reinterpret_cast<::FOPipboyManager *>(this)->IsUnk28Set())
     {
-        _FUN_007037e0();
+        ::fnv_007037e0::FUN_007037e0();
         return false;
     }
-    g_thePlayer->GetAnimation(false)->FUN_008eeaa0(23);
-    g_thePlayer->Refresh();
-    g_thePlayer->UpdateAnimationMovement(g_thePlayer->GetAnimation(false), 0.0f);
-    return UpdateScreenEffect();
+    reinterpret_cast<::FUN_008eeaa0Class *>((::_g_thePlayer->GetAnimation(false)))->FUN_008eeaa0(23);
+    ::_g_thePlayer->Refresh();
+    reinterpret_cast<::UAMActor *>((::_g_thePlayer))->FUN_008885e0((::UAMAnim *)(::Animation *)(::_g_thePlayer->GetAnimation(false)), 0.0f);
+    return reinterpret_cast<::FUN_007faf10_shell *>(this)->UpdateScreenEffect();
 }
 
 struct RgbaColor
@@ -178,18 +284,13 @@ struct RgbaColor
 };
 struct SettingFloat
 {
-    float* Float();
 };
-extern SettingFloat g_011db520, g_011db464;
-extern float g_011ae600, g_0120081c, g_011ae604, g_01200820, g_01200824, g_011ae608, g_01200828;
-extern RgbaColor g_0120082c;
 struct NiRenderer;
-NiRenderer* FUN_0043c4b0();
 struct ImageSpaceManager
 {
-    void FUN_00b97550(int, NiRenderer*, void*, void*, int, int);
+public:
+    static ::ImageSpaceManager *FUN_004e3270();
 };
-ImageSpaceManager* FUN_004e3270();
 struct Effect
 {
     unsigned int unk000;
@@ -282,8 +383,6 @@ struct Effect
     unsigned char state159, state15a, state15b;
     unsigned int unk15c;
     float secondary;
-    float FUN_00507e10();
-    RgbaColor GetValueAtC0();
     void FUN_007fe9c0(void*, void*, void*);
 };
 // @fnv 0x007fe9c0
@@ -293,33 +392,33 @@ void Effect::FUN_007fe9c0(void* apArg1, void* apArg2, void* unused)
     active = false;
     if (active)
     {
-        g_011ae600 = FUN_00507e10();
-        g_0120081c = *g_011db520.Float();
-        g_011ae604 = *g_011db464.Float();
-        g_01200820 = primary;
-        g_0120082c = GetValueAtC0();
+        ::DAT_011ae600 = reinterpret_cast<::FUN_00507e10_shell *>(this)->FUN_00507e10();
+        ::DAT_0120081c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db520))))));
+        ::DAT_011ae604 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db464))))));
+        ::DAT_01200820 = primary;
+        (*reinterpret_cast<::RgbaColor *>(&::DAT_0120082c)) = (*(::RgbaColor *)(reinterpret_cast<::FUN_007feb40_This *>(this)->GetValueAtC0({})));
     }
     else
     {
-        g_0120081c = 0.0f;
-        g_011ae604 = 0.0f;
-        g_01200820 = -1.0f;
-        g_011ae600 = 1.0f;
-        g_0120082c = RgbaColor(1.0f, 1.0f, 1.0f, 1.0f);
+        ::DAT_0120081c = 0.0f;
+        ::DAT_011ae604 = 0.0f;
+        ::DAT_01200820 = -1.0f;
+        ::DAT_011ae600 = 1.0f;
+        (*reinterpret_cast<::RgbaColor *>(&::DAT_0120082c)) = RgbaColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
     if (enabled && active)
     {
-        g_01200824 = *g_011db520.Float();
-        g_011ae608 = *g_011db464.Float();
-        g_01200828 = secondary;
+        ::DAT_01200824 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db520))))));
+        ::DAT_011ae608 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db464))))));
+        ::DAT_01200828 = secondary;
     }
     else
     {
-        g_01200824 = 0.0f;
-        g_011ae608 = 0.0f;
-        g_01200828 = -1.0f;
+        ::DAT_01200824 = 0.0f;
+        ::DAT_011ae608 = 0.0f;
+        ::DAT_01200828 = -1.0f;
     }
-    FUN_004e3270()->FUN_00b97550(30, FUN_0043c4b0(), apArg1, apArg2, 0, 1);
+    reinterpret_cast<::BB97550Shader *>((::ImageSpaceManager::FUN_004e3270()))->FUN_00b97550(30, (std::intptr_t)(::FUN_0043c4b0()), (std::intptr_t)(apArg1), (std::intptr_t)(apArg2), 0, 1);
 }
 
 struct S_007fb5a0_Point3
@@ -340,8 +439,6 @@ struct S_007fb5a0_UpdateData
 
 struct S_007fb5a0_Node
 {
-    void SetEffectColor(const S_007fb5a0_Point3& pos);
-    void FUN_00a59c60(S_007fb5a0_UpdateData& data);
 };
 
 struct S_007fb5a0_NodePtr
@@ -353,13 +450,8 @@ struct S_007fb5a0_NodePtr
 
 struct S_007fb5a0_Setting
 {
-    float* FUN_00403e20();
 };
 
-extern S_007fb5a0_Setting DAT_011db430;
-extern S_007fb5a0_Setting DAT_011db4a4;
-extern S_007fb5a0_Setting DAT_011db3e8;
-extern S_007fb5a0_Point3 DAT_011f4998;
 
 float FUN_004e44d0(float f);
 
@@ -392,19 +484,19 @@ void S_007fb5a0::UpdateNodePosition(float fTime)
 {
     if (m_pController)
     {
-        S_007fb5a0_Point3 kIntersectionOffset = DAT_011f4998;
+        S_007fb5a0_Point3 kIntersectionOffset = (*reinterpret_cast<::S_007fb5a0_Point3 *>(&::DAT_011f4998));
         if (bApplyOffset)
         {
-            float fA = bUseFirst ? fFirst * *DAT_011db430.FUN_00403e20() : 0.0;
-            float fB = fSecond * *DAT_011db4a4.FUN_00403e20();
-            float fScaleA = bUseSin ? FUN_004e44d0(fTime * *DAT_011db3e8.FUN_00403e20()) + 0.5 : 1.0;
+            float fA = bUseFirst ? fFirst * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db430)))))) : 0.0;
+            float fB = fSecond * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db4a4))))));
+            float fScaleA = bUseSin ? FUN_004e44d0(fTime * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db3e8))))))) + 0.5 : 1.0;
             float fD = (fA + fB) * fScaleA;
             kIntersectionOffset = kBase * fD * fOffsetScale;
         }
         S_007fb5a0_Point3 kPos = kBase * m_fThirdCreatureStatCur + kIntersectionOffset;
-        m_pController->SetEffectColor(kPos);
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((m_pController).operator->()))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(kPos));
         S_007fb5a0_UpdateData kData(0.0f, false, false);
-        m_pController->FUN_00a59c60(kData);
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
     }
 }
 
@@ -412,77 +504,28 @@ struct S_007fe560_Shadow;
 struct S_007fe560_Pt3
 {
     float x, y, z;
-    S_007fe560_Pt3* FUN_00416870(float ax, float ay, float az);
 };
 struct S_007fe560_Upd
 {
     int unk00;
     int unk04;
     int unk08;
-    void FUN_0043d410(float t, bool a, bool b);
 };
 struct S_007fe560_Light
 {
-    void SetEffectColor(const S_007fe560_Pt3& c);
-    void FUN_004bc280(const S_007fe560_Pt3& c);
-    void FUN_0050c630(float f);
-    void FUN_0050c660(float f);
-    void FUN_0050c690(float f);
-    void FUN_0050dd20(float f);
     void FUN_0050dd50(const S_007fe560_Pt3& p);
-    void FUN_00a59c60(const S_007fe560_Upd& u);
 };
 struct S_007fe560_Base
 {
-    bool FUN_007fc400(const char* name, S_007fe560_Shadow* ssn);
-    S_007fe560_Light* FUN_006838b0();
-    void FUN_006b0570(S_007fe560_Pt3* c);
-    void SetIntensity(float f);
-    void FUN_007f99b0(float f);
 };
-S_007fe560_Shadow* __cdecl FUN_00450b80(int n);
-extern float DAT_01017b78;
-void __cdecl FUN_005b5e40(const char* msg);
 
 struct FUN_007fe560_cls : S_007fe560_Base
 {
     void InitTerminalLight();
 };
 
-// @fnv 0x007fe560
-void FUN_007fe560_cls::InitTerminalLight()
-{
-    if (!FUN_007fc400("Omni01", FUN_00450b80(1)))
-    {
-        FUN_005b5e40("MENUS: Failed to create terminal light.  Terminal will only receive ambient light.");
-        return;
-    }
-    S_007fe560_Light* light = FUN_006838b0();
-    if (light)
-    {
-        S_007fe560_Pt3 kPos;
-        S_007fe560_Pt3 kDiffuseColor;
-        S_007fe560_Pt3 kAmbient;
-        S_007fe560_Pt3 kFullColor;
-        S_007fe560_Upd kNewData;
-        light->SetEffectColor(*kAmbient.FUN_00416870(0.0f, 0.0f, 0.0f));
-        light->FUN_004bc280(*kDiffuseColor.FUN_00416870(0.0f, 0.0f, 0.0f));
-        light->FUN_0050c630(0.0f);
-        light->FUN_0050c660(0.0f);
-        light->FUN_0050c690(0.0f);
-        light->FUN_0050dd20(1.0f);
-        light->FUN_0050dd50(*kPos.FUN_00416870(DAT_01017b78, 0.0f, 0.0f));
-        kFullColor.FUN_00416870(1.0f, 1.0f, 1.0f);
-        FUN_006b0570(&kFullColor);
-        SetIntensity(1.0f);
-        FUN_007f99b0(1.0f);
-        kNewData.FUN_0043d410(0.0f, false, false);
-        light->FUN_00a59c60(kNewData);
-    }
-}
-
-struct NiNode;
-struct Menu;
+class NiNode;
+class Menu;
 
 struct NodePtr
 {
@@ -500,7 +543,6 @@ struct PickVec
 
 struct PickRecord
 {
-    void* FUN_00968670(unsigned int a1);
 };
 
 struct GlobalObject_00e98f20
@@ -520,25 +562,15 @@ struct GlobalObject_00e98f20
     int unk30;
     GlobalObject_00e98f20(int a1, int a2);
     ~GlobalObject_00e98f20();
-    void SetByteAtOffset17(int a1);
-    void FUN_006ecd40(unsigned int a1);
-    void SetByteAtOffset30(int a1);
-    void FUN_00705fc0(NiNode* apRoot);
-    bool FUN_00e98e20(PickVec* apOrigin, PickVec* apDir, int a3);
-    PickRecord* FUN_00500940();
 };
 
 struct InterfaceManager
 {
-    float FUN_00792760();
-    float FUN_009a9350();
 };
 
-InterfaceManager* FUN_004b7210();
 
 struct PickCamera
 {
-    void MapScreenToRay(int aiX, int aiY, PickVec* apOrigin, PickVec* apDir, int a5);
 };
 
 struct BSSoundHandleEx
@@ -547,29 +579,62 @@ struct BSSoundHandleEx
     int unk04;
     int unk08;
     ~BSSoundHandleEx();
-    bool Play(bool abUnk);
 };
 
 struct BSAudio
 {
-    static BSAudio* GetSingleton();
     BSSoundHandleEx GetSoundHandleByEditorID(const char* apEditorID, unsigned int auiFlags);
 };
 
 struct RaceSexMenu
 {
-    void FUN_007fe910(int aiIndex);
+public:
+    void FUN_007fe910(void *);
 };
 
 struct MenuTile
 {
-    RaceSexMenu* GetMenu();
 };
 
-struct FORenderedMenu
+struct ShadowSceneNode;
+class FORenderedMenu
 {
-    bool FUN_007fb790(bool abDown, int a2, int a3);
+public:
+    void OnMenuOpen();
+public:
+    bool CreateMenuLight(const char *, ::ShadowSceneNode *);
 };
+// @fnv 0x007fe560
+void FUN_007fe560_cls::InitTerminalLight()
+{
+    if (!reinterpret_cast<::FORenderedMenu *>(this)->CreateMenuLight("Omni01", (::ShadowSceneNode *)(::S_007fe560_Shadow *)(((::S_007fe560_Shadow *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))
+    {
+        ::FUN_005b5e40();
+        return;
+    }
+    S_007fe560_Light* light = ((::S_007fe560_Light *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>(this)->FUN_006838b0()));
+    if (light)
+    {
+        S_007fe560_Pt3 kPos;
+        S_007fe560_Pt3 kDiffuseColor;
+        S_007fe560_Pt3 kAmbient;
+        S_007fe560_Pt3 kFullColor;
+        S_007fe560_Upd kNewData;
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((light))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::S_007fe560_Pt3 *)(reinterpret_cast<::FUN_00416870_t *>(&(kAmbient))->FUN_00416870(0.0f, 0.0f, 0.0f)))));
+        reinterpret_cast<::FUN_004bc280_S *>((light))->FUN_004bc280((const ::C3 *)&(*((::S_007fe560_Pt3 *)(reinterpret_cast<::FUN_00416870_t *>(&(kDiffuseColor))->FUN_00416870(0.0f, 0.0f, 0.0f)))));
+        reinterpret_cast<::FUN_0050c630_helper *>((light))->FUN_0050c630(0.0f);
+        reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660(0.0f);
+        ::FUN_0050c690((::NiDynamicEffect *)(light), 0.0f);
+        reinterpret_cast<::NiPointLight *>((light))->FUN_0050dd20(1.0f);
+        light->FUN_0050dd50(*((::S_007fe560_Pt3 *)(reinterpret_cast<::FUN_00416870_t *>(&(kPos))->FUN_00416870(DAT_01017b78, 0.0f, 0.0f))));
+        reinterpret_cast<::FUN_00416870_t *>(&(kFullColor))->FUN_00416870(1.0f, 1.0f, 1.0f);
+        reinterpret_cast<::FUN_006b0570_shell *>(this)->FUN_006b0570((::NiColor *)(::S_007fe560_Pt3 *)(&kFullColor));
+        reinterpret_cast<::FUN_00965580_shell *>(this)->SetIntensity(1.0f);
+        reinterpret_cast<::FOPipboyManager *>(this)->SetScreenLightFlickerIntensity(1.0f);
+        new ((void *)&(kNewData)) ::NiUpdateData(0.0f, false, false);
+        reinterpret_cast<::FUN_00a59c60_cls *>((light))->FUN_00a59c60((std::intptr_t)&(kNewData));
+    }
+}
 
 struct FORenderedMenuRaceSex : FORenderedMenu
 {
@@ -577,15 +642,13 @@ struct FORenderedMenuRaceSex : FORenderedMenu
     NodePtr unkD8[4];
     NodePtr unkE8[4];
 
-    MenuTile* FUN_009611e0();
-    PickCamera* FUN_008b6200();
-    bool HandleRaceSexMenuInput(bool abDown, int a2, int a3);
+    bool HandleRaceSexMenuInput(bool abDown, intptr_t a2, intptr_t a3);
 };
 
 // @fnv 0x007fe6c0
-bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
+bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, intptr_t a2, intptr_t a3)
 {
-    InterfaceManager* pInterface = FUN_004b7210();
+    InterfaceManager* pInterface = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
     if (abDown)
     {
         bool bReady = true;
@@ -599,42 +662,38 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
             PickVec origin;
             PickVec dir;
             GlobalObject_00e98f20 pick(0, 8);
-            pick.SetByteAtOffset17(1);
-            pick.FUN_006ecd40(0);
-            pick.SetByteAtOffset30(0);
-            int iFound = -1;
+            reinterpret_cast<::FUN_00458b30_class *>(&(pick))->SetByteAtOffset17(1);
+            reinterpret_cast<::CombatProcedure *>(&(pick))->Initialize((::CombatController *)(0));
+            reinterpret_cast<::FUN_00792780_Class *>(&(pick))->SetByteAtOffset30(0);
+            intptr_t iFound = -1;
             for (int j = 0; iFound < 0 && j < 4; j++)
             {
-                pick.FUN_00705fc0(unkD8[j]);
-                FUN_008b6200()->MapScreenToRay((int)pInterface->FUN_009a9350(), (int)pInterface->FUN_00792760(),
-                                               &origin, &dir, 0);
-                if (pick.FUN_00e98e20(&origin, &dir, 0))
+                reinterpret_cast<::NiPick *>(&(pick))->FUN_00705fc0(unkD8[j]);
+                reinterpret_cast<::CameraWindowRay *>((((::PickCamera *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pMenuLightParameters))))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((pInterface))->FUN_009a9350(), (int)reinterpret_cast<::FUN_00792760_shell *>((pInterface))->FUN_00792760(),
+                                               (*(::NiPoint3 *)(&origin)), (*(::NiPoint3 *)(&dir)), (const ::NiRenderTargetGroup *)(0));
+                if (reinterpret_cast<::NiPick *>(&(pick))->PerformPick((*(const ::NiPoint3 *)(&origin)), (*(const ::NiPoint3 *)(&dir)), 0))
                 {
-                    if (pick.FUN_00500940()->FUN_00968670(0))
+                    if (((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::PickRecord *)(reinterpret_cast<::BGSCameraPath *>(&(pick))->GetConditions()))))->FUN_00968670(0))))
                         iFound = j;
                 }
             }
             if (iFound >= 0)
             {
-                BSAudio::GetSingleton()->GetSoundHandleByEditorID("UIMenuMode", 0x121).Play(false);
-                FUN_009611e0()->GetMenu()->FUN_007fe910(iFound);
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIMenuMode", 0x121)))->FUN_00ad8830(false);
+                ((::RaceSexMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::MenuTile *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pFourthMenuObject))))->FUN_00a03c90()))->FUN_007fe910((void *)(iFound));
                 return true;
             }
         }
     }
-    return FORenderedMenu::FUN_007fb790(abDown, a2, a3);
+    return reinterpret_cast<::RenderedMenu7fb7 *>(this)->FUN_007fb790((void *)(abDown), (float *)(a2), (float *)(a3));
 }
 
-int __cdecl FUN_00ecadb8();
 
-extern "C" const double DAT_01016978;
 
 struct TimerSource
 {
-    float* Get();
 };
 
-extern "C" TimerSource DAT_011db5b4;
 
 struct FUN_007feb80_cls
 {
@@ -764,7 +823,6 @@ struct FUN_007feb80_cls
     unsigned char unk167;
     float m_f168;
 
-    void FUN_007fecc0();
     void Update(float afValue);
 };
 
@@ -772,10 +830,10 @@ struct FUN_007feb80_cls
 // @fnv 0x007feb80
 void FUN_007feb80_cls::Update(float afValue)
 {
-    if ((double)(afValue - m_f150) > *DAT_011db5b4.Get())
+    if ((double)(afValue - m_f150) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::TimerSource *>(&::g_011db5b4)))))))
     {
         m_f150 = afValue;
-        m_f154 = (float)((FUN_00ecadb8() % 1000) * DAT_01016978);
+        m_f154 = (float)((std::rand() % 1000) * ::DAT_01016978);
     }
     if (m_b158 != 0)
     {
@@ -783,24 +841,18 @@ void FUN_007feb80_cls::Update(float afValue)
     }
     else if (afValue > m_f168)
     {
-        FUN_007fecc0();
+        reinterpret_cast<::FUN_007fecc0_Class *>(this)->FUN_007fecc0();
     }
 }
 
 struct FloatSource
 {
-    float* Get();
 };
 
 struct IntSource
 {
-    int* Get();
 };
 
-extern FloatSource g_floatSource;
-extern IntSource g_intSource;
-extern const double g_epsilon;
-int __cdecl FUN_00ecadb8();
 
 struct Timer
 {
@@ -818,10 +870,10 @@ void Timer::FUN_007fec30(float now)
 {
     float delta = now - unk15c;
     unk160 = delta / unk164;
-    if (*g_floatSource.Get() + g_epsilon < unk160)
+    if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSource *>(&::g_011db520)))))) + ::g_01012070 < unk160)
     {
         unk158 = false;
-        unk168 = (float)(FUN_00ecadb8() % *g_intSource.Get()) + now;
+        unk168 = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSource *>(&::g_011db4f8))))))) + now;
     }
 }
 
@@ -838,18 +890,8 @@ struct xPoint3
 struct xMat3
 {
     xMat3();
-    void FUN_0043f850(float);
-    void FUN_004a0c90(float);
     xMat3 FUN_0043f8d0(const xMat3&) const;
-    void SetElement(unsigned int, float, float, float);
     float m[9];
-};
-extern xMat3 xg_m_11a9448;
-struct xFixedStr
-{
-    xFixedStr(const char*);
-    ~xFixedStr();
-    const char* m_p;
 };
 struct xUpdateData
 {
@@ -865,12 +907,9 @@ struct xFrustum
 };
 struct xBound
 {
-    float FUN_0084d030();
 };
 struct xNiMem
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 
 struct xAV
@@ -914,7 +953,7 @@ struct xAV
     virtual void v36();
     virtual void v37();
     virtual void v38();
-    virtual struct xAV* GetObjectByName(const xFixedStr&);
+    virtual struct xAV* GetObjectByName(const ::NiFixedString&);
     virtual void v40();
     virtual void v41();
     virtual void v42();
@@ -931,36 +970,17 @@ struct xAV
     virtual void v53();
     virtual void v54();
     virtual void AttachChildInAvailableSlot(struct xAV*, bool);
-    void FUN_00440490(float);
-    void FUN_00a59c60(const xUpdateData&);
-    void FUN_0043fa80(const xMat3&);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_00440460(const xPoint3&);
-    xAV* FUN_0043b4a0(unsigned int);
-    xBound* FUN_0043d450();
-    void FUN_00a5b230(int);
-    void FUN_00439410(void*);
 };
 
 struct xCam : xAV
 {
     xCam();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
-    void FUN_00712e60(const xColorA&);
-    void FUN_00733fd0(float);
-    void FUN_00507700(float);
-    void FUN_00a6faf0(const xFrustum&);
     int m_auiShapeKeys[(0x114 - 4) / 4];
 };
 struct xLight : xAV
 {
     xLight();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
-    void SetEffectColor(const xPoint3&);
     void FUN_0050dd50(const xPoint3&);
-    void FUN_0050dd20(float);
     int m_auiShapeKeys[(0xfc - 4) / 4];
 };
 struct xAlpha : xNiMem
@@ -970,43 +990,29 @@ struct xAlpha : xNiMem
 };
 struct xGO
 {
-    xAV* FUN_00559450();
     void FUN_0066b0d0(void*);
     xAV* m_p;
 };
 struct xColorMgr
 {
-    bool FUN_00719060(int, xColorA&);
 };
-xColorMgr* xF718b60();
 struct ClockSource
 {
-    unsigned int FUN_00825c00();
 };
-extern ClockSource xg_timer_11f6394;
 struct xIntSetting
 {
-    int* FUN_0043d4d0();
 };
-extern xIntSetting xg_i_11db4f8;
 struct xFltSetting
 {
-    float* FUN_00403e20();
 };
-extern xFltSetting xg_f_11db4d0, xg_f_11db544, xg_f_11db570, xg_f_11db5cc, xg_f_11db594, xg_f_1203144, xg_f_1203150,
-    xg_f_11db5ec;
 struct xLoader
 {
-    xAV* FUN_00447080(const char*, int, bool, bool, bool, bool);
 };
-extern xLoader* xg_loader_11c3b3c;
 struct xT2
 {
-    const char* FUN_007fd640();
 };
 struct xT1
 {
-    xT2* FUN_00a03c90();
 };
 
 struct xFarObj
@@ -1078,23 +1084,9 @@ struct xFarObj
     virtual float GetFar();
 };
 
-xFarObj* xF45c670();
 struct xShadow
 {
-    void* FUN_00b5ca70(xAV*, float);
-    void FUN_00b5c940(xLight*, int);
 };
-xShadow* xF450b80(int);
-int xRand();
-void xF4b7660(xAV*);
-bool xF707b50();
-int xF4dc200();
-int xF4dc1f0();
-float xF57dd70(float);
-void xF709d50(xCam*, float);
-int xF40df90();
-extern bool xg_b_11f9426;
-extern int xg_i_11f9434;
 
 static const char s_szScreen[] = "Screen";
 static const char s_szSexBtn[] = "SexBtn:0";
@@ -1118,18 +1110,7 @@ struct xRenderedMenu
     bool m_158;
     int m_15c, m_160;
     float m_164, m_168;
-    void FUN_007f7fb0(const xColorA&);
-    xT1* FUN_009611e0();
-    void FUN_004dc540(xAV*);
-    void FUN_007fae70(int);
-    void FUN_00810530(bool);
-    void FUN_008d7f00(float);
     int FUN_009b6600();
-    void SetGo(xCam*);
-    void SetScreen(xAV*);
-    xAV* FUN_007fa950();
-    void InitTerminalLight();
-    void FUN_007fc150();
     void Init();
 };
 
@@ -1139,108 +1120,108 @@ void xRenderedMenu::Init()
 {
     float qahtre;
     m_158 = false;
-    m_168 = (double)xg_timer_11f6394.FUN_00825c00() + xRand() % *xg_i_11db4f8.FUN_0043d4d0();
-    m_164 = *xg_f_11db4d0.FUN_00403e20();
+    m_168 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::xIntSetting *>(&::g_011db4f8))))));
+    m_164 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db4d0))))));
     xColorA qHXYKT(0.0f, 0.0f, 0.0f, 0.0f);
-    if (xF718b60()->FUN_00719060(3, qHXYKT))
-        FUN_007f7fb0(qHXYKT);
+    if (reinterpret_cast<::SystemColorManager *>((((::xColorMgr *)(::FUN_00718b60()))))->GetColor(3, (::NiColor &)(qHXYKT)))
+        reinterpret_cast<::FUN_007f7fb0_Class *>(this)->FUN_007f7fb0((const ::FUN_007f7fb0_Value *)&(qHXYKT));
     xAV* qdqWL = 0;
-    if (!m_f8.FUN_00559450())
+    if (!((::xAV *)(::FUN_00559450((int *)&(m_f8)))))
     {
-        qdqWL = xg_loader_11c3b3c->FUN_00447080(FUN_009611e0()->FUN_00a03c90()->FUN_007fd640(), 0, true, false, false,
-                                                false);
+        qdqWL = ((::xAV *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::xLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)(((const char *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::xT2 *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::xT1 *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pFourthMenuObject))))->FUN_00a03c90()))))->FUN_007fd640()))), 0, true, false, false,
+                                                false)));
         m_f8.FUN_0066b0d0(qdqWL);
-        xF4b7660(qdqWL);
+        ::UpdateObjectVisibility((::NiAVObject *)(qdqWL));
     }
     else
     {
-        qdqWL = m_f8.FUN_00559450();
+        qdqWL = ((::xAV *)(::FUN_00559450((int *)&(m_f8))));
     }
-    qdqWL->FUN_00440490(*xg_f_11db544.FUN_00403e20());
-    FUN_004dc540(qdqWL);
-    xAV* qSuoDt = qdqWL->GetObjectByName(xFixedStr(s_szScreen));
-    FUN_007fae70(0);
-    FUN_00810530(false);
+    reinterpret_cast<::FUN_00440490_shell *>((qdqWL))->FUN_00440490(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db544)))))));
+    reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(qdqWL));
+    xAV* qSuoDt = qdqWL->GetObjectByName(::NiFixedString(s_szScreen));
+    reinterpret_cast<::MenuStub *>(this)->FUN_007fae70(0);
+    reinterpret_cast<::FUN_00810530_c *>(this)->FUN_00810530(false);
     m_fc.FUN_0066b0d0(0);
     m_104.FUN_0066b0d0(0);
-    m_d8.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szSexBtn)));
-    m_dc.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szRaceBtn)));
-    m_e0.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szFaceBtn)));
-    m_e4.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szBodyBtn)));
-    m_e8.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szSexGlow)));
-    m_ec.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szRaceGlow)));
-    m_f0.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szFaceGlow)));
-    m_f4.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szBodyGlow)));
+    m_d8.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szSexBtn)));
+    m_dc.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szRaceBtn)));
+    m_e0.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szFaceBtn)));
+    m_e4.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szBodyBtn)));
+    m_e8.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szSexGlow)));
+    m_ec.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szRaceGlow)));
+    m_f0.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szFaceGlow)));
+    m_f4.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szBodyGlow)));
     m_150 = 0.0f;
     m_154 = 0.0f;
-    FUN_008d7f00(0.0f);
+    reinterpret_cast<::FUN_008d7f00_class *>(this)->FUN_008d7f00(0.0f);
     xMat3 qpqRa;
     xMat3 qjXCGmG;
-    qpqRa.FUN_0043f850(1.57f);
-    qjXCGmG.FUN_004a0c90(1.57f);
-    qdqWL->FUN_0043fa80(qjXCGmG.FUN_0043f8d0(qpqRa));
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(qpqRa))->SetYRotation(1.57f);
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(qjXCGmG))->FUN_004a0c90(1.57f);
+    reinterpret_cast<::FUN_0043fa80_s *>((qdqWL))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::xMat3 &)(qjXCGmG.FUN_0043f8d0(qpqRa))));
     float qhxpxJd = 0.0f;
     if (FUN_009b6600() == 1 || FUN_009b6600() == 0)
         qhxpxJd = 80.0f;
     else
-        qhxpxJd = *xg_f_11db570.FUN_00403e20();
-    if (!xF707b50() && !xg_b_11f9426)
+        qhxpxJd = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db570))))));
+    if (!::FUN_00707b50() && !::DAT_011f9426)
         qhxpxJd *= 0.75;
     if (FUN_009b6600() == 1 || FUN_009b6600() == 0)
-        qdqWL->FUN_004bc1f0(qhxpxJd, 0.0f, *xg_f_11db5cc.FUN_00403e20());
+        reinterpret_cast<::FUN_004bc1f0_S *>((qdqWL))->FUN_004bc1f0(qhxpxJd, 0.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5cc)))))));
     else
-        qdqWL->FUN_004bc1f0(qhxpxJd, *xg_f_11db594.FUN_00403e20(), *xg_f_11db5cc.FUN_00403e20());
+        reinterpret_cast<::FUN_004bc1f0_S *>((qdqWL))->FUN_004bc1f0(qhxpxJd, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db594)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5cc)))))));
     xUpdateData qsSDDgz(0.0f, false, false);
-    qdqWL->FUN_00a59c60(qsSDDgz);
+    reinterpret_cast<::FUN_00a59c60_cls *>((qdqWL))->FUN_00a59c60((std::intptr_t)&(qsSDDgz));
     xCam* qSVM = new xCam();
     xColorA qrEZrs(0.0f, 1.0f, 1.0f, 0.0f);
-    qSVM->FUN_00712e60(qrEZrs);
+    reinterpret_cast<::_Cam_00712e60 *>((qSVM))->FUN_00712e60((const ::_Rect16_00712e60 &)(qrEZrs));
     xMat3 qbGYp;
-    qbGYp.SetElement(0, 0.0f, 0.0f, 1.0f);
-    qbGYp.SetElement(1, 1.0f, 0.0f, 0.0f);
-    qbGYp.SetElement(2, 0.0f, 1.0f, 0.0f);
-    qSVM->FUN_0043fa80(xg_m_11a9448);
-    qSVM->FUN_00733fd0(1.0f);
+    reinterpret_cast<::M3_ *>(&(qbGYp))->SetElement(0, 0.0f, 0.0f, 1.0f);
+    reinterpret_cast<::M3_ *>(&(qbGYp))->SetElement(1, 1.0f, 0.0f, 0.0f);
+    reinterpret_cast<::M3_ *>(&(qbGYp))->SetElement(2, 0.0f, 1.0f, 0.0f);
+    reinterpret_cast<::FUN_0043fa80_s *>((qSVM))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((*reinterpret_cast<::xMat3 *>(&::DAT_011a9448))));
+    reinterpret_cast<::FUN_00733fd0_shell *>((qSVM))->FUN_00733fd0(1.0f);
     xFrustum qnuVZg(false);
-    qnuVZg.m_fFarPlane = xF45c670()->GetFar();
-    qnuVZg.m_fNearPlane = *xg_f_1203144.FUN_00403e20();
-    qSVM->FUN_00507700(qnuVZg.m_fFarPlane / qnuVZg.m_fNearPlane);
-    float qvyWyw = (float)(xg_b_11f9426 ? xg_i_11f9434 : xF4dc200()) / xF4dc1f0();
+    qnuVZg.m_fFarPlane = ((::xFarObj *)(::FUN_0045c670()))->GetFar();
+    qnuVZg.m_fNearPlane = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_01203144))))));
+    reinterpret_cast<::FUN_00507700_cls *>((qSVM))->FUN_00507700(qnuVZg.m_fFarPlane / qnuVZg.m_fNearPlane);
+    float qvyWyw = (float)(::DAT_011f9426 ? ::DAT_011f9434 : ::FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float qkbsJ = 0.75f;
-    qahtre = *xg_f_1203150.FUN_00403e20() * 0.01745329238474369 * *xg_f_11db5ec.FUN_00403e20();
-    qnuVZg.m_fLeftBound = -xF57dd70(qahtre) * qkbsJ;
-    qnuVZg.m_fRightBound = xF57dd70(qahtre) * qkbsJ;
-    qnuVZg.m_fBottomBound = -xF57dd70(qahtre) * qvyWyw * qkbsJ;
-    qnuVZg.m_fTopBound = xF57dd70(qahtre) * qvyWyw * qkbsJ;
+    qahtre = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_01203150)))))) * 0.01745329238474369 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5ec))))));
+    qnuVZg.m_fLeftBound = -::FUN_0057dd70(qahtre) * qkbsJ;
+    qnuVZg.m_fRightBound = ::FUN_0057dd70(qahtre) * qkbsJ;
+    qnuVZg.m_fBottomBound = -::FUN_0057dd70(qahtre) * qvyWyw * qkbsJ;
+    qnuVZg.m_fTopBound = ::FUN_0057dd70(qahtre) * qvyWyw * qkbsJ;
     qnuVZg.m_bOrthographic = false;
-    qSVM->FUN_00a6faf0(qnuVZg);
-    xF709d50(qSVM, *xg_f_11db5ec.FUN_00403e20());
+    reinterpret_cast<::NiCamera *>((qSVM))->UpdateViewFrustum((const ::NiFrustum &)(qnuVZg));
+    ::UpdateCameraFrustum((::NiCamera *)(qSVM), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5ec)))))));
     xUpdateData qfTOqo(0.0f, false, false);
-    qSVM->FUN_00a59c60(qfTOqo);
-    SetGo(qSVM);
+    reinterpret_cast<::FUN_00a59c60_cls *>((qSVM))->FUN_00a59c60((std::intptr_t)&(qfTOqo));
+    reinterpret_cast<::FUN_007fd620_Class *>(this)->SetGo(qSVM);
     if (qSuoDt->GetGeom())
-        SetScreen(qSuoDt->GetGeom());
+        reinterpret_cast<::FOPipboyManager *>(this)->SetScreen((::NiAVObject *)(::xAV *)(qSuoDt->GetGeom()));
     else if (qSuoDt->GetNode())
-        SetScreen(qSuoDt->GetNode()->FUN_0043b4a0(0)->GetGeom());
-    FUN_004dc540(qdqWL);
-    FUN_007fa950()->FUN_00a5b230(xF40df90());
-    FUN_007fa950()->FUN_00439410(new xAlpha());
-    float qzzQr = qdqWL->FUN_0043d450()->FUN_0084d030() * 3.0;
-    void* qpTd = xF450b80(1)->FUN_00b5ca70(qdqWL, qzzQr);
+        reinterpret_cast<::FOPipboyManager *>(this)->SetScreen((::NiAVObject *)(::xAV *)(((::xAV *)(reinterpret_cast<::NiNode *>((qSuoDt->GetNode()))->GetAt(0)))->GetGeom()));
+    reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(qdqWL));
+    reinterpret_cast<::ExtraOwnerB *>((((::xAV *)(reinterpret_cast<::StrOwner *>(this)->FUN_007fa950()))))->FUN_00a5b230(::FUN_0040df90());
+    reinterpret_cast<::FUN_00439410_cls *>((((::xAV *)(reinterpret_cast<::StrOwner *>(this)->FUN_007fa950()))))->FUN_00439410((::ArgObject *)(void *)(new xAlpha()));
+    float qzzQr = reinterpret_cast<::Twin_0084d030 *>((((::xBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((qdqWL))->FUN_0043d450()))))->GetStoredFloatValue() * 3.0;
+    void* qpTd = ((void *)(reinterpret_cast<::SSN_b5 *>((((::xShadow *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))))->FUN_00b5ca70((::Node_b5 *)(qdqWL), qzzQr)));
     if (!qpTd)
     {
         xLight* PLIGHT = new xLight();
         qdqWL->AttachChildInAvailableSlot(PLIGHT, true);
-        PLIGHT->FUN_00440460(xPoint3(0.0f, -50.0f, 0.0f));
-        PLIGHT->SetEffectColor(xPoint3(0.75f, 0.75f, 0.75f));
+        reinterpret_cast<::FUN_00440460_S *>((PLIGHT))->FUN_00440460((const ::V3 *)&(const ::xPoint3 &)(xPoint3(0.0f, -50.0f, 0.0f)));
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((PLIGHT))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)((const ::xPoint3 &)(xPoint3(0.75f, 0.75f, 0.75f))));
         PLIGHT->FUN_0050dd50(xPoint3(1000.0f, 0.0f, 0.0f));
-        PLIGHT->FUN_0050dd20(1.0f);
+        reinterpret_cast<::NiPointLight *>((PLIGHT))->FUN_0050dd20(1.0f);
         xUpdateData UPD3(0.0f, false, false);
-        PLIGHT->FUN_00a59c60(UPD3);
-        xF450b80(1)->FUN_00b5c940(PLIGHT, 0);
-        InitTerminalLight();
+        reinterpret_cast<::FUN_00a59c60_cls *>((PLIGHT))->FUN_00a59c60((std::intptr_t)&(UPD3));
+        reinterpret_cast<::fnv_00b5c940::SSNode *>((((::xShadow *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(PLIGHT), 0);
+        reinterpret_cast<::FUN_007fe560_cls *>(this)->InitTerminalLight();
     }
-    FUN_007fc150();
+    reinterpret_cast<::FORenderedMenu *>(this)->OnMenuOpen();
 }
 
 namespace fnv_007fe1f0 {
@@ -1253,8 +1234,6 @@ struct RtColor
 struct RtTexture;
 struct RtTarget
 {
-    RtTexture* FUN_00b6e110(int iFlags, int a2, int a3, int a4);
-    void FUN_00b6da10();
 };
 struct RtRenderer
 {
@@ -1305,8 +1284,6 @@ struct RtRenderer
     virtual void v044();
     virtual void SetBorderColor(const RtColor& kColor);
 };
-RtRenderer* __cdecl FUN_0043c4b0();
-RtTarget* __stdcall FUN_004a0ea0(void* pkObject);
 
 template <class T> struct RtPtr
 {
@@ -1319,7 +1296,6 @@ template <class T> struct RtPtr
 
 struct RtTextureData
 {
-    void* FUN_00b6b260();
 };
 struct RtTexture : RtTextureData
 {
@@ -1330,21 +1306,11 @@ struct RtAccum
     int unk00[0xc4 / 4];
     RtAccum(int iUnk);
     ~RtAccum();
-    void FUN_004a0fd0(RtTexture* pkTexture);
-    void FUN_00c4f270(int i);
-    void FUN_00c4f2d0();
 };
 
 struct RtSource
 {
-    RtTexture* FUN_007fd640();
 };
-RtSource* __cdecl FUN_004b7210();
-void __cdecl FUN_00b6b8d0(int i, void* pkData);
-void* __cdecl FUN_00450b80(int i);
-void __cdecl FUN_00b6bee0(void* pkNode, void* pkCamera, RtAccum* pkAccum);
-void __cdecl FUN_00b6c0d0(void* pkNode, RtTexture* pkTexture, int i);
-void __cdecl FUN_00b6b790();
 
 struct RtNode;
 struct RenderToTextureImpl
@@ -1352,40 +1318,40 @@ struct RenderToTextureImpl
     char pad000[0x104];
     RtPtr<RtNode> m_spScene;
 
-    const RtColor& FUN_00503650();
-    void FUN_007fba00(int a1, int a2, RtTexture* pkTexture);
-    void FUN_007fe1f0(int a1, int a2, int a3);
+    void FUN_007fe1f0(intptr_t a1, int a2, int a3);
 };
 
 // Sets a render target and background color, processes m_spScene through render calls, then passes the target to FUN_007fba00.
 // @fnv 0x007fe1f0
-void RenderToTextureImpl::FUN_007fe1f0(int aiUnk, int aiUnk2, int aiUnk3)
+void RenderToTextureImpl::FUN_007fe1f0(intptr_t aiUnk, int aiUnk2, int aiUnk3)
 {
     bool bOverrideTmp = false;
     bOverrideTmp = true;
-    RtRenderer* pkRendererY = FUN_0043c4b0();
-    RtPtr<RtTexture> spTarget5(FUN_004a0ea0(FUN_0043c4b0())->FUN_00b6e110(0x30, 0, 0, 0));
+    RtRenderer* pkRendererY = ((::fnv_007fe1f0::RtRenderer *)(::FUN_0043c4b0()));
+    RtPtr<RtTexture> spTarget5(((::fnv_007fe1f0::RtTexture *)(reinterpret_cast<::Pool *>(::FUN_004a0ea0())->FUN_00b6e110(reinterpret_cast<std::uintptr_t>(::FUN_0043c4b0()), 0x30, 0, 0, 0))));
     RtColor kKBorder(0.0f, 0.0f, 0.0f, 0.0f);
     RtColor kBackgroundVal2(0.0f, 0.0f, 0.0f, 0.0f);
-    kBackgroundVal2 = FUN_00503650();
+    kBackgroundVal2 = (*(const ::fnv_007fe1f0::RtColor *)(reinterpret_cast<::FUN_00503650_shell *>(this)->FUN_00503650()));
     kBackgroundVal2.a = 1.0f;
     if (bOverrideTmp)
         kBackgroundVal2 = RtColor(0.125f, 0.161f, 0.141f, 1.0f);
     pkRendererY->SetBorderColor(kKBorder);
     pkRendererY->SetBackgroundColor(kBackgroundVal2);
-    FUN_00b6b8d0(7, spTarget5.FUN_00559450()->FUN_00b6b260());
+    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::fnv_007fe1f0::RtTexture *)(::FUN_00559450((int *)&(spTarget5))))))->GetGroup()))));
     RtAccum kAccumRes(0);
-    RtPtr<RtTexture> spSource9(FUN_004b7210()->FUN_007fd640());
-    kAccumRes.FUN_004a0fd0(spSource9.FUN_00559450());
-    kAccumRes.FUN_00c4f270(1);
-    FUN_00b6bee0(m_spScene.FUN_00559450(), FUN_00450b80(3), &kAccumRes);
-    FUN_00b6c0d0(m_spScene.FUN_00559450(), spSource9.FUN_00559450(), 0);
-    kAccumRes.FUN_00c4f2d0();
-    kAccumRes.FUN_004a0fd0(0);
+    RtPtr<RtTexture> spSource9(((::fnv_007fe1f0::RtTexture *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::fnv_007fe1f0::RtSource *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
+    reinterpret_cast<::FUN_004a0fd0_shell *>(&(kAccumRes))->FUN_004a0fd0((::NiNode *)(::fnv_007fe1f0::RtTexture *)(((::fnv_007fe1f0::RtTexture *)(::FUN_00559450((int *)&(spSource9))))));
+    reinterpret_cast<::FUN_00c4f270_Class *>(&(kAccumRes))->FUN_00c4f270(1);
+    ::FUN_00b6bee0(((::fnv_007fe1f0::RtNode *)(::FUN_00559450((int *)&(m_spScene)))), ((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))), (::BSShaderAccumulator *)(::fnv_007fe1f0::RtAccum *)(&kAccumRes));
+    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(void *)(((::fnv_007fe1f0::RtNode *)(::FUN_00559450((int *)&(m_spScene))))), (::BSShaderAccumulator *)(::fnv_007fe1f0::RtTexture *)(((::fnv_007fe1f0::RtTexture *)(::FUN_00559450((int *)&(spSource9))))), 0);
+    reinterpret_cast<::FUN_00c4f2d0_class *>(&(kAccumRes))->FUN_00c4f2d0();
+    reinterpret_cast<::FUN_004a0fd0_shell *>(&(kAccumRes))->FUN_004a0fd0((::NiNode *)(::fnv_007fe1f0::RtTexture *)(0));
     spSource9.FUN_0066b0d0(0);
-    FUN_00b6b790();
-    FUN_007fba00(aiUnk, 0, spTarget5.FUN_00559450());
-    FUN_004a0ea0(spTarget5.FUN_00559450())->FUN_00b6da10();
+    ::BSRenderedTexture::EndAllAndResetRendererState();
+    reinterpret_cast<::Rendered82 *>(this)->FUN_007fba00((void *)(aiUnk), (void *)(0), (::Target82 *)(::fnv_007fe1f0::RtTexture *)(((::fnv_007fe1f0::RtTexture *)(::FUN_00559450((int *)&(spTarget5))))));
+    reinterpret_cast<::Manager *>((((::fnv_007fe1f0::RtTarget *)(::FUN_004a0ea0()))))->FUN_00b6da10({});
     spTarget5.FUN_0066b0d0(0);
 }
 }  // namespace fnv_007fe1f0
+
+#include "generated/data/fallout/interface/forenderedmenuracesex.inc"

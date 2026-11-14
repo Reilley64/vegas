@@ -2,6 +2,20 @@
 // src/staging/blk_005c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cmath>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004fd420_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/fnv_00422c20__FUN_0042dec0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_0059c000.h"
+#include "fnv/symbols_005d2000.h"
+#include "fnv/symbols_005d8000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_005c1ae0_class
@@ -15,55 +29,48 @@ void FUN_005c1ae0_class::FUN_005c1ae0()
     *reinterpret_cast<char*>(this + 0x125) = 1;
 }
 
-extern "C" void* __cdecl GetObjectScale(void* a, void* b, void* c, void* d);
 
 // @fnv 0x005c1b60
 void* __cdecl CallWithZeroedArgs(void* apArg1, void* apArg2, void* apArg3, void* apArg4, void* apArg5, void* apArg6,
                                  void* apArg7)
 {
-    return GetObjectScale(apArg3, 0, 0, apArg7);
+    return ((void *)(::fnv_0059c930::GetObjectScale((::TESObjectREFR *)(apArg3), 0, 0, (*(double *)(apArg7)))));
 }
 
-extern int g_TES;
 extern unsigned char DAT_011c7a64;
-unsigned char __cdecl FUN_005d2a40(void);
-struct EffectSetting
+class EffectSetting
 {
-    unsigned int GetEffectID();
 };
 // @fnv 0x005d2a50
 unsigned char FUN_005d2a50()
 {
-    ((EffectSetting*)g_TES)->GetEffectID();
+    ::FUN_0070ec90((char *)(*reinterpret_cast<EffectSetting **>(&::g_TES)));
     if (FUN_005d2a40())
         DAT_011c7a64 = 1;
     return 1;
 }
 
 extern int DAT_0103cf54;
-int* __fastcall FUN_005d8b10(int*);
 
 struct Reset3DMobIterator
 {
     void* vtbl;
-    void FUN_005d8b10();
     void* FUN_005d8af0();
 };
 
 // @fnv 0x005d8af0
 void* Reset3DMobIterator::FUN_005d8af0()
 {
-    FUN_005d8b10();
+    ::FUN_005d8b10((int *)this);
     vtbl = &DAT_0103cf54;
     return this;
 }
 
-extern "C" float __cdecl _logf(float);
 
 // @fnv 0x005dc330
 float __cdecl LogFloat(float value)
 {
-    return _logf(value);
+    return ::FUN_004b1460(value);
 }
 
 float FUN_005dc460(float);
@@ -73,39 +80,41 @@ float FUN_005dc440(float value)
     return FUN_005dc460(value);
 }
 
-extern "C" double __cdecl FUN_00eca920(double);
 
 // @fnv 0x005dc460
 float FUN_005dc460(float value)
 {
-    return static_cast<float>(FUN_00eca920(value));
+    return static_cast<float>(std::log(value));
 }
 
 struct FUN_005dd520_class
 {
+    char pad[0xd4];
+    char unkd4;
     void SetByteAtOffsetD4(char v);
 };
 
 // @fnv 0x005dd520
 void FUN_005dd520_class::SetByteAtOffsetD4(char acValue)
 {
-    *(char*)((char*)this + 0xd4) = acValue;
+    unkd4 = acValue;
 }
 
 struct FUN_005dd540_Class
 {
+    char pad[0xe3];
+    unsigned char unke3;
     void SetByteAtOffsetE3(unsigned char value);
 };
 
 // @fnv 0x005dd540
 void FUN_005dd540_Class::SetByteAtOffsetE3(unsigned char value)
 {
-    *(unsigned char*)((char*)this + 0xe3) = value;
+    unke3 = value;
 }
 
 struct BGSProjectile
 {
-    bool GetFlag(unsigned int) const;
 };
 
 struct FUN_005de080_shell
@@ -116,7 +125,7 @@ struct FUN_005de080_shell
 // @fnv 0x005de080
 void FUN_005de080_shell::FUN_005de080()
 {
-    ((BGSProjectile*)this)->GetFlag(0x400);
+    reinterpret_cast<::FUN_004fd420_shell *>((void *)(((BGSProjectile*)this)))->FUN_004fd420(0x400);
 }
 
 struct Tgt
@@ -321,7 +330,6 @@ struct Tgt
 };
 struct Res
 {
-    void Fin();
 };
 struct Src
 {
@@ -390,11 +398,9 @@ struct Src
     virtual void s3e();
     virtual void s3f();
     virtual unsigned char Test();
-    Res* Pick(int id);
 };
 struct Mid
 {
-    Tgt* Get();
 };
 struct Me
 {
@@ -406,8 +412,8 @@ void Me::FUN_005d8a90(Src* pSource)
     if (pSource->Test())
     {
         Mid* pMid = (Mid*)pSource;
-        if (Tgt* pTgt = pMid->Get())
+        if (Tgt* pTgt = ((::Tgt *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pMid))->GetBaseTexture())))
             pTgt->Act(0);
     }
-    pSource->Pick(0x73)->Fin();
+    reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((((::Res *)(reinterpret_cast<::FUN_005d43c0_ *>((pSource))->FUN_005d43c0()))))->RemoveExtra(0x73);
 }

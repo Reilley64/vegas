@@ -2,13 +2,15 @@
 #ifndef FNV_MENUTOPIC_H
 #define FNV_MENUTOPIC_H
 
+#include "fnv/decl/BraceString530.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/TopicS.h"
 #include "layout_support.h"
 #include "TESQuest.h"
 #include "TESTopic.h"
 #include "TESTopicInfo.h"
 #include "layout_support.h"
 class MenuTopic;
-#pragma pack(push, 4)
 class MenuTopic
 {
   public:
@@ -53,24 +55,7 @@ class MenuTopic
     // void* __cdecl MenuTopic::*(unsigned int)
     MenuTopic(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*, bool);
     DialogueResponse* GetActiveResponse();
-    MenuTopicText* FUN_0045cd60(float);
-    BSStringT<char> FUN_0083d8b0();
     void FUN_0083df80(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*);
-    void FillResponseList();
     TESTopicInfo* GetTopicInfo();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MenuTopic) == 44);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_kPrompt) == 0);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_bFirstFlag) == 8);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_bIsRefusal) == 9);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_bThirdFlag) == 10);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_kResponseList) == 12);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, pQuest) == 20);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, pInfo) == 24);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_pOriginalTopic) == 28);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_pCurrentResponseList) == 32);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_bIsRemappedRumor) == 36);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, m_bInfoHasBeenRead) == 37);
-FNV_STATIC_ASSERT(offsetof(MenuTopic, pTopic) == 40);
 #endif

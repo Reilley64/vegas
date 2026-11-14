@@ -1,5 +1,9 @@
 // fallout/dialogue/menutopic_decls.h: declares MiscStatManager, MenuTopicText, MenuTopicActorValueOwner, MenuTopicPlayer
 
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011de000.h"
 class MiscStatManager
 {
   public:
@@ -19,14 +23,9 @@ class PlayerCharacter;
 #include "menutopic_tesobjectrefr.h"
 #include "menutopic_testopic.h"
 #include "menutopic_testopicinfo.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-extern PlayerCharacter* g_thePlayer;
-int __cdecl Warning(const char*, ...);
 class MenuTopicText
 {
   public:
-    void FUN_00965250();
 };
 class TESTopicInfoData
 {
@@ -49,7 +48,5 @@ class MenuTopicPlayer
 class GlobalObject2_0040c150
 {
   public:
-    int* Int();
 };
-extern GlobalObject2_0040c150 g_011d0dc8;
 #endif

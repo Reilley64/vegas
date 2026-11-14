@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkpVehicleSuspension.h"
 class hkpVehicleDefaultSuspensionWheelSpringSuspensionParameters;
-#pragma pack(push, 1)
 class hkpVehicleDefaultSuspension : public hkpVehicleSuspension
 {
   public:
     hkArray<hkpVehicleDefaultSuspensionWheelSpringSuspensionParameters> m_kWheelSpringSuspensionParameters;  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleDefaultSuspension[(sizeof(hkpVehicleDefaultSuspension) == 0x20) ? 1 : -1];
 #endif

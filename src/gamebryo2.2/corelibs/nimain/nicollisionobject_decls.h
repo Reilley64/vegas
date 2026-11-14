@@ -2,9 +2,11 @@
 #ifndef NICOLLISIONOBJECT_DECLS_H
 #define NICOLLISIONOBJECT_DECLS_H
 
-class NiStream;
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/Owner62B.h"
+struct NiStream;
 class NiAVObject;
-class NiObject
+struct NiObject
 {
   public:
     NiObject();
@@ -21,10 +23,9 @@ class NiCollisionObject : public NiObject
     void SetSceneObject(NiAVObject*);
     NiAVObject* m_pkSceneObject;
 };
-class NiStream
+struct NiStream
 {
   public:
-    void ResetStreamState();
     NiObject* GetLoadedObject();
 };
 class NiAVObject : public NiObject
@@ -32,6 +33,5 @@ class NiAVObject : public NiObject
   public:
     unsigned char padding[0x14];
     NiCollisionObject* m_spCollisionObject;
-    void AssignCollisionObject(NiCollisionObject*);
 };
 #endif

@@ -1,5 +1,8 @@
 // fallout_shared/sky/skyobject.cpp: SkyObject, StandIn (4 functions)
 
+#include <new>
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/symbols_00401000.h"
 #include "skyobject.h"
 
 // @fnv 0x0063f830
@@ -8,22 +11,11 @@ SkyObject::SkyObject()
     m_pRootNode = 0;
 }
 
-void _Deallocate(void*);
 struct StandIn
 {
     void FUN_0063f8d0();
     void* FUN_0063f8a0(unsigned int);
 };
-// Calls FUN_0063f8d0, then frees this via _Deallocate when flags has bit 1 set, and returns this.
-// @fnv 0x0063f8a0
-void* StandIn::FUN_0063f8a0(unsigned int flags)
-{
-    FUN_0063f8d0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Mem_63f8d0
 {
     void Reset(int);
@@ -35,6 +27,15 @@ struct FUN_0063f8d0
     Mem_63f8d0 m_mem;
     ~FUN_0063f8d0();
 };
+// Calls FUN_0063f8d0, then frees this via _Deallocate when flags has bit 1 set, and returns this.
+// @fnv 0x0063f8a0
+void* StandIn::FUN_0063f8a0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0063f8d0 *>(this)->FUN_0063f8d0::~FUN_0063f8d0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor that resets the contained Mem_63f8d0 by calling Reset(0).
 // @fnv 0x0063f8d0
 FUN_0063f8d0::~FUN_0063f8d0()
@@ -47,11 +48,7 @@ class NiSortAdjustNode
   public:
     NiSortAdjustNode(unsigned int uiChildCount);
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 
-    void SetSelectiveUpdate(bool bValue);
-    void SetSelectiveUpdateTransforms(bool bValue);
 
     virtual ~NiSortAdjustNode();
 
@@ -183,7 +180,7 @@ class F940Owner
 void F940Owner::CreateSortAdjustNode(F940Parent* pkParent)
 {
     m_spNode.Reset(new NiSortAdjustNode(0));
-    m_spNode->SetSelectiveUpdate(true);
-    m_spNode->SetSelectiveUpdateTransforms(true);
+    reinterpret_cast<::TaskQueueInterface *>(((m_spNode).operator->()))->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>(((m_spNode).operator->()))->FUN_00635fe0(true);
     pkParent->AttachChildInAvailableSlot(m_spNode, true);
 }

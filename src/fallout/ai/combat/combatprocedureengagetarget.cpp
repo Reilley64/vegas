@@ -2,83 +2,158 @@
 // src/fallout/ai/combat/combatprocedureengagetarget.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureengagetarget.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct Actor
+#include <cstdint>
+#include <new>
+#include "fnv/decl/ActorStandIn.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/CombatProcedureEx.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00507610_Class.h"
+#include "fnv/decl/FUN_00527990_shell.h"
+#include "fnv/decl/FUN_00527a80_shell.h"
+#include "fnv/decl/FUN_00527b70_shell.h"
+#include "fnv/decl/FUN_00527ba0_This.h"
+#include "fnv/decl/FUN_00575650_Class.h"
+#include "fnv/decl/FUN_006e2980_shell.h"
+#include "fnv/decl/FUN_006e4320_Class.h"
+#include "fnv/decl/FUN_006e4ef0_shell.h"
+#include "fnv/decl/FUN_006e5ee0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008b3960_Class.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008b3bf0_shell.h"
+#include "fnv/decl/FUN_008d7f40_shell.h"
+#include "fnv/decl/FUN_0097ede0_cls.h"
+#include "fnv/decl/FUN_0097fa50_Class.h"
+#include "fnv/decl/FUN_0097fb00_cls.h"
+#include "fnv/decl/FUN_00996de0_Class.h"
+#include "fnv/decl/FUN_00996e00_shell.h"
+#include "fnv/decl/FUN_00996ed0_shell.h"
+#include "fnv/decl/FUN_00996ef0_shell.h"
+#include "fnv/decl/FUN_0099e190_cls.h"
+#include "fnv/decl/FUN_009a0240_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/FUN_009caac0_shell.h"
+#include "fnv/decl/FUN_009d4f30_shell.h"
+#include "fnv/decl/FUN_009d4f50_cls.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/Pathing.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008b3880__FUN_008b3880_target.h"
+#include "fnv/decl/fnv_0097fa90__FUN_0097fa90_Class.h"
+#include "fnv/decl/fnv_0098ddd0__FUN_0098ddd0_shell.h"
+#include "fnv/decl/fnv_00996e20__FUN_00996e20_shell.h"
+#include "fnv/decl/fnv_00996e40__FUN_00996e40_shell.h"
+#include "fnv/decl/fnv_00996ea0__MyProc.h"
+#include "fnv/decl/fnv_0099abc0__FUN_0099abc0_This.h"
+#include "fnv/decl/fnv_0099e840__FUN_0099e840_cls.h"
+#include "fnv/decl/fnv_009a02a0__FUN_009a02a0_struct.h"
+#include "fnv/decl/fnv_009a0ec0__FUN_009a0ec0_shell.h"
+#include "fnv/decl/fnv_009a5f90__FUN_009a5f90_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004df000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_008b3000.h"
+#include "fnv/symbols_0097f000.h"
+#include "fnv/symbols_009a7000.h"
+#include "fnv/symbols_009a9000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_01053000.h"
+#include "fnv/symbols_0108e000.h"
+class Actor
 {
-    void StopMoving();
+public:
+    bool IsSneaking();
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
-    void RunProcedure();
 };
 
 struct CombatProcedureEngageTarget : public CombatProcedure
 {
-    void FUN_00996e40();
-    Actor* FUN_00996de0();
     void FUN_009d3b50();
 };
 
 // @fnv 0x009d3b50
 void CombatProcedureEngageTarget::FUN_009d3b50()
 {
-    FUN_00996e40();
-    FUN_00996de0()->StopMoving();
-    ((CombatProcedure*)this)->RunProcedure();
+    reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>(this)->FUN_00996e40();
+    reinterpret_cast<::FUN_008b3ab0_shell *>((((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))))->FUN_008b3ab0();
+    reinterpret_cast<::fnv_00996ea0::MyProc *>((((CombatProcedure*)this)))->FUN_00996ea0();
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_009d3b00_shell
 {
-    void FUN_009d3b30();
     void* Destroy(unsigned int flags);
 };
 
-// Calls FUN_009d3b30, then deletes this if flags has bit 1 set, and returns this.
-// @fnv 0x009d3b00
-void* FUN_009d3b00_shell::Destroy(unsigned int flags)
-{
-    FUN_009d3b30();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0();
 };
 extern void* DAT_01091514;
 struct FUN_009d3b30_shell
 {
     void FUN_009d3b30();
 };
+// Calls FUN_009d3b30, then deletes this if flags has bit 1 set, and returns this.
+// @fnv 0x009d3b00
+void* FUN_009d3b00_shell::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009d3b30_shell *>(this)->FUN_009d3b30();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x009d3b30
 void FUN_009d3b30_shell::FUN_009d3b30()
 {
     *reinterpret_cast<void**>(this) = &DAT_01091514;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
 };
 
+struct BGSLoadGameBuffer;
 struct CombatTargetTimestamp
 {
-    void SaveTimeStamp(void*);
+public:
+    void LoadGame(::BGSLoadGameBuffer *);
 };
 
 struct CombatProcedureSaveGameHelper
 {
-    void SaveGame(BGSSaveFormBuffer*);
 };
 
 struct FUN_009a5eb0_shell
@@ -94,27 +169,27 @@ struct FUN_009d5880_shell
 // @fnv 0x009d5880
 void FUN_009d5880_shell::FUN_009d5880(BGSSaveFormBuffer* buffer)
 {
-    reinterpret_cast<CombatProcedureSaveGameHelper*>(this)->SaveGame(buffer);
+    reinterpret_cast<::FUN_00996ed0_shell *>((reinterpret_cast<CombatProcedureSaveGameHelper*>(this)))->SaveToBuffer(buffer);
 
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4, 0);
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x14), 4, 0);
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x18), 4, 0);
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x1C), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x14), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x18), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x1C), 4, 0);
 
     reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x20)->FUN_009a5eb0(buffer);
     reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x28)->FUN_009a5eb0(buffer);
 
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x30), 1, 0);
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x31), 1, 0);
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x32), 1, 0);
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x30), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x31), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x32), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 12, 0);
 
-    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x40)->FUN_00527b70(buffer);
-    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x50)->FUN_00527b70(buffer);
+    reinterpret_cast<::FUN_00527b70_shell *>((reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x40)))->FUN_00527b70((::BGSSaveGameBuffer *)(buffer));
+    reinterpret_cast<::FUN_00527b70_shell *>((reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x50)))->FUN_00527b70((::BGSSaveGameBuffer *)(buffer));
 
-    buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x33), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x33), 1, 0);
 
-    reinterpret_cast<CombatTargetTimestamp*>(reinterpret_cast<char*>(this) + 0x60)->SaveTimeStamp(buffer);
+    reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>((reinterpret_cast<CombatTargetTimestamp*>(reinterpret_cast<char*>(this) + 0x60)))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(buffer));
 }
 
 namespace fnv_009d5990 {
@@ -125,30 +200,24 @@ struct BGSLoadGameBuffer
 
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
-    void ReadTypedData(void* data, unsigned int size);
 };
 
 struct CombatProcedure_Helper
 {
-    void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
 struct TimeoutTimer
 {
-    void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
 struct CombatTargetTimestamp
 {
-    void LoadGame(BGSLoadGameBuffer* buffer);
 };
 
 struct FUN_00527ba0_Class
 {
-    void FUN_00527ba0(void* buffer);
 };
 
-extern float DAT_01022958;
 
 struct FUN_009d5990_shell : public CombatProcedureEngageTarget
 {
@@ -159,42 +228,41 @@ struct FUN_009d5990_shell : public CombatProcedureEngageTarget
 // @fnv 0x009d5990
 void FUN_009d5990_shell::FUN_009d5990(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<CombatProcedure_Helper*>(this)->LoadGame(buffer);
+    reinterpret_cast<::FUN_00996ef0_shell *>((reinterpret_cast<CombatProcedure_Helper*>(this)))->FUN_00996ef0((::BGSLoadFormBuffer *)(buffer));
 
-    buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4);
-    buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x14), 4);
-    buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x18), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x14)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x18)), 4);
 
     if (buffer->GetVersion() >= 14)
     {
-        buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x1c), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x1c)), 4);
     }
     else
     {
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x1c) = DAT_01022958;
+        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x1c) = ::DAT_01022958;
     }
 
-    reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0x20)->LoadGame(buffer);
-    reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0x28)->LoadGame(buffer);
+    reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0x20)))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+    reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0x28)))->LoadGame((::BGSLoadFormBuffer *)(buffer));
 
-    buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x30), 1);
-    buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x31), 1);
-    buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x32), 1);
-    buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 12);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x30)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x31)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x32)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34)), 12);
 
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x40)->FUN_00527ba0(buffer);
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x50)->FUN_00527ba0(buffer);
+    reinterpret_cast<::FUN_00527ba0_This *>((reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x40)))->FUN_00527ba0((::BGSLoadGameBuffer *)(buffer));
+    reinterpret_cast<::FUN_00527ba0_This *>((reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x50)))->FUN_00527ba0((::BGSLoadGameBuffer *)(buffer));
 
     if (buffer->GetVersion() >= 10)
     {
-        buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x33), 1);
-        reinterpret_cast<CombatTargetTimestamp*>(reinterpret_cast<char*>(this) + 0x60)->LoadGame(buffer);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x33)), 1);
+        reinterpret_cast<::CombatTargetTimestamp *>((reinterpret_cast<CombatTargetTimestamp*>(reinterpret_cast<char*>(this) + 0x60)))->LoadGame((::BGSLoadGameBuffer *)(buffer));
     }
 }
 }  // namespace fnv_009d5990
 
 namespace Engage {
-extern const double DAT_01020998, DAT_01011588;
 extern const float DAT_0101e57c;
 extern bool DAT_011a5b70;
 struct Vec4
@@ -204,7 +272,6 @@ struct Vec4
 struct Timer
 {
     float value;
-    double FUN_00435e00();
 };
 struct Query
 {
@@ -217,7 +284,6 @@ struct Query
     int unk18;
     int unk1c;
     Query();
-    Vec4& FUN_006815c0();
     void* FUN_0097b940();
 };
 struct RequestA
@@ -272,10 +338,6 @@ struct RequestA
     int unkbc;
     RequestA();
     ~RequestA();
-    void FUN_00507610(float);
-    void FUN_006e5ee0(float);
-    void FUN_006e4ef0(float);
-    void FUN_006e4320(float);
 };
 struct RequestB
 {
@@ -328,15 +390,13 @@ struct RequestB
 };
 struct Controller
 {
-    bool FUN_0099e840(float, float, float, float, Query*, bool);
-    bool FUN_009a02a0(const Vec4&, bool, bool);
 };
 struct Context
 {
-    Controller* FUN_00586150();
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -463,11 +523,7 @@ struct Actor
     virtual void v123();
     virtual void v124();
     virtual void* Destination();
-    void* FUN_00575d70(float);
-    void* FUN_008d6f30();
-    void PathToLocation(void*, void*, void*, void*, bool);
     bool SetPathingRequestAvoidNodes(void*);
-    Vec4 FUN_00575650();
 };
 struct Procedure
 {
@@ -481,53 +537,50 @@ struct Procedure
     int unk34, unk38, unk3c;
     Vec4 point, target;
     Timer time;
-    Actor* FUN_00996de0();
-    Actor* FUN_00996e00();
-    void FUN_00996e20(int);
     bool CheckAndApply(bool);
 };
 // @fnv 0x009d5000
 bool Procedure::CheckAndApply(bool mode)
 {
-    if (time.FUN_00435e00() < DAT_01020998)
+    if (((double)(reinterpret_cast<::FUN_00435e00_t *>(&(time))->FUN_00435e00())) < ::DAT_01020998)
         return false;
     active = true;
     if (DAT_011a5b70)
     {
-        Actor* actor = FUN_00996de0();
-        Actor* targetActor3 = FUN_00996e00();
+        Actor* actor = ((::Engage::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
+        Actor* targetActor3 = ((::Engage::Actor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
         RequestA request;
-        actor->PathToLocation(&request, targetActor3->Destination(), actor->FUN_008d6f30(),
-                              actor->FUN_00575d70(DAT_0101e57c), false);
-        request.FUN_00507610(range);
-        request.FUN_006e5ee0(height);
-        request.FUN_006e4ef0(range * DAT_01011588);
-        request.FUN_006e4320(angle);
+        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor))->PathToLocation((::fnv_008b3880::PathingRequest *)(void *)(&request), targetActor3->Destination(), ((void *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())),
+                              ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor))->FUN_00575d70())), false, {});
+        reinterpret_cast<::FUN_00507610_Class *>(&(request))->FUN_00507610(range);
+        reinterpret_cast<::FUN_006e5ee0_Class *>(&(request))->FUN_006e5ee0(height);
+        reinterpret_cast<::FUN_006e4ef0_shell *>(&(request))->FUN_006e4ef0(range * ::DAT_01011588);
+        reinterpret_cast<::FUN_006e4320_Class *>(&(request))->FUN_006e4320(angle);
         if (!actor->SetPathingRequestAvoidNodes(&request))
             return false;
-        target = targetActor3->FUN_00575650();
-        FUN_00996e20(mode ? 3 : 1);
+        target = (*(::Engage::Vec4 *)(reinterpret_cast<::FUN_00575650_Class *>((targetActor3))->FUN_00575650({})));
+        reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(mode ? 3 : 1);
         active = false;
         return true;
     }
     else
     {
-        Actor* actor2 = FUN_00996de0();
-        Actor* targetActor2 = FUN_00996e00();
+        Actor* actor2 = ((::Engage::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
+        Actor* targetActor2 = ((::Engage::Actor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
         Query query2;
-        Controller* controller5 = context->FUN_00586150();
-        if (!controller5->FUN_0099e840(range, height, range * DAT_01011588, angle, &query2, true))
+        Controller* controller5 = ((::Engage::Controller *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()));
+        if (!reinterpret_cast<::fnv_0099e840::FUN_0099e840_cls *>((controller5))->FUN_0099e840(range, height, range * ::DAT_01011588, angle, (::fnv_0099e840::FUN_0099b8b0_shell *)(::Engage::Query *)(&query2), true))
             return false;
-        if (!controller5->FUN_009a02a0(query2.FUN_006815c0(), true, false))
+        if (!reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((controller5))->FUN_009a02a0((const ::fnv_009a02a0::CoordinateTriple &)((*(::Engage::Vec4 *)(((::Vec3 *)(void *)&(query2))))), true, false))
             return false;
         RequestB request2;
-        actor2->PathToLocation(&request2, query2.FUN_0097b940(), actor2->FUN_008d6f30(),
-                               actor2->FUN_00575d70(DAT_0101e57c), false);
+        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor2))->PathToLocation((::fnv_008b3880::PathingRequest *)(void *)(&request2), query2.FUN_0097b940(), ((void *)(reinterpret_cast<::LowProcess *>((actor2))->GetTarget())),
+                               ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor2))->FUN_00575d70())), false, {});
         if (!actor2->SetPathingRequestAvoidNodes(&request2))
             return false;
-        point = query2.FUN_006815c0();
-        target = targetActor2->FUN_00575650();
-        FUN_00996e20(mode ? 3 : 1);
+        point = (*(::Engage::Vec4 *)(((::Vec3 *)(void *)&(query2))));
+        target = (*(::Engage::Vec4 *)(reinterpret_cast<::FUN_00575650_Class *>((targetActor2))->FUN_00575650({})));
+        reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(mode ? 3 : 1);
         return true;
     }
 }
@@ -557,7 +610,6 @@ struct Point
 {
     float x, y, z;
     int world;
-    float Distance(Point*);
 };
 struct Ref
 {
@@ -567,10 +619,6 @@ struct Timer
 {
     float start;
     float value;
-    float Elapsed();
-    float Value();
-    bool Active();
-    float Remaining();
 };
 struct Output
 {
@@ -594,14 +642,13 @@ struct Engage
     int unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     Point target;
     Timer timer60;
-    Ref* GetRef();
     void PrintDebugInfo(Output* out, int a, int b);
 };
 // Prints state-specific debug text for the engage state, plus a timer-based message when timer60 has elapsed less than 5 seconds.
 // @fnv 0x009d5410
 void Engage::PrintDebugInfo(Output* pOutput, int a, int b)
 {
-    Ref* actor = GetRef();
+    Ref* actor = ((::fnv_009d5410::Ref *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
     switch (state)
     {
     case 0:
@@ -609,19 +656,19 @@ void Engage::PrintDebugInfo(Output* pOutput, int a, int b)
         break;
     case 1:
         pOutput->Print(a, b, text_1);
-        pOutput->Print(a, b, text_2, timer20.Elapsed(), timer20.Value());
+        pOutput->Print(a, b, text_2, reinterpret_cast<::FUN_00435e00_t *>(&(timer20))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(timer20))->FUN_006b9130());
         break;
     case 2:
         pOutput->Print(a, b, text_3);
-        pOutput->Print(a, b, text_4, timer20.Elapsed(), timer20.Value());
+        pOutput->Print(a, b, text_4, reinterpret_cast<::FUN_00435e00_t *>(&(timer20))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(timer20))->FUN_006b9130());
         break;
     case 3:
         pOutput->Print(a, b, text_5);
         pOutput->Print(a, b, text_6, range14, range18);
         if (actor)
         {
-            Point location = actor->Location();
-            pOutput->Print(a, b, text_7, location.Distance(&target), 200.0);
+            Point location = (*(::fnv_009d5410::Point *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})));
+            pOutput->Print(a, b, text_7, reinterpret_cast<::FUN_00527a80_shell *>(&(location))->DistanceTo((::FUN_00527a80_shell *)(::fnv_009d5410::Point *)(&target)), 200.0);
         }
         break;
     case 4:
@@ -629,8 +676,8 @@ void Engage::PrintDebugInfo(Output* pOutput, int a, int b)
         pOutput->Print(a, b, text_9, range14, range18);
         if (actor)
         {
-            Point location = actor->Location();
-            pOutput->Print(a, b, text_10, location.Distance(&target), 200.0);
+            Point location = (*(::fnv_009d5410::Point *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})));
+            pOutput->Print(a, b, text_10, reinterpret_cast<::FUN_00527a80_shell *>(&(location))->DistanceTo((::FUN_00527a80_shell *)(::fnv_009d5410::Point *)(&target)), 200.0);
         }
         break;
     case 5:
@@ -644,25 +691,25 @@ void Engage::PrintDebugInfo(Output* pOutput, int a, int b)
         break;
     case 7:
         pOutput->Print(a, b, text_13);
-        if (enabled && timer28.Active())
+        if (enabled && reinterpret_cast<::FUN_0097fa50_Class *>(&(timer28))->FUN_0097fa50())
         {
-            pOutput->Print(a, b, text_14, timer28.Elapsed(), timer28.Value());
+            pOutput->Print(a, b, text_14, reinterpret_cast<::FUN_00435e00_t *>(&(timer28))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(timer28))->FUN_006b9130());
         }
         break;
     }
-    if (timer60.Elapsed() < 5.0)
+    if (reinterpret_cast<::FUN_00435e00_t *>(&(timer60))->FUN_00435e00() < 5.0)
     {
         if (result == -1)
         {
-            pOutput->Print(a, b, text_16, timer60.Remaining(), 5.0);
+            pOutput->Print(a, b, text_16, reinterpret_cast<::fnv_0097fa90::FUN_0097fa90_Class *>(&(timer60))->GetClampedDifference(), 5.0);
         }
         else if (result == -2)
         {
-            pOutput->Print(a, b, text_17, timer60.Remaining(), 5.0);
+            pOutput->Print(a, b, text_17, reinterpret_cast<::fnv_0097fa90::FUN_0097fa90_Class *>(&(timer60))->GetClampedDifference(), 5.0);
         }
         else
         {
-            pOutput->Print(a, b, text_18, timer60.Remaining(), 5.0);
+            pOutput->Print(a, b, text_18, reinterpret_cast<::fnv_0097fa90::FUN_0097fa90_Class *>(&(timer60))->GetClampedDifference(), 5.0);
         }
     }
 }
@@ -678,35 +725,24 @@ struct NiPoint3
 struct RawPoint
 {
     float x, y, z;
-    void FUN_005c3420();
 };
 
 struct Location
 {
     RawPoint pos;
     void* cell;
-    NiPoint3* GetPos();
-    void* GetContainingCell();
     float GetDistSq(Location* other);
-    void GetCoords(int* a, int* b);
-    void SetPos(NiPoint3* p);
-    void InitializeForCell(void* c);
 };
 
 struct Stamp
 {
     float m_fTime;
     Stamp(float t);
-    float Elapsed();
 };
 
 struct TimeoutTimer : public Stamp
 {
     float m_fEnd;
-    void Start(float t);
-    bool Expired();
-    void Reset();
-    bool IsRunning();
 };
 
 struct PathRequest
@@ -714,8 +750,6 @@ struct PathRequest
     unsigned int unk00[44];
     PathRequest();
     ~PathRequest();
-    RawPoint* GetDirection(RawPoint* out);
-    void SetDirection(RawPoint* dir, float dist);
 };
 
 struct SearchRequest
@@ -1116,68 +1150,21 @@ struct ActorObj
     virtual void v07b();
     virtual void v07c();
     virtual NiPoint3* GetLookPos();
-    void GetLocation(Location* out);
-    void BuildPathTo(PathRequest* req, NiPoint3* pos, void* cell, float radius, int flags);
     bool StartPath(PathRequest* req);
-    int GetPathCell();
-    int GetPathPos();
-    void BuildPathAt(PathRequest* req, void* target, int a, int b, float radius, int flags);
-    ProcessObj* GetProcess();
-    bool IsMoving();
-    bool PathFailed();
-    bool PathHasError();
-    void StopPath();
-    bool PathDone();
-    void StopPathAlt();
-    bool PathBusy();
     bool GetFallbackPos(NiPoint3* out);
 };
 
 struct CombatCtrlObj
 {
-    bool GetAvoidPos(NiPoint3* out);
-    Stamp GetLastSeen();
-    bool CanReach(Location* loc, int a, int b);
-    bool IsCovered();
-    bool FindDodge(SearchRequest* req, int mode, int a, float dist, float maxDist);
     bool CanReachPos(NiPoint3* pos, void* cell, int a, int b);
-    void OnPathFailed();
-    void SetDestination(Location* loc);
 };
 
 struct CombatOwner
 {
-    CombatCtrlObj* GetCombatCtrl();
-    bool HasTarget();
-    void* GetGroup();
 };
 
-extern float DAT_01016248;
-extern float DAT_0101e2bc;
-extern double DAT_01011588;
 extern double DAT_01091138;
-extern float DAT_01012054;
-extern double DAT_01012070;
-extern float DAT_010162c0;
-extern float DAT_01032adc;
-extern float DAT_0101e704;
-extern float DAT_0104e0e8;
-extern float DAT_0101e57c;
-extern double DAT_010231d8;
-extern float DAT_0101622c;
-extern float DAT_01050b98;
-extern float DAT_010536b8;
-extern float DAT_0101e6ec;
-extern float DAT_0101712c;
-extern double DAT_0108e058;
-extern float DAT_01013ea4;
 
-float __cdecl RandRange(float lo, float hi);
-bool __cdecl RandChance(float p);
-float __cdecl GetCurrentTime();
-void __cdecl UpdateRanges(CombatOwner* owner, void* group, float* a, float* b, float* c);
-bool __cdecl FindNavPos(int a, int b, NiPoint3* pos, NiPoint3* out);
-bool __cdecl CheckLineOfFire(ActorObj* actor, ActorObj* target, NiPoint3* pos, NiPoint3* look, int a, int b);
 
 class EngageProc
 {
@@ -1201,14 +1188,6 @@ class EngageProc
     Location m_lastTarget;
     Stamp m_stamp60;
 
-    ActorObj* GetActor();
-    ActorObj* GetTarget();
-    void SetAvoid(NiPoint3* pos, bool b);
-    void UpdatePlayerStatus(int mode);
-    void StopMove();
-    void Fail(const char* msg);
-    bool TryAttack(bool b);
-    bool IsAimingWeapon();
     void ResetState();
     void UpdateEngagement();
 };
@@ -1216,35 +1195,35 @@ class EngageProc
 // @fnv 0x009d3b80
 void EngageProc::UpdateEngagement()
 {
-    ActorObj* actorZ = GetActor();
-    ActorObj* target = GetTarget();
-    CombatCtrlObj* ctrlD = m_pSharedOwner->GetCombatCtrl();
+    ActorObj* actorZ = ((::fnv_009d3b80::ActorObj *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
+    ActorObj* target = ((::fnv_009d3b80::ActorObj *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
+    CombatCtrlObj* ctrlD = ((::fnv_009d3b80::CombatCtrlObj *)(reinterpret_cast<::InterfaceManager *>((m_pSharedOwner))->FUN_00586150()));
     if (target == 0)
     {
         return;
     }
     NiPoint3 avoidPos2;
-    if (ctrlD->GetAvoidPos(&avoidPos2))
+    if (reinterpret_cast<::fnv_0099abc0::FUN_0099abc0_This *>((ctrlD))->UpdateLastSeenFiringLocation((*(::fnv_0099abc0::NiPoint3 *)(&avoidPos2))))
     {
-        SetAvoid(&avoidPos2, true);
+        reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((*(const ::NiPoint3 *)(&avoidPos2)), true);
     }
-    if (!m_pSharedOwner->HasTarget())
+    if (!((bool)(reinterpret_cast<::FUN_009a0240_shell *>((m_pSharedOwner))->GetFixedNormals())))
     {
         m_iFadeIndex = 1;
         return;
     }
     float oldMinB = m_fMinRange;
     float oldMax = m_fMaxRange;
-    UpdateRanges(m_pSharedOwner, m_pSharedOwner->GetGroup(), &m_fMinRange, &m_fMaxRange, &m_fFarRange);
+    ::FUN_009a9180((::S_009a9180_Actor *)(m_pSharedOwner), (::S_009a9180_Data *)(void *)(((void *)(::FUN_007031c0((intptr_t)(m_pSharedOwner))))), &m_fMinRange, &m_fMaxRange, &m_fFarRange);
     bool changed = false;
     if (oldMinB != m_fMinRange || oldMax != m_fMaxRange)
     {
         changed = true;
     }
     Location targetLocX;
-    target->GetLocation(&targetLocX);
+    reinterpret_cast<::FUN_00575650_Class *>((target))->FUN_00575650((::FUN_00575650_Result *)(::fnv_009d3b80::Location *)(&targetLocX));
     Location actorLocY;
-    actorZ->GetLocation(&actorLocY);
+    reinterpret_cast<::FUN_00575650_Class *>((actorZ))->FUN_00575650((::FUN_00575650_Result *)(::fnv_009d3b80::Location *)(&actorLocY));
     float distSqD = actorLocY.GetDistSq(&targetLocX);
     bool tooFar4 = distSqD > m_fMaxRange * m_fMaxRange;
     bool tooClose4 = distSqD < m_fMinRange * m_fMinRange;
@@ -1253,29 +1232,29 @@ void EngageProc::UpdateEngagement()
     switch (m_iFadeIndex)
     {
     case 0:
-        m_timer20.Start(RandRange(DAT_0101e2bc, DAT_01016248));
+        reinterpret_cast<::FUN_008d7f40_shell *>(&(m_timer20))->FUN_008d7f40(::RandomFloat(::DAT_0101e2bc, ::fnv_00c88020::DAT_01016248));
         m_iFadeIndex = 1;
         break;
     case 1:
     case 2: {
-        if (ctrlD->GetLastSeen().Elapsed() > DAT_01011588 && distSqD < DAT_01091138 &&
-            ctrlD->CanReach(&targetLocX, 1, 0))
+        if (reinterpret_cast<::FUN_00435e00_t *>((void *)&(const ::fnv_009d3b80::Stamp &)((*(::fnv_009d3b80::Stamp *)(reinterpret_cast<::FUN_0097fb00_cls *>((ctrlD))->GetValue98({})))))->FUN_00435e00() > ::DAT_01011588 && distSqD < DAT_01091138 &&
+            reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((ctrlD))->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&targetLocX)), 1, 0))
         {
             PathRequest req;
-            actorZ->BuildPathTo(&req, targetLocX.GetPos(), targetLocX.GetContainingCell(), DAT_01012054, 0);
+            reinterpret_cast<::ActorStandIn *>((actorZ))->BuildPathingRequest((::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(((::Vec3 *)(void *)&(targetLocX)))))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()))), ::DAT_01012054, (::PathingAvoidNodeArray *)(0));
             if (actorZ->StartPath(&req))
             {
                 m_dest = targetLocX;
-                UpdatePlayerStatus(1);
+                reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(1);
                 m_iFadeIndex = 5;
                 return;
             }
         }
         if (m_bCovered)
         {
-            if (m_timer20.Elapsed() < DAT_01011588)
+            if (reinterpret_cast<::FUN_00435e00_t *>(&(m_timer20))->FUN_00435e00() < ::DAT_01011588)
             {
-                if (!ctrlD->IsCovered())
+                if (!::FUN_0097fb20((::CombatState *)(ctrlD)))
                 {
                     m_bDodging = true;
                     m_bCovered = false;
@@ -1288,17 +1267,17 @@ void EngageProc::UpdateEngagement()
         }
         if (m_bDodging)
         {
-            if (m_timer20.Expired() || m_timer20.Elapsed() > DAT_01012070)
+            if (reinterpret_cast<::TimeoutTimer *>(&(m_timer20))->CheckTimer() || reinterpret_cast<::FUN_00435e00_t *>(&(m_timer20))->FUN_00435e00() > ::g_01012070)
             {
                 m_bCovered = false;
                 m_bDodging = false;
-                m_bDodgeWait = ctrlD->IsCovered();
-                m_timer28.Reset();
+                m_bDodgeWait = ::FUN_0097fb20((::CombatState *)(ctrlD));
+                reinterpret_cast<::TimeoutTimer *>(&(m_timer28))->FUN_00910b10();
                 PathRequest req2;
-                actorZ->BuildPathAt(&req2, &m_dodgePos, actorZ->GetPathPos(), actorZ->GetPathCell(), 0.0f, 0);
+                reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req2), &m_dodgePos, (void *)(((intptr_t)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                 if (actorZ->StartPath(&req2))
                 {
-                    UpdatePlayerStatus(1);
+                    reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(1);
                     m_iFadeIndex = 7;
                     return;
                 }
@@ -1306,14 +1285,14 @@ void EngageProc::UpdateEngagement()
         }
         if (tooFar4 || tooClose4)
         {
-            float threshold = DAT_010162c0;
+            float threshold = ::DAT_010162c0;
             if (tooFar4 && veryFar5)
             {
-                threshold = DAT_0101e2bc;
+                threshold = ::DAT_0101e2bc;
             }
-            if (m_timer20.Expired() || threshold < m_timer20.Elapsed())
+            if (reinterpret_cast<::TimeoutTimer *>(&(m_timer20))->CheckTimer() || threshold < reinterpret_cast<::FUN_00435e00_t *>(&(m_timer20))->FUN_00435e00())
             {
-                if (TryAttack(veryFar5))
+                if (reinterpret_cast<::Engage::Procedure *>(this)->CheckAndApply(veryFar5))
                 {
                     if (tooFar4)
                     {
@@ -1328,62 +1307,62 @@ void EngageProc::UpdateEngagement()
                 if (!veryFar5)
                 {
                     SearchRequest search;
-                    float dodgeDist = RandRange(DAT_0101e704, DAT_01032adc);
-                    if (ctrlD->FindDodge(&search, tooFar4 ? 4 : 8, 0, dodgeDist, DAT_0104e0e8))
+                    float dodgeDist = ::RandomFloat(::DAT_0101e704, ::DAT_01032adc);
+                    if (reinterpret_cast<::FUN_0099e190_cls *>((ctrlD))->SelectAndMoveToPoint((::MyMover *)(::fnv_009d3b80::SearchRequest *)(&search), tooFar4 ? 4 : 8, 0, dodgeDist, ::DAT_0104e0e8))
                     {
                         PathRequest req34;
-                        actorZ->BuildPathAt(&req34, search.GetResult(), actorZ->GetPathPos(), actorZ->GetPathCell(),
-                                            DAT_0101e57c, 0);
+                        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req34), search.GetResult(), (void *)(((intptr_t)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))),
+                                            ::g_011c9040_arg1, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                         RawPoint dir;
-                        req34.GetDirection(&dir)->FUN_005c3420();
-                        req34.SetDirection(&dir, dodgeDist + DAT_010231d8);
+                        reinterpret_cast<::TaskQueueInterface *>((((::fnv_009d3b80::RawPoint *)(::GetOffsetC((intptr_t)&(req34))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                        reinterpret_cast<::FUN_006e2980_shell *>(&(req34))->FUN_006e2980((::NiPoint3 *)(::fnv_009d3b80::RawPoint *)(&dir), dodgeDist + ::DAT_010231d8);
                         if (!actorZ->StartPath(&req34))
                         {
-                            Fail("Cannot setup path to dodge location");
+                            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to dodge location"));
                             return;
                         }
-                        UpdatePlayerStatus(1);
+                        reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(1);
                         m_iFadeIndex = 6;
                         return;
                     }
                 }
                 else
                 {
-                    if (ctrlD->CanReach(&targetLocX, 1, 0))
+                    if (reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((ctrlD))->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&targetLocX)), 1, 0))
                     {
                         PathRequest req4;
-                        actorZ->BuildPathTo(&req4, targetLocX.GetPos(), targetLocX.GetContainingCell(), DAT_0101e704,
-                                            0);
+                        reinterpret_cast<::ActorStandIn *>((actorZ))->BuildPathingRequest((::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req4), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(((::Vec3 *)(void *)&(targetLocX)))))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()))), ::DAT_0101e704,
+                                            (::PathingAvoidNodeArray *)(0));
                         if (!actorZ->StartPath(&req4))
                         {
-                            Fail("Cannot setup path to target location");
+                            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to target location"));
                             return;
                         }
                         m_dest = targetLocX;
-                        UpdatePlayerStatus(3);
+                        reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(3);
                         m_iFadeIndex = 8;
                         return;
                     }
                     else
                     {
-                        int coordX3 = 0;
-                        int coordY = 0;
-                        targetLocX.GetCoords(&coordX3, &coordY);
+                        intptr_t coordX3 = 0;
+                        intptr_t coordY = 0;
+                        reinterpret_cast<::FUN_00527990_shell *>(&(targetLocX))->FUN_00527990(&coordX3, &coordY);
                         NiPoint3 navPos3;
-                        if (FindNavPos(coordY, coordX3, targetLocX.GetPos(), &navPos3))
+                        if (::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(coordY), (::TESObjectCELL *)(coordX3), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(((::Vec3 *)(void *)&(targetLocX)))))), (::NiPoint3 *)(::fnv_009d3b80::NiPoint3 *)(&navPos3)))
                         {
-                            if (ctrlD->CanReachPos(&navPos3, targetLocX.GetContainingCell(), 1, 0))
+                            if (ctrlD->CanReachPos(&navPos3, ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0())), 1, 0))
                             {
                                 PathRequest req5;
-                                actorZ->BuildPathAt(&req5, &navPos3, coordX3, coordY, DAT_0101e704, 0);
+                                reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req5), &navPos3, (void *)(coordX3), (void *)(coordY), ::DAT_0101e704, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                                 if (!actorZ->StartPath(&req5))
                                 {
-                                    Fail("Cannot setup path to target location");
+                                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to target location"));
                                     return;
                                 }
-                                m_dest.SetPos(&navPos3);
-                                m_dest.InitializeForCell(targetLocX.GetContainingCell());
-                                UpdatePlayerStatus(3);
+                                reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>(&(m_dest))->FUN_0098ddd0(&navPos3);
+                                reinterpret_cast<::FUN_0041fd00_shell *>(&(m_dest))->FUN_0041fd00((std::intptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()));
+                                reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(3);
                                 m_iFadeIndex = 8;
                                 return;
                             }
@@ -1392,65 +1371,65 @@ void EngageProc::UpdateEngagement()
                 }
             }
         }
-        if (m_timer20.Expired())
+        if (reinterpret_cast<::TimeoutTimer *>(&(m_timer20))->CheckTimer())
         {
             bool canDodge = true;
-            if (!actorZ->GetProcess()->CheckFlag(5) || !actorZ->GetProcess()->CheckFlag(6))
+            if (!((::fnv_009d3b80::ProcessObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actorZ))->GetBaseTexture()))->CheckFlag(5) || !((::fnv_009d3b80::ProcessObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actorZ))->GetBaseTexture()))->CheckFlag(6))
             {
                 canDodge = false;
             }
-            if (canDodge && !RandChance(DAT_0101622c))
+            if (canDodge && !::RandomBoolean(::DAT_0101622c))
             {
                 float dist = 0.0f;
-                m_bDodgeWait = ctrlD->IsCovered();
+                m_bDodgeWait = ::FUN_0097fb20((::CombatState *)(ctrlD));
                 if (m_bDodgeWait)
                 {
-                    dist = RandRange(DAT_0101e704, DAT_01050b98);
+                    dist = ::RandomFloat(::DAT_0101e704, ::DAT_01050b98);
                 }
                 else
                 {
-                    dist = RandRange(DAT_0101e6ec, DAT_010536b8);
+                    dist = ::RandomFloat(::DAT_0101e6ec, ::runtimeFloatSettingDefault548);
                 }
-                m_timer28.Reset();
+                reinterpret_cast<::TimeoutTimer *>(&(m_timer28))->FUN_00910b10();
                 SearchRequest search2;
-                if (ctrlD->FindDodge(&search2, 3, 0, dist, DAT_0104e0e8))
+                if (reinterpret_cast<::FUN_0099e190_cls *>((ctrlD))->SelectAndMoveToPoint((::MyMover *)(::fnv_009d3b80::SearchRequest *)(&search2), 3, 0, dist, ::DAT_0104e0e8))
                 {
                     PathRequest req62;
-                    actorZ->BuildPathAt(&req62, search2.GetResult(), actorZ->GetPathPos(), actorZ->GetPathCell(),
-                                        DAT_0101e57c, 0);
+                    reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req62), search2.GetResult(), (void *)(((intptr_t)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))),
+                                        ::g_011c9040_arg1, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                     RawPoint dir2;
-                    req62.GetDirection(&dir2)->FUN_005c3420();
-                    req62.SetDirection(&dir2, dist + DAT_010231d8);
+                    reinterpret_cast<::TaskQueueInterface *>((((::fnv_009d3b80::RawPoint *)(::GetOffsetC((intptr_t)&(req62))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                    reinterpret_cast<::FUN_006e2980_shell *>(&(req62))->FUN_006e2980((::NiPoint3 *)(::fnv_009d3b80::RawPoint *)(&dir2), dist + ::DAT_010231d8);
                     if (!actorZ->StartPath(&req62))
                     {
-                        Fail("Cannot setup path to dodge location");
+                        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to dodge location"));
                         return;
                     }
                     m_bCovered = true;
                     m_dodgePos = *actorZ->GetLookPos();
-                    UpdatePlayerStatus(1);
+                    reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(1);
                     m_iFadeIndex = 7;
                     return;
                 }
             }
-            if (IsAimingWeapon())
+            if (reinterpret_cast<::FUN_009d4f50_cls *>(this)->FUN_009d4f50())
             {
-                bool moving = actorZ->IsMoving();
+                bool moving = reinterpret_cast<::Actor *>((actorZ))->IsSneaking();
                 if (moving)
                 {
-                    if (RandChance(DAT_01016248))
+                    if (::RandomBoolean(::fnv_00c88020::DAT_01016248))
                     {
                         m_iFadeIndex = 2;
                     }
                     else
                     {
-                        StopMove();
+                        reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>(this)->FUN_00996e40();
                         m_iFadeIndex = 1;
                     }
                 }
                 else
                 {
-                    UpdatePlayerStatus(2);
+                    reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
                     m_iFadeIndex = 2;
                 }
             }
@@ -1458,50 +1437,50 @@ void EngageProc::UpdateEngagement()
             {
                 m_iFadeIndex = 1;
             }
-            m_timer20.Start(RandRange(DAT_010162c0, DAT_0101712c));
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(m_timer20))->FUN_008d7f40(::RandomFloat(::DAT_010162c0, ::DAT_0101712c));
         }
     }
     break;
     case 6:
     case 7:
         m_bDodging = false;
-        if (actorZ->PathFailed())
+        if (reinterpret_cast<::FUN_008b3b90_shell *>((actorZ))->FUN_008b3b90())
         {
-            if (!actorZ->PathHasError())
+            if (!reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960())
             {
-                ctrlD->OnPathFailed();
+                reinterpret_cast<::FUN_009d4f30_shell *>((ctrlD))->SetByteAtOffset188ToFF();
             }
-            Fail(actorZ->PathHasError() ? "Pathing failed while dodging" : "Path Building failed to dodge");
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while dodging" : "Path Building failed to dodge"));
             return;
         }
         if (m_iFadeIndex == 7)
         {
-            if (!m_timer28.IsRunning())
+            if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(m_timer28))->FUN_0097fa50())
             {
-                if (m_bDodgeWait && !ctrlD->IsCovered())
+                if (m_bDodgeWait && !::FUN_0097fb20((::CombatState *)(ctrlD)))
                 {
-                    m_timer28.Start(DAT_01016248);
+                    reinterpret_cast<::FUN_008d7f40_shell *>(&(m_timer28))->FUN_008d7f40(::fnv_00c88020::DAT_01016248);
                 }
             }
-            else if (m_timer28.Expired())
+            else if (reinterpret_cast<::TimeoutTimer *>(&(m_timer28))->CheckTimer())
             {
-                actorZ->StopPath();
+                reinterpret_cast<::FUN_008b3ab0_shell *>((actorZ))->FUN_008b3ab0();
                 m_bDodgeWait = false;
-                m_timer28.Reset();
+                reinterpret_cast<::TimeoutTimer *>(&(m_timer28))->FUN_00910b10();
             }
         }
-        if (actorZ->PathDone())
+        if (((bool)(reinterpret_cast<::TeleportableReference *>((actorZ))->GetTeleportDestinationForm())))
         {
-            if (IsAimingWeapon() && RandChance(DAT_01016248))
+            if (reinterpret_cast<::FUN_009d4f50_cls *>(this)->FUN_009d4f50() && ::RandomBoolean(::fnv_00c88020::DAT_01016248))
             {
-                UpdatePlayerStatus(2);
+                reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
                 m_iFadeIndex = 2;
             }
             else
             {
                 m_iFadeIndex = 1;
             }
-            m_timer20.Start(RandRange(DAT_010162c0, DAT_0101712c));
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(m_timer20))->FUN_008d7f40(::RandomFloat(::DAT_010162c0, ::DAT_0101712c));
         }
         break;
     case 3:
@@ -1511,18 +1490,18 @@ void EngageProc::UpdateEngagement()
         m_bDodging = false;
         bool done = false;
         bool fallback = false;
-        if (actorZ->PathFailed())
+        if (reinterpret_cast<::FUN_008b3b90_shell *>((actorZ))->FUN_008b3b90())
         {
-            if (!actorZ->PathHasError())
+            if (!reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960())
             {
                 if (m_iFadeIndex == 4 || m_iFadeIndex == 3)
                 {
-                    m_stamp60 = GetCurrentTime();
+                    m_stamp60 = ::FUN_00435dd0();
                     done = true;
                 }
                 else
                 {
-                    ctrlD->SetDestination(&m_dest);
+                    reinterpret_cast<::fnv_009a0ec0::FUN_009a0ec0_shell *>((ctrlD))->SetNodeBlockAndTimestamp((const ::fnv_009a0ec0::FUN_009a0ec0_Block *)(::fnv_009d3b80::Location *)(&m_dest));
                     if (m_iFadeIndex == 8)
                     {
                         done = true;
@@ -1534,20 +1513,20 @@ void EngageProc::UpdateEngagement()
                 switch (m_iFadeIndex)
                 {
                 case 8:
-                    Fail(actorZ->PathHasError() ? "Pathing failed while moving to target"
-                                                : "Path Building failed to move to target");
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to target"
+                                                : "Path Building failed to move to target"));
                     break;
                 case 5:
-                    Fail(actorZ->PathHasError() ? "Pathing failed while approaching target"
-                                                : "Path Building failed to approach target");
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while approaching target"
+                                                : "Path Building failed to approach target"));
                     break;
                 case 3:
-                    Fail(actorZ->PathHasError() ? "Pathing failed while moving to optimal far location"
-                                                : "Path Building failed to move to optimal far location");
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to optimal far location"
+                                                : "Path Building failed to move to optimal far location"));
                     break;
                 case 4:
-                    Fail(actorZ->PathHasError() ? "Pathing failed while moving to optimal close location"
-                                                : "Path Building failed to move to optimal close location");
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to optimal close location"
+                                                : "Path Building failed to move to optimal close location"));
                     break;
                 }
                 return;
@@ -1558,13 +1537,13 @@ void EngageProc::UpdateEngagement()
             switch (m_iFadeIndex)
             {
             case 8:
-                if (ctrlD->IsCovered() && !veryFar5)
+                if (::FUN_0097fb20((::CombatState *)(ctrlD)) && !veryFar5)
                 {
                     done = true;
                 }
                 break;
             case 5:
-                if (ctrlD->IsCovered())
+                if (::FUN_0097fb20((::CombatState *)(ctrlD)))
                 {
                     done = true;
                 }
@@ -1579,17 +1558,17 @@ void EngageProc::UpdateEngagement()
         }
         if (m_iFadeIndex == 3 || m_iFadeIndex == 4)
         {
-            if (!done && m_cFallback == 0 && !actorZ->PathBusy())
+            if (!done && m_cFallback == 0 && !reinterpret_cast<::FUN_008b3bf0_shell *>((actorZ))->FUN_008b3bf0())
             {
                 m_cFallback = 1;
                 NiPoint3 fallbackPos;
                 if (actorZ->GetFallbackPos(&fallbackPos))
                 {
-                    if (!ctrlD->CanReachPos(&fallbackPos, actorLocY.GetContainingCell(), 0, 0))
+                    if (!ctrlD->CanReachPos(&fallbackPos, ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(actorLocY))->FUN_0084e3a0())), 0, 0))
                     {
                         m_cFallback = -1;
                     }
-                    else if (!CheckLineOfFire(actorZ, target, &fallbackPos, target->GetLookPos(), 0, -1))
+                    else if (!::FUN_009a7940((::SightReference *)(actorZ), (::SightReference *)(target), (*(const ::NiPoint3 *)(&fallbackPos)), (*(const ::NiPoint3 *)(target->GetLookPos())), 0, -1))
                     {
                         m_cFallback = -2;
                     }
@@ -1597,14 +1576,14 @@ void EngageProc::UpdateEngagement()
                     {
                         done = true;
                         fallback = true;
-                        m_stamp60 = GetCurrentTime();
+                        m_stamp60 = ::FUN_00435dd0();
                     }
                 }
             }
             if (!done)
             {
                 float moved = targetLocX.GetDistSq(&m_lastTarget);
-                if ((changed || moved > DAT_0108e058) && TryAttack(veryFar5))
+                if ((changed || moved > ::DAT_0108e058) && reinterpret_cast<::Engage::Procedure *>(this)->CheckAndApply(veryFar5))
                 {
                     return;
                 }
@@ -1614,30 +1593,30 @@ void EngageProc::UpdateEngagement()
         {
             if (fallback)
             {
-                actorZ->StopPathAlt();
+                ::FUN_008b3ad0((void *)(actorZ));
             }
             else
             {
-                actorZ->StopPath();
+                reinterpret_cast<::FUN_008b3ab0_shell *>((actorZ))->FUN_008b3ab0();
             }
         }
-        if (actorZ->PathDone() || done)
+        if (((bool)(reinterpret_cast<::TeleportableReference *>((actorZ))->GetTeleportDestinationForm())) || done)
         {
-            if (IsAimingWeapon() && RandChance(DAT_01016248))
+            if (reinterpret_cast<::FUN_009d4f50_cls *>(this)->FUN_009d4f50() && ::RandomBoolean(::fnv_00c88020::DAT_01016248))
             {
-                UpdatePlayerStatus(2);
+                reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
                 m_iFadeIndex = 2;
             }
             else
             {
                 m_iFadeIndex = 1;
             }
-            float delay = RandRange(DAT_010162c0, DAT_0101712c);
+            float delay = ::RandomFloat(::DAT_010162c0, ::DAT_0101712c);
             if (changed)
             {
-                delay = DAT_01013ea4;
+                delay = ::DAT_01013ea4;
             }
-            m_timer20.Start(delay);
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(m_timer20))->FUN_008d7f40(delay);
         }
     }
     break;
@@ -1664,10 +1643,9 @@ struct FUN_00906f60
 struct FUN_0097ee20_shell
 {
     int data[4];
-    void FUN_0097ede0();
     FUN_0097ee20_shell()
     {
-        FUN_0097ede0();
+        reinterpret_cast<::FUN_0097ede0_cls *>(this)->FUN_0097ede0();
     }
 };
 
@@ -1681,7 +1659,6 @@ struct NiPoint3_T
 {
     float x, y, z;
 };
-extern NiPoint3_T DAT_011f426c;
 extern float DAT_010914d0;
 
 struct FUN_009d3a00 : public FUN_009ca680
@@ -1703,5 +1680,7 @@ struct FUN_009d3a00 : public FUN_009ca680
 // @fnv 0x009d3a00
 FUN_009d3a00::FUN_009d3a00()
     : FUN_009ca680(), unk10(0), f14(0.0f), f18(0.0f), f1c(0.0f), m20(), m28(), b30(false), b31(false), b32(false),
-      b33(true), pt34(DAT_011f426c), m40(), m50(), m60(-DAT_010914d0)
+      b33(true), pt34((*reinterpret_cast<::NiPoint3_T *>((void *)&::NiPoint3::ZERO))), m40(), m50(), m60(-DAT_010914d0)
 {}
+
+#include "generated/data/fallout/ai/combat/combatprocedureengagetarget.inc"

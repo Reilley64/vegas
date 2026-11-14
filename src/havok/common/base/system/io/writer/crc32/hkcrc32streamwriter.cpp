@@ -1,7 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" unsigned int __cdecl Crc32ShiftRight8(unsigned int);
+#include "fnv/symbols_00db7000.h"
 struct StateObject
 {
     unsigned int unk00;
@@ -16,7 +16,7 @@ int StateObject::FUN_00db7810(unsigned char* bytes, int length)
     unsigned int current = state;
     for (int i = 0; i < length; ++i)
     {
-        unsigned int value = Crc32ShiftRight8((bytes[i] ^ current) & 0xffu);
+        unsigned int value = ((unsigned int)(::Crc32ShiftRight8((bytes[i] ^ current) & 0xffu)));
         current = (current >> 8) ^ value;
     }
     state = current;
@@ -62,7 +62,7 @@ FUN_00db7870_cls::FUN_00db7870_cls(unsigned int value)
 
 // Sets the one-byte flag at *p to 1 (true) and returns nothing.
 // @fnv 0x00db7890
-void __stdcall FUN_00db7890(void* p)
+void FUN_00db7890(void* p)
 {
     *(unsigned char*)p = 1;
 }

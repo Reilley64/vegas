@@ -1,5 +1,29 @@
 // fallout_shared/region_system/tesregiongrassobject.cpp: TESRegionGrassObject, PlcPlacer (8 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00461bc0_cls.h"
+#include "fnv/decl/FUN_004f5d90_shell.h"
+#include "fnv/decl/FUN_0053a5e0_cls.h"
+#include "fnv/decl/FUN_005471e0_shell.h"
+#include "fnv/decl/FUN_00740940_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/RegionCell.h"
+#include "fnv/decl/S00546fb0_Cell.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESObjectLAND.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004f6000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
 #include "TESRegionGrassObject.h"
 
 // @fnv 0x00403550
@@ -14,8 +38,6 @@ struct blob12
 };
 struct RegionPoint
 {
-    float GetX();
-    float GetY();
     void SetX(float);
     void SetY(float);
     void* GetAsNiPoint2();
@@ -29,7 +51,6 @@ struct RegionPoint
     static bool PointLiesOnLine(RegionPoint*, RegionPoint*, RegionPoint*, float);
     char Point[8];
 };
-typedef char _sizecheck_TESRegionPoint[sizeof(RegionPoint) == 8 ? 1 : -1];
 struct FUN_0052ce20_shell : public RegionPoint
 {
     void FUN_0052ce20(float);
@@ -43,7 +64,7 @@ void FUN_0052ce20_shell::FUN_0052ce20(float afX)
 
 struct FUN_004f5600_shell
 {
-    int m_vftable;
+    std::intptr_t m_vftable;
     FUN_004f5600_shell();
 };
 
@@ -52,7 +73,7 @@ extern int DAT_01023ee4;
 // @fnv 0x004f5600
 FUN_004f5600_shell::FUN_004f5600_shell()
 {
-    m_vftable = (int)&DAT_01023ee4;
+    m_vftable = (std::intptr_t)&DAT_01023ee4;
 }
 
 extern int DAT_01023ec4;
@@ -71,9 +92,7 @@ void FUN_004f5920_shell::FUN_004f5920()
 namespace fnv_004f55d0 {
 struct FUN_004f5920_shell
 {
-    void FUN_004f5920();
 };
-void __cdecl _Deallocate(void*);
 struct FUN_004f55d0_shell
 {
     void* FUN_004f55d0(unsigned int);
@@ -82,9 +101,9 @@ struct FUN_004f55d0_shell
 // @fnv 0x004f55d0
 void* FUN_004f55d0_shell::FUN_004f55d0(unsigned int flags)
 {
-    ((FUN_004f5920_shell*)this)->FUN_004f5920();
+    reinterpret_cast<::FUN_004f5920_shell *>((((FUN_004f5920_shell*)this)))->FUN_004f5920();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_004f55d0
@@ -132,35 +151,26 @@ struct PlcModifier
     float fValueB;
 
     PlcModifier();
-    void SetValueA(float afValue);
-    void SetValueB(float afValue);
 };
 
 struct PlcSound
 {
-    unsigned int GetID();
 };
 
 struct PlcWater
 {
     PlcSound* GetSoundByEditorID(PlcPoint2* apPos);
     void GetHeight(PlcPoint2* apPos, float* apHeight);
-    bool GetSlopeVectors(PlcPoint2* apPos, PlcPoint3* apA, PlcPoint3* apB);
 };
 
 struct PlcWorldSpace;
 
 struct PlcCell
 {
-    bool IsInterior();
-    float UpdateTESState();
-    PlcWater* GetLandscape();
-    float GetActorValueModifierAmount(PlcModifier* apMod, int aiType, void* apSource);
 };
 
 struct PlcDataHandler
 {
-    PlcCell* GetCellAt(float afX, float afY, PlcWorldSpace* apWorld, bool abLoad);
 };
 
 struct PlcObject
@@ -279,10 +289,7 @@ struct PlcSoundHolder
     PlcSound* GetSoundByEditorID();
 };
 
-float __cdecl PlcFabs(float afValue);
-float __cdecl PlcGetSlope(PlcPoint3 akNormal);
 
-extern PlcDataHandler* g_pPlcDataHandler;
 
 struct PlcPlacer
 {
@@ -304,26 +311,26 @@ float PlcPlacer::GetPlacementChance(PlcPoint2* apPos, PlcWorldSpace* apWorld, bo
         return 0.0f;
 
     PlcObject* pObj8 = pObject;
-    PlcCell* pCell8 = g_pPlcDataHandler->GetCellAt(apPos->x, apPos->y, apWorld, false);
-    if (!pCell8 || pCell8->IsInterior())
+    PlcCell* pCell8 = ((::PlcCell *)(reinterpret_cast<::FUN_00461bc0_cls *>(((*reinterpret_cast<::PlcDataHandler * *>(&::g_dataHandler))))->FUN_00461bc0(apPos->x, apPos->y, (::TESWorldSpace *)(apWorld), false)));
+    if (!pCell8 || reinterpret_cast<::TESObjectCELL *>((pCell8))->IsCellInterior())
         return 0.0f;
 
     fResult = pObj8->GetChance() / 100.0;
-    kModifier.SetValueA(apPos->x);
-    kModifier.SetValueB(apPos->y);
+    reinterpret_cast<::FUN_0052ce20_shell *>(&(kModifier))->FUN_0052ce20(apPos->x);
+    reinterpret_cast<::FUN_004f5d90_shell *>(&(kModifier))->FUN_004f5d90(apPos->y);
 
     if (GetSoundByEditorID())
     {
-        PlcSound* pSoundA = pCell8->GetLandscape()->GetSoundByEditorID(apPos);
-        if (!pSoundA || pSoundA->GetID() != GetSoundByEditorID()->GetID())
+        PlcSound* pSoundA = ((::PlcSound *)(std::uintptr_t)(reinterpret_cast<::FUN_0053a5e0_cls *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053a5e0((std::intptr_t)(apPos))));
+        if (!pSoundA || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSoundA))->FUN_0084e3a0())) != ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((GetSoundByEditorID()))->FUN_0084e3a0())))
             return 0.0f;
     }
     {
 
         float fHeightVal = pObject->GetHeight();
-        float fWaterZ5 = pCell8->UpdateTESState();
+        float fWaterZ5 = reinterpret_cast<::FUN_005471e0_shell *>((pCell8))->FUN_005471e0();
         float fZ;
-        pCell8->GetLandscape()->GetHeight(apPos, &fZ);
+        reinterpret_cast<::TESObjectLAND *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053f180((*(const ::LandscapeColorData *)(apPos)), (*(float *)(&fZ)));
 
         switch (pObject->GetPlacement())
         {
@@ -344,13 +351,13 @@ float PlcPlacer::GetPlacementChance(PlcPoint2* apPos, PlcWorldSpace* apWorld, bo
                 return 0.0f;
             break;
         case 4: {
-            float fDiff = PlcFabs(fWaterZ5 - fZ);
+            float fDiff = ::FUN_00408860(fWaterZ5 - fZ);
             if (fDiff < fHeightVal)
                 return 0.0f;
             break;
         }
         case 5: {
-            float fDiff = PlcFabs(fWaterZ5 - fZ);
+            float fDiff = ::FUN_00408860(fWaterZ5 - fZ);
             if (fDiff > fHeightVal)
                 return 0.0f;
             break;
@@ -373,9 +380,9 @@ float PlcPlacer::GetPlacementChance(PlcPoint2* apPos, PlcWorldSpace* apWorld, bo
         {
             PlcPoint3 kA7;
             PlcPoint3 kB3;
-            if (pCell8->GetLandscape()->GetSlopeVectors(apPos, &kA7, &kB3))
+            if (reinterpret_cast<::Owner *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053d2e0((std::intptr_t)(apPos), (std::intptr_t)(&kA7), (std::intptr_t)(&kB3)))
             {
-                fSlope_ = PlcGetSlope(kA7);
+                fSlope_ = ::FUN_004f6e00((*(int *)&(const ::PlcPoint3 &)(kA7)), {}, {});
                 if (fSlope_ > pObject->GetSecondFloat() || fSlope_ < pObject->GetFirstFloat())
                     return 0.0f;
             }
@@ -383,7 +390,7 @@ float PlcPlacer::GetPlacementChance(PlcPoint2* apPos, PlcWorldSpace* apWorld, bo
     }
 
     if (abApplyModifier)
-        fResult *= pCell8->GetActorValueModifierAmount(&kModifier, 6, this);
+        fResult *= reinterpret_cast<::RegionCell *>((pCell8))->FUN_0054fd70(&kModifier, 6, (::RegionQuery *)(void *)(this));
     return fResult;
 }
 
@@ -467,9 +474,6 @@ struct RegionForm
     virtual void slot75();
     virtual const char* Name();
     int Type();
-    void* GetFile(int);
-    int HasName();
-    unsigned int Id();
 };
 struct RegionManager
 {
@@ -477,12 +481,7 @@ struct RegionManager
 };
 struct Handler
 {
-    RegionManager* Manager();
 };
-extern Handler* g_dataHandler;
-RegionForm* Lookup(unsigned int);
-void Resolve(unsigned int*, void*);
-void FNV_Warning(const char*, ...);
 struct BaseGrass
 {
     BaseGrass();
@@ -505,21 +504,21 @@ FUN_004f5620::FUN_004f5620(GrassIds* apGrassIds)
 {
     RegionForm* texture;
     RegionForm* grass;
-    if (g_dataHandler && g_dataHandler->Manager() && g_dataHandler->Manager()->Current())
+    if ((*reinterpret_cast<::Handler * *>(&::g_dataHandler)) && ((::RegionManager *)(reinterpret_cast<::FUN_00740940_shell *>(((*reinterpret_cast<::Handler * *>(&::g_dataHandler))))->GetRegionDataManager())) && ((::RegionManager *)(reinterpret_cast<::FUN_00740940_shell *>(((*reinterpret_cast<::Handler * *>(&::g_dataHandler))))->GetRegionDataManager()))->Current())
     {
-        RegionForm* pRegion = g_dataHandler->Manager()->Current();
+        RegionForm* pRegion = ((::RegionManager *)(reinterpret_cast<::FUN_00740940_shell *>(((*reinterpret_cast<::Handler * *>(&::g_dataHandler))))->GetRegionDataManager()))->Current();
         unsigned int formId = apGrassIds->object;
-        void* region = pRegion->GetFile(-1);
-        Resolve(&formId, region);
-        texture = Lookup(formId);
+        void* region = ((void *)(reinterpret_cast<::TESForm *>((pRegion))->GetFile(-1)));
+        ::ResolveFormID(&formId, (::TESFile *)(region));
+        texture = ((::RegionForm *)(::FUN_004839c0(formId)));
         formId = apGrassIds->parent;
-        Resolve(&formId, region);
-        grass = Lookup(formId);
+        ::ResolveFormID(&formId, (::TESFile *)(region));
+        grass = ((::RegionForm *)(::FUN_004839c0(formId)));
     }
     else
     {
-        texture = Lookup(apGrassIds->object);
-        grass = Lookup(apGrassIds->parent);
+        texture = ((::RegionForm *)(::FUN_004839c0(apGrassIds->object)));
+        grass = ((::RegionForm *)(::FUN_004839c0(apGrassIds->parent)));
     }
     object = 0;
     if (texture)
@@ -528,24 +527,18 @@ FUN_004f5620::FUN_004f5620(GrassIds* apGrassIds)
             object = texture;
         else
         {
-            if (g_dataHandler->Manager()->Current())
-                FNV_Warning("Instantiating a Grass region object for region %s (%d) with a non-Grass object.",
-                            g_dataHandler->Manager()->Current()->HasName() ? g_dataHandler->Manager()->Current()->Name()
-                                                                           : "",
-                            g_dataHandler->Manager()->Current()->Id());
+            if (((::RegionManager *)(reinterpret_cast<::FUN_00740940_shell *>(((*reinterpret_cast<::Handler * *>(&::g_dataHandler))))->GetRegionDataManager()))->Current())
+                ::FUN_005b5e40();
             else
-                FNV_Warning("Instantiating a Grass region object with a non-Grass object.");
+                ::FUN_005b5e40();
         }
     }
     else
     {
-        if (g_dataHandler->Manager()->Current())
-            FNV_Warning("Instantiating a Grass region object for region %s (%d) without an object.",
-                        g_dataHandler->Manager()->Current()->HasName() ? g_dataHandler->Manager()->Current()->Name()
-                                                                       : "",
-                        g_dataHandler->Manager()->Current()->Id());
+        if (((::RegionManager *)(reinterpret_cast<::FUN_00740940_shell *>(((*reinterpret_cast<::Handler * *>(&::g_dataHandler))))->GetRegionDataManager()))->Current())
+            ::FUN_005b5e40();
         else
-            FNV_Warning("Instantiating a Grass region object without an object.");
+            ::FUN_005b5e40();
     }
     parent = 0;
     if (object && grass)
@@ -553,6 +546,6 @@ FUN_004f5620::FUN_004f5620(GrassIds* apGrassIds)
         if (grass->Type() == 0x12)
             parent = grass;
         else
-            FNV_Warning("Instantiating a Grass region object with a parent that isn't a land texture.");
+            ::FUN_005b5e40();
     }
 }

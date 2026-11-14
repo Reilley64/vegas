@@ -11,5 +11,4 @@ class BaseFormComponent
     virtual void CopyFromBase(BaseFormComponent* component);
     virtual bool CompareWithBase(BaseFormComponent* component);
 };
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
 #endif

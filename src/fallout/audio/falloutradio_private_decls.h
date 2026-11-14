@@ -3,6 +3,19 @@
 #define FALLOUTRADIO_PRIVATE_DECLS_H
 
 
+#include "fnv/decl/FUN_00835f10_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/s835fe0__RefHandle.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00832000.h"
+#include "fnv/symbols_00833000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 class DialoguePackage;
 class DialogueItem;
 class BGSPerkEntry;
@@ -17,14 +30,15 @@ class TESForm
 {
   public:
     virtual void FNV_type_anchor();
-    static TESForm* GetFormByID(unsigned int);
+public:
+    bool GetDisabled() const;
 };
 
 class TESObjectREFR : public TESForm
 {
 };
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     virtual unsigned char vfn_0();
@@ -40,30 +54,28 @@ enum MEDIATYPE
     MEDIATYPE_RADIO = 7
 };
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
     bool m_bLooping;
     unsigned char padding[3];
     unsigned int eState;
-    bool Stop();
     bool Release();
+public:
+    ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);
+public:
+    bool IsPlaying() const;
+public:
+    bool IsValid() const;
+public:
+    void SetCompletionCallback(void (*)(void *, bool), void *);
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    bool IsEmpty();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsInList(T&);
-    void Remove(const T&);
-    void RemoveHead();
-    void SetItem(const T&);
-};
+#include "fnv/bs_simple_list.h"
+
+class Conversation_decl;
+void __cdecl FUN_00832c40();
 
 class FalloutRadio
 {
@@ -76,49 +88,53 @@ class FalloutRadio
         char padding[12];
         unsigned char active;
         void* FUN_00832190(bool);
-        void InitLoadGame(BGSLoadGameBuffer*);
     };
 
-    class RadioConversation;
+    class RadioConversation
+    {
+      public:
+        ::Conversation_decl* conversation;
+        unsigned int unk04;
+        unsigned int nextUpdate;
+        int state;
+        char padding[8];
+    };
 
     class RadioStationState
     {
       public:
         void* form;
-        char padding[24];
+        RadioConversation station;
         BSSimpleList<RadioReceiver*> receivers;
-        void InitLoadGame(BGSLoadGameBuffer*);
         void* FUN_00832160(bool);
     };
 
     static bool SetRadioEnabled(bool);
     static void RefreshRadioReceivers(bool);
     static bool Update(bool);
-    static void UpdateRadioConversations(bool);
     static void InitLoadGame(BGSLoadGameBuffer*);
     static RadioConversation* GetRadioConversation(BGSTalkingActivator*);
     static void RadioSynchUnPaused();
 
   protected:
+    friend void __cdecl ::FUN_00832c40();
     static unsigned int ms_uiRadioSyncFlags;
 };
 
-class TeleportableReference
+struct TeleportableReference
 {
   public:
-    void InitLoadGame(BGSLoadGameBuffer*);
 };
 
 class FalloutAudioMedia
 {
   public:
-    static void PlayMedia(MEDIATYPE, const char*, unsigned int, bool, bool, float, unsigned int);
     static void BeginMediaUpdate();
     static void EndMediaUpdate();
     static bool IsRadioPlaying();
 };
 
-class Interface
+struct Interface
 {
   public:
     static bool IsGamePaused();
@@ -127,13 +143,11 @@ class Interface
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
 
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
 
 class LowProcess
@@ -154,27 +168,14 @@ class TESDataHandler
     TESSound* GetSoundByEditorID(const char*);
 };
 
-extern unsigned int DAT_011dd42c;
 extern bool DAT_011dd434;
 extern unsigned char DAT_011dd436;
 extern unsigned char DAT_011dd437;
-extern SoundPlaybackHandle DAT_011dd5bc;
-extern SoundPlaybackHandle DAT_011dd638;
-extern BSSimpleList<FalloutRadio::RadioReceiver*> DAT_011dd58c;
-extern BSSimpleList<FalloutRadio::RadioStationState*> DAT_011dd554;
-extern BSSimpleList<unsigned int> DAT_011dd59c;
 extern unsigned int DAT_011dd424;
 extern unsigned char DAT_011dd435;
-extern unsigned int DAT_011dd438;
 extern unsigned int DAT_011dd43c;
-extern unsigned int DAT_011dd430;
 extern TESSound* DAT_011dd440;
-extern SettingT_GameSettingCollection_ DAT_011dd5cc;
-extern TimeGlobal g_timeGlobal;
-extern PlayerCharacter* g_thePlayer;
-extern TESDataHandler* g_dataHandler;
 extern const char DAT_0107ce14[];
 
-void FUN_008325a0(bool);
 
 #endif

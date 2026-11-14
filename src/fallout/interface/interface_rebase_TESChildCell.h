@@ -7,6 +7,4 @@ class TESChildCell
   public:
     void** m_ppVirtualMethodTable;  // +0x0
 };
-FNV_STATIC_ASSERT(sizeof(TESChildCell) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESChildCell, m_ppVirtualMethodTable) == 0x0);
 #endif

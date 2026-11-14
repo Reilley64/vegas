@@ -1,5 +1,119 @@
 // fallout/interface/menus/dialogmenu.cpp: DialogMenu, TESTopicInfo, Interface, ListBoxProxy (19 functions)
 
+#include <cstring>
+#include "fnv/game_timer.h"
+#include <cstdint>
+#include "fnv/simple_list_node_view.h"
+#include "fnv/av_object_fields.h"
+#include <new>
+#include "fnv/decl/B61F2B0Object.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C764930ListMenu.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ClearOwner.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0041cb10_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619d00_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0061f170_cls.h"
+#include "fnv/decl/FUN_0063f790_shell.h"
+#include "fnv/decl/FUN_00672850_shell.h"
+#include "fnv/decl/FUN_0071aa60_class.h"
+#include "fnv/decl/FUN_00762130_dummy.h"
+#include "fnv/decl/FUN_00833c20_shell.h"
+#include "fnv/decl/FUN_0083e110_shell.h"
+#include "fnv/decl/FUN_0083e430_shell.h"
+#include "fnv/decl/FUN_0083ec30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_00934250_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00953ce0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009655a0_Class.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a1db20_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00ad8650_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FlagS.h"
+#include "fnv/decl/IntListBox.h"
+#include "fnv/decl/ItemChangeList.h"
+#include "fnv/decl/ListOwner.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/Owner83F1A0.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S8840.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/decl/TopicS.h"
+#include "fnv/decl/TutorialMessageGate718.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0061a720__FUN_0061a720_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_008bb650__PlayerView.h"
+#include "fnv/decl/fnv_00951a10__ThisCls.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00529000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005d2000.h"
+#include "fnv/symbols_005d4000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00721000.h"
+#include "fnv/symbols_008bc000.h"
+#include "fnv/symbols_008c1000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "dialogmenu_decls.h"
 #include "dialogmenu_runtime.h"
 
@@ -12,8 +126,7 @@ bool DialogMenu::HandleMenuInput(int button, float value)
         {
         case 9:
             // The Menu tile getter shares the canonical +4 pointer getter.
-            if (reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())
-                    ->ContainsTrait(ms_iDialogMenuValue))
+            if (reinterpret_cast<::FUN_00a01230_shell *>((reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))))->IsTraitNonZero(ms_iDialogMenuValue))
                 HandleSelection(0, 0);
             else
                 HandleSelection(-1, m_kResponseListBox.GetSelectedTile());
@@ -29,10 +142,10 @@ void DialogMenu::SetCurrentTopic(MenuTopic* topic)
 {
     // The MenuTopic info/original-topic accessors share the canonical +18/+1C
     // getters; the first predicate shares TESTopic's flag predicate.
-    if (reinterpret_cast<TESTopic*>(reinterpret_cast<NiAVObject*>(topic)->GetParent())->IsRemappedRumors())
+    if (reinterpret_cast<::FUN_00619df0_shell *>((void *)(reinterpret_cast<TESTopic*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(topic)))->m_pkParent)))))->FUN_00619df0())
         m_eGoodbyeState = eForceGoodbye;
-    else if (reinterpret_cast<TESTopic*>(reinterpret_cast<TESResponse*>(topic)->GetNext()) ==
-             TESTopic::GetAudioBackendData(DIALOGUE_TYPE_DT_CONVERSATION, 2))
+    else if (reinterpret_cast<TESTopic*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60()))) ==
+             ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName((*(int *)&(const ::DIALOGUE_TYPE &)(DIALOGUE_TYPE_DT_CONVERSATION)), 2))))
         m_eGoodbyeState = eNaturalGoodbye;
 }
 
@@ -43,9 +156,9 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
     DialogueResponse* response = topic ? topic->GetActiveResponse() : 0;
     DialogState state = eSpeechIdle;
     if (topic)
-        sprintf_s(m_cCurrentTopicLabel, 128, "%s (%d)",
-                  reinterpret_cast<TESTopic*>(reinterpret_cast<TESResponse*>(topic)->GetNext())->GetName(),
-                  reinterpret_cast<TESForm*>(reinterpret_cast<TESResponse*>(topic)->GetNext())->GetFormID());
+        ::FUN_00406d00(m_cCurrentTopicLabel, 128, "%s (%d)",
+                  reinterpret_cast<TESTopic*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60())))->GetName(),
+                  ((unsigned int)((reinterpret_cast<TESForm*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60()))))->iFormID)));
     else
         TaskQueueInterface::CopyStringToBuffer(m_cCurrentTopicLabel, 128, "----");
     if (response)
@@ -53,55 +166,49 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
         char text[512];
         bool responseStarted = false;
         m_bResponseStarted = true;
-        topic->NextResponse();
+        reinterpret_cast<::FUN_0083e110_shell *>((topic))->AdvanceAndCheckNode();
         m_pDialogueSpeaker->vfn_264(0.0f, response, true);
         m_kActorProcessResult =
-            reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)->GetLogDate())
+            reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())))
                 ->vfn_48c(false);
         if (!m_bServiceDialogue)
         {
             if (usePrefix)
             {
-                if (pDialogueItem->FUN_00833c20())
+                if (((bool)(reinterpret_cast<::FUN_00833c20_shell *>((pDialogueItem))->FUN_00833c20())))
                 {
-                    if (reinterpret_cast<BSStringT<char>*>(
-                            &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response)->GetItem())
-                            ->String())
-                        sprintf_s(text, 512, "%s %s", DAT_011d27fc.String(),
-                                  reinterpret_cast<BSStringT<char>*>(
-                                      &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response)->GetItem())
-                                      ->String());
+                    if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
+                            ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))))
+                        ::FUN_00406d00(text, 512, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d27fc))))->GetMenuTitle())),
+                                  ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
+                                      ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))));
                     else
-                        sprintf_s(text, 512, "%s", DAT_011d27fc.String());
+                        ::FUN_00406d00(text, 512, "%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d27fc))))->GetMenuTitle())));
                 }
                 else
                 {
-                    if (reinterpret_cast<BSStringT<char>*>(
-                            &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response)->GetItem())
-                            ->String())
-                        sprintf_s(text, 512, "%s %s", DAT_011d3fe8.String(),
-                                  reinterpret_cast<BSStringT<char>*>(
-                                      &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response)->GetItem())
-                                      ->String());
+                    if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
+                            ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))))
+                        ::FUN_00406d00(text, 512, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d3fe8))))->GetMenuTitle())),
+                                  ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
+                                      ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))));
                     else
-                        sprintf_s(text, 512, "%s", DAT_011d3fe8.String());
+                        ::FUN_00406d00(text, 512, "%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d3fe8))))->GetMenuTitle())));
                 }
             }
             else
             {
-                if (reinterpret_cast<BSStringT<char>*>(
-                        &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response)->GetItem())
-                        ->String())
+                if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
+                        ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))))
                     TaskQueueInterface::CopyStringToBuffer(
                         text, 512,
-                        reinterpret_cast<BSStringT<char>*>(
-                            &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response)->GetItem())
-                            ->String());
+                        ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
+                            ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))));
                 else
                     TaskQueueInterface::CopyStringToBuffer(text, 512, " ");
             }
-            m_pTiles[2]->Set(0xFC4, text, true);
-            reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[2]))->FUN_00a01350(0xFC4, (char *)(text), true);
+            reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))
                 ->Set(ms_iDialogMenuValue, 1);
             state = ePlaySpeech;
         }
@@ -109,69 +216,63 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
     else
     {
         if (!m_bResponseStarted)
-            Warning("MENUS: (Dialog Menu) Topic %s has no responses, which shouldn't happen.",
-                    topic ? reinterpret_cast<TESSoundFile*>(reinterpret_cast<TESResponse*>(topic)->GetNext() + 24)
-                                ->GetSoundFile()
-                          : "NULL");
-        if (DAT_011d9518 && m_eGoodbyeState != eForceGoodbye && !DAT_011d9518->FUN_00579200())
+            ::FUN_005b5e40();
+        if (DAT_011d9518 && m_eGoodbyeState != eForceGoodbye && !::FUN_00579200((const char *)(DAT_011d9518)))
         {
-            DAT_011d9518->RunResultScript(true, m_pDialogueSpeaker);
+            reinterpret_cast<::FUN_0061f170_cls *>((DAT_011d9518))->FUN_0061f170((void *)(true), (::ArgObj *)(m_pDialogueSpeaker));
             TESTopicInfo* follow;
             bool bDispositionFailure;
-            follow = FindFollowupTopicInfo(DAT_011d9518, &bDispositionFailure,
-                                           reinterpret_cast<DialogueItem*>(pDialogueItem)->GetInfo(), g_thePlayer,
-                                           false, false);
+            follow = ::FUN_0061af30(DAT_011d9518, (*(bool *)(&bDispositionFailure)),
+                                           (::TESObjectREFR *)(void *)(((::TESTopicInfo *)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<DialogueItem*>(pDialogueItem)))->FUN_0084e3a0()))), (::TESObjectREFR *)(::_g_thePlayer),
+                                           false, (::BSSimpleList< ::DialogueItem *> *)(false));
             if (follow && topic)
             {
                 BSSimpleList<MenuTopic*>* pNewTopicList =
                     reinterpret_cast<BSSimpleList<MenuTopic*>*>(new BSSimpleList<TESTopic*>);
                 MenuTopic* pNextTopic =
-                    new MenuTopic(reinterpret_cast<DialogueItem*>(topic)->GetQuest(),
-                                  reinterpret_cast<TESTopic*>(reinterpret_cast<TESResponse*>(topic)->GetNext()), follow,
+                    new MenuTopic(((::TESQuest *)((reinterpret_cast<DialogueItem*>(topic))->pQuest)),
+                                  reinterpret_cast<TESTopic*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60()))), follow,
                                   m_pDialogueSpeaker, false);
-                pNextTopic->FillResponseList();
-                reinterpret_cast<BSSimpleList<MediaSet*>*>(pNewTopicList)
-                    ->AddTail(reinterpret_cast<MediaSet*>(pDialogueItem->GetFirstTopic()));
-                reinterpret_cast<BSSimpleList<MediaSet*>*>(pNewTopicList)
-                    ->AddTail(reinterpret_cast<MediaSet* const&>(pNextTopic));
-                pDialogueItem->AddHeadIfNotNull(pNewTopicList);
+                reinterpret_cast<::TopicS *>((pNextTopic))->HasCur();
+                reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<MediaSet*>*>(pNewTopicList)))->FUN_00905820((void *)&(const ::MediaSet *const &)(reinterpret_cast<MediaSet*>(pDialogueItem->GetFirstTopic())));
+                reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<MediaSet*>*>(pNewTopicList)))->FUN_00905820((void *)&(reinterpret_cast<MediaSet* const&>(pNextTopic)));
+                reinterpret_cast<::Owner83F1A0 *>((pDialogueItem))->AddHeadIfNotNull((int *)(pNewTopicList));
                 pDialogueItem->SelectTopic(true);
-                if (reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pNextTopic)->GetParent())
+                if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)))
                         ->IsChallengeFlagSet())
                 {
-                    if (pDialogueItem->ShouldSkipTopic(pNextTopic))
+                    if (reinterpret_cast<::Mgr *>((pDialogueItem))->CheckTopicInfoChance(pNextTopic))
                         pNextTopic = pDialogueItem->GetSelectedTopic();
                     else
                     {
-                        if ((int)reinterpret_cast<TimeGlobal*>(pDialogueItem)->GetTimeStamp() > 0)
+                        if ((int)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>(pDialogueItem)))->FUN_00825c00() > 0)
                         {
-                            g_thePlayer->RewardXP(reinterpret_cast<TimeGlobal*>(pDialogueItem)->GetTimeStamp());
+                            ::_g_thePlayer->RewardXP(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>(pDialogueItem)))->FUN_00825c00());
                             TopicMenuController::IncrementMiscStat(12);
                         }
                         else
                             TopicMenuController::IncrementMiscStat(12);
                     }
                 }
-                else if (reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pNextTopic)->GetParent())
+                else if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)))
                              ->GetActorValue() ||
-                         reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pNextTopic)->GetParent())
+                         reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)))
                              ->GetPerk())
                 {
                     PerkEntryConditionSet* pConditions =
-                        reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pNextTopic)->GetParent())
-                            ->GetInfoConditions();
+                        reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)))))->GetConditions();
                     BSSimpleList<TESConditionItem*>* pConditionItem =
                         reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                            &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions)->GetItem());
-                    while (pConditionItem && pConditionItem->GetItem())
+                            ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
+                    while (pConditionItem && ((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))
                     {
                         DialogMenuConditionFunction* function = reinterpret_cast<DialogMenuConditionFunction*>(
-                            reinterpret_cast<TESTopicInfoData*>(pConditionItem->GetItem())->GetLinkToList());
+                            reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))->GetLinkToList());
                         if (function && function->function == 14)
                         {
                             ActorValue::Index value = function->actorValue;
-                            int required = (int)pConditionItem->GetItem()->GetConditionValue();
-                            int current = g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
+                            int required = (int)((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item))->GetConditionValue();
+                            int current = ::_g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
                             if (current < required)
                                 TopicMenuController::IncrementMiscStat(31);
                             else
@@ -179,20 +280,20 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
                             break;
                         }
                         pConditionItem = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                            reinterpret_cast<BSSimpleList<TESTopic*>*>(pConditionItem)->GetNext());
+                            ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(pConditionItem)))->FUN_00726070())));
                     }
                 }
                 SetCurrentTopic(pNextTopic);
                 pDialogueItem->RunTopicResultScript();
                 m_bResponseStarted = false;
-                DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pNextTopic)->GetParent());
+                DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->m_pkParent)));
                 return BeginDialogueResponse(usePrefix);
             }
             DAT_011d9518 = 0;
         }
         if (!m_bServiceDialogue || m_eDialogState == eServiceFadeOut)
         {
-            pDialogueItem->UpdateTopicList();
+            reinterpret_cast<::FUN_0083ec30_shell *>((pDialogueItem))->UpdateTopicList();
             if (!pDialogueItem->SelectTopic(true) && m_eGoodbyeState == eInDialogue)
                 m_eGoodbyeState = eInvalidChoiceList;
             if (m_eGoodbyeState != eInDialogue)
@@ -204,7 +305,7 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
             }
             else
             {
-                reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())
+                reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))
                     ->Set(ms_iDialogMenuValue, 0);
                 LoadTopicsList();
                 state = eSpeechIdle;
@@ -216,257 +317,18 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
     return state;
 }
 
-// @fnv 0x007638B0
-void DialogMenu::LoadTopicsList()
-{
-    m_kResponseListBox.Clear();
-    int iIndex = 0;
-    int iTopicHeight = 0;
-    char text[512];
-    bool bNextTopic = pDialogueItem->SelectTopic(true);
-    while (bNextTopic)
-    {
-        MenuTopic* pTopic = pDialogueItem->GetSelectedTopic();
-        bool bDisabled = false;
-        TESFullName* pFullName = 0;
-        if (reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())->GetActorValue())
-        {
-            pFullName =
-                reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())->GetActorValue();
-        }
-        else
-        {
-            pFullName = reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())->GetPerk();
-        }
-        if (pFullName)
-        {
-            sprintf_s(text, 512, "[%s", reinterpret_cast<TESSoundFile*>(pFullName)->GetSoundFile());
-            if (reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())
-                    ->IsChallengeFlagSet())
-            {
-                MobileObject* actor = 0;
-                if (m_pDialogueSpeaker->IsActor())
-                    actor = m_pDialogueSpeaker;
-                else if (m_pDialogueSpeaker->FUN_00574900())
-                    actor = reinterpret_cast<MobileObject*>(
-                        reinterpret_cast<BGSExplosion*>(reinterpret_cast<DialogueItem*>(m_pDialogueSpeaker)
-                                                            ->SelectDefaultResponseList()
-                                                            ->GetObjectReference())
-                            ->FUN_00516bf0());
-                sprintf_s(
-                    text, 512, "%s, %i", text,
-                    ComputeWeightedValue(
-                        g_thePlayer->actorValueOwner.GetActorValueFloatByIndex(ActorValue::ActorValue__Index_SPEECH),
-                        m_pDialogueSpeaker->IsActor() ? (float)m_pDialogueSpeaker->CalculateDisposition(g_thePlayer, 0)
-                                                      : DAT_011d0a24.Float()->f,
-                        reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())
-                            ->GetNextSpeakerType()));
-                strcat_s(text, 512, "%");
-            }
-            else
-            {
-                PerkEntryConditionSet* pConditions =
-                    reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())
-                        ->GetInfoConditions();
-                BSSimpleList<TESConditionItem*>* cursor = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                    &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions)->GetItem());
-                while (cursor && cursor->GetItem())
-                {
-                    DialogMenuConditionFunction* function = reinterpret_cast<DialogMenuConditionFunction*>(
-                        reinterpret_cast<TESTopicInfoData*>(cursor->GetItem())->GetLinkToList());
-                    if (function && function->function == 14)
-                    {
-                        ActorValue::Index value = function->actorValue;
-                        int required = (int)cursor->GetItem()->GetConditionValue();
-                        int current = g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
-                        if (current < required)
-                        {
-                            sprintf_s(text, 512, "%s %d/%d", text, current, required);
-                            bDisabled = true;
-                        }
-                        else
-                            sprintf_s(text, 512, "%s %d", text, required);
-                        break;
-                    }
-                    cursor = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                        reinterpret_cast<BSSimpleList<TESTopic*>*>(cursor)->GetNext());
-                }
-            }
-            sprintf_s(
-                text, 512, "%s]  %s", text,
-                reinterpret_cast<BSStringT<char>*>(&reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic)->GetItem())
-                    ->String());
-        }
-        else
-        {
-            if (reinterpret_cast<BSStringT<char>*>(&reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic)->GetItem())
-                    ->String())
-                TaskQueueInterface::CopyStringToBuffer(
-                    text, 512,
-                    reinterpret_cast<BSStringT<char>*>(
-                        &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic)->GetItem())
-                        ->String());
-            else
-            {
-                text[0] = 0;
-                Warning("ERROR: DialogMenu::LoadTopicsList(): has a topic without topictext OR info prompt: %s",
-                        pTopic->pTopic ? pTopic->pTopic->GetName() : "unknown");
-            }
-        }
-        Tile* pItemTile = m_kResponseListBox.AddItem(iIndex, text, 0, 0);
-        sprintf_s(text, 512, "topic_%i", iIndex);
-        pItemTile->SetName(text);
-        pItemTile->Set(0xFAC, iIndex);
-        pItemTile->Set(
-            Tile::GetTraitID("_line_alpha"),
-            pTopic->m_bInfoHasBeenRead &&
-                    !reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())->IsFlagSet()
-                ? 255
-                : 128);
-        if (bDisabled)
-            pItemTile->FUN_0071aa60(true);
-        if (iIndex <= 2)
-            iTopicHeight += (int)reinterpret_cast<TileListBoxCalls*>(pItemTile)->GetFloat(0xFB0);
-        bNextTopic = pDialogueItem->AdvanceTopic();
-        ++iIndex;
-    }
-    m_pTiles[3]->Set(0xFB0, (float)iTopicHeight, false);
-    reinterpret_cast<Tile*>(reinterpret_cast<TimeGlobal*>(&m_kResponseListBox)->GetTimeStamp())
-        ->Set(Tile::GetTraitID("_height"),
-              reinterpret_cast<TileListBoxCalls*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())
-                  ->GetFloat(Tile::GetTraitID("_ScrollbarHeight")),
-              true);
-    reinterpret_cast<Tile*>(reinterpret_cast<TimeGlobal*>(&m_kResponseListBox)->GetTimeStamp())
-        ->Set(DAT_011d9504, 0.0f, false);
-    m_kResponseListBox.Synchronize();
-    m_uiDialogMenuFlags = g_timeGlobal.GetTimeStamp();
-}
-
-// @fnv 0x00761A20
-Tile* DialogMenu::Create(MobileObject* speaker, TESTopic* topic, MobileObject* alternate)
-{
-    InterfaceManager* pManager = FUN_004b7210();
-    Tile* existing = Tile::FindMenuById(1009);
-    if (existing)
-        return existing;
-    if (!speaker)
-    {
-        Warning(
-            "MENUS: DialogMenu::Create() called with a null speaker, which shouldn't happen.  Notify your friendly Interface programmer!");
-        return 0;
-    }
-    Tile* m_pFourthMenuObject = pManager->FUN_00586150()->ReadFile("Data\\Menus\\Dialog\\dialog_menu.xml");
-    DAT_011d9510 = static_cast<DialogMenu*>(m_pFourthMenuObject->GetMenu());
-    if (DAT_011d9510 && DAT_011d9510->GetClass() == (unsigned int)FUN_007620e0())
-    {
-        DAT_011d9510->SetTileMenu(reinterpret_cast<TileMenu*>(m_pFourthMenuObject), false);
-        if (!DAT_011d9510->FUN_007620f0())
-        {
-            Warning("MENUS: Dialogue Menu Creation Failed... Are your menu and art resources up to date?");
-            return 0;
-        }
-        if (reinterpret_cast<TileListBoxCalls*>(m_pFourthMenuObject)->GetFloat(0xFA7) == 6006.0 ||
-            reinterpret_cast<TileListBoxCalls*>(m_pFourthMenuObject)->GetFloat(0xFA7) == 102.0)
-            m_pFourthMenuObject->Set(0xFAD, Tile::GetInterfaceScale(), true);
-        DAT_011d9510->m_pDialogueSpeaker = speaker;
-        ImageSpaceModifierInstanceForm::Stop(TESImageSpaceModifier::GetGetHit());
-        if (speaker->GetFaceGenNodeBiped(0))
-            speaker->GetFaceGenNodeBiped(0)->StopMoving(true);
-        if (speaker->GetFaceGenNodeSkinned(0))
-            speaker->GetFaceGenNodeSkinned(0)->StopMoving(true);
-        TESPackage* pCurrentPackage = speaker->GetCurrentPackage();
-        if (speaker->IsActor())
-        {
-            Actor* actor = reinterpret_cast<Actor*>(speaker);
-            TESPackage* extra = reinterpret_cast<TESObjectREFR*>(actor)->GetExtraData()->GetPackageOverride();
-            if (extra && extra->GetPackType() == 15)
-                DAT_011a008c = extra->GetPackageFloatValue();
-        }
-        if (!pCurrentPackage || pCurrentPackage->GetPackType() != 28 || speaker->vfn_2c8() != g_thePlayer)
-        {
-            if (speaker->IsActor() && !speaker->vfn_274(true))
-                reinterpret_cast<Actor*>(speaker)->SetSpeakingState(false);
-            if (speaker->vfn_274(true))
-            {
-                reinterpret_cast<Actor*>(speaker)->StopMoving();
-                speaker->vfn_280(g_thePlayer, 0, 0, true, false, true, false, false, false);
-            }
-            else
-                speaker->vfn_280(g_thePlayer, 0, 0, true, false, true, false, false, false);
-        }
-        MobileObject* pTopicSpeaker = speaker;
-        if (alternate)
-            pTopicSpeaker = alternate;
-        if (DAT_011d9510->pDialogueItem->Initialize(pTopicSpeaker, topic))
-            DAT_011d9510->SetCurrentTopic(DAT_011d9510->pDialogueItem->GetFirstTopic());
-        if (DAT_011d9510->pDialogueItem->GetFirstTopic())
-            DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(
-                reinterpret_cast<NiAVObject*>(DAT_011d9510->pDialogueItem->GetFirstTopic())->GetParent());
-        g_thePlayer->vfn_278(true);
-        if (speaker->IsActor())
-        {
-            reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(speaker)->GetLogDate())
-                ->vfn_288(reinterpret_cast<Actor*>(speaker), 2);
-            speaker->vfn_278(true);
-        }
-        DAT_011d9510->m_bPauseRequested = g_thePlayer->FUN_004eaf60();
-        if (DAT_011d9510->m_eGoodbyeState != eForceGoodbye)
-        {
-            g_thePlayer->Show1stPerson(true);
-            g_thePlayer->FocusOnActor(speaker, 0.0f, true);
-        }
-        if (!DAT_011d9510->m_pDialogueDepthOfFieldModifier)
-        {
-            float distance = (*speaker->GetPos() - *g_thePlayer->GetPos()).Length();
-            DAT_011d9510->m_pDialogueDepthOfFieldModifier = ImageSpaceModifierInstanceDOF::CreateAndRegister(
-                distance, DAT_011d46fc.Float()->f, ImageSpaceModifierInstanceDOF::Back, 0.0f, 0.0f, 0.0f);
-            DAT_011d9510->m_pDialogueDepthOfFieldModifier->FUN_005bbd60(true);
-        }
-        g_thePlayer->SetAimingWeapon(false, false, false);
-        g_thePlayer->UpdatePlayerInventory();
-        DAT_011d9510->m_kResponseListBox.Initialize(DAT_011d9510->m_pTiles[3], "DM_TopicTemplate");
-        DAT_011d9510->m_pTiles[3]->GetNamedChild("lb_scrollbar")->Set(0xFA2, 40);
-        DAT_011d9510->m_pTiles[3]->GetNamedChild("lb_highlight_box")->Set(0xFA1, 40);
-        DAT_011d9510->m_pTiles[3]->GetNamedChild("lb_highlight_box")->Set(0xFB1, 960);
-        DAT_011d9508 = Tile::GetTraitID("_DialogVisible");
-        ms_iDialogMenuValue = Tile::GetTraitID("_ShowingText");
-        DAT_011d9504 = Tile::GetTraitID("_current_value");
-        bool bSubtitles =
-            DAT_011d8934.Bool()->b || speaker->IsActor() && reinterpret_cast<Actor*>(speaker)->ShouldShowSubtitles();
-        reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(DAT_011d9510)->GetNext())
-            ->Set(Tile::GetTraitID("_ShowSubtitles"), bSubtitles);
-        DAT_011d9510->m_pTiles[1]->Set(0xFC4, speaker->GetFullName(), true);
-        if (FUN_005d4a40() && !FUN_004b7210()->tutorial.FUN_00718840(17))
-            DAT_011d9510->m_bSuppressDialogueText = true;
-        else
-            DAT_011d9510->BeginDialogueResponse(false);
-        DAT_011d9510->SetMenuVisibility(false);
-        BSAudio::EnableAudio();
-        reinterpret_cast<DialogMenuAudioCalls*>(BSAudio::GetSingleton())->EnableAudio();
-        speaker->SetAltered(true);
-        DialogMenuInterfaceCalls::SetHUDVisible(false);
-        return m_pFourthMenuObject;
-    }
-    else
-    {
-        if (DAT_011d9510 && reinterpret_cast<BSSimpleList<TESTopic*>*>(DAT_011d9510)->GetNext())
-            delete DAT_011d9510;
-    }
-    return 0;
-}
-
 // Advances the dialogue camera zoom/speech state machine, closing the menu and updating the player's focus and camera each frame.
 // @fnv 0x00762950
 void DialogMenu::UpdateDialog()
 {
-    if (bPaused || Interface::IsConsoleActive())
+    if (bPaused || ::fnv_00703d50::FUN_00703d50())
         return;
     if (m_eDialogState != eCameraZoomOut)
     {
-        if (!reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)->GetLogDate() ||
-            reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)->GetLogDate())
+        if (!((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())) ||
+            reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())))
                     ->vfn_610() == 2 ||
-            reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)->GetLogDate())
+            reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())))
                     ->vfn_610() >= 4)
         {
             Close();
@@ -474,9 +336,8 @@ void DialogMenu::UpdateDialog()
             m_eDialogState = eCameraZoomOut;
         }
     }
-    if (reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)->GetLogDate() &&
-        reinterpret_cast<HighProcess*>(reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)->GetLogDate())
-            ->GetProcessLevel() &&
+    if (((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())) &&
+        ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<HighProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())))))->FUN_0045cd60())) &&
         m_eDialogState != eCameraZoomOut)
     {
         Close();
@@ -489,7 +350,7 @@ void DialogMenu::UpdateDialog()
         if (m_bSuppressDialogueText && m_fCameraTransitionTime == 0.0)
         {
             m_bSuppressDialogueText =
-                FUN_004b7210()->tutorial.ShowMessage(17, FUN_007620e0(), (unsigned int)DAT_011d3ee0.Float()->f * 1400);
+                reinterpret_cast<::TutorialMessageGate718 *>(&(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->tutorial))->FUN_00718630(17, FUN_007620e0(), (unsigned int)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1219))))))->f * 1400);
             if (!m_bSuppressDialogueText)
             {
                 if (m_pDialogueSpeaker)
@@ -498,9 +359,9 @@ void DialogMenu::UpdateDialog()
             }
         }
         else if (!m_bSuppressDialogueText && m_fCameraTransitionAlpha >= 0.1)
-            reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())->Set(DAT_011d9508, 1);
-        m_fCameraTransitionTime += g_timeGlobal.FUN_0084d030();
-        m_fCameraTransitionAlpha = FUN_0040ebd0(m_fCameraTransitionTime / DAT_011d3ee0.Float()->f, 1.0f);
+            reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))->Set(DAT_011d9508, 1);
+        m_fCameraTransitionTime += ::fnv::timer::Seconds();
+        m_fCameraTransitionAlpha = FUN_0040ebd0(m_fCameraTransitionTime / ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1219))))))->f, 1.0f);
         if (m_fCameraTransitionAlpha == 1.0)
         {
             if (!m_bSuppressDialogueText)
@@ -508,10 +369,10 @@ void DialogMenu::UpdateDialog()
                 m_fCameraTransitionTime = 0.0f;
                 m_eDialogState = ePlaySpeech;
             }
-            else if (FUN_004b7210()->tutorial.FUN_00718840(17) && Interface::GetSelectedTargetIndex(Interface::Dialog))
+            else if (reinterpret_cast<::S8840 *>(&(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->tutorial))->FUN_00718840(17) && Interface::GetSelectedTargetIndex(Interface::Dialog))
             {
                 m_fCameraTransitionTime = 0.0f;
-                reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())
+                reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))
                     ->Set(DAT_011d9508, 1);
                 if (m_pDialogueSpeaker)
                     m_pDialogueSpeaker->bDialogueSelected = true;
@@ -523,24 +384,24 @@ void DialogMenu::UpdateDialog()
     case ePlaySpeech:
         if (DAT_011d951c > 0.0)
         {
-            DAT_011d951c -= g_timeGlobal.FUN_0084d030();
+            DAT_011d951c -= ::fnv::timer::Seconds();
             break;
         }
         if (m_pDialogueSpeaker && m_pDialogueSpeaker->bDialogueSelected)
         {
             m_fCameraTransitionTime = 0.0f;
             m_eDialogState = eLoadSpeech;
-            m_uiDialogMenuFlags = g_timeGlobal.GetTimeStamp();
+            m_uiDialogMenuFlags = ::fnv::timer::Time();
         }
         break;
     case eLoadSpeech:
         if (!m_pDialogueSpeaker->bDialogueSelected)
         {
-            m_pDialogueSpeaker->FUN_00934250();
+            reinterpret_cast<::FUN_00934250_shell *>((m_pDialogueSpeaker))->FUN_00934250();
             if (DAT_011d9594 == 0)
-                DAT_011d9594 = g_timeGlobal.GetTimeStamp();
-            if (g_timeGlobal.GetTimeStamp() - DAT_011d9594 >= 500.0)
-                Actor::SetActorDialogueState(reinterpret_cast<TESForm*>(m_pDialogueSpeaker)->GetFormID(), true);
+                DAT_011d9594 = ::fnv::timer::Time();
+            if (::fnv::timer::Time() - DAT_011d9594 >= 500.0)
+                ::ResetActorState((void *)(std::uintptr_t)(reinterpret_cast<TESForm*>(m_pDialogueSpeaker)->iFormID), true);
         }
         else
         {
@@ -562,84 +423,84 @@ void DialogMenu::UpdateDialog()
         }
         break;
     case eCameraZoomOut:
-        m_fCameraTransitionTime += g_timeGlobal.FUN_0084d030();
-        m_fCameraTransitionAlpha = 1.0f - FUN_0040ebd0(m_fCameraTransitionTime / DAT_011d243c.Float()->f, 1.0f);
+        m_fCameraTransitionTime += ::fnv::timer::Seconds();
+        m_fCameraTransitionAlpha = 1.0f - FUN_0040ebd0(m_fCameraTransitionTime / ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1220))))))->f, 1.0f);
         if (m_fCameraTransitionAlpha == 0.0)
         {
             DAT_011f21d0 = true;
             DAT_011f21d1 = !m_bPauseRequested;
-            g_thePlayer->FocusOnActor(m_pDialogueSpeaker, 0.0f, true);
-            g_thePlayer->UpdateCamera(false, false);
-            m_pDialogueDepthOfFieldModifier->FUN_0063f790(0.0f);
-            delete reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext());
+            ::_g_thePlayer->FocusOnActor(m_pDialogueSpeaker, 0.0f, true);
+            ::_g_thePlayer->UpdateCamera(false, false);
+            reinterpret_cast<::FUN_0063f790_shell *>((m_pDialogueDepthOfFieldModifier))->FUN_0063f790(0.0f);
+            delete reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())));
             return;
         }
         break;
     }
-    if (g_thePlayer->IsInThirdPerson())
-        m_pDialogueSpeaker->vfn_264(g_timeGlobal.FUN_0084d030(), 0, false);
-    g_thePlayer->FocusOnActor(m_pDialogueSpeaker,
+    if (::_g_thePlayer->IsInDialogueWithPlayer())
+        m_pDialogueSpeaker->vfn_264(::fnv::timer::Seconds(), 0, false);
+    ::_g_thePlayer->FocusOnActor(m_pDialogueSpeaker,
                               (float)(m_fCameraTransitionAlpha * (DAT_011a008c == 0.0 ? 1.0 : DAT_011a008c / 100.0)),
                               m_eDialogState == eCameraZoomOut);
-    g_thePlayer->UpdateCamera(false, false);
-    m_pDialogueDepthOfFieldModifier->FUN_0063f790(DAT_011d318c.Float()->f * m_fCameraTransitionAlpha);
+    ::_g_thePlayer->UpdateCamera(false, false);
+    reinterpret_cast<::FUN_0063f790_shell *>((m_pDialogueDepthOfFieldModifier))->FUN_0063f790(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1223))))))->f * m_fCameraTransitionAlpha);
 }
 
 // @fnv 0x00762160
 void DialogMenu::Close()
 {
-    if (DAT_011d9510)
+    if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))
     {
-        MobileObject* speaker = DAT_011d9510->m_pDialogueSpeaker;
+        MobileObject* speaker = (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker;
         Actor* actor = 0;
         if (speaker->IsActor())
             actor = static_cast<Actor*>(speaker);
         TESTopicInfo* pInfo = DAT_011d9518;
         bool runEndScript =
-            DAT_011d9510->m_eGoodbyeState == eForceGoodbye || DAT_011d9510->m_eGoodbyeState == eInvalidChoiceList;
-        if (DAT_011d9510->m_eGoodbyeState == eInvalidChoiceList)
-            Warning("MENUS: (Dialog Menu) Invalid choice list encountered.  Closing menu...");
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_eGoodbyeState == eForceGoodbye || (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_eGoodbyeState == eInvalidChoiceList;
+        if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_eGoodbyeState == eInvalidChoiceList)
+            ::FUN_005b5e40();
         if (speaker->GetFaceGenNodeBiped(0))
-            speaker->GetFaceGenNodeBiped(0)->StopMoving(false);
+            reinterpret_cast<::FUN_00762130_dummy *>((speaker->GetFaceGenNodeBiped(0)))->SetIAmInDialogue(false);
         if (speaker->GetFaceGenNodeSkinned(0))
-            speaker->GetFaceGenNodeSkinned(0)->StopMoving(false);
-        speaker->FUN_00934250();
+            reinterpret_cast<::FUN_00762130_dummy *>((speaker->GetFaceGenNodeSkinned(0)))->SetIAmInDialogue(false);
+        reinterpret_cast<::FUN_00934250_shell *>((speaker))->FUN_00934250();
         speaker->vfn_278(false);
-        g_thePlayer->vfn_278(false);
+        ::_g_thePlayer->vfn_278(false);
         speaker->vfn_288();
         DAT_011d9514 = false;
-        if (reinterpret_cast<PlayerQuestData*>(speaker)->GetLogDate())
+        if (((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(speaker)))->GetBaseTexture())))
         {
-            reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(speaker)->GetLogDate())->vfn_2ec(0);
-            if (actor && !reinterpret_cast<PlayerCharacter*>(actor)->HasCombatState())
-                reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(actor)->GetLogDate())
+            reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(speaker)))->GetBaseTexture())))->vfn_2ec(0);
+            if (actor && !((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<PlayerCharacter*>(actor)))->FUN_00493bb0())))
+                reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(actor)))->GetBaseTexture())))
                     ->vfn_24(actor, true);
         }
-        if (actor && reinterpret_cast<PlayerQuestData*>(actor)->GetLogDate())
-            reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(actor)->GetLogDate())->vfn_650(true);
-        if (reinterpret_cast<PlayerQuestData*>(speaker)->GetLogDate() && actor && !actor->vfn_22c(false) &&
+        if (actor && ((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(actor)))->GetBaseTexture())))
+            reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(actor)))->GetBaseTexture())))->vfn_650(true);
+        if (((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(speaker)))->GetBaseTexture())) && actor && !actor->vfn_22c(false) &&
             !actor->vfn_2e8())
-            reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(speaker)->GetLogDate())
-                ->vfn_4b4(DAT_011cd450.Float()->f);
+            reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(speaker)))->GetBaseTexture())))
+                ->vfn_4b4(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting183))))))->f);
         if (actor)
-            actor->StopMoving();
-        g_thePlayer->UpdatePlayerState();
-        reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(g_thePlayer)->GetLogDate())->vfn_650(true);
-        if (pInfo && runEndScript && !pInfo->FUN_00579200())
+            reinterpret_cast<::FUN_008b3ab0_shell *>((actor))->FUN_008b3ab0();
+        reinterpret_cast<::FUN_00953ce0_Class *>((::_g_thePlayer))->FUN_00953ce0();
+        reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(::_g_thePlayer)))->GetBaseTexture())))->vfn_650(true);
+        if (pInfo && runEndScript && !::FUN_00579200((const char *)(pInfo)))
         {
-            pInfo->RunResultScript(true, speaker);
+            reinterpret_cast<::FUN_0061f170_cls *>((pInfo))->FUN_0061f170((void *)(true), (::ArgObj *)(speaker));
             pInfo->AddTopicList();
             pInfo = 0;
-            if (actor && !reinterpret_cast<PlayerCharacter*>(actor)->HasCombatState() &&
-                reinterpret_cast<PlayerQuestData*>(actor)->GetLogDate() &&
-                reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(actor)->GetLogDate())
+            if (actor && !((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<PlayerCharacter*>(actor)))->FUN_00493bb0())) &&
+                ((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(actor)))->GetBaseTexture())) &&
+                reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(actor)))->GetBaseTexture())))
                     ->vfn_24(actor, true))
-                reinterpret_cast<BaseProcess*>(reinterpret_cast<PlayerQuestData*>(actor)->GetLogDate())->vfn_524(actor);
+                reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(actor)))->GetBaseTexture())))->vfn_524(actor);
         }
-        reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(DAT_011d9510)->GetNext())->Set(0xFA3, 1);
-        DAT_011d9510->LoadMenuData();
+        reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))))->FUN_00726070())))->Set(0xFA3, 1);
+        reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))))->FUN_00a1d910();
     }
-    reinterpret_cast<DialogMenuAudioCalls*>(BSAudio::GetSingleton())->DeactivateAudio();
+    reinterpret_cast<::FUN_00ad8650_cls *>((reinterpret_cast<DialogMenuAudioCalls*>(::FUN_00453a70())))->FUN_00ad8650();
     BSAudio::DeactivateAudio();
 }
 
@@ -651,50 +512,49 @@ void DialogMenu::HandleSelection(int id, Tile* tile)
         return;
     if (m_uiDialogMenuFlags)
     {
-        if (g_timeGlobal.GetTimeStamp() - m_uiDialogMenuFlags >= 500)
+        if (::fnv::timer::Time() - m_uiDialogMenuFlags >= 500)
             m_uiDialogMenuFlags = 0;
         else
             return;
     }
-    if (id == -1 && m_kResponseListBox.ContainsKey(tile) &&
-        pDialogueItem->FUN_0083e430((int)reinterpret_cast<TileListBoxCalls*>(tile)->GetFloat(0xFAC)))
+    if (id == -1 && reinterpret_cast<::ListOwner *>(&(m_kResponseListBox))->ContainsKey((void *)(tile)) &&
+        reinterpret_cast<::FUN_0083e430_shell *>((pDialogueItem))->FUN_0083e430((int)reinterpret_cast<TileListBoxCalls*>(tile)->GetFloat(0xFAC)))
     {
         MenuTopic* pTopic = pDialogueItem->GetSelectedTopic();
         bool wasNew = pTopic->m_bInfoHasBeenRead;
         pTopic->m_bInfoHasBeenRead = false;
-        if (reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())->IsChallengeFlagSet())
+        if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->IsChallengeFlagSet())
         {
             bSpeechChallenge = true;
-            if (pDialogueItem->ShouldSkipTopic(pTopic))
+            if (reinterpret_cast<::Mgr *>((pDialogueItem))->CheckTopicInfoChance(pTopic))
                 pTopic = pDialogueItem->GetSelectedTopic();
             else
             {
-                if ((int)reinterpret_cast<TimeGlobal*>(DAT_011d9510->pDialogueItem)->GetTimeStamp() > 0)
+                if ((int)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem)))->FUN_00825c00() > 0)
                 {
-                    g_thePlayer->RewardXP(reinterpret_cast<TimeGlobal*>(DAT_011d9510->pDialogueItem)->GetTimeStamp());
+                    ::_g_thePlayer->RewardXP(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem)))->FUN_00825c00());
                     TopicMenuController::IncrementMiscStat(12);
                 }
                 else
                     TopicMenuController::IncrementMiscStat(12);
             }
         }
-        else if (reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())->GetActorValue() ||
-                 reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())->GetPerk())
+        else if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetActorValue() ||
+                 reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetPerk())
         {
             PerkEntryConditionSet* pConditions =
-                reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent())
-                    ->GetInfoConditions();
+                reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->GetConditions();
             BSSimpleList<TESConditionItem*>* pConditionItem = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions)->GetItem());
-            while (pConditionItem && pConditionItem->GetItem())
+                ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
+            while (pConditionItem && ((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))
             {
                 DialogMenuConditionFunction* function = reinterpret_cast<DialogMenuConditionFunction*>(
-                    reinterpret_cast<TESTopicInfoData*>(pConditionItem->GetItem())->GetLinkToList());
+                    reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))->GetLinkToList());
                 if (function && function->function == 14)
                 {
                     ActorValue::Index value = function->actorValue;
-                    int required = (int)pConditionItem->GetItem()->GetConditionValue();
-                    int current = g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
+                    int required = (int)((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item))->GetConditionValue();
+                    int current = ::_g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
                     if (current < required)
                     {
                         if (wasNew)
@@ -705,17 +565,16 @@ void DialogMenu::HandleSelection(int id, Tile* tile)
                     break;
                 }
                 pConditionItem = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                    reinterpret_cast<BSSimpleList<TESTopic*>*>(pConditionItem)->GetNext());
+                    ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(pConditionItem)))->FUN_00726070())));
             }
         }
         SetCurrentTopic(pTopic);
         pDialogueItem->RunTopicResultScript();
         m_bResponseStarted = false;
-        DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(reinterpret_cast<NiAVObject*>(pTopic)->GetParent());
+        DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)));
         m_eDialogState = BeginDialogueResponse(bSpeechChallenge);
     }
-    else if (reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())
-                 ->ContainsTrait(ms_iDialogMenuValue) &&
+    else if (reinterpret_cast<::FUN_00a01230_shell *>((reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))))->IsTraitNonZero(ms_iDialogMenuValue) &&
              id == 0)
         m_eDialogState = eLoadSpeech;
 }
@@ -746,6 +605,118 @@ struct FUN_007620f0_shell : public DialogMenu
 {
     bool FUN_007620f0();
 };
+// @fnv 0x00761A20
+Tile* DialogMenu::Create(MobileObject* speaker, TESTopic* topic, MobileObject* alternate)
+{
+    InterfaceManager* pManager = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
+    Tile* existing = ((::Tile *)(::FUN_00a09030(1009)));
+    if (existing)
+        return existing;
+    if (!speaker)
+    {
+        ::FUN_005b5e40(
+            );
+        return 0;
+    }
+    Tile* m_pFourthMenuObject = reinterpret_cast<::fnv_00a01b00::TileLoader *>((pManager->FUN_00586150()))->FUN_00a01b00((void *)("Data\\Menus\\Dialog\\dialog_menu.xml"));
+    (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)) = static_cast<DialogMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((m_pFourthMenuObject))->FUN_00a03c90());
+    if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)) && (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->GetClass() == (unsigned int)FUN_007620e0())
+    {
+        reinterpret_cast<::FUN_00a1dc70_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))))->FUN_00a1dc70(reinterpret_cast<TileMenu*>(m_pFourthMenuObject), false);
+        if (!reinterpret_cast<::FUN_007620f0_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))))->FUN_007620f0())
+        {
+            ::FUN_005b5e40();
+            return 0;
+        }
+        if (reinterpret_cast<TileListBoxCalls*>(m_pFourthMenuObject)->GetFloat(0xFA7) == 6006.0 ||
+            reinterpret_cast<TileListBoxCalls*>(m_pFourthMenuObject)->GetFloat(0xFA7) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((m_pFourthMenuObject))->FUN_00a012d0(0xFAD, Tile::GetInterfaceScale(), true);
+        (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker = speaker;
+        ImageSpaceModifierInstanceForm::Stop(::FUN_005d2860());
+        if (speaker->GetFaceGenNodeBiped(0))
+            reinterpret_cast<::FUN_00762130_dummy *>((speaker->GetFaceGenNodeBiped(0)))->SetIAmInDialogue(true);
+        if (speaker->GetFaceGenNodeSkinned(0))
+            reinterpret_cast<::FUN_00762130_dummy *>((speaker->GetFaceGenNodeSkinned(0)))->SetIAmInDialogue(true);
+        TESPackage* pCurrentPackage = reinterpret_cast<::FUN_009344a0_shell *>((speaker))->FUN_009344a0();
+        if (speaker->IsActor())
+        {
+            Actor* actor = reinterpret_cast<Actor*>(speaker);
+            TESPackage* extra = reinterpret_cast<::FUN_0041cb10_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<TESObjectREFR*>(actor)))->FUN_005d43c0()))))->FUN_0041cb10();
+            if (extra && extra->GetPackType() == 15)
+                DAT_011a008c = reinterpret_cast<::FUN_00672850_shell *>((extra))->GetPackageFloatValue();
+        }
+        if (!pCurrentPackage || pCurrentPackage->GetPackType() != 28 || speaker->vfn_2c8() != ::_g_thePlayer)
+        {
+            if (speaker->IsActor() && !speaker->vfn_274(true))
+                reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((reinterpret_cast<Actor*>(speaker)))->FUN_00881680(false);
+            if (speaker->vfn_274(true))
+            {
+                reinterpret_cast<::FUN_008b3ab0_shell *>((reinterpret_cast<Actor*>(speaker)))->FUN_008b3ab0();
+                speaker->vfn_280(::_g_thePlayer, 0, 0, true, false, true, false, false, false);
+            }
+            else
+                speaker->vfn_280(::_g_thePlayer, 0, 0, true, false, true, false, false, false);
+        }
+        MobileObject* pTopicSpeaker = speaker;
+        if (alternate)
+            pTopicSpeaker = alternate;
+        if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->Initialize(pTopicSpeaker, topic))
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->SetCurrentTopic((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetFirstTopic());
+        if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetFirstTopic())
+            DAT_011d9518 = reinterpret_cast<TESTopicInfo*>(
+                ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetFirstTopic())))->m_pkParent)));
+        ::_g_thePlayer->vfn_278(true);
+        if (speaker->IsActor())
+        {
+            reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(speaker)))->GetBaseTexture())))
+                ->vfn_288(reinterpret_cast<Actor*>(speaker), 2);
+            speaker->vfn_278(true);
+        }
+        (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_bPauseRequested = reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60();
+        if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_eGoodbyeState != eForceGoodbye)
+        {
+            reinterpret_cast<::fnv_00951a10::ThisCls *>((::_g_thePlayer))->FUN_00951a10(true);
+            ::_g_thePlayer->FocusOnActor(speaker, 0.0f, true);
+        }
+        if (!(*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueDepthOfFieldModifier)
+        {
+            float distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((*speaker->GetPos() - *::_g_thePlayer->GetPos())))->ComputeMagnitude();
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueDepthOfFieldModifier = ImageSpaceModifierInstanceDOF::CreateAndRegister(
+                distance, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1222))))))->f, ImageSpaceModifierInstanceDOF::Back, 0.0f, 0.0f, 0.0f);
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueDepthOfFieldModifier->FUN_005bbd60(true);
+        }
+        reinterpret_cast<::fnv_008bb650::PlayerView *>((::_g_thePlayer))->SetActiveState(false, false, false);
+        reinterpret_cast<::FUN_009655a0_Class *>((::_g_thePlayer))->FUN_009655a0();
+        (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_kResponseListBox.Initialize((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pTiles[3], "DM_TopicTemplate");
+        reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pTiles[3]))->FUN_00a03da0((char *)("lb_scrollbar"))->Set(0xFA2, 40);
+        reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pTiles[3]))->FUN_00a03da0((char *)("lb_highlight_box"))->Set(0xFA1, 40);
+        reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pTiles[3]))->FUN_00a03da0((char *)("lb_highlight_box"))->Set(0xFB1, 960);
+        DAT_011d9508 = ::FUN_00a01860("_DialogVisible");
+        ms_iDialogMenuValue = ::FUN_00a01860("_ShowingText");
+        DAT_011d9504 = ::FUN_00a01860("_current_value");
+        bool bSubtitles =
+            (*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011d8934)).Bool()->b || speaker->IsActor() && ::FUN_008c1bc0((intptr_t)(reinterpret_cast<Actor*>(speaker)));
+        reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))))->FUN_00726070())))
+            ->Set(::FUN_00a01860("_ShowSubtitles"), bSubtitles);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pTiles[1]))->FUN_00a01350(0xFC4, (char *)(reinterpret_cast<::FUN_0055d520_shell *>((speaker))->FUN_0055d520()), true);
+        if (((bool)(::fnv_005d4a40::FUN_005d4a40())) && !reinterpret_cast<::S8840 *>(&(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->tutorial))->FUN_00718840(17))
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_bSuppressDialogueText = true;
+        else
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->BeginDialogueResponse(false);
+        (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->SetMenuVisibility(false);
+        BSAudio::EnableAudio();
+        reinterpret_cast<DialogMenuAudioCalls*>(::FUN_00453a70())->EnableAudio();
+        speaker->SetAltered(true);
+        ::Interface::SetHUDVisible(false);
+        return m_pFourthMenuObject;
+    }
+    else
+    {
+        if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)) && ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))))->FUN_00726070())))
+            delete (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510));
+    }
+    return 0;
+}
 
 // Returns true only if all four pointers stored at offset 0x30 in this DialogMenu are non-null.
 // @fnv 0x007620f0
@@ -753,7 +724,7 @@ bool FUN_007620f0_shell::FUN_007620f0()
 {
     for (int iIndex = 0; iIndex < 4; ++iIndex)
     {
-        if (((void**)((char*)this + 0x30))[iIndex] == 0)
+        if (((void**)&this->m_pTiles[0])[iIndex] == 0)
             return false;
     }
     return true;
@@ -763,11 +734,126 @@ struct FUN_00763fd0_shell : public TESTopicInfo
 {
     bool IsFlagSet();
 };
+// @fnv 0x007638B0
+void DialogMenu::LoadTopicsList()
+{
+    m_kResponseListBox.Clear();
+    int iIndex = 0;
+    int iTopicHeight = 0;
+    char text[512];
+    bool bNextTopic = pDialogueItem->SelectTopic(true);
+    while (bNextTopic)
+    {
+        MenuTopic* pTopic = pDialogueItem->GetSelectedTopic();
+        bool bDisabled = false;
+        TESFullName* pFullName = 0;
+        if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetActorValue())
+        {
+            pFullName =
+                reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetActorValue();
+        }
+        else
+        {
+            pFullName = reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))->GetPerk();
+        }
+        if (pFullName)
+        {
+            ::FUN_00406d00(text, 512, "[%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(reinterpret_cast<TESSoundFile*>(pFullName)))->FUN_00408da0())));
+            if (reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))
+                    ->IsChallengeFlagSet())
+            {
+                MobileObject* actor = 0;
+                if (m_pDialogueSpeaker->IsActor())
+                    actor = m_pDialogueSpeaker;
+                else if (((bool)(::FUN_00574900((const unsigned char *)(m_pDialogueSpeaker)))))
+                    actor = reinterpret_cast<MobileObject*>(
+                        ((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((reinterpret_cast<BGSExplosion*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<DialogueItem*>(m_pDialogueSpeaker)
+                                                            ->FUN_005e3fa0()))->FUN_007af430())))))->FUN_00516bf0())));
+                ::FUN_00406d00(
+                    text, 512, "%s, %i", text,
+                    ComputeWeightedValue(
+                        ::_g_thePlayer->actorValueOwner.GetActorValueFloatByIndex(ActorValue::ActorValue__Index_SPEECH),
+                        m_pDialogueSpeaker->IsActor() ? (float)m_pDialogueSpeaker->CalculateDisposition(::_g_thePlayer, 0)
+                                                      : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1109))))))->f,
+                        reinterpret_cast<::B61F2B0Object *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->FUN_0061f2b0()));
+                strcat_s(text, 512, "%");
+            }
+            else
+            {
+                PerkEntryConditionSet* pConditions =
+                    reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->GetConditions();
+                BSSimpleList<TESConditionItem*>* cursor = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
+                    ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
+                while (cursor && ((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(cursor)->m_item)))
+                {
+                    DialogMenuConditionFunction* function = reinterpret_cast<DialogMenuConditionFunction*>(
+                        reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(cursor)->m_item)))->GetLinkToList());
+                    if (function && function->function == 14)
+                    {
+                        ActorValue::Index value = function->actorValue;
+                        int required = (int)((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(cursor)->m_item))->GetConditionValue();
+                        int current = ::_g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
+                        if (current < required)
+                        {
+                            ::FUN_00406d00(text, 512, "%s %d/%d", text, current, required);
+                            bDisabled = true;
+                        }
+                        else
+                            ::FUN_00406d00(text, 512, "%s %d", text, required);
+                        break;
+                    }
+                    cursor = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
+                        ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(cursor)))->FUN_00726070())));
+                }
+            }
+            ::FUN_00406d00(
+                text, 512, "%s]  %s", text,
+                ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))->m_item))))))));
+        }
+        else
+        {
+            if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))->m_item))))))))
+                TaskQueueInterface::CopyStringToBuffer(
+                    text, 512,
+                    ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
+                        ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))->m_item))))))));
+            else
+            {
+                text[0] = 0;
+                ::FUN_005b5e40();
+            }
+        }
+        Tile* pItemTile = ((::Tile *)(reinterpret_cast<::IntListBox *>(&(m_kResponseListBox))->FUN_00764430(iIndex, text, (int (*)(BoxItem *, BoxItem *))(int (*)(ListBoxItem_int_ *, ListBoxItem_int_ *))(0), 0)));
+        ::FUN_00406d00(text, 512, "topic_%i", iIndex);
+        pItemTile->SetName(text);
+        pItemTile->Set(0xFAC, iIndex);
+        pItemTile->Set(
+            ::FUN_00a01860("_line_alpha"),
+            pTopic->m_bInfoHasBeenRead &&
+                    !reinterpret_cast<::FUN_00763fd0_shell *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->IsFlagSet()
+                ? 255
+                : 128);
+        if (bDisabled)
+            reinterpret_cast<::FUN_0071aa60_class *>((pItemTile))->FUN_0071aa60(true);
+        if (iIndex <= 2)
+            iTopicHeight += (int)reinterpret_cast<TileListBoxCalls*>(pItemTile)->GetFloat(0xFB0);
+        bNextTopic = pDialogueItem->AdvanceTopic();
+        ++iIndex;
+    }
+    reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[3]))->FUN_00a012d0(0xFB0, (float)iTopicHeight, false);
+    reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<Tile*>(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>(&m_kResponseListBox)))->FUN_00825c00())))->FUN_00a012d0(::FUN_00a01860("_height"),
+              reinterpret_cast<TileListBoxCalls*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))
+                  ->GetFloat(::FUN_00a01860("_ScrollbarHeight")),
+              true);
+    reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<Tile*>(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>(&m_kResponseListBox)))->FUN_00825c00())))->FUN_00a012d0(DAT_011d9504, 0.0f, false);
+    reinterpret_cast<::C764930ListMenu *>(&(m_kResponseListBox))->RebuildVisibleTiles();
+    m_uiDialogMenuFlags = ::fnv::timer::Time();
+}
 
 // @fnv 0x00763fd0
 bool FUN_00763fd0_shell::IsFlagSet()
 {
-    return (bool)(*reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x26) & 2);
+    return (bool)(*reinterpret_cast<char*>(&this->infoPadding26[0]) & 2);
 }
 
 struct ListX
@@ -775,18 +861,16 @@ struct ListX
     ~ListX();
 };
 namespace p07 {
-void __cdecl FUN_007211c0(void*);
 struct FUN_007643c0
 {
     ListX list;
     virtual ~FUN_007643c0();
-    void FUN_007646d0();
 };
 // @fnv 0x007643c0
 FUN_007643c0::~FUN_007643c0()
 {
-    FUN_007646d0();
-    FUN_007211c0(this);
+    reinterpret_cast<::ClearOwner *>(this)->FUN_007646d0();
+    ::fnv_007211c0::FUN_007211c0((int *)(void *)(this));
 }
 }
 
@@ -796,30 +880,19 @@ int __cdecl FUN_007620e0()
     return 0x3f1;
 }
 
-void __cdecl _Deallocate(void*);
 struct Holder00761930
 {
     void FUN_00761960();
     void* FUN_00761930(unsigned int);
 };
-// Calls FUN_00761960, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00761930
-void* Holder00761930::FUN_00761930(unsigned int flags)
-{
-    FUN_00761960();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 // @fnv 0x00764290
 void FUN_00764290()
 {
     MenuTopic* pMenuTopicEntry;
     TopicMenuController* pmgr;
-    if (DAT_011d9510)
+    if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))
     {
-        pmgr = *(TopicMenuController**)((char*)DAT_011d9510 + 0x70);
+        pmgr = (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem;
         pMenuTopicEntry = 0;
         for (pmgr->SelectTopic(true); (pMenuTopicEntry = pmgr->GetSelectedTopic()) != 0; pmgr->AdvanceTopic())
             pMenuTopicEntry->m_bInfoHasBeenRead = 1;
@@ -843,24 +916,24 @@ struct ListBoxProxy : public ListBoxBase
 // @fnv 0x00764900
 void ListBoxProxy::SortAndSynchronize(int(__cdecl* apCompareFn)(ListBoxItem_int_*, ListBoxItem_int_*))
 {
-    list.Sort(reinterpret_cast<int(__cdecl*)(WeatherEntry*, WeatherEntry*)>(apCompareFn));
-    reinterpret_cast<ListBox_int_*>(this)->Synchronize();
+    reinterpret_cast<::ItemChangeList *>((void *)&(list))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(int (*)(WeatherEntry *, WeatherEntry *))(reinterpret_cast<int(__cdecl*)(WeatherEntry*, WeatherEntry*)>(apCompareFn)));
+    reinterpret_cast<::C764930ListMenu *>((reinterpret_cast<ListBox_int_*>(this)))->RebuildVisibleTiles();
 }
 
 // @fnv 0x00763ff0
 void FUN_00763ff0()
 {
-    if (DAT_011d9510 && DAT_011d9510->m_eGoodbyeState == 0)
+    if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)) && (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_eGoodbyeState == 0)
     {
-        DAT_011d9510->m_bServiceDialogue = true;
-        DAT_011d9510->m_bServiceMenuRequested = true;
-        if (DAT_011d9510->pDialogueItem->GetSelectedTopic())
+        (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_bServiceDialogue = true;
+        (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_bServiceMenuRequested = true;
+        if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetSelectedTopic())
         {
-            DAT_011d9510->m_pDialogueSpeaker->vfn_264(
-                0.0f, DAT_011d9510->pDialogueItem->GetSelectedTopic()->GetActiveResponse(), false);
-            *(bool*)((char*)DAT_011d9510->m_pDialogueSpeaker + 0x7c) = true;
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker->vfn_264(
+                0.0f, (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetSelectedTopic()->GetActiveResponse(), false);
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker->bDialogueSelected = true;
         }
-        DAT_011d9510->LoadMenuData();
+        reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))))->FUN_00a1d910();
     }
 }
 
@@ -871,33 +944,38 @@ struct FUN_00ad88b0_h
 
 struct BSSoundHandleEx
 {
-    bool Play(bool);
 };
 
 struct FUN_00764200_shell
 {
+    char pad00[0x28];
+    int unk28;
+    char pad2c[0x105];
+    unsigned char unk131;
+    char pad132[0x2];
+    int unk134;
+
     void SetActive(bool b);
 };
 
 // @fnv 0x00764200
 void FUN_00764200_shell::SetActive(bool abActive)
 {
-    if (((const unsigned char*)this)[0x131] && !abActive)
+    if (this->unk131 && !abActive)
     {
-        ((BSSoundHandleEx*)((char*)this + 0x74))->Play(false);
-        ((unsigned char*)this)[0x131] = 0;
-        ((int*)this)[0x28 / 4] = ((int*)this)[0x134 / 4];
+        reinterpret_cast<::FUN_00ad8830_shell *>((((BSSoundHandleEx*)((char*)this + 0x74))))->FUN_00ad8830(false);
+        this->unk131 = 0;
+        this->unk28 = this->unk134;
     }
-    else if (!((const unsigned char*)this)[0x131] && abActive)
+    else if (!this->unk131 && abActive)
     {
         ((FUN_00ad88b0_h*)((char*)this + 0x74))->FUN_00ad88b0();
-        ((unsigned char*)this)[0x131] = 1;
-        ((int*)this)[0x134 / 4] = ((int*)this)[0x28 / 4];
-        ((int*)this)[0x28 / 4] = 2;
+        this->unk131 = 1;
+        this->unk134 = this->unk28;
+        this->unk28 = 2;
     }
 }
 
-void __cdecl FUN_005293f0(void*);
 void __cdecl FUN_0083e510();
 struct FUN_00761960 : Menu
 {
@@ -923,17 +1001,26 @@ struct FUN_00761960 : Menu
     unsigned char layoutPadding13B[1];
     ~FUN_00761960();
 };
+// Calls FUN_00761960, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00761930
+void* Holder00761930::FUN_00761930(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00761960 *>(this)->FUN_00761960::~FUN_00761960();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x00761960
 FUN_00761960::~FUN_00761960()
 {
     DAT_011d9514 = false;
-    if (DAT_011d9510->m_pDialogueDepthOfFieldModifier)
+    if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueDepthOfFieldModifier)
     {
-        FUN_005293f0(m_pDialogueDepthOfFieldModifier);
+        ::FUN_005293f0((::ImageSpaceModifierInstance *)(m_pDialogueDepthOfFieldModifier));
         m_pDialogueDepthOfFieldModifier = 0;
     }
     FUN_0083e510();
-    DAT_011d9510 = 0;
+    (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)) = 0;
 }
 
 struct SpeakerStandIn
@@ -1127,39 +1214,35 @@ struct SpeakerStandIn
 
 struct TopicStandIn : public TESTopic
 {
-    TESTopicInfo* FindInfo(MobileObject* speaker, PlayerCharacter* player);
-    TESQuest* GetQuestForInfo(TESTopicInfo* info);
 };
 
 struct MenuTopicStandIn : public MenuTopic
 {
-    void* GetResponseAt(int index);
 };
 
 struct DialogMenuStandIn : public DialogMenu
 {
-    void RefreshTopics();
 };
 
 // If a dialogue menu exists, clears its flag, finds the topic's info for the player, speaks the first response, and refreshes the topics.
 // @fnv 0x007640a0
 void StartDialogueForTopic(TESTopic* topic)
 {
-    if (DAT_011d9510)
+    if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))
     {
-        DAT_011d9510->m_bServiceDialogue = false;
+        (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_bServiceDialogue = false;
         if (topic)
         {
-            TESTopicInfo* info4 = ((TopicStandIn*)topic)->FindInfo(DAT_011d9510->m_pDialogueSpeaker, g_thePlayer);
-            MenuTopic* menuTopic = new MenuTopic(((TopicStandIn*)topic)->GetQuestForInfo(info4), topic, info4,
-                                                 DAT_011d9510->m_pDialogueSpeaker, false);
-            menuTopic->FillResponseList();
-            ((SpeakerStandIn*)DAT_011d9510->m_pDialogueSpeaker)
-                ->SayResponse(0.0f, ((MenuTopicStandIn*)menuTopic)->GetResponseAt(0));
-            ((SpeakerStandIn*)DAT_011d9510->m_pDialogueSpeaker)->bDialogueStarted = true;
+            TESTopicInfo* info4 = reinterpret_cast<::fnv_0061a720::FUN_0061a720_shell *>((((TopicStandIn*)topic)))->FUN_0061a720((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker, ::_g_thePlayer);
+            MenuTopic* menuTopic = new MenuTopic(reinterpret_cast<::FUN_00619d00_shell *>((((TopicStandIn*)topic)))->FindQuestForTopicInfo(info4), topic, info4,
+                                                 (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker, false);
+            reinterpret_cast<::TopicS *>((menuTopic))->HasCur();
+            ((SpeakerStandIn*)(*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker)
+                ->SayResponse(0.0f, ((void *)(reinterpret_cast<::MenuTopic *>((((MenuTopicStandIn*)menuTopic)))->GetActiveResponse())));
+            ((SpeakerStandIn*)(*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker)->bDialogueStarted = true;
             delete menuTopic;
         }
-        ((DialogMenuStandIn*)DAT_011d9510)->RefreshTopics();
+        reinterpret_cast<::FUN_00a1db20_shell *>((((DialogMenuStandIn*)(*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))))->FUN_00a1db20();
     }
 }
 
@@ -1188,9 +1271,7 @@ struct FUN_007642f0 : FUN_007240c0, FUN_0096a2d0
     float unk28;
     unsigned short unk2c;
     FUN_007642f0();
-    void FUN_007a1950(int a, int b);
 };
-void __cdecl AddToHeadList(FUN_007642f0* object);
 // @fnv 0x007642f0
 FUN_007642f0::FUN_007642f0()
 {
@@ -1203,6 +1284,8 @@ FUN_007642f0::FUN_007642f0()
     unk28 = 0.0f;
     unk24 = 0.0f;
     unk20 = 0.0f;
-    FUN_007a1950(0, 1);
-    AddToHeadList(this);
+    reinterpret_cast<::FlagS *>(this)->FUN_007a1950(0, 1);
+    ::AddToHeadList((int *)(::FUN_007642f0 *)(this));
 }
+
+#include "generated/data/fallout/interface/menus/dialogmenu.inc"

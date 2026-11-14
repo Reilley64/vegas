@@ -2,17 +2,9 @@
 // src/havok/physics/collide/dispatch/agent3bridge/hkpagent3bridge.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/dispatch/agent3bridge/hkpagent3bridge.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/symbols_00d92000.h"
 typedef void (*Callback)();
-extern void CreateAgent();
-extern void InvokeDispatch();
-extern void FUN_00d922a0();
-extern void FUN_00d922c0();
-extern void CallIfaceMethod();
-extern void FUN_00d92200();
-extern void AddChildAgent2ToCollector();
-extern void CallObjectVirtual();
-extern void DispatchVirtualCall();
-extern void CallVirtualWithVectorArgs();
 struct __declspec(align(16)) CallbackTable
 {
     Callback callback00;
@@ -37,7 +29,6 @@ struct __declspec(align(16)) CallbackTable
 };
 struct Context
 {
-    void AddEntry(CallbackTable*, int, int);
 };
 // Fills a CallbackTable with the callback functions and flags, then passes it to AddEntry with -1, -1.
 // @fnv 0x00d923b0
@@ -48,16 +39,16 @@ void __cdecl FUN_00d923b0(void* context)
     table.flag32 = 0;
     table.callback28 = 0;
     table.callback08 = 0;
-    table.callback10 = FUN_00d922c0;
-    table.callback14 = CallIfaceMethod;
-    table.callback0c = FUN_00d922a0;
-    table.callback00 = CreateAgent;
-    table.callback2c = CallVirtualWithVectorArgs;
-    table.callback04 = InvokeDispatch;
-    table.callback18 = FUN_00d92200;
-    table.callback1c = AddChildAgent2ToCollector;
-    table.callback20 = CallObjectVirtual;
-    table.callback24 = DispatchVirtualCall;
+    table.callback10 = ((void (&)())::FUN_00d922c0);
+    table.callback14 = ((void (&)())::CallIfaceMethod);
+    table.callback0c = ((void (&)())::FUN_00d922a0);
+    table.callback00 = ((void (&)())::CreateAgent);
+    table.callback2c = ((void (&)())::CallVirtualWithVectorArgs);
+    table.callback04 = ((void (&)())::InvokeDispatch);
+    table.callback18 = ((void (&)())::FUN_00d92200);
+    table.callback1c = ((void (&)())::AddChildAgent2ToCollector);
+    table.callback20 = ((void (&)())::CallObjectVirtual);
+    table.callback24 = ((void (&)())::DispatchVirtualCall);
     table.flag30 = 1;
-    ((Context*)context)->AddEntry(&table, -1, -1);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((((Context*)context)))->AddEntry((::SrcRec *)(::CallbackTable *)(&table), -1, -1);
 }

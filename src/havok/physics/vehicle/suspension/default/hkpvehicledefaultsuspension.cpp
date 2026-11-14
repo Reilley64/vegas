@@ -2,12 +2,12 @@
 // src/havok/physics/vehicle/suspension/default/hkpvehicledefaultsuspension.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/suspension/default/hkpvehicledefaultsuspension.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/MotionMassView.h"
 #include "havok/hkpVehicleDefaultSuspension.h"
 
 class FUN_00c86430_s
 {
   public:
-    float FUN_00c86430() const;
 };
 
 struct EntityE397
@@ -21,7 +21,7 @@ struct EntityE397
     }
     float GetMassValue() const
     {
-        return getMotion()->FUN_00c86430();
+        return reinterpret_cast<::MotionMassView *>((void *)(getMotion()))->FUN_00c86430();
     }
 };
 

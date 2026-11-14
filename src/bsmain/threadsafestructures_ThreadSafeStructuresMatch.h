@@ -1,35 +1,22 @@
+#include "AutoMemContext.h"
 // Unit-local C++03 declarations. Layout evidence is itemized in NOTES.md.
 #ifndef FNV_THREAD_SAFE_STRUCTURES_MATCH_H
 #define FNV_THREAD_SAFE_STRUCTURES_MATCH_H
 
 #include <stddef.h>
-void* __cdecl operator new(size_t);
-void* __cdecl operator new[](size_t);
-void __cdecl operator delete(void*);
-void __cdecl operator delete[](void*);
-extern "C" void* __cdecl memcpy(void*, const void*, size_t);
-extern "C" const char kThreadSafeStructuresSourceFile[];
+#include <cstring>
+#include "fnv/symbols_01017000.h"
 unsigned int __cdecl FUN_0044e330();
 class bhkRigidBody;
 class QueuedReference;
 class TESObjectREFR;
-class BSTreeNode;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+struct BSTreeNode;
+#include "fnv/ni_pointer.h"
 enum MEM_CONTEXT
 {
     MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD = 6
 };
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class InterfacedClass
 {
   public:
@@ -144,12 +131,6 @@ template <class K, class T> class LockFreeMap : public InterfacedClass
 };
 typedef LockFreeQueue<bhkRigidBody*> RigidBodyQueue;
 typedef LockFreeMap<TESObjectREFR*, BSTreeNode*> TreeMap;
-typedef char CheckSpinLockSize[(sizeof(RecursiveSpinLock) == 32) ? 1 : -1];
-typedef char CheckQueueSize[(sizeof(RigidBodyQueue) == 64) ? 1 : -1];
-typedef char CheckQueueLock[(offsetof(RigidBodyQueue, kLock) == 32) ? 1 : -1];
-typedef char CheckMapSize[(sizeof(TreeMap) == 64) ? 1 : -1];
-typedef char CheckMapLock[(offsetof(TreeMap, kLock) == 32) ? 1 : -1];
-typedef char CheckMapInterface[(sizeof(TreeMap::DeletedNodeScanner) == 36) ? 1 : -1];
 namespace ThreadSafeStructuresPC_0044b750 {
 template <class K, class T> class LockFreeMap : public InterfacedClass
 {

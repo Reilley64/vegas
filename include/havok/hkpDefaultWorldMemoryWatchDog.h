@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkWorldMemoryAvailableWatchDog.h"
-#pragma pack(push, 1)
 class hkpDefaultWorldMemoryWatchDog : public hkWorldMemoryAvailableWatchDog
 {
   public:
     hkInt32 m_iMemoryLimit;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpDefaultWorldMemoryWatchDog[(sizeof(hkpDefaultWorldMemoryWatchDog) == 0xC) ? 1 : -1];
 #endif

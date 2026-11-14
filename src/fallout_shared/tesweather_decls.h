@@ -5,6 +5,12 @@
 #ifndef FNV_TESWEATHER_DECLS_H
 #define FNV_TESWEATHER_DECLS_H
 
+#include <cstring>
+#include "fnv/decl/B8AD00Header.h"
+#include "fnv/decl/FUN_00581fb0_Class.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/symbols_00401000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -20,13 +26,9 @@ class TESWeather__WeatherSoundList;
 template <int N> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned int*, EndianSizeTag<4>);
-void BSEndian(int*, EndianSizeTag<4>);
-void BSEndian(float*, EndianSizeTag<4>);
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture*, TESFile*);
 };
 class TESWeather__WeatherSound
 {
@@ -34,37 +36,23 @@ class TESWeather__WeatherSound
     unsigned int formID;
     unsigned int type;
     TESWeather__WeatherSound();
-    void FUN_00462230();
 };
-void* __cdecl operator new(unsigned int);
-extern "C" void* memset(void* dst, int val, unsigned int size);
-void __cdecl operator delete(void* ptr);
 
-#pragma pack(push, 4)
 class TESImageSpaceModifiableCountForm_6_ : public BaseFormComponent
 {
   public:
     TESImageSpaceModifier* m_pImageSpaceModifier[6];  // +0x4, 24 bytes
     TESImageSpaceModifiableCountForm_6_();
     void InitItem(TESForm* form);
-    void FUN_00581fb0(unsigned int index, unsigned int formID);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESImageSpaceModifiableCountForm_6_) == 28);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifiableCountForm_6_, m_pImageSpaceModifier) == 4);
 
-#pragma pack(push, 4)
 class TESTexture1024 : public TESTexture
 {
   public:
     TESTexture1024();
     ~TESTexture1024();
-    void SetTexture(const char* texturePath);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESTexture1024) == 12);
 
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -72,12 +60,7 @@ class FileEntryList
     unsigned char layoutPadding1[3];
     BSFileEntry** m_ppFileEntries;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -88,17 +71,10 @@ class TESModel : public BaseFormComponent
     TESModel();
     static void LoadModelData(TESModel*, TESFile*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 
-#pragma pack(push, 4)
 class ImageSpaceModifierParameterData
 {
   public:
-    void Endian();
     float m_afFirstParameterSet[15];        // +0x0, 60 bytes
     float m_afSecondParameterSet[3];        // +0x3C, 12 bytes
     float m_afThirdParameterSet[3];         // +0x48, 12 bytes
@@ -106,33 +82,20 @@ class ImageSpaceModifierParameterData
     float m_afColorAndAlphaParameters[12];  // +0x64, 48 bytes
     unsigned int ShaderConstantData;        // +0x94, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierParameterData) == 152);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afFirstParameterSet) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afSecondParameterSet) == 60);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afThirdParameterSet) == 72);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afFourthParameterSet) == 84);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afColorAndAlphaParameters) == 100);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, ShaderConstantData) == 148);
 
 // Scaffold exposing TESForm::IsFormInitialized, which the task closure
 // TESForm.h does not declare (cf. TESFormInitFlag in bgsimpactdata.h).
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
 };
 
-#pragma pack(push, 4)
 class TESWeather__WeatherSoundList : public BSSimpleList<TESWeather__WeatherSound*>
 {
   public:
     TESWeather__WeatherSoundList();
     void ClearWeatherSounds();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESWeather__WeatherSoundList) == 8);
 
-#pragma pack(push, 4)
 class TESWeather : public TESForm, public TESImageSpaceModifiableCountForm_6_
 {
   public:
@@ -155,17 +118,4 @@ class TESWeather : public TESForm, public TESImageSpaceModifiableCountForm_6_
     void MakeDefault();
     bool Load(TESFile* file);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESWeather) == 876);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_kCloudLayerTextures) == 52);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_aucCloudLayerSpeeds) == 100);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_auiCloudLayerColors) == 104);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_kWeatherModel) == 200);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_aucWeatherFlags) == 224);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_afFogDistances) == 240);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_auiWeatherColors) == 264);
-FNV_STATIC_ASSERT(offsetof(TESWeather, soundList) == 504);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_afHdrParameters) == 512);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_akImageSpaceModifierParameters) == 568);
-FNV_STATIC_ASSERT(offsetof(TESWeather, m_iCloudLayerCount) == 872);
 #endif

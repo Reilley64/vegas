@@ -1,0 +1,9 @@
+APPROVED@example.invalid
+BAD-COMMITTER@example.invalid
+I@example.invalid
+approved@example.invalid
+bad-author@example.invalid
+bad-committer@example.invalid
+hidden@example.invalid
+i@example.invalid
+u0130@example.invalid

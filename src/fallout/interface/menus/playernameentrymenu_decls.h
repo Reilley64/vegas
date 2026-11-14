@@ -2,12 +2,11 @@
 #pragma once
 
 
-const char* __cdecl FUN_007ab810();
+#include "fnv/symbols_007ab000.h"
 void __cdecl FUN_007ab7c0();
 
 class PlayerNameEntryMenu
 {
   public:
     void UpdateDialog();
-    void Finish(const char* name);
 };

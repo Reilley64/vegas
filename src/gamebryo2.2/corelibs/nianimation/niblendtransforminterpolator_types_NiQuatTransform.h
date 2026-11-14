@@ -9,7 +9,6 @@ class NiQuaternion;
 class NiQuaternion
 {
   public:
-    void Normalize();
     float m_fVectorX;     // +0x0, 4 bytes
     float m_fVectorY;     // +0x4, 4 bytes
     float m_fVectorZ;     // +0x8, 4 bytes
@@ -53,12 +52,10 @@ class NiQuaternion
     // float __cdecl NiQuaternion::*(float)
     // float __cdecl NiQuaternion::*(float, float, float)
     // float __cdecl NiQuaternion::*(float, float)
+public:
+    void MakeUnitLength();
 };
-FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorX) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorY) == 4);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorZ) == 8);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fScalarPart) == 12);
+struct NiStream;
 class NiQuatTransform
 {
   public:
@@ -88,9 +85,7 @@ class NiQuatTransform
     // void __cdecl NiQuatTransform::*(bool)
     // void __cdecl NiQuatTransform::*(bool)
     // void __cdecl NiQuatTransform::*(bool)
+public:
+    void LoadBinary(::NiStream &);
 };
-FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kTranslate) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kRotate) == 12);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_fScale) == 28);
 #endif

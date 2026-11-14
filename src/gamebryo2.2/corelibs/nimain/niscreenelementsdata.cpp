@@ -1,5 +1,28 @@
 // gamebryo2.2/corelibs/nimain/niscreenelementsdata.cpp: NiScreenElementsData, NiScreenElementsDataShell (10 functions)
 
+#include <new>
+#include <cstring>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00a66960_cls.h"
+#include "fnv/decl/FUN_00a7b690.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NameA7b7e0.h"
+#include "fnv/decl/NiObject_b.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00a7b8c0__Obj.h"
+#include "fnv/decl/fnv_00a7b940__FUN_00a7b940_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 #include "niscreenelementsdata_decls.h"
 
 // @fnv 0x00a88020
@@ -16,21 +39,21 @@ bool NiScreenElementsData::SetRectangle(int iPolygon, float fLeft, float fTop, f
     unsigned int i = kPolygon.m_usVertexOffset;
     float fRight = fLeft + afWidth;
     float fBottom = fTop + afHeight;
-    GetVertices()[i].x = fLeft;
-    GetVertices()[i].y = fTop;
-    GetVertices()[i].z = 0.0f;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].x = fLeft;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].y = fTop;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].z = 0.0f;
     ++i;
-    GetVertices()[i].x = fLeft;
-    GetVertices()[i].y = fBottom;
-    GetVertices()[i].z = 0.0f;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].x = fLeft;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].y = fBottom;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].z = 0.0f;
     ++i;
-    GetVertices()[i].x = fRight;
-    GetVertices()[i].y = fBottom;
-    GetVertices()[i].z = 0.0f;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].x = fRight;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].y = fBottom;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].z = 0.0f;
     ++i;
-    GetVertices()[i].x = fRight;
-    GetVertices()[i].y = fTop;
-    GetVertices()[i].z = 0.0f;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].x = fRight;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].y = fTop;
+    ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))[i].z = 0.0f;
     SetDirtyFlags(1);
     m_bGeometryInitialized = true;
     return true;
@@ -48,7 +71,7 @@ bool NiScreenElementsData::SetRectangleBounds(int iPolygonIndex, unsigned short 
             NiScreenElementsData__Polygon& kPolygon = m_akPolygon[usIndex];
             if (kPolygon.m_usVertexCount == 4 && usTextureSetIndex < (unsigned short)(m_usTrianglePoints & 1))
             {
-                NiPoint2* pkTexture = FUN_00a66960(usTextureSetIndex) + kPolygon.m_usVertexOffset;
+                NiPoint2* pkTexture = ((::NiPoint2 *)(reinterpret_cast<::FUN_00a66960_cls *>(this)->FUN_00a66960(usTextureSetIndex))) + kPolygon.m_usVertexOffset;
                 pkTexture[0].x = fLeft;
                 pkTexture[0].y = fTop;
                 pkTexture[1].x = fLeft;
@@ -66,17 +89,13 @@ bool NiScreenElementsData::SetRectangleBounds(int iPolygonIndex, unsigned short 
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5b50;
 
 // @fnv 0x00a87a90
 GlobalObjectO2_00a7b610* __cdecl FUN_00a87a90()
 {
-    return &g_011f5b50;
+    return &::g_011f5b50;
 }
 
-void __fastcall FUN_00a7b8c0(void*);
-void __cdecl _NiFreeAlias(void*);
-void __cdecl _delete(void*, unsigned int);
 extern int DAT_0109ea94;
 struct Holder00a87aa0
 {
@@ -88,11 +107,11 @@ void* Holder00a87aa0::Destroy(unsigned int auiFlags)
 {
     void* p = *(void**)((char*)this + 0x58);
     *(void**)this = (void*)&DAT_0109ea94;
-    _NiFreeAlias(p);
-    _NiFreeAlias(*(void**)((char*)this + 0x5c));
-    FUN_00a7b8c0(this);
+    ::FUN_00aa10f0(p);
+    ::FUN_00aa10f0(*(void**)((char*)this + 0x5c));
+    reinterpret_cast<::fnv_00a7b8c0::Obj *>((this))->FUN_00a7b8c0();
     if (auiFlags & 1)
-        _delete(this, 0x70);
+        ::FUN_00aa1460(this, 0x70);
     return this;
 }
 
@@ -110,8 +129,6 @@ struct StrArr
     unsigned short m_usReserved;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
 struct Obj
@@ -119,9 +136,6 @@ struct Obj
     void AppendTriListInfo(StrArr*);
 };
 
-char* __cdecl _FUN_00a7d330(void*);
-char* __cdecl FUN_00a7d490(char const*, unsigned short);
-char* __cdecl FUN_00a7d5a0(char const*, void*);
 
 // Appends the object's member names and values to the string array, growing it as needed via SetSize and SetAt.
 // @fnv 0x00a886f0
@@ -133,68 +147,68 @@ void FUN_00a886f0_shell::AppendMemberDescriptions(void* pkStrings)
 
     reinterpret_cast<Obj*>(this)->AppendTriListInfo(strings);
 
-    value = _FUN_00a7d330(*reinterpret_cast<void**>(&g_011f5b50));
+    value = ::FUN_00a7d330((const char *)(*reinterpret_cast<void**>(&::g_011f5b50)));
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d5a0("m_akPolygon", this->m_akPolygon);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d5a0("m_ausPIndexer", this->m_ausPIndexer);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d490("m_usMaxPQuantity", this->m_usMaxPQuantity);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d490("m_usPGrowBy", this->m_usPGrowBy);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d490("m_usPQuantity", this->m_usPQuantity);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d490("m_usMaxVQuantity", this->m_usMaxVQuantity);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d490("m_usVGrowBy", this->m_usVGrowBy);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d490("m_usMaxIQuantity", this->m_usMaxIQuantity);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d490("m_usIGrowBy", this->m_usIGrowBy);
     index = strings->m_usSize;
     if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -202,33 +216,16 @@ class RgbaColor
     {}
 };
 
-extern void* __cdecl FUN_00aa1070(unsigned int);
-extern void __cdecl FUN_00aa10f0(void*);
-extern void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-extern void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct NiMemorySystem
 {
-    void* FUN_00aa3e40(unsigned int);
-    void FUN_00aa4060(void*);
 };
-extern NiMemorySystem g_011f6238;
 
-inline void* __cdecl operator new[](unsigned int n)
-{
-    return g_011f6238.FUN_00aa3e40(n);
-}
-inline void __cdecl operator delete[](void* p)
-{
-    g_011f6238.FUN_00aa4060(p);
-}
 
-extern const NiPoint3 DAT_011a9484;
 
 struct NiScreenElementsDataShell : NiScreenElementsData
 {
     unsigned int FUN_00a87ae0(unsigned short usVertices, unsigned short usTriangles, const unsigned short* pusTriList);
-    void FUN_00a67090(unsigned int);
 };
 
 // @fnv 0x00a87ae0
@@ -255,13 +252,13 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
         unsigned short usNewMaxPolygons = m_usMaxPQuantity + m_usPGrowBy;
         NiScreenElementsData__Polygon* pkNewPolygons =
             (NiScreenElementsData__Polygon*)FUN_00aa1070(usNewMaxPolygons * sizeof(NiScreenElementsData__Polygon));
-        FUN_00ec44d0(pkNewPolygons, m_akPolygon, m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon));
+        std::memmove(pkNewPolygons, m_akPolygon, m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon));
         FUN_00aa10f0(m_akPolygon);
         m_akPolygon = pkNewPolygons;
 
         unsigned short* pusNewIndexer = (unsigned short*)FUN_00aa1070(usNewMaxPolygons * sizeof(unsigned short));
-        FUN_00ec44d0(pusNewIndexer, m_ausPIndexer, m_usMaxPQuantity * sizeof(unsigned short));
-        FUN_00ec61c0(pusNewIndexer + m_usMaxPQuantity, 0xff,
+        std::memmove(pusNewIndexer, m_ausPIndexer, m_usMaxPQuantity * sizeof(unsigned short));
+        std::memset(pusNewIndexer + m_usMaxPQuantity, 0xff,
                      (usNewMaxPolygons - m_usMaxPQuantity) * sizeof(unsigned short));
         FUN_00aa10f0(m_ausPIndexer);
         m_ausPIndexer = pusNewIndexer;
@@ -295,14 +292,14 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
 
         NiPoint3* akNewPolygon = new NiPoint3[usNewMaxVertices];
         unsigned int uiVertexBytes = m_usMaxVQuantity * sizeof(NiPoint3);
-        FUN_00ec44d0(akNewPolygon, m_pkVertex, uiVertexBytes);
+        std::memmove(akNewPolygon, m_pkVertex, uiVertexBytes);
         delete[] m_pkVertex;
         m_pkVertex = akNewPolygon;
 
         if (m_pkNormal)
         {
             NiPoint3* y = new NiPoint3[usNewMaxVertices];
-            FUN_00ec44d0(y, m_pkNormal, uiVertexBytes);
+            std::memmove(y, m_pkNormal, uiVertexBytes);
             delete[] m_pkNormal;
             m_pkNormal = y;
             for (unsigned short i = m_usMaxVQuantity; i < usNewMaxVertices; i++)
@@ -319,7 +316,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
         {
             RgbaColor* pkNewColors;
             pkNewColors = new RgbaColor[usNewMaxVertices];
-            FUN_00ec44d0(pkNewColors, m_pkColor, m_usMaxVQuantity * sizeof(RgbaColor));
+            std::memmove(pkNewColors, m_pkColor, m_usMaxVQuantity * sizeof(RgbaColor));
             delete[] m_pkColor;
             m_pkColor = pkNewColors;
         }
@@ -331,7 +328,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
             unsigned int uiTextureBytes = m_usMaxVQuantity * sizeof(NiPoint2);
             for (unsigned short i = 0; i < usTextureSetCount; i++)
             {
-                FUN_00ec44d0(newTextures + i * m_usVertices, m_pkTexture + i * m_usVertices, uiTextureBytes);
+                std::memmove(newTextures + i * m_usVertices, m_pkTexture + i * m_usVertices, uiTextureBytes);
             }
             delete[] m_pkTexture;
             m_pkTexture = newTextures;
@@ -351,7 +348,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
         unsigned short usNewMaxIndices = (usIndexGrowCount + 1) * m_usIGrowBy + m_usMaxIQuantity;
 
         unsigned short* pusNewTriList = (unsigned short*)FUN_00aa1070(usNewMaxIndices * sizeof(unsigned short));
-        FUN_00ec44d0(pusNewTriList, m_pusTriList, m_usMaxIQuantity * sizeof(unsigned short));
+        std::memmove(pusNewTriList, m_pusTriList, m_usMaxIQuantity * sizeof(unsigned short));
         FUN_00aa10f0(m_pusTriList);
         m_pusTriList = pusNewTriList;
         m_usMaxIQuantity = usNewMaxIndices;
@@ -360,7 +357,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
     unsigned short* pusTriListOut = &m_pusTriList[pkPolygon->m_usTriangleIndexOffset];
     if (pusTriangleList)
     {
-        FUN_00ec44d0(pusTriListOut, pusTriangleList, 3 * (unsigned int)usTriangleCount * sizeof(unsigned short));
+        std::memmove(pusTriListOut, pusTriangleList, 3 * (unsigned int)usTriangleCount * sizeof(unsigned short));
         for (unsigned int i = 0; i < 3 * (unsigned int)usTriangleCount; i++)
         {
             pusTriListOut[i] = pusTriangleList[i] + pkPolygon->m_usVertexOffset;
@@ -376,7 +373,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
         }
     }
 
-    FUN_00a67090(1);
+    reinterpret_cast<::NiGeometryData *>(this)->SetDirtyFlags(1);
     return usPolygonIndex;
 }
 
@@ -419,13 +416,9 @@ struct FUN_00a881e0
     unsigned short m_usIGrowBy;
     bool m_bGeometryInitialized;
 
-    void FUN_00a7b690();
     FUN_00a881e0(bool bWantNormals, bool bWantColors, unsigned short usNumTextureSets, int iMaxPQuantity, int iPGrowBy,
                  int iMaxVQuantity, int iVGrowBy, int iMaxTQuantity, int iTGrowBy);
 };
-FNV_STATIC_ASSERT(offsetof(FUN_00a881e0, m_usTriangles) == 0x40);
-FNV_STATIC_ASSERT(offsetof(FUN_00a881e0, m_akPolygon) == 0x58);
-FNV_STATIC_ASSERT(offsetof(FUN_00a881e0, m_bGeometryInitialized) == 0x6e);
 
 class NiPoint3Ctor : public NiPoint3
 {
@@ -454,7 +447,7 @@ static inline NiPoint3 NegatePoint(const NiPoint3& p)
 FUN_00a881e0::FUN_00a881e0(bool bWantNormals, bool bWantColors, unsigned short usNumTextureSets, int iMaxPQuantity,
                            int iPGrowBy, int iMaxVQuantity, int iVGrowBy, int iMaxTQuantity, int iTGrowBy)
 {
-    FUN_00a7b690();
+    new ((void *)this) ::FUN_00a7b690();
     m_ppVirtualMethodTable = &DAT_0109ea94;
 
     m_usMaxPQuantity = (unsigned short)(iMaxPQuantity > 0 ? iMaxPQuantity : 1);
@@ -463,7 +456,7 @@ FUN_00a881e0::FUN_00a881e0(bool bWantNormals, bool bWantColors, unsigned short u
     m_akPolygon =
         (NiScreenElementsData__Polygon*)FUN_00aa1070(m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon));
     m_ausPIndexer = (unsigned short*)FUN_00aa1070(m_usMaxPQuantity * sizeof(unsigned short));
-    FUN_00ec61c0(m_ausPIndexer, 0xff, m_usMaxPQuantity * sizeof(unsigned short));
+    std::memset(m_ausPIndexer, 0xff, m_usMaxPQuantity * sizeof(unsigned short));
 
     m_usMaxVQuantity = (unsigned short)(iMaxVQuantity > 0 ? iMaxVQuantity : 1);
     m_usVGrowBy = (unsigned short)(iVGrowBy > 0 ? iVGrowBy : 1);
@@ -536,16 +529,14 @@ template <class T> inline void NiStreamLoadBinary485(NiStream485& kStream, T* pk
 {
     NiBinaryStreamLoad485(kStream.GetIStr(), pkValue, ItemUpdateArray);
 }
-void* __cdecl FUN_00aa1070(unsigned int bytes);
 struct FUN_00a88410_shell : NiScreenElementsData
 {
-    void FUN_00a7b940(NiStream485& kStream);
     void LoadScreenElementsData(NiStream485& kStream);
 };
 // @fnv 0x00a88410
 void FUN_00a88410_shell::LoadScreenElementsData(NiStream485& kStream)
 {
-    FUN_00a7b940(kStream);
+    reinterpret_cast<::fnv_00a7b940::FUN_00a7b940_shell *>(this)->FUN_00a7b940((::fnv_00a7b940::NiStream *)&(kStream));
     NiStreamLoadBinary485(kStream, m_usMaxPQuantity);
     m_akPolygon = static_cast<NiScreenElementsData__Polygon*>(
         FUN_00aa1070(m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon)));
@@ -577,7 +568,7 @@ struct NiBinaryStream
         return uiWritten;
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     int unk000, unk004, unk008, unk00c, unk010, unk014, unk018, unk01c, unk020, unk024, unk028, unk02c, unk030, unk034,
@@ -642,7 +633,6 @@ void FUN_00a88590_shell::WriteToStream(NiStream& kStream)
 #include <string.h>
 struct TriShapeDataEq : public NiTriShapeData
 {
-    bool IsEqualBase(const TriShapeDataEq*);
 };
 
 struct FUN_00a87980_shell : public NiScreenElementsData
@@ -654,7 +644,7 @@ struct FUN_00a87980_shell : public NiScreenElementsData
 // @fnv 0x00a87980
 bool FUN_00a87980_shell::FUN_00a87980(const FUN_00a87980_shell* pkOther)
 {
-    if (!((TriShapeDataEq*)this)->IsEqualBase((const TriShapeDataEq*)pkOther))
+    if (!reinterpret_cast<::NameA7b7e0 *>((((TriShapeDataEq*)this)))->FUN_00a7b7e0((const ::NameA7b7e0 *)(const ::TriShapeDataEq *)((const TriShapeDataEq*)pkOther)))
         return false;
 
     if (m_usMaxPQuantity != pkOther->m_usMaxPQuantity || m_usPGrowBy != pkOther->m_usPGrowBy ||

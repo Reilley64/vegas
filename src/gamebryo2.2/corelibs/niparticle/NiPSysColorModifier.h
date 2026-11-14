@@ -7,7 +7,6 @@
 
 class NiColorData;
 
-#pragma pack(push, 4)
 class NiPSysColorModifier : public NiPSysModifier
 {
   public:
@@ -27,5 +26,4 @@ class NiPSysColorModifier : public NiPSysModifier
     float m_fLoKeyTime;                    // +0x1c
     float m_fHiKeyTime;                    // +0x20
 };
-#pragma pack(pop)
 #endif

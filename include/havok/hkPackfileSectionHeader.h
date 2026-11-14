@@ -19,5 +19,4 @@ class hkPackfileSectionHeader
     hkInt32 m_iEndOffset;            // +0x2C
 };
 #pragma pack(pop)
-typedef char fnv_hk_size_hkPackfileSectionHeader[(sizeof(hkPackfileSectionHeader) == 0x30) ? 1 : -1];
 #endif

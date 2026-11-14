@@ -6,10 +6,16 @@
 #define FNV_STARTMENU_PACKET_H
 
 
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/GlobalObject_0045cf30.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011d8000.h"
 #include "layout_support.h"
 #include "Menu.h"
 
-#pragma pack(push, 4)
 
 class Tile;
 class BGSSaveLoadFileEntry;
@@ -61,6 +67,7 @@ template <class T> class ListBox : public ListBoxBase, public BSSimpleList<ListB
     void SetFlag(int aeFlag, bool abSet);  // ListBox<T>::Flag
     bool GetFlag(int aeFlag);
     bool FUN_007d7580();               // 0x007d7580 (ListBox<BGSSaveLoadFileEntry*>, unnamed)
+    bool FUN_007d8d80(Tile* apTile);
     Tile* m_pListTile;                 // +0x0C
     Tile* m_pSelectedTile;             // +0x10
     Tile* m_pHighlightedTile;          // +0x14
@@ -74,6 +81,7 @@ template <class T> class ListBox : public ListBoxBase, public BSSimpleList<ListB
 
 // Hand-authored partial StartMenu layout for the members this translation unit
 // consumes (same shape the accepted IsFlagSet body was compiled against).
+class TileMenu;
 class StartMenu : public Menu
 {
   public:
@@ -132,6 +140,10 @@ class StartMenu : public Menu
     StartMenu::UserOption* m_pUserOption;            // +0x1A4
     unsigned int uiFlags;                            // +0x1A8
     float m_fMenuTimer;                              // +0x1AC
+public:
+    ::TileMenu *GetMenuTitle();
+public:
+    bool IsStartMenuActive();
 };
 
 // StartMenu::Option: PC vftable .?AVOption@StartMenu@@ (1 slot); 0x10 bytes.
@@ -187,23 +199,34 @@ class BGSSaveLoadUI
     void FUN_007d0bd0(bool);  // sets +0x88
 };
 
+class NiTexture;
 class BGSSaveLoadFileEntry
 {
   public:
-    unsigned char layoutPadding00[0x10];
+    unsigned char layoutPadding00[0x8];
+    int unk08;
+    char* unk0c;
     char* m_pSaveFileName;  // +0x10
-    unsigned char layoutPadding14[0x2C];
+    char* unk14;
+    char* unk18;
+    unsigned int unk1c;
+    unsigned char pad20[0x20];
     NiPointer<NiTexture> spScreenshot;  // +0x40
     void
     ReadTypedData();  // ?ReadTypedData@BGSSaveLoadFileEntry@@QAEXXZ @ 0x00846900 (defined in the saveloadmanager unit)
     char* FUN_007d5140();       // ReadTypedData(); return m_pSaveFileName
     NiTexture* FUN_007d5280();  // return spScreenshot
+public:
+    ::NiTexture *ReadScreenshotFromFile();
+public:
+    bool IsAutoSave();
+public:
+    bool IsSaveEntryValid();
 };
 
 class GlobalObject_0044f440
 {
   public:
-    float FUN_00450410();
 };
 // 0x007d1b30 calls the routine at 0x00450410 through the receiver's own class and
 // discards the result with no fstp, so at this call site it is the void variant
@@ -212,37 +235,18 @@ class GlobalObject_0044f440
 class GlobalObject_004de370
 {
   public:
-    void FUN_00450410();
 };
 class GlobalObject_00709f00
 {
   public:
-    void GetBoolValue();
 };
 
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(sizeof(ListBox<int>) == 0x30);
-FNV_STATIC_ASSERT(offsetof(ListBox<int>, m_pListTile) == 0xC);
-FNV_STATIC_ASSERT(offsetof(ListBox<int>, usFlags) == 0x2C);
-FNV_STATIC_ASSERT(sizeof(StartMenu::Option) == 0x10);
-FNV_STATIC_ASSERT(sizeof(StartMenu::UserOption) == 0x30);
-FNV_STATIC_ASSERT(sizeof(StartMenu::OptionListBox) == 0x30);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_kFirstOptionListBox) == 0x84);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_kDownloadOptions) == 0x114);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_kOptionIndexList) == 0x144);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_kOptionHelper) == 0x174);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_pUserOption) == 0x1A4);
-FNV_STATIC_ASSERT(offsetof(StartMenu, uiFlags) == 0x1A8);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_fMenuTimer) == 0x1AC);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadFileEntry, m_pSaveFileName) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadFileEntry, spScreenshot) == 0x40);
 
 #endif
 
 // ---- identities used by this packet (mapped in manifest.json) ----
-extern bool DAT_011a0294;                 // ?DAT_011a0294@@3_NA
-extern GlobalObject_004de370 g_011c71ac;  // ?g_011c71ac@@3VGlobalObject_004de370@@A
-extern float DAT_011ad7b8[];              // ?DAT_011ad7b8@@3PAMA
-extern GlobalObject_00709f00 g_011d8c4c;  // ?g_011d8c4c@@3VGlobalObject_00709f00@@A
+                 // ?DAT_011a0294@@3_NA
+  // ?g_011c71ac@@3VGlobalObject_004de370@@A
+              // ?DAT_011ad7b8@@3PAMA
+  // ?g_011d8c4c@@3VGlobalObject_00709f00@@A

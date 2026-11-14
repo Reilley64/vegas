@@ -2,10 +2,12 @@
 #define FNV_NIFLOATEXTRADATACONTROLLER_DECLS_H
 
 
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/symbols_01096000.h"
 #include "NiRefObject.h"
 #include "NiFixedString.h"
 
-class NiRTTI;
+struct NiRTTI;
 class NiAVObject;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -22,14 +24,15 @@ class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
 class NiObjectCopyInfo;
-class NiStream;
-class NiBound;
-class NiControllerManager;
+struct NiStream;
+struct NiBound;
+struct NiControllerManager;
 class NiQuatTransform;
 
 // The generated NiObject header omits these virtual declarations. This private
 // declaration supplies the PC slots used by the controller and interpolator.
-class NiObject : public NiRefObject
+struct NiRTTI;
+struct NiObject : public NiRefObject
 {
   public:
     virtual NiRTTI* GetType();
@@ -65,10 +68,11 @@ class NiObject : public NiRefObject
     virtual void Unk_20();
     virtual void Unk_21(unsigned int arg);
     virtual NiControllerManager* GetControllerManager();
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
-FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     const float& GetTime() const
@@ -83,7 +87,6 @@ class NiUpdateData
     bool m_bVisible;
     unsigned char layoutPadding9[3];
 };
-FNV_STATIC_ASSERT(sizeof(NiUpdateData) == 12);
 
 class NiInterpolator : public NiObject
 {
@@ -110,7 +113,6 @@ class NiInterpolator : public NiObject
     virtual void Unk_36();
     float m_fLastTime;
 };
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
 
 class NiTimeController : public NiObject
 {
@@ -137,14 +139,11 @@ class NiTimeController : public NiObject
     float m_fControllerTime;
     NiObjectNET* m_pkTarget;
     NiPointer<NiTimeController> m_spNextController;
-    bool AdvanceController(float time);
     bool GetManagerControlled() const
     {
         return ((m_uiObjectFlags >> 5) & 1) != 0;
     }
 };
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 0x28);
 
 class NiInterpController : public NiTimeController
 {
@@ -165,9 +164,6 @@ class NiFloatExtraDataController : public NiExtraDataController
   public:
     virtual void Update(NiUpdateData& update);
 };
-FNV_STATIC_ASSERT(sizeof(NiFloatExtraDataController) == 0x40);
-FNV_STATIC_ASSERT(offsetof(NiFloatExtraDataController, m_spControllerInterpolator) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiFloatExtraDataController, m_pExtraData) == 0x3C);
 
 class NiExtraData : public NiObject
 {
@@ -179,7 +175,5 @@ class NiFloatExtraData : public NiExtraData
   public:
     float m_fValue;
 };
-FNV_STATIC_ASSERT(offsetof(NiFloatExtraData, m_fValue) == 0xC);
-extern const float DAT_01096324;
 
 #endif

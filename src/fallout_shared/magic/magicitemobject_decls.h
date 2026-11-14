@@ -1,13 +1,21 @@
 // fallout_shared/magic/magicitemobject_decls.h: declares TESFile, TESForm, TESFullName, EffectItemList, MagicItem and more
 
+#include <cstring>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/List.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
 class TESFile
 {
   public:
-    unsigned int GetChunkSize();
-    unsigned int GetChunkID();
     bool NextChunk();
-    bool GetChunkData(void*, unsigned int);
-    bool GetChunkData();
+public:
+    bool IsEndianConversionRequired();
 };
 class TESForm
 {
@@ -112,8 +120,6 @@ class TESForm
     char storage[0x2c];
     bool GetInitialized() const;
     void SetInitializationState(bool);
-    void LoadRecordHeader(TESFile*);
-    unsigned int GetFormID();
 };
 class TESFullName
 {
@@ -123,19 +129,12 @@ class TESFullName
     virtual void vfn_8();
     virtual void vfn_c();
     char name[8];
-    const char* GetFullName();
 };
 class EffectSetting;
-template <class T> class BSSimpleList
-{
-  public:
-    unsigned int ItemsInList();
-    char data[8];
-};
+#include "fnv/bs_simple_list.h"
 class EffectItemList
 {
   public:
-    void Load(TESFile*, const char*);
     char pad[4];
     BSSimpleList<EffectSetting*> effects;
 };
@@ -161,7 +160,6 @@ class MagicItem : public TESFullName
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 class MagicItemObject : public TESForm, public MagicItem
 {
@@ -169,5 +167,3 @@ class MagicItemObject : public TESForm, public MagicItem
     virtual void InitItem();
     virtual bool Load(TESFile*);
 };
-extern "C" void* memset(void*, int, unsigned int);
-int Warning(const char*, ...);

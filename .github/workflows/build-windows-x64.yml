@@ -1,0 +1,92 @@
+name: "Build: windows-x64"
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-windows-x64-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build-windows-x64:
+    name: "Build: windows-x64"
+    runs-on: windows-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: "Source: Check out the repository"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # A pull request from a fork, a mirror or Dependabot gets no secrets. The job stops here, so
+      # it never builds without the SDK and never fails later with an authentication error.
+      - name: "Policy: Require the Steamworks SDK deploy key"
+        shell: pwsh
+        env:
+          HAS_DEPLOY_KEY: ${{ secrets.STEAMWORKS_SDK_SSH_KEY != '' }}
+        run: |
+          if ($env:HAS_DEPLOY_KEY -ne 'true') {
+            Write-Output "::error::The Steamworks SDK deploy key secret is not available to this run. Pull requests from forks cannot build windows-x64."
+            exit 1
+          }
+
+      # The SDK's licence does not allow its headers to be published, so the SDK comes from a
+      # private repository of this repository's owner, where it is in the sdk folder. The deploy
+      # key can only read that repository.
+      - name: "Source: Check out the Steamworks SDK"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository_owner }}/steamworks-sdk
+          ssh-key: ${{ secrets.STEAMWORKS_SDK_SSH_KEY }}
+          path: steamworks-sdk
+          persist-credentials: false
+
+      # FFmpeg's configure script and make run under MSYS2.
+      - name: "Setup: Install MSYS2 with make"
+        id: msys2
+        uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2.33.0
+        with:
+          msystem: MSYS
+          install: make diffutils
+
+      # Puts the Windows SDK, lib.exe, dumpbin.exe and Ninja on PATH for clang-cl and FFmpeg.
+      - name: "Setup: Load the Visual Studio x64 environment"
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1.13.0
+        with:
+          arch: x64
+
+      # The archive and object checks of the test suite are Go programs that are run from their
+      # source.
+      - name: "Setup: Install Go"
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6; public upstream revision, gitleaks:allow
+        with:
+          go-version: "1.27.2"
+          cache: false
+
+      - name: "Build: Configure the windows-x64 preset"
+        shell: pwsh
+        env:
+          MSYS2_ROOT: ${{ steps.msys2.outputs.msys2-location }}
+          STEAMWORKS_SDK: ${{ github.workspace }}/steamworks-sdk/sdk
+        run: cmake --preset windows-x64 "-DMSYS2_ROOT=$env:MSYS2_ROOT" "-DSTEAMWORKS_SDK=$env:STEAMWORKS_SDK"
+
+      # Ninja keeps going after a failed target, so every target that can be built is built.
+      # The step still fails when any target fails.
+      - name: "Build: Build the windows-x64 preset"
+        id: build
+        shell: pwsh
+        run: cmake --build --preset windows-x64 -- -k 0
+
+      # Runs after a failed build as well. CTest reports a test whose executable was not built
+      # as Not Run or Failed and exits non-zero, so a missing test is never counted as passed.
+      # Each test gets five minutes, so a hang cannot use up the job's time limit. The suite
+      # includes the objects.* and archive.* checks of the game archive, with
+      # archive.differing_definitions, which reads the archive with the same allowlist as the
+      # cross build. They use Go, Python 3 and the llvm-objdump beside clang-cl.
+      - name: "Test: Run the file-format suite"
+        if: ${{ !cancelled() && (steps.build.outcome == 'success' || steps.build.outcome == 'failure') }}
+        run: ctest --preset windows-x64 --timeout 300

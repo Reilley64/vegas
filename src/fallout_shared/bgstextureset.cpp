@@ -1,12 +1,53 @@
 
 // Fallout: New Vegas decompilation: fallout_shared/bgstextureset.cpp.
+#include <cstring>
+#include "fnv/decl/Date.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00402d50.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_00485c10_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00591170.h"
+#include "fnv/decl/FUN_005923c0.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/TextureLoader.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00593000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_011c3000.h"
 #include "bgstextureset_packet.h"
+#include <cstdint>
+#include <windows.h>
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_011f9000.h"
 
 // @fnv 0x005922e0
 BGSTextureSet::BGSTextureSet()
 {
     ResetFormData();
-    SetFormType(ENUM_FORM_ID_TXST_ID);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(ENUM_FORM_ID_TXST_ID)));
 }
 
 // @fnv 0x00592450
@@ -16,7 +57,7 @@ void BGSTextureSet::ResetFormData()
         pTextures[i].Init();
     m_pDecalData = 0;
     iFlags = 0;
-    FillBytes(m_ppTextureFileEntries, 0, sizeof(m_ppTextureFileEntries));
+    ::FUN_00403d30(m_ppTextureFileEntries, 0, sizeof(m_ppTextureFileEntries));
 }
 
 // Frees all six textures, deletes the decal data object if present, and clears the flags.
@@ -25,11 +66,11 @@ void BGSTextureSet::ClearData()
 {
     int i;
     for (i = 0; i < 6; i++)
-        pTextures[i].Free();
+        reinterpret_cast<::FUN_00402d50 *>(&(pTextures[i]))->FUN_00402d50::~FUN_00402d50();
     void* pX;
     void* pY = this->m_pDecalData;
     pX = pY;
-    pX ? ((DecalDataDeleter*)pX)->DeleteThis(1) : 0;
+    pX ? reinterpret_cast<::Date *>((((DecalDataDeleter*)pX)))->FUN_007b3fa0(1) : 0;
     iFlags = 0;
 }
 
@@ -40,22 +81,22 @@ const char* BGSTextureSet::GetTextureFilePath(int aeTextureType)
     switch (aeTextureType)
     {
     case 0:
-        pTextureFilePath = pTextures[0].GetTextureResourceName();
+        pTextureFilePath = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pTextures[0]))->FUN_00408da0()));
         break;
     case 1:
-        pTextureFilePath = pTextures[1].GetTextureResourceName();
+        pTextureFilePath = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pTextures[1]))->FUN_00408da0()));
         break;
     case 2:
-        pTextureFilePath = pTextures[3].GetTextureResourceName();
+        pTextureFilePath = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pTextures[3]))->FUN_00408da0()));
         break;
     case 3:
-        pTextureFilePath = pTextures[4].GetTextureResourceName();
+        pTextureFilePath = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pTextures[4]))->FUN_00408da0()));
         break;
     case 4:
-        pTextureFilePath = pTextures[5].GetTextureResourceName();
+        pTextureFilePath = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pTextures[5]))->FUN_00408da0()));
         break;
     case 5:
-        pTextureFilePath = pTextures[2].GetTextureResourceName();
+        pTextureFilePath = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pTextures[2]))->FUN_00408da0()));
         break;
     }
     if (pTextureFilePath && *pTextureFilePath == '\0')
@@ -70,7 +111,7 @@ void BGSTextureSet::LoadTextures(int aePriority, QueuedFile* apQueuedFile, bool 
     for (int i = 0; i < 6; i++)
     {
         if (m_ppTextureFileEntries[i])
-            g_pModelLoader->QueueTextureFile(m_ppTextureFileEntries[i], aePriority, apQueuedFile);
+            reinterpret_cast<::TextureLoader *>((::g_modelLoader))->QueueTextureLoad(m_ppTextureFileEntries[i], aePriority, apQueuedFile);
     }
 }
 
@@ -83,23 +124,23 @@ void BGSTextureSet::InitializeNullTextureSet()
         s_pNullTextureSet = new BGSTextureSet;
         s_pNullTextureSet->SetRefID(40, true);
         s_pNullTextureSet->SetEditorID_AtRuntime("NullTextureSet");
-        ((TESDataHandlerForms*)g_dataHandler)->AddFormToDataHandler(s_pNullTextureSet);
+        reinterpret_cast<::TESDataHandler *>((((TESDataHandlerForms*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->AddFormToDataHandler(s_pNullTextureSet);
     }
 }
 
 // @fnv 0x005928a0
 bool BGSTextureSet::Load(TESFile* file)
 {
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     int chunk;
-    while (chunk = file->GetChunkID())
+    while (chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
         switch (chunk)
         {
         case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -107,25 +148,25 @@ bool BGSTextureSet::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x30305854:
-            TESTextureLoader::ReadTextureData(&pTextures[0], file);
+            ::TESTexture::ReadTextureData(&pTextures[0], file);
             break;
         case 0x31305854:
-            TESTextureLoader::ReadTextureData(&pTextures[1], file);
+            ::TESTexture::ReadTextureData(&pTextures[1], file);
             break;
         case 0x32305854:
-            TESTextureLoader::ReadTextureData(&pTextures[2], file);
+            ::TESTexture::ReadTextureData(&pTextures[2], file);
             break;
         case 0x33305854:
-            TESTextureLoader::ReadTextureData(&pTextures[3], file);
+            ::TESTexture::ReadTextureData(&pTextures[3], file);
             break;
         case 0x34305854:
-            TESTextureLoader::ReadTextureData(&pTextures[4], file);
+            ::TESTexture::ReadTextureData(&pTextures[4], file);
             break;
         case 0x35305854:
-            TESTextureLoader::ReadTextureData(&pTextures[5], file);
+            ::TESTexture::ReadTextureData(&pTextures[5], file);
             break;
         case 0x4d414e44:
-            ((TESFileChunkData16*)file)->GetChunkData(&iFlags);
+            reinterpret_cast<::FUN_00472840_impl *>((((TESFileChunkData16*)file)))->ReadChunkData(&iFlags);
             break;
         case 0x54444f44:
             if (!m_pDecalData)
@@ -138,7 +179,7 @@ bool BGSTextureSet::Load(TESFile* file)
     }
     for (int i = 0; i < 6; i++)
     {
-        const char* pTexturePath = pTextures[i].GetTextureResourceName();
+        const char* pTexturePath = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pTextures[i]))->FUN_00408da0()));
         if (pTexturePath && *pTexturePath)
         {
             char fullPath[260];
@@ -148,9 +189,9 @@ bool BGSTextureSet::Load(TESFile* file)
             CleanPath(fullPath, path, 260);
             NiPoint2 kDirHash;
             NiPoint2 fileHash;
-            FileNameHash::CreateDirectoryAndFileHashes(path, (FileNameHash&)kDirHash, (FileNameHash&)fileHash);
+            ::HashPathComponents(path, (::FileNameHash *)&((FileNameHash&)kDirHash), (::FileNameHash *)&((FileNameHash&)fileHash));
             m_ppTextureFileEntries[i] =
-                ArchiveManager::FindFileEntry(ARCHIVE_TEXTURES, (FileNameHash&)kDirHash, (FileNameHash&)fileHash, path);
+                ((::BSFileEntry *)(::fnv_00af6540::FindFileEntryInArchives((*(int *)&(const ::ArchiveType &)(ARCHIVE_TEXTURES)), (::fnv_00af6540::FileNameHash &)((FileNameHash&)kDirHash), (::fnv_00af6540::FileNameHash &)((FileNameHash&)fileHash), path)));
         }
     }
     return true;
@@ -168,35 +209,33 @@ BGSTextureSet* __cdecl FUN_00593220()
     return BGSTextureSet::s_pNullTextureSet;
 }
 
-void __cdecl _Deallocate(void*);
 struct S591140
 {
-    void FUN_00591170();
     void* FUN_00591140(unsigned int);
 };
 // Calls FUN_00591170, deallocates this when flags has bit 1 set, and returns this.
 // @fnv 0x00591140
 void* S591140::FUN_00591140(unsigned int flags)
 {
-    FUN_00591170();
+    reinterpret_cast<::FUN_00591170 *>(this)->FUN_00591170::~FUN_00591170();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct Holder
 {
-    void FUN_005923c0();
     void* FUN_00592380(unsigned int flags);
+public:
+    void FUN_00485680();
 };
 // Calls FUN_005923c0, frees this with _delete when flags has bit 1 set, and returns this.
 // @fnv 0x00592380
 void* Holder::FUN_00592380(unsigned int flags)
 {
-    this->FUN_005923c0();
+    reinterpret_cast<::FUN_005923c0 *>((this))->FUN_005923c0::~FUN_005923c0();
     if (flags & 1)
-        _delete(this, 0xa0);
+        ::FUN_00aa1460(this, 0xa0);
     return this;
 }
 
@@ -205,7 +244,6 @@ struct FullNameEx
     int _m0;
     int _m1;
     int _m2;
-    void SetFullName(char const*);
 };
 struct Holder00592cc0
 {
@@ -218,28 +256,24 @@ struct Holder00592cc0
 void Holder00592cc0::SetFullNameByType(int aeType, char const* apFilename)
 {
     if (aeType < 6)
-        _arr[aeType].SetFullName(apFilename);
+        reinterpret_cast<::TESFullName *>(&(_arr[aeType]))->SetFullName(apFilename);
 }
 
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
 };
 struct FUN_00593320_shell
 {
     void FUN_00593320(void*);
 };
-void __cdecl FUN_00485950(unsigned int, unsigned int);
 extern unsigned int DAT_0118c574[6];
-struct FUN_00592810_shell
+struct FUN_00592810_shell : ::BGSTextureSet
 {
     void FUN_00592810();
 };
@@ -247,18 +281,17 @@ struct FUN_00592810_shell
 void FUN_00592810_shell::FUN_00592810()
 {
     int i;
-    ((FUN_004855a0*)this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     for (i = 0; i < 6; ++i)
-        ((FUN_0048e370_obj*)((char*)this + 0x38 + i * 0xc))->FUN_0048e370(DAT_0118c574[i]);
-    if (*(void**)((char*)this + 0x80))
-        ((FUN_00593320_shell*)*(void**)((char*)this + 0x80))->FUN_00593320((void*)0x54444f44);
-    FUN_00485950(0x4d414e44, *(unsigned short*)((char*)this + 0x84));
-    ((FUN_00485680*)this)->M();
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)&this->pTextures + i * 0xc))))->FUN_0048e370(DAT_0118c574[i]);
+    if (*(void**)&this->m_pDecalData)
+        ((FUN_00593320_shell*)*(void**)&this->m_pDecalData)->FUN_00593320((void*)0x54444f44);
+    ::FUN_00485950((void *)(0x4d414e44), this->iFlags);
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 struct FUN_005e79a0_t : public TESForm
 {
-    bool FUN_00485270(TESForm*);
 };
 
 struct FUN_005932e0_shell
@@ -302,7 +335,7 @@ bool FUN_005926f0_shell::CompareTextureSet(TESForm* apCompare)
     for (i = 0; i < 6; ++i)
     {
         if (reinterpret_cast<FUN_005926f0_entry*>(reinterpret_cast<char*>(this) + 0x38 + i * 0xc)
-                ->Compare(reinterpret_cast<void*>(reinterpret_cast<char*>(pcompare) + 0x38 + i * 0xc)))
+                ->Compare(reinterpret_cast<void*>(reinterpret_cast<char*>(&pcompare->pTextures) + i * 0xc)))
             return true;
     }
 
@@ -322,7 +355,7 @@ bool FUN_005926f0_shell::CompareTextureSet(TESForm* apCompare)
     if (_flags != reinterpret_cast<FUN_005926f0_texture*>(pcompare)->_flags)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pcompare))
+    if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(pcompare))
         return true;
 
     return false;
@@ -335,7 +368,6 @@ struct DecalDataOwned : public DecalData
 
 struct BoundObjectCopier
 {
-    void CopyBoundObject(TESForm* apForm);
 };
 
 struct BGSTextureSetCopy : public BGSTextureSet
@@ -345,7 +377,6 @@ struct BGSTextureSetCopy : public BGSTextureSet
 
 struct DecalDataCopier
 {
-    void Copy(DecalData* apSrc);
 };
 
 // Copies the six texture entries, the decal data and the flags from another BGSTextureSet, then copies the bound object.
@@ -361,7 +392,7 @@ void BGSTextureSetCopy::CopyFromTextureSet(TESForm* apForm)
     {
         if (!m_pDecalData)
             m_pDecalData = new DecalData;
-        ((DecalDataCopier*)m_pDecalData)->Copy(pSourceTextureSet->m_pDecalData);
+        reinterpret_cast<::DecalData *>((((DecalDataCopier*)m_pDecalData)))->Copy(pSourceTextureSet->m_pDecalData);
     }
     else if (m_pDecalData)
     {
@@ -369,7 +400,7 @@ void BGSTextureSetCopy::CopyFromTextureSet(TESForm* apForm)
         m_pDecalData = 0;
     }
     iFlags = pSourceTextureSet->iFlags;
-    ((BoundObjectCopier*)this)->CopyBoundObject(pSourceTextureSet);
+    reinterpret_cast<::FormCloneOperation *>((((BoundObjectCopier*)this)))->FUN_004851b0(pSourceTextureSet);
 }
 
 template <class T> class NiPointer
@@ -392,7 +423,6 @@ class BSShaderManager
     static void GetTexture(const char* apPath, bool abFlag, NiPointer<NiTexture>& arspTexture, bool abFlag2,
                            bool abFlag3);
 };
-int FUN_00406d30(char*, unsigned int, const char*);
 
 struct TexSetIface
 {
@@ -464,7 +494,7 @@ void TexSetB::GetTextureByType(int aeTextureType, NiPointer<NiTexture>& arspText
         pFilename = GetTextureFilePath(aeTextureType);
         if (pFilename && *pFilename)
         {
-            FUN_00406d30(acPath, 0x104, "Data\\Textures\\");
+            ::TaskQueueInterface::CopyStringToBuffer(acPath, 0x104, "Data\\Textures\\");
             strcat_s(acPath, 0x104, pFilename);
             BSShaderManager::GetTexture(acPath, true, spTexture, true, false);
         }
@@ -480,7 +510,6 @@ struct ValueList
     int unk04;
     int unk08;
 
-    void FUN_00489100(int iValue);
 };
 
 struct Owner
@@ -494,34 +523,499 @@ struct Owner
     ValueList m_kList3;
     ValueList m_kList4;
 
-    void FUN_00593030(unsigned int uiType, int iValue);
+    void FUN_00593030(unsigned int uiType, std::intptr_t iValue);
 };
 
 // Dispatches iValue to the ValueList member selected by uiType, calling FUN_00489100 on the matching list.
 // @fnv 0x00593030
-void Owner::FUN_00593030(unsigned int uiType, int iValue)
+void Owner::FUN_00593030(unsigned int uiType, std::intptr_t iValue)
 {
     switch (uiType)
     {
     case 0:
-        m_kList0.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList0))->SetFullName((const char *)(iValue));
         break;
     case 1:
-        m_kList1.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList1))->SetFullName((const char *)(iValue));
         break;
     case 2:
-        m_kList2.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList2))->SetFullName((const char *)(iValue));
         break;
     case 3:
-        m_kList3.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList3))->SetFullName((const char *)(iValue));
         break;
     case 4:
-        m_kList4.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList4))->SetFullName((const char *)(iValue));
         break;
     case 5:
-        m_kList5.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList5))->SetFullName((const char *)(iValue));
         break;
     }
 }
 
 }
+
+struct Holder_iso
+{
+    void FUN_005923c0_iso();
+    void* FUN_00592380(unsigned int flags);
+public:
+    void FUN_00485680();
+};
+
+struct S_005923c0_Base0
+{
+    virtual ~S_005923c0_Base0();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+struct S_005923c0_Sec
+{
+    virtual void unk00();
+    int unk04;
+    ~S_005923c0_Sec();
+};
+
+struct S_005923c0_Elem
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    ~S_005923c0_Elem();
+};
+
+struct FUN_005923c0_iso : S_005923c0_Base0, S_005923c0_Sec
+{
+    S_005923c0_Elem m_38[6];
+    virtual ~FUN_005923c0_iso();
+    virtual void ClearData();
+};
+
+// @fnv 0x005923c0
+FUN_005923c0_iso::~FUN_005923c0_iso()
+{
+    ClearData();
+}
+
+struct Holder_o2
+{
+    void* FUN_00592380(unsigned int flags);
+};
+
+struct FUN_00b66c40_t
+{
+    char pad00[0x20];
+    unsigned int uiFlags;
+    unsigned int uiFlags2;
+    char pad28[0xc];
+    float fTime;
+    float FUN_00b66c40();
+};
+
+// @fnv 0x00b66c40
+float FUN_00b66c40_t::FUN_00b66c40()
+{
+    bool bFadeInActive = (uiFlags & 0x80) > 0 && !((uiFlags2 & 0x800000) > 0) && DAT_011f9460 > 0.0f;
+    bool bFadeOut = (uiFlags & 0x20000) > 0 && !((uiFlags2 & 0x800000) > 0) && DAT_011f9468 > 0.0f;
+    float fResult = 1.0f;
+    if (bFadeOut)
+    {
+        if (fTime < DAT_011f9464)
+            fResult = 1.0f;
+        else if (fTime >= DAT_011f9468)
+            fResult = 0.0f;
+        else
+        {
+            fResult = (fTime - DAT_011f9464) / (DAT_011f9468 - DAT_011f9464);
+            fResult = 1.0f - (1.0f < fResult ? 1.0f : fResult);
+        }
+    }
+    else if (bFadeInActive)
+    {
+        if (fTime < DAT_011f945c)
+            fResult = 1.0f;
+        else if (fTime >= DAT_011f9460)
+            fResult = 0.0f;
+        else
+        {
+            fResult = (fTime - DAT_011f945c) / (DAT_011f9460 - DAT_011f945c);
+            fResult = 1.0f - FUN_0040ebd0(1.0f, fResult);
+        }
+    }
+    return fResult;
+}
+
+struct NiRenderer
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56(void*, int, int);
+    static NiRenderer* ms_pRenderer;
+};
+
+struct FUN_00b66db0_Object
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual unsigned short v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void* v61(int, int);
+    void FUN_00b66db0();
+};
+
+// @fnv 0x00b66db0
+void FUN_00b66db0_Object::FUN_00b66db0()
+{
+    NiRenderer* pkRenderer = NiRenderer::ms_pRenderer;
+    for (int i = 0; i < 6; ++i)
+    {
+        for (int j = 0; j < v58(); ++j)
+        {
+            void* pkItem = v61(i, j);
+            if (pkItem)
+                pkRenderer->v56(pkItem, 0, 0);
+        }
+    }
+}
+
+class FUN_00b66b80_cls
+{
+  public:
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned char m_20;
+    unsigned char unk21;
+    unsigned char unk22;
+    unsigned char unk23;
+    unsigned int m_24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    float m_34;
+
+    float FUN_00b66b80();
+};
+
+// @fnv 0x00b66b80
+float FUN_00b66b80_cls::FUN_00b66b80()
+{
+    bool ok = (m_20 & 1u) > 0 && !((m_24 & 0x800000u) > 0) && DAT_011f9458 > 0.0f;
+    float result = 1.0f;
+    if (ok)
+    {
+        if (m_34 < DAT_011f9454)
+            result = 1.0f;
+        else if (m_34 >= DAT_011f9458)
+            result = 0.0f;
+        else
+        {
+            float t = (m_34 - DAT_011f9454) / (DAT_011f9458 - DAT_011f9454);
+            result = 1.0f - (1.0f < t ? 1.0f : t);
+        }
+    }
+    return result;
+}
+
+// FUN_00593230 : sub ecx,0x30 ; jmp FUN_00592380
+// MSVC this-adjusting (adjustor) thunk. A derived class inherits a secondary
+// base at offset 0x30 inside the primary base; the vftable slot inherited from
+// the secondary base still refers to the implementation living in the primary
+// base, so the compiler emits a thunk that walks `this` back by the primary
+// base's size (0x30) and tail-jumps to that implementation.
+struct ThunkPrimaryBase_00593230
+{
+    virtual void* FUN_00593230(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct ThunkSecondaryBase_00593230
+{
+    virtual void* FUN_00593230(unsigned int flags);
+};
+
+struct ThunkDerived_00593230 : ThunkPrimaryBase_00593230, ThunkSecondaryBase_00593230
+{
+    ThunkDerived_00593230();
+// @fnv 0x00593230
+    virtual void* FUN_00593230(unsigned int flags);
+};
+
+ThunkDerived_00593230::ThunkDerived_00593230()
+{}
+
+struct FnvRefObj
+{
+    virtual void Init();
+    virtual void Free();
+    volatile LONG refs;  // +0x04
+};
+
+struct FnvTarget
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35(int a);
+    virtual void v36(int idx, FnvRefObj** slot);
+};
+
+struct FUN_00b66ad0_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    FnvTarget* m_a4;  // +0xa4
+    int unkA8;
+    FnvRefObj** m_ac[6];  // +0xac
+
+    void FUN_00b66ad0(std::intptr_t a1, FnvTarget* target);
+};
+
+// @fnv 0x00b66ad0
+void FUN_00b66ad0_cls::FUN_00b66ad0(std::intptr_t a1, FnvTarget* target)
+{
+    if (target == 0)
+    {
+        target = m_a4;
+    }
+    FnvTarget* t = target;
+    FnvRefObj*** base = m_ac;
+    FnvRefObj*** cur = base;
+    for (int i = 0; i < 6; ++i)
+    {
+        FnvRefObj** slot = *cur;
+        FnvRefObj* obj = *slot;
+        if (obj != 0)
+        {
+            if (InterlockedDecrement(&obj->refs) == 0)
+            {
+                obj->Free();
+            }
+            *slot = 0;
+        }
+        ++cur;
+    }
+    if (base != 0 && t != 0)
+    {
+        int j = 0;
+        FnvRefObj*** p = base;
+        for (; j < 6; ++j, ++p)
+        {
+            t->v36(j, *p);
+        }
+        if (*base[0] != 0)
+        {
+            t->v35(0);
+        }
+    }
+}
+
+#include "generated/data/fallout_shared/bgstextureset.inc"
+#include "generated/data/fallout_shared/bgstextureset_o2_variant.inc"

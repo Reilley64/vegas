@@ -6,9 +6,13 @@
 #ifndef FNV_RENDEREDTEXTURE_DECLARATIONS_H
 #define FNV_RENDEREDTEXTURE_DECLARATIONS_H
 
+#include <windows.h>
 #include <stddef.h>
+#include "fnv/symbols_00a8f000.h"
+#include "fnv/symbols_011ab000.h"
+#include "fnv/symbols_011f4000.h"
 typedef unsigned int UInt32;
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -25,9 +29,9 @@ class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
 class NiObjectCopyInfo;
-class NiStream;
-class NiBound;
-class NiControllerManager;
+struct NiStream;
+struct NiBound;
+struct NiControllerManager;
 class NiTimeController;
 class NiExtraData;
 class NiTexture;
@@ -43,26 +47,10 @@ class NiPixelData;
 class NiSourceTexture;
 template <class T> class NiTArray;
 template <class T> class NiRect;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-class NiMemObject
-{
-  public:
-    static void* operator new(size_t size);
-};
-class NiRefObject : public NiMemObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-};
-class NiObject : public NiRefObject
+#include "fnv/ni_pointer.h"
+#include "fnv/ni_mem_object.h"
+#include "fnv/ni_ref_object.h"
+struct NiObject : public NiRefObject
 {
   public:
     /*08*/ virtual NiRTTI* GetType();
@@ -99,12 +87,8 @@ class NiObject : public NiRefObject
     /*84*/ virtual void Unk_21(UInt32 arg);
     /*88*/ virtual NiControllerManager* GetControllerManager();
 };
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-};
-class NiObjectNET : public NiObject
+#include "fnv/native_fixed_string.h"
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;
@@ -124,13 +108,12 @@ class Ni2DBuffer : public NiObject
         MULTISAMPLE_8
     };
     // Name: ieee802dot11ac/fnv 074e045e, Ni2DBuffer.h; PC binding inferred.
-    static Ni2DBuffer* Create(unsigned int width, unsigned int height);
     unsigned int m_uiImageWidth;
     unsigned int m_uiImageHeight;
     char m_pRendererData[4];
 };
 // Renderer instance fields omitted: only its virtual interface is used.
-class NiRenderer : public NiObject
+struct NiRenderer : public NiObject
 {
   public:
     virtual void Unk_23();
@@ -266,11 +249,5 @@ class NiRenderedTexture : public NiTexture
     bool m_bUseMipMaps;
     bool m_bUseDepthBuffer;
     _D3DFORMAT m_ePixelFormat;
-    static bool ms_bUseMipMaps;
-    static bool ms_bUseDepthBuffer;
-    static _D3DFORMAT ms_eDepthStencilFormat;
 };
-typedef char NiRenderedTexture_size_check[(sizeof(NiRenderedTexture) == 0x48) ? 1 : -1];
-typedef char NiRenderedTexture_buffer_check[(offsetof(NiRenderedTexture, m_spRenderTargetBuffer) == 0x30) ? 1 : -1];
-typedef char NiRenderedTexture_format_check[(offsetof(NiRenderedTexture, m_ePixelFormat) == 0x44) ? 1 : -1];
 #endif

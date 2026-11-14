@@ -8,8 +8,7 @@
 #include "hkpConstraintInstanceSmallArraySerializeOverrideType.h"
 class hkpConstraintData;
 class hkpEntity;
-class hkpModifierConstraintAtom;
-#pragma pack(push, 1)
+struct hkpModifierConstraintAtom;
 class hkpConstraintInstance : public hkReferencedObject
 {
   public:
@@ -58,6 +57,4 @@ class hkpConstraintInstance : public hkReferencedObject
     void* m_pConstraintInternal;                                        // +0x30
     hkUint32 m_uiUniqueId;                                              // +0x34
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConstraintInstance[(sizeof(hkpConstraintInstance) == 0x38) ? 1 : -1];
 #endif

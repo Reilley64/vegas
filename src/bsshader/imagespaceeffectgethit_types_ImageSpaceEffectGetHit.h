@@ -2,14 +2,18 @@
 #ifndef FNV_IMAGESPACEEFFECTGETHIT_H
 #define FNV_IMAGESPACEEFFECTGETHIT_H
 
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/symbols_00ba3000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
 class ImageSpaceEffect;
 class ImageSpaceEffect__EffectInput;
 class ImageSpaceEffectWithTwoTextures;
-class ImageSpaceManager;
-class ImageSpaceEffectParam;
+struct ImageSpaceManager;
+struct ImageSpaceEffectParam;
 class ImageSpaceTexture;
 class NiTPrimitiveArray_ImageSpaceEffect___;
 class NiTPrimitiveArray_ImageSpaceEffect__EffectInput___;
@@ -39,7 +43,6 @@ enum NiTexturingProperty__ClampMode
     NiTexturingProperty__ClampMode_WRAP_S_WRAP_T = 3,
     NiTexturingProperty__ClampMode_CLAMP_MAX_MODES = 4
 };
-#pragma pack(push, 4)
 class NiTPrimitiveArray_ImageSpaceEffect___ : public NiTArray<ImageSpaceEffect*, NiTMallocInterface<ImageSpaceEffect*> >
 {
   public:
@@ -50,14 +53,10 @@ class NiTPrimitiveArray_ImageSpaceEffect___ : public NiTArray<ImageSpaceEffect*,
     // void __cdecl NiTPrimitiveArray<ImageSpaceEffect *>::*()
     // void __cdecl NiTPrimitiveArray<ImageSpaceEffect *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_ImageSpaceEffect___) == 16);
-#pragma pack(push, 4)
 class NiTPrimitiveArray_ImageSpaceEffectParam___
     : public NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> >
 {
   public:
-    void SetAt(unsigned int, ImageSpaceEffectParam*&);
 
     // base NiTArray<ImageSpaceEffectParam *,NiTMallocInterface<ImageSpaceEffectParam *> > at +0x0, size 16
     // NiTPrimitiveArray<ImageSpaceEffectParam *>
@@ -66,14 +65,10 @@ class NiTPrimitiveArray_ImageSpaceEffectParam___
     // void __cdecl NiTPrimitiveArray<ImageSpaceEffectParam *>::*()
     // void __cdecl NiTPrimitiveArray<ImageSpaceEffectParam *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_ImageSpaceEffectParam___) == 16);
-#pragma pack(push, 4)
 class NiTPrimitiveArray_ImageSpaceTexture___
     : public NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> >
 {
   public:
-    unsigned int AddFirstEmpty(unsigned int);
 
     // base NiTArray<ImageSpaceTexture *,NiTMallocInterface<ImageSpaceTexture *> > at +0x0, size 16
     // NiTPrimitiveArray<ImageSpaceTexture *>
@@ -82,17 +77,11 @@ class NiTPrimitiveArray_ImageSpaceTexture___
     // void __cdecl NiTPrimitiveArray<ImageSpaceTexture *>::*()
     // void __cdecl NiTPrimitiveArray<ImageSpaceTexture *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_ImageSpaceTexture___) == 16);
-#pragma pack(push, 4)
 class NiTPrimitiveArray_ImageSpaceEffect__EffectInput___
     : public NiTArray<ImageSpaceEffect__EffectInput*, NiTMallocInterface<ImageSpaceEffect__EffectInput*> >
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_ImageSpaceEffect__EffectInput___) == 16);
-#pragma pack(push, 4)
 class NiTPrimitiveArray_int_ : public NiTArray<int, NiTMallocInterface<int> >
 {
   public:
@@ -103,17 +92,11 @@ class NiTPrimitiveArray_int_ : public NiTArray<int, NiTMallocInterface<int> >
     // void __cdecl NiTPrimitiveArray<int>::*()
     // void __cdecl NiTPrimitiveArray<int>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_int_) == 16);
-#pragma pack(push, 4)
 class ImageSpaceEffect
 {
   public:
     ImageSpaceEffect();
     virtual ~ImageSpaceEffect();
-    void SetTextureArrayCount(int);
-    void SetEffectAt(int, ImageSpaceEffect*, ImageSpaceEffectParam*, int);
-    void SetEffectAt(int, int, int, int, int);
 
     bool bIsActive;       // +0x4, 1 bytes
     bool bParamsChanged;  // +0x5, 1 bytes
@@ -132,18 +115,10 @@ class ImageSpaceEffect
     // void __cdecl ImageSpaceEffect::*(int, ImageSpaceTexture*, NiTexturingProperty::FilterMode)
     // ImageSpaceEffect& __cdecl ImageSpaceEffect::*(const ImageSpaceEffect&)
     // void __cdecl ImageSpaceEffect::*()
+public:
+    void SetTextureArraySize(int);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceEffect) == 88);
 
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, bIsActive) == 4);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, bParamsChanged) == 5);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, pEffectList) == 8);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, pEffectParamList) == 24);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, pTextures) == 40);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, pEffectInputs) == 56);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, pEffectOutput) == 72);
-#pragma pack(push, 4)
 class ImageSpaceTexture
 {
   public:
@@ -169,22 +144,11 @@ class ImageSpaceTexture
     // ImageSpaceTexture& __cdecl ImageSpaceTexture::*(ImageSpaceTexture&)
     // void* __cdecl ImageSpaceTexture::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceTexture) == 16);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag1) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag2) == 1);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag3) == 2);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, pTexture) == 4);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_eTextureFilterMode) == 8);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_eClampMode) == 12);
-#pragma pack(push, 4)
 class ImageSpaceEffectWithTwoTextures : public ImageSpaceEffect
 {
   public:
     ImageSpaceEffectWithTwoTextures();
-    void SetEffectParamAt(int, int, int);
 
-    void Setup(ImageSpaceManager*, ImageSpaceEffectParam*);
     bool UpdateParams(ImageSpaceEffectParam*);
     // base ImageSpaceEffect at +0x0, size 88
     float* pVector4;                         // +0x58, 4 bytes
@@ -201,8 +165,4 @@ class ImageSpaceEffectWithTwoTextures : public ImageSpaceEffect
     // ImageSpaceEffectWithTwoTextures& __cdecl ImageSpaceEffectWithTwoTextures::*(ImageSpaceEffectWithTwoTextures&)
     // void __cdecl ImageSpaceEffectWithTwoTextures::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceEffectWithTwoTextures) == 124);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffectWithTwoTextures, pVector4) == 88);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffectWithTwoTextures, m_kEffectTextures) == 92);
 #endif

@@ -2,16 +2,16 @@
 #ifndef FNV_NIPSYSBOUNDUPDATEMODIFIER_DECLS_H
 #define FNV_NIPSYSBOUNDUPDATEMODIFIER_DECLS_H
 
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
 #include "MemoryManager.h"
 
-extern MemoryManager g_memoryManager;
-extern "C" const NiPoint3 NiPoint3_ZERO;
-class NiParticleSystem;
+struct NiParticleSystem;
 
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
@@ -20,10 +20,6 @@ class NiBound
         float m_fBoundRadius;
         int m_iRadius;
     };
-    static void* operator new[](unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
     void SetCenterAndRadius(const NiPoint3& center, float radius)
     {
         m_kCenter = center;
@@ -31,7 +27,7 @@ class NiBound
     }
 };
 
-class NiPSysModifier : public NiObject
+struct NiPSysModifier : public NiObject
 {
   public:
     NiFixedString m_kName;
@@ -50,9 +46,4 @@ class NiPSysBoundUpdateModifier : public NiPSysModifier
     void SetUpdateSkipCounter(int iUpdateSkip);
 };
 
-FNV_STATIC_ASSERT(sizeof(NiBound) == 0x10);
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 0x18);
-FNV_STATIC_ASSERT(sizeof(NiPSysBoundUpdateModifier) == 0x20);
-FNV_STATIC_ASSERT(offsetof(NiPSysBoundUpdateModifier, m_usUpdateSkip) == 0x18);
-FNV_STATIC_ASSERT(offsetof(NiPSysBoundUpdateModifier, m_pkBounds) == 0x1C);
 #endif

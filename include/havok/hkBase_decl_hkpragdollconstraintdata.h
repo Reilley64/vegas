@@ -1,6 +1,7 @@
 // include/havok/hkBase.h - Havok 7.1 value types used by the generated class headers (gen_havok_headers.py, 2026-10-17).
 #ifndef FNV_HAVOK_HKBASE_H
 #define FNV_HAVOK_HKBASE_H
+#include <stdint.h>
 
 typedef float hkReal;
 typedef signed char hkInt8;
@@ -11,7 +12,8 @@ typedef int hkInt32;
 typedef unsigned int hkUint32;
 typedef __int64 hkInt64;
 typedef unsigned __int64 hkUint64;
-typedef unsigned long hkUlong;
+typedef uintptr_t hkUlong;
+typedef intptr_t hkLong;
 class hkBool
 {
   public:
@@ -36,7 +38,6 @@ typedef short hkHalf;
 typedef char* hkStringPtr;
 class hkClass;
 class hkClassEnum;
-#pragma pack(push, 1)
 struct hkVector4
 {
     hkReal x, y, z, w;
@@ -53,8 +54,9 @@ struct hkRotation : hkMatrix3
 {
     hkBool IsOrthonormal(float epsilon) const;
 };  // 48
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };  // 64
@@ -90,7 +92,6 @@ struct hkHomogeneousArray
     void* m_data;
     int m_iElementCount;
 };  // 12
-#pragma pack(pop)
 class hkBaseObject
 {
   public:

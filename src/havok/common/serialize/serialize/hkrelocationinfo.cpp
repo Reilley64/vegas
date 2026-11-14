@@ -2,6 +2,15 @@
 // src/havok/common/serialize/serialize/hkrelocationinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/serialize/hkrelocationinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
+#include <new>
+#include "fnv/decl/FUN_00d87430_class.h"
+#include "fnv/decl/FUN_00d874b0_class.h"
+#include "fnv/decl/SlotBitmap.h"
+#include "fnv/decl/hkSetD874.h"
+#include "fnv/symbols_00cb1000.h"
 struct S_00e028e0_Alloc
 {
     virtual void unk0();
@@ -12,12 +21,11 @@ struct S_00e028e0_Alloc
 };
 struct S_00e028e0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_00e028e0_Alloc* m_pStreamAllocator;
-    static S_00e028e0_Router& FUN_00c85750();
     S_00e028e0_Alloc& heap()
     {
         return *m_pStreamAllocator;
@@ -39,9 +47,9 @@ struct S_00e028e0_Obj : S_00e028e0_Base
     {
         FUN_00e029d0();
     }
-    void operator delete(void* p, unsigned int n)
+    void operator delete(void* p, std::size_t n)
     {
-        S_00e028e0_Router::FUN_00c85750().heap().ReleaseBlock(p, n);
+        (*static_cast<S_00e028e0_Router*>(::FUN_00c85750())).heap().ReleaseBlock(p, n);
     }
 };
 
@@ -60,7 +68,7 @@ template <typename T> struct S_00e028e0_Array
     }
     __forceinline ~S_00e028e0_Array() throw()
     {
-        _clearAndDeallocate(S_00e028e0_Router::FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<S_00e028e0_Router*>(::FUN_00c85750())).heap());
     }
 };
 
@@ -96,44 +104,38 @@ FUN_00e028e0::~FUN_00e028e0() throw()
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int m_10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* m_10;
 };
 
 struct FUN_00e029d0_cls
 {
-    unsigned int FUN_00d87410();
-    unsigned int GetEntry(unsigned int a1);
-    unsigned int FindNextUsedSlot(unsigned int a1);
-    void SetBoolFromThreshold(unsigned char* apFlag, unsigned int a1);
     unsigned int ClearEntries();
 
     unsigned int FUN_00e029d0();
 };
 
-AllocHolder* FUN_00c85750();
-void CallSwappedArgs(unsigned int a1, int a2);
 
 // Iterates handles from FUN_00d87410, passing each item with the holder's m_10 to CallSwappedArgs, then returns ClearEntries().
 // @fnv 0x00e029d0
 unsigned int FUN_00e029d0_cls::FUN_00e029d0()
 {
-    unsigned int handle = FUN_00d87410();
+    unsigned int handle = ((unsigned int)(reinterpret_cast<::hkSetD874 *>(this)->FUN_00d87410()));
     {
         unsigned char flag;
-        SetBoolFromThreshold(&flag, handle);
+        reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold((char *)(unsigned char *)(&flag), handle);
         if (flag != 0)
         {
             do
             {
-                unsigned int item = GetEntry(handle);
-                AllocHolder* pAllocHolder = FUN_00c85750();
-                CallSwappedArgs(item, pAllocHolder->m_10);
-                handle = FindNextUsedSlot(handle);
-                SetBoolFromThreshold(&flag, handle);
+                uintptr_t item = ((unsigned int)(reinterpret_cast<::FUN_00d87430_class *>(this)->GetEntry(handle)));
+                AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
+                ::CallSwappedArgs(item, (uintptr_t)pAllocHolder->m_10);
+                handle = ((unsigned int)(reinterpret_cast<::SlotBitmap *>(this)->FindNextUsedSlot(handle)));
+                reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold((char *)(unsigned char *)(&flag), handle);
             } while (flag != 0);
         }
     }

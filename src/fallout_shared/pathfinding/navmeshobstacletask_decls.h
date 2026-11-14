@@ -1,7 +1,14 @@
+#include "AutoMemContext.h"
 // fallout_shared/pathfinding/navmeshobstacletask_decls.h: declares ObstacleSource, ObstacleData, NavMeshPtr, NavMeshInfo, ObstacleTask and more
 #ifndef NAVMESHOBSTACLETASK_DECLS_H
 #define NAVMESHOBSTACLETASK_DECLS_H
 
+#include <new>
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_006c0000.h"
 class NavMesh;
 class NiAVObject;
 class NiNode;
@@ -25,7 +32,7 @@ template <class T> class NiPointer
     bool operator==(const NiPointer&) const;
     T* operator->() const;
 };
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* ptr;
@@ -60,12 +67,11 @@ class ObstacleTask
     ~ObstacleTask();
 };
 class NavMeshTriangle;
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
-    unsigned int GetSize();
 };
-template <class T, int N> class BSSimpleArray : public GlobalObject_00869f00
+template <class T, unsigned int N> class BSSimpleArray : public GlobalObject_00869f00
 {
   public:
     void* vtable;
@@ -101,30 +107,20 @@ class ObstacleTaskData
     ParentChildLinks m_kParentChildLinks;
     bool AddOperation(const NiPointer<ObstacleData>&, OBSTACLE_TASK_TYPE);
     void Process();
-    void FUN_006c8150();
 };
-class BGSLoadGameBuffer;
-class Interface
+struct BGSLoadGameBuffer;
+struct Interface
 {
   public:
-    static void PrintDebugMessage(BGSLoadGameBuffer*);
 };
 enum MEM_CONTEXT
 {
     MEM_CONTEXT_NAVMESH = 46
 };
-class AutoMemContext
-{
-  public:
-    unsigned int context;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NavMesh : public NiMemObject
 {
@@ -136,20 +132,18 @@ class NavMesh : public NiMemObject
     bool RemoveObstacleAndUpdateLinks(const NiPointer<ObstacleData>&, ParentChildLinks&);
     bool AddDoorObstacle(unsigned int, ObstacleData*);
     bool RemoveDoorObstacle(unsigned int);
+public:
+    void ForceSetFormID(unsigned int);
 };
 class LockPrimitive
 {
   public:
-    void FUN_00483710();
 };
 class NavMeshObstacleManager
 {
   public:
-    static NavMeshObstacleManager* GetSingleton();
-    LockPrimitive* GetCharPtrAtOffset();
     void AddProcessedTask(ObstacleTaskData*);
 };
-NiPointer<NavMesh> MakeNavMeshPointer(NavMesh*);
 // The canonical binding is a folded array accessor with a narrower index type.
 // Preserve its symbol while using the 32-bit index ABI observed at these call sites.
 #define OPERATION_AT(array, index)                                                                                     \

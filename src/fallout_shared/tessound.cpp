@@ -1,5 +1,22 @@
 // fallout_shared/tessound.cpp: TESSound (4 functions)
 
+#include "fnv/decl/Data5E35.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "tessound.h"
 #include <malloc.h>
 
@@ -42,7 +59,7 @@ void TESSound::InitializeMagicSystem()
 // @fnv 0x005e2b70
 TESSound::TESSound()
 {
-    SetFormType(ENUM_FORM_ID_SOUN_ID);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(ENUM_FORM_ID_SOUN_ID)));
     m_cSoundFlag = 0;
     ResetFormData();
 }
@@ -51,18 +68,18 @@ TESSound::TESSound()
 // @fnv 0x005e3160
 bool TESSound::Load(TESFile* file)
 {
-    if (static_cast<TESFileFormInt*>(file)->GetTESForm() != ENUM_FORM_ID_SOUN_ID)
+    if (reinterpret_cast<::FUN_00472660_shell *>((static_cast<TESFileFormInt*>(file)))->FUN_00472660() != ENUM_FORM_ID_SOUN_ID)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     int iChunkID;
-    while ((iChunkID = file->GetChunkID()) != 0)
+    while ((iChunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (iChunkID)
         {
         case 0x44494445:  // EDID
         {
-            char* pChunkBuffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(pChunkBuffer, 0x200);
+            char* pChunkBuffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pChunkBuffer), 0x200);
             SetEditorID_AtRuntime(pChunkBuffer);
             break;
         }
@@ -71,25 +88,25 @@ bool TESSound::Load(TESFile* file)
             break;
         case 0x4D414E46:  // FNAM
         {
-            char* pChunkBuffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(pChunkBuffer, 0);
+            char* pChunkBuffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pChunkBuffer), 0);
             SetSoundFile(pChunkBuffer);
             break;
         }
         case 0x4D414E52:  // RNAM
-            ReadTypedData(file, &m_cSoundFlag, sizeof(m_cSoundFlag));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &m_cSoundFlag, sizeof(m_cSoundFlag));
             break;
         case 0x44444E53:  // SNDD
-            ReadTypedData(file, &data, sizeof(data));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &data, sizeof(data));
             if (file->IsEndianConversionRequired())
-                data.Endian();
+                reinterpret_cast<::TESSound__SOUND_DATA *>(&(data))->SwapEndian();
             break;
         case 0x58444E53:  // SNDX
         {
             TESSound__SOUND_DATA2 oldSoundData;
-            ReadTypedData(file, &oldSoundData, sizeof(oldSoundData));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &oldSoundData, sizeof(oldSoundData));
             if (file->IsEndianConversionRequired())
-                oldSoundData.Endian();
+                reinterpret_cast<::Data5E35 *>(&(oldSoundData))->FUN_005e3510();
             data.iMin = oldSoundData.iMin;
             data.iMax = oldSoundData.iMax;
             data.m_cPitchAdjustment = oldSoundData.m_cPitchAdjustment;
@@ -99,14 +116,14 @@ bool TESSound::Load(TESFile* file)
             break;
         }
         case 0x4D414E41:  // ANAM
-            ReadTypedData(file, data.m_auiAttenuationCurve, sizeof(data.m_auiAttenuationCurve));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, data.m_auiAttenuationCurve, sizeof(data.m_auiAttenuationCurve));
             if (file->IsEndianConversionRequired())
             {
-                BSEndian(&data.m_auiAttenuationCurve[0], EndianSizeTag<2>());
-                BSEndian(&data.m_auiAttenuationCurve[1], EndianSizeTag<2>());
-                BSEndian(&data.m_auiAttenuationCurve[2], EndianSizeTag<2>());
-                BSEndian(&data.m_auiAttenuationCurve[3], EndianSizeTag<2>());
-                BSEndian(&data.m_auiAttenuationCurve[4], EndianSizeTag<2>());
+                ::FUN_00407a90((short *)(unsigned short *)(&data.m_auiAttenuationCurve[0]));
+                ::FUN_00407a90((short *)(unsigned short *)(&data.m_auiAttenuationCurve[1]));
+                ::FUN_00407a90((short *)(unsigned short *)(&data.m_auiAttenuationCurve[2]));
+                ::FUN_00407a90((short *)(unsigned short *)(&data.m_auiAttenuationCurve[3]));
+                ::FUN_00407a90((short *)(unsigned short *)(&data.m_auiAttenuationCurve[4]));
             }
             if (data.m_auiAttenuationCurve[0] == 100 && data.m_auiAttenuationCurve[1] == 75 &&
                 data.m_auiAttenuationCurve[2] == 50 && data.m_auiAttenuationCurve[3] == 25 &&
@@ -120,10 +137,10 @@ bool TESSound::Load(TESFile* file)
             }
             break;
         case 0x4D414E47:  // GNAM
-            ReadTypedData(file, &data.m_uiReverbAttenuation, sizeof(data.m_uiReverbAttenuation));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &data.m_uiReverbAttenuation, sizeof(data.m_uiReverbAttenuation));
             break;
         case 0x4D414E48:  // HNAM
-            ReadTypedData(file, &data.iPriority, sizeof(data.iPriority));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &data.iPriority, sizeof(data.iPriority));
             break;
         }
         if (!file->NextChunk())

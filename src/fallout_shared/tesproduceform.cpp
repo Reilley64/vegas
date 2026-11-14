@@ -2,8 +2,17 @@
 // src/fallout_shared/tesproduceform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesproduceform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl memset(void* p, int c, unsigned int n);
 
+#include <cstring>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 struct FUN_0048b590_shell
 {
     void ClearFields();
@@ -14,10 +23,9 @@ struct FUN_0048b590_shell
 void FUN_0048b590_shell::ClearFields()
 {
     *(reinterpret_cast<int*>(this) + 1) = 0;
-    memset(reinterpret_cast<char*>(this) + 8, 0, 4);
+    ::FUN_00403d30(reinterpret_cast<char*>(this) + 8, 0, 4);
 }
 
-extern "C" void* __cdecl __memcpy(void* dst, const void* src, unsigned int count);
 
 struct FUN_0048b670_shell
 {
@@ -29,14 +37,11 @@ struct FUN_0048b670_shell
 void FUN_0048b670_shell::CopyFromSource(void* pSource)
 {
     if (pSource)
-        __memcpy((char*)this + 8, pSource, 4);
+        ::__memcpy((char*)this + 8, pSource, 4);
 }
 
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
-void __cdecl _FUN_00485910(unsigned int, unsigned int);
 struct RefObj0084e3a0
 {
-    unsigned int _ref_0084e3a0();
 };
 struct FUN_0048b5c0_shell
 {
@@ -51,14 +56,15 @@ void FUN_0048b5c0_shell::FUN_0048b5c0()
     unsigned int tmp;
     if (unk4 != 0)
     {
-        tmp = unk4->_ref_0084e3a0();
-        _FUN_00485910(0x47494650, tmp);
+        tmp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((unk4))->FUN_0084e3a0()));
+        ::FUN_00485910(0x47494650, tmp);
     }
-    FUN_004856f0(0x43504650, &unk8, 4);
+    ::FUN_004856f0((void *)(0x43504650), &unk8, (void *)(4));
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct TESProduceForm : BaseFormComponent
@@ -67,11 +73,9 @@ struct TESProduceForm : BaseFormComponent
 };
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 struct CombatNode
 {
-    unsigned int FUN_00726070();
 };
 // Casts apCopyFC to TESProduceForm, initializes this from its combat node value, then copies the data at offset 8.
 // @fnv 0x0048b610
@@ -80,11 +84,10 @@ void TESProduceForm::FUN_0048b610(BaseFormComponent* apCopyFC)
     TESProduceForm* pCopy = dynamic_cast<TESProduceForm*>(apCopyFC);
     if (!pCopy)
         return;
-    ((TESRaceForm*)this)->Initialize(((CombatNode*)pCopy)->FUN_00726070());
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((std::uintptr_t)(reinterpret_cast<::Callees *>((((CombatNode*)pCopy)))->FUN_00726070()))));
     ((FUN_0048b670_shell*)this)->CopyFromSource((void*)((char*)pCopy + 8));
 }
 
-extern "C" int __cdecl memcmp(const void* a, const void* b, unsigned int n);
 struct ProduceFormData : BaseFormComponent
 {
     void* pIngredient;
@@ -99,14 +102,14 @@ bool ProduceFormData::FUN_0048b6a0(BaseFormComponent* apOther)
     ProduceFormData* pOther = (ProduceFormData*)dynamic_cast<TESProduceForm*>(apOther);
     if (!pOther)
         return true;
-    if (((CombatNode*)this)->FUN_00726070() != ((CombatNode*)pOther)->FUN_00726070())
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((CombatNode*)this)))->FUN_00726070())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((CombatNode*)pOther)))->FUN_00726070())))
         return true;
     if (memcmp(cProdChance, pOther->cProdChance, 4))
         return true;
     return false;
 }
 
-struct TESFile;
+class TESFile;
 
 struct FUN_00485b60_Cls
 {
@@ -187,23 +190,21 @@ struct FUN_00485b60_Cls
     virtual int v74();
     virtual int v75();
     virtual int v76();
-    TESFile* GetFile(int aIndex);
-    int HasNameForWarning();
-    unsigned int Deallocate();
 };
 
-void ResolveFormID(unsigned int* apFormID, TESFile* apFile);
-struct TESForm;
-TESForm* FUN_004839c0(unsigned int aFormID);
-void FNV_Warning(const char* apMsg, ...);
+class TESForm;
 
 extern const char DAT_0101d2b4[];
 extern const char DAT_0101d2f8[];
 extern const char DAT_0101d340[];
 
-struct TESForm
+class TESFile;
+class TESForm
 {
+  public:
     virtual ~TESForm();
+public:
+    ::TESFile *GetFile(int);
 };
 
 struct IngredientItem : TESForm
@@ -222,25 +223,25 @@ void FUN_0048b720_Cls::ResolveIngredient(FUN_00485b60_Cls* apArg)
 {
     if (pIngredient != 0)
     {
-        unsigned int formID = (unsigned int)pIngredient;
-        ResolveFormID(&formID, apArg->GetFile(-1));
-        pIngredient = dynamic_cast<IngredientItem*>(FUN_004839c0(formID));
+        unsigned int formID = (unsigned int)(std::uintptr_t)pIngredient;
+        ::ResolveFormID(&formID, reinterpret_cast<::TESForm *>((apArg))->GetFile(-1));
+        pIngredient = dynamic_cast<IngredientItem*>(::FUN_004839c0(formID));
         if (pIngredient == 0)
         {
             if (apArg != 0)
             {
-                if (apArg->HasNameForWarning())
+                if (reinterpret_cast<::BGSCameraPath *>((apArg))->HasNameForWarning())
                 {
-                    FNV_Warning(DAT_0101d340, formID, apArg->v76());
+                    ::FUN_005b5e40();
                 }
                 else
                 {
-                    FNV_Warning(DAT_0101d2f8, formID, apArg->Deallocate());
+                    ::FUN_005b5e40();
                 }
             }
             else
             {
-                FNV_Warning(DAT_0101d2b4, formID);
+                ::FUN_005b5e40();
             }
         }
     }

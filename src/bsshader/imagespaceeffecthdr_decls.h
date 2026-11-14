@@ -3,17 +3,18 @@
 #define IMAGESPACEEFFECTHDR_DECLS_H
 
 #include <stddef.h>
-void operator delete(void*);
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 class ImageSpaceEffect;
-class ImageSpaceEffectParam;
-class ImageSpaceManager;
+struct ImageSpaceEffectParam;
+struct ImageSpaceManager;
 class ImageSpaceTexture;
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager g_memoryManager;
 template <class T> class NiTMallocInterface
 {
 };
@@ -27,7 +28,7 @@ template <class T, class A> class NiTArray
     // SetAt consumes the reference without retaining its address.
     __declspec(noalias) void SetAt(unsigned int, const T&);
 };
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -49,10 +50,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     unsigned char layoutPadding57;
     unsigned char inputArraysAndStates[48];
     ImageSpaceShaderParam();
-    static void* operator new(size_t size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
     void AllocateShaderConstants(int, int);
     void FUN_00b8a7c0();
     void CopyParamData(int, const float*, unsigned int);
@@ -67,8 +64,8 @@ class ImageSpaceEffect
     NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > pEffectParamList;
     NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> > pTextures;
     unsigned char remainingArrays[32];
-    void SetTextureArrayCount(int);
-    void SetEffectAt(int, ImageSpaceEffect*, ImageSpaceEffectParam*, int);
+public:
+    void SetTextureArraySize(int);
 };
 class HDRImageSpaceEffect : public ImageSpaceEffect
 {
@@ -79,7 +76,7 @@ class HDRImageSpaceEffect : public ImageSpaceEffect
     float* pVector4;
     void Setup(ImageSpaceManager*, ImageSpaceEffectParam*);
 };
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     ImageSpaceEffect* GetEffect(int index)
@@ -129,7 +126,7 @@ class NiRenderTargetGroup
     virtual void vfn_88();
     virtual unsigned int Unk_23(unsigned int);
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     virtual void vfn_0();
@@ -199,11 +196,7 @@ class NiRenderer
     bool m_bRendererFlagB;
     char _pdbpad_20a[118];
 };
-extern bool DAT_011f941f;
-extern bool DAT_011f9420;
 extern const float DAT_011add48[];
 extern const float DAT_011add88[];
 extern const float DAT_011ade88[];
-typedef char shader_param_size[(sizeof(ImageSpaceShaderParam) == 0x88) ? 1 : -1];
-typedef char hdr_aniso_offset[(offsetof(HDRImageSpaceEffect, m_bUseLowResolutionPath) == 0x68) ? 1 : -1];
 #endif

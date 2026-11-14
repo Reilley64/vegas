@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsendianutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsendianutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00e06000.h"
 struct S_00e062a0_Block
 {
     int unk00;
@@ -106,8 +107,6 @@ struct S_00e062a0_Flag
     bool m_bValue;
 };
 
-void ProcessInput(void* pkStream, S_00e062a0_Block* pkBlockA, S_00e062a0_Block* pkBlockB, S_00e062a0_Flag kFlag,
-                  S_00e062a0_Flag* pkFlag, const S_00e062a0_Tag& kTag);
 
 template <class T> inline void S_00e062a0_Swap(T& a, T& b)
 {
@@ -128,7 +127,7 @@ void SwapMeshRecords(void* pkStream, S_00e062a0_Mesh* pkMesh)
 {
     S_00e062a0_Flag kFlag;
     kFlag.m_bValue = true;
-    ProcessInput(pkStream, &pkMesh->m_kBlockA, &pkMesh->m_kBlockB, kFlag, &kFlag, S_00e062a0_Tag());
+    ::ProcessInput((::Context **)(pkStream), (::Input *)(::S_00e062a0_Block *)(&pkMesh->m_kBlockA), &pkMesh->m_kBlockB, (*(bool *)&(const ::S_00e062a0_Flag &)(kFlag)), (int *)(::S_00e062a0_Flag *)(&kFlag), (bool *)&(const ::S_00e062a0_Tag &)(S_00e062a0_Tag()));
 
     int iStride = pkMesh->m_ucStride;
     int iRecordCount = pkMesh->m_iDataSize / iStride;

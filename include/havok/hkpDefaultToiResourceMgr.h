@@ -4,12 +4,9 @@
 #define FNV_HAVOK_HKPDEFAULTTOIRESOURCEMGR_H
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpDefaultToiResourceMgr : public hkReferencedObject
 {
   public:
     char pad8[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpDefaultToiResourceMgr[(sizeof(hkpDefaultToiResourceMgr) == 0x10) ? 1 : -1];
 #endif

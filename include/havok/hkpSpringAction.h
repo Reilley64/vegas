@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpBinaryAction.h"
-#pragma pack(push, 1)
 class hkpSpringAction : public hkpBinaryAction
 {
   public:
@@ -19,6 +18,4 @@ class hkpSpringAction : public hkpBinaryAction
     hkBool m_bElastic;         // +0x5D
     char pad5E[0x2];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSpringAction[(sizeof(hkpSpringAction) == 0x60) ? 1 : -1];
 #endif

@@ -2,16 +2,33 @@
 #ifndef FNV_VALUEMODIFIEREFFECT_DECLS_H
 #define FNV_VALUEMODIFIEREFFECT_DECLS_H
 
+#include <cstdio>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_007df210_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/KillActor.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008808a0__ActorProxy.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005d1000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_0087a000.h"
+#include "fnv/symbols_011de000.h"
 class BaseProcess;
 namespace ActorValue {
 enum Index
 {
     kNone = -1
 };
-bool IsSkill(Index);
 bool IsDerivedAttribute(Index);
 }
-bool FUN_005d1260(ActorValue::Index);
 class ActorValueOwner
 {
   public:
@@ -259,12 +276,8 @@ class Actor
     virtual void ForceActorValue(ActorValue::Index, float, unsigned int);
     virtual void vfn_3a8();
     virtual void DamageActorValue(ActorValue::Index, float, Actor*);
-    BaseProcess* GetProcess();
-    bool IsEssentialActor();
     char padding04[160];
     ActorValueOwner avOwner;
-    float AdjustEffectElapsedTime(float, Actor*);
-    void Kill(Actor*, float);
 };
 class MagicTarget
 {
@@ -279,35 +292,29 @@ class ActorMover
 class HighProcess
 {
   public:
-    int GetProcessLevel();
 };
 class MagicItem;
 class MagicCaster
 {
   public:
     Actor* GetCasterActor();
-    MagicItem* GetSelectedMagicItem();
 };
 class EffectSetting
 {
   public:
     bool IsDetrimentalToActorValue(int);
-    bool IsFlagSet(unsigned int);
 };
 class EffectItem
 {
   public:
-    EffectSetting* GetEffectSetting();
     int GetAffectedActorValue();
     bool IsHostile();
 };
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
 class TESBoundObject;
 class InventoryStackRecord
 {
   public:
-    TESBoundObject* GetObject();
 };
 class MagicItemComponent
 {
@@ -328,7 +335,6 @@ class TESBoundObject
     char padding04[8];
     MagicItemComponent component;
 };
-int __cdecl Warning(const char*, ...);
 class PlayerCharacter
 {
   public:
@@ -344,18 +350,13 @@ extern GlobalObject_0040c150 g_011d21a8, g_011d4a5c, g_011d2ce8;
 class SettingT_GameSettingCollection_
 {
   public:
-    const char* String();
 };
 namespace ActorValue {
-const char* GetActorValueName(Index);
 }
-class Interface
+struct Interface
 {
   public:
-    static bool ShowMessage(const char*, int, const char*, const char*, float, bool);
 };
-extern "C" int __cdecl sprintf(char*, const char*, ...);
-
 class BaseProcess
 {
   public:
@@ -820,16 +821,15 @@ class BaseProcess
     virtual void vfn_728();
     virtual void vfn_72c(PlayerCharacter*, float);
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();
 };
-void __cdecl FUN_0087a8b0(TaskQueueInterface*, int, Actor*, ...);
 
 // Getter bodies are shared by the original linker. The receiver overlays below
 // preserve canonical symbol bindings: +0x24 target, +0x28 caster, +0x0c source.
-void* __cdecl operator new(unsigned int);
+class EffectSetting;
 class ActiveEffect
 {
   public:
@@ -858,7 +858,6 @@ class ActiveEffect
     virtual void vfn_58();
     virtual void vfn_5c();
     virtual ActorValue::Index GetActorValue();
-    bool FUN_007df210();
     bool IsFlagged();
     virtual void ApplyActorValueModifier(Actor*, float, ActorValue::Index);
     void Finalize();
@@ -873,6 +872,8 @@ class ActiveEffect
     int m_eSpellType;
     unsigned char layoutPadding30[24];
     void CopyData(ActiveEffect* other);
+public:
+    ::EffectSetting *GetEffectSetting() const;
 };
 
 class ValueModifierEffect : public ActiveEffect

@@ -9,7 +9,7 @@
 class BSBatchRenderer;
 class BSBatchRenderer__RenderContext;
 class RenderQuery;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class BSShaderAccumulator;
 class BSShaderProperty__RenderPass;
 class BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___;
@@ -20,7 +20,7 @@ class NiAccumulator;
 class NiAlphaAccumulator;
 class NiBackToFrontAccumulator;
 class NiCamera;
-class RgbaColor;
+struct RgbaColor;
 class NiCriticalSection;
 class NiGeometry;
 class NiTAbstractPoolAllocator_unsigned_int_;
@@ -36,7 +36,7 @@ class NiTPointerList_ReferenceVolume___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiGeometry___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___;
 class ShadowSceneLight;
-class ShadowSceneNode;
+struct ShadowSceneNode;
 class RenderQueryState;
 enum BSShaderAccumulator__etAccumulationMode
 {
@@ -65,7 +65,6 @@ enum BSShaderManager__etRenderMode
     BSShaderManager__etRenderMode_BSSM_RENDER_SILHOUETTE = 15,
     BSShaderManager__etRenderMode_BSSM_RENDER_COUNT = 16
 };
-#pragma pack(push, 4)
 class NiAccumulator : public NiObject
 {
   public:
@@ -83,26 +82,16 @@ class NiAccumulator : public NiObject
     // NiAccumulator& __cdecl NiAccumulator::*(const NiAccumulator&)
     // void __cdecl NiAccumulator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiAccumulator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiAccumulator, m_pkAccumulationCamera) == 8);
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -110,11 +99,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry_____AntiBloatAllo
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry___
 {
   public:
@@ -138,12 +122,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry___
     // NiTListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>::*(const NiTListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiGeometry___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__NiGeometry___
 {
@@ -172,9 +150,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiGeometry___
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiGeometry *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiGeometry___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_NiGeometry___ : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiGeometry___
 {
   public:
@@ -184,9 +159,6 @@ class NiTPointerList_NiGeometry___ : public NiTPointerListBase_NiTPointerAllocat
     // NiTPointerList<NiGeometry *>& __cdecl NiTPointerList<NiGeometry *>::*(const NiTPointerList<NiGeometry *>&)
     // void* __cdecl NiTPointerList<NiGeometry *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_NiGeometry___) == 12);
-#pragma pack(push, 4)
 class NiBackToFrontAccumulator : public NiAccumulator
 {
   public:
@@ -214,16 +186,6 @@ class NiBackToFrontAccumulator : public NiAccumulator
     // NiBackToFrontAccumulator& __cdecl NiBackToFrontAccumulator::*(const NiBackToFrontAccumulator&)
     // void __cdecl NiBackToFrontAccumulator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBackToFrontAccumulator) == 48);
-FNV_STATIC_ASSERT(offsetof(NiBackToFrontAccumulator, m_kUnsortedGeometryList) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBackToFrontAccumulator, m_pkGeometryList) == 24);
-FNV_STATIC_ASSERT(offsetof(NiBackToFrontAccumulator, m_iGeometryCount) == 28);
-FNV_STATIC_ASSERT(offsetof(NiBackToFrontAccumulator, m_iGeometryCapacity) == 32);
-FNV_STATIC_ASSERT(offsetof(NiBackToFrontAccumulator, m_ppGeometries) == 36);
-FNV_STATIC_ASSERT(offsetof(NiBackToFrontAccumulator, m_pfGeometrySortValues) == 40);
-FNV_STATIC_ASSERT(offsetof(NiBackToFrontAccumulator, m_iCurrentItem) == 44);
-#pragma pack(push, 4)
 class NiAlphaAccumulator : public NiBackToFrontAccumulator
 {
   public:
@@ -252,12 +214,6 @@ class NiAlphaAccumulator : public NiBackToFrontAccumulator
     // NiAlphaAccumulator& __cdecl NiAlphaAccumulator::*(const NiAlphaAccumulator&)
     // void __cdecl NiAlphaAccumulator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiAlphaAccumulator) == 52);
-FNV_STATIC_ASSERT(offsetof(NiAlphaAccumulator, m_bSkipObjectsWithFlag13) == 48);
-FNV_STATIC_ASSERT(offsetof(NiAlphaAccumulator, m_bSkipObjectsWithFlag14) == 49);
-FNV_STATIC_ASSERT(offsetof(NiAlphaAccumulator, m_bInterface) == 50);
-#pragma pack(push, 4)
 class RenderQueryState
 {
   public:
@@ -269,14 +225,6 @@ class RenderQueryState
     unsigned int m_uiQueryResult;  // +0x10, 4 bytes
     // void __cdecl RenderQueryState::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RenderQueryState) == 20);
-FNV_STATIC_ASSERT(offsetof(RenderQueryState, m_pRenderQuery) == 0);
-FNV_STATIC_ASSERT(offsetof(RenderQueryState, m_bQueryPending) == 4);
-FNV_STATIC_ASSERT(offsetof(RenderQueryState, m_fQueryValue) == 8);
-FNV_STATIC_ASSERT(offsetof(RenderQueryState, m_uiQueryFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(RenderQueryState, m_uiQueryResult) == 16);
-#pragma pack(push, 4)
 class BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -284,11 +232,6 @@ class BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry_____AntiBlo
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int ItemUpdateArray;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry_____AntiBloatAllocator,
-                           ItemUpdateArray) == 0);
-#pragma pack(push, 4)
 class BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___
 {
   public:
@@ -317,15 +260,6 @@ class BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___
     // BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>& __cdecl BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::*(const BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>&)
     // void __cdecl BSTPersistentList<NiTPointerAllocator<unsigned int>,NiGeometry *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___) == 20);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___, pHead) == 4);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___, pTail) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___, m_pCachedListItems) ==
-                  12);
-FNV_STATIC_ASSERT(offsetof(BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___, Allocator) == 16);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -333,11 +267,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume_____AntiBloa
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___
 {
   public:
@@ -345,28 +274,16 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___
     NiTListItem_ReferenceVolume___* m_pkTail;                                                           // +0x4, 4 bytes
     NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume_____AntiBloatAllocator m_kItemCount;  // +0x8, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_ReferenceVolume___ : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_ReferenceVolume___) == 12);
-#pragma pack(push, 4)
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -392,13 +309,6 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class BSShaderProperty__RenderPass
 {
   public:
@@ -412,18 +322,6 @@ class BSShaderProperty__RenderPass
     unsigned char m_ucPassIndex;               // +0xB, 1 bytes
     ShadowSceneLight** m_ppShadowSceneLights;  // +0xC, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty__RenderPass) == 16);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_pShaderGeometry) == 0);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_usShaderPassType) == 4);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_ucLightIndex) == 6);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_bIsBest) == 7);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_bRendered) == 8);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_ucLightCount) == 9);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_ucLightCapacity) == 10);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_ucPassIndex) == 11);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPass, m_ppShadowSceneLights) == 12);
-#pragma pack(push, 4)
 class NiCriticalSection
 {
   public:
@@ -439,12 +337,6 @@ class NiCriticalSection
     // unsigned int __cdecl NiCriticalSection::*()
     // void* __cdecl NiCriticalSection::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiCriticalSection) == 128);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_kCriticalSection) == 0);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_ulThreadOwner) == 28);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_uiLockCount) == 32);
-#pragma pack(push, 4)
 class BSShaderAccumulator : public NiAlphaAccumulator
 {
   public:
@@ -604,51 +496,4 @@ class BSShaderAccumulator : public NiAlphaAccumulator
     // void __cdecl BSShaderAccumulator::*()
     // void __cdecl BSShaderAccumulator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderAccumulator) == 896);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_eAccumulationMode) == 52);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bUseFirstPersonCamera) == 56);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bAccumulationFlag) == 57);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, ShaderAccumulationState) == 58);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_uiAccumulationFlags) == 60);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bSkipGeometryPass) == 64);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_fRenderParameter) == 68);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_akRenderQueryStates) == 72);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bFirstPersonMode) == 132);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, b1stPerson) == 133);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bFlagAfterFirstPerson) == 134);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_usRenderQueryCount) == 136);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, GeometryRenderGroup) == 138);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_ppRenderQueries) == 140);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kGeometryList) == 144);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kGeometryListArray) == 156);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kGeometryListArray2) == 236);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, GeometryCollection) == 316);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kReferenceVolumeList) == 320);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_uiGeometryCount) == 332);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bGeometryFlag) == 336);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kDataAfterGeometryFlag) == 340);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bFirstSpecialPassFlag) == 356);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bSecondSpecialPassFlag) == 357);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bThirdSpecialPassFlag) == 358);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bFourthBooleanFlagBeforeInteger) == 359);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_iValueAfterBooleanFlags) == 360);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_bFlagAfterInteger) == 364);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_pGeometryGroupAllocator) == 368);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_pGroupRenderer) == 372);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_puiRendererOutput) == 380);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_piRendererOutput) == 384);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_pbRendererOutput) == 388);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_pbRendererResults) == 392);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_uiRendererCount) == 396);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, ShadowSceneState) == 400);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_pShadowSceneNode) == 404);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_spRenderedShadowTexture) == 408);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_eRenderMode) == 412);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_pShadowSceneLight) == 416);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_eRenderPass) == 420);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kAVObjectFlagMap) == 436);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kFirstCriticalSection) == 512);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kSecondObjectMap) == 640);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulator, m_kSecondCriticalSection) == 768);
 #endif

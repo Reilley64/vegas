@@ -4,12 +4,12 @@
 
 #include "processlists_layout_support.h"
 #include "processlists_NiRefObject.h"
-class NiRTTI;
-class CloningProcess;
-class NiStream;
-class NiBound;
+struct NiRTTI;
+struct CloningProcess;
+struct NiStream;
+struct NiBound;
 class NiObjectGroup;
-class NiControllerManager;
+struct NiControllerManager;
 class NiGeometry;
 class NiTriBasedGeom;
 class NiTriStrips;
@@ -25,7 +25,7 @@ class bhkLimitedHingeConstraint;
 class BSFadeNode;
 class BSMultiBoundNode;
 typedef NiTPrimitiveArray<const char*> NiViewerStringsArray;
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     NiObject();
@@ -64,5 +64,4 @@ class NiObject : public NiRefObject
     virtual void SetGroup(NiObjectGroup* apGroup);
     virtual NiControllerManager* IsControllerManager() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiObject) == 0x8);
 #endif

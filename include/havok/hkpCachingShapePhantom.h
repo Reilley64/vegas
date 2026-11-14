@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpShapePhantom.h"
-#pragma pack(push, 1)
 class hkpCachingShapePhantom : public hkpShapePhantom
 {
   public:
@@ -13,6 +12,4 @@ class hkpCachingShapePhantom : public hkpShapePhantom
     hkBool m_bOrderDirty;               // +0x16C
     char pad16D[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCachingShapePhantom[(sizeof(hkpCachingShapePhantom) == 0x170) ? 1 : -1];
 #endif

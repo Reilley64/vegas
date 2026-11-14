@@ -1,0 +1,32 @@
+# WinMain (0x0086a850, src/fallout/misc/main.cpp), whose calls of boot functions
+# are bound by name to the bodies at the recipe's rows (VEGAS-30).
+# Format: README.md.
+# The names the calls used before, which no object defines:
+# the main loop, 0x0086e650
+forbid	?FUN_0086e650@Receiver86@@QEAAXXZ
+# BootInit, 0x0086cf20
+forbid	?FUN_0086cf20@Receiver86@@QEAAXPEAU1@@Z
+# the render set-up, 0x0086d590
+forbid	?FUN_0086d590@Receiver86@@QEAAXXZ
+# the window procedure, 0x0086a0a0, whose address WinMain takes
+forbid	?FUN_0086a0a0@fnv_0086a0a0@@YAJPEAUHWND__@@IIJ@Z
+# batch, unit, function and the names of the bodies:
+function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ ?FUN_0086cf20@BootInit@@QEAAXPEAUScenePart@@@Z ?FUN_0086d590@RenderSystem@fnv_0086d590@@QEAAXXZ ?FUN_0086a0a0@fnv_0086a0a0@@YA_JPEAUHWND__@@I_K_J@Z
+# Functions of the same unit on the boot path whose calls are bound by name
+# to the bodies at the recipe's rows (VEGAS-30, boot path 2).
+# 0x00706320, which FUN_008774a0 called under a name scoped to itself:
+forbid	?FUN_00706320@fnv_008774a0@@YAXH@Z
+function	callees	src/fallout/misc/main.cpp	?FUN_008774a0@FUN_008774a0_shell@fnv_008774a0@@QEAAX_N@Z	?FUN_00706320@@YAXH@Z
+# 0x004a0e90, which FUN_00876850 called under a name scoped to itself:
+forbid	?FUN_004a0e90@fnv_00876850@@YAPEAXXZ
+function	callees	src/fallout/misc/main.cpp	?FUN_00876850@FUN_00876850_shell@fnv_00876850@@QEAAXPEAUBSRenderedTexture@2@PEAUImageSpaceManager@2@PEAUGraphicsRenderer@2@PEAUSun@2@@Z	?FUN_004a0e90@@YAPEAXXZ
+# 0x004a0e90, which FUN_00873200 called under a name scoped to itself:
+forbid	?FUN_004a0e90@fnv_00873200@@YAPEAXXZ
+function	callees	src/fallout/misc/main.cpp	?FUN_00873200@MainView@fnv_00873200@@QEAAXPEAUViewNode@2@H_N1@Z	?FUN_004a0e90@@YAPEAXXZ
+# 0x00b6b790, which FUN_00874ac0 called through a class scoped to itself:
+forbid	?EndAllAndResetRendererState@BSRenderedTexture@fnv_00874ac0@@SAXXZ
+function	callees	src/fallout/misc/main.cpp	?FUN_00874ac0@FUN_00874ac0_shell@fnv_00874ac0@@QEAAX_N@Z	?EndAllAndResetRendererState@BSRenderedTexture@@SAXXZ
+# 0x0043d410, the NiUpdateData constructor, which FUN_00877730 called
+# through a copy of the class scoped to itself:
+forbid	??0NiUpdateData@fnv_00877730@@QEAA@M_N0@Z
+function	callees	src/fallout/misc/main.cpp	?FUN_00877730@fnv_00877730@@YAXXZ	??0NiUpdateData@@QEAA@M_N0@Z

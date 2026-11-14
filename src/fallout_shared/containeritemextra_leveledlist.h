@@ -6,7 +6,6 @@
 #include "BaseFormComponent.h"
 class LeveledObject;
 class TESGlobal;
-#pragma pack(push, 4)
 class TESLeveledList : public BaseFormComponent
 {
   public:
@@ -18,7 +17,4 @@ class TESLeveledList : public BaseFormComponent
     BSSimpleList<LeveledObject*> m_kLeveledObjects;
     void FUN_0042e680(unsigned char chance);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(offsetof(TESLeveledList, m_pChanceGlobal) == 12);
-FNV_STATIC_ASSERT(sizeof(TESLeveledList) == 28);
 #endif

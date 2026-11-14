@@ -2,6 +2,10 @@
 #ifndef TOPICINFO_HELPERS_H
 #define TOPICINFO_HELPERS_H
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_009527b0_Class.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/symbols_011de000.h"
 #include "testopicinfo_topicinfo_layout_support.h"
 class TopicInfoArray : public NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >
 {
@@ -9,7 +13,6 @@ class TopicInfoArray : public NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TE
 class QuestDialogueInfo
 {
   public:
-    TopicInfoArray* GetInfoArray();
 };
 class FormChangeMask
 {
@@ -19,9 +22,8 @@ class FormChangeMask
   public:
     FormChangeMask();
     FormChangeMask(int flags);
-    bool ContainsAnyFlags(int flags);
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags();
@@ -30,7 +32,5 @@ class BGSLoadFormBuffer
 class PlayerCharacter
 {
   public:
-    void AddTopics(BSSimpleList<TESTopic*>* topics);
 };
-extern PlayerCharacter* pPlayer;
 #endif

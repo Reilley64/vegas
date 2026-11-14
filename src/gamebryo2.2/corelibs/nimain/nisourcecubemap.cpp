@@ -2,31 +2,64 @@
 // src/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-class NiStream;
+#include <cstdint>
+#include "generated/data/vtables.h"
+#include <windows.h>
+#include <new>
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/AlphaPropInit_cls.h"
+#include "fnv/decl/ControllerA606.h"
+#include "fnv/decl/FUN_00a5fca0_cls.h"
+#include "fnv/decl/FUN_00a60770_shell.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a64ce0_shell.h"
+#include "fnv/decl/FUN_00aa24d0.h"
+#include "fnv/decl/NiImageConverter.h"
+#include "fnv/decl/NiTexture.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00aa24f0__FUN_00aa24f0_cls.h"
+#include "fnv/decl/fnv_00aa2540__NiSearchPath.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/sa5f9a0__Controller.h"
+#include "fnv/decl/sa5fa90__Owner.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a76000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+struct NiStream;
 
 extern "C"
 {
-    char __stdcall AttachToListener(NiStream* kStream);
 }
 
 // @fnv 0x00a60850
-bool __stdcall FUN_00a60850(NiStream& kStream)
+bool FUN_00a60850(NiStream& kStream)
 {
-    return AttachToListener(&kStream);
+    return ((char)(reinterpret_cast<::sa5fa90::Owner *>((&kStream))->AttachToListener({})));
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4454;
 
 // @fnv 0x00a60cb0
 GlobalObjectO2_00a7b610* __cdecl FUN_00a60cb0()
 {
-    return &g_011f4454;
+    return &::g_011f4454;
 }
 
-struct NiSourceTexture
+struct TextureLoadStream;
+class NiSourceTexture
 {
+  public:
     NiSourceTexture();
+public:
+    void FUN_00a60180(::TextureLoadStream &);
 };
 
 struct NiSourceCubeMap : NiSourceTexture
@@ -36,18 +69,17 @@ struct NiSourceCubeMap : NiSourceTexture
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a60f30
 NiSourceCubeMap* __cdecl CreateNiSourceCubeMap()
 {
-    void* p = BSFadeNode::operator new(0x4c);
+    void* p = ::operator new(0x4c);
     if (p)
     {
         NiSourceCubeMap* n = static_cast<NiSourceCubeMap*>(p);
-        n->NiSourceTexture::NiSourceTexture();
-        *(unsigned int*)(n) = 0x0109babc;
+        reinterpret_cast<::AlphaPropInit_cls *>((n))->FUN_00a5fc10();
+        *(void**)(n) = fnv_vftable_NiCubeMap;
         *(unsigned int*)((char*)n + 0x48) = 0;
         return n;
     }
@@ -58,13 +90,13 @@ struct NiObject;
 
 struct NiSourceCubeMapShell : NiSourceCubeMap
 {
-    bool __thiscall FUN_00a5fae0(NiObject*);
-    bool __thiscall FUN_00a60880(NiObject* pkObject);
+    bool FUN_00a5fae0(NiObject*);
+    bool FUN_00a60880(NiObject* pkObject);
 };
 
 // Calls FUN_00a5fae0 on pkObject, then compares four fields of this and pkObject and returns true only if all match.
 // @fnv 0x00a60880
-bool __thiscall NiSourceCubeMapShell::FUN_00a60880(NiObject* pkObject)
+bool NiSourceCubeMapShell::FUN_00a60880(NiObject* pkObject)
 {
     if (FUN_00a5fae0(pkObject))
     {
@@ -162,7 +194,7 @@ struct NiRenderer
     virtual void v78() = 0;
     virtual void v79() = 0;
     virtual void v80() = 0;
-    virtual bool __thiscall CreateCube(void*) = 0;
+    virtual bool CreateCube(void*) = 0;
     static NiRenderer* ms_pRenderer;
 };
 struct DelObj
@@ -171,10 +203,10 @@ struct DelObj
 };
 struct Thunk60800
 {
-    bool __thiscall CreateCubeOrRelease();
+    bool CreateCubeOrRelease();
 };
 // @fnv 0x00a60800
-bool __thiscall Thunk60800::CreateCubeOrRelease()
+bool Thunk60800::CreateCubeOrRelease()
 {
     NiRenderer* pkRenderer = NiRenderer::ms_pRenderer;
     if (pkRenderer)
@@ -201,14 +233,10 @@ bool __thiscall Thunk60800::CreateCubeOrRelease()
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct Base60770
 {
-    void GetFileStrings(StrArr*);
 };
-char* __cdecl _FUN_00a7d330(char*);
 struct Host61480 : Base60770
 {
     void AppendGlobalString(StrArr*);
@@ -216,22 +244,20 @@ struct Host61480 : Base60770
 // @fnv 0x00a61480
 void Host61480::AppendGlobalString(StrArr* pkStrings)
 {
-    GetFileStrings(pkStrings);
-    char* psz = _FUN_00a7d330(*(char**)&g_011f4454);
+    reinterpret_cast<::FUN_00a60770_shell *>(this)->GetFileStrings(pkStrings);
+    char* psz = ::FUN_00a7d330(*(char**)&::g_011f4454);
     unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int uiCap = *(unsigned short*)((char*)pkStrings + 8);
     if (uiSize >= uiCap)
     {
         unsigned int uiGrow = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(uiSize + uiGrow);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + uiGrow);
     }
-    pkStrings->SetAt(uiSize, psz);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, psz);
 }
 
 namespace fnv_00a60ba0 {
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p) throw();
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p) throw();
+
 
 class NiRefObject
 {
@@ -251,7 +277,7 @@ class NiRefObject
     }
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 
@@ -289,11 +315,10 @@ template <class T> class NiPointer
     T* m_pObject;
 };
 
-class NiStream
+struct NiStream
 {
   public:
     NiObject* GetLoadedObject() throw();
-    unsigned int GetLinkID() throw();
     int unk00;
     int unk04;
     int unk08;
@@ -354,7 +379,6 @@ class NiStream
 class NiSourceTexture2 : public NiObject
 {
   public:
-    void LinkObject(NiStream& kStream) throw();
 };
 
 class NiSourceCubeMap2 : public NiSourceTexture2
@@ -376,7 +400,6 @@ class NiSourceCubeMap2 : public NiSourceTexture2
     int unk3c;
 
     void FUN_00a60ba0(NiStream& kStream);
-    void LinkObjectOld(NiStream& kStream) throw();
     void SetFaces(NiObject* p0, NiObject* p1, NiObject* p2, NiObject* p3, NiObject* p4, NiObject* p5) throw();
 };
 
@@ -385,10 +408,10 @@ void NiSourceCubeMap2::FUN_00a60ba0(NiStream& kStream)
 {
     if (kStream.m_uiNifVersion < 0x0A030006)
     {
-        NiSourceTexture2::LinkObject(kStream);
+        reinterpret_cast<::FUN_00a47360_shell *>(this)->FUN_00a47360(*(::NiStream *)&kStream);
         NiObject* apkFaces[6];
         memset(apkFaces, 0, sizeof(apkFaces));
-        if (kStream.GetLinkID() == 6)
+        if (reinterpret_cast<::FUN_00a63460_shell *>(&(kStream))->FUN_00a63460() == 6)
         {
             for (unsigned int i = 0; i < 6; i++)
             {
@@ -415,7 +438,7 @@ void NiSourceCubeMap2::FUN_00a60ba0(NiStream& kStream)
     }
     else
     {
-        LinkObjectOld(kStream);
+        reinterpret_cast<::sa5f9a0::Controller *>(this)->Load((::sa5f9a0::Stream *)&(kStream));
     }
 }
 }  // namespace fnv_00a60ba0
@@ -508,15 +531,10 @@ struct NiObject
 
 extern "C"
 {
-    void* __cdecl FUN_00aa13e0(unsigned int size);
-    void __cdecl FUN_00a57500(char** pp);
+
     void __cdecl FUN_00a76960(char** pp, unsigned int* p);
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct SpawnedBase
 {
@@ -583,10 +601,6 @@ struct SpawnedCubeShell : SpawnedBase
     unsigned int m_48;
 };
 
-extern "C" char* DAT_0109b220;
-extern "C" unsigned char DAT_011a9594;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* addend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 // @fnv 0x00a60f60
 SpawnedCubeShell* __cdecl CreateSpawnedCubeShell(char** ppName, NiObject* pOwner, unsigned int* pVals)
@@ -600,23 +614,23 @@ SpawnedCubeShell* __cdecl CreateSpawnedCubeShell(char** ppName, NiObject* pOwner
     char** ppStoredName = &pShell->m_30;
     if (*ppStoredName != s)
     {
-        if (s != DAT_0109b220)
+        if (s != ::DAT_0109b220)
         {
             InterlockedIncrement((long volatile*)(s - 8));
         }
-        if (*ppStoredName != DAT_0109b220)
+        if (*ppStoredName != ::DAT_0109b220)
         {
             InterlockedDecrement((long volatile*)(*ppStoredName - 8));
         }
         *ppStoredName = s;
     }
-    FUN_00a57500(ppStoredName);
-    FUN_00a76960(ppStoredName, &pShell->m_34);
+    ::FUN_00a57500((::NiFixedString *)(ppStoredName));
+    ::fnv_00a76960::FUN_00a76960(ppStoredName, (char **)(unsigned int *)(&pShell->m_34));
     if (pShell->m_48 != 0)
     {
         pShell->m_48 = 0;
     }
-    if (DAT_011a9594 != 0)
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011a9594)) != 0)
     {
         pShell->v41();
         if (pOwner != 0 && !pOwner->v81(pShell))
@@ -629,13 +643,8 @@ SpawnedCubeShell* __cdecl CreateSpawnedCubeShell(char** ppName, NiObject* pOwner
 }
 
 namespace fnv_00a61040 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-extern "C" void __cdecl FUN_00a57500(char** ppName);
-extern "C" void __cdecl FUN_00a76960(char** ppName, void* pExtra);
 
-extern int DAT_0109b220;
+
 
 struct FUN_00a5fc10_cls
 {
@@ -705,10 +714,6 @@ struct SpawnedObject : FUN_00a5fc10_cls
     int m_44;
     int m_48;
 
-    static void* __cdecl operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedObject() throw() : FUN_00a5fc10_cls()
     {
@@ -728,20 +733,20 @@ SpawnedObject* __cdecl FUN_00a61040(char** ppName, int aValue, NiRenderer* pRend
     char** ppNameSlot = &p->m_30;
     if (*ppNameSlot != name)
     {
-        if ((int)name != DAT_0109b220)
+        if ((intptr_t)name != (*reinterpret_cast<int *>(&::DAT_0109b220)))
         {
             InterlockedIncrement((long volatile*)(name - 8));
         }
         char* old = *ppNameSlot;
-        if ((int)old != DAT_0109b220)
+        if ((intptr_t)old != (*reinterpret_cast<int *>(&::DAT_0109b220)))
         {
             InterlockedDecrement((long volatile*)(old - 8));
         }
         *ppNameSlot = name;
     }
 
-    FUN_00a57500(ppNameSlot);
-    FUN_00a76960(ppNameSlot, &p->m_34);
+    ::FUN_00a57500((::NiFixedString *)(ppNameSlot));
+    ::fnv_00a76960::FUN_00a76960(ppNameSlot, (char **)(&p->m_34));
 
     if (p->m_48 != 0)
     {
@@ -770,7 +775,6 @@ struct TextureFormatPreferences
 struct NiCubeBase
 {
     NiCubeBase() throw();
-    static void* __cdecl operator new(unsigned int);
     virtual ~NiCubeBase();
 };
 
@@ -804,8 +808,6 @@ struct NiCubeMap : NiCubeBase
 struct LoadBuffer
 {
     int unk00;
-    void Init();
-    void Shutdown();
     int unk04;
     char m_acPath[260];
     char m_acAltPath[260];
@@ -899,13 +901,13 @@ struct CubeRenderer
 
 // @fnv 0x00a61120
 NiCubeMap* __cdecl CreateCubeMap(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, CubeRenderer* pkRenderer,
-                                 int iUnused, const TextureFormatPreferences* pkPrefs)
+                                 std::intptr_t iUnused, const TextureFormatPreferences* pkPrefs)
 {
     NiCubeMap* pkMap = new NiCubeMap;
     pkMap->m_kTextureFormatPreferences = *pkPrefs;
 
     LoadBuffer kBuf;
-    kBuf.Init();
+    new ((void *)&(kBuf)) ::FUN_00aa24d0();
     pkMap->Load(a1, a2, a3, a4, a5, a6, &kBuf);
 
     if (pkMap->unk48)
@@ -914,15 +916,15 @@ NiCubeMap* __cdecl CreateCubeMap(void* a1, void* a2, void* a3, void* a4, void* a
     if (pkRenderer && (!pkMap->unk3C || !pkRenderer->CreateCube(pkMap)))
     {
         delete pkMap;
-        kBuf.Shutdown();
+        reinterpret_cast<::fnv_00aa24f0::FUN_00aa24f0_cls *>(&(kBuf))->FUN_00aa24f0();
         return 0;
     }
 
-    kBuf.Shutdown();
+    reinterpret_cast<::fnv_00aa24f0::FUN_00aa24f0_cls *>(&(kBuf))->FUN_00aa24f0();
     return pkMap;
 }
 
-class NiStream;
+struct NiStream;
 
 struct NiBinaryStream
 {
@@ -940,7 +942,7 @@ struct NiBinaryStream
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     int unk00;
@@ -1065,7 +1067,7 @@ class NiStream
     int unk1DC;
     int unk1E0;
     int unk1E4;
-    int unk1E8;
+    intptr_t unk1E8;
     int unk1EC;
     int unk1F0;
     int unk1F4;
@@ -1092,9 +1094,8 @@ class NiStream
     int unk248;
     NiBinaryStream* m_pUnderlyingStream;
 
-    void ReadCString(char*& pcString);
-    void ReadUnsignedInteger(unsigned int ItemUpdateArray);
-    int ResetStreamState();
+public:
+    void SetLinkIDCount(unsigned int);
 };
 
 void NiFree(void* p);
@@ -1143,8 +1144,6 @@ struct CubeTexBase
         if (InterlockedDecrement((long volatile*)&m_uiRefCount) == 0)
             DeleteThis();
     }
-    void LoadBinaryTexture(NiStream& kStream);
-    void LoadBinarySource(NiStream& kStream);
 };
 
 struct CubeMapLoader : CubeTexBase
@@ -1165,60 +1164,17 @@ struct CubeMapLoader : CubeTexBase
     int unk3C;
     bool m_bIsStatic;
 
-    void CreateFaces(char* pc0, char* pc1, char* pc2, char* pc3, char* pc4, char* pc5, int iParam);
     void FUN_00a612a0(NiStream& kStream);
 };
 
-// @fnv 0x00a612a0
-void CubeMapLoader::FUN_00a612a0(NiStream& kStream)
-{
-    if (kStream.m_uiNifVersion < 0x0A030006)
-    {
-        LoadBinaryTexture(kStream);
-        IncRefCount();
-
-        char cCreateFaces = 0;
-        LoadChar(kStream, cCreateFaces);
-
-        char* apcFaceNames[6] = {};
-        unsigned int i;
-        for (i = 0; i < 6; i++)
-            kStream.ReadCString(apcFaceNames[i]);
-
-        kStream.ReadUnsignedInteger(6);
-        for (i = 0; i < 6; i++)
-            kStream.ResetStreamState();
-
-        if (cCreateFaces)
-            CreateFaces(apcFaceNames[0], apcFaceNames[1], apcFaceNames[2], apcFaceNames[3], apcFaceNames[4],
-                        apcFaceNames[5], kStream.unk1E8);
-
-        for (i = 0; i < 6; i++)
-            NiFree(apcFaceNames[i]);
-
-        LoadEnum(kStream, m_ePreferredPixelLayout);
-        LoadEnum(kStream, m_eMipFlag);
-        LoadEnum(kStream, m_eAlphaFormat);
-        bool oldStatic = m_bIsStatic;
-        LoadBool(kStream, oldStatic);
-        m_bIsStatic = oldStatic;
-        DecRefCount();
-    }
-    else
-    {
-        LoadBinarySource(kStream);
-    }
-}
-
-void __cdecl FUN_00a60600();
 
 // @fnv 0x00a60870
 void __cdecl FUN_00a60870()
 {
-    FUN_00a60600();
+    static_cast<::ControllerA606 *>(nullptr)->FUN_00a60600(*(::NiStream *)nullptr);
 }
 
-struct NiGPUProgram;
+class NiGPUProgram;
 
 template <class T> class NiPointer
 {
@@ -1238,7 +1194,6 @@ struct ProgramFactory_a60
     virtual void v02();
     virtual NiGPUProgram* CreateProgram(char* pcName, int iFlags, void* pvDefines);
 };
-ProgramFactory_a60* __cdecl FUN_00a76640();
 
 struct ShaderPass_a60
 {
@@ -1265,17 +1220,14 @@ struct ShaderPass_a60
 // @fnv 0x00a608c0
 void ShaderPass_a60::EnsureProgramCreated()
 {
-    if (m_spShaderProgram == 0 && m_pcProgramName != DAT_0109b220)
+    if (m_spShaderProgram == 0 && m_pcProgramName != ::DAT_0109b220)
     {
-        ProgramFactory_a60* pkFactory = FUN_00a76640();
+        ProgramFactory_a60* pkFactory = ((::ProgramFactory_a60 *)(::NiImageConverter::GetSharedImageConverter()));
         char* pcName = m_pcProgramName;
         m_spShaderProgram = pkFactory->CreateProgram(pcName, 0, m_pvDefines);
         m_pvDefines = 0;
     }
 }
-
-extern "C" unsigned int __cdecl strlen(const char* s);
-extern "C" void* __cdecl memset(void* d, int v, unsigned int n);
 
 struct S00a60cc0_Ref
 {
@@ -1297,13 +1249,8 @@ struct S00a60cc0_Loader
     virtual void v00();
     virtual void v01();
     virtual bool v02(char* buf, int size);
-    void SetPath(void* p);
 };
 
-void* __cdecl FUN_00aa1070(unsigned int size);
-int __cdecl FUN_00ec65a6(char* dst, unsigned int n, const char* src);
-void __cdecl FUN_00aa2a00(char* p);
-void* __cdecl GetPathWithExtension(char* p);
 bool __cdecl FUN_00aa1a30(const char* p, int a);
 
 static __forceinline void S00a60cc0_ReleaseAll(S00a60cc0_Ref** res)
@@ -1323,67 +1270,50 @@ static __forceinline void S00a60cc0_ReleaseAll(S00a60cc0_Ref** res)
 
 struct S00a60cc0_Target
 {
-    void FUN_00a60940(S00a60cc0_Ref* r0, S00a60cc0_Ref* r1, S00a60cc0_Ref* r2, S00a60cc0_Ref* r3, S00a60cc0_Ref* r4,
-                      S00a60cc0_Ref* r5);
     void LoadResources(char* a1, char* a2, char* a3, char* a4, char* a5, char* a6, S00a60cc0_Loader* a7);
 };
-
-// Loads six resources by name via a loader and manager, storing the created refs and calling FUN_00a60940 on success.
-// @fnv 0x00a60cc0
-void S00a60cc0_Target::LoadResources(char* apName0, char* apName1, char* apName2, char* apName3, char* apName4,
-                                     char* apName5, S00a60cc0_Loader* apLoader)
+// @fnv 0x00a612a0
+void CubeMapLoader::FUN_00a612a0(NiStream& kStream)
 {
-    S00a60cc0_Ref* res[6];
-    memset(res, 0, sizeof(res));
-    char* names[6] = {apName0, apName1, apName2, apName3, apName4, apName5};
-    S00a60cc0_Mgr* mgr = (S00a60cc0_Mgr*)FUN_00a76640();
-    char buf[260];
-    for (unsigned int idx = 0; idx < 6; idx++)
+    if (kStream.m_uiNifVersion < 0x0A030006)
     {
-        char* src = names[idx];
-        unsigned int len = strlen(src) + 1;
-        char* copy = (char*)FUN_00aa1070(len);
-        FUN_00ec65a6(copy, len, src);
-        FUN_00aa2a00(copy);
-        void* tmp = GetPathWithExtension(copy);
-        apLoader->SetPath(tmp);
-        apLoader->v01();
-        if (apLoader->v02(buf, 260))
-        {
-        retry:
-            if (!FUN_00aa1a30(buf, 0))
-            {
-                if (apLoader->v02(buf, 260))
-                    goto retry;
-                goto tail;
-            }
-            S00a60cc0_Ref* pNew = mgr->Create(buf, 0, 0);
-            S00a60cc0_Ref* old = res[idx];
-            if (old != pNew)
-            {
-                if (old && InterlockedDecrement(&old->m_ref) == 0)
-                    old->DeleteThis();
-                res[idx] = pNew;
-                if (pNew)
-                    InterlockedIncrement(&pNew->m_ref);
-            }
-            NiFree(tmp);
-            NiFree(copy);
-        }
-    tail:
-        if (!res[idx])
-        {
-            S00a60cc0_ReleaseAll(res);
-            return;
-        }
+        reinterpret_cast<::NiTexture *>(this)->LoadBinary(kStream);
+        IncRefCount();
+
+        char cCreateFaces = 0;
+        LoadChar(kStream, cCreateFaces);
+
+        char* apcFaceNames[6] = {};
+        unsigned int i;
+        for (i = 0; i < 6; i++)
+            reinterpret_cast<::FUN_00a64ce0_shell *>(&(kStream))->FUN_00a64ce0((char **)&(apcFaceNames[i]));
+
+        reinterpret_cast<::NiStream *>(&(kStream))->SetLinkIDCount(6);
+        for (i = 0; i < 6; i++)
+            reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
+
+        if (cCreateFaces)
+            reinterpret_cast<::S00a60cc0_Target *>(this)->LoadResources(apcFaceNames[0], apcFaceNames[1], apcFaceNames[2], apcFaceNames[3], apcFaceNames[4],
+                        apcFaceNames[5], (::S00a60cc0_Loader *)(kStream.unk1E8));
+
+        for (i = 0; i < 6; i++)
+            NiFree(apcFaceNames[i]);
+
+        LoadEnum(kStream, m_ePreferredPixelLayout);
+        LoadEnum(kStream, m_eMipFlag);
+        LoadEnum(kStream, m_eAlphaFormat);
+        bool oldStatic = m_bIsStatic;
+        LoadBool(kStream, oldStatic);
+        m_bIsStatic = oldStatic;
+        DecRefCount();
     }
-    FUN_00a60940(res[0], res[1], res[2], res[3], res[4], res[5]);
-    S00a60cc0_ReleaseAll(res);
+    else
+    {
+        reinterpret_cast<::NiSourceTexture *>(this)->FUN_00a60180((::TextureLoadStream &)(kStream));
+    }
 }
 
 extern "C" void* DAT_0109babc;
-extern "C" void __cdecl FUN_00aa1460(void*, unsigned int);
-extern "C" void _ReadWriteBarrier();
 
 struct CubePixels
 {
@@ -1401,7 +1331,6 @@ struct CubeCleanup
     CubePixels* pixels;
     unsigned int unk40, unk44, unk48;
 
-    void FUN_00a5fca0();
     void* FUN_00a61250(unsigned int flags);
 };
 
@@ -1418,16 +1347,13 @@ void* CubeCleanup::FUN_00a61250(unsigned int flags)
             old->Destroy();
         pixels = 0;
     }
-    FUN_00a5fca0();
+    reinterpret_cast<::FUN_00a5fca0_cls *>(this)->FUN_00a5fca0();
     if (flags & 1)
         FUN_00aa1460(this, sizeof(CubeCleanup));
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-void __cdecl FUN_00ec44d0(void*, const void*, unsigned int) throw();
+
 struct PixelFormat
 {
     unsigned int unk00;
@@ -1461,7 +1387,6 @@ struct Pixels
     unsigned int* offsets;
     unsigned int levels;
     unsigned int unk64, unk68, unk6c, unk70;
-    static void* __cdecl operator new(unsigned int size) throw();
     __declspec(nothrow) unsigned int Width() const
     {
         return *widths;
@@ -1520,6 +1445,58 @@ struct CubeHost
     PixelPtr pixels;
     void FUN_00a60940(Pixels*, Pixels*, Pixels*, Pixels*, Pixels*, Pixels*);
 };
+// Loads six resources by name via a loader and manager, storing the created refs and calling FUN_00a60940 on success.
+// @fnv 0x00a60cc0
+void S00a60cc0_Target::LoadResources(char* apName0, char* apName1, char* apName2, char* apName3, char* apName4,
+                                     char* apName5, S00a60cc0_Loader* apLoader)
+{
+    S00a60cc0_Ref* res[6];
+    memset(res, 0, sizeof(res));
+    char* names[6] = {apName0, apName1, apName2, apName3, apName4, apName5};
+    S00a60cc0_Mgr* mgr = (S00a60cc0_Mgr*)((::ProgramFactory_a60 *)(::NiImageConverter::GetSharedImageConverter()));
+    char buf[260];
+    for (unsigned int idx = 0; idx < 6; idx++)
+    {
+        char* src = names[idx];
+        unsigned int len = strlen(src) + 1;
+        char* copy = (char*)FUN_00aa1070(len);
+        fnv::crt::strcpy_s(copy, len, src);
+        ::FUN_00aa2a00(copy);
+        void* tmp = ((void *)(::GetPathWithExtension(copy)));
+        reinterpret_cast<::fnv_00aa2540::NiSearchPath *>((apLoader))->SetPath((const char *)(tmp));
+        apLoader->v01();
+        if (apLoader->v02(buf, 260))
+        {
+        retry:
+            if (!FUN_00aa1a30(buf, 0))
+            {
+                if (apLoader->v02(buf, 260))
+                    goto retry;
+                goto tail;
+            }
+            S00a60cc0_Ref* pNew = mgr->Create(buf, 0, 0);
+            S00a60cc0_Ref* old = res[idx];
+            if (old != pNew)
+            {
+                if (old && InterlockedDecrement(&old->m_ref) == 0)
+                    old->DeleteThis();
+                res[idx] = pNew;
+                if (pNew)
+                    InterlockedIncrement(&pNew->m_ref);
+            }
+            NiFree(tmp);
+            NiFree(copy);
+        }
+    tail:
+        if (!res[idx])
+        {
+            S00a60cc0_ReleaseAll(res);
+            return;
+        }
+    }
+    reinterpret_cast<::CubeHost *>(this)->FUN_00a60940((::Pixels *)(res[0]), (::Pixels *)(res[1]), (::Pixels *)(res[2]), (::Pixels *)(res[3]), (::Pixels *)(res[4]), (::Pixels *)(res[5]));
+    S00a60cc0_ReleaseAll(res);
+}
 // Allocates a Pixels object with six faces, copies each level from the six inputs, then releases their references.
 // @fnv 0x00a60940
 void CubeHost::FUN_00a60940(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* e, Pixels* f)
@@ -1551,7 +1528,7 @@ void CubeHost::FUN_00a60940(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* 
             Pixels* dst = pixels.ptr;
             unsigned int size = facePtrs[face].ptr->Size(level);
             unsigned char* source = facePtrs[face].ptr->SourceData(level);
-            FUN_00ec44d0(dst->Data(level, face), source, size);
+            std::memmove(dst->Data(level, face), source, size);
         }
     }
     PixelPtr* cursor = facePtrs + 6;
@@ -1562,3 +1539,5 @@ void CubeHost::FUN_00a60940(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* 
             old->Destroy();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nisourcecubemap.inc"

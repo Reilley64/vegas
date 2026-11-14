@@ -2,12 +2,30 @@
 // src/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-extern char DAT_0109717c[];
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <cstddef>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FUN_00a3f990_shell.h"
+#include "fnv/decl/FUN_00a423f0_cls.h"
+#include "fnv/decl/FUN_00a4e0b0_Holder.h"
+#include "fnv/decl/FUN_00a4e0f0_shell.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/S_00a42290_Cls.h"
+#include "fnv/decl/S_00a48fe0.h"
+#include "fnv/decl/fnv_00a42310__FUN_00a42310_cls.h"
+#include "fnv/decl/fnv_00eea6d0__NiLookAtInterpolator.h"
+#include "fnv/symbols_00a42000.h"
+#include "fnv/symbols_01097000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+
 
 struct FUN_00a5d3a0_cls
 {
-    void FUN_00a5d3a0();
 };
 
 struct FUN_00a5f860_cls
@@ -17,7 +35,6 @@ struct FUN_00a5f860_cls
 
 struct FUN_00a48fe0_cls
 {
-    void FUN_00a48fe0(unsigned int a1, unsigned int a2, unsigned int a3);
 };
 
 struct SpawnedObject
@@ -40,11 +57,11 @@ struct FUN_00a42460_cls
     unsigned int unk14;
     void* m_18;
     unsigned int m_1c;
-    void FUN_00a42460(unsigned int a1, unsigned int a2, unsigned int a3);
+    void FUN_00a42460(uintptr_t a1, unsigned int a2, unsigned int a3);
 };
 
 // @fnv 0x00a42460
-void FUN_00a42460_cls::FUN_00a42460(unsigned int auiArg1, unsigned int auiArg2, unsigned int auiArg3)
+void FUN_00a42460_cls::FUN_00a42460(uintptr_t auiArg1, unsigned int auiArg2, unsigned int auiArg3)
 {
     if (auiArg2 > 0)
     {
@@ -53,7 +70,7 @@ void FUN_00a42460_cls::FUN_00a42460(unsigned int auiArg1, unsigned int auiArg2, 
             SpawnedObject* o = (SpawnedObject*)FUN_00aa13e0(0x18);
             if (o != 0)
             {
-                ((FUN_00a5d3a0_cls*)o)->FUN_00a5d3a0();
+                new ((void *)(((FUN_00a5d3a0_cls*)o))) struct ::FUN_00a5d3a0();
                 o->m_vtbl = (void*)&DAT_0109717c;
                 o->m_08 = 0;
                 o->m_0c = 0;
@@ -66,22 +83,20 @@ void FUN_00a42460_cls::FUN_00a42460(unsigned int auiArg1, unsigned int auiArg2, 
             }
             ((FUN_00a5f860_cls*)&m_18)->FUN_00a5f860(o);
         }
-        ((FUN_00a48fe0_cls*)m_18)->FUN_00a48fe0(auiArg1, auiArg2, auiArg3);
+        reinterpret_cast<::S_00a48fe0 *>((((FUN_00a48fe0_cls*)m_18)))->FUN_00a48fe0((void *)(auiArg1), auiArg2, auiArg3);
         m_1c = 0;
     }
     else
     {
         if (m_18 != 0)
         {
-            ((FUN_00a48fe0_cls*)m_18)->FUN_00a48fe0(0, 0, 0);
+            reinterpret_cast<::S_00a48fe0 *>((((FUN_00a48fe0_cls*)m_18)))->FUN_00a48fe0((void *)(0), 0, 0);
         }
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 
 struct LcRTTI
 {
@@ -89,14 +104,11 @@ struct LcRTTI
     const LcRTTI* m_pBaseRTTI;
 };
 
-extern LcRTTI DAT_011f36ec;
-extern LcRTTI DAT_011f3e50;
 
 struct LcString
 {
     const char* m_kHandle;
 };
-extern LcString DAT_011f49e0;
 
 struct LcObject
 {
@@ -127,7 +139,7 @@ struct LcObject
     }
 };
 
-inline void* operator new(unsigned int, void* pv, int)
+inline void* operator new(std::size_t, void* pv, int)
 {
     return pv;
 }
@@ -145,8 +157,6 @@ struct LcKeyData
     {
         return m_usNumB;
     }
-    void FUN_00a4e0b0(void* pkKeys, unsigned int uiElementCount, int eType);
-    void InitFromParams(void* pkKeys, unsigned int uiElementCount, int eType);
 };
 
 struct LcTarget;
@@ -167,7 +177,6 @@ struct LcSourceInterp : LcObject
             return m_pUserData->GetNumB();
         return 0;
     }
-    void* FUN_00a3f990(unsigned int& uiElementCount, int& eType, unsigned char& ucSize);
     void* FUN_00a3f9e0(unsigned int& uiElementCount, int& eType, unsigned char& ucSize);
 };
 
@@ -234,14 +243,12 @@ struct LcKeys
 {
     char pad[0x20];
     LcKeys(int i);
-    void FUN_00a42460(void* pkKeys, unsigned int uiElementCount, int eType);
 };
 
 struct LcKeys2
 {
     char pad[0x18];
     LcKeys2(int i);
-    void FUN_00a42290(void* pkKeys, unsigned int uiElementCount, int eType);
 };
 
 struct LcInterp : LcCtlr
@@ -252,15 +259,10 @@ struct LcInterp : LcCtlr
     int m_i10;
     char pad14[0x44 - 0x14];
     LcInterp(int a, int b, int c);
-    void FUN_00eea6d0(const LcString& kName);
-    void FUN_00a42310(LcKeys* pkKeys);
-    void FUN_00a423f0(LcKeys2* pkKeys);
 };
 
 struct LcTarget
 {
-    LcCtlr* FUN_00a5c570(const LcRTTI* pkRTTI) const;
-    void FUN_00a5c480(void* pkCtlr);
 };
 
 struct LcOld
@@ -273,25 +275,24 @@ struct LcOld
     int m_i38;
 };
 
-void CopyControllerSettings(LcOld* pkOld, LcCtlr* pkCtlr);
 
 // @fnv 0x00a42570
 extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
 {
     LcTarget* pkTarget = pkOld->m_pkTarget;
     bool bControllerCreated = false;
-    LcCtlr* pkCtlr = pkTarget->FUN_00a5c570(&DAT_011f36ec);
+    LcCtlr* pkCtlr = ((::LcCtlr *)(reinterpret_cast<::MyHost *>((void *)(pkTarget))->FUN_00a5c570((const ::MyRTTI *)(const ::LcRTTI *)(&(*reinterpret_cast<::LcRTTI *>(&::g_011f36ec))))));
     LcSourceInterp* pkSrc;
-    if (!pkCtlr || !(pkSrc = pkCtlr->GetInterpolator(0)) || !pkSrc->IsKindOfType(&DAT_011f3e50))
+    if (!pkCtlr || !(pkSrc = pkCtlr->GetInterpolator(0)) || !pkSrc->IsKindOfType(&(*reinterpret_cast<::LcRTTI *>(&::g_011f3e50))))
     {
         bControllerCreated = true;
         pkCtlr = new (FUN_00aa13e0(0x38), 0) LcCtlrNew;
-        CopyControllerSettings(pkOld, pkCtlr);
+        ::CopyControllerSettings((::Ctl424 *)(pkOld), (::Ctl424 *)(pkCtlr));
     }
 
     LcInterp* pkInterp = new (FUN_00aa13e0(0x44), 0) LcInterp(0, 0, 0);
     pkInterp->m_i10 = pkOld->m_i38;
-    pkInterp->FUN_00eea6d0(DAT_011f49e0);
+    reinterpret_cast<::fnv_00eea6d0::NiLookAtInterpolator *>((pkInterp))->FUN_00eea6d0((const ::fnv_00eea6d0::NiFixedString &)((*reinterpret_cast<::LcString *>(&::DAT_011f49e0))));
     if (pkOld->m_uiObjectFlags & 1)
         pkInterp->m_uiObjectFlags |= 1;
     else
@@ -302,7 +303,7 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
     if (pkData)
     {
         pkData->IncRefCount();
-        if (pkData->IsKindOfType(&DAT_011f3e50))
+        if (pkData->IsKindOfType(&(*reinterpret_cast<::LcRTTI *>(&::g_011f3e50))))
         {
             if (pkData->GetNumA())
             {
@@ -310,10 +311,10 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
                 unsigned int uiElementCount;
                 int eType;
                 unsigned char ucSize;
-                void* pvKeyBuffer = pkData->FUN_00a3f990(uiElementCount, eType, ucSize);
-                pkKeys->FUN_00a42460(pvKeyBuffer, uiElementCount, eType);
-                pkData->m_pUserData->FUN_00a4e0b0(0, 0, 0);
-                pkInterp->FUN_00a42310(pkKeys);
+                void* pvKeyBuffer = ((void *)(reinterpret_cast<::FUN_00a3f990_shell *>((pkData))->FUN_00a3f990((unsigned int *)&(uiElementCount), (int *)&(eType), (unsigned char *)&(ucSize))));
+                reinterpret_cast<::FUN_00a42460_cls *>((pkKeys))->FUN_00a42460((uintptr_t)(pvKeyBuffer), uiElementCount, eType);
+                reinterpret_cast<::FUN_00a4e0b0_Holder *>((pkData->m_pUserData))->FUN_00a4e0b0(0, 0, (char *)(0));
+                reinterpret_cast<::fnv_00a42310::FUN_00a42310_cls *>((pkInterp))->FUN_00a42310((::fnv_00a42310::NiRefObject *)(pkKeys));
             }
             if (pkData->GetNumB())
             {
@@ -322,9 +323,9 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
                 int eType;
                 unsigned char ucSize;
                 void* pvKeyBuffer = pkData->FUN_00a3f9e0(uiElementCount, eType, ucSize);
-                pkKeys->FUN_00a42290(pvKeyBuffer, uiElementCount, eType);
-                pkData->m_pUserData->InitFromParams(0, 0, 0);
-                pkInterp->FUN_00a423f0(pkKeys);
+                reinterpret_cast<::S_00a42290_Cls *>((pkKeys))->FUN_00a42290(pvKeyBuffer, uiElementCount, eType);
+                reinterpret_cast<::FUN_00a4e0f0_shell *>((pkData->m_pUserData))->InitFromParams((unsigned int)(0), 0, 0);
+                reinterpret_cast<::FUN_00a423f0_cls *>((pkInterp))->FUN_00a423f0((::NiRefObject *)(pkKeys));
             }
         }
     }
@@ -334,7 +335,7 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
     if (bControllerCreated)
         pkCtlr->SetTarget(pkTarget);
     if (pkTarget)
-        pkTarget->FUN_00a5c480(pkOld);
+        reinterpret_cast<::ControllerOwner *>((pkTarget))->FUN_00a5c480((::NiTimeController *)(pkOld));
     if (pkData)
         pkData->DecRefCount();
 }

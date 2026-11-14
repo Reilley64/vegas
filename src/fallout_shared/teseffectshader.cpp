@@ -1,5 +1,83 @@
 // fallout_shared/teseffectshader.cpp: TESEffectShader, EffectShaderData, EffectShaderShell, ShaderSettings and more (26 functions)
 
+#include <new>
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/B5081D0Actor.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/C508240Ref.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004a0d90_Class.h"
+#include "fnv/decl/FUN_004e3d00_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004fd3a0_shell.h"
+#include "fnv/decl/FUN_00507550_Class.h"
+#include "fnv/decl/FUN_00507570_Class.h"
+#include "fnv/decl/FUN_005075f0_class.h"
+#include "fnv/decl/FUN_00507610_Class.h"
+#include "fnv/decl/FUN_005076c0Class.h"
+#include "fnv/decl/FUN_005076e0_Class.h"
+#include "fnv/decl/FUN_00507700_cls.h"
+#include "fnv/decl/FUN_00507720_Class.h"
+#include "fnv/decl/FUN_00507740_Class.h"
+#include "fnv/decl/FUN_00507760_Class.h"
+#include "fnv/decl/FUN_00507780.h"
+#include "fnv/decl/FUN_005077a0_Class.h"
+#include "fnv/decl/FUN_00507d80_Class.h"
+#include "fnv/decl/FUN_00508050_Class.h"
+#include "fnv/decl/FUN_00508070_class.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0051b8c0_shell.h"
+#include "fnv/decl/FUN_005f9b10_class.h"
+#include "fnv/decl/FUN_00639aa0_shell.h"
+#include "fnv/decl/FUN_0068a830_shell.h"
+#include "fnv/decl/FUN_006d30e0_Class.h"
+#include "fnv/decl/FUN_006e4320_Class.h"
+#include "fnv/decl/FUN_006e4ef0_shell.h"
+#include "fnv/decl/FUN_006e5ee0_Class.h"
+#include "fnv/decl/FUN_00733fd0_shell.h"
+#include "fnv/decl/FUN_00810550_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/ParticleInitializer.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/TESObjectTREE.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TESWorldSpace.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_009314d0__FUN_009314d0_class.h"
+#include "fnv/decl/fnv_00b675c0__FUN_00b675c0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_00ba6000.h"
 #include "../teseffectshader.h"
 #include "TESFile.h"
 
@@ -83,84 +161,31 @@ void EffectShaderData::Initialize()
 // @fnv 0x00505db0
 void TESEffectShader::ResetFormData()
 {
-    GetData()->Initialize();
+    ((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->Initialize();
 }
 
 // @fnv 0x00505dd0
 void TESEffectShader::InitItem()
 {
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    unsigned int formID = reinterpret_cast<unsigned int>(GetAddonModels());
+    unsigned int formID = (unsigned int)(std::uintptr_t)(GetAddonModels());
     if (formID)
     {
-        RemapFormIDForFile(formID, GetFile(-1));
-        SetAddonModels(dynamic_cast<BGSDebris*>(GetFormByID(formID)));
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        reinterpret_cast<::MiddleHighProcess *>(this)->SetCurrentIdle((::TESIdleForm *)(::BGSDebris *)(dynamic_cast<BGSDebris*>(::FUN_004839c0(formID))));
     }
     SetInitializationState(true);
 }
 
-extern "C" void* __cdecl _alloca(unsigned int size);
-
-// @fnv 0x00505e70
-bool TESEffectShader::Load(TESFile* file)
-{
-    unsigned char formType = file->GetTESForm();
-    if (formType != 0x4f)
-        return false;
-    ClearData();
-    LoadRecordHeader(file);
-    SetInitializationState(false);
-    int iChunkID;
-    while (iChunkID = file->GetChunkID())
-    {
-        switch (iChunkID)
-        {
-        case 0x44494445: {
-            char* pChunkBuffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(pChunkBuffer, 0x200);
-            SetEditorID_AtRuntime(pChunkBuffer);
-        }
-        break;
-        case 0x444e424f:
-            readOBNDSubRecord(file);
-            break;
-        case 0x4e4f4349:
-            TESTextureLoader::ReadTextureData(&m_kFillTexture, file);
-            break;
-        case 0x324f4349:
-            TESTextureLoader::ReadTextureData(&m_kParticleShaderTexture, file);
-            break;
-        case 0x374d414e:
-            TESTextureLoader::ReadTextureData(&m_kHolesTexture, file);
-            break;
-        case 0x41544144:
-            if (file->IsEndianConversionRequired())
-                Data.Endian();
-            ReadTypedData(file, &Data, sizeof(Data));
-            if (file->IsEndianConversionRequired())
-                Data.Endian();
-            break;
-        }
-        if (!file->NextChunk())
-            break;
-    }
-    if (Data.m_fShaderFloatParameter1 <= 1.0 && Data.m_fShaderFloatParameter1 > 0.0)
-        Data.m_fShaderFloatParameter1 *= ParticleShader::GetShaderParticleCount();
-    if (Data.m_fShaderFloatParameter2 <= 1.0 && Data.m_fShaderFloatParameter2 > 0.0)
-        Data.m_fShaderFloatParameter2 *= ParticleShader::GetShaderParticleCount();
-    return true;
-}
-
 struct FUN_00507040Class
 {
-    EffectShaderData* GetData();
     bool FUN_00507040(unsigned int mask);
 };
 // @fnv 0x00507040
 bool FUN_00507040Class::FUN_00507040(unsigned int mask)
 {
-    return *(unsigned char*)GetData() & mask;
+    return *(unsigned char*)((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions())) & mask;
 }
 
 struct Base5a
@@ -175,27 +200,27 @@ struct FUN_005050b0 : Base5a
 FUN_005050b0::~FUN_005050b0()
 {}
 
-struct FUN_00506370Class
+struct FUN_00506370Class : ::TESEffectShader
 {
     void* GetFieldAt14C();
 };
 // @fnv 0x00506370
 void* FUN_00506370Class::GetFieldAt14C()
 {
-    return reinterpret_cast<char*>(this) + 0x14c;
+    return reinterpret_cast<char*>(&this->m_kFillTexture);
 }
 
-struct FUN_00506390Class
+struct FUN_00506390Class : ::TESEffectShader
 {
     char* GetFieldAt158();
 };
 // @fnv 0x00506390
 char* FUN_00506390Class::GetFieldAt158()
 {
-    return reinterpret_cast<char*>(this) + 0x158;
+    return reinterpret_cast<char*>(&this->m_kParticleShaderTexture);
 }
 
-struct FUN_005063b0Class
+struct FUN_005063b0Class : ::TESEffectShader
 {
     void* GetFieldAt164();
 };
@@ -203,20 +228,19 @@ struct FUN_005063b0Class
 // @fnv 0x005063b0
 void* FUN_005063b0Class::GetFieldAt164()
 {
-    return reinterpret_cast<char*>(this) + 0x164;
+    return reinterpret_cast<char*>(&this->m_kHolesTexture);
 }
 
-extern "C" void __cdecl FUN_00ba6290(int a, int b);
 
 struct FUN_00507810Class
 {
-    void FUN_00507810(int a, int b);
+    void FUN_00507810(std::intptr_t a, std::intptr_t b);
 };
 
 // @fnv 0x00507810
-void FUN_00507810Class::FUN_00507810(int aiArg1, int aiArg2)
+void FUN_00507810Class::FUN_00507810(std::intptr_t aiArg1, std::intptr_t aiArg2)
 {
-    FUN_00ba6290(aiArg1, aiArg2);
+    ::FUN_00ba6290((::Fn6290Object *)(aiArg1), (::Fn6290Result *)(aiArg2));
 }
 
 struct FUN_00507b00Class
@@ -240,54 +264,25 @@ float FUN_00507b20Class::FUN_00507b20()
     return *(float*)((char*)this + 0x118);
 }
 
-extern "C" void __cdecl Deallocate(void*);
-struct TESEffectShader;
+class TESEffectShader;
 struct FUN_00505cf0Class
 {
     void FUN_00505d20();
     void* DestroyIfFlagged(unsigned int flags);
 };
-// Calls FUN_00505d20, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x00505cf0
-void* FUN_00505cf0Class::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_00505d20();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
-struct NiAVObject;
-struct NiSourceTexture;
+class NiAVObject;
+class NiSourceTexture;
 struct ParticleShaderProperty
 {
-    void SetParticleTime(float);
 };
-ParticleShaderProperty* __cdecl FUN_00ba68d0(NiAVObject*, NiAVObject*);
 struct FUN_00507060Class
 {
-    void CopySettingsTo(ParticleShaderProperty*, NiSourceTexture*);
 };
 struct FUN_005077c0Class
 {
     ParticleShaderProperty* FUN_005077c0(NiAVObject* apRootObject, NiAVObject* apTargetObject, NiSourceTexture* apTex,
                                          float afTime);
 };
-// @fnv 0x005077c0
-ParticleShaderProperty* FUN_005077c0Class::FUN_005077c0(NiAVObject* apRootObject, NiAVObject* apTargetObject,
-                                                        NiSourceTexture* apTex, float afTime)
-{
-    ParticleShaderProperty* pProp;
-    if (apTex)
-    {
-        pProp = FUN_00ba68d0(apRootObject, apTargetObject);
-        ((FUN_00507060Class*)this)->CopySettingsTo(pProp, apTex);
-        pProp->SetParticleTime(afTime);
-        return pProp;
-    }
-    return 0;
-}
-
 extern int DAT_0102685c;
 
 struct FUN_00505d20 : Base5a
@@ -298,6 +293,15 @@ struct FUN_00505d20 : Base5a
     TESTexture m3;
     ~FUN_00505d20();
 };
+// Calls FUN_00505d20, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x00505cf0
+void* FUN_00505cf0Class::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00505d20 *>(this)->FUN_00505d20::~FUN_00505d20();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00505d20
 FUN_00505d20::~FUN_00505d20()
@@ -305,13 +309,11 @@ FUN_00505d20::~FUN_00505d20()
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
-struct FUN_005062a0Class
+struct FUN_005062a0Class : ::TESEffectShader
 {
     void CopyFrom(TESForm* apCopy);
 };
-void __cdecl _memcpy(void* dst, const void* src, unsigned int n);
 // Copies a TESEffectShader's data, base component and three textures into this object after a dynamic_cast check.
 // @fnv 0x005062a0
 void FUN_005062a0Class::CopyFrom(TESForm* apCopy)
@@ -319,22 +321,20 @@ void FUN_005062a0Class::CopyFrom(TESForm* apCopy)
     TESEffectShader* pcopy = dynamic_cast<TESEffectShader*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
-    _memcpy(((TESEffectShader*)this)->GetData(), pcopy->GetData(), 0x134);
-    ((TESTexture*)((char*)this + 0x14c))
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
+    ::__memcpy(((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((((TESEffectShader*)this)))->GetConditions())), ((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((pcopy))->GetConditions())), 0x134);
+    (&this->m_kFillTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_00506370Class*)pcopy)->GetFieldAt14C());
-    ((TESTexture*)((char*)this + 0x158))
+    (&this->m_kParticleShaderTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_00506390Class*)pcopy)->GetFieldAt158());
-    ((TESTexture*)((char*)this + 0x164))
+    (&this->m_kHolesTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_005063b0Class*)pcopy)->GetFieldAt164());
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 
-int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct FUN_005063d0Shell : public TESEffectShader
 {
     bool FUN_005063d0(TESForm* apCompare);
@@ -346,7 +346,7 @@ bool FUN_005063d0Shell::FUN_005063d0(TESForm* apCompare)
     TESEffectShader* pOtherShader = dynamic_cast<TESEffectShader*>(apCompare);
     if (!pOtherShader)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pOtherShader))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pOtherShader))
         return true;
     if (m_kFillTexture.CompareWithBase((BaseFormComponent*)((FUN_00506370Class*)pOtherShader)->GetFieldAt14C()))
         return true;
@@ -355,49 +355,43 @@ bool FUN_005063d0Shell::FUN_005063d0(TESForm* apCompare)
         return true;
     if (m_kHolesTexture.CompareWithBase((BaseFormComponent*)((FUN_005063b0Class*)pOtherShader)->GetFieldAt164()))
         return true;
-    if (_memcmp(&Data, pOtherShader->GetData(), sizeof(EffectShaderData)))
+    if (std::memcmp(&Data, ((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((pOtherShader))->GetConditions())), sizeof(EffectShaderData)))
         return true;
     return false;
 }
 
 struct FUN_004855a0
 {
-    void M();
 };
 
 struct FUN_00485680
 {
-    void M();
 };
 
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(void*, int);
 };
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength();
 };
 
 struct FNStub
 {
-    char* GetFullName();
 };
 
-struct FUN_005060f0Class
+struct FUN_005060f0Class : ::TESEffectShader
 {
     void FUN_005060f0();
 };
 
-void FUN_004856f0(unsigned int, void*, unsigned int);
 
-bool _FUN_00401500();
 
 struct FUN_005060f0Data
 {
@@ -405,69 +399,9 @@ struct FUN_005060f0Data
     BGSDebris* mAddon;
 };
 
-// @fnv 0x005060f0
-void FUN_005060f0Class::FUN_005060f0()
-{
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() == 0)
-    {
-        FUN_004856f0(0x4e4f4349, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x14c)->GetFullName(),
-                     reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() + 1);
-    }
-    else
-    {
-        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x14c)->FUN_0048e370(0x4e4f4349);
-    }
-
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x158)->GetModelLength() == 0)
-    {
-        FUN_004856f0(0x324f4349, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x158)->GetFullName(),
-                     reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x158)->GetModelLength() + 1);
-    }
-    else
-    {
-        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x158)->FUN_0048e370(0x324f4349);
-    }
-
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x164)->GetModelLength() == 0)
-    {
-        FUN_004856f0(0x374d414e, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x164)->GetFullName(),
-                     reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x164)->GetModelLength() + 1);
-    }
-    else
-    {
-        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x164)->FUN_0048e370(0x374d414e);
-    }
-
-    BGSDebris* psaveAddon = reinterpret_cast<FUN_005060f0Data*>(this)->mAddon;
-
-    reinterpret_cast<FUN_005060f0Data*>(this)->mAddon =
-        reinterpret_cast<FUN_005060f0Data*>(this)->mAddon
-            ? reinterpret_cast<BGSDebris*>(reinterpret_cast<FUN_005060f0Data*>(this)->mAddon->GetFormID())
-            : 0;
-
-    if (_FUN_00401500())
-    {
-        reinterpret_cast<EffectShaderData*>(reinterpret_cast<char*>(this) + 0x18)->Endian();
-    }
-
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(reinterpret_cast<char*>(this) + 0x18, 0x134);
-
-    if (_FUN_00401500())
-    {
-        reinterpret_cast<EffectShaderData*>(reinterpret_cast<char*>(this) + 0x18)->Endian();
-    }
-
-    reinterpret_cast<FUN_005060f0Data*>(this)->mAddon = psaveAddon;
-
-    reinterpret_cast<FUN_00485680*>(this)->M();
-}
-
-struct BGSPerk;
+class BGSPerk;
 struct BSSimpleListT
 {
-    BGSPerk** GetItem();
 };
 struct FUN_005064d0
 {
@@ -476,8 +410,8 @@ struct FUN_005064d0
 // @fnv 0x005064d0
 FUN_005064d0* FUN_005064d0::Init()
 {
-    ((BSSimpleListT*)((char*)this + 0x94))->GetItem();
-    ((BSSimpleListT*)((char*)this + 0xa0))->GetItem();
+    (void *)(((BSSimpleListT*)((char*)this + 0x94)));
+    (void *)(((BSSimpleListT*)((char*)this + 0xa0)));
     ((EffectShaderData*)this)->Initialize();
     return this;
 }
@@ -517,25 +451,22 @@ struct NiFixedStr
 
 struct ShaderPropStub
 {
-    void ApplyTexEffect(void* apData);
 };
 
 struct NiPropStub
 {
-    int GetPropType();
-    NiFixedStr& GetName();
 };
 
-struct NiAVObject;
+class NiAVObject;
 
 struct NiNodeStub
 {
     unsigned int GetChildCount();
-    NiAVObject* GetChildAt(unsigned int auiIndex);
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void V00();
     virtual void V04();
     virtual void V08();
@@ -543,14 +474,11 @@ struct NiAVObject
     virtual void V10();
     virtual void V14();
     virtual void* IsGeometry();
-    NiPropStub* GetProperty(unsigned int auiType);
 };
 
-int FUN_00408b20(const char*, const char*);
 
 struct EffectShaderShell : public TESEffectShader
 {
-    bool FUN_00507040(unsigned int mask);
     void ApplyShaderToTree(NiAVObject* apObject, void* apData);
 };
 
@@ -561,24 +489,24 @@ void EffectShaderShell::ApplyShaderToTree(NiAVObject* apObject, void* apData)
     {
         if (apObject->IsGeometry())
         {
-            NiPropStub* pProp = apObject->GetProperty(3);
+            NiPropStub* pProp = ((::NiPropStub *)(reinterpret_cast<::FUN_00a59d30_C *>((apObject))->FUN_00a59d30(3)));
             ShaderPropStub* pShader;
-            if ((pShader = (!pProp ? 0 : (pProp->GetPropType() >= 8 && pProp->GetPropType() <= 12))
+            if ((pShader = (!pProp ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((pProp))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((pProp))->GetMinLevel())) <= 12))
                                ? (ShaderPropStub*)pProp
                                : 0) != 0)
             {
                 bool bApply = true;
-                if (FUN_00507040(0x20))
+                if (reinterpret_cast<::FUN_00507040Class *>(this)->FUN_00507040(0x20))
                 {
-                    NiPropStub* pNameProp = apObject->GetProperty(2);
-                    if (!(const char*)pNameProp->GetName() || FUN_00408b20(pNameProp->GetName(), "skin"))
+                    NiPropStub* pNameProp = ((::NiPropStub *)(reinterpret_cast<::FUN_00a59d30_C *>((apObject))->FUN_00a59d30(2)));
+                    if (!(const char*)(*(::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((pNameProp))->GetLinkToList())) || FUN_00408b20((*(::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((pNameProp))->GetLinkToList())), "skin"))
                     {
                         bApply = false;
                     }
                 }
                 if (bApply)
                 {
-                    pShader->ApplyTexEffect(apData);
+                    reinterpret_cast<::fnv_00b675c0::FUN_00b675c0_shell *>((pShader))->AssignRefObj((::fnv_00b675c0::RefObj *)(apData));
                 }
             }
         }
@@ -589,7 +517,7 @@ void EffectShaderShell::ApplyShaderToTree(NiAVObject* apObject, void* apData)
             {
                 for (unsigned int i = 0; i < pNode->GetChildCount(); i++)
                 {
-                    ApplyShaderToTree(pNode->GetChildAt(i), apData);
+                    ApplyShaderToTree(reinterpret_cast<::NiNode *>((pNode))->GetAt(i), apData);
                 }
             }
         }
@@ -600,9 +528,6 @@ struct S_00507c90_Ptr;
 struct S_00507c90_List;
 struct S_00507c90_Item
 {
-    int FUN_00441110();
-    S_00507c90_Ptr* FUN_00507d80();
-    void AssignRefObj(S_00507c90_Ptr* p);
 };
 struct S_00507c90_Obj
 {
@@ -613,12 +538,10 @@ struct S_00507c90_Obj
     virtual void v4();
     virtual void v5();
     virtual S_00507c90_Item* v6();
-    S_00507c90_Item* FUN_00a59d30(int n);
 };
 struct S_00507c90_List
 {
     int FUN_0043b480();
-    S_00507c90_Obj* FUN_0043b4a0(int i);
 };
 struct S_00507c90_Cls
 {
@@ -632,12 +555,12 @@ void S_00507c90_Cls::ClearItemRef(S_00507c90_Obj* obj, S_00507c90_Ptr* ref)
     {
         if (obj->v6())
         {
-            S_00507c90_Item* t_ = obj->FUN_00a59d30(3);
+            S_00507c90_Item* t_ = ((::S_00507c90_Item *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(3)));
             S_00507c90_Item* s;
-            if ((s = (!t_ ? 0 : (t_->FUN_00441110() >= 8 && t_->FUN_00441110() <= 12)) ? t_ : 0) != 0)
+            if ((s = (!t_ ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((t_))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((t_))->GetMinLevel())) <= 12)) ? t_ : 0) != 0)
             {
-                if (s->FUN_00507d80() == ref)
-                    s->AssignRefObj(0);
+                if (((::S_00507c90_Ptr *)(std::uintptr_t)(reinterpret_cast<::FUN_00507d80_Class *>((s))->FUN_00507d80())) == ref)
+                    reinterpret_cast<::fnv_00b675c0::FUN_00b675c0_shell *>((s))->AssignRefObj((::fnv_00b675c0::RefObj *)(::S_00507c90_Ptr *)(0));
             }
         }
         else
@@ -646,7 +569,7 @@ void S_00507c90_Cls::ClearItemRef(S_00507c90_Obj* obj, S_00507c90_Ptr* ref)
             if (list)
             {
                 for (unsigned int i2 = 0; i2 < (unsigned int)list->FUN_0043b480(); i2++)
-                    ClearItemRef(list->FUN_0043b4a0(i2), ref);
+                    ClearItemRef(((::S_00507c90_Obj *)(reinterpret_cast<::NiNode *>((list))->GetAt(i2))), ref);
             }
         }
     }
@@ -660,59 +583,49 @@ struct Color
 };
 struct Destination
 {
-    void FUN_00507550(void*);
-    void FUN_00584150(float);
-    void FUN_00507570(float);
-    void FUN_0051b8c0(float);
-    void FUN_00810550(float);
-    void FUN_006e29d0(float);
     void SetData(NiPoint3);
     void FUN_005075c0(NiPoint3);
-    void FUN_005075f0(float);
-    void FUN_009314d0(float);
-    void FUN_00507610(float);
-    void FUN_006e5ee0(float);
-    void FUN_00507780(float);
-    void SetBoltSmallWidth(float);
-    void FUN_005077a0(float);
     void SetPoint(Color);
     void FUN_00507660(Color);
     void FUN_00507690(Color);
-    void FUN_006e4ef0(float);
-    void FUN_006e4320(float);
-    void FUN_005076c0(float);
-    void FUN_005076e0(float);
-    void FUN_00733fd0(float);
-    void FUN_00507700(float);
-    void FUN_00507720(float);
-    void FUN_006d30e0(int);
-    void FUN_00505e50(int);
-    void FUN_00507740(int);
-    void FUN_00507760(int);
 };
 struct ShaderSettings : TESEffectShader
 {
     void CopySettingsTo(Destination*, void*);
 };
+// @fnv 0x005077c0
+ParticleShaderProperty* FUN_005077c0Class::FUN_005077c0(NiAVObject* apRootObject, NiAVObject* apTargetObject,
+                                                        NiSourceTexture* apTex, float afTime)
+{
+    ParticleShaderProperty* pProp;
+    if (apTex)
+    {
+        pProp = ((::ParticleShaderProperty *)(::FUN_00ba68d0(apRootObject, (::ArgObj *)(apTargetObject))));
+        reinterpret_cast<::ShaderSettings *>((((FUN_00507060Class*)this)))->CopySettingsTo((::Destination *)(pProp), apTex);
+        reinterpret_cast<::ParticleInitializer *>((pProp))->InitParticles(afTime);
+        return pProp;
+    }
+    return 0;
+}
 // Copies the effect shader's Data fields into dest via its setters, converting three packed RGB values into normalized Colors with separate alpha values.
 // @fnv 0x00507060
 void ShaderSettings::CopySettingsTo(Destination* apDestination, void* apTexture)
 {
-    apDestination->FUN_00507550(apTexture);
-    apDestination->FUN_00584150(Data.m_fShaderFloatParameter3);
-    apDestination->FUN_00507570(Data.m_fShaderFloatParameter4);
-    apDestination->FUN_0051b8c0(Data.m_fShaderFloatParameter5);
-    apDestination->FUN_00810550(Data.m_fShaderFloatParameter6);
-    apDestination->FUN_006e29d0(Data.m_fShaderFloatParameter17);
+    reinterpret_cast<::FUN_00507550_Class *>((apDestination))->FUN_00507550(apTexture);
+    reinterpret_cast<::TESWorldSpace *>((apDestination))->FUN_00584150(Data.m_fShaderFloatParameter3);
+    reinterpret_cast<::FUN_00507570_Class *>((apDestination))->FUN_00507570(Data.m_fShaderFloatParameter4);
+    reinterpret_cast<::FUN_0051b8c0_shell *>((apDestination))->FUN_0051b8c0(Data.m_fShaderFloatParameter5);
+    reinterpret_cast<::FUN_00810550_class *>((apDestination))->FUN_00810550(Data.m_fShaderFloatParameter6);
+    reinterpret_cast<::TESObjectTREE *>((apDestination))->UpdateRustleSpeed(Data.m_fShaderFloatParameter17);
     apDestination->SetData(Data.VelocityState);
     apDestination->FUN_005075c0(Data.m_kVectorState2);
-    apDestination->FUN_005075f0(Data.m_fShaderFloatParameter18);
-    apDestination->FUN_009314d0(Data.m_fShaderFloatParameter19);
-    apDestination->FUN_00507610(Data.m_fShaderFloatParameter20);
-    apDestination->FUN_006e5ee0(Data.m_fShaderFloatParameter21);
-    apDestination->FUN_00507780(Data.m_uiIntegerParameter1);
-    apDestination->SetBoltSmallWidth(Data.m_uiIntegerParameter2);
-    apDestination->FUN_005077a0(Data.m_fFloatAfterDefaultColor);
+    reinterpret_cast<::FUN_005075f0_class *>((apDestination))->FUN_005075f0(Data.m_fShaderFloatParameter18);
+    reinterpret_cast<::fnv_009314d0::FUN_009314d0_class *>((apDestination))->FUN_009314d0(Data.m_fShaderFloatParameter19);
+    reinterpret_cast<::FUN_00507610_Class *>((apDestination))->FUN_00507610(Data.m_fShaderFloatParameter20);
+    reinterpret_cast<::FUN_006e5ee0_Class *>((apDestination))->FUN_006e5ee0(Data.m_fShaderFloatParameter21);
+    reinterpret_cast<::FUN_00507780 *>((apDestination))->SetBoltsRadiusStrength(Data.m_uiIntegerParameter1);
+    reinterpret_cast<::FUN_005f9b10_class *>((apDestination))->SetBoltSmallWidth(Data.m_uiIntegerParameter2);
+    reinterpret_cast<::FUN_005077a0_Class *>((apDestination))->FUN_005077a0(Data.m_fFloatAfterDefaultColor);
     Color color1 = Color((unsigned char)(Data.m_uiColorParameter1 & 255),
                          (unsigned char)(((unsigned short)Data.m_uiColorParameter1 >> 8) & 255),
                          (unsigned char)((Data.m_uiColorParameter1 >> 16) & 255), 0.0f) /
@@ -731,17 +644,17 @@ void ShaderSettings::CopySettingsTo(Destination* apDestination, void* apTexture)
     apDestination->SetPoint(color1);
     apDestination->FUN_00507660(color2);
     apDestination->FUN_00507690(color3);
-    apDestination->FUN_006e4ef0(Data.m_fShaderFloatParameter14);
-    apDestination->FUN_006e4320(Data.m_fShaderFloatParameter15);
-    apDestination->FUN_005076c0(Data.m_fShaderFloatParameter16);
-    apDestination->FUN_005076e0(Data.m_fShaderFloatParameter7);
-    apDestination->FUN_00733fd0(Data.m_fShaderFloatParameter8);
-    apDestination->FUN_00507700(Data.m_fShaderFloatParameter9);
-    apDestination->FUN_00507720(Data.m_fShaderFloatParameter10);
-    apDestination->FUN_006d30e0(Data.m_eAlphaSourceBlend);
-    apDestination->FUN_00505e50(Data.m_eAlphaDestinationBlend);
-    apDestination->FUN_00507740(Data.m_eAlphaBlendOperation);
-    apDestination->FUN_00507760(Data.m_eAlphaDepthCompareFunction);
+    reinterpret_cast<::FUN_006e4ef0_shell *>((apDestination))->FUN_006e4ef0(Data.m_fShaderFloatParameter14);
+    reinterpret_cast<::FUN_006e4320_Class *>((apDestination))->FUN_006e4320(Data.m_fShaderFloatParameter15);
+    reinterpret_cast<::FUN_005076c0Class *>((apDestination))->FUN_005076c0(Data.m_fShaderFloatParameter16);
+    reinterpret_cast<::FUN_005076e0_Class *>((apDestination))->FUN_005076e0(Data.m_fShaderFloatParameter7);
+    reinterpret_cast<::FUN_00733fd0_shell *>((apDestination))->FUN_00733fd0(Data.m_fShaderFloatParameter8);
+    reinterpret_cast<::FUN_00507700_cls *>((apDestination))->FUN_00507700(Data.m_fShaderFloatParameter9);
+    reinterpret_cast<::FUN_00507720_Class *>((apDestination))->FUN_00507720(Data.m_fShaderFloatParameter10);
+    reinterpret_cast<::FUN_006d30e0_Class *>((apDestination))->FUN_006d30e0(Data.m_eAlphaSourceBlend);
+    reinterpret_cast<::MiddleHighProcess *>((apDestination))->SetCurrentIdle((::TESIdleForm *)(Data.m_eAlphaDestinationBlend));
+    reinterpret_cast<::FUN_00507740_Class *>((apDestination))->FUN_00507740(Data.m_eAlphaBlendOperation);
+    reinterpret_cast<::FUN_00507760_Class *>((apDestination))->FUN_00507760(Data.m_eAlphaDepthCompareFunction);
 }
 
 struct ColorValue
@@ -762,40 +675,27 @@ struct EffectData
     int unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     ColorValue fill, edge;
     float unk4c, unk50, scale, diameter;
-    unsigned int unk5c, unk60, unk64, unk68;
+    std::uintptr_t unk5c, unk60, unk64, unk68;
     RefValue target;
     unsigned int unk70;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     EffectData();
 };
 struct BoundValue
 {
-    float Radius();
 };
 struct SceneValue
 {
-    BoundValue* Bound();
 };
 struct ShaderSource
 {
-    unsigned int Fill();
-    unsigned int Edge();
-    float Scale();
-    unsigned int Mode();
-    unsigned int Value60();
-    unsigned int Value64();
-    unsigned int Value68();
-    float Count();
-    bool HasFlag(unsigned int);
     EffectData* CreateEffectData(SceneValue*, void*, void*);
 };
 // @fnv 0x00507830
 EffectData* ShaderSource::CreateEffectData(SceneValue* scene, void* root, void* target)
 {
     EffectData* data2 = new EffectData;
-    unsigned int fill = Fill();
-    unsigned int edge = Edge();
+    std::uintptr_t fill = ((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()));
+    std::uintptr_t edge = ((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>(this)->GetGrass()));
     data2->root = 0;
     data2->fill =
         ColorValue((float)(unsigned char)(fill & 255), (float)(unsigned char)((unsigned short)fill >> 8 & 255),
@@ -807,16 +707,16 @@ EffectData* ShaderSource::CreateEffectData(SceneValue* scene, void* root, void* 
             .Normalize(255.0f);
     data2->unk4c = 0.0f;
     data2->unk50 = 0.0f;
-    data2->scale = Scale();
-    data2->diameter = scene->Bound()->Radius() * 2.0f;
-    data2->unk5c = Mode();
-    data2->unk60 = Value60();
-    data2->unk64 = Value64();
-    data2->unk68 = Value68();
+    data2->scale = reinterpret_cast<::FUN_00507b00Class *>(this)->GetField4C();
+    data2->diameter = reinterpret_cast<::Twin_0084d030 *>((((::BoundValue *)(reinterpret_cast<::FUN_0043d450_Owner *>((scene))->FUN_0043d450()))))->GetStoredFloatValue() * 2.0f;
+    data2->unk5c = reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel();
+    data2->unk60 = ((std::uintptr_t)(reinterpret_cast<::FUN_004fd3a0_shell *>(this)->FUN_004fd3a0()));
+    data2->unk64 = ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
+    data2->unk68 = reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType();
     data2->root = root;
     data2->target = target;
-    data2->unk70 = (unsigned int)Count();
-    if (HasFlag(16))
+    data2->unk70 = (unsigned int)reinterpret_cast<::FUN_00507b20Class *>(this)->FUN_00507b20();
+    if (reinterpret_cast<::FUN_00507040Class *>(this)->FUN_00507040(16))
     {
         data2->edge.x += -1.0;
         data2->edge.y += -1.0;
@@ -837,21 +737,10 @@ struct ShaderState
     int unk54, unk58, unk5c, unk60, unk64, unk68, unk6c;
     unsigned int alpha;
 };
-float __cdecl FUN_00404010(float, float);
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl LinearInterpolate(float, float, float, float, float);
 struct ShaderUpdate
 {
     float UpdateFill(float, float, float, unsigned char);
-    float FillPulse(float);
     float UpdateEdge(float, float, float, unsigned char);
-    float EdgePulse(float);
-    float USpeed();
-    float VSpeed();
-    float EndTime();
-    float StartTime();
-    float EndAlpha();
-    float StartAlpha();
     void UpdateShaderState(ShaderState*, float, float, float, unsigned char);
 };
 // Advances a ShaderState's fill/edge alpha, UV offsets and alpha from delta, duration, time and mode.
@@ -862,16 +751,16 @@ void ShaderUpdate::UpdateShaderState(ShaderState* state, float delta, float dura
     {
         state->baseFill.w = UpdateFill(state->baseFill.w, delta, duration, mode);
         state->fill = state->baseFill;
-        state->fill.w = FillPulse(time) * state->fill.w + state->fill.w;
+        state->fill.w = reinterpret_cast<::C508240Ref *>(this)->FUN_00508240(time) * state->fill.w + state->fill.w;
         state->fill.w = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, state->fill.w));
         state->baseEdge.w = UpdateEdge(state->baseEdge.w, delta, duration, mode);
         state->edge = state->baseEdge;
-        state->edge.w = EdgePulse(time) * state->edge.w + state->edge.w;
+        state->edge.w = reinterpret_cast<::B5081D0Actor *>(this)->FUN_005081d0(time) * state->edge.w + state->edge.w;
         state->edge.w = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, state->edge.w));
-        state->u = USpeed() * delta + state->u;
-        state->v = VSpeed() * delta + state->v;
-        float boundedTime = FUN_0040ebd0(StartTime(), FUN_00404010(EndTime(), time));
-        state->alpha = (unsigned int)LinearInterpolate(StartAlpha(), EndAlpha(), EndTime(), StartTime(), boundedTime);
+        state->u = reinterpret_cast<::FUN_00508050_Class *>(this)->FUN_00508050() * delta + state->u;
+        state->v = reinterpret_cast<::FUN_00639aa0_shell *>(this)->FUN_00639aa0() * delta + state->v;
+        float boundedTime = FUN_0040ebd0(reinterpret_cast<::FUN_004e3d00_shell *>(this)->FUN_004e3d00(), FUN_00404010(reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070(), time));
+        state->alpha = (unsigned int)LinearInterpolate(reinterpret_cast<::FUN_00507b20Class *>(this)->FUN_00507b20(), reinterpret_cast<::FUN_004a0d90_Class *>(this)->GetField11C(), reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070(), reinterpret_cast<::FUN_004e3d00_shell *>(this)->FUN_004e3d00(), boundedTime);
     }
 }
 
@@ -879,312 +768,418 @@ struct SwapFlag
 {
     bool value;
 };
-extern "C" void __cdecl FUN_00401080(void* field, bool reverseBytes);
 struct EffectShaderDataEndian : EffectShaderData
 {
     void FUN_00506850();
 };
+// @fnv 0x00505e70
+bool TESEffectShader::Load(TESFile* file)
+{
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
+    if (formType != 0x4f)
+        return false;
+    ClearData();
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    SetInitializationState(false);
+    int iChunkID;
+    while (iChunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
+    {
+        switch (iChunkID)
+        {
+        case 0x44494445: {
+            char* pChunkBuffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pChunkBuffer), 0x200);
+            SetEditorID_AtRuntime(pChunkBuffer);
+        }
+        break;
+        case 0x444e424f:
+            readOBNDSubRecord(file);
+            break;
+        case 0x4e4f4349:
+            ::TESTexture::ReadTextureData(&m_kFillTexture, file);
+            break;
+        case 0x324f4349:
+            ::TESTexture::ReadTextureData(&m_kParticleShaderTexture, file);
+            break;
+        case 0x374d414e:
+            ::TESTexture::ReadTextureData(&m_kHolesTexture, file);
+            break;
+        case 0x41544144:
+            if (file->IsEndianConversionRequired())
+                reinterpret_cast<::EffectShaderDataEndian *>(&(Data))->FUN_00506850();
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &Data, sizeof(Data));
+            if (file->IsEndianConversionRequired())
+                reinterpret_cast<::EffectShaderDataEndian *>(&(Data))->FUN_00506850();
+            break;
+        }
+        if (!file->NextChunk())
+            break;
+    }
+    if (Data.m_fShaderFloatParameter1 <= 1.0 && Data.m_fShaderFloatParameter1 > 0.0)
+        Data.m_fShaderFloatParameter1 *= ParticleShader::GetShaderParticleCount();
+    if (Data.m_fShaderFloatParameter2 <= 1.0 && Data.m_fShaderFloatParameter2 > 0.0)
+        Data.m_fShaderFloatParameter2 *= ParticleShader::GetShaderParticleCount();
+    return true;
+}
+// @fnv 0x005060f0
+void FUN_005060f0Class::FUN_005060f0()
+{
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
+
+    if (reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() == 0)
+    {
+        ::FUN_004856f0((void *)(0x4e4f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kFillTexture)))->FUN_00408da0())),
+                     (void *)(std::uintptr_t)(reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() + 1));
+    }
+    else
+    {
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kFillTexture)))->FUN_0048e370(0x4e4f4349);
+    }
+
+    if (reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() == 0)
+    {
+        ::FUN_004856f0((void *)(0x324f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kParticleShaderTexture)))->FUN_00408da0())),
+                     (void *)(std::uintptr_t)(reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() + 1));
+    }
+    else
+    {
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kParticleShaderTexture)))->FUN_0048e370(0x324f4349);
+    }
+
+    if (reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() == 0)
+    {
+        ::FUN_004856f0((void *)(0x374d414e), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kHolesTexture)))->FUN_00408da0())),
+                     (void *)(std::uintptr_t)(reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() + 1));
+    }
+    else
+    {
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kHolesTexture)))->FUN_0048e370(0x374d414e);
+    }
+
+    BGSDebris* psaveAddon = reinterpret_cast<FUN_005060f0Data*>(this)->mAddon;
+
+    reinterpret_cast<FUN_005060f0Data*>(this)->mAddon =
+        reinterpret_cast<FUN_005060f0Data*>(this)->mAddon
+            ? reinterpret_cast<BGSDebris*>(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FUN_005060f0Data*>(this)->mAddon))->FUN_0084e3a0())))
+            : 0;
+
+    if (((bool)(::FUN_00401500())))
+    {
+        reinterpret_cast<::EffectShaderDataEndian *>((&this->Data))->FUN_00506850();
+    }
+
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(reinterpret_cast<char*>(&this->Data), 0x134);
+
+    if (((bool)(::FUN_00401500())))
+    {
+        reinterpret_cast<::EffectShaderDataEndian *>((&this->Data))->FUN_00506850();
+    }
+
+    reinterpret_cast<FUN_005060f0Data*>(this)->mAddon = psaveAddon;
+
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
+}
 // @fnv 0x00506850
 void EffectShaderDataEndian::FUN_00506850()
 {
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_eDestinationBlend, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_eDestinationBlend));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_eBlendOperation, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_eBlendOperation));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_eDepthCompareFunction, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_eDepthCompareFunction));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&BlendDepthState, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&BlendDepthState));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&BlendDepthParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&BlendDepthParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&DepthCompareParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&DepthCompareParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&IndexedFloatParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&IndexedFloatParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&ShaderFloatParameterSet, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&ShaderFloatParameterSet));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&ShaderParameterFormatSet, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&ShaderParameterFormatSet));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&SevenFloatParameterRecord, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&SevenFloatParameterRecord));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&SixFloatAndUnsignedIntegerRecord, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&SixFloatAndUnsignedIntegerRecord));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&SixFloatUnsignedIntegerAndFloatRecord, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&SixFloatUnsignedIntegerAndFloatRecord));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&ExtendedFloatFlagParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&ExtendedFloatFlagParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&ShaderFloatParameterBlock, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&ShaderFloatParameterBlock));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&SixFloatRecordWithMiddleFlag, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&SixFloatRecordWithMiddleFlag));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&FloatFlagParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&FloatFlagParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&SixFloatRecordWithLeadingFlag, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&SixFloatRecordWithLeadingFlag));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&BlendFloatParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&BlendFloatParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&AlphaBlendParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&AlphaBlendParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&BlendStateParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&BlendStateParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&BlendFactorState, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&BlendFactorState));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&BlendModeConfiguration, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&BlendModeConfiguration));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_eSourceBlend, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_eSourceBlend));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_eAlphaSourceBlend, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_eAlphaSourceBlend));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_eAlphaBlendOperation, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_eAlphaBlendOperation));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_eAlphaDepthCompareFunction, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_eAlphaDepthCompareFunction));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_eAlphaDestinationBlend, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_eAlphaDestinationBlend));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&AlphaBlendSettings, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&AlphaBlendSettings));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fAlphaBlendParameter, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fAlphaBlendParameter));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&BlendFactorParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&BlendFactorParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter1, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter1));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter2, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter2));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter3, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter3));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter4, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter4));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter5, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter5));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter6, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter6));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&VelocityState.x, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&VelocityState.x));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&VelocityState.y, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&VelocityState.y));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&VelocityState.z, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&VelocityState.z));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_kVectorState2.x, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_kVectorState2.x));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_kVectorState2.y, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_kVectorState2.y));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_kVectorState2.z, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_kVectorState2.z));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter7, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter7));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter8, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter8));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter9, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter9));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter10, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter10));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_uiColorParameter1, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_uiColorParameter1));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_uiColorParameter2, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_uiColorParameter2));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_uiColorParameter3, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_uiColorParameter3));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter11, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter11));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter12, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter12));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter13, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter13));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter14, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter14));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter15, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter15));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter16, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter16));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter17, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter17));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter18, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter18));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter19, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter19));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter20, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter20));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fShaderFloatParameter21, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fShaderFloatParameter21));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&DebrisModelSettings, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&DebrisModelSettings));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&EffectShaderAddonData, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&EffectShaderAddonData));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&DebrisColorSettings, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&DebrisColorSettings));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&EffectShaderColorData, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&EffectShaderColorData));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&EffectShaderParameters, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&EffectShaderParameters));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_uiBaseColor, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_uiBaseColor));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fFloatAfterDefaultColor, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fFloatAfterDefaultColor));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_uiIntegerParameter1, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_uiIntegerParameter1));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_uiIntegerParameter2, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_uiIntegerParameter2));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fFirstValueAfterIntegerFields, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fFirstValueAfterIntegerFields));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&m_fSecondValueAfterIntegerFields, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&m_fSecondValueAfterIntegerFields));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&UnsignedIntAndSixFloatData, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&UnsignedIntAndSixFloatData));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&SixFloatValueSet, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&SixFloatValueSet));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&FiveFloatData, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&FiveFloatData));
     }
     {
         SwapFlag needsEndianSwap = {};
-        FUN_00401080(&FourFloatValueSet, needsEndianSwap.value);
+        ::FUN_00401080((int *)(void *)(&FourFloatValueSet));
     }
 }

@@ -4,11 +4,6 @@
 #define FNV_TESOBJECTWEAP_LAYOUT_SUPPORT_H
 
 #include <stddef.h>
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 class Script;
 class TESFile;
 class TESForm;
@@ -17,44 +12,8 @@ class TESAmmo;
 class TESSound;
 class SpellItem;
 class BGSListForm;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    BSSimpleList(T& item);
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    void AddTail(T& item);
-    void AddHead(T& item);
-    void RemoveHead();
-    void RemoveAll();
-};
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    const T* String();
-    int PrintfString(const char* format, ...);
-    bool Set(const T* text, unsigned int length);
-    void Init();
-    unsigned int MaxLength();
-    void SetLength(unsigned int length);
-    void SetMaxLength(unsigned int length);
-    BSStringT<T>& operator=(const T* text);
-};
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
-FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, pString) == 0);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, sLen) == 4);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, sMaxLen) == 6);
+#include "fnv/bs_simple_list.h"
+#include "fnv/bs_string.h"
 namespace ActorValue {
 enum Index
 {

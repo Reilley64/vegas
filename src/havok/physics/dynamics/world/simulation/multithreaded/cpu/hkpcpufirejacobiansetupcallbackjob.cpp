@@ -2,13 +2,17 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpufirejacobiansetupcallbackjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpufirejacobiansetupcallbackjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
 // Havok constraint-callback pass of the integrate job: lets each constraint with callbacks update its
 // runtime data, then frees the callback list and finishes the job on the job queue.
 
-extern DWORD hkMonitorStreamTls;
 
 struct S_00d94c40_TimerCommand
 {
@@ -35,7 +39,7 @@ struct S_00d94c40_MonitorStream
 
 static inline void S_00d94c40_TimerBeginList(const char* name, const char* firstSplit)
 {
-    S_00d94c40_MonitorStream* s = (S_00d94c40_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00d94c40_MonitorStream* s = (S_00d94c40_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00d94c40_TimerBeginListCommand* h = (S_00d94c40_TimerBeginListCommand*)s->m_kRayEnd;
@@ -44,13 +48,13 @@ static inline void S_00d94c40_TimerBeginList(const char* name, const char* first
         _ReadWriteBarrier();
         volatile unsigned int t = (unsigned int)__rdtsc();
         h->m_uiStartTicks = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
 static inline void S_00d94c40_Timer(const char* name)
 {
-    S_00d94c40_MonitorStream* s = (S_00d94c40_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00d94c40_MonitorStream* s = (S_00d94c40_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00d94c40_TimerCommand* h = (S_00d94c40_TimerCommand*)s->m_kRayEnd;
@@ -58,31 +62,10 @@ static inline void S_00d94c40_Timer(const char* name)
         _ReadWriteBarrier();
         volatile unsigned int t = (unsigned int)__rdtsc();
         h->m_uiStartTicks = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
-struct S_00d94c40_Heap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
-
-struct S_00d94c40_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S_00d94c40_Heap* m_pStreamAllocator;
-    S_00d94c40_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-S_00d94c40_Router* FUN_00c85750();
 
 struct S_00d94c40_Instance;
 struct S_00d94c40_Runtime;
@@ -316,10 +299,8 @@ struct S_00d94c40_Context
 
 struct S_00d94c40_JobQueue
 {
-    void ProcessCallback(S_00d94c40_Job* finishedJob, S_00d94c40_Job& jobOut, int waitStatus);
 };
 
-void __cdecl FUN_00d92900(S_00d94c40_Data* data, S_00d94c40_Input* input, S_00d94c40_Node* node, int mode);
 
 // For each callback, fills input from its constraint and runs FUN_00d92900 and/or update per its flags, frees the array, then calls jobQueue->ProcessCallback.
 // @fnv 0x00d94c40
@@ -349,7 +330,7 @@ void __cdecl ExecuteConstraintCallbacks(S_00d94c40_Context* context, S_00d94c40_
                 {
                     node = node->m_next;
                 }
-                FUN_00d92900(data, &input, node, 2);
+                ::FUN_00d92900((::S00d92900_Data *)(data), (const ::S00d92900_QueryIn *)(::S_00d94c40_Input *)(&input), (::S00d92900_Atom *)(node), 2);
                 S_00d94c40_Runtime* newRuntime = pConstraint->ms_uiThreadLocalStorageIndex->m_pByteBuffer;
                 if (oldRuntime != newRuntime)
                 {
@@ -365,10 +346,10 @@ void __cdecl ExecuteConstraintCallbacks(S_00d94c40_Context* context, S_00d94c40_
         }
         int iNumCallbacks = taskData->m_numCallbacks;
         S_00d94c40_Callback* p = taskData->m_kCallbackFunctions;
-        FUN_00c85750()->heap().ReleaseBlock(p, iNumCallbacks * sizeof(S_00d94c40_Callback));
+        hkMemoryRouter::getInstance().heap().blockFree(p, iNumCallbacks * sizeof(S_00d94c40_Callback));
         taskData->m_kCallbackFunctions = 0;
         taskData->m_numCallbacks = 0;
         S_00d94c40_Timer("lt");
     }
-    jobQueue->ProcessCallback(job, *job, 0);
+    reinterpret_cast<::LunaOwner *>((jobQueue))->ProcessCallback((intptr_t)(job), (intptr_t)&(*job), 0);
 }

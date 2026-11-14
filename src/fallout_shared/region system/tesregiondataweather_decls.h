@@ -2,6 +2,9 @@
 #ifndef TESREGIONDATAWEATHER_DECLS_H
 #define TESREGIONDATAWEATHER_DECLS_H
 
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_005b5000.h"
 #include "TESForm.h"
 class TESRegion : public TESForm
 {
@@ -19,7 +22,4 @@ class TESRegionDataWeather
     TESWeatherList weatherList;
     void LoadWeatherData(TESFile*, TESRegion*);
 };
-int Warning();
-int Warning(const char*, ...);
-unsigned int SetWarningState(bool);
 #endif

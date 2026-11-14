@@ -1,5 +1,28 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinetransforminterpolator.cpp: NiBSplineTransformInterpolator, SplineWork, BSplineTransformLoad (15 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/A57E90Controller.h"
+#include "fnv/decl/BA58200Sequence.h"
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FUN_00a4ff00_shell.h"
+#include "fnv/decl/FUN_00a57f80_cls.h"
+#include "fnv/decl/FUN_00a6db50_V.h"
+#include "fnv/decl/NiControllerSequence__IDTag.h"
+#include "fnv/decl/NiInterpolator.h"
+#include "fnv/decl/QXformViewer.h"
+#include "fnv/decl/S_00a58160_Foo.h"
+#include "fnv/decl/SplData.h"
+#include "fnv/decl/T.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nibsplinetransforminterpolator_decls.h"
 // Loads the base interpolator and transform, then reads the translation, rotation and scale handles from the stream.
 // @fnv 0x00a50470
@@ -14,7 +37,7 @@ void NiBSplineTransformInterpolator::LoadBinary(NiStream& stream)
 
 // Maps channel 0 to 3, 1 to 4 and 2 to 1, returning 0 for any other channel.
 // @fnv 0x00a4fde0
-unsigned int __stdcall FUN_00a4fde0(unsigned short usChannel)
+unsigned int FUN_00a4fde0(unsigned short usChannel)
 {
     switch (usChannel)
     {
@@ -30,7 +53,7 @@ unsigned int __stdcall FUN_00a4fde0(unsigned short usChannel)
 
 // Returns 3 for channels 0, 1 and 2, and 0 for any other channel value.
 // @fnv 0x00a4fe20
-unsigned int __stdcall FUN_00a4fe20(unsigned short usChannel)
+unsigned int FUN_00a4fe20(unsigned short usChannel)
 {
     switch (usChannel)
     {
@@ -53,7 +76,7 @@ struct FUN_00a4fe50_obj
 };
 // Returns the stored handle for channel 0, 1 or 2 (translation, rotation, scale), or 0xffff for any other channel.
 // @fnv 0x00a4fe50
-unsigned int __fastcall GetChannelHandle(FUN_00a4fe50_obj* self, int, unsigned short usChannel)
+unsigned int GetChannelHandle(FUN_00a4fe50_obj* self, int, unsigned short usChannel)
 {
     switch (usChannel)
     {
@@ -76,7 +99,7 @@ struct FUN_00a4fe80_obj
 };
 // Stores kControlHandle into the translation, rotation or scale control-point handle field selected by usChannel (0, 1 or 2).
 // @fnv 0x00a4fe80
-void __fastcall SetControlPointHandle(FUN_00a4fe80_obj* self, int, unsigned int kControlHandle,
+void SetControlPointHandle(FUN_00a4fe80_obj* self, int, unsigned int kControlHandle,
                                       unsigned short usChannel)
 {
     switch (usChannel)
@@ -93,7 +116,6 @@ void __fastcall SetControlPointHandle(FUN_00a4fe80_obj* self, int, unsigned int 
     }
 }
 
-extern double _DAT_010241b0;
 struct FUN_00a50090_obj
 {
     virtual void Unk0();
@@ -162,22 +184,22 @@ struct FUN_00a50090_obj
 };
 // Returns true when the given channel has no control points and its stored value differs from _DAT_010241b0; false otherwise.
 // @fnv 0x00a50090
-bool __fastcall FUN_00a50090(FUN_00a50090_obj* self, int, unsigned short usChannel)
+bool FUN_00a50090(FUN_00a50090_obj* self, int, unsigned short usChannel)
 {
     switch (usChannel)
     {
     case 0:
         if (self->GetNumCPs(usChannel) > 0)
             return false;
-        return self->m_uiX != _DAT_010241b0;
+        return self->m_uiX != ::DAT_010241b0;
     case 1:
         if (self->GetNumCPs(usChannel) > 0)
             return false;
-        return self->m_uiY != _DAT_010241b0;
+        return self->m_uiY != ::DAT_010241b0;
     case 2:
         if (self->GetNumCPs(usChannel) > 0)
             return false;
-        return self->m_uiZ != _DAT_010241b0;
+        return self->m_uiZ != ::DAT_010241b0;
     default:
         return false;
     }
@@ -185,7 +207,6 @@ bool __fastcall FUN_00a50090(FUN_00a50090_obj* self, int, unsigned short usChann
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a50110_quat
 {
@@ -204,7 +225,7 @@ struct FUN_00a50110_obj : public BSFadeNode
     void FUN_00a57fd0(FUN_00a50110_obj*, FUN_00a50110_proc&);
 };
 // @fnv 0x00a50110
-FUN_00a50110_obj* __fastcall FUN_00a50110(FUN_00a50110_obj* self, int, FUN_00a50110_proc* kCloning)
+FUN_00a50110_obj* FUN_00a50110(FUN_00a50110_obj* self, int, FUN_00a50110_proc* kCloning)
 {
     FUN_00a50110_obj* pkObject = new FUN_00a50110_obj(0, 0xffff, 0xffff, 0xffff, 0);
     self->FUN_00a57fd0(pkObject, *kCloning);
@@ -218,7 +239,6 @@ FUN_00a50110_obj* __fastcall FUN_00a50110(FUN_00a50110_obj* self, int, FUN_00a50
 namespace fnv_00a50180 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a4fff0 : public BSFadeNode
 {
@@ -236,7 +256,6 @@ FUN_00a4fff0* FUN_00a50180()
 struct FUN_00a501b0_quat
 {
     char data[0x20];
-    bool Equals(const FUN_00a501b0_quat*);
 };
 struct FUN_00a501b0_obj
 {
@@ -245,26 +264,23 @@ struct FUN_00a501b0_obj
     unsigned int m_kTransCPHandle;
     unsigned int m_kRotCPHandle;
     unsigned int m_kScaleCPHandle;
-    bool FUN_00a57e90(FUN_00a501b0_obj*);
 };
 // Returns true if the object passes FUN_00a57e90, its quaternion matches, and the trans, rot and scale CP handles all match the other object's.
 // @fnv 0x00a501b0
-bool __fastcall FUN_00a501b0(FUN_00a501b0_obj* self, int, FUN_00a501b0_obj* pkObject)
+bool FUN_00a501b0(FUN_00a501b0_obj* self, int, FUN_00a501b0_obj* pkObject)
 {
-    if (self->FUN_00a57e90(pkObject) && self->m_kDefaultTransform.Equals(&pkObject->m_kDefaultTransform) &&
+    if (reinterpret_cast<::A57E90Controller *>((self))->FUN_00a57e90((::A57E90Object *)(pkObject)) && reinterpret_cast<::T *>(&(self->m_kDefaultTransform))->Equals((*(const ::T *)(&pkObject->m_kDefaultTransform))) &&
         pkObject->m_kTransCPHandle == self->m_kTransCPHandle && pkObject->m_kRotCPHandle == self->m_kRotCPHandle &&
         pkObject->m_kScaleCPHandle == self->m_kScaleCPHandle)
         return true;
     return false;
 }
 
-void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
 
 struct FUN_00a50070_cls
 {
     int unk00;
 
-    void BaseCleanup();
 
     FUN_00a50070_cls* Destroy(unsigned char acFlags);
 };
@@ -272,7 +288,7 @@ struct FUN_00a50070_cls
 // @fnv 0x00a50070
 FUN_00a50070_cls* FUN_00a50070_cls::Destroy(unsigned char acFlags)
 {
-    BaseCleanup();
+    reinterpret_cast<::FUN_00a57f80_cls *>(this)->FUN_00a57f80();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x48);
@@ -291,10 +307,8 @@ struct SplineQuaternion
     float w, x, y, z;
     SplineQuaternion(float a, float b, float c, float d)
     {
-        Set(a, b, c, d);
+        reinterpret_cast<::FUN_00a6db50_V *>(this)->Set(a, b, c, d);
     }
-    void Set(float, float, float, float);
-    void NormalizeQuaternion();
 };
 struct SplineTransform
 {
@@ -309,7 +323,6 @@ struct SplineTransform
 };
 struct SplineData
 {
-    void FUN_00a52550(float, float*, unsigned, void*, unsigned);
 };
 struct SplineWork
 {
@@ -336,19 +349,19 @@ bool SplineWork::EvaluateSpline(float time, void*, SplineTransform& output)
     float values[4];
     if (translationHandle != 0xffff)
     {
-        data->FUN_00a52550(ratio, values, 3, basis, translationHandle);
+        reinterpret_cast<::SplData *>((data))->FUN_00a52550(ratio, values, 3, (::NiBSplineBasisData *)(basis), translationHandle);
         transform.translation = SplineVector(values[0], values[1], values[2]);
     }
     if (rotationHandle != 0xffff)
     {
-        data->FUN_00a52550(ratio, values, 4, basis, rotationHandle);
+        reinterpret_cast<::SplData *>((data))->FUN_00a52550(ratio, values, 4, (::NiBSplineBasisData *)(basis), rotationHandle);
         SplineQuaternion quat(values[0], values[1], values[2], values[3]);
-        quat.NormalizeQuaternion();
+        reinterpret_cast<::FUN_00a4ff00_shell *>(&(quat))->NormalizeQuaternion();
         transform.rotation = quat;
     }
     if (scaleHandle != 0xffff)
     {
-        data->FUN_00a52550(ratio, values, 1, basis, scaleHandle);
+        reinterpret_cast<::SplData *>((data))->FUN_00a52550(ratio, values, 1, (::NiBSplineBasisData *)(basis), scaleHandle);
         transform.scale = values[0];
     }
     output = transform;
@@ -547,7 +560,6 @@ struct A503E0Color
     float b;
     float a;
 
-    void SaveBinary(A503E0Stream& kStream);
 };
 
 class A503E0Base
@@ -561,7 +573,6 @@ class A503E0Base
     int unk014;
     int unk018;
 
-    void SaveToStream(A503E0Stream& kStream);
 };
 
 class A503E0Light : public A503E0Base
@@ -583,19 +594,16 @@ class A503E0Light : public A503E0Base
 // @fnv 0x00a503e0
 void A503E0Light::FUN_00a503e0(A503E0Stream& kStream)
 {
-    SaveToStream(kStream);
-    m_kFogTint.SaveBinary(kStream);
+    reinterpret_cast<::S_00a58160_Foo *>(this)->SaveToStream((::S_00a58160_Stream *)&(kStream));
+    reinterpret_cast<::DataA38 *>(&(m_kFogTint))->FUN_00a38b60((::NiStreamA38 &)(kStream));
     A503E0SaveBinary(kStream, m_fValue0);
     A503E0SaveBinary(kStream, m_fValue1);
     A503E0SaveBinary(kStream, m_fValue2);
 }
 
-extern unsigned int _DAT_011f3fe4;
 extern unsigned char _DAT_010996bc;
 extern unsigned char _DAT_010996ac;
 extern unsigned char _DAT_01099698;
-unsigned int __cdecl FUN_00a7d330(unsigned int);
-unsigned int __cdecl FUN_00a7d510(const unsigned char*, unsigned int);
 
 struct BinaryStreamPosition
 {
@@ -605,16 +613,12 @@ struct BinaryStreamPosition
     unsigned short unk0A;
     unsigned short unk0C;
     unsigned short unk0E;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, unsigned int*);
 };
 struct BSplineBaseCalls : NiBSplineInterpolator
 {
-    void FUN_00a58200(NiStream&);
 };
 struct QuatLoadCalls : NiQuatTransform
 {
-    void FUN_00a38cb0(NiStream&);
 };
 struct BSplineTransformLoad : NiBSplineTransformInterpolator
 {
@@ -624,42 +628,39 @@ struct BSplineTransformLoad : NiBSplineTransformInterpolator
 // @fnv 0x00a50500
 void BSplineTransformLoad::LoadBSplineTransform(NiStream& stream)
 {
-    reinterpret_cast<BSplineBaseCalls*>(this)->FUN_00a58200(stream);
+    reinterpret_cast<::BA58200Sequence *>((reinterpret_cast<BSplineBaseCalls*>(this)))->FUN_00a58200((::BA58200StringArray *)&(stream));
     BinaryStreamPosition& pos = reinterpret_cast<BinaryStreamPosition&>(stream);
-    unsigned int value = FUN_00a7d330(_DAT_011f3fe4);
+    uintptr_t value = ((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_011f3fe4))))));
     unsigned int index = pos.unk0A;
     if (index >= pos.unk08)
-        pos.FUN_0096ad30(index + pos.unk0E);
-    pos.FUN_0096ae90(index, &value);
+        reinterpret_cast<::ViewerStrings *>(&(pos))->SetSize(index + pos.unk0E);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(pos))->SetAt(index, (*(char * *)(&value)));
 
-    reinterpret_cast<QuatLoadCalls&>(m_kTransform).FUN_00a38cb0(stream);
-    value = FUN_00a7d510(&_DAT_010996bc, m_uiTranslationHandle);
+    reinterpret_cast<::QXformViewer *>(&(reinterpret_cast<QuatLoadCalls&>(m_kTransform)))->FUN_00a38cb0((::ViewerStrings *)&(stream));
+    value = ((uintptr_t)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_010996bc), m_uiTranslationHandle)));
     index = pos.unk0A;
     if (index >= pos.unk08)
-        pos.FUN_0096ad30(index + pos.unk0E);
-    pos.FUN_0096ae90(index, &value);
+        reinterpret_cast<::ViewerStrings *>(&(pos))->SetSize(index + pos.unk0E);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(pos))->SetAt(index, (*(char * *)(&value)));
 
-    value = FUN_00a7d510(&_DAT_010996ac, m_uiRotationHandle);
+    value = ((uintptr_t)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_010996ac), m_uiRotationHandle)));
     index = pos.unk0A;
     if (index >= pos.unk08)
-        pos.FUN_0096ad30(index + pos.unk0E);
-    pos.FUN_0096ae90(index, &value);
+        reinterpret_cast<::ViewerStrings *>(&(pos))->SetSize(index + pos.unk0E);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(pos))->SetAt(index, (*(char * *)(&value)));
 
-    value = FUN_00a7d510(&_DAT_01099698, m_uiScaleHandle);
+    value = ((uintptr_t)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_01099698), m_uiScaleHandle)));
     index = pos.unk0A;
     if (index >= pos.unk08)
-        pos.FUN_0096ad30(index + pos.unk0E);
-    pos.FUN_0096ae90(index, &value);
+        reinterpret_cast<::ViewerStrings *>(&(pos))->SetSize(index + pos.unk0E);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(pos))->SetAt(index, (*(char * *)(&value)));
 }
 
 extern float g_fInitA;
-extern float g_fInitB;
-extern int g_vtable_00a57f20;
-extern long(__stdcall* g_pfnInterlockedIncrement)(long volatile* value);
+extern long(* g_pfnInterlockedIncrement)(long volatile* value);
 
 struct FUN_00a57f20_base
 {
-    void Init();
 };
 
 struct FUN_00a57f20_cls
@@ -678,11 +679,11 @@ struct FUN_00a57f20_cls
 // @fnv 0x00a57f20
 FUN_00a57f20_cls* FUN_00a57f20_cls::FUN_00a57f20(void* pFirst, void* pSecond)
 {
-    reinterpret_cast<FUN_00a57f20_base*>(this)->Init();
+    new ((void *)(reinterpret_cast<FUN_00a57f20_base*>(this))) ::NiInterpolator();
     m_0c = g_fInitA;
-    long(__stdcall * pfnInterlockedIncrement)(long volatile*) = g_pfnInterlockedIncrement;
-    m_10 = g_fInitB;
-    *(int**)this = &g_vtable_00a57f20;
+    long(* pfnInterlockedIncrement)(long volatile*) = g_pfnInterlockedIncrement;
+    m_10 = ::DAT_01015f5c;
+    *(int**)this = &::DAT_0109ae8c;
     m_14 = pFirst;
     if (pFirst != 0)
     {
@@ -696,15 +697,12 @@ FUN_00a57f20_cls* FUN_00a57f20_cls::FUN_00a57f20(void* pFirst, void* pSecond)
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 struct FUN_00a57fd0_ref
 {
     virtual void Unknown();
     virtual void Delete();
     volatile long references;
-    FUN_00a57fd0_ref* FUN_00a5d3f0(FUN_00a50110_proc&);
 };
 struct FUN_00a57fd0_fields
 {
@@ -715,7 +713,6 @@ struct FUN_00a57fd0_fields
     float value10;
     FUN_00a57fd0_ref* object14;
     FUN_00a57fd0_ref* object18;
-    void FUN_00aa1000(FUN_00a50110_obj*, FUN_00a50110_proc&);
 };
 
 // @fnv 0x00a57fd0
@@ -723,7 +720,7 @@ void FUN_00a50110_obj::FUN_00a57fd0(FUN_00a50110_obj* destination, FUN_00a50110_
 {
     FUN_00a57fd0_fields* source = reinterpret_cast<FUN_00a57fd0_fields*>(this);
     FUN_00a57fd0_fields* target = reinterpret_cast<FUN_00a57fd0_fields*>(destination);
-    source->FUN_00aa1000(destination, cloning);
+    ::FUN_00aa1000();
     target->value10 = source->value10;
     target->value0c = source->value0c;
 
@@ -739,7 +736,7 @@ void FUN_00a50110_obj::FUN_00a57fd0(FUN_00a50110_obj* destination, FUN_00a50110_
 
     if (source->object18)
     {
-        FUN_00a57fd0_ref* clone = source->object18->FUN_00a5d3f0(cloning);
+        FUN_00a57fd0_ref* clone = ((::FUN_00a57fd0_ref *)&(reinterpret_cast<::NiControllerSequence__IDTag *>((source->object18))->operator=((const ::NiControllerSequence__IDTag &)(cloning))));
         FUN_00a57fd0_ref* existing = target->object18;
         if (existing != clone)
         {
@@ -751,3 +748,5 @@ void FUN_00a50110_obj::FUN_00a57fd0(FUN_00a50110_obj* destination, FUN_00a50110_
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nibsplinetransforminterpolator.inc"

@@ -1,6 +1,7 @@
 #ifndef FNV_NICONSOLERENDERER_VTABLE_H
 #define FNV_NICONSOLERENDERER_VTABLE_H
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "niconsolerenderer_types_NiRenderTargetGroup.h"
 class NavMeshInfo;
 class MagicItem;
@@ -8,7 +9,6 @@ typedef BSSimpleArray<NavMeshInfo*, 1024> NiConsoleRendererHeightArray;
 class MagicCaster
 {
   public:
-    MagicItem* GetSelectedMagicItem();
 };
 class NiConsoleRendererRendererVTable : public NiRenderer
 {

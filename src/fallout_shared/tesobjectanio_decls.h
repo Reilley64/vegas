@@ -3,21 +3,26 @@
 #define FNV_TESOBJECTANIO_DECLS_H
 
 
-extern "C" void* __cdecl _alloca(unsigned int);
+#include <malloc.h>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
 #pragma intrinsic(_alloca)
 
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFile : public TESFileFormVersion
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
     bool NextChunk();
 };
@@ -109,12 +114,10 @@ class TESForm : public BaseFormComponent
     virtual char* GetName(void) const;
     virtual bool SetEditorID_AtRuntime(const char* edid);
     char baseData[0x14];
-    bool IsFormInitialized() const;
     void SetInitializationState(bool initialized);
     TESFile* GetFile(int fileIndex);
-    void LoadRecordHeader(TESFile*);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
-    static TESForm* GetFormByID(unsigned int formID);
+public:
+    bool GetInitialized() const;
 };
 
 class TESModel : public BaseFormComponent
@@ -128,7 +131,6 @@ class TESModelTextureSwap : public TESModel
   public:
     void* TextureSwapNodeAccessor[2];
     void InitItem(TESForm* form);
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
 };
 
 class TESObjectANIO : public TESForm, public TESModelTextureSwap
@@ -139,5 +141,4 @@ class TESObjectANIO : public TESForm, public TESModelTextureSwap
     virtual bool Load(TESFile*);
 };
 
-typedef char TESObjectANIOSizeCheck[(sizeof(TESObjectANIO) == 0x3c) ? 1 : -1];
 #endif

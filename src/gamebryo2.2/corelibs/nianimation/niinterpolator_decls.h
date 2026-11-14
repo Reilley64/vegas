@@ -1,7 +1,8 @@
 // gamebryo2.2/corelibs/nianimation/niinterpolator_decls.h: declares NiObject, NiInterpolator
 #ifndef NIINTERPOLATOR_PRIVATE_DECLS_H
 #define NIINTERPOLATOR_PRIVATE_DECLS_H
-class NiObject
+#include "fnv/symbols_01015000.h"
+struct NiObject
 {
   public:
     NiObject();
@@ -14,6 +15,5 @@ class NiInterpolator : public NiObject
     NiInterpolator();
     float m_fLastTime;
 };
-extern const float DAT_01015f5c;
 extern void* NiInterpolator_VTable[];
 #endif

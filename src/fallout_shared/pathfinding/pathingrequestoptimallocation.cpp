@@ -2,9 +2,21 @@
 // src/fallout_shared/pathfinding/pathingrequestoptimallocation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingrequestoptimallocation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0048ee50_Class.h"
+#include "fnv/decl/FUN_00507610_Class.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_006dad70_shell.h"
+#include "fnv/decl/FUN_006e4320_Class.h"
+#include "fnv/decl/FUN_006e4ef0_shell.h"
+#include "fnv/decl/FUN_006e5ee0_Class.h"
+#include "fnv/decl/FUN_0099e040_shell.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01018000.h"
 struct PathingRequest
 {
-    void __thiscall DestroyPathingRequest();
+public:
+    void CopyTo(::PathingRequest *);
 };
 
 struct PathingRequestOptimalLocation : PathingRequest
@@ -12,14 +24,13 @@ struct PathingRequestOptimalLocation : PathingRequest
     void* FUN_006e5d70(unsigned int flags);
 };
 
-extern void _delete(void* p, unsigned int size);
 
 // @fnv 0x006e5d70
 void* PathingRequestOptimalLocation::FUN_006e5d70(unsigned int flags)
 {
-    this->PathingRequest::DestroyPathingRequest();
+    reinterpret_cast<::FUN_006dad70_shell *>((this))->DestroyPathingRequest();
     if (flags & 1)
-        _delete(this, 0xc0);
+        ::FUN_00aa1460(this, 0xc0);
     return this;
 }
 
@@ -30,7 +41,6 @@ struct PathingRequest
     PathingRequest(void);
 };
 
-extern float g_011c7b14_arg1;
 
 struct FUN_006e5d10 : PathingRequest
 {
@@ -48,9 +58,9 @@ FUN_006e5d10::FUN_006e5d10() : PathingRequest()
 {
     m_szName = "p]n";
     fPointHeight = 128.0f;
-    m_fUnknownValue2 = g_011c7b14_arg1;
+    m_fUnknownValue2 = ::g_011c7b14_arg1;
     m_fUnknownValue3 = 128.0f;
-    m_fUnknownValue4 = g_011c7b14_arg1;
+    m_fUnknownValue4 = ::g_011c7b14_arg1;
 }
 }  // namespace fnv_006e5d10
 
@@ -58,11 +68,6 @@ namespace fnv_006e5e60 {
 struct PathingRequest
 {
     char pad[0xB0];
-    void CopyTo(PathingRequest* apDest);
-    void FUN_00507610(float fVal);
-    void FUN_006e5ee0(float fVal);
-    void FUN_006e4ef0(float fVal);
-    void FUN_006e4320(float fVal);
 };
 
 struct PathingRequestOptimalLocation
@@ -79,20 +84,16 @@ struct PathingRequestOptimalLocation
 void PathingRequestOptimalLocation::FUN_006e5e60(PathingRequest* apDest)
 {
     PathingRequest* pdest = apDest;
-    base.CopyTo(pdest);
-    pdest->FUN_00507610(fPointHeight);
-    pdest->FUN_006e5ee0(m_fUnknownValue2);
-    pdest->FUN_006e4ef0(m_fUnknownValue3);
-    pdest->FUN_006e4320(m_fUnknownValue4);
+    reinterpret_cast<::PathingRequest *>(&(base))->CopyTo((::PathingRequest *)(pdest));
+    reinterpret_cast<::FUN_00507610_Class *>((pdest))->FUN_00507610(fPointHeight);
+    reinterpret_cast<::FUN_006e5ee0_Class *>((pdest))->FUN_006e5ee0(m_fUnknownValue2);
+    reinterpret_cast<::FUN_006e4ef0_shell *>((pdest))->FUN_006e4ef0(m_fUnknownValue3);
+    reinterpret_cast<::FUN_006e4320_Class *>((pdest))->FUN_006e4320(m_fUnknownValue4);
 }
 }  // namespace fnv_006e5e60
 
 struct S_006e5db0_Src
 {
-    float GetFloatAtOffsetB0();
-    float GetFieldB4Float();
-    float GetFieldB8Float();
-    float FUN_0099e040();
 };
 struct S_006e5db0_Base
 {
@@ -109,8 +110,8 @@ struct FUN_006e5db0 : S_006e5db0_Base
 // @fnv 0x006e5db0
 FUN_006e5db0::FUN_006e5db0(S_006e5db0_Src* pSource) : S_006e5db0_Base(pSource)
 {
-    unkb0 = pSource->GetFloatAtOffsetB0();
-    unkb4 = pSource->GetFieldB4Float();
-    unkb8 = pSource->GetFieldB8Float();
-    unkbc = pSource->FUN_0099e040();
+    unkb0 = reinterpret_cast<::FUN_006d2c20_Class *>((pSource))->GetFloatAtOffsetB0();
+    unkb4 = ::GetFieldB4Float((char *)(pSource));
+    unkb8 = reinterpret_cast<::FUN_0048ee50_Class *>((pSource))->GetFieldB8Float();
+    unkbc = reinterpret_cast<::FUN_0099e040_shell *>((pSource))->FUN_0099e040();
 }

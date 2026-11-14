@@ -2,9 +2,35 @@
 // src/fallout/ai/combat/combatprocedureswitchweapon.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureswitchweapon.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/inventory_entry_fields.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/CPStandIn009caae0.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_0088c650_shell.h"
+#include "fnv/decl/FUN_008a7570_shell.h"
+#include "fnv/decl/FUN_00996de0_Class.h"
+#include "fnv/decl/FUN_00996ed0_shell.h"
+#include "fnv/decl/FUN_00996ef0_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/S981990.h"
+#include "fnv/decl/Target97ff.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_008a6840__FUN_008a6840_shell.h"
+#include "fnv/decl/fnv_009ca680__FUN_009ca680.h"
+#include "fnv/decl/s88c790__Actor.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004c0000.h"
+#include "fnv/symbols_00645000.h"
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0(void);
 };
 
 extern int DAT_010920cc;
@@ -15,21 +41,18 @@ struct FUN_009da7a0_shell : FUN_009ca6c0_shell
 };
 
 // @fnv 0x009da7a0
-void __thiscall FUN_009da7a0_shell::FUN_009da7a0(void)
+void FUN_009da7a0_shell::FUN_009da7a0(void)
 {
-    *(int*)this = (int)&DAT_010920cc;
-    FUN_009ca6c0_shell::FUN_009ca6c0();
+    *(intptr_t*)this = (intptr_t)&DAT_010920cc;
+    reinterpret_cast<::FUN_009ca6c0_class *>(this)->FUN_009ca6c0();
 }
 
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void*, int);
-    void SaveData(void*, int, int);
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
-    void SaveGame(BGSSaveFormBuffer*);
 };
 
 struct CombatProcedureSwitchWeapon
@@ -46,12 +69,11 @@ struct CombatProcedureSwitchWeapon
 // @fnv 0x009da970
 void CombatProcedureSwitchWeapon::FUN_009da970(BGSSaveFormBuffer* buffer)
 {
-    base.SaveGame(buffer);
-    buffer->SerializeFormData(pWeapon, 0);
-    buffer->SaveData(reinterpret_cast<char*>(this) + 0x14, 1, 0);
+    reinterpret_cast<::FUN_00996ed0_shell *>(&(base))->SaveToBuffer(buffer);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pWeapon), 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x14, 1, 0);
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_009da770_shell : FUN_009da7a0_shell
 {
     void* DestroyIfFlagged(unsigned int flags);
@@ -62,29 +84,26 @@ void* FUN_009da770_shell::DestroyIfFlagged(unsigned int flags)
 {
     FUN_009da7a0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void*, unsigned int);
 };
 struct BGSLoadGameBuffer
 {
-    unsigned int ReadFormIdentifier();
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
-struct TESObjectWEAP : TESForm
+class TESObjectWEAP : public TESForm
 {
 };
-TESForm* __cdecl _ref_004839c0(unsigned int);
 struct CombatProcedure_Helper
 {
-    void LoadGame(BGSLoadFormBuffer*);
 };
 struct FUN_009da9b0_shell : CombatProcedureSwitchWeapon
 {
@@ -94,15 +113,14 @@ struct FUN_009da9b0_shell : CombatProcedureSwitchWeapon
 // @fnv 0x009da9b0
 void FUN_009da9b0_shell::FUN_009da9b0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    ((CombatProcedure_Helper*)this)->LoadGame(apLoadGameBuffer);
-    pWeapon = dynamic_cast<TESObjectWEAP*>(_ref_004839c0(((BGSLoadGameBuffer*)apLoadGameBuffer)->ReadFormIdentifier()));
-    apLoadGameBuffer->ReadTypedData((char*)this + 0x14, 1);
+    reinterpret_cast<::FUN_00996ef0_shell *>((((CombatProcedure_Helper*)this)))->FUN_00996ef0(apLoadGameBuffer);
+    pWeapon = dynamic_cast<TESObjectWEAP*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((BGSLoadGameBuffer*)apLoadGameBuffer)))->FUN_008648a0()));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x14), 1);
 }
 
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct FUN_009ca680_holder
 {
-    void FUN_009ca680();
     char _pad[16];
 };
 struct FUN_009da720 : FUN_009ca680_holder
@@ -115,19 +133,17 @@ struct FUN_009da720 : FUN_009ca680_holder
 // @fnv 0x009da720
 FUN_009da720::FUN_009da720(TESObjectWEAP* apWeapon)
 {
-    FUN_009ca680();
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_010920cc);
+    new ((void *)this) ::fnv_009ca680::FUN_009ca680();
+    *reinterpret_cast<uintptr_t*>(this) = reinterpret_cast<uintptr_t>(&DAT_010920cc);
     pWeapon = apWeapon;
     m_ucWeaponState = 0;
 }
 
-struct TESForm;
-struct TESObjectWEAP;
-struct ExtraDataList;
+class TESForm;
+class TESObjectWEAP;
+class ExtraDataList;
 struct InvEntry
 {
-    TESForm* FUN_0044ddc0();
-    ExtraDataList* FUN_00726070();
 };
 struct BaseProcess
 {
@@ -410,22 +426,12 @@ struct BaseProcess
     virtual void v276();
     virtual bool IsWeaponOut();
 };
-struct Actor
+class Actor
 {
-    int FUN_008a7570();
-    BaseProcess* FUN_008d8520();
-    void FUN_008a6840(bool);
-    int FUN_00575610(TESForm*);
-    void FUN_0088c650(TESForm*, int, ExtraDataList*, bool, bool, bool);
-    void FUN_0088c790(TESForm*, ExtraDataList*, bool, bool, bool, bool);
 };
 struct CombatController
 {
-    bool FUN_00981990();
-    void UpdateActorValues();
 };
-bool __fastcall FUN_004c0bf0(TESForm*);
-bool __fastcall FUN_006450c0(TESForm*);
 struct CombatProcedureSW
 {
     void* vtbl;
@@ -434,50 +440,48 @@ struct CombatProcedureSW
     int unk0C;
     TESForm* pWeapon;
     bool m_ucWeaponState;
-    Actor* FUN_00996de0();
-    void SetState();
     void UpdateWeaponDraw();
 };
 
 // @fnv 0x009da7c0
 void CombatProcedureSW::UpdateWeaponDraw()
 {
-    if (controller->FUN_00981990())
+    if (reinterpret_cast<::S981990 *>((controller))->FUN_00981990())
     {
-        SetState();
+        reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
         return;
     }
-    Actor* actor = FUN_00996de0();
-    if (actor->FUN_008a7570() != -1)
+    Actor* actor = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
+    if (reinterpret_cast<::FUN_008a7570_shell *>((actor))->FUN_008a7570() != -1)
         return;
-    InvEntry* entry = actor->FUN_008d8520()->GetWeaponEntry();
-    TESForm* weap = entry ? entry->FUN_0044ddc0() : 0;
+    InvEntry* entry = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetWeaponEntry();
+    TESForm* weap = entry ? ((::TESForm *)reinterpret_cast<InventoryEntryFields*>(entry)->pObject) : 0;
     if (!m_ucWeaponState && weap != pWeapon)
     {
-        if (actor->FUN_008d8520()->IsWeaponOut())
+        if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->IsWeaponOut())
         {
-            actor->FUN_008a6840(false);
+            reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>((actor))->FUN_008a6840(false);
             return;
         }
         if (pWeapon)
         {
             int count = 1;
-            if (FUN_004c0bf0(pWeapon))
-                count = actor->FUN_00575610(pWeapon);
-            actor->FUN_0088c650(pWeapon, count, 0, true, false, true);
+            if (::FUN_004c0bf0((::TESObjectWEAP *)(pWeapon)))
+                count = reinterpret_cast<::CombatState *>((actor))->GetInventoryItemCount(pWeapon);
+            reinterpret_cast<::FUN_0088c650_shell *>((actor))->FUN_0088c650((::TESBoundObject *)(pWeapon), count, 0, true, false, true);
         }
         else
         {
-            actor->FUN_0088c790(weap, entry->FUN_00726070(), false, false, false, true);
+            reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790((intptr_t)(weap), reinterpret_cast<InventoryEntryFields*>(entry)->iCountDelta, false, false, false, true);
         }
         m_ucWeaponState = true;
     }
     else if (weap == pWeapon)
     {
-        if (!actor->FUN_008d8520()->IsWeaponOut())
-            actor->FUN_008a6840(true);
-        if (!weap || FUN_006450c0(weap))
-            controller->UpdateActorValues();
-        SetState();
+        if (!((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->IsWeaponOut())
+            reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>((actor))->FUN_008a6840(true);
+        if (!weap || ::FUN_006450c0((::TESObjectWEAP *)(weap)))
+            reinterpret_cast<::Target97ff *>((controller))->UpdateActorValues();
+        reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
     }
 }

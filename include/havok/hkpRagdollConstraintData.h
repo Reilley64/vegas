@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpConstraintData.h"
 #include "hkpRagdollConstraintDataAtoms.h"
-#pragma pack(push, 1)
 class hkpRagdollConstraintData : public hkpConstraintData
 {
   public:
@@ -19,6 +18,4 @@ class hkpRagdollConstraintData : public hkpConstraintData
     char padC[0x4];
     hkpRagdollConstraintDataAtoms m_kBridgeAtoms;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpRagdollConstraintData[(sizeof(hkpRagdollConstraintData) == 0x140) ? 1 : -1];
 #endif

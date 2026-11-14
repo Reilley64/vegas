@@ -3,9 +3,21 @@
 #define LANDTEXTURE_MATCH_H
 
 #include <stddef.h>
-#define FNV_JOIN2(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN2(a, b)
-#define FNV_STATIC_ASSERT(e) typedef char FNV_JOIN(fnv_check_, __LINE__)[(e) ? 1 : -1]
+#include <malloc.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 class TESFile;
 class TESGrass;
 class BGSTextureSet;
@@ -14,21 +26,7 @@ enum ENUM_FORM_ID
 {
     FORM_ID_LTEX = 18
 };
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    void AddTail(const T& item);
-    bool IsEmpty();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    void Remove(const T& item);
-    void RemoveHead();
-    void SetItem(const T& item);
-};
+#include "fnv/bs_simple_list.h"
 // Source layout: BaseFormComponent. PC corrections are in generate_headers.py.
 class BaseFormComponent
 {
@@ -38,7 +36,6 @@ class BaseFormComponent
     virtual void CopyFromBase(BaseFormComponent* component);
     virtual bool CompareWithBase(BaseFormComponent* component);
 };
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
 
 // Source layout: TESForm. PC corrections are in generate_headers.py.
 class TESForm : public BaseFormComponent
@@ -123,24 +120,11 @@ class TESForm : public BaseFormComponent
     virtual char* GetName(void) const;
     virtual bool SetEditorID_AtRuntime(const char* edid);
     bool GetInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class BGSTextureSet;
@@ -153,10 +137,6 @@ class TextureParameterBlock
     unsigned char m_ucParameter3;  // +0x2, 1 bytes
     // void __cdecl TextureParameterBlock::*()
 };
-FNV_STATIC_ASSERT(sizeof(TextureParameterBlock) == 3);
-FNV_STATIC_ASSERT(offsetof(TextureParameterBlock, m_ucParameter1) == 0);
-FNV_STATIC_ASSERT(offsetof(TextureParameterBlock, m_ucParameter2) == 1);
-FNV_STATIC_ASSERT(offsetof(TextureParameterBlock, m_ucParameter3) == 2);
 class TESLandTexture : public TESForm
 {
   public:
@@ -169,7 +149,6 @@ class TESLandTexture : public TESForm
     virtual void ResetFormData();
     virtual bool Load(TESFile* file);
     virtual void InitItem();
-    BSSimpleList<TESGrass*>* GetGrassList();
     // TESLandTexture
     // void __cdecl TESLandTexture::*()
     // void __cdecl TESLandTexture::*()
@@ -194,11 +173,6 @@ class TESLandTexture : public TESForm
     // TESLandTexture& __cdecl TESLandTexture::*(const TESLandTexture&)
     // void __cdecl TESLandTexture::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESLandTexture) == 40);
-FNV_STATIC_ASSERT(offsetof(TESLandTexture, m_pTextureSet) == 24);
-FNV_STATIC_ASSERT(offsetof(TESLandTexture, LandTextureParameters) == 28);
-FNV_STATIC_ASSERT(offsetof(TESLandTexture, m_ucTextureTiling) == 31);
-FNV_STATIC_ASSERT(offsetof(TESLandTexture, m_kGrassList) == 32);
 
 // Vtable declarations only, using public JohnnyGuitarNVSE NiObject.hpp names.
 class bhkBlendCollisionObject;
@@ -209,28 +183,22 @@ class BSFadeNode;
 class BSMultiBoundNode;
 class BSResizableTriShape;
 class BSSegmentedTriShape;
-class CloningProcess;
+struct CloningProcess;
 class NiGeometry;
 class NiLines;
 class NiNode;
 class NiParticles;
-class NiStream;
+struct NiStream;
 class NiTriBasedGeom;
 class NiTriShape;
 class NiTriStrips;
-class NiControllerManager;
+struct NiControllerManager;
 class NiObjectGroup;
-class NiBound;
-class NiRTTI;
+struct NiBound;
+struct NiRTTI;
 class NiViewerStringsArray;
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-};
-class NiObject : public NiRefObject
+#include "fnv/ni_ref_object.h"
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();
@@ -268,7 +236,6 @@ class NiObject : public NiRefObject
     virtual void SetGroup(NiObjectGroup* apGroup);
     virtual NiControllerManager* IsControllerManager() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
 class BSShaderProperty
 {
   public:
@@ -283,7 +250,6 @@ class BSTextureSet : public NiObject
   public:
     virtual const char* GetTexturePath(BSShaderProperty::TextureTypeEnum texture) const;
 };
-FNV_STATIC_ASSERT(sizeof(BSTextureSet) == 8);
 class TESFormList;
 class TESObject : public TESForm
 {
@@ -306,7 +272,6 @@ class TESBoundObject : public TESObject
         ShortPoint3 m_kBoundMax;
     } TESBoundObjectBounds;
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
 class BGSTextureSet : public TESBoundObject, public BSTextureSet
 {
   public:
@@ -321,13 +286,7 @@ class TESGrass : public TESBoundObject
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
     bool NextChunk();
 };
-extern "C" void* __cdecl _alloca(unsigned int);
-int __cdecl Warning(const char*, ...);
 #endif

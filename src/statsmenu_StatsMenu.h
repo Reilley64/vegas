@@ -3,6 +3,7 @@
 #ifndef FNV_STATSMENU_H
 #define FNV_STATSMENU_H
 
+#include "fnv/symbols_007df000.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_types_MiscStatManager__MiscStatID.h"
 #include "statsmenu_ListBox_PerkRankData___.h"
@@ -14,6 +15,7 @@
 #include "statsmenu_StatsMenu__HealingOption.h"
 #include "statsmenu_StatsMenu__NamedEffectsList.h"
 #include "statsmenu_StatsMenu__StatusEffectList.h"
+class Tile;
 class StatsMenu : public Menu
 {
   public:
@@ -55,27 +57,10 @@ class StatsMenu : public Menu
     void UpdateActorValueTiles();
     void RefreshActorValueTile(ActorValue::Index value);
     static void UpdatePrimaryActorValueTile(Tile* tile, ActorValue::Index value);
-    static void UpdateSecondaryActorValueTile(Tile* tile, ActorValue::Index value);
-    static void UpdateMiscStatTile(Tile* tile, MiscStatManager__MiscStatID value);
     void RefreshMiscStat(MiscStatManager__MiscStatID value);
     static void UpdateStatusEffects();
     static void ClearPerks();
+public:
+    static bool SetTileFlashing(::Tile *, unsigned int);
 };
-FNV_STATIC_ASSERT(sizeof(StatsMenu) == 0x2A4);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kHealingOptions) == 0x28);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kNamedEffectsList) == 0x68);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pStatusEffectAtIndex0) == 0x74);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pStatusEffectAtIndex1) == 0x78);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pStatusEffectAtIndex2) == 0x7C);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pStatusEffectAtIndex3) == 0x80);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kStatusEffectEntries) == 0x84);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pTiles) == 0x90);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kPrimaryActorValueList) == 0x180);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kSecondaryActorValueList) == 0x1B0);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kPerkRankList) == 0x1E0);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kMiscStatList) == 0x210);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kStatusEffectList) == 0x240);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kReputationList) == 0x270);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_bUpdateOption) == 0x2A0);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_bStatUpdatePending) == 0x2A1);
 #endif

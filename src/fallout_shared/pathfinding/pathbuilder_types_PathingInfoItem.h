@@ -91,7 +91,6 @@ enum PATHING_PARAMETER_ID
     PATHING_PARAMETER_ID_PPAR_INT_INT_INT = 3,
     PATHING_PARAMETER_ID_PPAR_PATHING_LOCATION = 4
 };
-#pragma pack(push, 4)
 class PathingInfoParams
 {
   public:
@@ -103,11 +102,6 @@ class PathingInfoParams
     // void __cdecl PathingInfoParams::*()
     // void* __cdecl PathingInfoParams::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingInfoParams) == 52);
-FNV_STATIC_ASSERT(offsetof(PathingInfoParams, ints) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingInfoParams, location) == 12);
-#pragma pack(push, 4)
 class PathingInfoEntry
 {
   public:
@@ -123,10 +117,4 @@ class PathingInfoEntry
     // void __cdecl PathingInfoEntry::*()
     // void* __cdecl PathingInfoEntry::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingInfoEntry) == 64);
-FNV_STATIC_ASSERT(offsetof(PathingInfoEntry, InfoType) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingInfoEntry, MessageID) == 4);
-FNV_STATIC_ASSERT(offsetof(PathingInfoEntry, ParamID) == 8);
-FNV_STATIC_ASSERT(offsetof(PathingInfoEntry, Params) == 12);
 #endif

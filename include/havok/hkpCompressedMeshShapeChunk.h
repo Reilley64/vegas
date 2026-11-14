@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPCOMPRESSEDMESHSHAPECHUNK_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpCompressedMeshShapeChunk
 {
   public:
@@ -18,6 +17,4 @@ class hkpCompressedMeshShapeChunk
     hkUint16 m_iSectionVertexCount;     // +0x46
     char pad48[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCompressedMeshShapeChunk[(sizeof(hkpCompressedMeshShapeChunk) == 0x50) ? 1 : -1];
 #endif

@@ -4,17 +4,18 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
-struct NiPixelFormat
+class NiPixelFormat
 {
+  public:
     unsigned int unknown;
     unsigned int format;
 };
-class NiRenderer;
+struct NiRenderer;
 struct NiDepthStencilBuffer;
-struct Ni2DBuffer : NiMemObject
+class Ni2DBuffer : public NiMemObject
 {
+  public:
     virtual ~Ni2DBuffer();
     virtual void vfn_4();
     virtual void vfn_8();

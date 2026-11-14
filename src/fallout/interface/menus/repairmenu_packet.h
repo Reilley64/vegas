@@ -2,17 +2,25 @@
 #ifndef REPAIRMENU_PACKET_H
 #define REPAIRMENU_PACKET_H
 
+#include "fnv/decl/FUN_00a01290_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_00416000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00867000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_011da000.h"
 class Menu;
 class Tile
 {
   public:
-    float GetFloat(int);
-    void Set(int, float, bool);
-    void SetTraitFloat(int, float);
     static float GetInterfaceScale();
-    Tile* ReadFile(const char*);
-    Menu* GetMenu();
-    static Menu* FindMenuById(int);
+public:
+    void Set(int, int);
 };
 class TileListBoxCalls
 {
@@ -38,7 +46,6 @@ class Menu
     virtual int GetID();
     Tile* pMenu;
     char pad[0x20];
-    void SetTileMenu(class TileMenu*, bool);
     void SetMenuVisibility(bool);
 };
 class ListBox_ItemChange___
@@ -51,7 +58,6 @@ class ListBox_ItemChange___
 class InventoryMenu
 {
   public:
-    void FUN_00867a20();
 };
 class BGSPerkEntry;
 template <class T> class BSSimpleList
@@ -69,19 +75,12 @@ class RepairMenu : public Menu
     int GetClass();
     void UpdateRepairList();
     static Tile* Create();
-    bool FUN_007b5730();
 };
 class InterfaceManager
 {
   public:
     Tile* FUN_00586150();
 };
-InterfaceManager* FUN_004b7210();
 int FUN_007b5720();
-int Warning(const char*, ...);
-float FUN_004a4240();
-void FUN_004169a0(float, float&, float&);
 extern bool DAT_011d9e91;
-extern RepairMenu* DAT_011da75c;
-extern int DAT_011da754;
 #endif

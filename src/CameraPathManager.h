@@ -27,8 +27,4 @@ class CameraPathManager
   protected:
     static BGSCameraPath* ms_pDefaultCameraPath;
 };
-FNV_STATIC_ASSERT(sizeof(NiFormArray) == 24);
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray<BGSCameraPath*>) == 16);
-FNV_STATIC_ASSERT(sizeof(CameraPathManager) == 40);
-FNV_STATIC_ASSERT(offsetof(CameraPathManager, m_kCameraPathList) == 24);
 #endif

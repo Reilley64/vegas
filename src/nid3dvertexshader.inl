@@ -7,13 +7,14 @@
 // its D3D handles live at offset 52 (shader) and 56 (declaration).
 
 // Direct3D9 vertex shader object; referenced by pointer only.
+#include "fnv/symbols_0126f000.h"
 class RenderableGeometry;
 
 // Direct3D9 vertex declaration object; referenced by pointer only.
 class COMUnknownInterface;
 
 // Forward declarations of the renderer types named by the base chain.
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 class Direct3DDeviceInterface;
 class GraphicsRenderer;
 class ShaderPassRenderer;
@@ -21,38 +22,15 @@ class ShaderPassRenderer;
 typedef unsigned int NiUInt32;
 
 // Run time type descriptor handed out by GetRTTI.
-class NiRTTI
+struct NiRTTI
 {
 public:
     const char* m_pcName;
     const NiRTTI* m_pBaseRTTI;
 };
 
-// Base of the engine allocation tracking; empty in this build.
-class NiMemObject
-{
-};
-
-// Reference counted engine object.
-class NiRefObject : public NiMemObject
-{
-public:
-    NiRefObject() : m_uiRefCount(0)
-    {
-    }
-
-    virtual ~NiRefObject()
-    {
-    }
-
-    virtual void DeleteThis()
-    {
-        delete this;
-    }
-
-protected:
-    NiUInt32 m_uiRefCount;
-};
+// Share reference counting, destruction and allocation ownership with NiRefObject.
+#include "NiRefObject.h"
 
 // GPU program base of the Nivid3D shader programs.
 class NiGPUProgram : public NiRefObject
@@ -97,7 +75,6 @@ class NiD3DVertexShader : public NiD3DShaderProgram
 public:
     NiD3DVertexShader(GraphicsRenderer* pkRenderer);
 
-    static const NiRTTI ms_kRTTI;
     virtual const NiRTTI* GetRTTI() const;
 
     void SetD3DPixelShader(RenderableGeometry* hShader);
@@ -123,7 +100,7 @@ NiD3DVertexShader::NiD3DVertexShader(GraphicsRenderer *const pkRenderer) :
 // @fnv 0x00be0b60
 const NiRTTI* NiD3DVertexShader::GetRTTI() const
 {
-    return &ms_kRTTI;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_0126f9b4));
 }
 
 // @fnv 0x00be0bb0

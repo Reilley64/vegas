@@ -1,9 +1,9 @@
 
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
 #include "niquattransform_types_NiQuatTransform.h"
 
-extern NiPoint3 DAT_011a8400;
-extern NiQuaternion DAT_011f3704;
-extern float DAT_01096b8c;
 
 #pragma optimize("", off)
 // @fnv 0x00494260

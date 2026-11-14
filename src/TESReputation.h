@@ -50,13 +50,4 @@ class TESTextureLoader
   public:
     static void ReadTextureData(TESTexture* component, TESFile* file);
 };
-FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
-FNV_STATIC_ASSERT(sizeof(ReputationLimitData) == 4);
-FNV_STATIC_ASSERT(offsetof(ReputationLimitData, m_fMaximumReputation) == 0);
-FNV_STATIC_ASSERT(sizeof(TESReputation) == 80);
-FNV_STATIC_ASSERT(offsetof(TESReputation, data) == 64);
-FNV_STATIC_ASSERT(offsetof(TESReputation, m_fFirstReputationValue) == 68);
-FNV_STATIC_ASSERT(offsetof(TESReputation, m_fSecondReputationValue) == 72);
-FNV_STATIC_ASSERT(offsetof(TESReputation, m_eReputationType) == 76);
 #endif

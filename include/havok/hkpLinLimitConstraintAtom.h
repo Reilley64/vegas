@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpLinLimitConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -14,6 +13,4 @@ class hkpLinLimitConstraintAtom : public hkpConstraintAtom
     hkReal m_kMinimumCorner;  // +0x4
     hkReal m_kMaximumCorner;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpLinLimitConstraintAtom[(sizeof(hkpLinLimitConstraintAtom) == 0xC) ? 1 : -1];
 #endif

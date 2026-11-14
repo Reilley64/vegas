@@ -7,7 +7,11 @@
 *.bsa
 *.esm
 *.esp
-results*.json
+# Data packs that setup writes, installed or staged (VEGAS-13).
+*.pack
+*.pack.staged
 /out/
 /obj/
-__pycache__/
+
+# Where CI checks out the Steamworks SDK. Its headers must not be committed.
+/steamworks-sdk/

@@ -2,14 +2,73 @@
 // src/staging/blk_00ce0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
+#include "fnv/decl/fnv_00cd9d10__Q_00cd9d10.h"
+#include <intrin.h>
+#include <new>
+#include <windows.h>
+#include "fnv/decl/AttributeFormatter.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C89AC0_Owner.h"
+#include "fnv/decl/D06D50Finder.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb24c0_cls.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cf6da0_cls.h"
+#include "fnv/decl/HostWorld_00c951b0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/ShapeData.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/Transform.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cde000.h"
+#include "fnv/symbols_00cf4000.h"
+#include "fnv/symbols_00cf6000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/tls.h"
+#include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/C97E80World.h"
+#include "fnv/decl/Cls_c7f4e0.h"
+#include "fnv/decl/FUN_00d86220_Class.h"
+#include "fnv/symbols_00ce0000.h"
+#include "fnv/symbols_00ce2000.h"
+#include "fnv/symbols_00ce4000.h"
+#include "fnv/symbols_00ce5000.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00cf7000.h"
+#include "fnv/symbols_00cfb000.h"
+#include "fnv/symbols_00cfc000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/decl/Quat74.h"
 
 extern int DAT_010cc164;
 void __cdecl FUN_00d86220();
 
 struct FUN_00cf45d0_class
 {
-    int vtable;
+    intptr_t vtable;
     FUN_00cf45d0_class();
 };
 
@@ -17,12 +76,11 @@ struct FUN_00cf45d0_class
 FUN_00cf45d0_class::FUN_00cf45d0_class()
 {
     FUN_00d86220();
-    vtable = (int)&DAT_010cc164;
+    vtable = (intptr_t)&DAT_010cc164;
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
-    void RetainReference();
 };
 
 struct FUN_00cf4ca0_class
@@ -37,35 +95,37 @@ struct FUN_00cf4ca0_class
 void FUN_00cf4ca0_class::FUN_00cf4ca0()
 {
     if (m_kPointA)
-        m_kPointA->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((m_kPointA))->FUN_00c90510();
     if (m_kPointB)
-        m_kPointB->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((m_kPointB))->FUN_00c90510();
 }
 
 struct FUN_00d06d50_cls
 {
-    int __thiscall FindClass(int);
 };
-extern "C" void __cdecl FUN_00cf6920(int, int, int);
 
 // Calls FindClass on b with a; if it returns nonzero, passes a, the result and b to FUN_00cf6920.
 // @fnv 0x00cf6950
-void __cdecl FUN_00cf6950(int a, int apObject)
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t apObject)
 {
-    int c = ((FUN_00d06d50_cls*)apObject)->FindClass(a);
+    intptr_t c = ((intptr_t)(reinterpret_cast<::D06D50Finder *>((((FUN_00d06d50_cls*)apObject)))->FindClass((const ::D06D50Object *)(a))));
     if (c)
-        FUN_00cf6920(a, c, apObject);
+        ::FUN_00cf6920((void *)(a), (::Node *)(c), (void *)(apObject));
 }
 
 struct FUN_00cf86f0_class
 {
+    char pad00[0x14];
+    float m_fBase;
+    char pad18[0x8];
+    float m_fValue;
     int IsFieldEqual();
 };
 
 // @fnv 0x00cf86f0
 int FUN_00cf86f0_class::IsFieldEqual()
 {
-    if (*(float*)((char*)this + 0x14) == *(float*)((char*)this + 0x20))
+    if (m_fBase == m_fValue)
         return 1;
     return 0;
 }
@@ -84,53 +144,42 @@ unsigned short FUN_00cfcb80(unsigned short a, unsigned short b)
 extern int DAT_010cb864;
 struct FUN_00ce4ae0_cls
 {
-    int __thiscall FUN_00ce4ae0(int);
-    void __thiscall FUN_00ce5310();
 };
 struct FUN_00ce4a20_cls
 {
-    int m_kPointA;
+    intptr_t m_kPointA;
     short m_kPointB;
     short m_iThirdValue;
     int m_iFourthElementInteger;
-    int __thiscall FUN_00ce4a20(int a);
+    char pad0c[0x4];
+    FUN_00ce4ae0_cls m_kShape;
+    intptr_t FUN_00ce4a20(intptr_t a);
 };
-// @fnv 0x00ce4a20
-int __thiscall FUN_00ce4a20_cls::FUN_00ce4a20(int a)
-{
-    m_iThirdValue = 1;
-    m_kPointA = (int)&DAT_010cb864;
-    ((FUN_00ce4ae0_cls*)((char*)this + 0x10))->FUN_00ce5310();
-    ((FUN_00ce4ae0_cls*)((char*)this + 0x10))->FUN_00ce4ae0(a);
-    return (int)this;
-}
-
 extern int DAT_0102e378;
 // @fnv 0x00cf69a0
-void __cdecl FUN_00cf69a0(int* a)
+void __cdecl FUN_00cf69a0(intptr_t* a)
 {
     if (a)
-        *a = (int)&DAT_0102e378;
+        *a = (intptr_t)&DAT_0102e378;
 }
 
 struct FUN_00cf69c0_class
 {
-    int m_kPointA;
+    intptr_t m_kPointA;
     int m_auiShapeKeys;
-    int m_kPointB;
-    int __thiscall FUN_00cf69c0(int a);
+    intptr_t m_kPointB;
+    intptr_t FUN_00cf69c0(intptr_t a);
 };
 
-int __cdecl FUN_00cb0fa0(int a, int b);
 
 // @fnv 0x00cf69c0
-int __thiscall FUN_00cf69c0_class::FUN_00cf69c0(int a)
+intptr_t FUN_00cf69c0_class::FUN_00cf69c0(intptr_t a)
 {
     FUN_00cf69c0_class* self = this;
     for (;;)
     {
-        if (self->m_kPointA && !FUN_00cb0fa0(a, self->m_kPointA))
-            return (int)self;
+        if (self->m_kPointA && !::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(a), (const char *)(self->m_kPointA)))
+            return (intptr_t)self;
         if (!self->m_kPointB)
             return 0;
         self = (FUN_00cf69c0_class*)self->m_kPointB;
@@ -139,12 +188,16 @@ int __thiscall FUN_00cf69c0_class::FUN_00cf69c0(int a)
 
 struct FUN_00cf86e0_class
 {
+    char pad00[0x14];
+    float m_fBase;
+    char pad18[0x8];
+    float m_fValue;
     void FUN_00cf86e0(float f);
 };
 // @fnv 0x00cf86e0
 void FUN_00cf86e0_class::FUN_00cf86e0(float f)
 {
-    *(float*)((char*)this + 0x20) = *(float*)((char*)this + 0x14) + f;
+    m_fValue = m_fBase + f;
 }
 
 extern int DAT_010cc2e0;
@@ -169,7 +222,6 @@ FUN_00cf4820_class::FUN_00cf4820_class()
     vtbl = &DAT_010cc2e0;
 }
 
-extern int DAT_0102e388;
 
 struct FUN_00cf86d0_cls
 {
@@ -179,7 +231,7 @@ struct FUN_00cf86d0_cls
 // @fnv 0x00cf86d0
 void FUN_00cf86d0_cls::FUN_00cf86d0()
 {
-    *(int*)this = (int)&DAT_0102e388;
+    *(intptr_t*)this = (intptr_t)&::DAT_0102e388;
 }
 
 // FUN_00ce29e0: member function that (re)initialises the object.
@@ -187,7 +239,6 @@ void FUN_00cf86d0_cls::FUN_00cf86d0()
 //   - calls the constructor of the sub-object living at this+0x10,
 //   - then installs the vtable pointer of the derived class at [this].
 extern int DAT_010cb864;
-extern int DAT_0102e388;
 
 // Sub-object at +0x10; FUN_00ce5370 is the game's constructor for it.
 struct FUN_00ce5370_cls
@@ -210,7 +261,7 @@ void FUN_00ce29e0_cls::FUN_00ce29e0()
 {
     m_pVTable = &DAT_010cb864;
     m_sub.FUN_00ce5370();
-    m_pVTable = &DAT_0102e388;
+    m_pVTable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct FnvSpawnedObject;
@@ -221,7 +272,6 @@ struct FnvProbe
     int m_04;
     int m_08;
     int m_0c;
-    unsigned char* Match(FnvSpawnedObject** ref);
     unsigned char* Check(FnvSpawnedObject** ref);
 };
 
@@ -241,7 +291,7 @@ struct FnvSpawnedObject
 bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj)
 {
     FnvSpawnedObject* self = obj;
-    if (*self->m_10.Match(&obj) == 0)
+    if (*reinterpret_cast<::FUN_00cb24c0_cls *>(&(self->m_10))->IsNormalized((unsigned char *)(::FnvSpawnedObject **)(&obj)) == 0)
     {
         return false;
     }
@@ -252,50 +302,29 @@ bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj)
     return *self->m_20.Check(&obj) ? true : false;
 }
 
-void __cdecl FUN_00ce2ca0(int a1, int a2, int* a3, int a4);
+
+struct CE2CF0Object
+{
+    char pad00[0x40];
+    __m128 m_offset;
+    char pad50[0x24];
+    void* m_property;
+};
 
 // @fnv 0x00ce2cf0
-void __cdecl FUN_00ce2cf0(int pObject, int param_2, int param_3)
+void __cdecl FUN_00ce2cf0(intptr_t pObject, intptr_t param_2, intptr_t param_3)
 {
-    FUN_00ce2ca0(*reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x74), param_3,
-                 reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40), param_2);
+    CE2CF0Object* object = reinterpret_cast<CE2CF0Object*>(pObject);
+    ::FUN_00ce2ca0(object->m_property, (__m128 *)(param_3), &object->m_offset, (const __m128 *)(param_2));
 }
 
-void __cdecl FUN_00ce3090(int a1, int a2, int a3, int a4, int a5, int a6);
 
-// Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
-// @fnv 0x00ce4330
-void __cdecl FUN_00ce4330(int a1, int a2, int a3, int a4)
-{
-    FUN_00ce3090(a1, a2, a3, 0, 0, a4);
-}
 
 namespace fnv_00ce5370 {
 extern "C" void _ReadWriteBarrier(void);
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-AudioHolder* __cdecl FUN_00c85750() throw();
-
 struct AudioObjectRef
 {
-    void Release();
 };
 
 struct FUN_00ce5370_cls
@@ -319,35 +348,32 @@ struct FUN_00ce5370_cls
 // @fnv 0x00ce5370
 void FUN_00ce5370_cls::FUN_00ce5370()
 {
-    AudioHolder* pHolder = FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryAllocator* pAllocator = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
     if ((uCapA & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pDataA, (uCapA & 0x3fffffffu) * 2);
+        pAllocator->bufFree(m_pDataA, int((uCapA & 0x3fffffffu) * 2));
     }
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
-    AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
+    hkMemoryAllocator* pAllocator2 = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
     if ((uCapB & 0x80000000u) == 0)
     {
-        pAllocator2->FreeArray(m_pDataB, (uCapB & 0x3fffffffu) * 0x70);
+        pAllocator2->bufFree(m_pDataB, int((uCapB & 0x3fffffffu) * 0x70));
     }
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
-    AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
+    hkMemoryAllocator* pAllocator3 = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
     if ((uCapC & 0x80000000u) == 0)
     {
-        pAllocator3->FreeArray(m_pDataC, (uCapC & 0x3fffffffu) * 0x40);
+        pAllocator3->bufFree(m_pDataC, int((uCapC & 0x3fffffffu) * 0x40));
     }
     m_pDataC = 0;
     m_uCapC = 0x80000000u;
@@ -356,14 +382,14 @@ void FUN_00ce5370_cls::FUN_00ce5370()
     AudioObjectRef* pObj4 = m_pObj4;
     if (pObj4 != 0)
     {
-        pObj4->Release();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pObj4))->FUN_00c905b0();
     }
     m_pObj4 = 0;
     _ReadWriteBarrier();
     AudioObjectRef* pObj0 = m_pObj0;
     if (pObj0 != 0)
     {
-        pObj0->Release();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pObj0))->FUN_00c905b0();
     }
     m_pObj0 = 0;
 }
@@ -410,7 +436,6 @@ void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pKeyBox)
     return 0;
 }
 
-void __cdecl FUN_00d86160(void* stream, void* self);
 
 struct DragBinaryStreamView
 {
@@ -448,7 +473,7 @@ struct FUN_00cf4490_cls
 // @fnv 0x00cf4490
 void FUN_00cf4490_cls::FUN_00cf4490(void* stream)
 {
-    FUN_00d86160(stream, this);
+    ::FUN_00d86160((*(::NiStreamD8616 *)(stream)), (::DataD8616 *)(void *)(this));
     DragStreamView* s = reinterpret_cast<DragStreamView*>(stream);
     s->m_pUnderlyingStream->Load(&m_14);
     s->m_pUnderlyingStream->Load(&m_18);
@@ -456,11 +481,10 @@ void FUN_00cf4490_cls::FUN_00cf4490(void* stream)
 }
 
 struct CpuOpaque;
-extern CpuOpaque DAT_01268740;
 // @fnv 0x00cf45f0
 CpuOpaque* __cdecl FUN_00cf45f0()
 {
-    return &DAT_01268740;
+    return &(*reinterpret_cast<::CpuOpaque *>(&::g_01268740));
 }
 
 struct PacketSerializer
@@ -472,26 +496,24 @@ struct PacketSerializer
 struct SerializedObject
 {
     int base00, base04, base08, base0C, base10, word14, word18;
-    void __thiscall SerializeToStream(int source);
+    void SerializeToStream(intptr_t source);
 };
-extern "C" void __cdecl FUN_00d86160(int, SerializedObject*);
 // Writes word14 and word18 to the stream at source+0x250, accumulating bytesWritten, after calling FUN_00d86160.
 // @fnv 0x00cf4670
-void SerializedObject::SerializeToStream(int source)
+void SerializedObject::SerializeToStream(intptr_t source)
 {
-    int saved = source;
-    FUN_00d86160(saved, this);
+    intptr_t saved = source;
+    ::FUN_00d86160((*(::NiStreamD8616 *)(saved)), (::DataD8616 *)(::SerializedObject *)(this));
     PacketSerializer* __restrict stream = *reinterpret_cast<PacketSerializer**>(saved + 0x250);
-    source = 4;
-    stream->bytesWritten += stream->write(stream, &word14, 4, &source, 1);
+    int size = 4;
+    stream->bytesWritten += stream->write(stream, &word14, 4, &size, 1);
     stream = *reinterpret_cast<PacketSerializer**>(saved + 0x250);
-    source = 4;
-    stream->bytesWritten += stream->write(stream, &word18, 4, &source, 1);
+    size = 4;
+    stream->bytesWritten += stream->write(stream, &word18, 4, &size, 1);
 }
 
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
 
-extern __declspec(thread) int g_iCF4BC0AllocTag;
 
 struct CF4BC0AllocTagScope
 {
@@ -499,12 +521,12 @@ struct CF4BC0AllocTagScope
 
     CF4BC0AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iCF4BC0AllocTag;
-        g_iCF4BC0AllocTag = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~CF4BC0AllocTagScope()
     {
-        g_iCF4BC0AllocTag = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -712,53 +734,30 @@ class CF4BC0Saver
     virtual void Unk_02();
     virtual void SaveBinary(CF4BC0Stream& kStream);
 
-    void SetObject(CF4BC0Object* pkObject);
 };
 
-CF4BC0Saver* __cdecl CF4BC0CreateSaver(unsigned int uiType);
 
 // @fnv 0x00cf4bc0
 void __cdecl FUN_00cf4bc0(CF4BC0Stream& kStream, CF4BC0Object* pkObject)
 {
     CF4BC0AllocTagScope kScope(0x10);
     unsigned int uiType = pkObject->GetSaveType();
-    CF4BC0Saver* pkSaver = CF4BC0CreateSaver(uiType);
-    pkSaver->SetObject(pkObject);
+    CF4BC0Saver* pkSaver = ((::CF4BC0Saver *)(::CreateSaver(uiType)));
+    reinterpret_cast<::C89AC0_Owner *>((pkSaver))->SetChildObject((::C89AC0_Child *)(pkObject));
     CF4BC0SaveBinary(kStream, uiType);
     pkSaver->SaveBinary(kStream);
     pkSaver->DeleteThis(true);
 }
 
-extern int DAT_010cc2fc;
-extern int DAT_0102e388;
-
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SubObject_b3813
 {
     int unk00;
-    void Release();
 };
 
 struct FUN_00cf4eb0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
     int unk08;
@@ -772,14 +771,12 @@ struct FUN_00cf4eb0_cls
 // @fnv 0x00cf4eb0
 FUN_00cf4eb0_cls* FUN_00cf4eb0_cls::Destroy(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010cc2fc;
-    m_sub.Release();
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = (intptr_t)&DAT_010cc2fc;
+    ::FUN_00cb0c00((intptr_t)&(m_sub));
+    m_vptr = (intptr_t)&::DAT_0102e388;
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
+        hkMemoryRouter::getInstance().heap().blockFree(this, m_uSize);
     }
     return this;
 }
@@ -808,11 +805,11 @@ struct S_00cf4f00
     int unk48;
     int unk4c;
     unsigned int m_bits[1];
-    void __thiscall ClearBit(unsigned int idx);
+    void ClearBit(unsigned int idx);
 };
 // Clears bit idx in the m_bits array and increments the counter if the bit was set.
 // @fnv 0x00cf4f00
-void __thiscall S_00cf4f00::ClearBit(unsigned int auiBitIndex)
+void S_00cf4f00::ClearBit(unsigned int auiBitIndex)
 {
     unsigned int i = auiBitIndex >> 5;
     unsigned int old = m_bits[i];
@@ -871,7 +868,6 @@ struct FUN_00cf4f70_src
     int m_04;
 };
 
-int __cdecl CountBitsInWords(int* data, int count);
 
 class FUN_00cf4f70_cls
 {
@@ -910,7 +906,7 @@ void FUN_00cf4f70_cls::InitFromSource(FUN_00cf4f70_src* pSource)
     int i = 0;
     if (pSource->m_04 > 0)
     {
-        dst = (int*)((char*)this + 0x50);
+        dst = &this->m_50;
         do
         {
             *dst = pSource->m_00[i];
@@ -919,7 +915,7 @@ void FUN_00cf4f70_cls::InitFromSource(FUN_00cf4f70_src* pSource)
         } while (i < pSource->m_04);
     }
     int base = m_1c;
-    int r = CountBitsInWords(pSource->m_00, pSource->m_04);
+    int r = ::CountBitsInWords((const unsigned int *)(pSource->m_00), pSource->m_04);
     m_26 = (unsigned short)(base - r);
 }
 
@@ -934,11 +930,10 @@ void __cdecl FUN_00cf6980(FUN_00cf6980_class* object)
     object->FUN_00cf6980(0);
 }
 
-extern int DAT_01268748;
 // @fnv 0x00cf6990
 int* __cdecl FUN_00cf6990()
 {
-    return &DAT_01268748;
+    return &(*reinterpret_cast<int *>(&::g_01268748));
 }
 
 extern int DAT_0102e378;
@@ -949,25 +944,6 @@ int* __cdecl FUN_00cf69b0()
 }
 
 namespace fnv_00cf6b10 {
-extern "C" void* DAT_01268794;
-
-class SpawnedAllocator
-{
-  public:
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    SpawnedAllocator* m_pAllocator;
-};
-
-AllocHolder* __cdecl FUN_00c85750();
 
 struct SpawnedObject
 {
@@ -977,29 +953,23 @@ struct SpawnedObject
     int unk0c;
     int unk10;
     int unk14;
-    void* Init(unsigned int count);
 };
 
 // Allocates a 0x18-byte SpawnedObject via the holder's allocator, initializes it with count 0x3e8, and stores the result in DAT_01268794.
 // @fnv 0x00cf6b10
 void __cdecl FUN_00cf6b10()
 {
-    AllocHolder* pAllocHolder = FUN_00c85750();
-    SpawnedAllocator* alloc = pAllocHolder->m_pAllocator;
-    SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x18);
+    SpawnedObject* obj = (SpawnedObject*)hkMemoryRouter::getInstance().heap().blockAlloc(0x18);
     if (obj != 0)
     {
-        DAT_01268794 = obj->Init(0x3e8);
+        ::DAT_01268794 = (::_RTL_CRITICAL_SECTION *)(reinterpret_cast<::FUN_00cf6da0_cls *>((obj))->FUN_00cf6da0(0x3e8));
         return;
     }
-    DAT_01268794 = 0;
+    ::DAT_01268794 = 0;
 }
 }  // namespace fnv_00cf6b10
 
-extern int DAT_01268794;
 
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(int value);
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(int value);
 
 struct S_00cf6b50_Foo
 {
@@ -1007,11 +977,11 @@ struct S_00cf6b50_Foo
     short m_iWordAt04;
     unsigned short m_6;
 
-    void __thiscall UpdateState(int a);
+    void UpdateState(int a);
 };
 
 // @fnv 0x00cf6b50
-void __thiscall S_00cf6b50_Foo::UpdateState(int a)
+void S_00cf6b50_Foo::UpdateState(int a)
 {
     short flag = m_iWordAt04;
     flag = (short)((unsigned short)flag >> 15);
@@ -1024,19 +994,19 @@ void __thiscall S_00cf6b50_Foo::UpdateState(int a)
 
     if (m_iWordAt00 == -63 || m_iWordAt00 == -31 || m_iWordAt00 == -15)
     {
-        FUN_00fdf05c(DAT_01268794);
+        EnterCriticalSection(DAT_01268794);
 
         m_iWordAt00 = (a == 1) ? -31 : -63;
     }
     else
     {
-        FUN_00fdf05c(DAT_01268794);
+        EnterCriticalSection(DAT_01268794);
     }
 
     m_6 <<= 1;
     ++m_iWordAt04;
 
-    FUN_00fdf100(DAT_01268794);
+    LeaveCriticalSection(DAT_01268794);
 }
 
 struct FUN_00cf6d50_cls
@@ -1104,17 +1074,11 @@ bool FUN_00cf8710_cls::FUN_00cf8710()
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager _g_memoryManager;
 
 class CF4840Saver
 {
   public:
-    void* operator new(unsigned int size)
-    {
-        return _g_memoryManager.Allocate(size);
-    }
     virtual void DeleteThis(bool bFree);
     int unk04;
     int unk08;
@@ -1169,7 +1133,7 @@ struct Saver13 : CF4840Saver
 
 // Allocates and returns a CF4840Saver-derived object chosen by uiType, or null for unsupported types.
 // @fnv 0x00cf4840
-CF4840Saver* __cdecl CreateSaver(unsigned int uiType)
+CF4840Saver* __cdecl CreateSaver(uintptr_t uiType)
 {
     CF4BC0AllocTagScope kScope(0x10);
     switch (uiType)
@@ -1202,7 +1166,6 @@ CF4840Saver* __cdecl CreateSaver(unsigned int uiType)
 
 // Build the Havok object for a serialized node: find its creator, run it, keep the result and delete the creator.
 
-extern __declspec(thread) int g_iF4A30AllocTag;
 
 struct F4A30AllocTagScope
 {
@@ -1210,19 +1173,18 @@ struct F4A30AllocTagScope
 
     F4A30AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iF4A30AllocTag;
-        g_iF4A30AllocTag = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~F4A30AllocTagScope()
     {
-        g_iF4A30AllocTag = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
 class F4A30Result
 {
   public:
-    void RetainReference();
 };
 
 class F4A30Node
@@ -1245,49 +1207,46 @@ class F4A30Creator
     virtual ~F4A30Creator();
     virtual void Create(int iFlags, void* pvContext);
 
-    void Init(F4A30Node* pkNode);
 
     F4A30Result* m_pkResult;
 };
 
-F4A30Creator* __cdecl F4A30FindCreator(int iTypeID);
 
 // @fnv 0x00cf4a30
 F4A30Result* CreateF4A30Result(F4A30Node* pkNode, void* pvContext)
 {
     F4A30AllocTagScope kScope(0x10);
-    F4A30Creator* pkCreator = F4A30FindCreator(pkNode->GetTypeID());
+    F4A30Creator* pkCreator = ((::F4A30Creator *)(::CreateSaver(pkNode->GetTypeID())));
     if (pkCreator)
     {
-        pkCreator->Init(pkNode);
+        reinterpret_cast<::C89AC0_Owner *>((pkCreator))->SetChildObject((::C89AC0_Child *)(pkNode));
         pkCreator->Create(0, pvContext);
         F4A30Result* pkResult = pkCreator->m_pkResult;
-        pkResult->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((pkResult))->FUN_00c90510();
         delete pkCreator;
         return pkResult;
     }
     return 0;
 }
 
-void __cdecl FUN_00ce51f0();
 // @fnv 0x00ce5300
 void __cdecl FUN_00ce5300()
 {
-    FUN_00ce51f0();
+    static_cast<struct ::Transform *>(nullptr)->FUN_00ce51f0({});
 }
 
 class FUN_00ce5360_This
 {
   public:
-// @fnv 0x00ce5360
     virtual ~FUN_00ce5360_This()
     {}
-    unsigned int FUN_00ce5360(unsigned int arg);
+    uintptr_t FUN_00ce5360(uintptr_t arg);
 };
 
-unsigned int FUN_00ce5360_This::FUN_00ce5360(unsigned int arg)
+// @fnv 0x00ce5360
+uintptr_t FUN_00ce5360_This::FUN_00ce5360(uintptr_t arg)
 {
-    return reinterpret_cast<unsigned int>(this);
+    return reinterpret_cast<uintptr_t>(this);
 }
 
 class FUN_00ce9800_obj
@@ -1516,7 +1475,6 @@ void FUN_00cf09a0(StreamOwner* owner, Record* rec)
     WriteData(owner->stream, &rec->unk28, 4);
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 struct ArrayData
 {
@@ -1552,7 +1510,7 @@ extern "C" unsigned int __cdecl SaveUIntArray(CF4BC0Stream& kStream, const Array
 extern int DAT_010cc064;
 struct FUN_00cdf560
 {
-    int m0;
+    intptr_t m0;
     int m4;
     int m8;
     FUN_00cdf560(float);
@@ -1564,18 +1522,16 @@ struct FUN_00cf4190 : FUN_00cdf560
 // @fnv 0x00cf4190
 FUN_00cf4190::FUN_00cf4190() : FUN_00cdf560(0.0f)
 {
-    m0 = (int)&DAT_010cc064;
+    m0 = (intptr_t)&DAT_010cc064;
 }
 
-extern int DAT_01268730;
 
 // @fnv 0x00cf41b0
 int* FUN_00cf41b0()
 {
-    return &DAT_01268730;
+    return &(*reinterpret_cast<int *>(&::g_01268730));
 }
 
-extern "C" void __cdecl FUN_00d86100(void* view, void* object);
 
 struct BinaryStream
 {
@@ -1591,9 +1547,11 @@ struct BinaryStream
 };
 struct StreamView
 {
+    char pad000[0x24c];
+    BinaryStream* m_pIstr;
     BinaryStream* stream()
     {
-        return *reinterpret_cast<BinaryStream**>(reinterpret_cast<char*>(this) + 0x24c);
+        return m_pIstr;
     }
 };
 struct SerializedRecord
@@ -1606,7 +1564,7 @@ struct SerializedRecord
 // @fnv 0x00cf41c0
 void SerializedRecord::FUN_00cf41c0(StreamView* view)
 {
-    FUN_00d86100(view, this);
+    ::FUN_00d86100((*(::NiStreamD861 *)(view)), (::DataD861 *)(void *)(this));
     view->stream()->Load(&m_14);
     view->stream()->Load(&m_18);
     view->stream()->Load(&m_1c);
@@ -1614,11 +1572,10 @@ void SerializedRecord::FUN_00cf41c0(StreamView* view)
 }
 
 struct CpuOpaque;
-extern CpuOpaque DAT_01268738;
 // @fnv 0x00cf43f0
 CpuOpaque* __cdecl FUN_00cf43f0()
 {
-    return &DAT_01268738;
+    return &(*reinterpret_cast<::CpuOpaque *>(&::g_01268738));
 }
 
 class NiBinaryStreamCF46
@@ -1652,7 +1609,6 @@ struct hkArchiveCF46
     NiBinaryStreamCF46* m_stream;
 };
 
-void __cdecl FUN_00d86100(hkArchiveCF46* ar, void* obj);
 
 class hkObjCF46
 {
@@ -1671,19 +1627,16 @@ class hkObjCF46
 // @fnv 0x00cf4600
 void hkObjCF46::SaveToArchive(hkArchiveCF46* ar)
 {
-    FUN_00d86100(ar, this);
+    ::FUN_00d86100((*(::NiStreamD861 *)(ar)), (::DataD861 *)(void *)(this));
     NiStreamSaveBinaryCF46(*ar->m_stream, m_kPointA);
     NiStreamSaveBinaryCF46(*ar->m_stream, m_kPointB);
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 
-unsigned int __cdecl FUN_00d87a40() throw();
 
 struct hkCriticalSectionCF6B
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6B
@@ -1720,7 +1673,7 @@ void hkMultiThreadCheckCF6B::MarkForRead()
     if (isCheckingEnabled())
     {
         hkCriticalSectionLockCF6B lock((hkCriticalSectionCF6B*)DAT_01268794);
-        unsigned int threadId = FUN_00d87a40();
+        unsigned int threadId = ((unsigned int)(::FUN_00d87a40()));
         m_usMarkedForWrite++;
         m_usMarkCount = (m_usMarkCount << 1) | 1;
         if (m_uiThreadId == 0xfffffff1)
@@ -1728,14 +1681,11 @@ void hkMultiThreadCheckCF6B::MarkForRead()
     }
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 
-unsigned int __cdecl FUN_00d87a40() throw();
 
 struct hkCriticalSectionCF61
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF61
@@ -1773,17 +1723,15 @@ bool hkMultiThreadCheckCF61::IsCurrentThreadOwner()
     if (!isCheckingEnabled())
         return true;
     hkCriticalSectionLockCF61 lock((hkCriticalSectionCF61*)DAT_01268794);
-    if (m_uiThreadId == FUN_00d87a40())
+    if (m_uiThreadId == ((unsigned int)(::FUN_00d87a40())))
         return true;
     return false;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 
 struct hkCriticalSectionCF6C
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6C
@@ -1827,12 +1775,10 @@ void hkMultiThreadCheckCF6C::FUN_00cf6c60()
     }
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 
 struct hkCriticalSectionCF6D
 {
-    int m_kCriticalSection;
+    CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct hkCriticalSectionLockCF6D
@@ -1902,7 +1848,6 @@ void hkMultiThreadCheckCF6E::ResetThreadCheck()
 
 struct CC9F10Shape
 {
-    void FUN_00c90510();
 };
 
 struct FUN_00cf7490_class
@@ -1913,14 +1858,13 @@ struct FUN_00cf7490_class
 // @fnv 0x00cf7490
 void FUN_00cf7490_class::FUN_00cf7490()
 {
-    ((CC9F10Shape*)this)->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((((CC9F10Shape*)this)))->FUN_00c90510();
 }
 
-void __cdecl FUN_00c905b0(void);
 // @fnv 0x00cf74a0
 void __cdecl FUN_00cf74a0(void)
 {
-    FUN_00c905b0();
+    static_cast<::hkReferencedObjectC905 *>(nullptr)->FUN_00c905b0();
 }
 
 struct hkOwnerCF74;
@@ -2063,22 +2007,21 @@ int __cdecl FUN_00cfb070(int a, int b, int c)
 }
 
 // @fnv 0x00cfc580
-void __stdcall FUN_00cfc580(int, int, int, int, int)
+void FUN_00cfc580(int, int, int, int, int)
 {}
 
-extern int DAT_0102e388;
 
 struct FUN_00cfc590_class
 {
     int* vtable;
 
-    void __thiscall FUN_00cfc590();
+    void FUN_00cfc590();
 };
 
 // @fnv 0x00cfc590
-void __thiscall FUN_00cfc590_class::FUN_00cfc590()
+void FUN_00cfc590_class::FUN_00cfc590()
 {
-    vtable = &DAT_0102e388;
+    vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 extern int DAT_010cc86c;
@@ -2137,17 +2080,17 @@ struct FUN_00cfc5a0
     unsigned short unk04;
     unsigned short unk06;
     int unk08;
-    int unk0c;
+    intptr_t unk0c;
     S_00cfc5a0* unk10;
     S_00cfc5a0* unk14;
     unsigned short unk18;
 
-    FUN_00cfc5a0(int a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
+    FUN_00cfc5a0(intptr_t a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
 };
 
 // Sets up the object with a1, stores a2 and a3, and records the smaller of their unkAA values in unk18.
 // @fnv 0x00cfc5a0
-FUN_00cfc5a0::FUN_00cfc5a0(int aiValue, S_00cfc5a0* apFirst, S_00cfc5a0* apSecond)
+FUN_00cfc5a0::FUN_00cfc5a0(intptr_t aiValue, S_00cfc5a0* apFirst, S_00cfc5a0* apSecond)
 {
     unk06 = 1;
     unk08 = 1;
@@ -2181,16 +2124,11 @@ struct CE0020Buffer
     CE0020Event* m_pRecordEnd;
 };
 
-extern unsigned int DAT_0126835c;
 extern char DAT_010cb81c[];
-extern char DAT_010c41f8[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 __forceinline void CE0020TimerMark(const char* pTag)
 {
-    CE0020Buffer* pBuffer = (CE0020Buffer*)TlsGetValue(DAT_0126835c);
+    CE0020Buffer* pBuffer = (CE0020Buffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     CE0020Event* pEvent = pBuffer->m_pHead;
     if (pEvent < pBuffer->m_pRecordEnd)
     {
@@ -2257,14 +2195,13 @@ class CE0020Subject
     virtual void EnableConstraints();
 };
 
-void __cdecl FUN_00d27690(CE0020Target* pTarget, CE0020Subject* pSubject, int iType);
 
 // @fnv 0x00ce0020
 void __cdecl EnableConstraintsAndZeroArrays(CE0020Target* pTarget, CE0020Subject* pSubject)
 {
     pSubject->EnableConstraints();
     CE0020TimerMark(DAT_010cb81c);
-    FUN_00d27690(pTarget, pSubject, 0x1b);
+    ::FUN_00d27690((::D27690_Instance *)(pTarget), (::D27690_Owner *)(pSubject), 0x1b);
     float* pFloats = pTarget->m_pArrayData->m_pFloats;
     if (pFloats)
     {
@@ -2337,7 +2274,6 @@ struct NiStreamCF42
 };
 
 class SerializableCF42;
-void __cdecl FUN_00d86160(NiStreamCF42& kStream, SerializableCF42* pkObject);
 
 class SerializableCF42
 {
@@ -2355,7 +2291,7 @@ class SerializableCF42
 // @fnv 0x00cf4260
 void SerializableCF42::FUN_00cf4260(NiStreamCF42& kStream)
 {
-    FUN_00d86160(kStream, this);
+    ::FUN_00d86160((::NiStreamD8616 &)(kStream), (::DataD8616 *)(::SerializableCF42 *)(this));
     NiStreamLoadBinaryCF42(*kStream.GetIstr(), m_uiValue14);
     NiStreamLoadBinaryCF42(*kStream.GetIstr(), m_uiValue18);
     NiStreamLoadBinaryCF42(*kStream.GetIstr(), m_uiValue1C);
@@ -2364,9 +2300,8 @@ void SerializableCF42::FUN_00cf4260(NiStreamCF42& kStream)
 
 // bhkVelocityConstraintMotor ctor (hkpVelocityConstraintMotor chain):
 // vptr(0), memSizeAndFlags(4), referenceCount(6), motor type(8), min/max force, tau, damping, velocity-clamp bool.
-const void* DAT_010cc0ec[];
+extern const void* DAT_010cc0ec[];
 
-extern "C" void _ReadWriteBarrier();
 
 struct hkBoolC43
 {
@@ -2455,7 +2390,6 @@ struct NiStreamCF44
 };
 
 class SerializableCF44;
-void __cdecl FUN_00d86100(NiStreamCF44& kStream, SerializableCF44* pkObject);
 
 class SerializableCF44
 {
@@ -2472,7 +2406,7 @@ class SerializableCF44
 // @fnv 0x00cf4400
 void SerializableCF44::FUN_00cf4400(NiStreamCF44& kStream)
 {
-    FUN_00d86100(kStream, this);
+    ::FUN_00d86100((::NiStreamD861 &)(kStream), (::DataD861 *)(::SerializableCF44 *)(this));
     NiStreamLoadBinaryCF44(*kStream.GetIstr(), m_uiValue14);
     NiStreamLoadBinaryCF44(*kStream.GetIstr(), m_uiValue18);
     NiStreamLoadBinaryCF44(*kStream.GetIstr(), m_ucValue1C);
@@ -2662,7 +2596,7 @@ struct TagState
 };
 __forceinline TagState GetTag(int tag)
 {
-    TagState state = {g_iCF4BC0AllocTag, tag};
+    TagState state = {::g_tlsBlock.memoryContext, tag};
     return state;
 }
 struct AllocScope
@@ -2670,11 +2604,11 @@ struct AllocScope
     int saved;
     AllocScope(TagState t) : saved(t.oldTag)
     {
-        g_iCF4BC0AllocTag = t.newTag;
+        ::g_tlsBlock.memoryContext = t.newTag;
     }
     ~AllocScope()
     {
-        g_iCF4BC0AllocTag = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 // Reads a type ID from the stream, creates a saver, loads its binary data, and returns the retained object pointer.
@@ -2686,13 +2620,13 @@ hkReferencedObject* __cdecl FUN_00cf4af0(CF4BC0Stream& kStream)
     CF4BC0BinaryStreamIn* pIstr = (CF4BC0BinaryStreamIn*)kIn.m_pUnderlyingStream;
     unsigned int uiType;
     pIstr->Load(&uiType);
-    CF4BC0Saver* pSaver = CF4BC0CreateSaver(uiType);
+    CF4BC0Saver* pSaver = ((::CF4BC0Saver *)(::CreateSaver(uiType)));
     if (pSaver)
     {
         CF4BC0SaverLoader* pLoader = (CF4BC0SaverLoader*)pSaver;
         pLoader->LoadBinary(kStream);
         hkReferencedObject* pObject = pLoader->m_pPointer;
-        pObject->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((pObject))->FUN_00c90510();
         pSaver->DeleteThis(true);
         return pObject;
     }
@@ -2751,8 +2685,6 @@ class FUN_00cf7060
 FUN_00cf7060::~FUN_00cf7060()
 {}
 
-#include <xmmintrin.h>
-extern const __m128 g_vectorConstantQuaternionIdentity;
 
 struct __declspec(align(16)) CE5430Vector4
 {
@@ -2774,7 +2706,7 @@ struct __declspec(align(16)) CE5430Quaternion
 
     void setIdentity()
     {
-        m_vec = g_vectorConstantQuaternionIdentity;
+        m_vec = ::DAT_010c71b0;
     }
 };
 
@@ -2873,8 +2805,6 @@ FUN_00cf0820::FUN_00cf0820(const FUN_00cf0820& input)
     field40 = input.field40;
 }
 
-extern __declspec(align(16)) float DAT_01017d10[4];
-extern float DAT_01017d00;
 struct FUN_00cf08c0_VectorArray
 {
     float* values;
@@ -2890,11 +2820,11 @@ bool __cdecl FUN_00cf08c0(const FUN_00cf08c0_VectorArray* left, const FUN_00cf08
         int i = 0;
         if (i < left->count)
         {
-            const __m128 absoluteMask = _mm_load_ps(DAT_01017d10);
+            const __m128 absoluteMask = _mm_load_ps((*reinterpret_cast<float (*)[4]>((void *)&::DAT_01017d10)));
             for (; i < left->count && equal; ++i)
             {
                 __m128 delta = _mm_sub_ps(_mm_load_ps(left->values + 4 * i), _mm_load_ps(right->values + 4 * i));
-                __m128 tolerance = _mm_load1_ps(&DAT_01017d00);
+                __m128 tolerance = _mm_load1_ps(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
                 __m128 absoluteDelta = _mm_and_ps(delta, absoluteMask);
                 int bits = _mm_movemask_ps(_mm_cmple_ps(absoluteDelta, tolerance));
                 equal = (bits & 15) == 15;
@@ -2919,9 +2849,11 @@ struct BinaryStreamCF0
 
 struct StreamViewCF0
 {
+    char pad000[0x24c];
+    BinaryStreamCF0* m_pIstr;
     BinaryStreamCF0* stream()
     {
-        return *reinterpret_cast<BinaryStreamCF0**>(reinterpret_cast<char*>(this) + 0x24c);
+        return m_pIstr;
     }
 };
 
@@ -3191,7 +3123,7 @@ unsigned int FUN_00cf0dc0(CF4BC0Stream& stream, TargetType* obj)
 
 // Returns the Havok constraint class name string for the given eType, or "Unknown" if the type is not recognized.
 // @fnv 0x00cf4790
-const char* __cdecl GetConstraintTypeName(int eType)
+const char* __cdecl GetConstraintTypeName(intptr_t eType)
 {
     switch (eType)
     {
@@ -3222,11 +3154,10 @@ const char* __cdecl GetConstraintTypeName(int eType)
 }
 
 // @fnv 0x00cf6d00
-void __stdcall FUN_00cf6d00(int)
+void FUN_00cf6d00(int)
 
 {}
 
-extern void* DAT_010c63bc;
 extern void* DAT_010cc4e0;
 extern void* DAT_010cc4d0;
 
@@ -3246,7 +3177,7 @@ struct NodeBaseB
     void* m_vtbl;
     NodeBaseB()
     {
-        m_vtbl = &DAT_010c63bc;
+        m_vtbl = &(*reinterpret_cast<void * *>(&::DAT_010c63bc));
     }
 };
 
@@ -3276,7 +3207,7 @@ FUN_00cf6f90::FUN_00cf6f90()
 }
 
 // @fnv 0x00cf8810
-void __stdcall FUN_00cf8810(int a)
+void FUN_00cf8810(int a)
 {}
 
 extern char DAT_010cc688[];
@@ -3401,7 +3332,6 @@ void Cfd50Caller(void)
 struct CE1700World
 {
     void FUN_00c97e80(char* result, void* object);
-    void RemoveEntities(void* owner, int flags);
 };
 struct CE1700Node
 {
@@ -3435,7 +3365,7 @@ int CE1700Owner::FUN_00ce1700()
         char result;
         world->FUN_00c97e80(&result, objects[i]);
     }
-    world->RemoveEntities(owner, flags);
+    reinterpret_cast<::HostWorld_00c951b0 *>((world))->RemoveEntities((void *const *)(owner), flags);
     return 0;
 }
 
@@ -3512,12 +3442,6 @@ bool __cdecl IsAddressInBlock(const BlockList_cfd* list, unsigned addr)
     return false;
 }
 
-inline AudioAllocator& heap_cfde()
-{
-    return *FUN_00c85750()->m_pAllocator;
-}
-extern "C" void __cdecl FUN_00c909d0(AudioAllocator* alloc, void* array, int elemSize, void* storage, int capacity);
-
 struct BlockArr_cfde
 {
     char*& back()
@@ -3550,13 +3474,12 @@ struct BlockArr_cfde
             int newCap = c + 1;
             if (newCap < 1)
             {
-                AudioHolder* h = FUN_00c85750();
-                FUN_00c909d0(h->m_pAllocator, this, sizeof(char*), m_kStorage, 1);
+                ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)(&hkMemoryRouter::getInstance().heap())), this, sizeof(char*), m_kStorage, 1);
             }
             else if (newCap < getCapacity())
             {
-                AudioAllocator& a = heap_cfde();
-                FUN_00c909d0(&a, this, sizeof(char*), 0, newCap);
+                hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
+                ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)(&a)), this, sizeof(char*), 0, newCap);
             }
         }
     }
@@ -3577,8 +3500,7 @@ static __declspec(noinline) void FUN_00cfdeb0(BlockStack_cfde* s)
     {
         char* block = s->m_kBlocks.back();
         s->m_kBlocks.popBack();
-        AudioHolder* h = FUN_00c85750();
-        h->m_pAllocator->Free(block, 0x200);
+        hkMemoryRouter::getInstance().heap().blockFree(block, 0x200);
         s->m_uiBufferCapacity = 0x200;
     }
     s->m_kBlocks.OptimizeCapacity(4);
@@ -3608,38 +3530,9 @@ struct hkBoolX
     }
 };
 
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator() throw();
-    virtual void* AllocateMemoryBlock(int numBytes) throw();
-    virtual void ReleaseBlock(void* p, int numBytes) throw();
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-    template <typename T> __forceinline void _bufFree(T* p, int numElem) throw()
-    {
-        ReturnMemory(p, numElem * int(sizeof(T)));
-    }
-};
-
-struct hkMemoryRouterX
-{
-    int m_pad00, m_pad04, m_pad08, m_pad0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-    static hkMemoryRouterX& GetMonitorStream() throw();
-    __forceinline hkMemoryAllocator& heap() throw()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct hkArrayUtilX
 {
     static void __cdecl GrowArrayCapacity(hkMemoryAllocator& a, void* array, int reqElements, int sizeElem) throw();
-    static void __cdecl GrowArray(hkMemoryAllocator& a, void* array, int sizeElem) throw();
     template <typename T> static __forceinline void construct(T* p, int n, const T& t) throw()
     {
         for (int i = 0; i < n; ++i)
@@ -3662,7 +3555,7 @@ template <typename T> struct hkArrayX
     {}
     __forceinline ~hkArrayX() throw()
     {
-        _clearAndDeallocate(hkMemoryRouterX::GetMonitorStream().heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 
     __forceinline int GetLogicalSize() const
@@ -3701,7 +3594,7 @@ template <typename T> struct hkArrayX
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            hkArrayUtilX::GrowArrayCapacity(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(hkMemoryAllocator& alloc, int n, const T& fill) throw()
@@ -3715,19 +3608,19 @@ template <typename T> struct hkArrayX
     }
     __forceinline void SetSizeAndGrow(int n, const T& fill) throw()
     {
-        _setSize(hkMemoryRouterX::GetMonitorStream().heap(), n, fill);
+        _setSize(hkMemoryRouter::getInstance().heap(), n, fill);
     }
     __forceinline void _pushBack(hkMemoryAllocator& alloc, int t) throw()
     {
         if (m_iElementCount == getCapacity())
-            hkArrayUtilX::GrowArray(alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
         T value = (T)t;
         hkArrayUtilX::construct(m_data + m_iElementCount, 1, value);
         m_iElementCount++;
     }
     __forceinline void AddBack(int t) throw()
     {
-        _pushBack(hkMemoryRouterX::GetMonitorStream().heap(), t);
+        _pushBack(hkMemoryRouter::getInstance().heap(), t);
     }
 };
 
@@ -3748,7 +3641,6 @@ struct SelLink
     int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c;
 };
-hkBoolX __cdecl WalkChainUntilLimit(const IndexSource* src, int a, int b, hkArrayX<hkInt16>& out) throw();
 
 struct Selection
 {
@@ -3800,9 +3692,10 @@ void SelectionMapper::MapSelection(const Selection& sel, hkArrayX<hkInt16>& sour
             hkInt16 linkIndex = i;
             hkArrayX<hkInt16> a;
             hkArrayX<hkInt16> b;
-            if (!WalkChainUntilLimit(src, m_ppLinks[linkIndex].m_kPointA, m_ppLinks[linkIndex].m_kPointB, a))
+            ::hkBoolX found;
+            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)&(found), (::ScanRec *)(src), m_ppLinks[linkIndex].m_kPointA, m_ppLinks[linkIndex].m_kPointB, (::ScanObj *)&(a)))))
                 continue;
-            if (!WalkChainUntilLimit(dst, m_ppLinks[linkIndex].m_iThirdValue, m_ppLinks[linkIndex].m_iFourthElementInteger, b))
+            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)&(found), (::ScanRec *)(dst), m_ppLinks[linkIndex].m_iThirdValue, m_ppLinks[linkIndex].m_iFourthElementInteger, (::ScanObj *)&(b)))))
                 continue;
             bool complete = true;
             for (int j = 0; j < a.GetLogicalSize(); ++j)
@@ -3829,28 +3722,14 @@ void SelectionMapper::MapSelection(const Selection& sel, hkArrayX<hkInt16>& sour
         targetMap[output[i]] = i;
 }
 
-#include <xmmintrin.h>
 namespace fnv_00ce0ca0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-}
 
 struct FUN_00ce0ca0_Quaternion
 {
     __m128 value;
 
-    void __thiscall FUN_00ce0ca0(const FUN_00ce0ca0_Quaternion& rhs);
+    void FUN_00ce0ca0(const FUN_00ce0ca0_Quaternion& rhs);
 };
 
 // Computes the Hamilton product of two quaternions using SSE intrinsics and stores the result in value.
@@ -3898,19 +3777,7 @@ void FUN_00ce0ca0_Quaternion::FUN_00ce0ca0(const FUN_00ce0ca0_Quaternion& rhs)
 }
 }  // namespace fnv_00ce0ca0
 
-#include <xmmintrin.h>
 namespace fnv_00cf4fb0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern int DAT_01268370;
 extern const __m128 DAT_010c71d0;
 
 struct BoundsVector
@@ -3957,12 +3824,12 @@ struct ShapeCollection
 // @fnv 0x00cf4fb0
 void ShapeCollection::FUN_00cf4fb0(Bounds* bounds)
 {
-    entries[0].shape->getBounds(&DAT_01268370, 0.0f, bounds);
+    entries[0].shape->getBounds(&::DAT_01268370, 0.0f, bounds);
     for (int i = 1; i < count; ++i)
     {
         Bounds local;
         BoundShape* shape = entries[i].shape;
-        shape->getBounds(&DAT_01268370, 0.0f, &local);
+        shape->getBounds(&::DAT_01268370, 0.0f, &local);
         bounds->minimum.quad = _mm_min_ps(bounds->minimum.quad, local.minimum.quad);
         __m128 localMaximum = local.maximum.quad;
         __m128 maximum = bounds->maximum.quad;
@@ -3978,38 +3845,17 @@ void ShapeCollection::FUN_00cf4fb0(Bounds* bounds)
 }  // namespace fnv_00cf4fb0
 
 namespace fnv_00cf6d60 {
-#include <windows.h>
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-AudioHolder* __cdecl FUN_00c85750() throw();
-
-extern CRITICAL_SECTION* DAT_01268794;
 // Deletes the global critical section and frees its memory through the audio holder's allocator.
 // @fnv 0x00cf6d60
 void FUN_00cf6d60()
 {
-    if (DAT_01268794 != 0)
+    if (::DAT_01268794 != 0)
     {
-        CRITICAL_SECTION* p = DAT_01268794;
-        DeleteCriticalSection(DAT_01268794);
-        AudioHolder* pHolder = FUN_00c85750();
-        pHolder->m_pAllocator->Free(p, 0x18);
-        DAT_01268794 = 0;
+        CRITICAL_SECTION* p = ::DAT_01268794;
+        DeleteCriticalSection(::DAT_01268794);
+        hkMemoryRouter::getInstance().heap().blockFree(p, 0x18);
+        ::DAT_01268794 = 0;
     }
 }
 }  // namespace fnv_00cf6d60
@@ -4022,9 +3868,6 @@ struct FUN_00cb1600
     void* writer;
     int flags;
     FUN_00cb1600(char*, int) throw();
-    void __thiscall FUN_00cc00e0() throw();
-    FUN_00cb1600& __thiscall FUN_00cc01c0(const char*) throw();
-    FUN_00cb1600& __thiscall WriteName(const void*) throw();
 };
 struct CEError
 {
@@ -4033,7 +3876,6 @@ struct CEError
     virtual void v2();
     virtual void report(int, unsigned int, const char*, const char*, int) throw();
 };
-extern int DAT_01268360;
 extern const char DAT_010cba14, DAT_010cb9f8, DAT_010cb9d8, DAT_010cb9c4;
 extern const char DAT_010cb9b0, DAT_010cb98c, DAT_010cb964, DAT_010cb8d0;
 struct CEBoneName
@@ -4078,14 +3920,6 @@ struct CEMap
     int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60;
     int checker;
 };
-struct CEAllocator
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void free(void*, int) throw();
-};
 
 struct CECountArray
 {
@@ -4100,10 +3934,8 @@ struct CECountArray
 void __cdecl FUN_00ce43e0(CEMap* map)
 {
     int count = map->b->count;
-    AudioHolder* scratch = FUN_00c85750();
     CECountArray counts;
-    counts.m_data = reinterpret_cast<int*>(scratch->unk00);
-    scratch->unk00 += (count * 4 + 127) & -128;
+    counts.m_data = static_cast<int*>(hkMemoryRouter::getInstance().allocateStack((count * 4 + 127) & -128));
     counts.m_iElementCount = count;
     counts.m_iCapacityState = count | 0x80000000;
     counts.m_pStackAllocation = counts.m_data;
@@ -4119,31 +3951,31 @@ void __cdecl FUN_00ce43e0(CEMap* map)
         {
             char* bufPtr = (char*)buffer;
             FUN_00cb1600 s1(bufPtr, 512);
-            s1.FUN_00cc01c0(&DAT_010cba14);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabbabac1, (char*)buffer, &DAT_010cb8d0, 0x227);
-            s1.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s1))->FUN_00cc01c0(&DAT_010cba14);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabbabac1, (char*)buffer, &DAT_010cb8d0, 0x227);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s1))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         if (single->source < 0 || single->source >= map->a->count)
         {
             FUN_00cb1600 s2((char*)buffer, 512);
-            s2.FUN_00cc01c0(&DAT_010cb9f8);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabba3f01, (char*)buffer, &DAT_010cb8d0, 0x22c);
-            s2.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s2))->FUN_00cc01c0(&DAT_010cb9f8);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabba3f01, (char*)buffer, &DAT_010cb8d0, 0x22c);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s2))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         if (single->target < 0 || single->target >= map->b->count)
         {
             FUN_00cb1600 s3((char*)buffer, 512);
-            s3.FUN_00cc01c0(&DAT_010cb9f8);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabbaeab2, (char*)buffer, &DAT_010cb8d0, 0x231);
-            s3.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s3))->FUN_00cc01c0(&DAT_010cb9f8);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabbaeab2, (char*)buffer, &DAT_010cb8d0, 0x231);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s3))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         ++data[single->target];
         if (data[single->target] > 1)
         {
             FUN_00cb1600 s4((char*)buffer, 512);
-            s4.FUN_00cc01c0(&DAT_010cb9d8);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabba819f, (char*)buffer, &DAT_010cb8d0, 0x239);
-            s4.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s4))->FUN_00cc01c0(&DAT_010cb9d8);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabba819f, (char*)buffer, &DAT_010cb8d0, 0x239);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s4))->FUN_00cc00e0::~FUN_00cc00e0();
         }
     }
     for (int j = 0; j < map->rangeCount; ++j)
@@ -4153,59 +3985,59 @@ void __cdecl FUN_00ce43e0(CEMap* map)
         if (!FUN_00ce2a00(checkerA, static_cast<const FnvSpawnedObject*>(&range->transformA)))
         {
             FUN_00cb1600 s5((char*)buffer, 512);
-            s5.FUN_00cc01c0(&DAT_010cba14);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabbabac1, (char*)buffer, &DAT_010cb8d0, 0x246);
-            s5.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s5))->FUN_00cc01c0(&DAT_010cba14);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabbabac1, (char*)buffer, &DAT_010cb8d0, 0x246);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s5))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         int checkerB = map->checker;
         if (!FUN_00ce2a00(checkerB, static_cast<const FnvSpawnedObject*>(&range->transformB)))
         {
             FUN_00cb1600 s6((char*)buffer, 512);
-            s6.FUN_00cc01c0(&DAT_010cba14);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabbabac1, (char*)buffer, &DAT_010cb8d0, 0x24b);
-            s6.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s6))->FUN_00cc01c0(&DAT_010cba14);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabbabac1, (char*)buffer, &DAT_010cb8d0, 0x24b);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s6))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         if (range->endA <= range->startA)
         {
             FUN_00cb1600 s7((char*)buffer, 512);
-            s7.FUN_00cc01c0(&DAT_010cb9c4);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabba819f, (char*)buffer, &DAT_010cb8d0, 0x250);
-            s7.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s7))->FUN_00cc01c0(&DAT_010cb9c4);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabba819f, (char*)buffer, &DAT_010cb8d0, 0x250);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s7))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         if (range->endB <= range->startB)
         {
             FUN_00cb1600 s8((char*)buffer, 512);
-            s8.FUN_00cc01c0(&DAT_010cb9c4);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabba819f, (char*)buffer, &DAT_010cb8d0, 0x255);
-            s8.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s8))->FUN_00cc01c0(&DAT_010cb9c4);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabba819f, (char*)buffer, &DAT_010cb8d0, 0x255);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s8))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         if (range->endA < 0 || range->endA >= map->a->count)
         {
             FUN_00cb1600 s9((char*)buffer, 512);
-            s9.FUN_00cc01c0(&DAT_010cb9b0);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0x17626ee1, (char*)buffer, &DAT_010cb8d0, 0x25a);
-            s9.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s9))->FUN_00cc01c0(&DAT_010cb9b0);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0x17626ee1, (char*)buffer, &DAT_010cb8d0, 0x25a);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s9))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         if (range->startA < 0 || range->startA >= map->a->count)
         {
             FUN_00cb1600 s10((char*)buffer, 512);
-            s10.FUN_00cc01c0(&DAT_010cb9b0);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0x06073fdc, (char*)buffer, &DAT_010cb8d0, 0x25f);
-            s10.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s10))->FUN_00cc01c0(&DAT_010cb9b0);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0x06073fdc, (char*)buffer, &DAT_010cb8d0, 0x25f);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s10))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         if (range->endB < 0 || range->endB >= map->b->count)
         {
             FUN_00cb1600 s11((char*)buffer, 512);
-            s11.FUN_00cc01c0(&DAT_010cb9b0);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0x19a18bfd, (char*)buffer, &DAT_010cb8d0, 0x264);
-            s11.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s11))->FUN_00cc01c0(&DAT_010cb9b0);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0x19a18bfd, (char*)buffer, &DAT_010cb8d0, 0x264);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s11))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         if (range->startB < 0 || range->startB >= map->b->count)
         {
             FUN_00cb1600 s12((char*)buffer, 512);
-            s12.FUN_00cc01c0(&DAT_010cb9b0);
-            reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0x0fb695b1, (char*)buffer, &DAT_010cb8d0, 0x269);
-            s12.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&(s12))->FUN_00cc01c0(&DAT_010cb9b0);
+            reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0x0fb695b1, (char*)buffer, &DAT_010cb8d0, 0x269);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s12))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         for (int bone = range->endB; bone >= range->startB; bone = map->b->parents[bone])
         {
@@ -4214,20 +4046,18 @@ void __cdecl FUN_00ce43e0(CEMap* map)
             {
                 FUN_00cb1600 s13((char*)buffer, 512);
                 CEBoneName* boneName = &map->b->names[bone];
-                s13.FUN_00cc01c0(&DAT_010cb964).WriteName(boneName).FUN_00cc01c0(&DAT_010cb98c);
-                reinterpret_cast<CEError*>(DAT_01268360)->report(1, 0xabba819f, (char*)buffer, &DAT_010cb8d0, 0x275);
-                s13.FUN_00cc00e0();
+                reinterpret_cast<::SinkOwner *>(&((*(::FUN_00cb1600 *)(reinterpret_cast<::AttributeFormatter *>(&((*(::FUN_00cb1600 *)(reinterpret_cast<::SinkOwner *>(&(s13))->FUN_00cc01c0(&DAT_010cb964)))))->WriteName((::NameReference *)(boneName))))))->FUN_00cc01c0(&DAT_010cb98c);
+                reinterpret_cast<CEError*>((*reinterpret_cast<int *>(&::DAT_01268360)))->report(1, 0xabba819f, (char*)buffer, &DAT_010cb8d0, 0x275);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s13))->FUN_00cc00e0::~FUN_00cc00e0();
             }
         }
     }
-    FUN_00c85750()->unk00 = reinterpret_cast<int>(data);
-    CEAllocator* allocator = reinterpret_cast<CEAllocator*>(FUN_00c85750()->m_pAllocator);
+    hkMemoryRouter::getInstance().deallocateStack(data);
+    hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
     if ((counts.m_iCapacityState & (int)0x80000000) == 0)
-        allocator->free(data, (counts.m_iCapacityState & 0x3fffffff) * 4);
+        allocator->bufFree(data, (counts.m_iCapacityState & 0x3fffffff) * 4);
 }
 
-extern __m128 DAT_010c71b0;
-extern float DAT_01012068;
 
 struct MapperInitialization
 {
@@ -4256,8 +4086,17 @@ struct MapperInitialization
     int unk58;
     int unk5C;
     unsigned char unk60;
-    void __thiscall FUN_00ce5310();
+    void FUN_00ce5310();
 };
+// @fnv 0x00ce4a20
+intptr_t FUN_00ce4a20_cls::FUN_00ce4a20(intptr_t a)
+{
+    m_iThirdValue = 1;
+    m_kPointA = (intptr_t)&DAT_010cb864;
+    reinterpret_cast<::MapperInitialization *>(&m_kShape)->FUN_00ce5310();
+    reinterpret_cast<::ShapeData *>(&m_kShape)->FUN_00ce4ae0((*(const ::ShapeData *)(a)));
+    return (intptr_t)this;
+}
 
 // @fnv 0x00ce5310
 void MapperInitialization::FUN_00ce5310()
@@ -4278,6 +4117,842 @@ void MapperInitialization::FUN_00ce5310()
     data->unk60 = 1;
 
     _mm_store_ps(reinterpret_cast<float*>(&data->unk30), _mm_setzero_ps());
-    _mm_store_ps(reinterpret_cast<float*>(&data->unk40), DAT_010c71b0);
+    _mm_store_ps(reinterpret_cast<float*>(&data->unk40), ::DAT_010c71b0);
     _mm_store_ps(reinterpret_cast<float*>(&data->unk50), _mm_set1_ps(DAT_01012068));
 }
+
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t apObject);
+
+
+
+
+void __cdecl FUN_00ce2cf0(intptr_t pObject, intptr_t param_2, intptr_t param_3);
+
+void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pKeyBox);
+
+CpuOpaque* __cdecl FUN_00cf45f0();
+
+void __cdecl FUN_00cf6980(FUN_00cf6980_class* object);
+
+int* __cdecl FUN_00cf6990();
+
+void __cdecl DeleteObjectIfNotNull(FUN_00ce9800_obj* pkObject);
+
+void __cdecl CallVirtualMethodWithOne(FUN_00ce9820_vt* pObject);
+
+int* FUN_00cf41b0();
+
+CpuOpaque* __cdecl FUN_00cf43f0();
+
+void __cdecl FUN_00cf74a0(void);
+
+void FUN_00cfb060();
+
+void FUN_00cfc580(int, int, int, int, int);
+
+void FUN_00cfdb40();
+
+void FUN_00cf6d10();
+
+void __cdecl CopyVectors(hkElementCE98* pkDst, const hkElementCE98* pkSrc, int iCount);
+
+void FUN_00cf6d00(int);
+
+void FUN_00cf8810(int a);
+
+static int FUN_00cfdb50(Cfd50Range* a);
+
+void Cfd50Caller(void);
+
+
+static void LinkEdge(Edge_cfdb70* e);
+
+void zz_probe_cfdb70(Edge_cfdb70* e);
+
+bool __cdecl IsAddressInBlock(const BlockList_cfd* list, unsigned addr);
+
+static void FUN_00cfdeb0(BlockStack_cfde* s);
+
+void zz_probe_cfdeb0(BlockStack_cfde* s);
+
+void __cdecl FUN_00ce43e0(CEMap* map);
+
+struct ElemA
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    __m128 m_v;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+};
+
+struct ElemB
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    __m128 m_v0;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    __m128 m_v1;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+};
+
+struct ScaleObj
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    ElemA* m_pA;
+    int m_nCallbackId;
+    int unk20;
+    ElemB* m_pB;
+    int m_nB;
+};
+
+// @fnv 0x00ce54c0
+void __cdecl FUN_00ce54c0(ScaleObj* obj, float scale)
+{
+    for (int i = 0; i < obj->m_nCallbackId; i++)
+    {
+        __m128 s = _mm_load_ss(&scale);
+        obj->m_pA[i].m_v = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), obj->m_pA[i].m_v);
+    }
+    for (int i = 0; i < obj->m_nB; i++)
+    {
+        __m128 s = _mm_load_ss(&scale);
+        obj->m_pB[i].m_v0 = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), obj->m_pB[i].m_v0);
+        __m128 t = _mm_load_ss(&scale);
+        obj->m_pB[i].m_v1 = _mm_mul_ps(_mm_shuffle_ps(t, t, 0), obj->m_pB[i].m_v1);
+    }
+}
+
+struct ScalarValue
+{
+    __m128 v;
+    ScalarValue(__m128 x) : v(x)
+    {}
+    __m128 splat() const
+    {
+        return _mm_shuffle_ps(v, v, 0);
+    }
+};
+
+struct __declspec(align(16)) VectorValue
+{
+    __m128 v;
+    void apply(const ScalarValue& s)
+    {
+        v = _mm_mul_ps(s.splat(), v);
+    }
+};
+
+struct QsTransform
+{
+    VectorValue m_vTranslation;
+    __m128 m_rotation;
+    VectorValue m_vScale;
+};
+
+static __forceinline float LengthSquared4(__m128 v, float& out)
+{
+    v = _mm_mul_ps(v, v);
+    __m128 s0 = _mm_add_ps(_mm_shuffle_ps(v, v, 0x4E), v);
+    __m128 s1 = _mm_add_ps(_mm_shuffle_ps(s0, s0, 0xB1), s0);
+    _mm_store_ss(&out, s1);
+    return out;
+}
+
+static __forceinline __m128 LengthSquared4v(__m128 v)
+{
+    v = _mm_mul_ps(v, v);
+    __m128 s0 = _mm_add_ps(_mm_shuffle_ps(v, v, 0x4E), v);
+    return _mm_add_ps(_mm_shuffle_ps(s0, s0, 0xB1), s0);
+}
+
+static __forceinline void Normalize4(QsTransform* p)
+{
+    float dots[4];
+    __declspec(align(16)) float len2[4];
+    len2[0] = LengthSquared4(p[0].m_rotation, dots[0]);
+    len2[1] = LengthSquared4(p[1].m_rotation, dots[1]);
+    len2[2] = LengthSquared4(p[2].m_rotation, dots[2]);
+    len2[3] = LengthSquared4(p[3].m_rotation, dots[3]);
+    _ReadWriteBarrier();
+    __m128 x = _mm_load_ps(len2);
+    __m128 y0 = _mm_rsqrt_ps(x);
+    __m128 ree = _mm_mul_ps(_mm_mul_ps(y0, x), y0);
+    __m128 t = _mm_sub_ps(::DAT_010c71c0, ree);
+    y0 = _mm_mul_ps(y0, ::DAT_010c71d0);
+    __m128 inv = _mm_mul_ps(t, y0);
+    __m128 s0 = _mm_shuffle_ps(inv, inv, 0);
+    p[0].m_rotation = _mm_mul_ps(s0, p[0].m_rotation);
+    __m128 s1 = _mm_shuffle_ps(inv, inv, 0x55);
+    s1 = _mm_shuffle_ps(s1, s1, 0);
+    p[1].m_rotation = _mm_mul_ps(s1, p[1].m_rotation);
+    __m128 s2 = _mm_shuffle_ps(inv, inv, 0xAA);
+    s2 = _mm_shuffle_ps(s2, s2, 0);
+    __m128 s3 = _mm_shuffle_ps(inv, inv, 0xFF);
+    p[2].m_rotation = _mm_mul_ps(s2, p[2].m_rotation);
+    _ReadWriteBarrier();
+    s3 = _mm_shuffle_ps(s3, s3, 0);
+    p[3].m_rotation = _mm_mul_ps(s3, p[3].m_rotation);
+}
+
+// @fnv 0x00ce4e20
+void __cdecl FUN_00ce4e20(QsTransform* xforms, const float* volatile weights, unsigned int count)
+{
+    unsigned int i = 0;
+    if (count > 0)
+    {
+        const float* input = weights;
+        __m128 one = _mm_load_ss(&DAT_01012068);
+        QsTransform* scaled = xforms;
+        do
+        {
+            ScalarValue inv(_mm_div_ss(_mm_load_ss((const float*)&one), _mm_load_ss(input + i)));
+            scaled->m_vTranslation.apply(inv);
+            scaled->m_vScale.apply(inv);
+            ++i;
+            ++scaled;
+        } while (i < count);
+    }
+
+    unsigned int n4 = count >> 2;
+    QsTransform* batch = xforms;
+    if (n4 > 0)
+    {
+        do
+        {
+            Normalize4(batch);
+            batch += 4;
+        } while (--n4);
+    }
+
+    unsigned int rem = count & 3;
+    if (rem > 0)
+    {
+        __m128 zero = _mm_set_ss(::DAT_01011d78);
+        __m128 three = _mm_set_ss(::DAT_01017718);
+        __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
+        unsigned int n = rem;
+        do
+        {
+            __m128 v = batch->m_rotation;
+            __m128 len2 = LengthSquared4v(v);
+            __m128 y0 = _mm_rsqrt_ss(len2);
+            __m128 ree = _mm_mul_ss(_mm_mul_ss(len2, y0), y0);
+            __m128 refined = _mm_mul_ss(_mm_mul_ss(half, y0), _mm_sub_ss(three, ree));
+            __m128 factor = _mm_andnot_ps(_mm_cmpeq_ss(len2, zero), refined);
+            factor = _mm_shuffle_ps(factor, factor, 0);
+            batch->m_rotation = _mm_mul_ps(factor, v);
+            ++batch;
+        } while (--n);
+    }
+}
+
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t b);
+
+void __cdecl FUN_00ce2cf0(intptr_t param_1, intptr_t param_2, intptr_t param_3);
+
+void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pBox);
+
+void __cdecl CallVirtualMethodWithOne(FUN_00ce9820_vt* p);
+
+struct SimdReal
+{
+    __m128 m_vValue;
+    __forceinline SimdReal(__m128 r) : m_vValue(r)
+    {}
+    __forceinline operator __m128() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+};
+
+struct FourFloatVector
+{
+    __m128 m_vComponents;
+
+    __forceinline SimdReal lengthSquared3() const
+    {
+        __m128 sq = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 s = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+        return SimdReal(_mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), s));
+    }
+    __forceinline void setXYZ_W(__m128 xyz, __m128 w)
+    {
+        m_vComponents = _mm_shuffle_ps(xyz, _mm_unpackhi_ps(xyz, w), 0xc4);
+    }
+    __forceinline void setSqrtInverse4(const FourFloatVector& v)
+    {
+        __m128 e = _mm_rsqrt_ps(v.m_vComponents);
+        __m128 he = _mm_mul_ps(::DAT_010c71d0, e);
+        __m128 ree = _mm_mul_ps(_mm_mul_ps(e, v.m_vComponents), e);
+        m_vComponents = _mm_mul_ps(_mm_sub_ps(::DAT_010c71c0, ree), he);
+    }
+};
+
+// @fnv 0x00ce2a50
+static __declspec(noinline) void FUN_00ce2a50(FourFloatVector* a, FourFloatVector* b)
+{
+    FourFloatVector len2;
+    SimdReal la = a->lengthSquared3();
+    SimdReal lb = b->lengthSquared3();
+    len2.setXYZ_W(la, lb);
+    FourFloatVector inv;
+    inv.setSqrtInverse4(len2);
+    __m128 x = _mm_shuffle_ps(inv.m_vComponents, inv.m_vComponents, 0x00);
+    a->m_vComponents = _mm_mul_ps(x, a->m_vComponents);
+    __m128 w = _mm_shuffle_ps(inv.m_vComponents, inv.m_vComponents, 0xff);
+    b->m_vComponents = _mm_mul_ps(_mm_shuffle_ps(w, w, 0), b->m_vComponents);
+}
+
+void CallerX(FourFloatVector* a, FourFloatVector* b)
+{
+    FUN_00ce2a50(a, b);
+}
+
+struct SubMatrix
+{
+    __m128 m_row[4];
+};
+
+struct TransformOwner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    SubMatrix m_matrix;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    __m128 m_vec140;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    __m128 m_quat170;
+};
+
+extern "C" TransformOwner* cf8b60_self(void);
+
+extern "C" __m128* cf8b60_quat(void);
+
+// @fnv 0x00cf8b60
+static __declspec(noinline) void FUN_00cf8b60(TransformOwner* self, __m128* pQuat)
+{
+    SubMatrix* m = &self->m_matrix;
+    reinterpret_cast<::RotationRows *>((m))->FUN_00cb2d90((void *)((const float*)pQuat));
+    __m128 q = self->m_quat170;
+    __m128 v = _mm_mul_ps(_mm_shuffle_ps(q, q, _MM_SHUFFLE(1, 1, 1, 1)), m->m_row[1]);
+    v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(q, q, _MM_SHUFFLE(0, 0, 0, 0)), m->m_row[0]));
+    v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(q, q, _MM_SHUFFLE(2, 2, 2, 2)), m->m_row[2]));
+    m->m_row[3] = _mm_sub_ps(self->m_vec140, v);
+}
+
+void cf8b60_caller(void)
+{
+    FUN_00cf8b60(cf8b60_self(), cf8b60_quat());
+}
+
+struct ResultByte
+{
+    char value;
+    __forceinline ResultByte(bool b) : value(b)
+    {}
+};
+
+struct ScalarValueEB6
+{
+    __m128 packed;
+    __forceinline ScalarValueEB6(__m128 x) : packed(x)
+    {}
+    __forceinline operator float() const
+    {
+        float f;
+        _mm_store_ss(&f, packed);
+        return f;
+    }
+};
+
+struct VectorValueEB6
+{
+    __m128 packed;
+    __forceinline void subtract(const VectorValueEB6& a, const VectorValueEB6& b)
+    {
+        packed = _mm_sub_ps(a.packed, b.packed);
+    }
+    __forceinline void cross(const VectorValueEB6& a, const VectorValueEB6& b)
+    {
+        packed =
+            _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a.packed, a.packed, 201), _mm_shuffle_ps(b.packed, b.packed, 210)),
+                       _mm_mul_ps(_mm_shuffle_ps(a.packed, a.packed, 210), _mm_shuffle_ps(b.packed, b.packed, 201)));
+    }
+    __forceinline ScalarValueEB6 dot(const VectorValueEB6& b) const
+    {
+        __m128 products = _mm_mul_ps(packed, b.packed);
+        __m128 first = _mm_add_ss(_mm_shuffle_ps(products, products, 85), products);
+        return ScalarValueEB6(_mm_add_ss(_mm_shuffle_ps(products, products, 170), first));
+    }
+};
+
+// @fnv 0x00ceb6f0
+ResultByte FUN_00ceb6f0(float& outT, float& outU, float& outV, const VectorValueEB6& position,
+                        const VectorValueEB6& direction, const VectorValueEB6& a, const VectorValueEB6& b, const VectorValueEB6& c,
+                        bool cull)
+{
+    VectorValueEB6 e1, e2, p;
+    e1.subtract(b, a);
+    e2.subtract(c, a);
+    p.cross(direction, e2);
+    float determinant = p.dot(e1);
+    if (cull)
+    {
+        if (determinant < DAT_01032980)
+            return false;
+    }
+    else
+    {
+        if (determinant > (double)-0.0001f && determinant < DAT_01032980)
+            return false;
+    }
+    float inverse = 1.0f / determinant;
+    VectorValueEB6 offset;
+    offset.subtract(position, a);
+    outU = offset.dot(p);
+    if (outU < 0.0f || outU > determinant)
+        return false;
+    VectorValueEB6 q;
+    q.cross(offset, e1);
+    outV = direction.dot(q);
+    if (outV < 0.0f || outU + outV > determinant)
+        return false;
+    outT = q.dot(e2);
+    outT *= inverse;
+    outU *= inverse;
+    outV *= inverse;
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+static void FUN_00ce2a50(FourFloatVector* a, FourFloatVector* b);
+
+void CallerX(FourFloatVector* a, FourFloatVector* b);
+
+static void FUN_00cf8b60(TransformOwner* self, __m128* pQuat);
+
+void cf8b60_caller(void);
+
+
+struct BoolX {
+    char value;
+    __forceinline BoolX(bool b) throw() : value((char)b) {}
+    __forceinline operator bool() const throw() { return value != 0; }
+};
+
+class ScalarX {
+    union { __m128 value; float lane[4]; };
+public:
+    ScalarX() {}
+    ScalarX(const ScalarX& a) : value(a.value) {}
+    void operator=(const ScalarX& a) { value=a.value; }
+    ScalarX(float x) { value=_mm_load_ss(&x); }
+    ScalarX(const __m128& x) : value(x) {}
+    __forceinline __m128 splat() const { return _mm_shuffle_ps(value,value,0); }
+    __forceinline const __m128& quad() const { return value; }
+};
+
+inline ScalarX __cdecl operator+(const ScalarX& a,const ScalarX& b) { return _mm_add_ss(a.quad(),b.quad()); }
+
+struct RotationX;
+
+class VectorX {
+    union { __m128 value; float lane[4]; };
+public:
+    __forceinline VectorX() {}
+    __forceinline VectorX(const VectorX& a) : value(a.value) {}
+    __forceinline __m128& quad() { return value; }
+    __forceinline const __m128& quad() const { return value; }
+    operator __m128() const { return value; }
+    __forceinline void operator=(const VectorX& x) throw() { value=x.value; }
+    __forceinline void zero() throw() { value=_mm_setzero_ps(); }
+    __forceinline void add(const VectorX& x) throw() { value=_mm_add_ps(value,x.value); }
+    __forceinline void multiply(const VectorX& x) throw() { value=_mm_mul_ps(value,x.value); }
+    __forceinline void multiply(const ScalarX& x) throw() { value=_mm_mul_ps(x.splat(),value); }
+    __forceinline void setProduct(const ScalarX& s, const VectorX& x) throw() { value=_mm_mul_ps(s.splat(),x.value); }
+    __forceinline ScalarX dot(const VectorX& x) const throw() {
+        __m128 squares = _mm_mul_ps(value,x.value);
+        __m128 xy = _mm_add_ss(_mm_shuffle_ps(squares,squares,0x55),squares);
+        return _mm_add_ss(_mm_shuffle_ps(squares,squares,0xaa),xy);
+    }
+    __forceinline ScalarX length() const throw() { return _mm_sqrt_ss(dot(*this).quad()); }
+    __forceinline void sumProduct(const VectorX& a,const VectorX& b,const VectorX& c) { value=_mm_add_ps(a.value,_mm_mul_ps(b.value,c.value)); }
+    __forceinline void product(const VectorX& a,const VectorX& b) { value=_mm_mul_ps(a.value,b.value); }
+    __forceinline void accumulateProduct(const VectorX& a,const VectorX& b) { value=_mm_add_ps(value,_mm_mul_ps(a.value,b.value)); }
+    __forceinline void sum(const VectorX& a,const VectorX& b) { value=_mm_add_ps(a.value,b.value); }
+    __forceinline void broadcast(const VectorX& a,int lane) { if(lane==0) value=_mm_shuffle_ps(a.value,a.value,0); else if(lane==1) value=_mm_shuffle_ps(a.value,a.value,0x55); else if(lane==2) value=_mm_shuffle_ps(a.value,a.value,0xaa); else if(lane==3) value=_mm_shuffle_ps(a.value,a.value,0xff); }
+    __forceinline void broadcast(int lane) { if(lane==0) value=_mm_shuffle_ps(value,value,0); else if(lane==1) value=_mm_shuffle_ps(value,value,0x55); else if(lane==2) value=_mm_shuffle_ps(value,value,0xaa); else if(lane==3) value=_mm_shuffle_ps(value,value,0xff); }
+    __forceinline void cross(const VectorX& a,const VectorX& b) {
+        __m128 lhs=_mm_mul_ps(_mm_shuffle_ps(a.value,a.value,0xc9),_mm_shuffle_ps(b.value,b.value,0xd2));
+        __m128 rhs=_mm_mul_ps(_mm_shuffle_ps(a.value,a.value,0xd2),_mm_shuffle_ps(b.value,b.value,0xc9));
+        value=_mm_sub_ps(lhs,rhs);
+    }
+    __forceinline ScalarX element(int lane) const {
+        if(lane==0) return _mm_shuffle_ps(value,value,0);
+        if(lane==1) return _mm_shuffle_ps(value,value,0x55);
+        if(lane==2) return _mm_shuffle_ps(value,value,0xaa);
+        return _mm_shuffle_ps(value,value,0xff);
+    }
+    __forceinline void fill(const ScalarX& x) { value=x.splat(); }
+    __forceinline void accumulateProduct(const ScalarX& s,const VectorX& x) { value=_mm_add_ps(value,_mm_mul_ps(s.splat(),x.value)); }
+    __forceinline void subtractProduct(const ScalarX& s,const VectorX& x) { value=_mm_sub_ps(value,_mm_mul_ps(s.splat(),x.value)); }
+    __forceinline void subtract(const VectorX& x) { value=_mm_sub_ps(value,x.value); }
+    __forceinline void pack(const VectorX& xyz,const VectorX& w) { value=_mm_shuffle_ps(xyz.value,_mm_unpackhi_ps(xyz.value,w.value),0xc4); }
+    __forceinline ScalarX dot4(const VectorX& x) const {
+        __m128 p=_mm_mul_ps(value,x.value);
+        __m128 s=_mm_add_ps(_mm_shuffle_ps(p,p,0x4e),p);
+        return _mm_add_ps(s,_mm_shuffle_ps(s,s,0xb1));
+    }
+    __forceinline void rotate(const RotationX& q,const VectorX& dir);
+
+};
+
+struct RotationX {
+    VectorX vec;
+    RotationX() {}
+    RotationX(const RotationX& a) { vec=a.vec; }
+    void operator=(const RotationX& a) { vec=a.vec; }
+    void flipped(const VectorX&);
+    __forceinline const VectorX& imag() const { return vec; }
+};
+
+__forceinline void VectorX::rotate(const RotationX& q,const VectorX& dir) {
+    VectorX half; half.quad()=DAT_010c71e0;
+    VectorX w; w.broadcast(q.vec,3);
+    VectorX coeff; coeff.sumProduct(half,w,w);
+    VectorX result; result.product(dir,coeff);
+    VectorX projection; projection.quad()=q.imag().dot(dir).quad();
+    projection.broadcast(0);
+    result.accumulateProduct(projection,q.imag());
+    VectorX perpendicular; perpendicular.cross(q.imag(),dir);
+    result.accumulateProduct(w,perpendicular);
+    sum(result,result);
+}
+
+static __forceinline __m128 reciprocalRootX(__m128 a) {
+    __m128 r=_mm_rsqrt_ps(a);
+    return _mm_mul_ps(_mm_mul_ps(_mm_set1_ps(0.5f),r),_mm_sub_ps(_mm_set1_ps(3.0f),_mm_mul_ps(_mm_mul_ps(r,a),r)));
+}
+struct PoseX { VectorX translation; RotationX rotation; VectorX scale;
+    __forceinline const VectorX& position() const { return translation; }
+    __forceinline const RotationX& orient() const { return rotation; }
+    __forceinline const VectorX& sizing() const { return scale; }
+};
+
+template<class T> struct ArrayBaseX {
+    T* data; int size, capacity;
+    __forceinline int count() const throw() { return size; }
+    __forceinline T* begin() throw() { return data; }
+    __forceinline const T* begin() const throw() { return data; }
+    __forceinline const T& operator[](int n) const throw() { return data[n]; }
+};
+
+template<class T> struct ArrayX : ArrayBaseX<T> {};
+
+template<class T> struct RefPtrX {
+    T* pointer;
+    __forceinline T* operator->() const throw() { return pointer; }
+};
+
+struct BoneX;
+
+struct SkeletonX {
+    int unk00, unk04;
+    const char* name;
+    ArrayX<short> parents;
+    ArrayX<BoneX> bones;
+    ArrayX<PoseX> reference;
+};
+
+struct RecordX { short a,b; PoseX offset; };
+
+struct LinkX { short a,b,c,d; PoseX root,end; };
+
+struct MapperX {
+    int unk00,unk04,unk08,unk0c;
+    RefPtrX<const SkeletonX> first,second;
+    ArrayX<RecordX> records;
+    ArrayX<LinkX> links;
+    ArrayX<short> unmapped;
+    PoseX motion;
+    BoolX keepLocal;
+    intptr_t property;
+    void __cdecl FUN_00ce3090(const PoseX*, PoseX*, const short*, const short*, bool) const;
+};
+
+// Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
+// @fnv 0x00ce4330
+void __cdecl FUN_00ce4330(intptr_t a1, intptr_t a2, intptr_t a3, int a4)
+{
+    reinterpret_cast<::MapperX *>((a1))->FUN_00ce3090((const ::PoseX *)(a2), (::PoseX *)(a3), (const short *)(0), (const short *)(0), a4);
+}
+
+struct ClockEventX { const char* tag; unsigned stamp; int unused; };
+
+struct ClockListX : ClockEventX { const char* split; };
+
+struct ClockX {
+    int unk00; char* current; int unk08; char* end;
+    __forceinline void mark(const char* tag) throw() {
+        if (current<end) {
+            ClockEventX* event=(ClockEventX*)current;
+            event->tag=tag;
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            current=(char*)(event+1);
+        }
+    }
+    __forceinline void begin(const char* tag,const char* split) throw() {
+        if (current<end) {
+            ClockListX* event=(ClockListX*)current;
+            event->tag=tag; event->split=split;
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            current=(char*)(event+1);
+        }
+    }
+    static __forceinline ClockX& instance() throw() { return *(ClockX*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))); }
+};
+
+template<class T> class StoredX {
+    T value;
+public:
+    __forceinline StoredX() throw() {}
+    __forceinline StoredX(T v) throw() : value(v) {}
+    __forceinline void operator=(T v) throw() { value=v; }
+    __forceinline operator T() const throw() { return value; }
+    __forceinline T get() const throw() { return value; }
+};
+
+template<class T> __forceinline T* stackAllocateX(int n) {
+    return static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n*int(sizeof(T))+127)&~127));
+}
+
+template<class T> struct BufferX {
+    StoredX<T*> data;
+    int debugSize;
+    __forceinline BufferX(int n) throw() { data=stackAllocateX<T>(n); }
+    __forceinline T* begin() throw() { return data; }
+    __forceinline ~BufferX() throw() { hkMemoryRouter::getInstance().deallocateStack(data.get()); }
+};
+
+// @fnv 0x00ce3090
+void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const short* mapA,const short* mapB,bool additive) const {
+    {
+        ClockX& timer=ClockX::instance();
+        if(timer.current<timer.end) {
+            ClockListX* event=(ClockListX*)timer.current;
+            event->tag="LtMapPoseLocalSpace";
+            event->split="Stinit";
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            timer.current=(char*)(event+1);
+        }
+    }
+    {
+        ClockX& timer=ClockX::instance();
+        if(timer.current<timer.end) {
+            ClockEventX* event=(ClockEventX*)timer.current;
+            event->tag="StsimpleMappings";
+            
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            timer.current=(char*)(event+1);
+        }
+    }
+    const BoolX sparse=mapA&&mapB;
+    BufferX<PoseX> scratch(first->bones.count());
+    if (additive) ::FUN_00ce2f30();
+    const PoseX* input=additive?scratch.begin():original;
+    {
+        const int total=records.count();
+        for(int i=0;i<total;++i) {
+            _mm_prefetch((const char*)&records[i]+128,_MM_HINT_NTA);
+            const RecordX& r=records[i];
+            int a=r.a,b=r.b;
+            if(sparse) { a=mapA[a]; if(a<0) continue; b=mapB[b]; }
+            ::FUN_00ce2ca0((void *)(property),(__m128 *)&(output[b]),(const __m128 *)&(r.offset),(const __m128 *)&(input[a]));
+            _mm_prefetch((const char*)&input[a]+128,_MM_HINT_NTA);
+            _mm_prefetch((const char*)&output[b]+128,_MM_HINT_NTA);
+        }
+    }
+    {
+        ClockX& timer=ClockX::instance();
+        if(timer.current<timer.end) {
+            ClockEventX* event=(ClockEventX*)timer.current;
+            event->tag="StchainMappings";
+            
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            timer.current=(char*)(event+1);
+        }
+    }
+    {
+        const int total=links.count();
+        for(int i=0;i<total;++i) {
+            const LinkX& r=links[i];
+            VectorX posA,posB;
+            posA.zero(); posB.zero();
+            ScalarX length=0.0f;
+            bool valid=true;
+            for(short bone=r.b;bone>r.a;bone=first->parents[bone]) {
+                short track=sparse?mapA[bone]:bone;
+                if(track<0) { valid=false; break; }
+                const PoseX& t=input[track];
+                VectorX prev(posA);
+                posA.rotate(t.orient(),prev);
+                posA.add(t.position());
+                length=length+t.position().length();
+            }
+            if(sparse) { valid=valid&&mapA[r.a]>=0; if(!valid) continue; }
+            VectorX scale; scale.setProduct(length,r.end.sizing());
+            for(short bone=r.d;bone>r.c;bone=second->parents[bone]) {
+                short track=sparse?mapB[bone]:bone;
+                PoseX& t=output[track];
+                t.translation.multiply(scale);
+                VectorX prev(posB);
+                posB.rotate(t.orient(),prev);
+                posB.add(t.position());
+            }
+            int a=r.a,c=r.c,b=r.b,d=r.d;
+            if(sparse) { a=mapA[a];c=mapB[c];b=mapA[b];d=mapB[d]; }
+            ::FUN_00ce2ca0((void *)(property),(__m128 *)&(output[c]),(const __m128 *)&(r.root),(const __m128 *)&(input[a]));
+            FUN_00ce2a50((FourFloatVector*)&posA,(FourFloatVector*)&posB);
+            RotationX shortest; reinterpret_cast<::fnv_00cd9d10::Q_00cd9d10 *>(&shortest)->FUN_00cd9d10((const __m128 *)&posB,(const __m128 *)&posA);
+            RotationX offset; offset.vec=r.end.translation;
+            RotationX applied; reinterpret_cast<::Quat74 *>(&(applied))->FUN_00c74ac0((const ::Quat74 &)(shortest),(const ::Quat74 &)(offset));
+            reinterpret_cast<::fnv_00ce0ca0::FUN_00ce0ca0_Quaternion *>(&output[c].rotation)->FUN_00ce0ca0(*reinterpret_cast<const ::fnv_00ce0ca0::FUN_00ce0ca0_Quaternion *>(&applied));
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[d].rotation), nullptr, (const __m128 *)&(r.end.rotation), (const __m128 *)&(input[b].rotation));
+        }
+    }
+    if(additive) ::FUN_00ce2f40((uintptr_t)(output),(uintptr_t)(second->reference.begin()),(uintptr_t)(mapB),second->bones.count(),(uintptr_t)(output));
+    {
+        ClockX& timer=ClockX::instance();
+        if(timer.current<timer.end) {
+            ClockEventX* event=(ClockEventX*)timer.current;
+            event->tag="lt";
+            
+            unsigned ticks;
+            ticks = (unsigned int)__rdtsc();
+            event->stamp=ticks;
+            timer.current=(char*)(event+1);
+        }
+    }
+}
+
+#include "generated/data/staging/blk_00ce0000_o2.inc"
+#include "generated/data/staging/blk_00ce0000_o2_rtm_variant.inc"
+#include "generated/data/staging/blk_00ce0000_o2_gs_nogs_variant.inc"
+#include "generated/data/staging/blk_00ce0000_o2_gs_nogs_variant_rtm_variant.inc"

@@ -2,11 +2,23 @@
 // src/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl FUN_00d41860(int a, int b, int c, int d);
 // @fnv 0x00d418b0
-void __cdecl ForwardToTarget(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int unused)
+#include <xmmintrin.h>
+#include <windows.h>
+#include "fnv/decl/Cls_dafcd0.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/decl/FUN_00dafe70_cls.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
+#include "fnv/symbols_00db4000.h"
+#include "fnv/symbols_00db6000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_01268000.h"
+void __cdecl ForwardToTarget(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4, void* unused)
 {
-    FUN_00d41860(aiArg1, aiArg2, aiArg3, aiArg4);
+    ::FUN_00d41860_impl(aiArg1, aiArg2, aiArg3, aiArg4);
 }
 
 struct InputObject
@@ -46,9 +58,17 @@ struct ResultData
     char unk09;
     char unk0A;
     unsigned char unk0B;
-    int unk0C;
-    void __thiscall FUN_00dafe70(void* a, void* b, void* c);
-    void __thiscall FUN_00dafcd0(void* a, void* b, void* c);
+    union
+    {
+        int unk0C;
+        struct
+        {
+            unsigned char unk0C_0;
+            unsigned char unk0D;
+            unsigned char unk0E;
+            unsigned char unk0F;
+        };
+    };
 };
 // Calls one of two handlers on result based on record->type, clears status[2] and some result flags, then returns result advanced by an aligned size.
 // @fnv 0x00d418d0
@@ -58,24 +78,20 @@ void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, Resul
     void* table = pObject->vtable;
     InputRecord* record = *input->unk04;
     if (record->type == 3)
-        result->FUN_00dafe70(table, record, &input->unk20);
+        reinterpret_cast<::FUN_00dafe70_cls *>((result))->FUN_00dafe70((::Iface *)(table), (::Src *)(record), (const unsigned int *)(void *)(&input->unk20));
     else
-        result->FUN_00dafcd0(table, record, &input->unk20);
+        reinterpret_cast<::Cls_dafcd0 *>((result))->FUN_00dafcd0((::Node *)(table), (::Node *)(record), (const ::Vec4Blk *)(void *)(&input->unk20));
     status[2] = 0;
     result->unk0B &= 0xEF;
     result->unk0C = 0;
-    unsigned int size = (unsigned char)*((char*)result + 0x0D) + 4 * (unsigned char)*((char*)result + 0x0E);
+    unsigned int size = result->unk0D + 4 * result->unk0E;
     size += (unsigned char)result->unk0C;
     return (char*)result + ((size * 2 + 0x1F) & 0xFFFFFFF0);
 }
 
 // Stand-ins for the script handler functions whose addresses are stored in the
 // handler table (0xd417b0 .. 0xd40d80).  Only declared, never defined.
-extern "C" void __cdecl RemoveEntryById(int a, int b, int c, int d);
-extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
-extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
 extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
 extern "C" void __cdecl FUN_00d40d80(int a, int b, int c, int d);
 
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
@@ -104,11 +120,10 @@ struct __declspec(align(16)) HandlerTable
     int unk3C;
 };
 
-// Stand-in for the script object: the registration is a __thiscall member.
+// Stand-in for the script object: the registration is a member.
 class CScript
 {
   public:
-    void __thiscall RegisterHandler(HandlerTable* handler, int a, int b);
 };
 
 // @fnv 0x00d41710
@@ -118,11 +133,11 @@ void __cdecl RegisterScriptHandlers(void* pScript)
 
     tab.p0 = ConvertPairFlags;
     tab.p7 = FUN_00d40d80;
-    tab.p6 = FUN_00d41930;
-    tab.p2 = FUN_00d41860;
-    tab.p3 = RemoveEntryById;
-    tab.p4 = InsertSlotId;
-    tab.p5 = FindEntryByKey;
+    tab.p6 = ((void (&)(int, int, int, int))::FUN_00d41930);
+    tab.p2 = ((void (&)(int, int, int, int))::FUN_00d41860_impl);
+    tab.p3 = ((void (&)(int, int, int, int))::RemoveEntryById);
+    tab.p4 = ((void (&)(int, int, int, int))::InsertSlotId);
+    tab.p5 = ((void (&)(int, int, int, int))::FindEntryByKey);
     tab.p1 = ForwardToTarget;
 
     tab.unk32 = 0;
@@ -134,9 +149,9 @@ void __cdecl RegisterScriptHandlers(void* pScript)
     tab.unk30 = 1;
     tab.unk31 = 1;
 
-    ((CScript*)pScript)->RegisterHandler(&tab, 2, 0x12);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((((CScript*)pScript)))->AddEntry((::SrcRec *)(::HandlerTable *)(&tab), 2, 0x12);
     tab.unk32 = 1;
-    ((CScript*)pScript)->RegisterHandler(&tab, 0x12, 2);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((((CScript*)pScript)))->AddEntry((::SrcRec *)(::HandlerTable *)(&tab), 0x12, 2);
 }
 
 struct S_00d417b0_Entry
@@ -162,7 +177,6 @@ struct S_00d417b0_Obj
     S_00d417b0_Sub m_sub;
 };
 
-void __cdecl FUN_00dae340(S_00d417b0_Sub* sub, int index);
 
 // @fnv 0x00d417b0
 void __cdecl RemoveEntryById(int aiUnused, S_00d417b0_Obj* obj, short sId)
@@ -172,7 +186,7 @@ void __cdecl RemoveEntryById(int aiUnused, S_00d417b0_Obj* obj, short sId)
     {
         if (sub->m_entries[i].m_iOwnerObjectOffset == sId)
         {
-            FUN_00dae340(sub, i);
+            ::FUN_00dae340((::S_00dad640_Set *)(sub), i);
             return;
         }
     }
@@ -272,15 +286,21 @@ found:
 // it, so the value is handed back to the caller from a symbol whose name
 // still contains the required tag "FUN_00d41860".
 
-extern "C" void __cdecl ReleaseAllEntries(void* p, int obj, int data);
 
 // Calls ReleaseAllEntries on the record at b+0x0C, computes an aligned size from three bytes, clears byte 2 of a, and returns b plus that size.
 // @fnv 0x00d41860
-extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int aData)
+struct S00d41860_AgentData
 {
-    unsigned char* rec = (unsigned char*)apRecord + 0x0C;
+    unsigned char m_gskCache[0x0C];
+    unsigned char m_manifold[4];
+};
 
-    ReleaseAllEntries(rec, aObj, aData);
+extern "C" void* __cdecl FUN_00d41860_impl(void* apOut, void* apRecord, void* aObj, void* aData)
+{
+    S00d41860_AgentData* data = static_cast<S00d41860_AgentData*>(apRecord);
+    unsigned char* rec = data->m_manifold;
+
+    ::ReleaseAllEntries(reinterpret_cast<::S_00dad640_Set *>(rec), static_cast<::S_00dad640_Target *>(aObj), aData);
 
     unsigned int count = rec[0] + rec[1] + rec[2] * 4;
 
@@ -289,29 +309,13 @@ extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int 
     count = scaled + 27;
     count &= ~0x0F;
 
-    ((char*)apOut)[2] = 0;
+    static_cast<char*>(apOut)[2] = 0;
 
-    return apRecord + (int)count;
+    return reinterpret_cast<unsigned char*>(apRecord) + count;
 }
 
 // Adapted from an unverified 2026-10-23 prior contributor draft; independently checked under this claim.
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_loadu_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern volatile DWORD DAT_0126835c;
-extern char DAT_010cf220[];
-extern char DAT_010c41f8[];
 struct ProfileEvent
 {
     const char* name;
@@ -422,7 +426,13 @@ struct Request
 };
 struct Cache
 {
+    struct ContactPoint
+    {
+        unsigned char m_data[8];
+    };
+
     unsigned char countA, countB, contacts, flags;
+    ContactPoint m_contactPoints[1];  // `contacts` of them, followed by the vertex ids
 };
 struct OutputStack
 {
@@ -441,16 +451,13 @@ struct Output
     Contact contacts[256];
     OutputStack* stack;
 };
-void __cdecl FUN_00db60c0(Request*, float, float, float, ResultData*, AlignedVec*, Output*);
-void __cdecl ProcessCollision(Request*, unsigned char*, ResultData*, ResultData*, Cache*, AlignedVec*, Output*);
-void __cdecl FUN_00dae3a0(Cache*, AlignedVec*, int, Output*, void*);
 // @fnv 0x00d41a30
 void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* result, AlignedVec* separation,
                            Output* output)
 {
     volatile unsigned uiTimestamp;
     {
-        ProfileBuffer* p = (ProfileBuffer*)TlsGetValue(DAT_0126835c);
+        ProfileBuffer* p = (ProfileBuffer*)TlsGetValue(::DAT_0126835c);
         ProfileEvent* event = p->current;
         if (event < p->end)
         {
@@ -486,7 +493,7 @@ void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* re
             float boundA = settings->factorC * radius;
             float boundB = settings->factorD * radius + w;
             float bound = boundA < boundB ? boundA : boundB;
-            FUN_00db60c0(input, radius, limit, bound, result, separation, output);
+            ::FUN_00db60c0((*(const ::AgentSubtypeMarker *)(input)), radius, limit, bound, (*(::ConvexFeaturePairCache *)(result)), (*(::hkVector4 *)(separation)), (*(::WorldOperationEntry *)(output)));
             goto fallback;
         }
     }
@@ -505,7 +512,7 @@ void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* re
             workspace.radiusB = shapeB->radius;
             *(__m128*)&workspace.separation = *(const __m128*)separation;
             AlignedVec* vertices = workspace.vertices;
-            unsigned short* indices = (unsigned short*)((char*)cache + 4 + cache->contacts * 8);
+            unsigned short* indices = (unsigned short*)(cache->m_contactPoints + cache->contacts);
             float threshold = workspace.radiusA + workspace.tolerance + workspace.radiusB;
             workspace.threshold = threshold * threshold;
             shapeA->GetIndexedVertices(indices, cache->countA, vertices);
@@ -541,7 +548,7 @@ void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* re
                                                              _mm_add_ps(_mm_mul_ps(vz, z), w)));
                 } while (--j >= 0);
             }
-            FUN_00dae3a0(cache, vertices, 0, output, input->context);
+            ::FUN_00dae3a0((*(::Manifold *)(cache)), (*(const ::WorkData *)(vertices)), 0, (*(::ProcessOutput *)(output)), (::Manager *)(input->context));
             if (cache->contacts)
             {
                 OutputStack* stack = output->stack;
@@ -562,7 +569,7 @@ complete:
     unsigned size = (cache->countB + contacts * 4 + cache->countA) * 2 + 31;
     void* next = (char*)result + (size & ~15);
     {
-        ProfileBuffer* p = (ProfileBuffer*)TlsGetValue(DAT_0126835c);
+        ProfileBuffer* p = (ProfileBuffer*)TlsGetValue(::DAT_0126835c);
         ProfileEvent* event = p->current;
         if (event < p->end)
         {
@@ -576,6 +583,221 @@ complete:
     }
     return next;
 fallback:
-    ProcessCollision(input, status, result, result, cache, separation, output);
+    ::ProcessCollision((::In *)(input), status, (::Arg2 *)(result), (::Arg3 *)(result), (::Arg4 *)(cache), (::VecS *)(separation), (::Arg6 *)(output));
     goto complete;
 }
+
+// Moved from hkppredgskagent3_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/decl/GapSolver.h"
+#include "fnv/decl/ThisClass.h"
+#include "fnv/symbols_00d40000.h"
+void __cdecl RegisterScriptHandlers(void* pScript);
+class hkpConvexShape_s
+{
+  public:
+    virtual void f00();
+    virtual void f04();
+    virtual void f08();
+    virtual void f0C();
+    virtual void f10();
+    virtual void f14();
+    virtual void f18();
+    virtual void f1C();
+    virtual void f20();
+    virtual void f24();
+    virtual void f28();
+    virtual void f2C();
+    virtual void f30();
+    virtual void f34();
+    virtual void f38();
+    virtual void GetVerticesForIds(const unsigned short* ids, int numIds, void* out) const;
+    int unk04;
+    int unk08;
+    int unk0C;
+    float m_fSphereRadius;
+};
+
+struct hkpCdBody_s
+{
+    hkpConvexShape_s* m_pCollisionShape;
+    int unk04;
+    void* m_kMotionState;
+};
+
+struct hkpGskCache_s
+{
+    unsigned short m_kVertices[4];
+    unsigned char m_ucDimensionA;
+    unsigned char m_ucDimensionB;
+    unsigned char m_verticesDim;
+    unsigned char m_flags;
+};
+
+struct Gsk_s
+{
+    int m_ucDimensionA;
+    int m_ucDimensionB;
+    int m_numA;
+    int m_numB;
+    int m_unk10;
+    int m_cacheChanged;
+    int m_pad18;
+    int m_pad1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+
+};
+
+struct Input_s
+{
+    hkpCdBody_s* m_pBodyA;
+    hkpCdBody_s* m_pBodyB;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int m_kMotionTransform;
+};
+
+struct Output_s
+{
+    union
+    {
+        __m128 v;
+        struct
+        {
+            float nx;
+            float ny;
+            float nz;
+            float m_fClosestPointDistanceSquared;
+        };
+    };
+};
+
+struct SeparatingNormal
+{
+    __declspec(align(16)) float x;
+    float y;
+    float z;
+    float w;
+};
+
+// @fnv 0x00d41930
+void __cdecl FUN_00d41930(Input_s* input, const void* unused, hkpGskCache_s* cache, Output_s* output)
+{
+    hkpConvexShape_s* shapeA = input->m_pBodyA->m_pCollisionShape;
+    hkpConvexShape_s* shapeB = input->m_pBodyB->m_pCollisionShape;
+    SeparatingNormal norm;
+    Gsk_s gsk;
+    gsk.m_unk10 = 0;
+    gsk.m_ucDimensionB = cache->m_ucDimensionB;
+    gsk.m_ucDimensionA = cache->m_ucDimensionA;
+    gsk.m_numA = cache->m_verticesDim & 0xf;
+    gsk.m_numB = cache->m_verticesDim >> 4;
+    gsk.m_cacheChanged = 0;
+    shapeA->GetVerticesForIds(cache->m_kVertices, gsk.m_ucDimensionA, &gsk.unk20);
+    shapeB->GetVerticesForIds(&cache->m_kVertices[gsk.m_ucDimensionA], gsk.m_ucDimensionB, &gsk.unkE0);
+    reinterpret_cast<::GapSolver *>(&(gsk))->FUN_00daad40((const ::GapShape *)(shapeA), (const ::GapShape *)(shapeB), (*(const ::GapTransform *)(&input->m_kMotionTransform)), (*(::GapVector *)(&norm)));
+    if (gsk.m_cacheChanged)
+        reinterpret_cast<::ThisClass *>(&(gsk))->FUN_00da9790((::Dest *)(cache));
+    const float* rot = (const float*)input->m_pBodyA->m_kMotionState;
+    __m128 n = _mm_load_ps(&norm.x);
+    __m128 c0 = _mm_load_ps(rot);
+    __m128 c1 = _mm_load_ps(rot + 4);
+    __m128 c2 = _mm_load_ps(rot + 8);
+    __m128 ny = _mm_shuffle_ps(n, n, 0x55);
+    __m128 nx = _mm_shuffle_ps(n, n, 0x00);
+    __m128 nz = _mm_shuffle_ps(n, n, 0xaa);
+    __m128 res = _mm_add_ps(_mm_add_ps(_mm_mul_ps(ny, c1), _mm_mul_ps(nx, c0)), _mm_mul_ps(nz, c2));
+    output->v = res;
+    output->m_fClosestPointDistanceSquared = norm.w - (shapeB->m_fSphereRadius + shapeA->m_fSphereRadius);
+}
+#include "generated/data/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.inc"

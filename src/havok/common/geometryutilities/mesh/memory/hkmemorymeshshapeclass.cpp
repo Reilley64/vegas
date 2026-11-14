@@ -2,12 +2,15 @@
 // src/havok/common/geometryutilities/mesh/memory/hkmemorymeshshapeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/geometryutilities/mesh/memory/hkmemorymeshshapeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int DAT_0126e330;
 
 // @fnv 0x00e014c0
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <new>
+#include "fnv/symbols_0126e000.h"
 int* __cdecl FUN_00e014c0()
 {
-    return &DAT_0126e330;
+    return &(*reinterpret_cast<int *>(&::g_0126e330));
 }
 
 struct State
@@ -42,10 +45,10 @@ struct E014D0Allocator
 
 struct E014D0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     E014D0Allocator* m_pStreamAllocator;
 
     E014D0Allocator& heap()
@@ -54,7 +57,6 @@ struct E014D0MemoryRouter
     }
 };
 
-extern "C" E014D0MemoryRouter& __cdecl FUN_00c85750();
 
 struct FUN_00e014d0
 {
@@ -64,10 +66,10 @@ struct FUN_00e014d0
     FUN_00e014d0();
     virtual ~FUN_00e014d0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00e014d0* b = static_cast<FUN_00e014d0*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<E014D0MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

@@ -1,5 +1,9 @@
 // bssystem/console/bsfile_console.cpp: BSFile (6 functions)
 
+#include <cstring>
+#include "fnv/decl/FUN_00aa16d0_cls.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/symbols_010a2000.h"
 #include "bsfile_console_decls.h"
 // Constructs a NiTPointerMap<unsigned int, TESFile*> by forwarding count to FUN_00474560.
 // Constructs a NiTPointerMap of unsigned int to TESFile* pairs, delegating to the base constructor with the given count.
@@ -34,12 +38,12 @@ void BSFile::Seek(int offset, int mode)
     }
     if (target != position)
     {
-        NiFile::Seek(offset, mode);
+        reinterpret_cast<::FUN_00aa16d0_cls *>(this)->FUN_00aa16d0(offset, mode);
         position = target;
     }
 }
 
-struct FUN_00aff950_shell
+struct FUN_00aff950_shell : BSFile
 {
     unsigned int FUN_00aa1810(void*, unsigned int);
     unsigned int FUN_00aff950(void*, unsigned int);
@@ -48,7 +52,7 @@ struct FUN_00aff950_shell
 unsigned int FUN_00aff950_shell::FUN_00aff950(void* buffer, unsigned int size)
 {
     unsigned int term = this->FUN_00aa1810(buffer, size);
-    *(unsigned int*)((char*)this + 0x150) += term;
+    position += term;
     return term;
 }
 
@@ -81,7 +85,6 @@ struct S_00aff7c0_Out
 {
     int unk00;
     void FUN_00404820(const char* s);
-    void FUN_004037f0(const char* s, int n);
 };
 
 struct S_00aff7c0_File
@@ -137,7 +140,7 @@ unsigned int S_00aff7c0_File::FUN_00aff7c0(S_00aff7c0_Out* out, unsigned int max
             if (outLen7)
                 out->FUN_00404820(buf2);
             else
-                out->FUN_004037f0(buf2, 0);
+                reinterpret_cast<::TextString *>((out))->FUN_004037f0(buf2, 0);
             outLen7 += idx3;
             if (!ch_)
                 break;
@@ -190,9 +193,6 @@ struct FUN_00b00260 : S_00b00260_Base
     int unk150;
     int unk154;
 
-    void FUN_00aff990(bool);
-    bool FUN_00aff300(bool, bool);
-    bool FUN_00affc60();
 
     FUN_00b00260(const char* pPath, int mode, unsigned int bufferSize, bool arg4);
 };
@@ -201,7 +201,7 @@ struct FUN_00b00260 : S_00b00260_Base
 // @fnv 0x00b00260
 FUN_00b00260::FUN_00b00260(const char* pPath, int mode, unsigned int bufferSize, bool abFlag)
 {
-    FUN_00aff990(false);
+    reinterpret_cast<::BSFile *>(this)->SetEndianSwap(false);
     unk28 = mode;
     unk10 = bufferSize;
     unk14 = 0;
@@ -227,17 +227,16 @@ FUN_00b00260::FUN_00b00260(const char* pPath, int mode, unsigned int bufferSize,
         strcpy_s(path, 0x104, pPath);
         if (mode == 1)
         {
-            FUN_00aff300(false, abFlag);
+            reinterpret_cast<::BSFile *>(this)->Open(false, abFlag);
         }
     }
     if (mode == 0)
     {
-        unk2C = FUN_00affc60();
+        unk2C = reinterpret_cast<::BSFile *>(this)->Write();
     }
 }
 
 #include <windows.h>
-void* fnv_zlib_memset(void* dst, int c, int n);
 
 class B003C0File
 {
@@ -270,7 +269,7 @@ SYSTEMTIME B003C0File::GetLastWriteTime()
     SYSTEMTIME localTime2;
     if (!(bool)(int)(m_handle != 0))
     {
-        fnv_zlib_memset(&localTime2, 0, sizeof(localTime2));
+        std::memset(&localTime2, 0, sizeof(localTime2));
         return localTime2;
     }
     WIN32_FIND_DATAA findData;
@@ -284,3 +283,5 @@ SYSTEMTIME B003C0File::GetLastWriteTime()
     SystemTimeToTzSpecificLocalTime(0, &utcTime4, &localTime2);
     return localTime2;
 }
+
+#include "generated/data/bssystem/console/bsfile_console.inc"

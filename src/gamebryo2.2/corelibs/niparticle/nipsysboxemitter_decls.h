@@ -1,36 +1,39 @@
 
-class RgbaColor
+#include "fnv/symbols_011a9000.h"
+struct RgbaColor
 {
   public:
     float r, g, b, a;
 };
-extern RgbaColor DAT_011a9be0;
 class NiPSysPositionModifier
 {
   public:
     NiPSysPositionModifier();
-    virtual void LoadBinary(class NiStream&);
+    virtual void LoadBinary(struct NiStream&);
     unsigned char modifier[0x14];
 };
 class NiPSysEmitter : public NiPSysPositionModifier
 {
   public:
     NiPSysEmitter();
-    virtual void LoadBinary(class NiStream&);
+    virtual void LoadBinary(struct NiStream&);
     float speed, speedVar, declination, declinationVar, planarAngle, planarAngleVar;
     RgbaColor color;
     float radius, radiusVar, lifespan, lifespanVar, unknown;
 };
+struct NiStream;
 class NiPSysVolumeEmitter : public NiPSysEmitter
 {
   public:
-    virtual void LoadBinary(class NiStream&);
+    virtual void LoadBinary(struct NiStream&);
     void* emitterObject;
+public:
+    void LinkObject(::NiStream &);
 };
 class NiPSysBoxEmitter : public NiPSysVolumeEmitter
 {
   public:
-    virtual void LoadBinary(class NiStream&);
+    virtual void LoadBinary(struct NiStream&);
     float width, height, depth;
 };
 class NiBinaryStream
@@ -45,7 +48,7 @@ class NiBinaryStream
         position += read(this, &value, 4, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned char data[0x24c];

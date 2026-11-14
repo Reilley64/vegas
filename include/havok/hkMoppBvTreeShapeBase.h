@@ -1,20 +1,26 @@
-// include/havok/hkMoppBvTreeShapeBase.h - generated from the Havok 7.1 reflection data in the PC exe (gen_havok_headers.py, 2026-10-17).
-// Reflected members at their exact offsets; unreflected bytes are padding. Size 0x30.
+// Native MOPP code owner and borrowed query data, not an object-layout view.
 #ifndef FNV_HAVOK_HKMOPPBVTREESHAPEBASE_H
 #define FNV_HAVOK_HKMOPPBVTREESHAPEBASE_H
 
-#include "hkBase.h"
+#include "hkpShape.h"
+#include <span>
 class hkpMoppCode;
-#pragma pack(push, 1)
-class hkMoppBvTreeShapeBase
+class hkMoppBvTreeShapeBase : public hkpShape
 {
   public:
-    char pad0[0x14];
-    hkpMoppCode* m_pMoppCode;   // +0x14
-    void* m_pMoppData;          // +0x18
-    hkUint32 m_uiMoppDataSize;  // +0x1C
-    hkVector4 m_kMoppCodeInfo;  // +0x20
+    ~hkMoppBvTreeShapeBase() override;
+    const hkpMoppCode& getMoppCode() const noexcept { return *m_pMoppCode; }
+    std::span<const hkUint8> getMoppData() const noexcept { return {m_pMoppData, m_uiMoppDataSize}; }
+    const hkVector4& getMoppCodeInfo() const noexcept { return m_kMoppCodeInfo; }
+
+  protected:
+    hkMoppBvTreeShapeBase(hkUint32 type, const hkpMoppCode&);
+
+  public:
+    hkUint8 m_bvTreeType;
+    const hkpMoppCode* m_pMoppCode;
+    const hkUint8* m_pMoppData;
+    hkUint32 m_uiMoppDataSize;
+    hkVector4 m_kMoppCodeInfo;
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMoppBvTreeShapeBase[(sizeof(hkMoppBvTreeShapeBase) == 0x30) ? 1 : -1];
 #endif

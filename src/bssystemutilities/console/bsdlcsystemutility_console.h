@@ -3,15 +3,12 @@
 #define FNV_ASTRA_DLC_H
 
 #include <stddef.h>
+#include "fnv/decl/StartMenu.h"
+#include "fnv/symbols_00af2000.h"
 class ContentMountRecord;
 class DownloadableContentEntry;
 class DownloadableContentInfo;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-};
+#include "fnv/bs_simple_list.h"
 class DownloadableContentManager
 {
   public:
@@ -24,8 +21,6 @@ class DownloadableContentManager
     BSSimpleList<char*> m_kMountedPackageNames;
     static DownloadableContentManager& GetRandomGenerator();
     bool IsDLCAvailable();
-    bool IsContentAvailable();
-    void UnmountDLC();
     unsigned int MountDownloadableContent(unsigned int userIndex, MOUNT_CALLBACK callback);
 };
 class BSSystemUtility
@@ -33,6 +28,4 @@ class BSSystemUtility
   public:
     DownloadableContentManager& QDLCUtility();
 };
-typedef char check_DLC_size[sizeof(DownloadableContentManager) == 0x24 ? 1 : -1];
-typedef char check_DLC_valid[offsetof(DownloadableContentManager, m_kContentEntries) == 0x0c ? 1 : -1];
 #endif

@@ -2,9 +2,11 @@
 // src/gamebryo2.2/corelibs/nimain/nitexturetransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nitexturetransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-class NiStream;
+#include "fnv/decl/THIS_00a68ce0.h"
+#include "fnv/symbols_00a26000.h"
+struct NiStream;
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;
@@ -33,7 +35,7 @@ struct NiBinaryStreamStandIn
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     int unk000;
@@ -217,9 +219,9 @@ void FUN_00a88f00_Class::FUN_00a88f00(NiStream& stream)
 {
     point00.LoadBinary(stream);
     point0c.LoadBinary(stream);
-    ReadBinaryValue(stream, unk08);
+    ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(unk08));
     unsigned int value;
-    ReadBinaryValue(stream, value);
+    ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(value));
     unk44 = value;
     point14.LoadBinary(stream);
     loaded = true;
@@ -404,7 +406,6 @@ struct FUN_00a88f80_pt
 {
     float x;
     float y;
-    void LoadStream(NiStream& stream);
 };
 
 class FUN_00a88f80_cls
@@ -432,9 +433,9 @@ class FUN_00a88f80_cls
 // @fnv 0x00a88f80
 void FUN_00a88f80_cls::FUN_00a88f80(NiStream& stream)
 {
-    point00.LoadStream(stream);
-    point0c.LoadStream(stream);
+    reinterpret_cast<::THIS_00a68ce0 *>(&(point00))->WriteCoords((::ST_00a68ce0 &)(stream));
+    reinterpret_cast<::THIS_00a68ce0 *>(&(point0c))->WriteCoords((::ST_00a68ce0 &)(stream));
     reinterpret_cast<NiStreamLayout&>(stream).istr->Read(&unk08);
     reinterpret_cast<NiStreamLayout&>(stream).istr->Read(&unk44);
-    point14.LoadStream(stream);
+    reinterpret_cast<::THIS_00a68ce0 *>(&(point14))->WriteCoords((::ST_00a68ce0 &)(stream));
 }

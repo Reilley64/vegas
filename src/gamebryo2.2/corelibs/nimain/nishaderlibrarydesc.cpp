@@ -4,11 +4,11 @@
 
 struct IndexedObjectCollection
 {
-    void* __thiscall FUN_00a9ffe0(int idx);
+    void* FUN_00a9ffe0(int idx);
 };
 
 // @fnv 0x00a9ffe0
-void* __thiscall IndexedObjectCollection::FUN_00a9ffe0(int idx)
+void* IndexedObjectCollection::FUN_00a9ffe0(int idx)
 {
     return (*(void***)((char*)this + 0x3C))[idx];
 }

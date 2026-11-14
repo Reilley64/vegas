@@ -2,22 +2,36 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <windows.h>
+#include <new>
+#include "fnv/decl/NiGPUProgramOwner.h"
+#include "fnv/decl/NiTimeController.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/TCController.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_010be000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
 struct GlobalObjectO2_00a7b610;
 
-extern GlobalObjectO2_00a7b610 g_01202690;
 
 // @fnv 0x00c27130
 GlobalObjectO2_00a7b610* __cdecl FUN_00c27130()
 {
-    return &g_01202690;
+    return &::g_01202690;
 }
 
-extern char const* const g_011dfe40_arg1;
 
 // @fnv 0x00a6d280
 char const* const& __cdecl FUN_00a6d280()
 {
-    return g_011dfe40_arg1;
+    return (*reinterpret_cast<const char *const *>(&::g_011f49e4));
 }
 
 void __cdecl FUN_00a6d290();
@@ -36,12 +50,10 @@ void* S00c27140::DestroyIfFlagged(unsigned int auiFlags)
     return this;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-extern char DAT_010be6b4[];
+
 
 struct CtorBase_cls
 {
-    void ctorBase();
 };
 
 struct FUN_00c27160_cls
@@ -53,29 +65,8 @@ struct FUN_00c27160_cls
     unsigned int unk10;
     float m_14;
     float m_18;
-    void FUN_00a6cfe0(void* obj, unsigned int a1);
-    void* FUN_00c27160(unsigned int a1);
+    void* FUN_00c27160(uintptr_t a1);
 };
-
-// Allocates a 0x34-byte object, runs its base constructor, zeroes m_14/m_18, sets its vtable, then passes it to FUN_00a6cfe0 with a1 and returns it.
-// @fnv 0x00c27160
-void* FUN_00c27160_cls::FUN_00c27160(unsigned int a1)
-{
-    FUN_00c27160_cls* p = (FUN_00c27160_cls*)FUN_00aa13e0(0x34);
-    if (p != 0)
-    {
-        ((CtorBase_cls*)p)->ctorBase();
-        p->m_18 = 0.0f;
-        p->m_14 = 0.0f;
-        p->m_vtbl = (void*)&DAT_010be6b4;
-    }
-    else
-    {
-        p = 0;
-    }
-    this->FUN_00a6cfe0(p, a1);
-    return p;
-}
 
 // Reconstruction of FUN_00c27290.
 //
@@ -99,19 +90,17 @@ struct FnvNode;
 // Helper that stores its argument into this+0x2c.
 struct FnvTarget
 {
-    void __thiscall SetTarget(FnvNode* p);
 };
 
 // Helper that stores its argument into this+0x30.
 struct FnvF30Owner
 {
-    void __thiscall SetF30(FnvNode* p);
 };
 
 // Helper that stores its argument into this+0x0c.
 struct FnvF0COwner
 {
-    void __thiscall SetF0C(FnvNode* p);
+    void SetF0C(FnvNode* p);
 };
 
 struct FnvNode
@@ -131,15 +120,14 @@ struct FnvNode
     FnvNode* f30;   // +0x30
     virtual void v0();
     virtual void v1();
-    void __thiscall FUN_00c27290(FnvNode* arg);
+    void FUN_00c27290(FnvNode* arg);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 // @fnv 0x00c27290
 void FnvNode::FUN_00c27290(FnvNode* pTarget)
 {
-    ((FnvTarget*)this)->SetTarget(pTarget);
+    reinterpret_cast<::NiTimeController *>((((FnvTarget*)this)))->SetTarget((::NiObjectNET *)(pTarget));
 
     if (!f2c)
         return;
@@ -151,7 +139,7 @@ void FnvNode::FUN_00c27290(FnvNode* pTarget)
     if (t == this)
         return;
 
-    ((FnvF30Owner*)t)->SetF30(this);
+    reinterpret_cast<::NiGPUProgramOwner *>((((FnvF30Owner*)t)))->SetProgram((::NiGPUProgram *)(::FnvNode *)(this));
     ((FnvF0COwner*)f2c)->SetF0C(f30);
 
     FnvNode* p = f30;
@@ -171,12 +159,8 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _mC;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
-void __stdcall FUN_00a6d830(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
 
 struct GlobalObjectO2_00a7b610
 {
@@ -185,16 +169,16 @@ struct GlobalObjectO2_00a7b610
 
 // Appends the string returned by FUN_00a7d330(g_01202690.m_pcName) to pkStrings, growing it via SetSize when full and storing at index m_usSize.
 // @fnv 0x00c27300
-void __stdcall FUN_00c27300(StrArr* pkStrings)
+void FUN_00c27300(StrArr* pkStrings)
 {
-    FUN_00a6d830(pkStrings);
-    char* str = FUN_00a7d330(g_01202690.m_pcName);
+    reinterpret_cast<::TCController *>((pkStrings))->FUN_00a6d830({});
+    char* str = FUN_00a7d330(::g_01202690.m_pcName);
     unsigned int size = pkStrings->m_usSize;
     if (size >= pkStrings->m_usAlloc)
     {
-        pkStrings->SetSize(size + pkStrings->m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(size + pkStrings->m_usGrowBy);
     }
-    pkStrings->SetAt(size, str);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(size, str);
 }
 
 struct S_a6d590_RefObject
@@ -316,6 +300,25 @@ class FUN_00a6d220 : public FUN_00a5d3a0
     void* m_pkTarget;
     NiPtrA6D2 m_spNextController;
 };
+// Allocates a 0x34-byte object, runs its base constructor, zeroes m_14/m_18, sets its vtable, then passes it to FUN_00a6cfe0 with a1 and returns it.
+// @fnv 0x00c27160
+void* FUN_00c27160_cls::FUN_00c27160(uintptr_t a1)
+{
+    FUN_00c27160_cls* p = (FUN_00c27160_cls*)FUN_00aa13e0(0x34);
+    if (p != 0)
+    {
+        new ((void *)(((CtorBase_cls*)p))) class ::FUN_00a6d220();
+        p->m_18 = 0.0f;
+        p->m_14 = 0.0f;
+        p->m_vtbl = (void*)&DAT_010be6b4;
+    }
+    else
+    {
+        p = 0;
+    }
+    reinterpret_cast<::NiTimeControllerCM *>((this))->FUN_00a6cfe0((::NiTimeController *)(p), (*(::CloningProcess *)(a1)));
+    return p;
+}
 
 // Initializes the frequency, phase, and time fields, then updates the flags with (old flags & 0xff6c) | 0x4c.
 // @fnv 0x00a6d220
@@ -328,11 +331,8 @@ FUN_00a6d220::FUN_00a6d220() throw()
     uFlags = (uFlags & 0xff6c) | 0x4c;
 }
 
-extern "C" void _ReadWriteBarrier();
-extern float g_01015f5c;
 extern float g_010be6a8;
 extern double g_010241b0;
-extern char g_012024e8;
 
 struct SpawnedTarget
 {
@@ -450,7 +450,6 @@ struct SpawnedOwner
 
 struct S00a36250
 {
-    bool FUN_00a36250(float v);
 };
 
 struct SpawnedController
@@ -508,7 +507,7 @@ __forceinline bool StaticIsKindOf(const KindRtti* rtti, SpawnedItem* obj)
 void SpawnedController::FUN_00c271c0(const float* apPosition)
 {
     unsigned short flags = m_08;
-    m_14 = g_01015f5c;
+    m_14 = ::DAT_01015f5c;
     m_18 = g_010be6a8;
     m_08 = (unsigned short)((flags & 0xfffd) | 4);
     SpawnedItem* pItem = m_2C->m_0C;
@@ -516,7 +515,7 @@ void SpawnedController::FUN_00c271c0(const float* apPosition)
     SpawnedTarget* pTarget = 0;
     while (pItem)
     {
-        if (StaticIsKindOf((const KindRtti*)&g_012024e8, pItem))
+        if (StaticIsKindOf((const KindRtti*)&(*reinterpret_cast<char *>(&::g_012024e8)), pItem))
         {
             pHitItem = pItem;
             pTarget = pItem->m_3C;
@@ -534,7 +533,7 @@ void SpawnedController::FUN_00c271c0(const float* apPosition)
             }
         }
     }
-    bool handled = reinterpret_cast<S00a36250*>(this)->FUN_00a36250(*apPosition);
+    bool handled = reinterpret_cast<::NiTimeControllerA362 *>((reinterpret_cast<S00a36250*>(this)))->FUN_00a36250(*apPosition);
     m_18 = 0.0f;
     m_14 = 0.0f;
     SpawnedOwner* owner = m_2C;
@@ -543,3 +542,5 @@ void SpawnedController::FUN_00c271c0(const float* apPosition)
         owner->v3C(m_28);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.inc"

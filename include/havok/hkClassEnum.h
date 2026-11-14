@@ -6,7 +6,7 @@
 #include "hkBase.h"
 class hkClassEnumItem;
 class hkCustomAttributes;
-#pragma pack(push, 1)
+class hkStreamWriter;
 class hkClassEnum
 {
   public:
@@ -18,7 +18,7 @@ class hkClassEnum
     hkSimpleArray<hkClassEnumItem> m_items;   // +0x4
     hkCustomAttributes* m_pCustomAttributes;  // +0xC
     hkUint32 m_flags;                         // +0x10 (FlagValues)
+public:
+    void FUN_00db7600(::hkStreamWriter *) const;
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkClassEnum[(sizeof(hkClassEnum) == 0x14) ? 1 : -1];
 #endif

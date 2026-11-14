@@ -1,151 +1,35 @@
 // fallout_shared/pathfinding/navmeshobstacletask.cpp: ObstacleTaskData, BSTaskletData, DelStandIn, ObstacleTaskShell (15 functions)
 
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/FUN_004b0460_class.h"
+#include "fnv/decl/FUN_00558dd0_class.h"
+#include "fnv/decl/FUN_005a8040_class.h"
+#include "fnv/decl/FUN_006c78f0_Class.h"
+#include "fnv/decl/FUN_006c8980_stand.h"
+#include "fnv/decl/FUN_006c8a30_Class.h"
+#include "fnv/decl/FUN_006c8a90_Class.h"
+#include "fnv/decl/FUN_006c8b90_Class.h"
+#include "fnv/decl/FUN_006c8bd0_Class.h"
+#include "fnv/decl/FUN_006c8c70_Class.h"
+#include "fnv/decl/FUN_006f3170_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00869600_Class.h"
+#include "fnv/decl/FUN_00b00ec0.h"
+#include "fnv/decl/HX.h"
+#include "fnv/decl/NavShell2.h"
+#include "fnv/decl/Struct6c89e0.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_006995c0__FUN_006995c0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_006a8000.h"
+#include "fnv/symbols_006c0000.h"
+#include "fnv/symbols_006c7000.h"
+#include "fnv/symbols_006f3000.h"
+#include "fnv/symbols_0070e000.h"
 #include "navmeshobstacletask_decls.h"
-// Validates the operation against existing entries by type, then appends it to Operations if the navmesh is available.
-// @fnv 0x006c7a30
-bool ObstacleTaskData::AddOperation(const NiPointer<ObstacleData>& obstacle, OBSTACLE_TASK_TYPE type)
-{
-    switch (type)
-    {
-    case REMOVE:
-    case REMOVE_UPDATE: {
-        bool bCanAdd = true;
-        for (unsigned int i = 0; i < Operations.GetSize(); ++i)
-        {
-            if (reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle) ==
-                reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))
-            {
-                if ((OPERATION_AT(Operations, i).eType & 0x30) == ADD)
-                {
-                    reinterpret_cast<void(__cdecl*)(const char*, ...)>(&Interface::PrintDebugMessage)(
-                        "Removing previous operation ADD for Task on Navmesh 0x%08x (srcptr = 0x%08x)", pInfo->id,
-                        m_spSourceNavMesh.ptr);
-                    Operations.Remove(i, true);
-                    --i;
-                }
-                else
-                    bCanAdd = false;
-            }
-        }
-        if (!bCanAdd)
-            return false;
-        break;
-    }
-    case ADD:
-    case ADD_UPDATE: {
-        for (unsigned int i = 0; i < Operations.GetSize(); ++i)
-        {
-            if (reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle) ==
-                reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))
-            {
-                if ((OPERATION_AT(Operations, i).eType & 0x30) == ADD)
-                    return false;
-            }
-        }
-        break;
-    }
-    case ADD_DOOR: {
-        for (unsigned int i = 0; i < Operations.GetSize(); ++i)
-        {
-            if (reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle) ==
-                reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))
-            {
-                if (OPERATION_AT(Operations, i).eType == ADD_DOOR)
-                    return false;
-            }
-        }
-        break;
-    }
-    case REMOVE_DOOR: {
-        for (unsigned int i = 0; i < Operations.GetSize(); ++i)
-        {
-            if (reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle) ==
-                reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))
-            {
-                if (OPERATION_AT(Operations, i).eType == REMOVE_DOOR)
-                    return false;
-            }
-        }
-        break;
-    }
-    default:
-        return false;
-    }
-    NavMeshPtr navMesh;
-    if (pInfo->ResolveNavMesh(navMesh))
-    {
-        Operations.AppendValue(ObstacleTask(obstacle, type, navMesh));
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-// @fnv 0x006c8170
-void ObstacleTaskData::Process()
-{
-    AutoMemContext context(MEM_CONTEXT_NAVMESH, true,
-                           "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Pathfinding\\NavMeshObstacleTask.c",
-                           357);
-    NavMeshObstacleManager::GetSingleton()->GetCharPtrAtOffset()->FUN_00483710();
-    if (pInfo->ResolveNavMesh(m_spSourceNavMesh))
-    {
-        m_spWorkingNavMesh = reinterpret_cast<NavMeshPtr(__cdecl*)(NavMesh*)>(&MakeNavMeshPointer)(new NavMesh);
-        NAVMESH_FROM(m_spSourceNavMesh)->CopyNavMeshDataTo(m_spWorkingNavMesh);
-        FUN_006c8150();
-        for (unsigned int i = 0; i < Operations.GetSize(); ++i)
-        {
-            switch (OPERATION_AT(Operations, i).eType)
-            {
-            case ADD:
-            case ADD_UPDATE:
-                if (NAVMESH_FROM(m_spWorkingNavMesh)
-                        ->Search(OPERATION_AT(Operations, i).m_spRegisteredObstacle, m_kParentChildLinks))
-                    OPERATION_AT(Operations, i).m_kResult = 0;
-                else
-                    OPERATION_AT(Operations, i).m_kResult = 1;
-                break;
-            case REMOVE:
-            case REMOVE_UPDATE:
-                if (NAVMESH_FROM(m_spWorkingNavMesh)
-                        ->RemoveObstacleAndUpdateLinks(OPERATION_AT(Operations, i).m_spRegisteredObstacle, m_kParentChildLinks))
-                    OPERATION_AT(Operations, i).m_kResult = 0;
-                else
-                    OPERATION_AT(Operations, i).m_kResult = 1;
-                break;
-            case REMOVE_DOOR:
-                if (NAVMESH_FROM(m_spWorkingNavMesh)
-                        ->RemoveDoorObstacle(OBSTACLE_FROM(OPERATION_AT(Operations, i).m_spRegisteredObstacle)->source->id))
-                    OPERATION_AT(Operations, i).m_kResult = 0;
-                else
-                    OPERATION_AT(Operations, i).m_kResult = 1;
-                break;
-            case ADD_DOOR:
-                if (NAVMESH_FROM(m_spWorkingNavMesh)
-                        ->AddDoorObstacle(OBSTACLE_FROM(OPERATION_AT(Operations, i).m_spRegisteredObstacle)->source->id,
-                                          OBSTACLE_FROM(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))
-                    OPERATION_AT(Operations, i).m_kResult = 0;
-                else
-                    OPERATION_AT(Operations, i).m_kResult = 1;
-                break;
-            }
-        }
-        for (unsigned int i = 0; i < m_kParentChildLinks.parents.GetSize(); ++i)
-            EDGE_AT(m_kParentChildLinks.parents, i).pInfo = pInfo;
-        for (unsigned int i = 0; i < m_kParentChildLinks.children.GetSize(); ++i)
-            EDGE_AT(m_kParentChildLinks.children, i).pInfo = pInfo;
-    }
-    else
-    {
-        for (unsigned int i = 0; i < Operations.GetSize(); ++i)
-            OPERATION_AT(Operations, i).m_kResult = 1;
-    }
-    NavMeshObstacleManager::GetSingleton()->AddProcessedTask(this);
-    NavMeshObstacleManager::GetSingleton()->GetCharPtrAtOffset()->FUN_00483710();
-}
-
 struct BaseT
 {
     virtual ~BaseT();
@@ -196,47 +80,40 @@ struct FUN_006c8150_shell : public ObstacleTaskData
     void FUN_006c8150();
 };
 
-void __cdecl CompareObstacleEntries();
 
 struct Helper_006c8980
 {
-    void FUN_006c8980(void(__cdecl*)());
 };
 
 // @fnv 0x006c8150
 void FUN_006c8150_shell::FUN_006c8150()
 {
-    ((Helper_006c8980*)((char*)this + 0x24))->FUN_006c8980(CompareObstacleEntries);
+    reinterpret_cast<::FUN_006c8980_stand *>((((Helper_006c8980*)&this->Operations)))->FUN_006c8980((std::intptr_t)(((void (&)())::CompareObstacleEntries)));
 }
 
 struct Elem16
 {
     int a[4];
-    void AssignFrom(int v);
 };
 struct Arr16
 {
     int pad;
     Elem16* data;
-    unsigned int FUN_006f31f0();
-    void InitializeArray(Elem16* e, int f);
-    unsigned int AppendValue(int value);
+    unsigned int AppendValue(std::intptr_t value);
 };
 // Appends a new element at the end of the array, initializes it with the given value, and returns its index.
 // @fnv 0x006c8810
-unsigned int Arr16::AppendValue(int value)
+unsigned int Arr16::AppendValue(std::intptr_t value)
 {
-    unsigned int index = FUN_006f31f0();
-    InitializeArray(&data[index], 1);
-    data[index].AssignFrom(value);
+    unsigned int index = ::FUN_006f31f0((::S5460 *)this);
+    reinterpret_cast<::FUN_006c8a90_Class *>(this)->InitializeArray((char *)(::Elem16 *)(&data[index]), 1);
+    reinterpret_cast<::Struct6c89e0 *>(&(data[index]))->AssignFrom((const ::Struct6c89e0 *)(value));
     return index;
 }
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
@@ -246,14 +123,13 @@ struct DelStandIn
 // @fnv 0x006c7970
 void* DelStandIn::FUN_006c7970(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::FUN_006c79a0 *>((((DtorStandIn*)this)))->::FUN_006c79a0::~FUN_006c79a0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
 
-void __cdecl operator delete(void*);
 
 struct BSTaskletData
 {
@@ -269,9 +145,9 @@ void BSTaskletData::FUN_006c78f0()
 // @fnv 0x006c7910
 void* BSTaskletData::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_006c78f0();
+    reinterpret_cast<::FUN_006c78f0_Class *>(this)->FUN_006c78f0();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -288,9 +164,9 @@ struct FUN_006c7940_shell : BaseT
 // @fnv 0x006c7940
 void* FUN_006c7940_shell::FUN_006c7940(unsigned int flags)
 {
-    BaseT::~BaseT();
+    reinterpret_cast<::FUN_00b00ec0 *>(this)->::FUN_00b00ec0::~FUN_00b00ec0();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_006c7940
@@ -299,6 +175,68 @@ struct FUN_006c85c0_shell
 {
     char* GetCharPtrAtOffset();
 };
+// @fnv 0x006c8170
+void ObstacleTaskData::Process()
+{
+    AutoMemContext context(MEM_CONTEXT_NAVMESH, true,
+                           "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Pathfinding\\NavMeshObstacleTask.c",
+                           357);
+    reinterpret_cast<::TESForm *>((((::LockPrimitive *)(reinterpret_cast<::FUN_006c85c0_shell *>((((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->GetCharPtrAtOffset()))))->ClearData();
+    if (pInfo->ResolveNavMesh(m_spSourceNavMesh))
+    {
+        m_spWorkingNavMesh = reinterpret_cast<NavMeshPtr(__cdecl*)(NavMesh*)>(&MakeNavMeshPointer)(new NavMesh);
+        NAVMESH_FROM(m_spSourceNavMesh)->CopyNavMeshDataTo(m_spWorkingNavMesh);
+        reinterpret_cast<::FUN_006c8150_shell *>(this)->FUN_006c8150();
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        {
+            switch (OPERATION_AT(Operations, i).eType)
+            {
+            case ADD:
+            case ADD_UPDATE:
+                if (NAVMESH_FROM(m_spWorkingNavMesh)
+                        ->Search(OPERATION_AT(Operations, i).m_spRegisteredObstacle, m_kParentChildLinks))
+                    OPERATION_AT(Operations, i).m_kResult = 0;
+                else
+                    OPERATION_AT(Operations, i).m_kResult = 1;
+                break;
+            case REMOVE:
+            case REMOVE_UPDATE:
+                if (NAVMESH_FROM(m_spWorkingNavMesh)
+                        ->RemoveObstacleAndUpdateLinks(OPERATION_AT(Operations, i).m_spRegisteredObstacle, m_kParentChildLinks))
+                    OPERATION_AT(Operations, i).m_kResult = 0;
+                else
+                    OPERATION_AT(Operations, i).m_kResult = 1;
+                break;
+            case REMOVE_DOOR:
+                if (NAVMESH_FROM(m_spWorkingNavMesh)
+                        ->RemoveDoorObstacle(OBSTACLE_FROM(OPERATION_AT(Operations, i).m_spRegisteredObstacle)->source->id))
+                    OPERATION_AT(Operations, i).m_kResult = 0;
+                else
+                    OPERATION_AT(Operations, i).m_kResult = 1;
+                break;
+            case ADD_DOOR:
+                if (NAVMESH_FROM(m_spWorkingNavMesh)
+                        ->AddDoorObstacle(OBSTACLE_FROM(OPERATION_AT(Operations, i).m_spRegisteredObstacle)->source->id,
+                                          OBSTACLE_FROM(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))
+                    OPERATION_AT(Operations, i).m_kResult = 0;
+                else
+                    OPERATION_AT(Operations, i).m_kResult = 1;
+                break;
+            }
+        }
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParentChildLinks.parents))->GetName())); ++i)
+            EDGE_AT(m_kParentChildLinks.parents, i).pInfo = pInfo;
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParentChildLinks.children))->GetName())); ++i)
+            EDGE_AT(m_kParentChildLinks.children, i).pInfo = pInfo;
+    }
+    else
+    {
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+            OPERATION_AT(Operations, i).m_kResult = 1;
+    }
+    ((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))->AddProcessedTask(this);
+    reinterpret_cast<::TESForm *>((((::LockPrimitive *)(reinterpret_cast<::FUN_006c85c0_shell *>((((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->GetCharPtrAtOffset()))))->ClearData();
+}
 
 // @fnv 0x006c85c0
 char* FUN_006c85c0_shell::GetCharPtrAtOffset()
@@ -309,15 +247,14 @@ char* FUN_006c85c0_shell::GetCharPtrAtOffset()
 extern int DAT_0106c8d4;
 struct S_006c87c0
 {
-    int FUN_006c8c70(int, int);
     S_006c87c0* FUN_006c87c0();
 };
 // Sets the object's vtable pointer to DAT_0106c8d4, calls FUN_006c8c70(0, 0), and returns this.
 // @fnv 0x006c87c0
 S_006c87c0* S_006c87c0::FUN_006c87c0()
 {
-    *(int*)this = (int)&DAT_0106c8d4;
-    FUN_006c8c70(0, 0);
+    *(void**)this = (void*)&DAT_0106c8d4;
+    reinterpret_cast<::FUN_006c8c70_Class *>(this)->FUN_006c8c70(0, 0);
     return this;
 }
 
@@ -325,19 +262,17 @@ extern int DAT_0106c8d4;
 struct FUN_006c87f0_shell
 {
     void* vftable;
-    void __thiscall FUN_006c8a30(int a);
-    void __thiscall FUN_006c87f0();
+    void FUN_006c87f0();
 };
 // @fnv 0x006c87f0
-void __thiscall FUN_006c87f0_shell::FUN_006c87f0()
+void FUN_006c87f0_shell::FUN_006c87f0()
 {
     vftable = &DAT_0106c8d4;
-    FUN_006c8a30(1);
+    reinterpret_cast<::FUN_006c8a30_Class *>(this)->FUN_006c8a30(1);
 }
 
 struct ObstacleMeshView
 {
-    int FindEntryIndex(const ObstacleTask* op);
 };
 
 struct ObstacleMeshRef
@@ -407,8 +342,8 @@ int __cdecl CompareObstacleEntries(const void* apEntryA, const void* apEntryB)
             ObstacleMeshRef mesh(a->apSearchNavMesh);
             if (mesh.Get())
             {
-                int ia = mesh->FindEntryIndex(a);
-                int ib = mesh->FindEntryIndex(b);
+                int ia = reinterpret_cast<::fnv_006995c0::FUN_006995c0_shell *>(((mesh).operator->()))->FindEntryIndex((void *)(a));
+                int ib = reinterpret_cast<::fnv_006995c0::FUN_006995c0_shell *>(((mesh).operator->()))->FindEntryIndex((void *)(b));
                 return ib - ia;
             }
             else
@@ -437,32 +372,104 @@ class FUN_006c8860_Class
     Element16* data;
     unsigned int size;
     unsigned int capacity;
-    bool FUN_006f3170();
-    unsigned int FUN_00869600();
-    void FUN_006c8bd0(Element16*, const Element16*, unsigned int);
-    void FUN_006c8b90(Element16*, unsigned int);
-    void FUN_006a8500();
     void RemoveAt(unsigned int index, bool shrink);
 };
+// Validates the operation against existing entries by type, then appends it to Operations if the navmesh is available.
+// @fnv 0x006c7a30
+bool ObstacleTaskData::AddOperation(const NiPointer<ObstacleData>& obstacle, OBSTACLE_TASK_TYPE type)
+{
+    switch (type)
+    {
+    case REMOVE:
+    case REMOVE_UPDATE: {
+        bool bCanAdd = true;
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        {
+            if (reinterpret_cast<::FUN_004b0460_class *>((void *)&(const ::NiPointer< ::NiAVObject> &)(reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))->FUN_004b0460((const void **)&(reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))))
+            {
+                if ((OPERATION_AT(Operations, i).eType & 0x30) == ADD)
+                {
+                    reinterpret_cast<void(__cdecl*)(const char*, ...)>(&((void (&)(BGSLoadGameBuffer *))::FUN_0040fbe0))(
+                        "Removing previous operation ADD for Task on Navmesh 0x%08x (srcptr = 0x%08x)", pInfo->id,
+                        m_spSourceNavMesh.ptr);
+                    reinterpret_cast<::FUN_006c8860_Class *>(&(Operations))->RemoveAt(i, true);
+                    --i;
+                }
+                else
+                    bCanAdd = false;
+            }
+        }
+        if (!bCanAdd)
+            return false;
+        break;
+    }
+    case ADD:
+    case ADD_UPDATE: {
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        {
+            if (reinterpret_cast<::FUN_004b0460_class *>((void *)&(const ::NiPointer< ::NiAVObject> &)(reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))->FUN_004b0460((const void **)&(reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))))
+            {
+                if ((OPERATION_AT(Operations, i).eType & 0x30) == ADD)
+                    return false;
+            }
+        }
+        break;
+    }
+    case ADD_DOOR: {
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        {
+            if (reinterpret_cast<::FUN_004b0460_class *>((void *)&(const ::NiPointer< ::NiAVObject> &)(reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))->FUN_004b0460((const void **)&(reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))))
+            {
+                if (OPERATION_AT(Operations, i).eType == ADD_DOOR)
+                    return false;
+            }
+        }
+        break;
+    }
+    case REMOVE_DOOR: {
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        {
+            if (reinterpret_cast<::FUN_004b0460_class *>((void *)&(const ::NiPointer< ::NiAVObject> &)(reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))->FUN_004b0460((const void **)&(reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))))
+            {
+                if (OPERATION_AT(Operations, i).eType == REMOVE_DOOR)
+                    return false;
+            }
+        }
+        break;
+    }
+    default:
+        return false;
+    }
+    NavMeshPtr navMesh;
+    if (pInfo->ResolveNavMesh(navMesh))
+    {
+        reinterpret_cast<::Arr16 *>(&(Operations))->AppendValue((std::intptr_t)&(const ::ObstacleTask &)(ObstacleTask(obstacle, type, navMesh)));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 // Removes the element at index, optionally reallocating a smaller buffer first, then shifts the remaining elements down and decrements size.
 // @fnv 0x006c8860
 void FUN_006c8860_Class::RemoveAt(unsigned int index, bool shrink)
 {
-    if (shrink && FUN_006f3170())
+    if (shrink && reinterpret_cast<::FUN_006f3170_Class *>(this)->FUN_006f3170())
     {
-        unsigned int uiNewCapacity = FUN_00869600();
+        unsigned int uiNewCapacity = reinterpret_cast<::FUN_00869600_Class *>(this)->FUN_00869600();
         Element16* pNewData = Allocate(uiNewCapacity);
-        FUN_006c8bd0(pNewData, data, index);
-        FUN_006c8b90(data + index, 1);
-        FUN_006c8bd0(pNewData + index, data + index + 1, size - 1);
-        FUN_006a8500();
+        reinterpret_cast<::FUN_006c8bd0_Class *>(this)->FUN_006c8bd0((const char *)(pNewData), (const char *)(data), index);
+        reinterpret_cast<::FUN_006c8b90_Class *>(this)->FUN_006c8b90((::S16_6c8d00 *)(::Element16 *)(data + index), 1);
+        reinterpret_cast<::FUN_006c8bd0_Class *>(this)->FUN_006c8bd0((const char *)(::Element16 *)(pNewData + index), (const char *)(const ::Element16 *)(data + index + 1), size - 1);
+        ::FUN_006a8500((::DummyClass_006a8500 *)this);
         data = pNewData;
         capacity = uiNewCapacity;
     }
     else
     {
-        FUN_006c8b90(data + index, 1);
-        FUN_006c8bd0(data + index, data + index + 1, size - index - 1);
+        reinterpret_cast<::FUN_006c8b90_Class *>(this)->FUN_006c8b90((::S16_6c8d00 *)(::Element16 *)(data + index), 1);
+        reinterpret_cast<::FUN_006c8bd0_Class *>(this)->FUN_006c8bd0((const char *)(::Element16 *)(data + index), (const char *)(const ::Element16 *)(data + index + 1), size - index - 1);
     }
     size = size - 1;
 }
@@ -478,19 +485,13 @@ struct ObstacleMeshHandle
 };
 struct ObstacleCellChild
 {
-    void FUN_00469500(ObstacleMeshHandle);
     void FUN_0069bb00(ObstacleMeshHandle);
 };
 struct ObstacleCell
 {
-    ObstacleCellChild* FUN_0070ec90();
 };
 struct ObstacleMesh
 {
-    unsigned int GetFormID();
-    ObstacleCell* GetParentCell();
-    void ForceSetFormID(unsigned int);
-    void FUN_006d3100(NavMeshInfo*);
 };
 struct ObstacleOperation
 {
@@ -500,12 +501,9 @@ struct ObstacleOperation
 };
 struct ObstacleOperationArray
 {
-    unsigned int GetSize();
-    ObstacleOperation* GetAt(unsigned int);
 };
 struct ObstacleInfo
 {
-    void SetField54(ObstacleMesh*);
 };
 struct ObstacleTaskShell
 {
@@ -544,9 +542,9 @@ bool ObstacleTaskShell::FUN_006c85e0()
     bool bFound = false;
     if (!bForce)
     {
-        for (unsigned int i = 0; i < Operations.GetSize(); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); i++)
         {
-            if (Operations.GetAt(i)->m_kResult == 0)
+            if (((::ObstacleOperation *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(Operations))->FUN_00558dd0(i)))->m_kResult == 0)
             {
                 bFound = true;
                 break;
@@ -559,18 +557,18 @@ bool ObstacleTaskShell::FUN_006c85e0()
     }
     if (bFound)
     {
-        unsigned int formID = ((ObstacleMesh*)m_spSourceNavMesh)->GetFormID();
-        ObstacleCell* pCell = ((ObstacleMesh*)m_spSourceNavMesh)->GetParentCell();
+        unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ObstacleMesh*)m_spSourceNavMesh)))->FUN_0084e3a0()));
+        ObstacleCell* pCell = ((::ObstacleCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((ObstacleMesh*)m_spSourceNavMesh)))->GetCurrentMoveModeType()));
         if (pCell)
         {
-            pCell->FUN_0070ec90()->FUN_00469500(m_spWorkingNavMesh);
-            pCell->FUN_0070ec90()->FUN_0069bb00(m_spSourceNavMesh);
+            reinterpret_cast<::NavShell2 *>((((::ObstacleCellChild *)(std::uintptr_t)(::FUN_0070ec90((char *)(pCell))))))->FUN_00469500((*(::NavMeshPtr *)&(const ::ObstacleMeshHandle &)(m_spWorkingNavMesh)));
+            ((::ObstacleCellChild *)(std::uintptr_t)(::FUN_0070ec90((char *)(pCell))))->FUN_0069bb00(m_spSourceNavMesh);
         }
-        ((ObstacleMesh*)m_spSourceNavMesh)->ForceSetFormID(0);
-        ((ObstacleMesh*)m_spSourceNavMesh)->FUN_006d3100(0);
-        ((ObstacleMesh*)m_spWorkingNavMesh)->ForceSetFormID(formID);
-        ((ObstacleMesh*)m_spWorkingNavMesh)->FUN_006d3100((NavMeshInfo*)pInfo);
-        pInfo->SetField54(m_spWorkingNavMesh.Get());
+        reinterpret_cast<::NavMesh *>((((ObstacleMesh*)m_spSourceNavMesh)))->ForceSetFormID(0);
+        reinterpret_cast<::HX *>((((ObstacleMesh*)m_spSourceNavMesh)))->FUN_006d3100((::CombatCoverPointData *)(::NavMeshInfo *)(0));
+        reinterpret_cast<::NavMesh *>((((ObstacleMesh*)m_spWorkingNavMesh)))->ForceSetFormID(formID);
+        reinterpret_cast<::HX *>((((ObstacleMesh*)m_spWorkingNavMesh)))->FUN_006d3100((::CombatCoverPointData *)(::NavMeshInfo *)((NavMeshInfo*)pInfo));
+        reinterpret_cast<::FUN_005a8040_class *>((pInfo))->SetField54((std::intptr_t)(m_spWorkingNavMesh.Get()));
         return true;
     }
     else

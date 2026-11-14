@@ -2,8 +2,20 @@
 // src/fallout_shared/multiboundmarkerdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/multiboundmarkerdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_011f4408_arg1;
 
+#include <new>
+#include "fnv_result_slot.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_00439f90_shell.h"
+#include "fnv/decl/FUN_00a5c240_shell.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/fnv_00569880__FUN_00569880_cls.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
 struct NiRTTI;
 class NiProperty
 {
@@ -14,14 +26,13 @@ class NiProperty
 // @fnv 0x00439280
 const NiRTTI* NiProperty::GetRTTI() const
 {
-    return (const NiRTTI*)&g_011f4408_arg1;
+    return (const NiRTTI*)&(*reinterpret_cast<const char *const *>(&::g_011f4420));
 }
 
 namespace fnv_00439290 {
 struct NiProperty
 {
     ~NiProperty();
-    static void operator delete(void* p, unsigned int size);
     void* DestroyAndFree(unsigned int flags);
 };
 
@@ -31,7 +42,7 @@ void* NiProperty::DestroyAndFree(unsigned int flags)
 {
     this->NiProperty::~NiProperty();
     if (flags & 1)
-        NiProperty::operator delete(this, 24);
+        ::FUN_00aa1460(this, 24);
     return this;
 }
 }  // namespace fnv_00439290
@@ -39,18 +50,18 @@ void* NiProperty::DestroyAndFree(unsigned int flags)
 struct FUN_004392c0_shell
 {
     void FUN_004392c0(void);
+public:
+    void FUN_00439320();
 };
 
-void __fastcall DestroyFogProperty(void*);
 
 // @fnv 0x004392c0
 void FUN_004392c0_shell::FUN_004392c0(void)
 {
-    DestroyFogProperty(this);
+    reinterpret_cast<::FUN_00a5c240_shell *>((this))->DestroyFogProperty();
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4408;
 
 struct FUN_004392e0_shell
 {
@@ -60,11 +71,10 @@ struct FUN_004392e0_shell
 // @fnv 0x004392e0
 GlobalObjectO2_00a7b610* FUN_004392e0_shell::GetGlobalObject()
 {
-    return &g_011f4408;
+    return &::g_011f4408;
 }
 
 extern "C" void __cdecl FUN_00439320();
-extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 struct NiAlphaProperty
 {
@@ -75,15 +85,14 @@ struct NiAlphaProperty
 // @fnv 0x004392f0
 void* NiAlphaProperty::FUN_004392f0(unsigned int flags)
 {
-    this->NiAlphaProperty::FUN_00439320();
+    reinterpret_cast<::FUN_004392c0_shell *>((this))->FUN_00439320();
     if (flags & 1)
-        __Dummy_00b6fef0(this, 0x1c);
+        ::FUN_00aa1460(this, 0x1c);
     return this;
 }
 
 struct Call_439090_tgt
 {
-    bool _Call_439090(void*);
 };
 struct FUN_00439060_shell
 {
@@ -94,7 +103,7 @@ bool FUN_00439060_shell::FUN_00439060(void* arg)
 {
     if (!arg)
         return true;
-    if (((Call_439090_tgt*)this)->_Call_439090(arg))
+    if (reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)this)))->operator==((*(const ::NiPlane *)(arg))))
         return true;
     return false;
 }
@@ -103,15 +112,11 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3();
-    NiPoint3 FUN_00439e90(const NiPoint3& kOther) const;
-    NiPoint3 FUN_00439ef0(const NiPoint3& kOther) const;
-    NiPoint3& FUN_00439180(float fScale);
 };
 
 struct ThreeByThreeMatrix
 {
     float m[3][3];
-    void FUN_00439f50(int iCol, NiPoint3& kCol) const;
 };
 
 struct BoundRef
@@ -243,8 +248,6 @@ struct BoundRef
     virtual void v124();
     virtual const NiPoint3& GetBoundCenter();
 
-    bool FUN_00439f90();
-    const NiPoint3& FUN_00569880();
     ThreeByThreeMatrix FUN_0056fa00();
 };
 
@@ -256,12 +259,11 @@ struct CellRect
     int iBottom;
 };
 
-bool __cdecl FUN_004b1e80(CellRect* pkRect, NiPoint3* pkStart, NiPoint3* pkEnd, NiPoint3* pkIntersect);
 
 // @fnv 0x00439940
 bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGridCoordinateY)
 {
-    if (pRef && pRef->FUN_00439f90())
+    if (pRef && reinterpret_cast<::FUN_00439f90_shell *>((pRef))->FUN_00439f90())
     {
         CellRect kRectWork;
         kRectWork.iLeft = m_iGridPositionX << 12;
@@ -273,24 +275,24 @@ bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGr
         NiPoint3 kXY;
         NiPoint3 kY_;
         NiPoint3 kZ6;
-        NiPoint3 kExtentLoc = pRef->FUN_00569880();
+        NiPoint3 kExtentLoc = (*(const ::NiPoint3 *)(reinterpret_cast<::fnv_00569880::FUN_00569880_cls *>((pRef))->FUN_00569880()));
         NiPoint3 kCenterZ = pRef->GetBoundCenter();
         ThreeByThreeMatrix kRot9 = pRef->FUN_0056fa00();
-        kRot9.FUN_00439f50(0, kXY);
-        kXY.FUN_00439180(kExtentLoc.x);
-        kRot9.FUN_00439f50(1, kY_);
-        kY_.FUN_00439180(kExtentLoc.y);
-        kRot9.FUN_00439f50(2, kZ6);
-        kZ6.FUN_00439180(kExtentLoc.z);
+        reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRot9))->FUN_00439f50(0, (::NiPoint3 *)&(kXY));
+        reinterpret_cast<::MyPoint439180 *>(&(kXY))->FUN_00439180(kExtentLoc.x);
+        reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRot9))->FUN_00439f50(1, (::NiPoint3 *)&(kY_));
+        reinterpret_cast<::MyPoint439180 *>(&(kY_))->FUN_00439180(kExtentLoc.y);
+        reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRot9))->FUN_00439f50(2, (::NiPoint3 *)&(kZ6));
+        reinterpret_cast<::MyPoint439180 *>(&(kZ6))->FUN_00439180(kExtentLoc.z);
 
-        akCornersY[0] = kCenterZ.FUN_00439e90(kXY).FUN_00439e90(kY_).FUN_00439e90(kZ6);
-        akCornersY[1] = kCenterZ.FUN_00439e90(kXY).FUN_00439e90(kY_).FUN_00439ef0(kZ6);
-        akCornersY[2] = kCenterZ.FUN_00439e90(kXY).FUN_00439ef0(kY_).FUN_00439e90(kZ6);
-        akCornersY[3] = kCenterZ.FUN_00439e90(kXY).FUN_00439ef0(kY_).FUN_00439ef0(kZ6);
-        akCornersY[4] = kCenterZ.FUN_00439ef0(kXY).FUN_00439e90(kY_).FUN_00439e90(kZ6);
-        akCornersY[5] = kCenterZ.FUN_00439ef0(kXY).FUN_00439e90(kY_).FUN_00439ef0(kZ6);
-        akCornersY[6] = kCenterZ.FUN_00439ef0(kXY).FUN_00439ef0(kY_).FUN_00439e90(kZ6);
-        akCornersY[7] = kCenterZ.FUN_00439ef0(kXY).FUN_00439ef0(kY_).FUN_00439ef0(kZ6);
+        akCornersY[0] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(kCenterZ))->ProjectileLaunched((::NiPoint3 *)&(kXY), {})))))->ProjectileLaunched((::NiPoint3 *)&(kY_), {})))))->ProjectileLaunched((::NiPoint3 *)&(kZ6), {})));
+        akCornersY[1] = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(kCenterZ))->ProjectileLaunched((::NiPoint3 *)&(kXY), {})))))->ProjectileLaunched((::NiPoint3 *)&(kY_), {})))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kZ6)))));
+        akCornersY[2] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(kCenterZ))->ProjectileLaunched((::NiPoint3 *)&(kXY), {})))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kY_)))))))->ProjectileLaunched((::NiPoint3 *)&(kZ6), {})));
+        akCornersY[3] = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(kCenterZ))->ProjectileLaunched((::NiPoint3 *)&(kXY), {})))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kY_)))))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kZ6)))));
+        akCornersY[4] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterZ))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kXY)))))))->ProjectileLaunched((::NiPoint3 *)&(kY_), {})))))->ProjectileLaunched((::NiPoint3 *)&(kZ6), {})));
+        akCornersY[5] = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterZ))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kXY)))))))->ProjectileLaunched((::NiPoint3 *)&(kY_), {})))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kZ6)))));
+        akCornersY[6] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterZ))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kXY)))))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kY_)))))))->ProjectileLaunched((::NiPoint3 *)&(kZ6), {})));
+        akCornersY[7] = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterZ))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kXY)))))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kY_)))))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kZ6)))));
 
         char aacFaces_2[8][4] = {{0, 1, 2, 4}, {3, 1, 2, 7}, {5, 1, 4, 7}, {6, 2, 4, 7}};
         NiPoint3 kKIntersect;
@@ -300,7 +302,7 @@ bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGr
             for (int j = 1; j < 4; j++)
             {
                 NiPoint3 kEnd = akCornersY[aacFaces_2[i][j]];
-                if (FUN_004b1e80(&kRectWork, &kStart, &kEnd, &kKIntersect))
+                if (::FUN_004b1e80((const ::tagRECT *)(::CellRect *)(&kRectWork), &kStart, &kEnd, &kKIntersect))
                     return true;
             }
         }

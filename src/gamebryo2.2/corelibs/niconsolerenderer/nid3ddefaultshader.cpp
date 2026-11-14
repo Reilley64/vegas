@@ -1,5 +1,27 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3ddefaultshader.cpp: ShaderStandIn, FakeShader, ShaderCls, ShaderPassBuilder and more (10 functions)
 
+#include <cstdint>
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/E7DE90Owner.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/FUN_00e805f0_shell.h"
+#include "fnv/decl/FUN_00e806c0.h"
+#include "fnv/decl/GraphicsRenderer.h"
+#include "fnv/decl/NiD3DPass.h"
+#include "fnv/decl/RenderState.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/fnv_00e7f7f0__DummyStruct.h"
+#include "fnv/decl/fnv_00e88fc0__E88FC0StageSet.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00bc5000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011bf000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3ddefaultshader_decls.h"
 // Initializes the default shader: clears state flags and pointers, sets the vtable, assigns the shader name string, and marks the best implementation.
 // @fnv 0x00e7c6b0
@@ -22,7 +44,7 @@ NiD3DDefaultShader::NiD3DDefaultShader()
     if (pOldNameHandle != shaderName)
     {
         name.m_handle = NiGlobalStringTable::AddString(shaderName);
-        if (pOldNameHandle != EmptyFS.m_handle)
+        if (pOldNameHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_handle)
             InterlockedDecrement((long*)(pOldNameHandle - 8));
     }
     bestImplementation = true;
@@ -30,7 +52,6 @@ NiD3DDefaultShader::NiD3DDefaultShader()
 
 struct ScriptX
 {
-    void GetLocalData();
 };
 
 struct NiD3DShaderInit
@@ -46,31 +67,22 @@ struct FUN_00e7c560_shell : NiD3DShader
 // @fnv 0x00e7c560
 bool FUN_00e7c560_shell::InitializeIfNeeded()
 {
-    if (!*(reinterpret_cast<bool*>(this) + 0x10))
+    if (!this->unk10)
     {
         if (!reinterpret_cast<NiD3DShaderInit*>(this)->Initialize())
             return false;
-        reinterpret_cast<ScriptX*>(this)->GetLocalData();
+        ::FUN_00a29680();
     }
     return true;
 }
 
 struct ShaderStandIn
 {
-    unsigned int CreateShaderPass(void* pkGeometry, void* pkSkin, void* pkRendererData, void* pkState, void* pkEffects,
-                                  void* kWorld, void* kWorldBound);
     unsigned int FUN_00e7cc10(void* pkGeometry, void* pkSkin, void* pkRendererData, void* pkState, void* pkEffects,
                               void* kWorld, void* kWorldBound);
+public:
+    unsigned int FUN_00e81170(void *, void *, void *, void *, void *, void *, void *);
 };
-// Calls the virtual function at vtable slot 59 on this, then forwards all arguments to CreateShaderPass and returns its result.
-// @fnv 0x00e7cc10
-unsigned int ShaderStandIn::FUN_00e7cc10(void* pkGeometry, void* pkSkin, void* pkRendererData, void* pkState,
-                                         void* pkEffects, void* kWorld, void* kWorldBound)
-{
-    ((void(__thiscall*)(ShaderStandIn*))(*(void***)this)[59])(this);
-    return CreateShaderPass(pkGeometry, pkSkin, pkRendererData, pkState, pkEffects, kWorld, kWorldBound);
-}
-
 struct RendererFake
 {
     virtual void f00();
@@ -103,7 +115,6 @@ struct RendererFake
 };
 struct BaseFake
 {
-    unsigned int FUN_00e805f0(void*, void*, void*, void*, void*, void*, void*);
 };
 struct FakeShader
 {
@@ -118,15 +129,12 @@ struct FakeShader
 unsigned int FakeShader::FUN_00e7c580(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
 {
     m_pOwnerShader->Set(0x89, m_uiOld, 0, 0);
-    return ((BaseFake*)this)->FUN_00e805f0(a1, a2, a3, a4, a5, a6, a7);
+    return reinterpret_cast<::FUN_00e805f0_shell *>((((BaseFake*)this)))->FUN_00e805f0(a1, a2, a3, a4, a5, a6, a7);
 }
 
-extern void NiFree(void*);
-extern void _delete(void*, unsigned int);
 
 struct NiD3DShaderX : NiD3DShader
 {
-    void FUN_00e806c0();
 };
 
 struct FUN_00e7c5d0_shell2 : NiD3DShaderX
@@ -139,11 +147,11 @@ void* FUN_00e7c5d0_shell2::DestroyShader(unsigned int auiFlags)
 {
     void* p = *(void**)((char*)this + 0x50);
     *(void**)this = (void*)DAT_010eecac;
-    NiFree(p);
-    ((NiD3DShaderX*)this)->FUN_00e806c0();
+    ::FUN_00aa10f0(p);
+    reinterpret_cast<::FUN_00e806c0 *>((((NiD3DShaderX*)this)))->FUN_00e806c0::~FUN_00e806c0();
     if (auiFlags & 1)
     {
-        _delete(this, 0x5c);
+        ::FUN_00aa1460(this, 0x5c);
     }
     return this;
 }
@@ -181,7 +189,6 @@ struct S_00e7c720_Renderer
 };
 struct S_00e7c720_Mgr
 {
-    void ApplyRenderModes(void* a, void* b, int c);
 };
 struct S_00e7c720_Owner
 {
@@ -780,7 +787,6 @@ struct S_00e7c720_Shader
     int unk44;
     int unk48;
     unsigned int unk4c;
-    unsigned int FUN_00e81170(void*, void*, void*, S_00e7c720_State*, void*, void*, void*);
     unsigned int FUN_00e7c720(void*, void*, void*, S_00e7c720_State*, void*, void*, void*);
 };
 // Calls f02 on unk1c, invokes ApplyRenderModes on unk18->unk8c8 with a5 and a4->unk14, runs FUN_00e81170, stores unk1c->f27(0x89) in unk4c and returns its result.
@@ -789,8 +795,8 @@ unsigned int S_00e7c720_Shader::FUN_00e7c720(void* apArg1, void* apArg2, void* a
                                              void* apArg5, void* apArg6, void* apArg7)
 {
     unk1c->f02(apState);
-    unk18->unk8c8->ApplyRenderModes(apArg5, apState->unk14, 0);
-    unsigned int r = FUN_00e81170(apArg1, apArg2, apArg3, apState, apArg5, apArg6, apArg7);
+    reinterpret_cast<::RenderState *>((unk18->unk8c8))->ApplyRenderModes(apArg5, (::Descriptor *)(apState->unk14), (::RenderModes *)(0));
+    unsigned int r = reinterpret_cast<::ShaderStandIn *>(this)->FUN_00e81170(apArg1, apArg2, apArg3, apState, apArg5, apArg6, apArg7);
     unk4c = unk1c->f27(0x89);
     return r;
 }
@@ -801,19 +807,12 @@ struct ShaderOwner
     void* m_30;
     unsigned int unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60;
     int m_64;
-    void Tail();
 };
 
 struct Sub30Cls
 {
-    void Create(unsigned int size, int a, int b);
 };
 
-extern void* DAT_0126f74c;
-extern unsigned int DAT_011bf558;
-extern unsigned int DAT_011bf55c;
-extern void GetOwner(ShaderOwner** out);
-extern void* MakeSub30();
 
 struct ShaderCls
 {
@@ -834,19 +833,19 @@ void ShaderCls::FUN_00e7c790(int aiUnused1, int aiUnused2, unsigned char a3, uns
 {
     ShaderOwner* p = 0;
     int delta = -1;
-    DAT_0126f74c = 0;
-    GetOwner(&p);
+    (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = 0;
+    ::NiD3DPass::CreateD3DPass((*(::NiPointer< ::NiD3DPass> *)(&p)));
     void*& pSub30 = p->m_30;
-    DAT_0126f74c = p;
+    (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = p;
     if (pSub30 == 0)
     {
-        pSub30 = MakeSub30();
+        pSub30 = ((void *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
     }
-    ((Sub30Cls*)pSub30)->Create(0xa8, 7, 1);
+    reinterpret_cast<::StateGroup *>((((Sub30Cls*)pSub30)))->SetNodeValue(0xa8, 7, 1);
     this->m_3c = a3;
     this->m_3d = a4;
     this->m_44 = DAT_011bf558;
-    this->m_48 = DAT_011bf55c;
+    this->m_48 = (*reinterpret_cast<unsigned int *>(&::DAT_011bf55c));
     if (a3)
     {
         this->m_44 += delta;
@@ -858,7 +857,7 @@ void ShaderCls::FUN_00e7c790(int aiUnused1, int aiUnused2, unsigned char a3, uns
         q->m_64 += delta;
         if (q->m_64 == 0)
         {
-            q->Tail();
+            reinterpret_cast<::NiD3DPass *>((q))->DestroyPass();
         }
     }
 }
@@ -884,31 +883,27 @@ struct ShaderPass
     bool enabled;
     unsigned char unk5F;
     unsigned int references;
-    void SetClamp(unsigned int value);
-    void SetFilter(unsigned int value);
-    void Destroy();
     void Release()
     {
         if (--references == 0)
-            Destroy();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
-    void BindTexture(void* image, unsigned int value)
+    void BindTexture(void* image, uintptr_t value)
     {
         PassRenderState* current = state;
         texture = image;
-        current->Set(11, value, false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((current))->SetStageValue(11, (void *)(value), false);
     }
     __forceinline void Disable()
     {
         PassRenderState* current = state;
         enabled = false;
-        current->Set(24, 0, false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((current))->SetStageValue(24, (void *)(0), false);
     }
 };
 
 struct MaterialPassConfiguration
 {
-    unsigned int GetValue(ShaderPass* pass);
 };
 struct ShaderMaterial
 {
@@ -922,11 +917,7 @@ struct ShaderPassManager
 {
     int unk00, unk04, unk08, unk0C, unk10;
     void* group;
-    bool Prepare(unsigned int count, int material);
-    void Register(void* group, ShaderPass* pass);
 };
-extern ShaderPassManager* DAT_0126f74c;
-void __cdecl AssignStageFromPool(ShaderPass** pass);
 
 struct ShaderPassBuilder
 {
@@ -940,7 +931,6 @@ struct ShaderPassBuilder
     int unk40;
     unsigned int remainingPasses;
     unsigned int remainingTextures;
-    void SetValue(unsigned int value);
     ShaderPass* CreatePass(ShaderMaterial* material, unsigned int value);
 };
 
@@ -948,32 +938,32 @@ struct ShaderPassBuilder
 // @fnv 0x00e7c830
 ShaderPass* ShaderPassBuilder::CreatePass(ShaderMaterial* material, unsigned int value)
 {
-    if (!DAT_0126f74c || !DAT_0126f74c->Prepare(1, material != 0))
+    if (!(*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c)) || !((bool)(reinterpret_cast<::fnv_00e7f7f0::DummyStruct *>(((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))))->FUN_00e7f7f0(1, material != 0))))
         return 0;
     ShaderPass* pass = 0;
-    AssignStageFromPool(&pass);
+    ::AssignStageFromPool((*(::StageReturn * *)(&pass)));
     ShaderPass* result = pass;
     PassRenderState*& state = result->state;
-    state->Set(28, 1, false);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(28, (void *)(1), false);
     if (material && material->texture)
     {
         result->BindTexture(material->texture, value);
-        state->Set(1, 2, false);
-        state->Set(2, 2, false);
-        state->Set(3, 1, false);
-        state->Set(4, 3, false);
-        state->Set(5, 2, false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(1, (void *)(2), false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(2, (void *)(2), false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(3, (void *)(1), false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(4, (void *)(3), false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(5, (void *)(2), false);
         if (resetState)
         {
-            state->Set(6, 0, false);
+            reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(6, (void *)(0), false);
             resetState = false;
         }
         else
         {
-            state->Set(6, 1, false);
+            reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(6, (void *)(1), false);
         }
-        result->SetClamp(reinterpret_cast<unsigned char*>(&material->flags)[1] & 15);
-        result->SetFilter((material->flags >> 12) & 3);
+        reinterpret_cast<::E7DEF0TextureStage *>((result))->FUN_00e7def0(reinterpret_cast<unsigned char*>(&material->flags)[1] & 15);
+        reinterpret_cast<::E7DE90Owner *>((result))->ApplyPairToState((material->flags >> 12) & 3);
         MaterialPassConfiguration* configuration = material->configuration;
         if (!configuration)
         {
@@ -981,31 +971,31 @@ ShaderPass* ShaderPassBuilder::CreatePass(ShaderMaterial* material, unsigned int
         }
         else
         {
-            SetValue(configuration->GetValue(result));
+            ::FUN_00e7c610((float *)(::FUN_00bc5c20((char *)(configuration))), (::S_00e7c610_Object *)(result));
         }
         --remainingTextures;
     }
     else
     {
-        state->Set(1, 2, false);
-        state->Set(2, 0, false);
-        state->Set(3, 1, false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(1, (void *)(2), false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(2, (void *)(0), false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(3, (void *)(1), false);
         if (resetState)
         {
-            state->Set(4, 2, false);
+            reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(4, (void *)(2), false);
             resetState = false;
         }
         else
         {
-            state->Set(4, 3, false);
+            reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(4, (void *)(3), false);
         }
-        state->Set(5, 0, false);
-        state->Set(6, 1, false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(5, (void *)(0), false);
+        reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((state))->SetStageValue(6, (void *)(1), false);
         if (remainingTextures)
             --remainingTextures;
     }
     --remainingPasses;
-    DAT_0126f74c->Register(DAT_0126f74c->group, result);
+    reinterpret_cast<::StageSet *>(((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))))->FUN_00e802b0((unsigned int)(uintptr_t)((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))->group), (::Stage321 *)(result));
     if (pass)
         pass->Release();
     return result;
@@ -1013,11 +1003,9 @@ ShaderPass* ShaderPassBuilder::CreatePass(ShaderMaterial* material, unsigned int
 }  // namespace fnv_00e7c830
 
 namespace fnv_00e7ca20 {
-extern unsigned int DAT_0126f74c;
 
 struct FUN_00e7ca20_setter
 {
-    void SetStageValue(int a, int b, int c);
 };
 
 struct FUN_00e7ca20_holder
@@ -1037,7 +1025,6 @@ struct FUN_00e7ca20_cls
     unsigned int m_44;
     unsigned int m_48;
 
-    FUN_00e7ca20_holder* CreatePass(void* p, unsigned int v);
     void FUN_00e7ca20(void* p);
 };
 
@@ -1045,7 +1032,7 @@ struct FUN_00e7ca20_cls
 // @fnv 0x00e7ca20
 void FUN_00e7ca20_cls::FUN_00e7ca20(void* p)
 {
-    if (DAT_0126f74c != 0)
+    if ((*reinterpret_cast<unsigned int *>(&::DAT_0126f74c)) != 0)
     {
         if (m_3c != 0 && p != 0)
         {
@@ -1056,18 +1043,18 @@ void FUN_00e7ca20_cls::FUN_00e7ca20(void* p)
             {
                 c = (unsigned short)m_40;
             }
-            FUN_00e7ca20_holder* pHolder = CreatePass(p, (unsigned int)c);
+            FUN_00e7ca20_holder* pHolder = ((::fnv_00e7ca20::FUN_00e7ca20_holder *)(reinterpret_cast<::fnv_00e7c830::ShaderPassBuilder *>(this)->CreatePass((::fnv_00e7c830::ShaderMaterial *)(p), (unsigned int)c)));
             if (pHolder != 0)
             {
-                pHolder->m_10->SetStageValue(1, 3, 0);
+                reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pHolder->m_10))->SetStageValue(1, (void *)(3), 0);
                 if (m_3c != 0)
                 {
-                    pHolder->m_10->SetStageValue(4, 4, 0);
-                    pHolder->m_10->SetStageValue(6, 0, 0);
+                    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pHolder->m_10))->SetStageValue(4, (void *)(4), 0);
+                    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pHolder->m_10))->SetStageValue(6, (void *)(0), 0);
                 }
                 else
                 {
-                    pHolder->m_10->SetStageValue(4, 2, 0);
+                    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pHolder->m_10))->SetStageValue(4, (void *)(2), 0);
                 }
             }
         }
@@ -1079,7 +1066,6 @@ void FUN_00e7ca20_cls::FUN_00e7ca20(void* p)
 
 struct StageX
 {
-    void SetStageValue(unsigned int a, unsigned int b, unsigned int c);
 };
 struct PassX
 {
@@ -1140,7 +1126,6 @@ struct DataX
     char unk05;
     char unk06;
     unsigned char m_ucCount;
-    bool FUN_00e8eeb0();
 };
 struct SkinX
 {
@@ -1228,19 +1213,24 @@ struct ShaderX
     int unk38;
     int unk3c;
     unsigned int m_uiMaxBones;
-    void FUN_00e7c790(int a1, int a2, unsigned char a3, unsigned char a4);
-    PassX* CreatePass(MapX* p, unsigned int ui);
-    void FUN_00e7ca20(MapX* p);
     unsigned int CreateShaderPass(GeomX* pkGeometry, void* pkSkin, DataX* pkData, StateX* pkState, void* pkEffects,
                                   void* kWorld, void* kWorldBound);
 };
+// Calls the virtual function at vtable slot 59 on this, then forwards all arguments to CreateShaderPass and returns its result.
+// @fnv 0x00e7cc10
+unsigned int ShaderStandIn::FUN_00e7cc10(void* pkGeometry, void* pkSkin, void* pkRendererData, void* pkState,
+                                         void* pkEffects, void* kWorld, void* kWorldBound)
+{
+    ((void(*)(ShaderStandIn*))(*(void***)this)[59])(this);
+    return reinterpret_cast<::ShaderX *>(this)->CreateShaderPass((::GeomX *)(pkGeometry), pkSkin, (::DataX *)(pkRendererData), (::StateX *)(pkState), pkEffects, kWorld, kWorldBound);
+}
 // @fnv 0x00e7cac0
 unsigned int ShaderX::CreateShaderPass(GeomX* pkGeometry, void* pkSkin, DataX* pkData, StateX* pkState, void* pkEffects,
                                        void* kWorld, void* kWorldBound)
 {
     if (!pkGeometry)
     {
-        if (!pkData || !pkData->FUN_00e8eeb0() || !pkState)
+        if (!pkData || !reinterpret_cast<::GraphicsRenderer *>((pkData))->HasPendingPackets() || !pkState)
             return 0xffffffff;
     }
     else if (!pkData)
@@ -1275,34 +1265,36 @@ unsigned int ShaderX::CreateShaderPass(GeomX* pkGeometry, void* pkSkin, DataX* p
     }
     if (bAlpha || uiNumMaps > 0)
     {
-        FUN_00e7c790(1, 3, 0, 0);
+        reinterpret_cast<::ShaderCls *>(this)->FUN_00e7c790(1, 3, 0, 0);
         PassX* pkPass;
         if (uiNumMaps > 0)
         {
             unsigned short usIdx = pkMap->m_usFlags & 0xff;
             if (usIdx > m_uiMaxBones)
                 usIdx = (unsigned short)m_uiMaxBones;
-            pkPass = CreatePass(pkMap, usIdx);
+            pkPass = ((::PassX *)(reinterpret_cast<::fnv_00e7c830::ShaderPassBuilder *>(this)->CreatePass((::fnv_00e7c830::ShaderMaterial *)(pkMap), usIdx)));
             if (bAlpha)
             {
-                pkPass->m_pkStage->SetStageValue(1, 4, 0);
-                pkPass->m_pkStage->SetStageValue(3, 0, 0);
-                pkPass->m_pkStage->SetStageValue(4, 4, 0);
-                pkPass->m_pkStage->SetStageValue(6, 0, 0);
+                reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkPass->m_pkStage))->SetStageValue(1, (void *)(4), 0);
+                reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkPass->m_pkStage))->SetStageValue(3, (void *)(0), 0);
+                reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkPass->m_pkStage))->SetStageValue(4, (void *)(4), 0);
+                reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkPass->m_pkStage))->SetStageValue(6, (void *)(0), 0);
             }
             else
             {
-                pkPass->m_pkStage->SetStageValue(1, 2, 0);
-                pkPass->m_pkStage->SetStageValue(4, 2, 0);
+                reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkPass->m_pkStage))->SetStageValue(1, (void *)(2), 0);
+                reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkPass->m_pkStage))->SetStageValue(4, (void *)(2), 0);
             }
         }
         else
         {
-            pkPass = CreatePass(0, 0);
-            pkPass->m_pkStage->SetStageValue(1, 2, 0);
-            pkPass->m_pkStage->SetStageValue(4, 2, 0);
+            pkPass = ((::PassX *)(reinterpret_cast<::fnv_00e7c830::ShaderPassBuilder *>(this)->CreatePass((::fnv_00e7c830::ShaderMaterial *)(::MapX *)(0), 0)));
+            reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkPass->m_pkStage))->SetStageValue(1, (void *)(2), 0);
+            reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkPass->m_pkStage))->SetStageValue(4, (void *)(2), 0);
         }
-        FUN_00e7ca20(pkMap);
+        reinterpret_cast<::fnv_00e7ca20::FUN_00e7ca20_cls *>(this)->FUN_00e7ca20(pkMap);
     }
     return 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3ddefaultshader.inc"

@@ -12,7 +12,7 @@ struct NiBinaryStream
         position += read(this, buffer, size, &componentSize, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char reserved[0x24c];

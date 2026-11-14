@@ -2,22 +2,24 @@
 #ifndef NIPSYSMODIFIERFLOATCTLR_DECLS_H
 #define NIPSYSMODIFIERFLOATCTLR_DECLS_H
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
+#include <windows.h>
+#include "fnv/decl/FUN_00a57630.h"
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
 };
-class NiObject
+struct NiRTTI;
+struct NiObject
 {
   public:
     virtual void vfn_0();
     virtual void DeleteThis();
     long refs;
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 class NiFloatData;
-class NiStream
+struct NiStream
 {
   public:
     unsigned char pad[0xd8];
@@ -35,7 +37,6 @@ class NiPSysModifierCtlr
   public:
     unsigned char pad[0x34];
     NiObject* interpolator;
-    void LinkObject(NiStream&);
 };
 class NiPSysModifierFloatCtlr : public NiPSysModifierCtlr
 {

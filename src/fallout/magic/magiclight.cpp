@@ -2,6 +2,19 @@
 // src/fallout/magic/magiclight.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magiclight.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/B5Owner.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0080ed20_shell.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/S_0050de20_Class.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01013000.h"
 struct FUN_0081c470_shell
 {
     char pad0[0x10];
@@ -25,7 +38,6 @@ struct P3
     float y;
     float z;
 
-    void Set(float fX, float fY, float fZ);
 };
 
 struct NiColor : public P3
@@ -35,7 +47,8 @@ struct NiColor : public P3
 
 struct NiPointLight
 {
-    void SetEffectColor(P3 const& rPoint);
+public:
+    void FUN_0050dd20(float);
 };
 
 struct GO
@@ -49,10 +62,8 @@ struct GO
 struct FUN_005e3fc0_shell
 {
     unsigned int Get();
-    void FUN_0050de20(GO* pData, int iFlag);
 };
 
-extern double _DAT_01012060;
 
 struct MagicEffectCollection
 {
@@ -81,7 +92,7 @@ void MagicEffectCollection::UpdateLightFade(float fTimeSinceScaleStart)
 
             ucolor = m_pFadeTarget->Get();
 
-            color.Set(static_cast<float>(static_cast<unsigned char>(ucolor & 0xff)),
+            reinterpret_cast<::FUN_00416870_t *>(&(color))->FUN_00416870(static_cast<float>(static_cast<unsigned char>(ucolor & 0xff)),
                       static_cast<float>(static_cast<unsigned char>((static_cast<unsigned short>(ucolor) >> 8) & 0xff)),
                       static_cast<float>(static_cast<unsigned char>((ucolor >> 16) & 0xff)));
 
@@ -101,12 +112,12 @@ void MagicEffectCollection::UpdateLightFade(float fTimeSinceScaleStart)
                 flightScale = 0.0f;
             }
 
-            color *= flightScale / 255.0;
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiColor &)(color))->FUN_00439180(flightScale / 255.0);
 
-            reinterpret_cast<NiPointLight*>(m_go.operator unsigned int())->SetEffectColor(color);
+            reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((reinterpret_cast<NiPointLight*>(m_go.operator unsigned int())))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(color));
         }
 
-        m_pFadeTarget->FUN_0050de20(&m_go, 0);
+        reinterpret_cast<::S_0050de20_Class *>((m_pFadeTarget))->FUN_0050de20((::S_0050de20_A *)(::GO *)(&m_go), 0);
     }
 }
 
@@ -132,8 +143,7 @@ template <class T> class PathingRef
 class FUN_0081bf80 : public S4ee810
 {
   public:
-    FUN_0081bf80(int a, int b);
-    void Init(int a, int b);
+    FUN_0081bf80(int a, intptr_t b);
 
     int m_iFadeIndex;
     PathingRef<PathingSolution> m_kSolution;
@@ -142,19 +152,6 @@ class FUN_0081bf80 : public S4ee810
     float m_fValue1;
     bool m_bDone;
 };
-
-// Initialises the base with 0, clears the solution reference, sets scale to 1.0, clears the done flag and values, then calls Init(a, b).
-// @fnv 0x0081bf80
-FUN_0081bf80::FUN_0081bf80(int a, int b) : S4ee810(0)
-{
-    m_iFadeIndex = 0;
-    m_kSolution.Reset(0);
-    m_fScale = 1.0f;
-    m_bDone = false;
-    m_fValue0 = 0.0f;
-    m_fValue1 = 0.0f;
-    Init(a, b);
-}
 
 class TESForm
 {
@@ -165,11 +162,8 @@ class TESForm
 class TESObjectLIGH : public TESForm
 {
   public:
-    unsigned int GetColor();
-    float GetRadius();
 };
 
-TESForm* __cdecl MLLookupFormByID(unsigned int auiFormID);
 
 struct MLPoint3
 {
@@ -247,11 +241,8 @@ struct MLPointLight
     int unk0F4;
     int unk0F8;
 
-    static void* __cdecl operator new(unsigned int auiSize);
     MLPointLight();
-    void SetDiffuseColor(const MLPoint3& arColor);
     void SetAttenuation(const MLPoint3& arAttenuation);
-    void SetRadius(float afRadius);
 };
 
 struct MLNode
@@ -324,12 +315,9 @@ template <class T> struct MLPointer
 
 struct MLShadowSceneNode
 {
-    void GetShadowSceneLight(MLPointLight* apLight, bool abDynamic);
 };
 
-MLShadowSceneNode* __cdecl MLGetShadowSceneNode(int aiIndex);
 
-extern float g_fMagicLightAttenuation;
 
 struct MagicLightObject
 {
@@ -340,27 +328,39 @@ struct MagicLightObject
 
     void CreatePointLight(unsigned int auiFormID, MLNode* apNode);
 };
+// Initialises the base with 0, clears the solution reference, sets scale to 1.0, clears the done flag and values, then calls Init(a, b).
+// @fnv 0x0081bf80
+FUN_0081bf80::FUN_0081bf80(int a, intptr_t b) : S4ee810(0)
+{
+    m_iFadeIndex = 0;
+    m_kSolution.Reset(0);
+    m_fScale = 1.0f;
+    m_bDone = false;
+    m_fValue0 = 0.0f;
+    m_fValue1 = 0.0f;
+    reinterpret_cast<::MagicLightObject *>(this)->CreatePointLight(a, (::MLNode *)(b));
+}
 
 // @fnv 0x0081c030
 void MagicLightObject::CreatePointLight(unsigned int auiFormID, MLNode* apNode)
 {
-    TESForm* pForm2 = MLLookupFormByID(auiFormID);
+    TESForm* pForm2 = ::FUN_004839c0(auiFormID);
     pLightForm = dynamic_cast<TESObjectLIGH*>(pForm2);
     if (pLightForm)
     {
         m_pMenuLight = new MLPointLight;
         fFadeAmount = 1.0f;
-        unsigned int uiColor = pLightForm->GetColor();
+        unsigned int uiColor = reinterpret_cast<::FUN_005e3fc0_shell *>((pLightForm))->Get();
         MLPoint3 kDiffuseColor((unsigned char)(uiColor & 0xff), (unsigned char)(((unsigned short)uiColor >> 8) & 0xff),
                                (unsigned char)((uiColor >> 16) & 0xff));
-        kDiffuseColor /= 255.0f;
-        ((MLPointLight*)m_pMenuLight)->SetDiffuseColor(kDiffuseColor);
-        MLPoint3 kAttenuation(g_fMagicLightAttenuation, 0.0f, 0.0f);
+        reinterpret_cast<::FUN_0080ed20_shell *>((void *)&(const ::MLPoint3 &)(kDiffuseColor))->DivideByScalar(255.0f);
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((MLPointLight*)m_pMenuLight)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(kDiffuseColor));
+        MLPoint3 kAttenuation(::DAT_01013d84, 0.0f, 0.0f);
         ((MLPointLight*)m_pMenuLight)->SetAttenuation(kAttenuation);
-        ((MLPointLight*)m_pMenuLight)->SetRadius(pLightForm->GetRadius());
-        MLShadowSceneNode* pShadowNode5 = MLGetShadowSceneNode(0);
+        reinterpret_cast<::NiPointLight *>((((MLPointLight*)m_pMenuLight)))->FUN_0050dd20(::GetFieldB4Float((char *)(pLightForm)));
+        MLShadowSceneNode* pShadowNode5 = ((::MLShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
         if (pShadowNode5)
-            pShadowNode5->GetShadowSceneLight(m_pMenuLight, true);
+            reinterpret_cast<::fnv_00b5c940::SSNode *>((pShadowNode5))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::MLPointLight *)(m_pMenuLight), true);
         m_pController = apNode;
         ((MLNode*)m_pController)->AttachChildInAvailableSlot(m_pMenuLight, true);
     }
@@ -387,12 +387,10 @@ class NiAVObject
         v0DC(), v0E0(), v0E4();
     virtual void VE8(NiNode* pNode);
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
-    void FUN_00b5eed0(NiNode* pNode);
 };
-ShadowSceneNode* FUN_00450b80(int i);
 class FUN_00418f40 : public NiPointer<NiNode>
 {
   public:
@@ -414,9 +412,9 @@ FUN_0081c240::~FUN_0081c240()
     if (m_pReferencedObject)
         m_pReferencedObject->VE8(m_spNode);
     m_pReferencedObject = 0;
-    ShadowSceneNode* pShadow = FUN_00450b80(0);
+    ShadowSceneNode* pShadow = ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
     if (pShadow)
-        pShadow->FUN_00b5eed0(m_spNode);
+        reinterpret_cast<::B5Owner *>((pShadow))->FUN_00b5eed0((std::uintptr_t)(m_spNode.m_pObject));
     m_spNode = 0;
     m_uiValue1 = 0;
 }

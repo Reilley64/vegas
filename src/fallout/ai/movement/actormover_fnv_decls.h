@@ -7,11 +7,9 @@
 #include "../../../../include/BaseProcess.h"
 #include "../../../../include/PlayerCharacter.h"
 #include "NiPoint3.h"
-extern "C" const NiPoint3 NiPoint3_ZERO;
 class NiNode
 {
   public:
-    bool FUN_009dc530();
 };
 template <> class NiPointer<NiNode>
 {
@@ -49,23 +47,23 @@ class ActorMover
     void* request;
     NiPointer<NiNode> m_pActorNode;
     ActorPathHandler* m_pPathHandler;
-    unsigned char padding28[0x10];
+    void* unk28;
+    unsigned int unk2c;
+    unsigned char pad30[0x4];
+    unsigned int unk34;
     unsigned int m_uiMovementFlags, m_uiMovementMode;
     unsigned char middle[0x2c];
     int eState;
     bool bPathingFailed, m_bHasMovementData, m_bMovementComplete, m_bHasLookAtTarget;
     bool m_bMovementActive, m_bMovementStateFlag, m_bMovementPaused, m_bHasPathingDelta;
     void ClearMovementPath();
-    void RefreshMovementState();
     void StopMoving();
     bool HasLookAtTarget();
     bool IsMovementActive();
     void ResetMovementData();
-    unsigned int GetPreferredMoveModeType();
     unsigned int GetActorStateFlags();
     void RunProcedure();
     void UpdateMovement(float);
-    void HandlePathingResult(ActorPathHandler::PATH_HANDLER_RESULT);
     bool GetPathingDelta(NiPoint3&);
     void UpdateMovementStatus(bool);
     bool HasActiveMovement();
@@ -75,6 +73,5 @@ class ActorMover
     void SetMovementMode(bool);
 
   private:
-    void DebugOnStopMoving();
 };
 #endif

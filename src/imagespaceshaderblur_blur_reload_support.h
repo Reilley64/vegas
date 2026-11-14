@@ -5,6 +5,7 @@
 // Declaration facts: public yvileapsis/yUI-NVSE CommonLib shader headers;
 // NiTArray/ImageSpaceEffect layout follows the accepted bloom declarations
 // (decomp/src/bsshader/imagespaceeffectbloom_decls.h).
+#include "fnv/symbols_011f9000.h"
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct D3DXMACRO
 {
@@ -20,13 +21,8 @@ class BSShaderManager
         D3DXMACRO kMacros[9];
     };
 };
-typedef char ShaderMacroSize[(sizeof(BSShaderManager::BSShaderMacro) == 76) ? 1 : -1];
 class NiD3DPass;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 template <class T> class NiTMallocInterface
 {
 };
@@ -45,7 +41,7 @@ template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterfa
 {
 };
 class ImageSpaceTexture;
-class ImageSpaceEffectParam;
+struct ImageSpaceEffectParam;
 class ImageSpaceEffect
 {
   public:
@@ -60,7 +56,6 @@ class ImageSpaceEffect
     NiTPrimitiveArray<ImageSpaceEffectInput*> pEffectInputs;
     NiTPrimitiveArray<int> pEffectOutput;
 };
-typedef char ImageSpaceEffectSizeCheck[sizeof(ImageSpaceEffect) == 88 ? 1 : -1];
 class Setting
 {
   public:
@@ -82,7 +77,6 @@ class INISettingCollection
   public:
     struct Display
     {
-        static Setting bDoTestHDR;
     };
 };
 class BSShader
@@ -174,7 +168,6 @@ class BSShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68
 };
-typedef char BSShaderSizeCheck[sizeof(BSShader) == 108 ? 1 : -1];
 class ImageSpaceEffectShader : public BSShader, public ImageSpaceEffect
 {
   public:
@@ -186,5 +179,4 @@ class ImageSpaceEffectShader : public BSShader, public ImageSpaceEffect
     virtual void SetParameters();
     virtual bool SetupPasses();
 };
-typedef char ImageSpaceShaderSizeCheck[sizeof(ImageSpaceEffectShader) == 196 ? 1 : -1];
 #endif

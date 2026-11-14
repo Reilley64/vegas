@@ -1,18 +1,20 @@
 // bsshader/bsfadenode_decls.h: declares NiMemObject, NiRefObject, NiObject, NiObjectNET, NiProperty and more
 #ifndef FNV_BSFADENODE_DECLS_H
 #define FNV_BSFADENODE_DECLS_H
+#include <cstddef>
 
 
 // Private PC declarations for this translation unit. Opaque storage represents
-// inherited fields that none of these three routines inspect.
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
+// inherited fields that none of its routines inspect.
+#include <windows.h>
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class NiRefObject : public NiMemObject
 {
@@ -26,10 +28,13 @@ class NiRefObject : public NiMemObject
             DeleteThis();
     }
 };
-class NiObject : public NiRefObject
+struct NiRTTI;
+struct NiObject : public NiRefObject
 {
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     unsigned char objectNetData[16];
@@ -74,10 +79,8 @@ template <class T> class NiPointer
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
 };
-extern MemoryManager g_memoryManager;
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);
@@ -87,14 +90,8 @@ class NiFixedString
   public:
     char* m_kHandle;
     NiFixedString(const char* s);
-    static void* operator new(unsigned int n)
-    {
-        return g_memoryManager.Allocate(n);
-    }
-    static void operator delete(void*);
 };
 
-extern NiFixedString EmptyFS;
 
 union SETTING_VALUE
 {
@@ -118,24 +115,36 @@ class INISettingCollection;
 template <class T> class SettingT : public Setting
 {
 };
+class NiExtraData;
+class NiFixedString;
 class NiAVObject : public NiObjectNET
 {
   public:
-    unsigned char avObjectData[0x84];
+    unsigned char avObjectData[0x30 - 0x18];
+    unsigned int m_uiFlags;
+    unsigned char avTransformData[0x8c - 0x34];
+    float m_afWorldTranslate[3];
+    float m_fWorldScale;
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
+struct CloningProcess;
+struct NiUpdateData;
 class NiNode : public NiAVObject
 {
   public:
     unsigned char childrenData[0x10];
+public:
+    void CopyMemberData(::NiNode *, ::CloningProcess &);
+public:
+    void UpdateDownwardPass(::NiUpdateData &, unsigned int);
+public:
+    void UpdateSelectedDownwardPass(::NiUpdateData &, unsigned int);
 };
 class FadingSceneNode;
 class BSMultiBoundRoom;
 class BSPortal;
-template <class T> struct BSSimpleList
-{
-    T m_item;
-    BSSimpleList* m_pkNext;
-};
+#include "fnv/bs_simple_list.h"
 class BSFadeNode : public NiNode
 {
   public:
@@ -155,22 +164,18 @@ class BSFadeNode : public NiNode
     BSFadeNode();
     static NiObject* CreateObject();
     static void InitializeMultiBounds();
-    static SettingT<INISettingCollection> ms_kMinimumFadeDistanceSetting;
     static NiPointer<NiAlphaProperty> ms_pAlphaProperty;
     static NiFixedString* ms_pFadeNodeAnimationName;
     void SetRange(float, float);
 };
-typedef char BSFadeNodeSizeCheck[sizeof(BSFadeNode) == 0xE4 ? 1 : -1];
-typedef char NiAlphaPropertySizeCheck[sizeof(NiAlphaProperty) == 0x1C ? 1 : -1];
 // PC depth texture forwarding declarations. The singleton has no known
 // canonical data name, so its address-based name is kept here.
-class BSRenderedTexture;
-class ImageSpaceManager
+struct BSRenderedTexture;
+struct ImageSpaceManager
 {
   public:
     BSRenderedTexture* GetDepthRenderedTexture();
 };
-extern ImageSpaceManager* DAT_011f91ac;
 class BSShaderManager
 {
   public:

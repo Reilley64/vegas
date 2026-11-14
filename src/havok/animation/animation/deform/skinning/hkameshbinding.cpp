@@ -2,6 +2,8 @@
 // src/havok/animation/animation/deform/skinning/hkameshbinding.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/deform/skinning/hkameshbinding.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkaMeshBinding.h"
 
 struct hkaMemoryManager
@@ -65,7 +67,7 @@ class hkMemoryAllocatorE348
 
 struct hkMemoryRouterE348
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorE348* m_pStreamAllocator;
 
     hkMemoryAllocatorE348& heap()
@@ -74,7 +76,6 @@ struct hkMemoryRouterE348
     }
 };
 
-extern "C" hkMemoryRouterE348& __cdecl FUN_00c85750() throw();
 
 namespace hkE348 {
 class hkBaseObject
@@ -89,7 +90,6 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void FUN_00c905b0() throw();
 };
 
 template <class T> class ReferenceCountedPointer
@@ -98,7 +98,7 @@ template <class T> class ReferenceCountedPointer
     __forceinline ~ReferenceCountedPointer() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     T* m_pRetainedObject;
@@ -119,7 +119,7 @@ template <class T> class hkArray
 
     __forceinline ~hkArray() throw()
     {
-        hkMemoryAllocatorE348& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorE348& kAlloc = (*static_cast<hkMemoryRouterE348*>(::FUN_00c85750())).heap();
         destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)

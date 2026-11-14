@@ -3,6 +3,38 @@
 #define FNV_TESQUESTSTAGE_PRIVATE_DECLS_H
 
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_0060ca30_shell.h"
+#include "fnv/decl/FUN_0060caf0_shell.h"
+#include "fnv/decl/FUN_0060d5e0_shell.h"
+#include "fnv/decl/FUN_0060fd90_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00867c60_shell.h"
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/decl/FUN_009528c0_shell.h"
+#include "fnv/decl/Obj_009529d0.h"
+#include "fnv/decl/Scr.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004ff000.h"
+#include "fnv/symbols_005cb000.h"
+#include "fnv/symbols_011de000.h"
 class TESForm;
 class QuestStage;
 class TESFile;
@@ -18,23 +50,13 @@ class ScriptVariableInfo;
 class ScriptHeaderData;
 class ScriptReferencedObject;
 
-template <class T> class BSSimpleList
-{
-  public:
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    void AddTail(T& item);
-};
+#include "fnv/bs_simple_list.h"
 
 class QuestStage
 {
   public:
     ~QuestStage();
-    unsigned char GetIndex();
     void MarkDone(bool done);
-    bool FUN_0060fd70();
-    bool IsFlag2Set();
-    Script* GetOffsetC();
     unsigned char m_done;
     unsigned char layoutPadding1[11];
     unsigned int m_uiEdgeIndex;
@@ -48,9 +70,6 @@ class QuestStage
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void* data, unsigned int size);
     bool GetChunkData(unsigned int* data);
     bool IsEndianConversionRequired();
     bool NextChunk();
@@ -62,7 +81,6 @@ class RegionDataEntry
   public:
     unsigned int m_ucClipIdentifier;
     unsigned int m_bCompleted;
-    void Endian();
 };
 
 class RegionObjectEntry
@@ -155,19 +173,16 @@ class TESForm
     virtual void vfn_12c();
     virtual const char* GetEditorID();
     TESFile* GetFile(int index);
-    const char* GetDescription();
-    static void RemapFormIDForFile(unsigned int& id, TESFile* file);
-    static TESForm* GetFormByID(unsigned int id);
+public:
+    void NotifySaveLoadGameOfFormChange();
+public:
+    void SetInitializationState(bool);
 };
 
 class TESQuest : public TESForm
 {
   public:
-    BSSimpleList<QuestStage*>* GetStageList();
     QuestStage* GetStage(unsigned char index);
-    bool GetAllowRepeatStages();
-    void MarkCompleted(bool completed);
-    void SetQuestCompleted(bool failed);
 };
 
 class TESObjectREFR
@@ -184,16 +199,11 @@ class PerkEntryConditionSet
 class PlayerCharacter : public TESObjectREFR
 {
   public:
-    bool CompleteQuestObjective(PlayerQuestData* item);
-    TESQuest* FUN_005cbb50();
-    void FUN_009529d0(int value);
-    ScriptContext* FUN_005d43c0(bool first, bool second);
 };
 
 class ScriptContext
 {
   public:
-    void* FUN_00418830();
 };
 
 class PackageList
@@ -208,28 +218,20 @@ class PackageList
 class TESAIForm
 {
   public:
-    PackageList* GetPackageList();
 };
 
 class Script : public TESAIForm
 {
   public:
-    void InitItem(TESForm* form);
-    ScriptHeaderData* GetHeader();
-    BSSimpleList<ScriptVariableInfo*>* GetVariableList();
-    BSSimpleList<ScriptReferencedObject*>* GetReferencedObjectList();
-    void SetScriptData(unsigned int size, char* data);
-    bool Run(TESObjectREFR* subject, void* args);
+public:
+    static bool IsConsolePlatform();
 };
 
 class PlayerQuestData
 {
   public:
-    PerkEntryConditionSet* GetConditions();
     bool Load(TESFile* file);
     void InitItem(TESForm* form, QuestStage* stage);
-    Script* GetOffsetC();
-    void SetNextQuest(TESQuest* quest);
     unsigned char m_type;
     unsigned char layoutPadding1[11];
     Script m_pScript;
@@ -259,7 +261,6 @@ class ScriptVariableInfo
 class ScriptHeaderData
 {
   public:
-    void Endian();
 };
 
 class ScriptReferencedObject
@@ -279,9 +280,9 @@ enum CALENDAR_MONTH
 class Calendar
 {
   public:
-    unsigned int FUN_00867c60();
     CALENDAR_MONTH GetCurrentMonth();
-    signed char GetGameHour();
+public:
+    int GetDayOfMonth();
 };
 
 class Date
@@ -294,16 +295,10 @@ class Date
 class MemoryManager
 {
   public:
-    static void* Allocate(unsigned int size);
 };
 
-extern Calendar g_calendar;
-extern PlayerCharacter* g_thePlayer;
 extern "C" ScriptVariableInfo* DAT_011cb8ec;
 
-int __cdecl Warning();
-unsigned int __cdecl SetWarningState(bool enabled);
-void __cdecl BGSMessageWarningAuxiliary(int value);
 extern "C" const char DAT_0104ae98[];
 extern "C" const char DAT_0104ae54[];
 #endif

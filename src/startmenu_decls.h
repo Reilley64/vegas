@@ -11,7 +11,7 @@ template <class T> class ListBox
     unsigned char data[44];
     bool IsSelected(Tile*);
 };
-class Interface
+struct Interface
 {
   public:
     enum enumMenus
@@ -20,6 +20,4 @@ class Interface
     };
     static bool GetSelectedTargetIndex(enumMenus);
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 #endif

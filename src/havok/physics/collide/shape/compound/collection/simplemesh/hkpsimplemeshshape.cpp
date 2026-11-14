@@ -2,7 +2,17 @@
 // src/havok/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include <new>
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_011b2000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpSimpleMeshShape.h"
+#include "havok/hkpSimpleMeshShapeTriangle.h"
 
 struct FUN_00dfd080Object
 {
@@ -35,20 +45,7 @@ struct FUN_00dfd080Router
 
 FUN_00dfd080Router* _D1A0E0GetMemoryRouter();
 
-FUN_00dfd080Object* FUN_00dfd080Object::FUN_00dfd080(unsigned char flags)
-{
-    this->FUN_00dfcfd0();
-
-    if (flags & 1)
-    {
-        FUN_00dfd080Router* router = _D1A0E0GetMemoryRouter();
-        router->m_manager->deallocate(this, m_iElementCount);
-    }
-
-    return this;
-}
-
-struct FUN_00e3c240_s
+struct FUN_00e3c240_s : public ::hkpSimpleMeshShape
 {
     void FUN_00e3c240(int ai, unsigned short aw);
 };
@@ -56,8 +53,7 @@ struct FUN_00e3c240_s
 // @fnv 0x00e3c240
 void FUN_00e3c240_s::FUN_00e3c240(int aiIndex, unsigned short auValue)
 {
-    int* p = *(int**)((char*)this + 0x24);
-    *(unsigned short*)(p + aiIndex * 4 + 3) = auValue;
+    m_uiTriangleCount.m_data[aiIndex].m_kWeldingInfo = auValue;
 }
 
 struct CpuObject
@@ -87,28 +83,8 @@ void CpuObject::FUN_00e3c260(unsigned char arg0)
     value = arg0;
 }
 
-class hkMemoryAllocatorDFCF
-{
-  public:
-    virtual ~hkMemoryAllocatorDFCF() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void unk08() throw();
-    virtual void unk0C() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterDFCF
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorDFCF* m_pStreamAllocator;
 
-    hkMemoryAllocatorDFCF& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-extern "C" hkMemoryRouterDFCF& __cdecl FUN_00c85750() throw();
 
 template <class T> class hkArrayDFCF
 {
@@ -119,10 +95,10 @@ template <class T> class hkArrayDFCF
 
     ~hkArrayDFCF() throw()
     {
-        hkMemoryAllocatorDFCF& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -145,12 +121,7 @@ class hkReferencedObject : public hkBaseObject
 };
 }
 
-class hkpShapeContainer
-{
-  public:
-    virtual ~hkpShapeContainer() throw()
-    {}
-};
+// Use the shared resource-free native container lifetime.
 
 namespace hkDFCF {
 class ListenerDFCF : public hkReferencedObject
@@ -182,24 +153,26 @@ class FUN_00dfcfd0
     hkArrayDFCF<hkDFCF::Elem16DFCF> m_kSecond;
     hkArrayDFCF<unsigned char> m_kThird;
 };
+FUN_00dfd080Object* FUN_00dfd080Object::FUN_00dfd080(unsigned char flags)
+{
+    reinterpret_cast<::FUN_00dfcfd0 *>((this))->FUN_00dfcfd0::~FUN_00dfcfd0();
+
+    if (flags & 1)
+    {
+        FUN_00dfd080Router* router = _D1A0E0GetMemoryRouter();
+        router->m_manager->deallocate(this, m_iElementCount);
+    }
+
+    return this;
+}
 
 // Empty destructor body for the FUN_00dfcfd0 class; member destructors are invoked implicitly by the compiler.
 // @fnv 0x00dfcfd0
 FUN_00dfcfd0::~FUN_00dfcfd0()
 {}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct hkVector4E3C4
 {
@@ -396,7 +369,6 @@ template <class T> struct hkArrayQ
         return m_iElementCount;
     }
 };
-extern float DAT_011b2e90;
 hkBoolQ __cdecl IsDegenerateTriangle(const hkVector4Q& a, const hkVector4Q& b, const hkVector4Q& c, float tol);
 struct hkGeometryQ
 {
@@ -438,8 +410,6 @@ struct TriE3C
     int a, b, c, d;
 };
 
-int __cdecl FUN_00d06f80(const void* p, int bytes);
-extern char DAT_01269198;
 
 struct StatsCollectorE3C
 {
@@ -456,7 +426,7 @@ struct StatsCollectorE3C
         if ((a.m_iCapacityState & 0x80000000) == 0 || m_collectArrays)
         {
             const T* data = a.m_data;
-            int allocated = FUN_00d06f80(data, a.getCapacity() * (int)sizeof(T));
+            int allocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), a.getCapacity() * (int)sizeof(T));
             AddMemoryChunk(type, name, a.m_data, a.m_iElementCount * (int)sizeof(T), allocated);
         }
     }
@@ -468,7 +438,6 @@ struct MeshShapeE3C
     ArrE3C<Vec4E3C> m_kVertices;
     ArrE3C<TriE3C> m_uiTriangleCount;
     ArrE3C<unsigned char> m_materialIds;
-    void FUN_00d213e0(StatsCollectorE3C* collector, const void* cls) const;
     void FUN_00e3c4e0(StatsCollectorE3C* collector, const void* cls) const;
 };
 
@@ -479,12 +448,12 @@ void MeshShapeE3C::FUN_00e3c4e0(StatsCollectorE3C* collector, const void* cls) c
     collector->addArray("Vertices", 3, m_kVertices);
     collector->addArray("Triangles", 3, m_uiTriangleCount);
     collector->addArray("MaterialIds", 3, m_materialIds);
-    FUN_00d213e0(collector, &DAT_01269198);
+    ::FUN_00d213e0((const char *const *)this, (const char *const *)(collector));
 }
 
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
-struct PrimaryBase
+struct FnvHavok00dfcfc0_PrimaryBase
 {
     virtual void FUN_00dfcfc0();
     int unk04;
@@ -492,19 +461,19 @@ struct PrimaryBase
     int unk0C;
 };
 
-struct SecondaryBase
+struct FnvHavok00dfcfc0_SecondaryBase
 {
     virtual void FUN_00dfcfc0();
 };
 
-struct Derived : PrimaryBase, SecondaryBase
+struct FnvHavok00dfcfc0_Derived : FnvHavok00dfcfc0_PrimaryBase, FnvHavok00dfcfc0_SecondaryBase
 {
-    Derived();
+    FnvHavok00dfcfc0_Derived();
 // @fnv 0x00dfcfc0
     virtual void FUN_00dfcfc0();
 };
 
-Derived::Derived()
+FnvHavok00dfcfc0_Derived::FnvHavok00dfcfc0_Derived()
 {}
 
 // Partial views: only the established virtual operation is declared.
@@ -568,7 +537,6 @@ class hkpSimpleMeshShapeAudit : public hkpShapeCollectionAudit
     unsigned char m_eWeldingType;
     virtual unsigned int FUN_00e3c3b0(unsigned int oldKey) const;
 };
-extern float DAT_011b2e90;
 hkBoolResult __cdecl IsDegenerateTriangle(const MeshVertex&, const MeshVertex&, const MeshVertex&, float);
 // @fnv 0x00e3c3b0
 unsigned int hkpSimpleMeshShapeAudit::FUN_00e3c3b0(unsigned int oldKey) const

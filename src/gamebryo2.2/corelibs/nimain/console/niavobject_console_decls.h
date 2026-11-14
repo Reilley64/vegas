@@ -1,5 +1,5 @@
 // gamebryo2.2/corelibs/nimain/console/niavobject_console_decls.h: declares NiCollisionObject, NiAVObject
-class NiUpdateData;
+struct NiUpdateData;
 class NiCollisionObject
 {
   public:

@@ -2,45 +2,93 @@
 #ifndef ACTOR_PACKET_H
 #define ACTOR_PACKET_H
 
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00453700_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_0049bdc0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/ThisStub.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_004955c0__FUN_004955c0_t.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
 #include "layout_support.h"
+#include "TESForm.h"
 #define FNV_NIPOINT3_H
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3();
     NiPoint3(float, float, float);
     void Set(float, float, float);
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
+public:
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+public:
+    float GetLengthSquared();
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 class ActiveEffect;
 template <class T> class BSSimpleList;
+class BSBound;
+class BSFaceGenNiNode;
+class NiAVObject;
 class MiddleHighProcess
 {
   public:
     char padding[0x1b8];
     BSSimpleList<ActiveEffect*>* pActiveEffects;
     BSSimpleList<ActiveEffect*>* GetActiveEffectList();
+public:
+    ::NiAVObject *GetSceneRoot();
+public:
+    bool IsActorInCombat();
+public:
+    void SetBoundingBox(::BSBound *);
+public:
+    bool IsAnimationPlaying();
+public:
+    bool GetProcessState();
+public:
+    ::BSFaceGenNiNode *GetFaceGenHeadNode();
 };
 class NiCamera
 {
   public:
     const NiPoint3& FUN_0045bb80() const;
+public:
+    float GetMaxFarNearRatio() const;
 };
-extern NiCamera* DAT_011e07d0;
 
 class Actor;
-class Animation;
+struct Animation;
 class NiControllerSequence
 {
   public:
     float FUN_00508100();
-    void FUN_0098adb0(float);
 };
 class NiNode;
+class NiExtraData;
+class NiFixedString;
 class NiAVObject
 {
   public:
     NiNode* GetParent();
+public:
+    int IsVisualObject();
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
+public:
+    void UpdateWorldLoc();
 };
 class ActorPacketView
 {
@@ -279,7 +327,7 @@ class ProcessBuffer
   public:
     float FUN_004d50e0(unsigned int);
 };
-class ActorProcessView
+struct ActorProcessView
 {
   public:
     virtual void vfn_0();
@@ -752,7 +800,10 @@ class ActorProcessView
     virtual void SetTime(int);
     virtual unsigned int GetTime();
 };
-class Animation
+class NiNode;
+class TESObjectREFR;
+template <class> class BSSimpleList;
+struct Animation
 {
   public:
     bool IsGroupQueued(unsigned short);
@@ -762,6 +813,10 @@ class Animation
     NiControllerSequence* GetControllerSequence(int);
     void Update(Actor*, float, float);
     void UpdateMovement(Actor*);
+public:
+    bool Init(::BSSimpleList<const char *> *, ::NiNode *, ::TESObjectREFR *, bool);
+public:
+    void SpecialIdleFree(bool, bool);
 };
 template <> class NiPointer<NiNode>
 {
@@ -770,7 +825,7 @@ template <> class NiPointer<NiNode>
     NiNode* operator->() const;
 };
 class ParentSpaceNode;
-class TESBoundObject
+class TESBoundObject : public TESForm
 {
   public:
     int GetFormType() const;
@@ -778,7 +833,8 @@ class TESBoundObject
 class VATS
 {
   public:
-    float GetUpdateTimeScale();
+public:
+    void FUN_009c8950(bool, bool);
 };
 class TimeGlobal
 {
@@ -795,11 +851,19 @@ class GlobalObject_0044f440
   public:
     char data;
 };
-class GameSettingCollection;
+struct GameSettingCollection;
+struct Animation;
+struct Biped;
 class PlayerCharacter
 {
   public:
     bool HasCombatState();
+public:
+    bool IsSleepingOrResting();
+public:
+    ::Animation *GetAnimation(bool) const;
+public:
+    ::Biped *FUN_00950b00(bool);
 };
 class SettingT_GameSettingCollection_
 {
@@ -807,8 +871,4 @@ class SettingT_GameSettingCollection_
     SETTING_VALUE* Float();
 };
 extern GlobalObject_0045d260 g_011df69c;
-extern GlobalObject_0044f440 g_011f2ac4, g_011f2ad8, g_011f2b10, g_011f2c10;
-extern VATS DAT_011f2250;
-extern TimeGlobal g_timeGlobal;
-extern Actor* DAT_011f21cc;
 #endif

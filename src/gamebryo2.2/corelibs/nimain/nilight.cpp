@@ -1,5 +1,22 @@
 // gamebryo2.2/corelibs/nimain/nilight.cpp: NiLight, Standin (11 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/EffectObject.h"
+#include "fnv/decl/FNVEffect.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a6ff10_StandIn.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a69000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nilight_decls.h"
 
 // Loads the dimmer value and ambient, diffuse and specular colors from the stream after the base NiDynamicEffect data.
@@ -27,17 +44,15 @@ struct FUN_00a72000_shell : public NiLight
     void* FUN_00a72000();
 };
 
-extern const char* const g_011f4a68_arg1;
 
 // @fnv 0x00a72000
 void* FUN_00a72000_shell::FUN_00a72000()
 {
-    return (void*)&g_011f4a68_arg1;
+    return (void*)&(*reinterpret_cast<const char *const *>(&::g_011f4a28));
 }
 
 extern int DAT_0109ce4c;
 struct NiDynamicEffect;
-void __fastcall DestroyDynamicEffect(NiDynamicEffect*);
 struct NiRenderer
 {
     static NiRenderer* ms_pRenderer;
@@ -117,7 +132,7 @@ struct FUN_00a72010_owner
 // @fnv 0x00a72010
 void FUN_00a72010_owner::FUN_00a72010()
 {
-    typedef void(__thiscall * Fn_t)(NiRenderer*, void*);
+    typedef void(* Fn_t)(NiRenderer*, void*);
     *(void**)this = (void*)&DAT_0109ce4c;
     NiRenderer* pkRenderer = NiRenderer::ms_pRenderer;
     if (pkRenderer)
@@ -131,28 +146,24 @@ struct FUN_00a72160_shell : public NiLight
 };
 struct Call_439090_tgt
 {
-    bool __thiscall Call_439090(const NiPoint3&);
 };
 struct FUN_00a68d80_shell
 {
-    bool __thiscall FUN_00a68d80(NiObject*);
 };
 // @fnv 0x00a72160
 bool FUN_00a72160_shell::FUN_00a72160(NiObject* pObject)
 {
-    if (((FUN_00a68d80_shell*)this)->FUN_00a68d80(pObject) &&
-        *(float*)((char*)this + 0xc4) == *(float*)((char*)pObject + 0xc4) &&
-        !((Call_439090_tgt*)((char*)this + 0xc8))->Call_439090(*(const NiPoint3*)((char*)pObject + 0xc8)) &&
-        !((Call_439090_tgt*)((char*)this + 0xd4))->Call_439090(*(const NiPoint3*)((char*)pObject + 0xd4)) &&
-        !((Call_439090_tgt*)((char*)this + 0xe0))->Call_439090(*(const NiPoint3*)((char*)pObject + 0xe0)))
+    if (reinterpret_cast<::FNVEffect *>((((FUN_00a68d80_shell*)this)))->FUN_00a68d80((::FNVEffect *)(pObject)) &&
+        this->m_fDimmer == *(float*)((char*)pObject + 0xc4) &&
+        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&this->m_kAmb.r)))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xc8))) &&
+        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&this->m_kDiff.r)))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xd4))) &&
+        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&this->m_kSpec.r)))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xe0))))
         return true;
     return false;
 }
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
 struct Zx3Effect
@@ -162,11 +173,8 @@ struct Zx3Effect
 
 struct FUN_00a696c0_shell
 {
-    char* GetFormattedString(const char*);
 };
 
-char* __cdecl _FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d550(const char*, float);
 
 struct FUN_00a721e0_shell
 {
@@ -181,16 +189,16 @@ void FUN_00a721e0_shell::AppendEffectProperties(StrArr* pArray)
 
     reinterpret_cast<Zx3Effect*>(this)->FUN_00a69140(pArray);
 
-    pString = _FUN_00a7d330(g_011f4a68_arg1);
+    pString = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4a28)));
     {
         unsigned int nIndex = *(unsigned short*)((unsigned char*)pArray + 0x0a);
         unsigned int nCapacity = *(unsigned short*)((unsigned char*)pArray + 0x08);
         if (nIndex >= nCapacity)
         {
             unsigned int nGrow = *(unsigned short*)((unsigned char*)pArray + 0x0e);
-            pArray->SetSize(nGrow + nIndex);
+            reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(nGrow + nIndex);
         }
-        pArray->SetAt(nIndex, pString);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(nIndex, pString);
     }
 
     pString = FUN_00a7d550("m_fDimmer", *(float*)((unsigned char*)this + 0xc4));
@@ -200,59 +208,55 @@ void FUN_00a721e0_shell::AppendEffectProperties(StrArr* pArray)
         if (nIndex >= nCapacity)
         {
             unsigned int nGrow = *(unsigned short*)((unsigned char*)pArray + 0x0e);
-            pArray->SetSize(nGrow + nIndex);
+            reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(nGrow + nIndex);
         }
-        pArray->SetAt(nIndex, pString);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(nIndex, pString);
     }
 
-    pString = reinterpret_cast<FUN_00a696c0_shell*>(reinterpret_cast<unsigned char*>(this) + 0xc8)
-                  ->GetFormattedString("m_kAmb");
+    pString = reinterpret_cast<::NiColor *>((reinterpret_cast<FUN_00a696c0_shell*>(reinterpret_cast<unsigned char*>(this) + 0xc8)))->GetFormattedString("m_kAmb");
     {
         unsigned int nIndex = *(unsigned short*)((unsigned char*)pArray + 0x0a);
         unsigned int nCapacity = *(unsigned short*)((unsigned char*)pArray + 0x08);
         if (nIndex >= nCapacity)
         {
             unsigned int nGrow = *(unsigned short*)((unsigned char*)pArray + 0x0e);
-            pArray->SetSize(nGrow + nIndex);
+            reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(nGrow + nIndex);
         }
-        pArray->SetAt(nIndex, pString);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(nIndex, pString);
     }
 
-    pString = reinterpret_cast<FUN_00a696c0_shell*>(reinterpret_cast<unsigned char*>(this) + 0xd4)
-                  ->GetFormattedString("m_kDiff");
+    pString = reinterpret_cast<::NiColor *>((reinterpret_cast<FUN_00a696c0_shell*>(reinterpret_cast<unsigned char*>(this) + 0xd4)))->GetFormattedString("m_kDiff");
     {
         unsigned int nIndex = *(unsigned short*)((unsigned char*)pArray + 0x0a);
         unsigned int nCapacity = *(unsigned short*)((unsigned char*)pArray + 0x08);
         if (nIndex >= nCapacity)
         {
             unsigned int nGrow = *(unsigned short*)((unsigned char*)pArray + 0x0e);
-            pArray->SetSize(nGrow + nIndex);
+            reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(nGrow + nIndex);
         }
-        pArray->SetAt(nIndex, pString);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(nIndex, pString);
     }
 
-    pString = reinterpret_cast<FUN_00a696c0_shell*>(reinterpret_cast<unsigned char*>(this) + 0xe0)
-                  ->GetFormattedString("m_kSpec");
+    pString = reinterpret_cast<::NiColor *>((reinterpret_cast<FUN_00a696c0_shell*>(reinterpret_cast<unsigned char*>(this) + 0xe0)))->GetFormattedString("m_kSpec");
     {
         unsigned int nIndex = *(unsigned short*)((unsigned char*)pArray + 0x0a);
         unsigned int nCapacity = *(unsigned short*)((unsigned char*)pArray + 0x08);
         if (nIndex >= nCapacity)
         {
             unsigned int nGrow = *(unsigned short*)((unsigned char*)pArray + 0x0e);
-            pArray->SetSize(nGrow + nIndex);
+            reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(nGrow + nIndex);
         }
-        pArray->SetAt(nIndex, pString);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(nIndex, pString);
     }
 }
 
 extern int DAT_0109ce4c;
 struct FUN_00a69320_base
 {
-    void Init();
 };
 struct FUN_00a71f60_cls : FUN_00a69320_base
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     int unk08;
     int unk0C;
@@ -320,8 +324,8 @@ struct FUN_00a71f60_cls : FUN_00a69320_base
 // @fnv 0x00a71f60
 FUN_00a71f60_cls::FUN_00a71f60_cls()
 {
-    Init();
-    m_vptr00 = (int)&DAT_0109ce4c;
+    new ((void *)this) ::NiDynamicEffect();
+    m_vptr00 = (intptr_t)&DAT_0109ce4c;
     m_c8 = 0.0f;
     m_cc = 0.0f;
     m_d0 = 0.0f;
@@ -350,11 +354,9 @@ struct FUN_00a720f0_shell : public NiLight
 };
 struct FUN_00a68f80_shell : public NiDynamicEffect
 {
-    void SaveToStream(NiStream&);
 };
 struct NiColorSaveHelper
 {
-    void SaveBinary(NiStream&);
 };
 struct NiBinaryStreamWriteShell : public NiBinaryStream
 {
@@ -369,11 +371,11 @@ struct NiBinaryStreamWriteShell : public NiBinaryStream
 // @fnv 0x00a720f0
 void FUN_00a720f0_shell::FUN_00a720f0(NiStream& stream)
 {
-    reinterpret_cast<FUN_00a68f80_shell*>(this)->SaveToStream(stream);
+    reinterpret_cast<::EffectObject *>((reinterpret_cast<FUN_00a68f80_shell*>(this)))->SaveToStream((::NiStream *)&(stream));
     reinterpret_cast<NiBinaryStreamWriteShell*>(stream.m_pBackingStream)->BinaryWrite(&m_fDimmer, 4);
-    reinterpret_cast<NiColorSaveHelper*>(&m_kAmb)->SaveBinary(stream);
-    reinterpret_cast<NiColorSaveHelper*>(&m_kDiff)->SaveBinary(stream);
-    reinterpret_cast<NiColorSaveHelper*>(&m_kSpec)->SaveBinary(stream);
+    reinterpret_cast<::NiColor *>((reinterpret_cast<NiColorSaveHelper*>(&m_kAmb)))->SaveBinary(stream);
+    reinterpret_cast<::NiColor *>((reinterpret_cast<NiColorSaveHelper*>(&m_kDiff)))->SaveBinary(stream);
+    reinterpret_cast<::NiColor *>((reinterpret_cast<NiColorSaveHelper*>(&m_kSpec)))->SaveBinary(stream);
 }
 
 struct FUN_00a71f50_cls : public NiDynamicEffect
@@ -387,16 +389,13 @@ void FUN_00a71f50_cls::FUN_00a71f50(NiStream& stream)
     NiDynamicEffect::LinkObject(stream);
 }
 
-void __cdecl FUN_00a6ff10();
 
 // @fnv 0x00a90010
 void __cdecl FUN_00a90010()
 {
-    FUN_00a6ff10();
+    static_cast<::FUN_00a6ff10_StandIn *>(nullptr)->FUN_00a6ff10(*(::NiStream *)nullptr);
 }
 
-void __fastcall DestroyDynamicEffect(NiDynamicEffect*);
-void __cdecl _delete(void*, unsigned int);
 extern int DAT_0109ce4c;
 
 // Sets the vtable, calls UnkF8 on the renderer when present, destroys the dynamic effect, and optionally frees memory when flag bit 0 is set.
@@ -408,6 +407,8 @@ void* Standin::FUN_00a72040(unsigned int auiFlags)
         NiRenderer::ms_pRenderer->UnkF8(this);
     DestroyDynamicEffect((NiDynamicEffect*)this);
     if (auiFlags & 1)
-        _delete(this, 0xF0);
+        ::FUN_00aa1460(this, 0xF0);
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nilight.inc"

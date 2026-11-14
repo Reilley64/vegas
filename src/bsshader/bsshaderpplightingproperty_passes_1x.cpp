@@ -1,11 +1,17 @@
 // bsshader/bsshaderpplightingproperty_passes_1x.cpp: free functions (1 function)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_011c1000.h"
 #include "bsshaderpplightingproperty_passes_1x_decls.h"
 
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 
-struct NiGeometry
+class NiGeometry
 {
+  public:
     char pad00[0x08];
     const char* m_kName;
     char pad0C[0x0C];
@@ -108,27 +114,29 @@ void* FUN_00bdac00_t::FUN_00bdac00(NiGeometry* apGeom, ShadowSceneLight* apLight
                 if (apGeom->m_pParentNode && apGeom->m_pParentNode->m_kName)
                 {
                     if (apGeom->m_kName)
-                        _sprintf_s(szName, 128, DAT_010bc5f4, apGeom->m_pParentNode->m_kName, apGeom->m_kName);
+                        ::FUN_00406d00(szName, 128, DAT_010bc5f4, apGeom->m_pParentNode->m_kName, apGeom->m_kName);
                     else
-                        _sprintf_s(szName, 128, DAT_010bc5e8, apGeom->m_pParentNode->m_kName);
+                        ::FUN_00406d00(szName, 128, DAT_010bc5e8, apGeom->m_pParentNode->m_kName);
                 }
                 else if (apGeom->m_kName)
                 {
-                    _sprintf_s(szName, 128, DAT_01019f08, apGeom->m_kName);
+                    ::FUN_00406d00(szName, 128, DAT_01019f08, apGeom->m_kName);
                 }
                 else
                 {
-                    _sprintf_s(szName, 128, DAT_010250cc);
+                    ::FUN_00406d00(szName, 128, DAT_010250cc);
                 }
             }
             else
             {
-                _sprintf_s(szName, 128, DAT_010250cc);
+                ::FUN_00406d00(szName, 128, DAT_010250cc);
             }
             char szError[255];
-            _sprintf_s(szError, 255, DAT_010bc580, szName, apGeom);
+            ::FUN_00406d00(szError, 255, DAT_010bc580, szName, apGeom);
         }
     }
     *abFirst = false;
     return 0;
 }
+
+#include "generated/data/bsshader/bsshaderpplightingproperty_passes_1x.inc"

@@ -2,12 +2,122 @@
 #ifndef BIPEDANIM_DECLS_H
 #define BIPEDANIM_DECLS_H
 
-class NiUpdateData;
+#include <cstring>
+#include "fnv/decl/B4AEE60Owner.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSXFlags.h"
+#include "fnv/decl/BipedAnimHelper.h"
+#include "fnv/decl/BipedWeaponRemoval.h"
+#include "fnv/decl/C4AEDE0Queue.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CloneSourceA5d6.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_004303e0_Class.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_0045a5e0_shell.h"
+#include "fnv/decl/FUN_004700d0_class.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_004aaef0_shell.h"
+#include "fnv/decl/FUN_004aaf10_shell.h"
+#include "fnv/decl/FUN_004aaff0_S.h"
+#include "fnv/decl/FUN_004ac110_shell.h"
+#include "fnv/decl/FUN_004ad010_shell.h"
+#include "fnv/decl/FUN_004add70_shell.h"
+#include "fnv/decl/FUN_004adda0_shell.h"
+#include "fnv/decl/FUN_004adde0_shell.h"
+#include "fnv/decl/FUN_004ae6a0_shell.h"
+#include "fnv/decl/FUN_004af860_shell.h"
+#include "fnv/decl/FUN_004af880_shell.h"
+#include "fnv/decl/FUN_004afa20_shell.h"
+#include "fnv/decl/FUN_00504e60_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00572160_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0065a970_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008b0bd0_shell.h"
+#include "fnv/decl/FUN_00950b30_Class.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009cdae0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5be90_shell.h"
+#include "fnv/decl/FaceLoader.h"
+#include "fnv/decl/Fake_FUN_004a2020.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiObjectD510.h"
+#include "fnv/decl/QueueHelper.h"
+#include "fnv/decl/QueueModelHolder.h"
+#include "fnv/decl/TESRegionDataMap.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/W_0043b4f0.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004436c0__FUN_004436c0_Class.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_00567050__FUN_00567050_shell.h"
+#include "fnv/decl/fnv_00571760__Actor.h"
+#include "fnv/decl/fnv_006148f0__FUN_006148f0_shell.h"
+#include "fnv/decl/fnv_006149b0__RaceTexture.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008b0b00__FUN_008b0b00_cls.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_00441000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00491000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004ab000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00572000.h"
+#include "fnv/symbols_00577000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e4000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00657000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c6c000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01199000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+struct NiUpdateData;
 class BSShaderPPLightingProperty;
 class NiTexture;
 class NiSourceTexture;
 class QueuedFile;
-class QueuedHelmet;
+struct QueuedHelmet;
 class TESBipedModelForm;
 class NiNode;
 class NiAVObject;
@@ -30,7 +140,7 @@ class TESRace;
 class TESNPC;
 class ExtraDataList;
 class ExtraDismemberedLimbs;
-class Animation;
+struct Animation;
 class InventoryStackRecord;
 class BaseProcess;
 class BGSBipedModelList;
@@ -57,13 +167,13 @@ enum IO_TASK_PRIORITY
 {
     TASK_DEFAULT = 0
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float entry[3][3];
@@ -71,7 +181,7 @@ class ThreeByThreeMatrix
     void SetYRotation(float);
     ThreeByThreeMatrix operator*(const ThreeByThreeMatrix&) const;
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     void* cloneMap;
@@ -123,7 +233,7 @@ template <class T> struct vector
     T* _Myend;
 };
 }
-template <class T> class FaceGenMatrix
+template <class T> struct FaceGenMatrix
 {
   public:
     oldstd::vector<T> kData;
@@ -135,10 +245,8 @@ typedef FaceGenMatrix<float> FaceGenCoord;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
-class NiObject : public NiMemObject
+struct NiObject : public NiMemObject
 {
   public:
     virtual void vfn_0();
@@ -197,33 +305,21 @@ class NiObject : public NiMemObject
     virtual void vfn_d4();
     virtual void vfn_d8();
     unsigned int refCount;
-    NiObject* Clone();
     NiObject* CloneObject(CloningProcess&);
-    void ResolveObjectPointer(NiPointer<NiObject>&);
 };
 class NiTimeController;
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
-    NiTimeController* GetControllers() const;
+public:
+    void GetNumChildren();
 };
 class NiAVObject : public NiObjectNET
 {
   public:
-    NiNode* GetParent();
-    void FUN_00440460(const NiPoint3&);
-    void FUN_0043fa80(const ThreeByThreeMatrix&);
-    ThreeByThreeMatrix& FUN_006a9540();
-    float GetFloatAt64();
-    void FUN_00440490(float);
-    void UpdateSceneObject();
-    void SetName(const NiFixedString&);
-    void FUN_00450f90(bool);
     NiExtraData* GetExtraData(const NiFixedString&);
-    bool RemoveExtraDataByName(const NiFixedString&);
-    bool AddExtraData(const NiFixedString&, NiExtraData*);
-    const NiFixedString& GetName() const;
 };
+class NiAVObject;
 class NiNode : public NiAVObject
 {
   public:
@@ -233,11 +329,8 @@ class NiNode : public NiAVObject
     virtual void RemoveObject(NiAVObject*);
     unsigned char nodeFields[0xa4];
     NiNode(unsigned short);
-    unsigned int FUN_0043b480();
-    NiAVObject* FUN_0043b4a0(int);
-    void DetachAllChildren();
-    int FUN_00453470();
-    void FUN_004add70();
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class BSFadeNode : public NiNode
 {
@@ -251,8 +344,6 @@ class NiGeometryData : public NiObject
 class NiGeometry : public NiAVObject
 {
   public:
-    NiProperty* GetProperty(int);
-    NiGeometryData* FUN_005495f0();
 };
 class NiTriBasedGeom : public NiGeometry
 {
@@ -260,8 +351,6 @@ class NiTriBasedGeom : public NiGeometry
     virtual void vfn_dc();
     virtual void vfn_e0();
     virtual void ReplaceModelData(NiGeometryData*);
-    void FUN_004adde0(NiSkinInstance*);
-    NiSkinInstance* FUN_0043fad0();
 };
 class TESForm
 {
@@ -344,26 +433,24 @@ class TESForm
     virtual void vfn_12c();
     virtual const char* GetEditorID();
     ENUM_FORM_ID GetFormType() const;
-    unsigned int GetFormID();
 };
 class TESBoundObject : public TESForm
 {
 };
+template <class> struct FaceGenMatrix;
 class TESNPC : public TESBoundObject
 {
   public:
-    TESRace* FUN_004ac110();
     TESRace* GetRace();
     SEX GetSex(bool);
-    void GetFaceGenCoords(FaceGenCoord (&)[4]);
+public:
+    void GetFaceGenCoords(FaceGenMatrix<float> (&)[2][2]);
 };
 class TESObjectWEAP : public TESForm
 {
   public:
     bool GetHideBackpack();
-    bool GetHasScope();
     bool GetHasModScope();
-    TESModel* FUN_00504e60();
 };
 class TESModel
 {
@@ -377,9 +464,6 @@ class TESModel
     virtual void vfn_18();
     virtual TESModelTextureSwap* GetAsModelTextureSwap();
     unsigned char modelFields[20];
-    unsigned int GetModelLength() const;
-    unsigned int FUN_004abf80();
-    bool FUN_004ae8f0();
 };
 class TESModelTextureSwap : public TESModel
 {
@@ -389,7 +473,6 @@ class TESModelTextureSwap : public TESModel
 class InventoryStackRecord
 {
   public:
-    TESBoundObject* FUN_0044ddc0();
     void SetEquipmentState(bool, bool);
     ~InventoryStackRecord();
     TESObjectWEAP* GetObject();
@@ -746,58 +829,40 @@ class TESObjectREFR : public TESForm
     virtual void vfn_214();
     virtual void vfn_218();
     virtual bool IsCreature();
-    static bool ApplyReferenceExtraData(NiNode*);
-    static TESObjectREFR* GetReferenceFromNiAVObject(NiAVObject*);
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
-    NiAVObject* Get3DSimple();
-    void SetExtraDataString(TESObjectWEAP*);
-    const char* GetFullName();
 };
 class Actor : public TESObjectREFR
 {
   public:
-    BaseProcess* GetProcess();
     bool IsAlert();
-    bool FUN_005721e0();
     void SetAimingWeapon(bool, bool, bool);
-    void SetReloadState(bool);
-    void SetLightingNode(NiAVObject*);
     bool IsInIdleState();
-    Animation* GetAnimation();
 };
+struct Animation;
+struct Biped;
 class PlayerCharacter : public Actor
 {
   public:
     bool IsAlert();
     void SetAimingWeapon(bool, bool, bool);
-    NiNode* GetNode(bool);
-    bool IsPlayerBipedAnimation(BipedAnim*);
-    BipedAnim* GetBipedAnimation(bool);
-    Animation* GetAnimation(bool);
+public:
+    ::Animation *GetAnimation(bool) const;
+public:
+    ::Biped *FUN_00950b00(bool);
 };
 class ExtraDismemberedLimbs
 {
   public:
-    bool IsBitSet(int);
 };
-class InventoryChanges;
+struct InventoryChanges;
 class ExtraDataList
 {
   public:
     InventoryChanges* GetContainerChangeData();
     ExtraDismemberedLimbs* GetDismemberedLimbs();
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
-    void CallContainedObject();
-    void FUN_004aaf10();
-    void QueueModelFilePath(const char*, IO_TASK_PRIORITY, QueuedFile*);
-    void ProcessModelRequest(TESModel*, IO_TASK_PRIORITY, QueuedFile*, int, bool, bool, bool);
-    void QueueFile(const char*, IO_TASK_PRIORITY, QueuedFile*, int, bool, bool, bool);
-    void FUN_0045a5e0(const char*);
-    NiNode* LoadFile(const char*, int, bool, bool, bool, bool);
 };
 class TES
 {
@@ -807,32 +872,30 @@ class TES
 class TESSaveLoadGame
 {
   public:
-    bool GetLoading();
 };
 class BSFaceGenModel
 {
   public:
-    bool ApplyFaceGenMorphs(FaceGenCoord (*)[4], NiTriBasedGeom*, bool);
 };
 class TESFullName
 {
   public:
-    const char* GetFullName();
 };
+enum SEX;
 class TESActorBase
 {
   public:
     SEX GetSex() const;
+public:
+    ::SEX GetSex();
 };
 class TESRace : public TESForm
 {
   public:
     bool GetBipedObjectModelPath(TESNPC*, BIPED_OBJECT, char*);
     void BuildBodyTexturePath(TESNPC*, char*);
-    bool BuildBodyModTexturePath(TESNPC*, char*, char*);
     unsigned char raceFields[0x14];
     TESFullName fullName;
-    bool GetSkinTextures(NiPointer<NiTexture>&, NiPointer<NiTexture>&, TESNPC*, BIPED_OBJECT, bool);
     TESModel* GetBipedObjectModel(SEX, BIPED_OBJECT);
 };
 class INISettingCollection;
@@ -875,62 +938,39 @@ class BipedAnim
     void ProcessQueuedHelmet(IO_TASK_PRIORITY, NiPointer<QueuedHelmet>&, QueuedFile*);
     void QueueBipedObjectLoads(unsigned int, IO_TASK_PRIORITY, QueuedFile*);
     void LoadBipedObject(TESNPC*, BIPED_OBJECT, IO_TASK_PRIORITY, QueuedFile*);
-    void RequestModelLoad(IO_TASK_PRIORITY, QueuedFile*, NiPointer<QueuedHelmet>&, BIPED_OBJECT);
     void CompleteModelLoadTask();
     NiNode* GetBoneNode(BIPED_BONE);
     void AttachFaceGenNode();
-    void RemoveBipedWeapon();
     void SetBipedVisibility(bool);
     NiAVObject* PrepareBipedModel(NiNode*, BIPED_OBJECT, bool, bool, BSFaceGenModel*);
     NiAVObject* AttachBipedModel(NiNode*, NiNode*, BIPED_OBJECT, bool, bool, BSFaceGenModel*);
     static void AttachFaceGenNode(NiNode*, NiNode*, NiNode*, BipedAnim*, BIPED_OBJECT, BSFaceGenModel*);
-    void UpdateSkinInstance(NiAVObject*, bool);
     bool IsSlotHidden(BIPED_OBJECT);
-    BSFaceGenModel* GetFaceGenModelForSlot(BIPED_OBJECT);
     void UpdateBipedWeapon(TESObjectWEAP*, unsigned char);
     void ClearBipedObject(BipedAnimObject*, bool, TESForm*);
-    void QueueItem(IO_TASK_PRIORITY, void*, BIPED_OBJECT);
     static bool CanLoadHiddenBipedObjects();
     static void ApplyReferenceExtraData(NiNode*, NiNode*, BIPED_OBJECT, TESObjectREFR*);
     static BSShaderPPLightingProperty* FindLightingShaderProperty(NiAVObject*);
     static BIPED_OBJECT GetBipedObjectFromShaderProperty(NiAVObject*, BSShaderPPLightingProperty*);
     bool IsModelPathMatch(TESModel*, char*);
     TESModel* GetModelForSlot(BIPED_OBJECT, TESModel*);
-    TESModel* FUN_004afa20(BIPED_OBJECT, char*);
-    void RemovePart(BIPED_OBJECT, bool, TESForm*);
     void RemovePartsByParent(TESForm*);
     void SetBipedObject(TESForm*, TESModel*, BIPED_OBJECT);
     void UpdateRaceSex(TESRace*, SEX);
 };
-extern PlayerCharacter* g_thePlayer;
-extern ModelLoader* g_modelLoader;
-extern TES* g_TES;
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-extern bool DAT_011c5cb4;
-extern SettingT<INISettingCollection> DAT_011c5ef0;
 extern int DAT_01188be8[20];
 extern const char* DAT_01188b98[20];
-extern ThreeByThreeMatrix DAT_011a9448;
-bool FUN_0043faf0();
-void FUN_006570e0(TESBoundObject*);
 bool IsObjectProcessable(NiObject*);
-bool UpdateObjectVisibility(NiAVObject*);
-int __cdecl Warning(const char*, ...);
-void AddNodeEntries(int, NiAVObject*);
 class DialogMenuInterfaceCalls
 {
   public:
-    static void SetHUDVisible(bool);
 };
-class Interface
+struct Interface
 {
   public:
     static void SetHUDVisible(bool);
-    static void ClearGunScope();
     static void InitGunScope(TESModel*);
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 template <class T> class NiTNewInterface
 {
 };
@@ -946,12 +986,10 @@ template <class T, class A> class NiTArray
 class TileWorkList
 {
   public:
-    void FUN_004700d0(NiAVObject* const&);
 };
 class NiExtraData
 {
   public:
-    bool FUN_00448a40();
     unsigned char prefix[0x34];
     TileWorkList children;
 };
@@ -966,56 +1004,38 @@ class NiSkinPartition : public NiObject
 class NiSkinInstance : public NiObject
 {
   public:
-    NiSkinData* GetSkinData();
-    NiSkinData* GetData();
-    NiAVObject** GetBones();
     NiSkinPartition* GetSkinPartition();
-    void FUN_004addc0(NiSkinPartition*);
     void SetRootParent(NiNode*);
-    void SetBone(unsigned int, NiAVObject*);
 };
-const NiFixedString& FUN_004ab220();
-NiAVObject* FUN_004ade00(NiNode*, const NiFixedString&);
-void FUN_004add50(char*, const char*, unsigned int);
-int FUN_00404dc0(const char*, const char*);
 extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
 template <class T> unsigned int BSStringLength(const T*);
 
-class InventoryChanges
+struct InventoryChanges
 {
   public:
-    InventoryStackRecord* GetInventoryEntryData(BIPED_OBJECT, bool);
 };
 class SceneObjectLookup
 {
   public:
-    static NiAVObject* GetObjectByName(NiAVObject*, const char*);
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     void RemoveObject(NiAVObject*);
     void AddObject(NiAVObject*);
 };
-ShadowSceneNode* FUN_00450b80(int);
-void FUN_00572220(bool);
-int FUN_00408b20(const char*, const char*);
 class VATS
 {
 };
-extern VATS DAT_011f2250;
 class TESDataHandler
 {
   public:
-    bool FUN_004226e0();
 };
-extern TESDataHandler* g_dataHandler;
 class BGSListForm;
 class BGSBipedModelList
 {
   public:
     static BGSBipedModelList* GetBipedModelList(TESForm*);
-    BGSListForm* GetList();
 };
 
 class NiStringExtraData : public NiExtraData
@@ -1027,10 +1047,8 @@ struct NiRTTI
 {
 };
 class SkyShaderProperty;
-extern NiRTTI DAT_011f4a38, DAT_011f9140, DAT_011f444c;
-SkyShaderProperty* FUN_00653270(const NiRTTI*, NiProperty*);
 const NiFixedString& FUN_004ae780();
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -1044,9 +1062,7 @@ class NiUpdateData
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
-extern TimeGlobal g_timeGlobal;
 class bhkShape
 {
 };
@@ -1054,33 +1070,22 @@ class bhkFilter
 {
   public:
     unsigned int value;
-    int FUN_0043b4d0();
 };
 class bhkWorldObject
 {
   public:
-    bhkShape* FUN_004ae6a0();
-    bhkFilter FUN_0043b4f0();
 };
-class bhkCollisionObject
+struct bhkCollisionObject
 {
   public:
     static bhkCollisionObject* GetFromNiAVObject(NiAVObject*);
-    bhkWorldObject* FUN_006fa820();
 };
-bool HandleUnparentedObjectNode(NiNode*);
-void SetCollisionRefFlag(NiNode*, bool);
-void FUN_00c6a2e0(NiNode*, bool, bool);
-void FUN_00c6a350(NiNode*, int, bool, bool, bool);
 class NiTexture : public NiObject
 {
 };
 class NiSourceTexture : public NiTexture
 {
   public:
-    bool FUN_004af860();
-    void FUN_004af880();
-    const NiFixedString& GetFilename();
 };
 class BSShaderPPLightingProperty
 {
@@ -1150,16 +1155,10 @@ class BSShaderPPLightingProperty
     virtual void vfn_f8();
     virtual void SetTexture(int, NiTexture*);
     virtual void SetNormalTexture(int, NiTexture*);
-    bool FUN_004a2020(int);
     bool GetFlag(int);
     int GetType();
-    void SetFlag(int, bool);
 };
-const char* FUN_00464f30(const char*, bool);
-extern const char* DAT_01199e8c[2];
-void FUN_00b4f5e0(char*, const char*, const char*, bool);
-void FUN_00b55840(const char*, bool, NiPointer<NiTexture>&, bool, bool);
-NiTexture* FUN_004af8a0();
+class TESForm;
 class TESBipedModelForm
 {
   public:
@@ -1168,25 +1167,23 @@ class TESBipedModelForm
     unsigned char m_ucBipedModelData;
     TESModelTextureSwap bipedModel[2];
     TESModelTextureSwap worldModel[2];
-    static TESBipedModelForm* GetFormAsBipedModel(TESForm*);
     bool HasBipedModel(BIPED_OBJECT, bool, BGSBipedModelList*);
     const char* FUN_00480ce0();
+public:
+    static ::TESBipedModelForm *GetFormAsBipedModel(const ::TESForm *);
 };
 extern int DAT_01188b88[3];
 extern const char* DAT_01188c38[5];
 extern TESModel DAT_011c5d10[20];
 extern SettingT<INISettingCollection> DAT_011d5a10, DAT_011d5a44;
-bool FUN_004910d0(NiNode*);
-unsigned int FUN_004af350();
 int FUN_004af340();
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
+public:
+    void QueueActorDisarm(bool);
 };
-char* FUN_0040ab30(char*, int);
-int strcat_s(char*, unsigned int, const char*);
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 class FileFinder
 {
   public:
@@ -1199,11 +1196,9 @@ class FileFinder
 class ActorTaskManager
 {
   public:
-    void QueryPerformanceCounter(int);
     void WaitForTasksDuringRendering();
 };
 extern ActorTaskManager DAT_011c5cf0;
-const NiFixedString& FUN_00448a80();
 void FUN_00577e20(NiNode*);
 struct BipedSkinNameMatch
 {
@@ -1225,6 +1220,8 @@ class TESTopic;
 template <class T> class BSSimpleList
 {
   public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     BSSimpleList<T>* GetNext();
 };
 class TESTopicInfoData
@@ -1235,18 +1232,19 @@ class TESTopicInfoData
 class NiTimeController
 {
   public:
-    int FUN_00441110();
 };
+class NiTexture;
+template <class> class NiPointer;
 class BSShaderManager
 {
   public:
     static void BuildTexturePath(char*, const char*, const char*, bool);
+public:
+    static void GetTexture(const char *, bool, ::NiPointer< ::NiTexture> &, bool, bool);
 };
-extern "C" const char kMeshesFolder[];
-class Animation
+struct Animation
 {
   public:
-    static bool RemoveKeyframeControllers(NiAVObject*);
 };
 struct BipedWeaponEntry
 {
@@ -1311,10 +1309,12 @@ struct BipedGeometryChild
 class TESQuest;
 class TESHairRaceResult;
 class BGSPerkEntry;
+class TESQuest;
 class BGSQuestObjective
 {
   public:
-    void SetOwnerQuest(TESQuest*);
+public:
+    void SetOwner(::TESQuest *);
 };
 class LowProcess
 {
@@ -1324,7 +1324,6 @@ class LowProcess
 class TESHairCanBeNPCData
 {
   public:
-    TESHairRaceResult* FUN_004ac110();
 };
 class TESSpellList
 {
@@ -1347,9 +1346,11 @@ struct BipedSkinTextureTarget
 class GlobalObject_0045cf30
 {
 };
-extern GlobalObject_0045cf30 g_011d5a10, g_011d5a44;
-class GlobalObject_0044fae0
+extern GlobalObject_0045cf30 g_011d5a10;
+struct GlobalObject_0044fae0
 {
+public:
+    void FUN_004538a0(int);
 };
 extern GlobalObject_0044fae0 g_011c5cf0;
 // The canonical initializer name denotes the same 16-byte child array.

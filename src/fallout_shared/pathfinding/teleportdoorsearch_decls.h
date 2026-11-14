@@ -1,5 +1,11 @@
 // fallout_shared/pathfinding/teleportdoorsearch_decls.h: declares NiPoint3, PathingLocation, PointerPairData, TESWorldSpace, TESObjectCELL and more
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00586400_shell.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_0054db50__FUN_0054db50_cls.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 class TopicInfoArray;
 class TESBoundObject;
 class SandboxProcedureData;
@@ -9,25 +15,30 @@ class TESObjectREFR;
 class PathingActorData;
 class ParentSpaceNode;
 class TeleportLink;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
-    float Length() const;
+public:
+    float ComputeMagnitude() const;
 };
-class PathingLocation
+class TESObjectCELL;
+struct PathingLocation
 {
   public:
     char data[40];
-    NiPoint3 FUN_005c3420() const;
+public:
+    ::PathingLocation &operator=(const ::PathingLocation &);
+public:
+    ::TESObjectCELL *GetContainingCell();
 };
 struct PointerPairData
 {
     void* a;
     void* b;
 };
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     char data[16];
@@ -38,28 +49,23 @@ template <class T, int N> class BSSimpleArray
 class TESWorldSpace
 {
   public:
-    PointerPairData* GetWorldSpaceData();
     void FUN_00588270(BSSimpleArray<TESObjectREFR*, 1024>&);
 };
 class TESObjectCELL
 {
   public:
-    void AppendCellReferences(BSSimpleArray<TESObjectREFR*, 1024>&);
 };
-class ExtraRadioData
+struct ExtraRadioData
 {
   public:
-    TESObjectCELL* FUN_0043a2b0();
 };
 class ExtraLock
 {
   public:
-    int FUN_0043a320();
 };
 class QuestDialogueInfo
 {
   public:
-    TopicInfoArray* GetInfoArray();
 };
 class TESObjectDOOR
 {
@@ -70,7 +76,8 @@ class TESForm
 {
   public:
     virtual void vfn_0();
-    bool GetDisabled();
+public:
+    bool GetDisabled() const;
 };
 class TESObjectREFR : public TESForm
 {
@@ -201,7 +208,6 @@ class TESObjectREFR : public TESForm
     virtual void vfn_1f0();
     virtual NiPoint3* GetPos();
     ExtraRadioData* GetExtraRadioData();
-    TESBoundObject* GetObjectReference();
 };
 class NiFormArray
 {
@@ -249,5 +255,4 @@ class TeleportDoorSearch
     bool HasReachedGoal(const AStarNode<ParentSpaceNode, TeleportLink>*);
     bool CollectConnections(const AStarNode<ParentSpaceNode, TeleportLink>*,
                             BSSimpleArray<AStarNode<ParentSpaceNode, TeleportLink>*, 1024>*);
-    int InsertOrUpdateNode(void*, float, AStarNode<ParentSpaceNode, TeleportLink>*&);
 };

@@ -1,17 +1,25 @@
 #ifndef FNV_BHKRIGIDBODY_WORKER_H
 #define FNV_BHKRIGIDBODY_WORKER_H
 
+#include "fnv/decl/CA8830Object.h"
+#include "fnv/decl/FUN_005d3d10_This.h"
+#include "fnv/decl/FUN_00c87a50_t.h"
+#include "fnv/decl/FUN_00ca8800_Class.h"
+#include "fnv/decl/FUN_00ca8860_cls.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_01268000.h"
 #include "bhkrigidbody_types_NiRTTI.h"
 #include "bhkrigidbody_types_bhkRigidBody.h"
 
 #include "bhkrigidbody_worker_decls.h"
-extern NiRTTI DAT_012681c0;
 
 #pragma optimize("", off)
 // @fnv 0x0056d530
 const NiRTTI* bhkRigidBody::GetRTTI()
 {
-    return &DAT_012681c0;
+    return &(*reinterpret_cast<::NiRTTI *>(&::g_012681c0));
 }
 
 // @fnv 0x0056d540
@@ -29,9 +37,9 @@ void bhkRigidBody::SetPosition(const NiPoint3& p)
         hkpRigidBody* body = (hkpRigidBody*)m_pHavokObject;
         if (body)
         {
-            ((void(__thiscall*)(bhkRigidBody*))NiD3DDefaultShader::SetShaderName)(this);
-            body->SetWorldPosition(p);
-            ((void(__thiscall*)(bhkRigidBody*))NiD3DDefaultShader::SetShaderName)(this);
+            ((void(*)(bhkRigidBody*))((void (&)(const char *))::FUN_00a29680))(this);
+            reinterpret_cast<::FUN_00ca8800_Class *>((body))->FUN_00ca8800(&(p));
+            ((void(*)(bhkRigidBody*))((void (&)(const char *))::FUN_00a29680))(this);
         }
     }
 }
@@ -43,9 +51,9 @@ void bhkRigidBody::SetRotation(const NiQuaternion& p)
         hkpRigidBody* body = (hkpRigidBody*)m_pHavokObject;
         if (body)
         {
-            ((void(__thiscall*)(bhkRigidBody*))NiD3DDefaultShader::SetShaderName)(this);
-            body->SetBodyOrientation(p);
-            ((void(__thiscall*)(bhkRigidBody*))NiD3DDefaultShader::SetShaderName)(this);
+            ((void(*)(bhkRigidBody*))((void (&)(const char *))::FUN_00a29680))(this);
+            reinterpret_cast<::CA8830Object *>((body))->FUN_00ca8830(&(p));
+            ((void(*)(bhkRigidBody*))((void (&)(const char *))::FUN_00a29680))(this);
         }
     }
 }
@@ -54,8 +62,8 @@ void bhkRigidBody::SetRotation(const NiQuaternion& p)
 // @fnv 0x0062ab20
 float bhkRigidBody::GetBodyMass()
 {
-    hkpMotion* motion = FUN_005d3d10();
-    return motion ? motion->GetMassValue() : FUN_004b5400();
+    hkpMotion* motion = ((::hkpMotion *)(reinterpret_cast<::FUN_005d3d10_This *>(this)->FUN_005d3d10()));
+    return motion ? reinterpret_cast<::MotionMassView *>((motion))->FUN_00c86430() : ::FUN_004b5400((void *)this);
 }
 #pragma optimize("", on)
 __forceinline const __m128& bhkRigidBody::PositionVector()
@@ -100,8 +108,8 @@ void bhkRigidBody::FUN_00c8d1d0(const NiPoint3& p, const NiQuaternion& q)
         hkpRigidBody* body = (hkpRigidBody*)m_pHavokObject;
         if (body)
         {
-            FUN_00c87a50();
-            body->SetPositionAndRotation(p, q);
+            reinterpret_cast<::FUN_00c87a50_t *>(this)->FUN_00c87a50();
+            reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860((intptr_t)&(p), (intptr_t)&(q));
         }
     }
 }

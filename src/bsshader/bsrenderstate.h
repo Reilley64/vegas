@@ -1,10 +1,11 @@
 
+#include "fnv/symbols_00b6b000.h"
 #include "bsrenderstate_packet_decls.h"
 // @fnv 0x00b6b790
 void BSRenderedTexture::EndAllAndResetRendererState()
 {
     NiRenderer* renderer = NiRenderer::ms_pRenderer;
-    EndAll();
+    ::fnv_00b6b6c0::ClearAndUnlockRenderer();
     if (renderer->state == 2 && renderer->vfn_180())
         renderer->state = 0;
 }

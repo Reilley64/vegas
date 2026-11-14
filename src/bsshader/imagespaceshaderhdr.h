@@ -2,6 +2,8 @@
 #define IMAGESPACESHADERHDR_H
 
 
+#include <cstring>
+#include "fnv/decl/FUN_00a41520_cls.h"
 #include "imagespaceshaderhdr_support.h"
 
 // @fnv 0x00b90720
@@ -10,7 +12,7 @@ void ImageSpaceShaderHDRVariantFive::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -21,7 +23,7 @@ void ImageSpaceShaderHDRVariantFive::SetupShader()
         shader.kMacros[0].name = "BRIGHTFILTER";
         shader.kMacros[0].definition = 0;
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRBRIGHTT";
     }
@@ -32,7 +34,7 @@ void ImageSpaceShaderHDRVariantFive::SetupShader()
         shader.kMacros[0].name = "BRIGHTFILTER";
         shader.kMacros[0].definition = 0;
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRBRIGHT";
     }
@@ -47,7 +49,7 @@ void ImageSpaceShaderHDRVariantSix::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -58,7 +60,7 @@ void ImageSpaceShaderHDRVariantSix::SetupShader()
         shader.kMacros[0].name = "TEXTAP";
         shader.kMacros[0].definition = "16";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRDOWN16T";
     }
@@ -69,7 +71,7 @@ void ImageSpaceShaderHDRVariantSix::SetupShader()
         shader.kMacros[0].name = "TEXTAP";
         shader.kMacros[0].definition = "16";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRDOWN16";
     }
@@ -84,7 +86,7 @@ void ImageSpaceShaderHDRVariantFour::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -95,7 +97,7 @@ void ImageSpaceShaderHDRVariantFour::SetupShader()
         shader.kMacros[0].name = "TEXTAP";
         shader.kMacros[0].definition = "15";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRBLURT";
     }
@@ -106,7 +108,7 @@ void ImageSpaceShaderHDRVariantFour::SetupShader()
         shader.kMacros[0].name = "TEXTAP";
         shader.kMacros[0].definition = "15";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRBLUR";
     }
@@ -121,7 +123,7 @@ void HDRBaseImageSpaceShaderVariant4::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -132,7 +134,7 @@ void HDRBaseImageSpaceShaderVariant4::SetupShader()
         shader.kMacros[0].name = "TEXTAP";
         shader.kMacros[0].definition = "9";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRDOWN9T";
     }
@@ -143,7 +145,7 @@ void HDRBaseImageSpaceShaderVariant4::SetupShader()
         shader.kMacros[0].name = "TEXTAP";
         shader.kMacros[0].definition = "9";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRDOWN9";
     }
@@ -158,7 +160,7 @@ void HDRBaseImageSpaceShaderVariant1::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -169,7 +171,7 @@ void HDRBaseImageSpaceShaderVariant1::SetupShader()
         shader.kMacros[0].name = "TEXTAP";
         shader.kMacros[0].definition = "4";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRDOWN4T";
     }
@@ -180,7 +182,7 @@ void HDRBaseImageSpaceShaderVariant1::SetupShader()
         shader.kMacros[0].name = "TEXTAP";
         shader.kMacros[0].definition = "4";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRDOWN4";
     }
@@ -195,7 +197,7 @@ void HDRBaseImageSpaceShaderVariant5::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -206,7 +208,7 @@ void HDRBaseImageSpaceShaderVariant5::SetupShader()
         shader.kMacros[0].name = "ADAPT";
         shader.kMacros[0].definition = "";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRADAPTT";
     }
@@ -217,7 +219,7 @@ void HDRBaseImageSpaceShaderVariant5::SetupShader()
         shader.kMacros[0].name = "ADAPT";
         shader.kMacros[0].definition = "";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRADAPT";
     }
@@ -232,7 +234,7 @@ void HDRBaseImageSpaceShaderVariant6::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -243,7 +245,7 @@ void HDRBaseImageSpaceShaderVariant6::SetupShader()
         shader.kMacros[0].name = "LUMCLAMP";
         shader.kMacros[0].definition = "";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRLUMCLAMPT";
     }
@@ -254,7 +256,7 @@ void HDRBaseImageSpaceShaderVariant6::SetupShader()
         shader.kMacros[0].name = "LUMCLAMP";
         shader.kMacros[0].definition = "";
         shader.kMacros[1].name = 0;
-        fnv_zlib_memset(&shader.kMacros[1].definition, 0, 0x3c);
+        std::memset(&shader.kMacros[1].definition, 0, 0x3c);
         pixelShader = shader;
         shaderName = "HDRLUMCLAMP";
     }
@@ -269,7 +271,7 @@ void HDRBaseImageSpaceShaderVariant2::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -282,7 +284,7 @@ void HDRBaseImageSpaceShaderVariant2::SetupShader()
         shader.kMacros[1].name = "DOWNADAPT";
         shader.kMacros[1].definition = "";
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRDS4ADAPTT";
     }
@@ -295,7 +297,7 @@ void HDRBaseImageSpaceShaderVariant2::SetupShader()
         shader.kMacros[1].name = "DOWNADAPT";
         shader.kMacros[1].definition = "";
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRDS4ADAPT";
     }
@@ -310,7 +312,7 @@ void HDRBaseImageSpaceShaderVariant3::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -323,7 +325,7 @@ void HDRBaseImageSpaceShaderVariant3::SetupShader()
         shader.kMacros[1].name = "LUMCLAMP";
         shader.kMacros[1].definition = "";
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRDS4LUMCLAMPT";
     }
@@ -336,7 +338,7 @@ void HDRBaseImageSpaceShaderVariant3::SetupShader()
         shader.kMacros[1].name = "LUMCLAMP";
         shader.kMacros[1].definition = "";
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRDS4LUMCLAMP";
     }
@@ -351,7 +353,7 @@ void ImageSpaceShaderHDRVariantSeven::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -364,7 +366,7 @@ void ImageSpaceShaderHDRVariantSeven::SetupShader()
         shader.kMacros[1].name = "DOWNADAPT";
         shader.kMacros[1].definition = "";
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRDS16ADAPTT";
     }
@@ -377,7 +379,7 @@ void ImageSpaceShaderHDRVariantSeven::SetupShader()
         shader.kMacros[1].name = "DOWNADAPT";
         shader.kMacros[1].definition = "";
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRDS16ADAPT";
     }
@@ -392,7 +394,7 @@ void ImageSpaceShaderHDRVariantEight::SetupShader()
     ImageSpaceShaderHDRMacro vertexShader;
     vertexShader.pcPath = "imagespace\\2x\\v\\HDRbase.v.hlsl";
     vertexShader.kMacros[0].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].definition, 0, 0x44);
+    std::memset(&vertexShader.kMacros[0].definition, 0, 0x44);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -405,7 +407,7 @@ void ImageSpaceShaderHDRVariantEight::SetupShader()
         shader.kMacros[1].name = "LUMCLAMP";
         shader.kMacros[1].definition = "";
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRDS16LUMCLAMPT";
     }
@@ -418,7 +420,7 @@ void ImageSpaceShaderHDRVariantEight::SetupShader()
         shader.kMacros[1].name = "LUMCLAMP";
         shader.kMacros[1].definition = "";
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRDS16LUMCLAMP";
     }
@@ -435,7 +437,7 @@ void ImageSpaceShaderHDRVariantOne::SetupShader()
     vertexShader.kMacros[0].name = "TEX2";
     vertexShader.kMacros[0].definition = 0;
     vertexShader.kMacros[1].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[1].definition, 0, 0x3c);
+    std::memset(&vertexShader.kMacros[1].definition, 0, 0x3c);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -448,7 +450,7 @@ void ImageSpaceShaderHDRVariantOne::SetupShader()
         shader.kMacros[1].name = "TONEMAP";
         shader.kMacros[1].definition = 0;
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRBLENDINSHADERT";
     }
@@ -461,7 +463,7 @@ void ImageSpaceShaderHDRVariantOne::SetupShader()
         shader.kMacros[1].name = "TONEMAP";
         shader.kMacros[1].definition = 0;
         shader.kMacros[2].name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].definition, 0, 0x34);
+        std::memset(&shader.kMacros[2].definition, 0, 0x34);
         pixelShader = shader;
         shaderName = "HDRBLENDINSHADER";
     }
@@ -478,7 +480,7 @@ void ImageSpaceShaderHDRVariantTwo::SetupShader()
     vertexShader.kMacros[0].name = "TEX2";
     vertexShader.kMacros[0].definition = 0;
     vertexShader.kMacros[1].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[1].definition, 0, 0x3c);
+    std::memset(&vertexShader.kMacros[1].definition, 0, 0x3c);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -493,7 +495,7 @@ void ImageSpaceShaderHDRVariantTwo::SetupShader()
         shader.kMacros[2].name = "TONEMAP";
         shader.kMacros[2].definition = 0;
         shader.kMacros[3].name = 0;
-        fnv_zlib_memset(&shader.kMacros[3].definition, 0, 0x2c);
+        std::memset(&shader.kMacros[3].definition, 0, 0x2c);
         pixelShader = shader;
         shaderName = "HDRBLENDINSHADERCINT";
     }
@@ -508,7 +510,7 @@ void ImageSpaceShaderHDRVariantTwo::SetupShader()
         shader.kMacros[2].name = "TONEMAP";
         shader.kMacros[2].definition = 0;
         shader.kMacros[3].name = 0;
-        fnv_zlib_memset(&shader.kMacros[3].definition, 0, 0x2c);
+        std::memset(&shader.kMacros[3].definition, 0, 0x2c);
         pixelShader = shader;
         shaderName = "HDRBLENDINSHADERCIN";
     }
@@ -525,7 +527,7 @@ void ImageSpaceShaderHDRVariantThree::SetupShader()
     vertexShader.kMacros[0].name = "TEX2";
     vertexShader.kMacros[0].definition = 0;
     vertexShader.kMacros[1].name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[1].definition, 0, 0x3c);
+    std::memset(&vertexShader.kMacros[1].definition, 0, 0x3c);
 
     ImageSpaceShaderHDRMacro pixelShader;
     const char* shaderName;
@@ -540,7 +542,7 @@ void ImageSpaceShaderHDRVariantThree::SetupShader()
         shader.kMacros[2].name = "TONEMAP";
         shader.kMacros[2].definition = 0;
         shader.kMacros[3].name = 0;
-        fnv_zlib_memset(&shader.kMacros[3].definition, 0, 0x2c);
+        std::memset(&shader.kMacros[3].definition, 0, 0x2c);
         pixelShader = shader;
         shaderName = "HDRBLENDINSHADERCINT";
     }
@@ -569,79 +571,79 @@ void ImageSpaceShaderHDRVariantThree::SetupShader()
 // @fnv 0x00b90190
 ImageSpaceShaderHDRVariantTwo::ImageSpaceShaderHDRVariantTwo()
 {
-    textures.SetSize(4);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(4);
 }
 
 // @fnv 0x00b90330
 ImageSpaceShaderHDRVariantThree::ImageSpaceShaderHDRVariantThree()
 {
-    textures.SetSize(4);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(4);
 }
 
 // @fnv 0x00b90520
 ImageSpaceShaderHDRVariantFour::ImageSpaceShaderHDRVariantFour()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b906b0
 ImageSpaceShaderHDRVariantFive::ImageSpaceShaderHDRVariantFive()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b90830
 ImageSpaceShaderHDRVariantSix::ImageSpaceShaderHDRVariantSix()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b909c0
 HDRBaseImageSpaceShaderVariant4::HDRBaseImageSpaceShaderVariant4()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b90b50
 HDRBaseImageSpaceShaderVariant1::HDRBaseImageSpaceShaderVariant1()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b91000
 HDRBaseImageSpaceShaderVariant2::HDRBaseImageSpaceShaderVariant2()
 {
-    textures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(3);
 }
 
 // @fnv 0x00b911a0
 HDRBaseImageSpaceShaderVariant3::HDRBaseImageSpaceShaderVariant3()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b91340
 ImageSpaceShaderHDRVariantSeven::ImageSpaceShaderHDRVariantSeven()
 {
-    textures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(3);
 }
 
 // @fnv 0x00b914e0
 ImageSpaceShaderHDRVariantEight::ImageSpaceShaderHDRVariantEight()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b90ce0
 HDRBaseImageSpaceShaderVariant5::HDRBaseImageSpaceShaderVariant5()
 {
-    textures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(3);
 }
 
 // @fnv 0x00b90e70
 HDRBaseImageSpaceShaderVariant6::HDRBaseImageSpaceShaderVariant6()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 #endif

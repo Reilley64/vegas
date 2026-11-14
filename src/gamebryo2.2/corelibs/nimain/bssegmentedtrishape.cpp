@@ -2,22 +2,44 @@
 // src/gamebryo2.2/corelibs/nimain/bssegmentedtrishape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/bssegmentedtrishape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f5b40;
 
 // @fnv 0x00a86fe0
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a744a0.h"
+#include "fnv/decl/FUN_00a745c0_This.h"
+#include "fnv/decl/FUN_00a74600_shell.h"
+#include "fnv/decl/FUN_00a89760_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a74690__FUN_00a74690_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a71000.h"
+#include "fnv/symbols_00a74000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a98000.h"
+#include "fnv/symbols_0109e000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011de000.h"
 void* __cdecl FUN_00a86fe0()
 {
-    return &g_011f5b40;
+    return &(*reinterpret_cast<void * *>(&::g_011f5b40));
 }
 
 void __cdecl FinalizeEntries();
-void __cdecl FUN_00a745c0();
 
 // @fnv 0x00a87120
 void __cdecl FUN_00a87120()
 {
     FinalizeEntries();
-    FUN_00a745c0();
+    static_cast<::FUN_00a745c0_This *>(nullptr)->FUN_00a745c0({});
 }
 
 struct FUN_00a86ff0_shell
@@ -27,7 +49,7 @@ struct FUN_00a86ff0_shell
 
 // Sets the byte at offset 8 of the 20-byte entry at index to whether its dword at offset 4 is nonzero, then sets the flag at 0xcc.
 // @fnv 0x00a86ff0
-void __thiscall FUN_00a86ff0_shell::SetEntryActive(unsigned int index)
+void FUN_00a86ff0_shell::SetEntryActive(unsigned int index)
 {
     unsigned char* p = (unsigned char*)this;
     void* arr = *(void**)(p + 0xc4);
@@ -37,29 +59,25 @@ void __thiscall FUN_00a86ff0_shell::SetEntryActive(unsigned int index)
     *(p + 0xcc) = 1;
 }
 
-void __fastcall FUN_00a89760(void*);
 void __cdecl _delete(void*, unsigned int);
-extern "C" void* g_memoryManager;
-extern "C" void* DAT_0109e834;
 
 struct MemoryManager
 {
-    void __thiscall DeallocateAlias(void* old);
 };
 
 struct FUN_00a87290_shell
 {
-    void* __thiscall FUN_00a87290(unsigned int flags);
+    void* FUN_00a87290(unsigned int flags);
 };
 
 // Sets the vtable, deallocates the pointer at offset 0xc4, calls FUN_00a89760 on this, and frees the object with _delete when flags has bit 0 set.
 // @fnv 0x00a87290
-void* __thiscall FUN_00a87290_shell::FUN_00a87290(unsigned int flags)
+void* FUN_00a87290_shell::FUN_00a87290(unsigned int flags)
 {
     void* old = *(void**)((char*)this + 0xc4);
-    *(void**)this = &DAT_0109e834;
-    ((MemoryManager*)&g_memoryManager)->DeallocateAlias(old);
-    FUN_00a89760(this);
+    *(void**)this = &::DAT_0109e834;
+    reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<void * *>(&::g_memoryManager)))))->FUN_00aa4060(old);
+    reinterpret_cast<::FUN_00a89760_cls *>((this))->FUN_00a89760_cls::~FUN_00a89760_cls();
     if (flags & 1)
         _delete(this, 0xd0);
     return this;
@@ -75,7 +93,7 @@ struct Entry
 };
 struct Target
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -137,13 +155,12 @@ void Target::DisableEntry(unsigned int index)
 }
 
 void __cdecl FinalizeEntries();
-void __cdecl FUN_00a74600();
 // Calls FinalizeEntries then FUN_00a74600 in sequence.
 // @fnv 0x00a87130
 void __cdecl FUN_00a87130()
 {
     FinalizeEntries();
-    FUN_00a74600();
+    static_cast<::FUN_00a74600_shell *>(nullptr)->FUN_00a74600({});
 }
 
 struct InputState
@@ -250,11 +267,8 @@ void FUN_00a872d0_shell::ResetRecordSelection()
 
 struct DynamicMemoryAllocator
 {
-    void* FUN_00aa3e40(unsigned int auiSize);
-    void Free(void* apPtr);
 };
 
-extern "C" DynamicMemoryAllocator DAT_011f6238;
 
 struct EntryPod70
 {
@@ -264,29 +278,20 @@ struct EntryPod70
     int unk0c;
     int unk10;
 
-    static void* operator new[](unsigned int aSize)
-    {
-        return DAT_011f6238.FUN_00aa3e40(aSize);
-    }
-    static void operator delete[](void* apBlock)
-    {
-        DAT_011f6238.Free(apBlock);
-    }
 };
 
 struct FUN_00a871a0_cls : Target
 {
-    void FUN_00a744c0(Target* apDst, unsigned int aFlag);
     void CopyEntries(Target* apDst, unsigned int aFlag);
 };
 // Calls FUN_00a744c0, frees apDst->entries, then copies unkC8 and active and deep-copies the entries array into apDst, or clears it when entries is null.
 // @fnv 0x00a871a0
 void FUN_00a871a0_cls::CopyEntries(Target* apDst, unsigned int aFlag)
 {
-    FUN_00a744c0(apDst, aFlag);
+    ::FUN_00a744c0();
     if (apDst->entries != 0)
     {
-        DAT_011f6238.Free(apDst->entries);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(apDst->entries);
     }
     if (entries != 0)
     {
@@ -303,18 +308,15 @@ void FUN_00a871a0_cls::CopyEntries(Target* apDst, unsigned int aFlag)
     }
 }
 
-extern "C" void* DAT_0109e834;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a744a0_shell
 {
-    void FUN_00a744a0();
 };
 
 struct FUN_00a871a0_shell
 {
-    void CopyEntries(void* a, unsigned int b);
 };
 
 struct FUN_00a87340_cls
@@ -329,8 +331,8 @@ Target* FUN_00a87340_cls::CreateTarget(unsigned int volatile flags)
     Target* obj = reinterpret_cast<Target*>(FUN_00aa13e0(0xd0));
     if (obj != 0)
     {
-        reinterpret_cast<FUN_00a744a0_shell*>(obj)->FUN_00a744a0();
-        obj->unk00 = (int)&DAT_0109e834;
+        new ((void *)(reinterpret_cast<FUN_00a744a0_shell*>(obj))) ::FUN_00a744a0();
+        obj->unk00 = (intptr_t)&::DAT_0109e834;
         obj->entries = 0;
         obj->unkC8 = 0;
         obj->active = 0;
@@ -339,7 +341,7 @@ Target* FUN_00a87340_cls::CreateTarget(unsigned int volatile flags)
     {
         obj = 0;
     }
-    reinterpret_cast<FUN_00a871a0_shell*>(self)->CopyEntries(obj, flags);
+    reinterpret_cast<::FUN_00a871a0_cls *>((reinterpret_cast<FUN_00a871a0_shell*>(self)))->CopyEntries((::Target *)(obj), flags);
     return obj;
 }
 
@@ -503,16 +505,9 @@ struct S_a873b0_Stream
 };
 struct S_a873b0_Alloc
 {
-    void* FUN_00aa3e40(unsigned int n);
-    void FUN_00aa4060(void* p);
 };
-extern S_a873b0_Alloc DAT_011f6238;
 struct S_a873b0_E : Entry
 {
-    static void* operator new[](unsigned int n)
-    {
-        return DAT_011f6238.FUN_00aa3e40(n);
-    }
 };
 static __forceinline void S_a873b0_BinRead(S_a873b0_Bin* bin, void* v, unsigned int bytes)
 {
@@ -570,7 +565,6 @@ struct S_a873b0_Base
     int unkb8;
     int unkbc;
     int unkc0;
-    void FUN_00a98ea0(S_a873b0_Stream* s);
 };
 struct S_a873b0_T : S_a873b0_Base
 {
@@ -584,9 +578,9 @@ struct S_a873b0_T : S_a873b0_Base
 // @fnv 0x00a873b0
 void S_a873b0_T::ReadFromStream(S_a873b0_Stream* pStream)
 {
-    FUN_00a98ea0(pStream);
+    ::FUN_00a98ea0();
     if (entries)
-        DAT_011f6238.FUN_00aa4060(entries);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a873b0::S_a873b0_Alloc *>(&::g_memoryManager))))->FUN_00aa4060(entries);
     S_a873b0_BinRead(pStream->istr, &count, 4);
     entries = new S_a873b0_E[count];
     for (unsigned int i = 0; i < count; i++)
@@ -620,7 +614,6 @@ struct StreamFor87520
     unsigned int unk08;
     StreamIoFn io;
 };
-void __stdcall FUN_00a71d10(void* owner);
 struct FUN_00a87520_shell : Target
 {
     void ReadEntries(void* owner);
@@ -629,7 +622,7 @@ struct FUN_00a87520_shell : Target
 // @fnv 0x00a87520
 void FUN_00a87520_shell::ReadEntries(void* owner)
 {
-    FUN_00a71d10(owner);
+    reinterpret_cast<::FUN_00a71d10_shell *>(this)->FUN_00a71d10(*(::NiStream *)owner);
     StreamFor87520* stream = *(StreamFor87520**)((char*)owner + 0x250);
     {
         unsigned int countBytes = 4;
@@ -792,16 +785,14 @@ struct ItemList
     unsigned short count;
     unsigned short unk0c;
     unsigned short growBy;
-    void FUN_0096ad30(unsigned int newCapacity);
 
-    void FUN_0096ae90(unsigned int index, void** item);
     inline unsigned int SetAtGrow(unsigned int index, void* item)
     {
         if (index >= this->capacity)
         {
-            this->FUN_0096ad30(index + this->growBy);
+            reinterpret_cast<::ViewerStrings *>((this))->SetSize(index + this->growBy);
         }
-        this->FUN_0096ae90(index, &item);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((this))->SetAt(index, (*(char * *)(&item)));
         return index;
     }
     inline unsigned int Add(void* item)
@@ -814,9 +805,6 @@ extern "C" const char DAT_0109e928[];
 extern "C" const char DAT_0109e938[];
 extern "C" const char DAT_0109e94c[];
 extern "C" const char DAT_0109e95c[];
-extern "C" void* g_011f5b40;
-void* __cdecl FUN_00a7d330(void* value);
-void* __cdecl FUN_00a7d510(const char* fmt, unsigned int value);
 
 struct S00a87620_Obj
 {
@@ -872,16 +860,15 @@ struct S00a87620_Obj
     Entry* entries;
     unsigned int count;
     unsigned char active;
-    void FUN_00a74690(ItemList* list);
     void AddToItemList(ItemList* list);
 };
 
 // @fnv 0x00a87620
 void S00a87620_Obj::AddToItemList(ItemList* apItemList)
 {
-    this->FUN_00a74690(apItemList);
-    apItemList->Add(FUN_00a7d330(g_011f5b40));
-    apItemList->Add(FUN_00a7d510(DAT_0109e95c, this->count));
+    reinterpret_cast<::fnv_00a74690::FUN_00a74690_shell *>((this))->FUN_00a74690((::fnv_00a74690::StrArr *)(apItemList));
+    apItemList->Add(((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f5b40)))))));
+    apItemList->Add(((void *)(::FUN_00a7d510(DAT_0109e95c, this->count))));
 
     if (this->entries != 0)
     {
@@ -892,12 +879,12 @@ void S00a87620_Obj::AddToItemList(ItemList* apItemList)
             {
                 if (this->entries[i].enabled)
                 {
-                    void* item = FUN_00a7d510(DAT_0109e94c, i);
+                    void* item = ((void *)(::FUN_00a7d510(DAT_0109e94c, i)));
                     apItemList->Add(item);
                 }
                 else
                 {
-                    void* item = FUN_00a7d510(DAT_0109e938, i);
+                    void* item = ((void *)(::FUN_00a7d510(DAT_0109e938, i)));
                     apItemList->Add(item);
                 }
             }
@@ -906,6 +893,42 @@ void S00a87620_Obj::AddToItemList(ItemList* apItemList)
                 nullCount++;
             }
         }
-        apItemList->Add(FUN_00a7d510(DAT_0109e928, nullCount));
+        apItemList->Add(((void *)(::FUN_00a7d510(DAT_0109e928, nullCount))));
     }
 }
+
+void* __cdecl FUN_00a86fe0();
+void __cdecl FUN_00a87120();
+
+struct PointerSource
+{
+};
+
+struct ScreenSize
+{
+};
+
+struct HitRect
+{
+    int unk00;
+    int extent;
+    short left;
+    short top;
+    bool FUN_006fede0();
+};
+
+// @fnv 0x006fede0
+bool HitRect::FUN_006fede0()
+{
+    intptr_t y;
+    int x;
+    x = ((int)(reinterpret_cast<::ActorMover *>(((*reinterpret_cast<::PointerSource * *>(&::g_TES))))->GetCurrentMoveModeType())) - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >> 1);
+    y = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::PointerSource * *>(&::g_TES))))->FUN_0045cd60())) - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >> 1);
+    if (x + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >= left && x <= left + extent && y + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >= top &&
+        y <= top + extent)
+    {
+        return true;
+    }
+    return false;
+}
+#include "generated/data/gamebryo2.2/corelibs/nimain/bssegmentedtrishape.inc"

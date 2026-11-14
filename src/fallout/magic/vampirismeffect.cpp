@@ -2,6 +2,7 @@
 // src/fallout/magic/vampirismeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/vampirismeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ActiveEffect805670.h"
 class Actor
 {
   public:
@@ -35,11 +36,11 @@ void ActiveEffect::InitLoadGame(Actor* apActor)
 // @fnv 0x0082d110
 void VampirismEffect::FUN_0082d110(Actor* apActor)
 {
-    ActiveEffect::InitLoadGame(apActor);
+    reinterpret_cast<::ActiveEffect805670 *>(this)->FUN_00805670(apActor);
     Character* pcharacter = dynamic_cast<Character*>(apActor);
 }
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     SpawnedObject(int aA, int aB, int aC);

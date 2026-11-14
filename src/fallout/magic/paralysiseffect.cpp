@@ -2,9 +2,24 @@
 // src/fallout/magic/paralysiseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/paralysiseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0082ba60.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/FUN_00934250_shell.h"
+#include "fnv/decl/LoadedValueEffect.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/symbols_00c8f000.h"
 struct ValueModifierEffect
 {
-    void ApplyEffect();
+public:
+    void Update(float);
 };
 
 struct ParalysisEffect : ValueModifierEffect
@@ -15,11 +30,11 @@ struct ParalysisEffect : ValueModifierEffect
 // @fnv 0x008264b0
 void ParalysisEffect::FUN_008264b0()
 {
-    ValueModifierEffect::ApplyEffect();
+    reinterpret_cast<::Cls *>(this)->ApplyEffect();
 }
 
 namespace fnv_00826550 {
-struct Actor;
+class Actor;
 
 struct BaseEffect
 {
@@ -34,7 +49,7 @@ struct ParalysisEffect : BaseEffect
 // @fnv 0x00826550
 void ParalysisEffect::FUN_00826550(Actor* apActor)
 {
-    BaseEffect::FUN_0082cd10(apActor);
+    reinterpret_cast<::LoadedValueEffect *>(this)->FUN_0082cd10((::Actor *)(apActor));
 }
 }  // namespace fnv_00826550
 
@@ -51,7 +66,7 @@ struct FUN_008262e0_Holder
 // @fnv 0x008262e0
 void* FUN_008262e0_Holder::FUN_008262e0(void* apArg1, void* apArg2, void* apArg3)
 {
-    ((ValueModifierEffect_CallHelper*)this)->ValueModifierEffect(apArg1, apArg2, apArg3);
+    new ((void *)(((ValueModifierEffect_CallHelper*)this))) ::FUN_0082ba60((::MagicCaster *)(apArg1), (::MagicItem *)(apArg2), (::EffectItem *)(apArg3));
     *(void**)this = (void*)&DAT_0107bfbc;
     return this;
 }
@@ -202,14 +217,10 @@ struct ParalysisActor
 
 struct ParalysisMagicTarget
 {
-    ParalysisActor* GetActor();
 };
 
 struct ParalysisValueModifierEffect
 {
-    void Update(float afElapsed);
-    ParalysisMagicTarget* GetTarget();
-    void Dispel(bool abForce);
 };
 
 struct ParalysisEffectStandIn : ParalysisValueModifierEffect
@@ -221,10 +232,10 @@ struct ParalysisEffectStandIn : ParalysisValueModifierEffect
 // @fnv 0x00826430
 void ParalysisEffectStandIn::UpdateParalysisEffect(float afElapsed)
 {
-    ParalysisValueModifierEffect::Update(afElapsed);
-    ParalysisActor* pActor = GetTarget() ? GetTarget()->GetActor() : 0;
+    reinterpret_cast<::ValueModifierEffect *>(this)->Update(afElapsed);
+    ParalysisActor* pActor = ((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ParalysisActor *)(reinterpret_cast<::MagicTarget *>((((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (pActor && pActor->IsParalysisImmune(false))
-        Dispel(true);
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
 }
 
 struct ParalysisEffectFactoryObject
@@ -463,18 +474,14 @@ struct ParalysisEffectSubject
     virtual void vfunc22C();
     virtual void vfunc230();
     virtual bool IsSubjectActive();
-    void FUN_00934250();
 };
 
 struct ParalysisSourceHolder
 {
-    ParalysisEffectSubject* FUN_00822b40();
 };
 
 struct FUN_008263c0_cls
 {
-    ParalysisSourceHolder* FUN_0059bb30();
-    void FUN_0082c000();
     void FUN_008263c0();
 };
 
@@ -484,15 +491,15 @@ void FUN_008263c0_cls::FUN_008263c0()
 {
     bool active;
     {
-        ParalysisEffectSubject* subject = (this->FUN_0059bb30() != 0) ? this->FUN_0059bb30()->FUN_00822b40() : 0;
+        ParalysisEffectSubject* subject = (((::ParalysisSourceHolder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0) ? ((::ParalysisEffectSubject *)(reinterpret_cast<::MagicTarget *>((((::ParalysisSourceHolder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
         if (subject == 0)
         {
         }
         else
         {
-            subject->FUN_00934250();
+            reinterpret_cast<::FUN_00934250_shell *>((subject))->FUN_00934250();
             active = subject->IsSubjectActive();
-            this->FUN_0082c000();
+            reinterpret_cast<::FUN_0082c000_shell *>((this))->FUN_0082c000();
         }
     }
 }
@@ -501,14 +508,11 @@ class NiAVObject;
 class TESObjectREFR
 {
   public:
-    NiAVObject* Get3DSimple();
 };
 
-void __cdecl ApplyHavokOperation(NiAVObject*, int, int);
 
 struct ParalysisRevertEffect : ParalysisEffect
 {
-    void FUN_004534f0(TESObjectREFR* actor);
     void FUN_00826570(TESObjectREFR* actor);
 };
 
@@ -517,8 +521,8 @@ struct ParalysisRevertEffect : ParalysisEffect
 void ParalysisRevertEffect::FUN_00826570(TESObjectREFR* actor)
 {
     NiAVObject* object;
-    FUN_004534f0(actor);
-    object = actor->Get3DSimple();
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)(actor));
+    object = ((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((actor))->FUN_0043fcd0()));
     if (object)
-        ApplyHavokOperation(object, 0, 1);
+        ::ApplyHavokOperation((::HavokObject *)(object), 0, (void *)(1));
 }

@@ -2,6 +2,17 @@
 // src/havok/physics/dynamics/phantom/hkpshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91120.h"
+#include "fnv/decl/FUN_00c91140_Class.h"
+#include "fnv/decl/FUN_00d07bd0_cls.h"
+#include "fnv/decl/WorldWithPending.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpAabbPhantomD07.h"
+#include "fnv/decl/hkpPhantomD07E.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_01011000.h"
 #include "havok/hkpShapePhantom.h"
 
 struct FUN_00c9ea00__VirtualObject
@@ -60,14 +71,13 @@ struct CpuObject
 // @fnv 0x00c9e810
 char* CpuObject::FUN_00c9e810()
 {
-    return reinterpret_cast<char*>(this) + 176;
+    return reinterpret_cast<char*>(&reinterpret_cast<hkpShapePhantom*>(this)->m_kMotionState);
 }
 
-void FreeListenerArrays();
 // @fnv 0x00c9e820
 void FUN_00c9e820()
 {
-    FreeListenerArrays();
+    static_cast<::hkpPhantomD07E *>(nullptr)->FreeListenerArrays();
 }
 
 template <class T> class hkArrayD4CE
@@ -153,7 +163,6 @@ class FUN_00d4ce10 : public FUN_00c9ea40
     virtual ~FUN_00d4ce10() throw();
 };
 
-typedef char fnv_check_d4ce10[(sizeof(FUN_00d4ce10) == 0x170) ? 1 : -1];
 
 // Constructs the object from a shape and transform, clears the bool flag, and stores the collision filter info in the collidable.
 // @fnv 0x00d4ce10
@@ -169,7 +178,7 @@ struct S00c9e830_Operation
 {
     unsigned char type;
     void* object;
-    unsigned int parameter;
+    void* parameter;
 };
 
 struct S00c9e830_Owner
@@ -226,31 +235,23 @@ struct S00c9e830_Owner
     unsigned char unkA3;
     int unkA4;
 
-    void FUN_00c91160(S00c9e830_Operation* operation);
-    void FUN_00c91120();
-    void FUN_00c91140();
     __forceinline void unlockAndAttemptToExecutePendingOperations()
     {
         --unk94;
         if (unk94 == 0 && unk9C == 0)
         {
             if (unk8C != 0)
-                FUN_00c91120();
+                reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
             if (unkA4 == 1 && unk90 != 0)
-                FUN_00c91140();
+                reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
         }
     }
 };
 
 struct S00c9e830_Shape
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 
-extern "C" void __cdecl FUN_00cb5d00(S00c9e830_Owner* owner, void* object);
-extern "C" void __cdecl FUN_00d008c0(S00c9e830_Owner* owner, void* object);
-extern "C" void __cdecl QueryEntityIntoBuffer(S00c9e830_Owner* owner, void* object);
 
 struct S00c9e830_Obj
 {
@@ -260,7 +261,6 @@ struct S00c9e830_Obj
     void* unk0C;
     S00c9e830_Shape* unk10;
 
-    void NotifyListeners();
     unsigned int FUN_00c9e830(S00c9e830_Shape* parameter);
 };
 
@@ -274,32 +274,32 @@ unsigned int S00c9e830_Obj::FUN_00c9e830(S00c9e830_Shape* apShape)
     {
         operation.type = 5;
         operation.object = this;
-        operation.parameter = reinterpret_cast<unsigned int>(apShape);
-        unk08->FUN_00c91160(&operation);
+        operation.parameter = apShape;
+        reinterpret_cast<::WorldWithPending *>((unk08))->FUN_00c91160();
         return 0;
     }
 
     if (unk08 != 0)
     {
         ++unk08->unk94;
-        FUN_00cb5d00(unk08, this);
+        ::FUN_00cb5d00((::S_00cb5d00_Owner *)(unk08), (::S_00cb5d00_Query *)(void *)(this));
     }
 
-    apShape->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((apShape))->FUN_00c90510();
 
     if (unk10 != 0)
-        unk10->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((unk10))->FUN_00c905b0();
 
     unk10 = apShape;
 
     if (unk08 != 0)
-        FUN_00d008c0(unk08, this);
+        ::FUN_00d008c0((::D008C0World *)(unk08), this);
 
-    this->NotifyListeners();
+    reinterpret_cast<::FUN_00d07bd0_cls *>((this))->NotifyListeners();
 
     if (unk08 != 0)
     {
-        QueryEntityIntoBuffer(unk08, this);
+        ::fnv_00cb5b10::QueryEntityIntoBuffer((::fnv_00cb5b10::WorldRec *)(unk08), (::fnv_00cb5b10::EntityRec *)(void *)(this));
         unk08->unlockAndAttemptToExecutePendingOperations();
     }
 
@@ -413,13 +413,12 @@ class FUN_00c9e910_Class
     __m128 unkD0;
     __m128 unkE0;
 
-    void FUN_00d07ec0(void* value);
-    void FUN_00c9e910(int value);
+    void FUN_00c9e910(intptr_t value);
 };
 
 // Copies 16 floats from value into unkB0..unkE0; if unk08 is set, calls unk10's method with value and a scaled factor, then passes the result to FUN_00d07ec0.
 // @fnv 0x00c9e910
-void FUN_00c9e910_Class::FUN_00c9e910(int value)
+void FUN_00c9e910_Class::FUN_00c9e910(intptr_t value)
 {
     const float* pMatrixData = reinterpret_cast<const float*>(value);
 
@@ -434,7 +433,7 @@ void FUN_00c9e910_Class::FUN_00c9e910(int value)
         FUN_00c9e910_Temporary temporary;
 
         unk10->FUN_00c9ea00__M7(reinterpret_cast<void*>(value), scaled, &temporary);
-        FUN_00d07ec0(&temporary);
+        reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((*(const ::hkAabbD07 *)(&temporary)));
     }
 }
 
@@ -560,7 +559,6 @@ struct FUN_00c9e990_cls
     int unkDC;
     __m128 unkE0;
     void FUN_00c9e990(__m128* a, float b);
-    void FUN_00d07ec0(void* a1);
 };
 // Stores *a in unkE0 and, if m_08 is set, calls m_10->M7 with &unkB0, b plus half of m_08->unk78->unk08, and a local buffer, then FUN_00d07ec0 on it.
 // @fnv 0x00c9e990
@@ -573,6 +571,6 @@ void FUN_00c9e990_cls::FUN_00c9e990(__m128* a, float b)
         float sum = scaled + b;
         FUN_00c9e990_Local local;
         m_10->M7(&unkB0, sum, &local);
-        FUN_00d07ec0(&local);
+        reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((*(const ::hkAabbD07 *)(&local)));
     }
 }

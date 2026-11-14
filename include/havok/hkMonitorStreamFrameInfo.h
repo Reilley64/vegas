@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKMONITORSTREAMFRAMEINFO_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkMonitorStreamFrameInfo
 {
   public:
@@ -24,6 +23,4 @@ class hkMonitorStreamFrameInfo
     hkInt32 m_iTimer0Index;  // +0x1C
     hkInt32 m_iTimer1Index;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMonitorStreamFrameInfo[(sizeof(hkMonitorStreamFrameInfo) == 0x24) ? 1 : -1];
 #endif

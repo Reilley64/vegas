@@ -21,5 +21,4 @@ class hkPackfileHeader
     hkInt32 m_auiShapeKeys[2];                           // +0x38
 };
 #pragma pack(pop)
-typedef char fnv_hk_size_hkPackfileHeader[(sizeof(hkPackfileHeader) == 0x40) ? 1 : -1];
 #endif

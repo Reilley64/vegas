@@ -1,5 +1,33 @@
+#include <cstddef>
 // bsmenu/tiletext.cpp: TileText, FontManager, TextNode, TextTile (4 functions)
 
+#include <cstring>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_009ff600_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/Interface.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/TileX.h"
+#include "fnv/decl/fnv_005bd5c0__FUN_005bd5c0_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a12880__FontRenderer.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
 #include "tiletext.h"
 
 // @fnv 0x00a0bbd0
@@ -15,24 +43,20 @@ struct FUN_00a21a10_shell : public TileText
 
 struct TileHelper
 {
-    void Init(Tile*, const char*, Tile*);
-    void Set(int, float, bool);
-    void Set(int, const char*, bool);
-    void SetTileType(int);
 };
 
 // @fnv 0x00a21a10
 void FUN_00a21a10_shell::InitTileText(Tile* apParent, char* apName, Tile* apReplacedTile)
 {
-    ((TileHelper*)this)->Init(apParent, apName, apReplacedTile);
-    ((TileHelper*)this)->Set(0xfc4, "", true);
-    ((TileHelper*)this)->Set(0xff5, 255.0f, true);
-    ((TileHelper*)this)->Set(0xfb2, 255.0f, true);
-    ((TileHelper*)this)->Set(0xfb3, 255.0f, true);
-    ((TileHelper*)this)->Set(0xfb4, 255.0f, true);
-    ((TileHelper*)this)->Set(0xfa9, 255.0f, true);
-    ((TileHelper*)this)->Set(0xfa3, 1.0f, true);
-    ((TileHelper*)this)->SetTileType(3);
+    reinterpret_cast<::FUN_009ff600_shell *>((((TileHelper*)this)))->InitTile(apParent, (char *)(apName), apReplacedTile);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileHelper*)this)))->FUN_00a01350(0xfc4, (char *)(""), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileHelper*)this)))->FUN_00a012d0(0xff5, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileHelper*)this)))->FUN_00a012d0(0xfb2, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileHelper*)this)))->FUN_00a012d0(0xfb3, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileHelper*)this)))->FUN_00a012d0(0xfb4, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileHelper*)this)))->FUN_00a012d0(0xfa9, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileHelper*)this)))->FUN_00a012d0(0xfa3, 1.0f, true);
+    reinterpret_cast<::FUN_00a074d0_shell *>((((TileHelper*)this)))->FUN_00a074d0(3);
 }
 
 struct FUN_00a225b0_shell : public TileText
@@ -46,45 +70,37 @@ struct FUN_00a011f0_shell : public Tile
 };
 struct TGF
 {
-    float GetFloat(int);
 };
 struct TAN
 {
-    void SetImageFlags(int);
 };
-int __cdecl FUN_00ec6da0(const char*, const char*);
 // @fnv 0x00a225b0
 Tile* FUN_00a225b0_shell::FUN_00a225b0(int aiTrait, float afValue, char* axString)
 {
     if (aiTrait == 0xfc4)
     {
         char* strValue = ((FUN_00a011f0_shell*)this)->FUN_00a011f0(0xfc4);
-        if (!strValue || (strValue && !FUN_00ec6da0(axString, strValue)))
+        if (!strValue || (strValue && !std::strcmp(axString, strValue)))
         {
-            ((TAN*)this)->SetImageFlags(2);
+            reinterpret_cast<::FUN_00a07530_shell *>((((TAN*)this)))->FUN_00a07530(2);
             return (Tile*)(void*)this;
         }
     }
     else if (aiTrait == 0xfb7)
     {
-        if (((TGF*)this)->GetFloat(0xfb7) != afValue)
+        if (reinterpret_cast<::TileListBoxCalls *>((((TGF*)this)))->GetFloat(0xfb7) != afValue)
         {
-            ((TAN*)this)->SetImageFlags(2);
+            reinterpret_cast<::FUN_00a07530_shell *>((((TAN*)this)))->FUN_00a07530(2);
             return (Tile*)(void*)this;
         }
     }
     return 0;
 }
 
-unsigned __cdecl FUN_0044a670(const char*);
 
-unsigned __cdecl FUN_00403940(unsigned, unsigned);
 
-void* __cdecl FUN_00401000(unsigned);
 
-void __cdecl FUN_00401030(void*);
 
-void __cdecl FUN_00401460(void*, const void*, unsigned);
 
 struct TextString
 {
@@ -123,6 +139,8 @@ struct TextString
     {
         Set(0, 0);
     }
+public:
+    bool FUN_004037f0(const char *, unsigned int);
 };
 
 struct Color4
@@ -151,7 +169,6 @@ struct Color4
     }
 };
 
-extern float DAT_01095268, DAT_01095264, DAT_01095260;
 
 struct TextParams
 {
@@ -204,11 +221,11 @@ struct Font
             *height = value;
     }
 
-    void FUN_00a12880(TextString&, int*, int*, int, int, int, int, const Color4*, TextNode**, TextNode**);
 };
 
-struct FontManager
+class FontManager
 {
+  public:
     Font* fonts[8];
     bool multibyte;
     static FontManager* Get();
@@ -219,14 +236,12 @@ struct FontManager
     bool CreateTextRun(TextString, TextParams*, TextNode*);
 };
 
-extern FontManager* DAT_011f33f8;
 
 inline FontManager* FontManager::Get()
 {
-    return DAT_011f33f8;
+    return (*reinterpret_cast<::FontManager * *>(&::DAT_011f33f8));
 }
 
-int __cdecl FUN_004019a0(void*);
 int __cdecl FUN_0040b460(void*);
 
 struct TextNode
@@ -411,7 +426,7 @@ struct TextNode
 
     void DecRefCount()
     {
-        if (!FUN_004019a0(&unk04))
+        if (!((int)(::WaitForSingleObjectEx((long *)(void *)(&unk04)))))
             unkV01();
     }
     int IncRefCount()
@@ -419,7 +434,6 @@ struct TextNode
         return FUN_0040b460(&unk04);
     }
 
-    void FUN_00a5a040();
     bool SetExtraDataName(TileExtra*);
     bool FUN_00a5ba40(TileExtra*);
 
@@ -527,8 +541,6 @@ struct NewTextNode
     int unkA8;
 
     NewTextNode(unsigned);
-    static void* operator new(unsigned);
-    static void operator delete(void*);
 };
 
 struct NodePtr
@@ -565,15 +577,13 @@ struct NameHeader
     long references;
     unsigned length;
 };
-extern char* DAT_0109b220;
 extern void* DAT_01094cfc[];
-char* __cdecl FUN_00a5b690(const char*);
 struct NameString
 {
     char* value;
     NameString(const char* text)
     {
-        value = text ? FUN_00a5b690(text) : DAT_0109b220;
+        value = text ? ::NiGlobalStringTable::AddString(text) : DAT_0109b220;
     }
     ~NameString()
     {
@@ -608,14 +618,9 @@ struct TileExtra
         NameString extraName("Tileptr");
         AssignFixedString(extraName);
     }
-    static void* operator new(unsigned);
-    static void operator delete(void*);
 };
 
-int __cdecl FUN_00a305b0(char*, unsigned, const char*, ...);
 const char* __cdecl FUN_00ec7750(const char*, const char*);
-void* __cdecl FUN_00aa1070(unsigned);
-void __cdecl FUN_00aa10f0(void*);
 char* __cdecl CopyFilePath(char*, unsigned, const char*, unsigned);
 int __cdecl FUN_00ec6bd2(char*, unsigned, const char*);
 inline bool TextNode::SetExtraDataName(TileExtra* extra)
@@ -628,7 +633,7 @@ inline bool TextNode::SetExtraDataName(TileExtra* extra)
         if (typeName && FUN_0044a670(typeName))
         {
             char suffix[6];
-            FUN_00a305b0(suffix, 6, "ED%03d", extraCount);
+            ::NiSprintf(suffix, 6, "ED%03d", extraCount);
             const char* marker = FUN_00ec7750(typeName, "ExtraData");
             char* newName = (char*)FUN_00aa1070(
                 ((marker > typeName ? (unsigned)(marker - typeName) : 0) + FUN_0044a670(suffix) + 1));
@@ -646,11 +651,8 @@ inline bool TextNode::SetExtraDataName(TileExtra* extra)
     return FUN_00a5ba40(extra);
 }
 
-float __cdecl FUN_00706e00();
 
-TextNode* __cdecl FUN_00706d30();
 
-void __cdecl FUN_00707930(int);
 
 inline int ClampFont(int number)
 {
@@ -683,13 +685,7 @@ struct TextTile
         position = p;
     }
 
-    TextNode* GetNiNode();
-    float FUN_00a011b0(int);
-    const char* FUN_00a011f0(int);
 
-    void FUN_00a012d0(int, float, bool);
-    void FUN_00a07530(int);
-    bool IsTraitNonZero(int);
 
     TextNode* BuildTextNode();
 };
@@ -707,37 +703,37 @@ TextNode* TextTile::BuildTextNode()
 
     // maximumTmp: maximum lines; oldStateVal: saved font height.
 
-    TextNode* kFirst = GetNiNode();
+    TextNode* kFirst = ((::TextNode *)(reinterpret_cast<::TileX *>(this)->GetNiNode()));
 
     float unknown;
 
-    float x = FUN_00a011b0(0xfa1);
+    float x = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa1);
 
-    float kPos = -FUN_00a011b0(0xfa2);
+    float kPos = -reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa2);
 
-    int maximumX = (int)FUN_00a011b0(0xfba);
+    int maximumX = (int)reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfba);
 
-    int countVal = (int)FUN_00a011b0(0xfbb);
+    int countVal = (int)reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfbb);
 
-    int maximumTmp = (int)FUN_00a011b0(0xfbc);
+    int maximumTmp = (int)reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfbc);
 
-    int offsetTmp = (int)FUN_00a011b0(0xff7);
+    int offsetTmp = (int)reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xff7);
 
-    int kIndex = (int)FUN_00a011b0(0xfb7);
+    int kIndex = (int)reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfb7);
 
-    int entry = ClampFont((int)FUN_00a011b0(0xfb9)) - 1;
+    int entry = ClampFont((int)reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfb9)) - 1;
 
-    FontManager* data = DAT_011f33f8;
+    FontManager* data = (*reinterpret_cast<::FontManager * *>(&::DAT_011f33f8));
 
-    Font* fontA = data ? data->GetFont(entry) : 0;
+    Font* fontA = data ? ((::Font *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((data))->FUN_005bd5c0(entry))) : 0;
 
-    int index = (int)FUN_00a011b0(0xfbd);
+    int index = (int)reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfbd);
 
-    bool allowedX = FUN_00a011b0(0xfbe) > 0.0;
+    bool allowedX = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfbe) > 0.0;
 
-    float scale = FUN_00a011b0(0xfa9);
+    float scale = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa9);
 
-    unknown = FUN_00a011b0(0xff5);
+    unknown = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xff5);
 
     Color4 colorX(scale != 0.0 ? scale / 255.0 : 0.0);
 
@@ -748,13 +744,13 @@ TextNode* TextTile::BuildTextNode()
 
     const char* text;
 
-    text = FUN_00a011f0(0xfc4);
+    text = reinterpret_cast<::FUN_00a011f0_shell *>(this)->FUN_00a011f0(0xfc4);
 
     if (text && *text)
-        current.Set(text, 0);
+        reinterpret_cast<::TextString *>(&(current))->FUN_004037f0(text, 0);
 
     if (maximumX < 1)
-        maximumX = (int)FUN_00706e00();
+        maximumX = (int)::Interface::UpdateInterfaceState();
 
     if (maximumTmp < 1)
         maximumTmp = 0x7fffffff;
@@ -763,7 +759,7 @@ TextNode* TextTile::BuildTextNode()
 
     fontA->SetHeight((float)(oldStateVal + offsetTmp));
 
-    if (allowedX || DAT_011f33f8->multibyte)
+    if (allowedX || (*reinterpret_cast<::FontManager * *>(&::DAT_011f33f8))->multibyte)
     {
 
         node = (TextNode*)new NewTextNode(0);
@@ -789,7 +785,7 @@ TextNode* TextTile::BuildTextNode()
         maximumX = params.width;
         countVal = params.height;
 
-        FUN_00a012d0(0xfd5, ParseFloatValue(params.lineCount), true);
+        reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfd5, ParseFloatValue(params.lineCount), true);
 
         multibyte = params.multibyte;
     }
@@ -801,18 +797,18 @@ TextNode* TextTile::BuildTextNode()
 
         node = (TextNode*)new NewTextNode(0);
 
-        fontA->FUN_00a12880(current, &maximumX, &countVal, 0, maximumTmp, kIndex, 10, &colorX, &first, &second);
+        reinterpret_cast<::fnv_00a12880::FontRenderer *>((fontA))->FUN_00a12880((int *)&(current), &maximumX, &countVal, 0, maximumTmp, kIndex, 10, &colorX, (::fnv_00a12880::ShapeView **)(::TextNode **)(&first), (::fnv_00a12880::ShapeView **)(::TextNode **)(&second));
 
         SetPosition(first->GetPosition());
 
-        first->SetPosition(TextNode::Point(x, (float)(FUN_00a011b0(0xfad) * -0.00800000037997961), kPos));
+        first->SetPosition(TextNode::Point(x, (float)(reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfad) * -0.00800000037997961), kPos));
 
         ((TextNode*)node)->AddObject(first, true);
 
         if (second)
         {
 
-            second->SetPosition(TextNode::Point(x, (float)(FUN_00a011b0(0xfad) * -0.00800000037997961), kPos));
+            second->SetPosition(TextNode::Point(x, (float)(reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfad) * -0.00800000037997961), kPos));
 
             ((TextNode*)node)->AddObject(second, true);
         }
@@ -820,27 +816,27 @@ TextNode* TextTile::BuildTextNode()
 
     fontA->SetHeight((float)oldStateVal);
 
-    FUN_00a012d0(0xfb1, ParseFloatValue(maximumX), true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfb1, ParseFloatValue(maximumX), true);
 
-    FUN_00a012d0(0xfb0, ParseFloatValue(countVal), true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfb0, ParseFloatValue(countVal), true);
 
-    FUN_00a07530(9);
+    reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(9);
 
-    if (IsTraitNonZero(0xfae))
-        FUN_00a07530(0x100);
+    if (reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfae))
+        reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x100);
 
     if (!kFirst)
-        kFirst = FUN_00706d30();
+        kFirst = ((::TextNode *)(::Interface::GetInterfaceNode()));
 
     kFirst->AddObject(node, true);
 
-    node->SetCulled(!IsTraitNonZero(0xfa3));
+    node->SetCulled(!reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfa3));
 
-    node->FUN_00a5a040();
+    reinterpret_cast<::FUN_00a5a040_Class *>(((node).operator->()))->FUN_00a5a040();
 
-    FUN_00707930(1);
+    ::fnv_00707930::FUN_00707930(1);
 
-    node->SetExtraDataName(new TileExtra((Tile*)this, node));
+    reinterpret_cast<::FUN_00a5bca0_shell *>(((node).operator->()))->SetExtraDataName((::NiExtraData *)(::TileExtra *)(new TileExtra((Tile*)this, node)));
 
     return node;
 }

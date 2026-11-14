@@ -2,12 +2,25 @@
 // src/gamebryo2.2/corelibs/nimain/niscreentexture.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niscreentexture.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern const void* g_011f5ee0;
 
 // @fnv 0x00a955f0
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/fnv_004a4c90__FUN_004a4c90_shell.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 const void* __cdecl FUN_00a955f0()
 {
-    return &g_011f5ee0;
+    return &(*reinterpret_cast<const void * *>(&::g_011f5ee0));
 }
 
 struct NiStream;
@@ -58,11 +71,11 @@ bool NiScreenTexture::FUN_00a954f0(NiStream& kStream)
 
 extern int DAT_010a048c;
 void __cdecl _NiFreeAlias(void*);
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct ShadowObj
 {
     volatile long m_ref;
@@ -161,21 +174,20 @@ void MyHost::FUN_00a95590()
             p->f1();
     }
     _NiFreeAlias(__08);
-    ((NiRefObject*)this)->~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
 namespace fnv_00a95740 {
 struct NiScreenTexture
 {
-    void __thiscall FUN_00a95590();
-    void* __thiscall FUN_00a95740(unsigned int);
+    void* FUN_00a95740(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00a95590, then if flags has bit 1 set frees this with size 0x20, and returns this.
 // @fnv 0x00a95740
-void* __thiscall NiScreenTexture::FUN_00a95740(unsigned int flags)
+void* NiScreenTexture::FUN_00a95740(unsigned int flags)
 {
-    FUN_00a95590();
+    reinterpret_cast<::MyHost *>(this)->FUN_00a95590();
     if (flags & 1)
         _delete(this, 0x20);
     return this;
@@ -208,6 +220,7 @@ struct BSStreamHeader
     char m_acProcessScript[64];
     char m_acExportScript[64];
 };
+struct NiObject;
 struct NiStream
 {
     virtual ~NiStream();
@@ -323,19 +336,22 @@ struct NiStream
     unsigned int unk248;
     unsigned int unk24C;
     NiBinaryStream* m_pBackingStream;
+public:
+    ::NiObject *GetLoadedObject();
 };
 template <class T> inline void SerializeValue(NiStream& kStream, const T& value)
 {
     WriteBinaryArray(*kStream.m_pBackingStream, &value, 1);
 }
+struct NiStream;
 struct RgbaColor
 {
     float r, g, b, a;
-    void SaveBinary(NiStream& kStream);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct RendererDataBase_s
 {
-    void LinkObject(NiStream&);
 };
 struct RendererDataRecord
 {
@@ -361,7 +377,7 @@ struct ScreenTex_shell
 // @fnv 0x00a95a90
 void ScreenTex_shell::FUN_00a95a90(NiStream& kStream)
 {
-    ((RendererDataBase_s*)this)->LinkObject(kStream);
+    ::FUN_00a89af0((intptr_t)(((RendererDataBase_s*)this)));
     unsigned int uiNumRects = m_uiAllocatedCapacity;
     SerializeValue(kStream, uiNumRects);
     for (unsigned int i = 0; i < uiNumRects; i++)
@@ -374,7 +390,7 @@ void ScreenTex_shell::FUN_00a95a90(NiStream& kStream)
         SerializeValue(kStream, pDataToSerialize->m_usThirdValue);
         SerializeValue(kStream, pDataToSerialize->m_usFourthValue);
         RgbaColor kColor = pDataToSerialize->m_kFogTint;
-        kColor.SaveBinary(kStream);
+        reinterpret_cast<::FUN_00a698a0_class *>(&(kColor))->FUN_00a698a0((void *)&(kStream));
     }
     kStream.SaveLinkID(m_pTexturingProperty);
 }
@@ -414,10 +430,8 @@ void ScreenRectArray::Resize(unsigned int uiNewCapacity)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct CopyBase
 {
-    void CreateVertexBufferSet(void*, void*);
 };
 struct RefProp
 {
@@ -439,11 +453,10 @@ struct RectArray
 {
     RectCopy* base;
     unsigned int capacity, used;
-    void Resize(unsigned int);
     void Add(const RectCopy& rect)
     {
         if (used == capacity)
-            Resize(capacity > 0 ? capacity * 2 : 1);
+            reinterpret_cast<::ScreenRectArray *>(this)->Resize(capacity > 0 ? capacity * 2 : 1);
         base[used] = rect;
         ++used;
     }
@@ -459,7 +472,7 @@ struct ScreenCopy
 // @fnv 0x00a95760
 void ScreenCopy::CopyTo(ScreenCopy* dest, void* cloning)
 {
-    ((CopyBase*)this)->CreateVertexBufferSet(dest, cloning);
+    reinterpret_cast<::FUN_00a5d450_class *>((((CopyBase*)this)))->CreateVertexBufferSet((uintptr_t)(dest), cloning);
     for (unsigned int i = 0; i < rects.used; i++)
     {
         RectCopy rect(rects.base[i]);
@@ -478,7 +491,7 @@ void ScreenCopy::CopyTo(ScreenCopy* dest, void* cloning)
 }
 
 extern int DAT_010a048c;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedObject
 {
@@ -492,7 +505,6 @@ struct SpawnedObject
     unsigned short unk1A;
     unsigned int unk1C;
 
-    void FUN_00a5d3a0();
 };
 
 // @fnv 0x00a958b0
@@ -501,7 +513,7 @@ SpawnedObject* __cdecl FUN_00a958b0()
     SpawnedObject* p = (SpawnedObject*)FUN_00aa13e0(0x20);
     if (p != 0)
     {
-        p->FUN_00a5d3a0();
+        new ((void *)(p)) struct ::FUN_00a5d3a0();
         *(void* volatile*)&p->m_pVTable = (void*)&DAT_010a048c;
         *(volatile unsigned int*)&p->unk08 = 0;
         *(volatile unsigned int*)&p->unk0C = 0;
@@ -550,7 +562,6 @@ struct NiPointer_TexProp
 
 struct NiStream
 {
-    NiObject* GetLoadedObject();
 };
 
 struct NiScreenTexture : NiObject
@@ -564,9 +575,9 @@ struct NiScreenTexture : NiObject
 // @fnv 0x00a95600
 void NiScreenTexture::LinkTexturingProperty(NiStream& kStream)
 {
-    NiObject::LinkObject(kStream);
+    ::FUN_00a89af0((intptr_t)this);
 
-    NiTexturingProperty* pkProp = (NiTexturingProperty*)kStream.GetLoadedObject();
+    NiTexturingProperty* pkProp = (NiTexturingProperty*)((::fnv_00a95600::NiObject *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
     if (m_pTexturingProperty.m_pObject != pkProp)
     {
         if (m_pTexturingProperty.m_pObject)
@@ -748,7 +759,6 @@ struct ReadNiStream
     unsigned int unk244;
     unsigned int unk248;
     ReadBinaryStream* input;
-    void FUN_00a645b0();
 };
 
 template <class T> inline void ReadBinaryValue(ReadNiStream& kStream, T& value)
@@ -759,7 +769,6 @@ template <class T> inline void ReadBinaryValue(ReadNiStream& kStream, T& value)
 struct ReadNiColorA
 {
     float r, g, b, a;
-    void FUN_00a69800(ReadNiStream& stream);
 };
 struct ReadScreenRect
 {
@@ -776,21 +785,19 @@ struct ReadScreenRectArray
     ReadScreenRect* buffer;
     unsigned int capacity;
     unsigned int used;
-    void Resize(unsigned int size);
 };
 struct FUN_00a958f0_Class
 {
     void* vtbl;
     unsigned int refCount;
     ReadScreenRectArray rects;
-    void ReadGroup(ReadNiStream& stream);
     void ReadScreenRects(ReadNiStream& stream);
 };
 // Reads a count and that many screen rects from the stream, appending each to rects and growing the array as needed.
 // @fnv 0x00a958f0
 void FUN_00a958f0_Class::ReadScreenRects(ReadNiStream& stream)
 {
-    ReadGroup(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
     unsigned int count;
     ReadBinaryValue(stream, count);
     for (unsigned int i = 0; i < count; ++i)
@@ -804,16 +811,16 @@ void FUN_00a958f0_Class::ReadScreenRects(ReadNiStream& stream)
         ReadBinaryValue(stream, rect.pixHeight);
         ReadBinaryValue(stream, rect.texTop);
         ReadBinaryValue(stream, rect.texLeft);
-        rect.color.FUN_00a69800(stream);
+        reinterpret_cast<::RgbaColor *>(&(rect.color))->LoadBinary((::NiStream &)(stream));
         if (arr.used == arr.capacity)
         {
             unsigned int newSize = arr.capacity > 0 ? arr.capacity * 2 : 1;
-            arr.Resize(newSize);
+            reinterpret_cast<::ScreenRectArray *>(&(arr))->Resize(newSize);
         }
         arr.buffer[arr.used] = rect;
         ++arr.used;
     }
-    stream.FUN_00a645b0();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 }
 
 struct S_00a95660_Color
@@ -862,14 +869,13 @@ struct S_00a95660_Foo
     unsigned int m_uiElementCount;
     unsigned int m_uiAllocatedCapacity;
     S_00a95660_Prop* m_pTexturingProperty;
-    bool IsSameAs(S_00a95660_Foo* o);
     bool Equals(S_00a95660_Foo* o);
 };
 // Checks base equality and capacity, examines rectangle fields and colors, then returns the texturing-property comparison.
 // @fnv 0x00a95660
 bool S_00a95660_Foo::Equals(S_00a95660_Foo* apOther)
 {
-    if (!IsSameAs(apOther))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(apOther)))
         return false;
     unsigned int n = m_uiAllocatedCapacity;
     if (n != apOther->m_uiAllocatedCapacity)
@@ -881,7 +887,7 @@ bool S_00a95660_Foo::Equals(S_00a95660_Foo* apOther)
         if (refSelf.a != refOther.a && refSelf.b != refOther.b && refSelf.c != refOther.c && refSelf.d != refOther.d &&
             refSelf.e != refOther.e && refSelf.f != refOther.f)
         {
-            if (refSelf.col.FUN_004a4c90(&refOther.col))
+            if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>(&(refSelf.col))->FUN_004a4c90((void *)(&refOther.col)))
                 return false;
         }
     }
@@ -899,7 +905,7 @@ struct ScreenTextureBase : SpawnedObject
 {
     ScreenTextureBase() throw()
     {
-        FUN_00a5d3a0();
+        new ((void *)this) struct ::FUN_00a5d3a0();
         m_pVTable = &DAT_010a048c;
     }
 };
@@ -919,10 +925,6 @@ static inline unsigned int* InitTexProp(unsigned int* p) throw()
 
 struct ScreenTextureClone : ScreenTextureBase
 {
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     ScreenTextureClone() throw()
     {
         InitRectArray(&unk08);
@@ -945,3 +947,5 @@ ScreenTextureClone* ScreenHost::FUN_00a95c10(void* apSource)
     CopyTo(reinterpret_cast<ScreenCopy*>(object), apSource);
     return object;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niscreentexture.inc"

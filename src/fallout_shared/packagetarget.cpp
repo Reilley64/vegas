@@ -1,5 +1,60 @@
 // fallout_shared/packagetarget.cpp: PackageTargetRecord, LocationDescriptor, Script, SaveDataStub (21 functions)
 
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_0063f790_shell.h"
+#include "fnv/decl/FUN_0067f140_shell.h"
+#include "fnv/decl/FUN_0067f1c0_shell.h"
+#include "fnv/decl/FUN_0067f1f0_shell.h"
+#include "fnv/decl/FUN_0067f410_shell.h"
+#include "fnv/decl/FUN_0067f430_shell.h"
+#include "fnv/decl/FUN_0067f460_shell.h"
+#include "fnv/decl/FUN_0067f4b0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/decl/fnv_0067ff10__FUN_0067ff10_Class.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011de000.h"
 #include "Script.h"
 #include "packagetarget_decls.h"
 #include "packagetarget_types_PackageLocation.h"
@@ -78,31 +133,31 @@ void LocationDescriptor::Copy(LocationDescriptor* source, bool copy)
     {
         if (copy || source->GetLocType() != PACK_LOC_TYPE_INVALID)
         {
-            SetLocationType(source->GetLocType());
+            reinterpret_cast<::FUN_0067f140_shell *>(this)->FUN_0067f140((*(int *)&(const ::PACK_LOC_TYPE &)(source->GetLocType())));
             switch (m_ucLocationType)
             {
             case 0:
-                SetRadius(source->FUN_0067f1c0());
+                reinterpret_cast<::FUN_0067f1f0_shell *>(this)->FUN_0067f1f0(reinterpret_cast<::FUN_0067f1c0_shell *>((source))->FUN_0067f1c0());
                 FUN_0067f3c0(source->GetLocationReference());
                 break;
             case 1:
-                FUN_0067f410(source->GetLocationCellReference());
+                reinterpret_cast<::FUN_0067f410_shell *>(this)->FUN_0067f410(source->GetLocationCellReference());
                 break;
             case 4:
-                SetRadius(source->FUN_0067f1c0());
-                SetValue((TESForm*)source->FUN_0067f430());
+                reinterpret_cast<::FUN_0067f1f0_shell *>(this)->FUN_0067f1f0(reinterpret_cast<::FUN_0067f1c0_shell *>((source))->FUN_0067f1c0());
+                reinterpret_cast<::FUN_0067f460_shell *>(this)->SetValue((std::intptr_t)((TESForm*)((::TESBoundObject *)(reinterpret_cast<::FUN_0067f430_shell *>((source))->GetLocationObject()))));
                 break;
             case 5:
-                SetRadius(source->FUN_0067f1c0());
-                FUN_0067f4b0(source->GetObjectType());
+                reinterpret_cast<::FUN_0067f1f0_shell *>(this)->FUN_0067f1f0(reinterpret_cast<::FUN_0067f1c0_shell *>((source))->FUN_0067f1c0());
+                reinterpret_cast<::FUN_0067f4b0_class *>(this)->FUN_0067f4b0((*(int *)&(const ::PACKAGE_OBJECT_TYPE &)(source->GetObjectType())));
                 break;
             case 2:
             case 3:
             case 7:
-                SetRadius(source->FUN_0067f1c0());
+                reinterpret_cast<::FUN_0067f1f0_shell *>(this)->FUN_0067f1f0(reinterpret_cast<::FUN_0067f1c0_shell *>((source))->FUN_0067f1c0());
                 break;
             case 6:
-                SetRadius(source->FUN_0067f1c0());
+                reinterpret_cast<::FUN_0067f1f0_shell *>(this)->FUN_0067f1f0(reinterpret_cast<::FUN_0067f1c0_shell *>((source))->FUN_0067f1c0());
                 break;
             }
         }
@@ -119,55 +174,52 @@ char* Script::GetData()
 // @fnv 0x006803b0
 void PackageTargetRecord::InitItem(TESForm* owner)
 {
-    unsigned int formID = (unsigned int)pTargetForm;
-    TESForm::RemapFormIDForFile(formID, owner->GetFile(-1));
+    std::uintptr_t formID = (std::uintptr_t)pTargetForm;
+    ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
     switch (m_uiTargetType)
     {
     case 0:
-        m_pWorldReferenceInfo = dynamic_cast<TESObjectREFR*>(GetFormByID(formID));
+        m_pWorldReferenceInfo = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(formID));
         if (!m_pWorldReferenceInfo)
         {
             if (owner)
             {
                 if (((BGSCameraPath*)owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find Package Target Reference (%08X) on owner object \"%s\".",
-                            formID, owner->GetName());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find Package Target Reference (%08X) on owner object (%08X).",
-                            formID, owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
-                Warning("MASTERFILE: Unable to find Package Target Reference (%08X) on unknown owner.", formID);
+                ::FUN_005b5e40();
         }
         break;
     case 1:
-        pObject = GetFormByID(formID);
+        pObject = ::FUN_004839c0(formID);
         if (!pObject)
         {
             if (owner)
             {
                 if (((BGSCameraPath*)owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find Package Target Object (%08X) on owner object \"%s\".", formID,
-                            owner->GetName());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find Package Target Object (%08X) on owner object (%08X).", formID,
-                            owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
-                Warning("MASTERFILE: Unable to find Package Target Object (%08X) on unknown owner.", formID);
+                ::FUN_005b5e40();
         }
         break;
     }
 }
 
-// Sets the byte at pThis to 2 and zeroes the int, int and float fields at offsets 4, 8 and 12, then returns pThis.
+// Initialises the package target at pThis to type 2 with no object, value or target value, then returns pThis.
 // @fnv 0x0067ff70
-void* __fastcall FUN_0067ff70(void* pThis)
+void* FUN_0067ff70(void* pThis)
 {
-    *(unsigned char*)pThis = 2;
-    *((int*)pThis + 1) = 0;
-    *((int*)pThis + 2) = 0;
-    *((float*)pThis + 3) = 0.0f;
+    PackageTargetRecord* ptarget = static_cast<PackageTargetRecord*>(pThis);
+    ptarget->m_uiTargetType = 2;
+    ptarget->pObject = 0;
+    ptarget->iValue = 0;
+    ptarget->m_fTargetValue = 0.0f;
     return pThis;
 }
 
@@ -183,26 +235,29 @@ struct FUN_0067ffa0_cls
 {
     unsigned char m_uiTargetType;
     char pad[3];
-    unsigned int ref;
-    void SetTargetKind(int t);
-    void SetFlags(unsigned int v);
-    void FUN_0063f790(float f);
+    union
+    {
+        unsigned int uiFormID;
+        void* pObject;
+    } ref;
+    int iValue;
+    float m_fTargetValue;
     FUN_0067ffa0_cls* LoadFromPTFile(PTFile* f);
 };
 // @fnv 0x0067ffa0
 FUN_0067ffa0_cls* FUN_0067ffa0_cls::LoadFromPTFile(PTFile* apFile)
 {
-    SetTargetKind(apFile->m_uiTargetType);
-    SetFlags(apFile->iValue);
-    FUN_0063f790(apFile->m_fTargetValue);
+    reinterpret_cast<::PackageTargetRecord *>(this)->SetTargetKind((::PACK_TARG_TYPE)(apFile->m_uiTargetType));
+    iValue = apFile->iValue;
+    m_fTargetValue = apFile->m_fTargetValue;
     switch (m_uiTargetType)
     {
     case 0:
     case 1:
-        ref = apFile->iFormID;
+        ref.uiFormID = apFile->iFormID;
         break;
     case 2:
-        ref = apFile->iFormID;
+        ref.uiFormID = apFile->iFormID;
         break;
     }
     return this;
@@ -223,7 +278,6 @@ void FUN_00680140_shell::SetObjectTarget(TESForm* apObj)
 
 struct ArrSI
 {
-    unsigned int GetFlags(void);
 };
 
 struct Twin_0084d030
@@ -250,7 +304,7 @@ bool FUN_00680220_shell::Compare(PackageTargetRecord* apCompare)
         return true;
     if (this->GetTargetObjectType() != apCompare->GetTargetObjectType())
         return true;
-    if (((ArrSI*)this)->GetFlags() != ((ArrSI*)apCompare)->GetFlags())
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) != ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)apCompare)))->GetName())))
         return true;
     if (((Twin_0084d030*)this)->GetStoredFloatValue() != ((Twin_0084d030*)apCompare)->GetStoredFloatValue())
         return true;
@@ -259,7 +313,6 @@ bool FUN_00680220_shell::Compare(PackageTargetRecord* apCompare)
 
 struct ChunkPayload16
 {
-    void FUN_0067ff10();
 };
 struct FormValueEntry
 {
@@ -268,10 +321,6 @@ struct FormValueEntry
     int iValue;
     float m_fTargetValue;
 };
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
-extern "C" bool __cdecl FUN_00401500();
-extern "C" void __cdecl AppendChunk(int id, FormValueEntry* data, unsigned int size);
-
 struct FUN_006802f0_shell : PackageTargetRecord
 {
     void FUN_006802f0(int chunk);
@@ -293,14 +342,14 @@ void FUN_006802f0_shell::FUN_006802f0(int chunk)
     case 0:
     case 1:
         if (this->pObject)
-            record.iFormID = this->pObject->GetFormID();
+            record.iFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this->pObject))->FUN_0084e3a0()));
         break;
     }
-    if (FUN_00401500())
-        ((ChunkPayload16*)&record)->FUN_0067ff10();
-    AppendChunk(chunk, &record, 16);
-    if (FUN_00401500())
-        ((ChunkPayload16*)&record)->FUN_0067ff10();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_0067ff10::FUN_0067ff10_Class *>((((ChunkPayload16*)&record)))->FUN_0067ff10();
+    ::AppendChunk(chunk, &record, 16);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_0067ff10::FUN_0067ff10_Class *>((((ChunkPayload16*)&record)))->FUN_0067ff10();
 }
 
 struct FUN_00680520_cls : public PackageTargetRecord
@@ -338,8 +387,6 @@ class C80720Form;
 class C80720SaveBuffer
 {
   public:
-    void SaveData(void* pvData, int iSize, int iFlags);
-    void SerializeFormData(C80720Form* pkForm, int iFlags);
 };
 
 class C80720Target
@@ -361,26 +408,24 @@ class C80720Target
 // @fnv 0x00680720
 void C80720Target::SaveToBuffer(C80720SaveBuffer* pkBuffer)
 {
-    pkBuffer->SaveData(this, 1, 0);
-    pkBuffer->SaveData(&m_iData1, 4, 0);
-    pkBuffer->SaveData(&m_iData2, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(this, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&m_iData1, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&m_iData2, 4, 0);
     switch (m_ucType)
     {
         break;
     case 0:
     case 1:
-        pkBuffer->SerializeFormData(m_pkForm, 0);
+        reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pkBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pkForm), 0);
         break;
     case 2:
-        pkBuffer->SaveData(&m_iValue, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&m_iValue, 4, 0);
         break;
     }
 }
 
 struct S_006807b0_Stream
 {
-    void FUN_00864980(void* data, unsigned int size);
-    void FUN_008648e0(void* data);
 };
 struct S_006807b0_Target : PackageTargetRecord
 {
@@ -389,18 +434,18 @@ struct S_006807b0_Target : PackageTargetRecord
 // @fnv 0x006807b0
 void S_006807b0_Target::FUN_006807b0(S_006807b0_Stream* pStream)
 {
-    pStream->FUN_00864980(this, 1);
-    pStream->FUN_00864980(&iValue, 4);
-    pStream->FUN_00864980(&m_fTargetValue, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pStream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pStream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iValue), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pStream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fTargetValue), 4);
     switch (m_uiTargetType)
     {
         break;
     case 0:
     case 1:
-        pStream->FUN_008648e0(&pTargetForm);
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((pStream))->FUN_008648e0((unsigned int *)(void *)(&pTargetForm));
         break;
     case 2:
-        pStream->FUN_00864980(&pTargetForm, 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pStream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pTargetForm), 4);
         break;
     }
 }
@@ -417,23 +462,19 @@ void FUN_00680830_shell::FUN_00680830(void* unused)
     {
     case PACK_TARG_TYPE_PTT_REFERENCE:
     case PACK_TARG_TYPE_PTT_OBJECT:
-        pTargetForm = pTargetForm ? TESForm::GetFormByID((unsigned int)pTargetForm) : 0;
+        pTargetForm = pTargetForm ? ::FUN_004839c0((unsigned int)(std::uintptr_t)pTargetForm) : 0;
         break;
     }
 }
 
 struct C680590Form
 {
-    unsigned int Deallocate();
 };
 
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void* pvData, unsigned int uiSize);
-    void FUN_00857a10(int iData, int iSize);
 };
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct C680590Target
 {
@@ -452,9 +493,9 @@ struct C680590Target
 // @fnv 0x00680590
 void C680590Target::SaveLoad()
 {
-    g_TESSaveLoadGame->FUN_008579b0(&m_ucType, 1);
-    g_TESSaveLoadGame->FUN_008579b0(&m_iData1, 4);
-    g_TESSaveLoadGame->FUN_008579b0(&m_iData2, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&m_ucType, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&m_iData1, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&m_iData2, 4);
 
     switch (m_ucType)
     {
@@ -464,18 +505,17 @@ void C680590Target::SaveLoad()
         unsigned int uiResult = 0;
         if (m_pkForm)
         {
-            uiResult = m_pkForm->Deallocate();
+            uiResult = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkForm))->FUN_0084e3a0()));
         }
-        g_TESSaveLoadGame->FUN_00857a10((int)&uiResult, 4);
+        reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(&uiResult), 4);
     }
     break;
     case 2:
-        g_TESSaveLoadGame->FUN_008579b0(&m_iValue, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&m_iValue, 4);
         break;
     }
 }
 
-TESForm* FUN_004839c0(unsigned int formID);
 
 struct FUN_006806e0_target : PackageTargetRecord
 {
@@ -490,17 +530,14 @@ void FUN_006806e0_target::ResolveTargetForm()
     {
     case PACK_TARG_TYPE_PTT_REFERENCE:
     case PACK_TARG_TYPE_PTT_OBJECT:
-        unsigned int formID = reinterpret_cast<unsigned int>(pTargetForm);
+        unsigned int formID = (unsigned int)reinterpret_cast<std::uintptr_t>(pTargetForm);
         pTargetForm = FUN_004839c0(formID);
     }
 }
 
 struct SaveLoadStub
 {
-    void FUN_008579e0(void* data, int size);
-    void FUN_00857aa0(void* data, int size);
 };
-extern SaveLoadStub* g_saveLoad_011de45c;
 struct SaveDataStub
 {
     unsigned char type;
@@ -512,21 +549,21 @@ struct SaveDataStub
 // @fnv 0x00680640
 void SaveDataStub::FUN_00680640()
 {
-    g_saveLoad_011de45c->FUN_008579e0(this, 1);
-    g_saveLoad_011de45c->FUN_008579e0(&unk08, 4);
-    g_saveLoad_011de45c->FUN_008579e0(&unk0C, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(this, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&unk08, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&unk0C, 4);
     switch (type)
     {
         break;
     case 0:
     case 1: {
         int value;
-        g_saveLoad_011de45c->FUN_00857aa0(&value, 4);
+        reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::SaveLoadStub * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void *)(&value), 4);
         unk04 = value;
     }
     break;
     case 2:
-        g_saveLoad_011de45c->FUN_008579e0(&unk04, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&unk04, 4);
         break;
     }
 }

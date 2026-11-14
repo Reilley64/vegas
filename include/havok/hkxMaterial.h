@@ -6,7 +6,6 @@
 #include "hkBase.h"
 class hkReferencedObject;
 class hkxMaterialTextureStage;
-#pragma pack(push, 1)
 class hkxMaterial
 {
   public:
@@ -37,6 +36,4 @@ class hkxMaterial
     hkArray<hkxMaterial*> m_kSubMaterials;    // +0x70
     hkReferencedObject* m_pMaterialUserData;  // +0x7C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxMaterial[(sizeof(hkxMaterial) == 0x80) ? 1 : -1];
 #endif

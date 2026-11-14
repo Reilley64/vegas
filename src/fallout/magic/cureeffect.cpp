@@ -2,9 +2,14 @@
 // src/fallout/magic/cureeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/cureeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct Actor;
-struct MagicTarget
+#include "fnv/active_effect_fields.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/B824800MagicTarget.h"
+#include "fnv/decl/MagicTargetTypedDispel.h"
+class Actor;
+class MagicTarget
 {
+  public:
     Actor* GetOwnerActor() const;
 };
 
@@ -22,15 +27,12 @@ bool FUN_0080d4b0_shell::HasActor(MagicTarget* apTarget)
 
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct Unk824630
 {
-    void FUN_00824630(int);
 };
 struct Unk824800
 {
-    void RemoveEffectsByArchetype(int, int);
 };
 struct CureEffect
 {
@@ -43,17 +45,18 @@ struct CureEffect
 void CureEffect::FUN_0080c210()
 {
     if (m_iCureType == -1)
-        ((Unk824630*)((BSThread*)this)->GetThreadID())->FUN_00824630(m_eSpellType);
+        reinterpret_cast<::MagicTargetTypedDispel *>((((Unk824630*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->FUN_00824630(m_eSpellType);
     else
-        ((Unk824800*)((BSThread*)this)->GetThreadID())->RemoveEffectsByArchetype(m_iCureType, 0);
+        reinterpret_cast<::B824800MagicTarget *>((((Unk824800*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->RemoveEffectsByArchetype(m_iCureType, 0);
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     virtual void v00()
     {}
     virtual void v01()
@@ -120,7 +123,6 @@ struct FUN_0080c0f0_shell : ActiveEffect
     ActiveEffect* FUN_0080c0f0();
 };
 
-void* __cdecl operator new(unsigned int);
 
 // @fnv 0x0080c0f0
 ActiveEffect* FUN_0080c0f0_shell::FUN_0080c0f0()

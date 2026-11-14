@@ -10,25 +10,30 @@
 // resolves to the same address.  ExtraDataList::GetExtraRadioData() looks the
 // radio extra up by its type index and hands back its data pointer.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00418460_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/symbols_00450000.h"
 #include "layout_support.h"
 
-class ExtraRadioData;
+struct ExtraRadioData;
 
 class ExtraDataList
 {
   public:
-    ExtraRadioData* GetExtraRadioData();  // 0x00418460
+      // 0x00418460
 };
 
 class TESObjectREFR
 {
   public:
-    ExtraDataList* GetExtraData();        // 0x005d43c0
+            // 0x005d43c0
     ExtraRadioData* GetExtraRadioData();  // 0x00568e50
 };
 
 // @fnv 0x00568e50
 ExtraRadioData* TESObjectREFR::GetExtraRadioData()
 {
-    return GetExtraData()->GetExtraRadioData();
+    return ((::ExtraRadioData *)(reinterpret_cast<::FUN_00418460_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00418460()));
 }

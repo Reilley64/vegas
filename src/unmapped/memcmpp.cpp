@@ -1,5 +1,15 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+struct A3dd00Info
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    char m_14;
+};
+
 struct FUN_00a3dd00_class
 {
     void* m_p0;
@@ -8,7 +18,7 @@ struct FUN_00a3dd00_class
     void* m_p3;
     void* m_p4;
     void* m_p5;
-    void* m_p6;
+    A3dd00Info* m_p6;
     int FUN_00a3dd00(int& a, int& b, char& c);
 };
 
@@ -16,13 +26,13 @@ struct FUN_00a3dd00_class
 int FUN_00a3dd00_class::FUN_00a3dd00(int& a, int& b, char& c)
 {
     int result = 0;
-    void* p = m_p6;
+    A3dd00Info* p = m_p6;
     if (p)
     {
-        a = *(int*)((char*)p + 8);
-        b = *(int*)((char*)p + 16);
-        c = *(char*)((char*)p + 20);
-        result = *(int*)((char*)p + 12);
+        a = p->m_08;
+        b = p->m_10;
+        c = p->m_14;
+        result = p->m_0c;
     }
     else
     {

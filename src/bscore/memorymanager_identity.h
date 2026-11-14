@@ -1,8 +1,12 @@
 // bscore/memorymanager_identity.h: declares TESActorBase, Actor, TESFile, BSExtraData, BaseExtraList and more
 #ifndef FNV_MEMORYMANAGER_IDENTITY_H
 #define FNV_MEMORYMANAGER_IDENTITY_H
+#include <cstddef>
 
 
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/symbols_00401000.h"
 class PerkEntryConditionSet;
 
 enum SEX
@@ -11,10 +15,12 @@ enum SEX
     SEX_FEMALE = 1
 };
 
+enum SEX;
 class TESActorBase
 {
   public:
-    SEX GetSex();
+public:
+    ::SEX GetSex() const;
 };
 
 class Actor
@@ -24,8 +30,6 @@ class Actor
     SEX GetSex();
 };
 
-void operator delete(void* pointer) throw();
-void FNV_DeleteBuffer(void* pointer);
 
 class TESFile
 {
@@ -33,7 +37,6 @@ class TESFile
     unsigned char layoutPadding0[0x420];
     char* m_pDecompressedFormBuffer;
     unsigned int m_uiAuxBufferSize;
-    void ClearDecompressedFormBuffer();
 };
 
 class BSExtraData
@@ -45,16 +48,12 @@ class BSExtraData
 class BaseExtraList
 {
   public:
-    BSExtraData* GetExtraData(unsigned char type);
-    BSExtraData* AddExtra(BSExtraData* extra);
 };
 
 class ExtraHealth : public BSExtraData
 {
   public:
     float fHealthPercent;
-    static void* operator new(unsigned int size);
-    static void operator delete(void* pointer);
     ExtraHealth(float health);
 };
 

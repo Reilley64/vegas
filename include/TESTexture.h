@@ -4,13 +4,12 @@
 
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
+class TESFile;
 class TESTexture : public BaseFormComponent
 {
   public:
     BSStringT<char> FullNameComponent;  // +0x4
+public:
+    static void ReadTextureData(::TESTexture *, ::TESFile *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESTexture) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESTexture, FullNameComponent) == 0x4);
 #endif

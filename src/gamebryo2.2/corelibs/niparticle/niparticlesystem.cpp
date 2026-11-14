@@ -2,14 +2,41 @@
 // src/gamebryo2.2/corelibs/niparticle/niparticlesystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/niparticlesystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <windows.h>
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/AV59f.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a80580_cls.h"
+#include "fnv/decl/FUN_00a9b190.h"
+#include "fnv/decl/FUN_00c1b5c0.h"
+#include "fnv/decl/LineLoadEntry__LineReceiver.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiGeometry.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/ParticleLinkEndpoint.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a9b000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_01202000.h"
 struct NiParticleSystem
 {
     unsigned int m_usDirtyFlags;
-    void __thiscall SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid);
+    void SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid);
 };
 
 // @fnv 0x00c1b020
-void __thiscall NiParticleSystem::SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms,
+void NiParticleSystem::SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms,
                                                           bool& bRigid)
 {
     bSelectiveUpdate = true;
@@ -27,23 +54,21 @@ void __thiscall NiParticleSystem::SetSelectiveUpdateFlags(bool& bSelectiveUpdate
 }
 
 namespace fnv_00c1b810 {
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct NiStream
 {
-    unsigned int GetLinkID(void);
     NiObject* GetLoadedObject(void);
 };
 
@@ -51,17 +76,16 @@ struct NiPSysModifier;
 
 struct NiParticleSystem
 {
-    void __thiscall FUN_00a74780(NiStream* kStream);
-    void __thiscall InsertSorted(NiPSysModifier* pkModifier);
-    void __thiscall LoadModifiers(NiStream* kStream);
+    void InsertSorted(NiPSysModifier* pkModifier);
+    void LoadModifiers(NiStream* kStream);
 };
 
 // Calls FUN_00a74780, reads a modifier count from the stream, then loads that many modifiers via InsertSorted.
 // @fnv 0x00c1b810
-void __thiscall NiParticleSystem::LoadModifiers(NiStream* kStream)
+void NiParticleSystem::LoadModifiers(NiStream* kStream)
 {
-    FUN_00a74780(kStream);
-    unsigned int uiNumModifiers = kStream->GetLinkID();
+    reinterpret_cast<::ParticleLinkEndpoint *>(this)->FUN_00a74780((*(::NiStream *)(kStream)));
+    unsigned int uiNumModifiers = reinterpret_cast<::FUN_00a63460_shell *>((kStream))->FUN_00a63460();
     if (uiNumModifiers > 0)
     {
         for (unsigned int uiRemaining = uiNumModifiers; uiRemaining > 0; --uiRemaining)
@@ -70,33 +94,31 @@ void __thiscall NiParticleSystem::LoadModifiers(NiStream* kStream)
 }
 }  // namespace fnv_00c1b810
 
-extern char const* const g_01202538_arg1;
 
 // @fnv 0x00c1b5b0
 char const* const* __cdecl FUN_00c1b5b0()
 {
-    return &g_01202538_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_012024e0));
 }
 
 struct NiTPointerListBase
 {
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 struct S_00a80580
 {
-    void __thiscall FUN_00a80580();
 };
 void __cdecl _delete(void*, unsigned int);
 struct C_00c1b9b0
 {
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // Clears the list at offset 0xC8, calls FUN_00a80580, and if f has bit 0 set, deletes this with size 0x110; returns this.
 // @fnv 0x00c1b9b0
-void* __thiscall C_00c1b9b0::Destroy(unsigned int auiFlags)
+void* C_00c1b9b0::Destroy(unsigned int auiFlags)
 {
     ((NiTPointerListBase*)((char*)this + 0xC8))->RemoveAll();
-    ((S_00a80580*)this)->FUN_00a80580();
+    reinterpret_cast<::FUN_00a80580_cls *>((((S_00a80580*)this)))->FUN_00a80580();
     if (auiFlags & 1)
         _delete(this, 0x110);
     return this;
@@ -106,7 +128,6 @@ struct S_00c1b060_Obj;
 struct S_00c1b060_Cloning;
 struct S_00c1b060_Map
 {
-    bool GetAt(S_00c1b060_Obj* key, S_00c1b060_Obj*& val);
 };
 struct S_00c1b060_Cloning
 {
@@ -150,7 +171,6 @@ struct S_00c1b060_Item
 };
 struct S_00c1b060_Base
 {
-    void FUN_00a80a10(S_00c1b060_Cloning* k);
 };
 struct S_00c1b060_Sys : S_00c1b060_Base
 {
@@ -211,9 +231,9 @@ struct S_00c1b060_Sys : S_00c1b060_Base
 // @fnv 0x00c1b060
 void S_00c1b060_Sys::FUN_00c1b060(S_00c1b060_Cloning* pkCloning)
 {
-    FUN_00a80a10(pkCloning);
+    reinterpret_cast<::NiGeometry *>(this)->ProcessClone((*(::CloningProcess *)(pkCloning)));
     S_00c1b060_Obj* pkClone;
-    pkCloning->m_pCloneMap->GetAt((S_00c1b060_Obj*)this, pkClone);
+    reinterpret_cast<::A54440Hash *>((pkCloning->m_pCloneMap))->FUN_00a53c30((::A54440Manager *)(::S_00c1b060_Obj *)((S_00c1b060_Obj*)this), (::A54440Manager **)&(pkClone));
     S_00c1b060_Item* pos = unkC8;
     while (pos)
     {
@@ -229,7 +249,6 @@ struct S_00c1b120_RTTI
     const char* m_pcName;
     const S_00c1b120_RTTI* m_pBaseRTTI;
 };
-extern const S_00c1b120_RTTI DAT_012027c8;
 static const float DAT_01015f5c = -3.402823466e+38F;
 
 struct S_00c1b120_Obj
@@ -479,7 +498,7 @@ void S_00c1b120::FUN_00c1b120()
 
     for (S_00c1b120_Ctlr* pkCtlr = m_pControllers; pkCtlr; pkCtlr = pkCtlr->m_spNextController)
     {
-        S_00c1b120_Obj* pkCast = S_00c1b120_DynamicCast(&DAT_012027c8, pkCtlr);
+        S_00c1b120_Obj* pkCast = S_00c1b120_DynamicCast(&(*reinterpret_cast<const ::S_00c1b120_RTTI *>(&::g_012027c8)), pkCtlr);
         if (pkCast)
             pkCast->vfn_ec();
     }
@@ -487,44 +506,24 @@ void S_00c1b120::FUN_00c1b120()
 
 struct Object
 {
-    Object* __thiscall FUN_00c1b5c0();
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 // @fnv 0x00c1b7f0
 Object* __cdecl FUN_00c1b7f0()
 {
     Object* p = (Object*)FUN_00aa13e0(0x110);
     if (p)
-        return p->FUN_00c1b5c0();
+        return ((::Object *)(new ((void *)(p)) ::FUN_00c1b5c0()));
     return 0;
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
-    BSFadeNode* __thiscall FUN_00c1b5c0();
 };
 struct CloneSource
 {
-    void __thiscall FUN_00c1b6f0(BSFadeNode*, unsigned int);
-    BSFadeNode* __thiscall FUN_00c1b9e0(unsigned int);
+    BSFadeNode* FUN_00c1b9e0(uintptr_t);
 };
-// @fnv 0x00c1b9e0
-BSFadeNode* CloneSource::FUN_00c1b9e0(unsigned int flags)
-{
-    void* memory = BSFadeNode::operator new(0x110);
-    BSFadeNode* node;
-    if (memory)
-        node = ((BSFadeNode*)memory)->FUN_00c1b5c0();
-    else
-        node = 0;
-    FUN_00c1b6f0(node, flags);
-    return node;
-}
-
-extern "C" int DAT_011f426c;
-extern "C" int DAT_011f4270;
-extern "C" int DAT_011f4274;
 
 struct Block9
 {
@@ -539,7 +538,6 @@ struct Block9
     int unk20;
 };
 
-extern "C" const Block9 DAT_011a9448;
 
 struct Block13
 {
@@ -615,7 +613,6 @@ struct FUN_00c1add0_cls
     unsigned char unkDB;
     Block13 m_blockB;
 
-    void FUN_00a68c60(void* apValue);
     void FUN_00c1add0(void* apValue);
 };
 
@@ -623,14 +620,14 @@ struct FUN_00c1add0_cls
 // @fnv 0x00c1add0
 void FUN_00c1add0_cls::FUN_00c1add0(void* apValue)
 {
-    FUN_00a68c60(apValue);
+    reinterpret_cast<::NiAVObject *>(this)->UpdateWorldData((*(::NiUpdateData *)(apValue)));
     m_blockB = m_blockA;
     if (m_bFlag != 0)
     {
-        m_blockA.m_i24 = DAT_011f426c;
-        m_blockA.m_i28 = DAT_011f4270;
-        m_blockA.m_i2C = DAT_011f4274;
-        m_blockA.head = DAT_011a9448;
+        m_blockA.m_i24 = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
+        m_blockA.m_i28 = ::_DAT_011f4270;
+        m_blockA.m_i2C = ::_DAT_011f4274;
+        m_blockA.head = (*reinterpret_cast<const ::Block9 *>(&::DAT_011a9448));
     }
 }
 
@@ -771,7 +768,7 @@ struct FUN_00c1aee0_cls
     unsigned int unkC0;
     unsigned int unkC4;
     ListNode* m_c8;
-    void __thiscall FUN_00c1aee0(unsigned int arg);
+    void FUN_00c1aee0(unsigned int arg);
 };
 // Walks the linked list at m_c8 and calls v36 on each node's m_08 item, passing m_b8 and arg.
 // @fnv 0x00c1aee0
@@ -796,20 +793,19 @@ struct Vec4Obj
     float y;
     float z;
     float w;
-    void __thiscall FUN_00a7fdd0(Vec4Obj const* src, void* p);
+    void FUN_00a7fdd0(Vec4Obj const* src, void* p);
 };
 
 struct S_00a80710
 {
-    void __thiscall FUN_00a80710();
 };
 
 class NiTransform;
 
-class NiBound
+struct NiBound
 {
   public:
-    void __thiscall Update(NiBound const& src, NiTransform const& xf);
+    void Update(NiBound const& src, NiTransform const& xf);
 };
 
 struct Vec3Tmp
@@ -893,13 +889,13 @@ struct FUN_00c1af60_cls
     unsigned char unkDB;
     unsigned int m_unkDC;
 
-    void __thiscall FUN_00c1af60();
+    void FUN_00c1af60();
 };
 
 // @fnv 0x00c1af60
-void __thiscall FUN_00c1af60_cls::FUN_00c1af60()
+void FUN_00c1af60_cls::FUN_00c1af60()
 {
-    ((S_00a80710*)this)->FUN_00a80710();
+    reinterpret_cast<::NiGeometry *>((((S_00a80710*)this)))->UpdateWorldBound();
     if (m_bC4 == 0)
     {
         return;
@@ -929,7 +925,7 @@ void __thiscall FUN_00c1af60_cls::FUN_00c1af60()
         p->w = w;
         return;
     }
-    NiTransform const& xf = *(NiTransform const*)((char const*)this + 0xdc);
+    NiTransform const& xf = *(NiTransform const*)&this->m_unkDC;
     ((NiBound*)dst)->Update(*(NiBound const*)&m_pHolder->m_vec10, xf);
 }
 
@@ -1079,7 +1075,6 @@ struct S_00c1b260_Data
     int unk14;
     int unk18;
     int m_uiItemCount;
-    void FUN_00a67090(int flags);
 };
 
 struct S_00c1b260_Mod
@@ -1160,7 +1155,6 @@ struct S_00c1b260_Parent
     unsigned int m_uiObjectFlags;
 };
 
-extern double DAT_010241b0;
 
 struct S_00c1b260_System : NiParticleSystem
 {
@@ -1218,7 +1212,6 @@ struct S_00c1b260_System : NiParticleSystem
     int unkD0;
     float m_fLastTime;
     bool m_bHasAccumulation;
-    void FUN_00c1b120();
     void FUN_00c1b260(float fTime);
 };
 
@@ -1232,10 +1225,10 @@ void S_00c1b260_System::FUN_00c1b260(float fTime)
     pkData->vAC();
     if (m_bHasAccumulation || m_fLastTime > fTime)
     {
-        FUN_00c1b120();
+        reinterpret_cast<::S_00c1b120 *>(this)->FUN_00c1b120();
         m_bHasAccumulation = false;
     }
-    if (m_fLastTime == DAT_010241b0)
+    if (m_fLastTime == ::DAT_010241b0)
         m_fLastTime = fTime;
 
     S_00c1b260_Mod* pkLast = 0;
@@ -1253,7 +1246,7 @@ void S_00c1b260_System::FUN_00c1b260(float fTime)
     if (pkLast && pkLast->m_bModifierActive)
         pkLast->update(fTime, pkData);
 
-    pkData->FUN_00a67090(7);
+    reinterpret_cast<::NiGeometryData *>((pkData))->SetDirtyFlags(7);
     m_fLastTime = fTime;
     if (bWasEmpty && pkData->m_uiItemCount != 0)
     {
@@ -1431,7 +1424,6 @@ struct Obj_c1b3a0
     int unk244;
     int unk248;
     Sub_c1b3a0* m_24c;
-    void __thiscall FUN_00a64670();
 };
 
 struct Nps_c1b3a0
@@ -1486,14 +1478,13 @@ struct Nps_c1b3a0
     int unkbc;
     int unkc0;
     unsigned char m_c4;
-    void __thiscall FUN_00a9b180(Obj_c1b3a0* pObj);
-    void __thiscall FUN_00c1b3a0(Obj_c1b3a0* pObj);
+    void FUN_00c1b3a0(Obj_c1b3a0* pObj);
 };
 
 // @fnv 0x00c1b3a0
 void Nps_c1b3a0::FUN_00c1b3a0(Obj_c1b3a0* pObj)
 {
-    FUN_00a9b180(pObj);
+    reinterpret_cast<::LineLoadEntry::LineReceiver *>(this)->FUN_00a9b180((*(::LineLoadEntry::BinaryDataRecord *)(pObj)));
     Sub_c1b3a0* pSub = pObj->m_24c;
     bool bFlag;
     int nResult;
@@ -1503,12 +1494,11 @@ void Nps_c1b3a0::FUN_00c1b3a0(Obj_c1b3a0* pObj)
     }
     pSub->m_04 += nResult;
     m_c4 = (bFlag != 0);
-    pObj->FUN_00a64670();
+    reinterpret_cast<::S_00a64670_Foo *>((pObj))->FUN_00a64670();
 }
 
 struct FUN_00a59fd0_shell
 {
-    void __thiscall UpdateDownwardPassIfSelective(void*, unsigned int);
 };
 struct FUN_00c1af20_upd
 {
@@ -1584,11 +1574,11 @@ struct FUN_00c1af20_view
 };
 struct FUN_00c1af20_shell : NiParticleSystem
 {
-    void __thiscall UpdateParticleSystem(FUN_00c1af20_upd& a, unsigned int b);
+    void UpdateParticleSystem(FUN_00c1af20_upd& a, unsigned int b);
 };
 // If a.flag05 is set, marks a.flag06 and returns; otherwise, when bit 2 of flags30 is set, calls the virtual at offset 0xb8, then calls UpdateDownwardPassIfSelective with a and b.
 // @fnv 0x00c1af20
-void __thiscall FUN_00c1af20_shell::UpdateParticleSystem(FUN_00c1af20_upd& aUpd, unsigned int b)
+void FUN_00c1af20_shell::UpdateParticleSystem(FUN_00c1af20_upd& aUpd, unsigned int b)
 {
     FUN_00c1af20_view* v = reinterpret_cast<FUN_00c1af20_view*>(this);
     if (aUpd.flag05)
@@ -1601,11 +1591,11 @@ void __thiscall FUN_00c1af20_shell::UpdateParticleSystem(FUN_00c1af20_upd& aUpd,
     if (on)
     {
         void** vt = *(void***)this;
-        typedef void(__thiscall * VB8)(void*, void*);
+        typedef void(* VB8)(void*, void*);
         ((VB8)vt[0xb8 / 4])(this, &aUpd);
     }
     FUN_00a59fd0_shell* s = reinterpret_cast<FUN_00a59fd0_shell*>(this);
-    s->UpdateDownwardPassIfSelective(&aUpd, b);
+    reinterpret_cast<::AV59f *>((s))->UpdateDownwardPassIfSelective((*(::NiUpdateData *)(&aUpd)), b);
 }
 
 // IsEqual: base comparison, matching flags, and every bound in the list equals the bound with the same id in the other list.
@@ -1975,7 +1965,6 @@ template <class T> inline T& NiTListGetNextC1B(NiTPointerListNodeC1B<T>*& pkPos)
 class BaseC1B400
 {
   public:
-    void SaveBinary(NiStreamC1B& kStream);
 };
 
 class FUN_00c1b400_cls : public BaseC1B400
@@ -2045,7 +2034,7 @@ class FUN_00c1b400_cls : public BaseC1B400
 // @fnv 0x00c1b400
 void FUN_00c1b400_cls::FUN_00c1b400(NiStreamC1B& kStream)
 {
-    BaseC1B400::SaveBinary(kStream);
+    reinterpret_cast<::FUN_00a9b1a0_shell *>(this)->FUN_00a9b1a0((::NiStream &)kStream);
     unsigned char ucFlag = m_bFlag;
     C1B400SaveBinary(kStream, ucFlag);
     unsigned int uiValue = m_eValue;
@@ -2096,18 +2085,11 @@ struct FUN_00c1b850_list
 };
 struct C_0096ad30
 {
-    void __thiscall FUN_0096ad30(unsigned int n);
 };
 struct C_0096ae90
 {
-    void __thiscall FUN_0096ae90(unsigned int idx, unsigned int* p);
 };
 
-extern unsigned int g_012024e0;
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
-unsigned int __cdecl FUN_00a7d370(const char* s, unsigned int v);
-unsigned int __cdecl FUN_00a7d510(const char* s, unsigned int v);
-unsigned int __cdecl FUN_00a7d490(const char* s, unsigned int v);
 
 struct FUN_00c1b850_cls
 {
@@ -2165,7 +2147,6 @@ struct FUN_00c1b850_cls
     unsigned int unkCC;
     unsigned int m_d0;
     unsigned int unkD4;
-    void FUN_00a9b2e0(FUN_00c1b850_list* p);
     void WriteParticleSystemInfo(FUN_00c1b850_list* a1);
 };
 
@@ -2173,53 +2154,51 @@ struct FUN_00c1b850_cls
 // @fnv 0x00c1b850
 void FUN_00c1b850_cls::WriteParticleSystemInfo(FUN_00c1b850_list* pList)
 {
-    FUN_00a9b2e0(pList);
-    unsigned int v = FUN_00a7d330(g_012024e0);
+    ::FUN_00a9b2e0((::StrArr *)this);
+    uintptr_t v = ((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_012024e0))))));
     unsigned int uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
-        ((C_0096ad30*)pList)->FUN_0096ad30(uiIndex + pList->m_0e);
+        reinterpret_cast<::ViewerStrings *>((((C_0096ad30*)pList)))->SetSize(uiIndex + pList->m_0e);
     }
-    ((C_0096ae90*)pList)->FUN_0096ae90(uiIndex, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 
-    v = FUN_00a7d370("World Space", m_c4);
+    v = ((uintptr_t)(::FUN_00a7d370("World Space", m_c4)));
     uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
-        ((C_0096ad30*)pList)->FUN_0096ad30(uiIndex + pList->m_0e);
+        reinterpret_cast<::ViewerStrings *>((((C_0096ad30*)pList)))->SetSize(uiIndex + pList->m_0e);
     }
-    ((C_0096ae90*)pList)->FUN_0096ae90(uiIndex, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 
     unsigned int uiNumMods = m_d0;
-    v = FUN_00a7d510("NumMods", uiNumMods);
+    v = ((uintptr_t)(::FUN_00a7d510("NumMods", uiNumMods)));
     uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
-        ((C_0096ad30*)pList)->FUN_0096ad30(uiIndex + pList->m_0e);
+        reinterpret_cast<::ViewerStrings *>((((C_0096ad30*)pList)))->SetSize(uiIndex + pList->m_0e);
     }
-    ((C_0096ae90*)pList)->FUN_0096ae90(uiIndex, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 
     unsigned int uiNumParticles = m_b8->m_50;
-    v = FUN_00a7d490("NumParticles", uiNumParticles);
+    v = ((uintptr_t)(::FUN_00a7d490("NumParticles", uiNumParticles)));
     uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
-        ((C_0096ad30*)pList)->FUN_0096ad30(uiIndex + pList->m_0e);
+        reinterpret_cast<::ViewerStrings *>((((C_0096ad30*)pList)))->SetSize(uiIndex + pList->m_0e);
     }
-    ((C_0096ae90*)pList)->FUN_0096ae90(uiIndex, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 
     unsigned int uiMaxParticles = m_b8->m_08;
-    v = FUN_00a7d490("MaxParticles", uiMaxParticles);
+    v = ((uintptr_t)(::FUN_00a7d490("MaxParticles", uiMaxParticles)));
     uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
-        ((C_0096ad30*)pList)->FUN_0096ad30(uiIndex + pList->m_0e);
+        reinterpret_cast<::ViewerStrings *>((((C_0096ad30*)pList)))->SetSize(uiIndex + pList->m_0e);
     }
-    ((C_0096ae90*)pList)->FUN_0096ae90(uiIndex, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct Bound
 {
@@ -2268,8 +2247,9 @@ struct Bound
     unsigned int m_uiKey;
 };
 
-struct NiPointer
+class NiPointer
 {
+  public:
     Bound* m_object;
 };
 
@@ -2285,9 +2265,9 @@ struct PointerList
     Node* m_pkHead;
     Node* m_pkTail;
     unsigned int m_uiCount;
-    void __thiscall FUN_00c1b4a0(NiPointer const* ptr);
-    void __thiscall FUN_00c1b520(Node* node, NiPointer const* ptr);
-    void __thiscall FUN_00a5a310(NiPointer const* ptr);
+    void FUN_00c1b4a0(NiPointer const* ptr);
+    void FUN_00c1b520(Node* node, NiPointer const* ptr);
+    void FUN_00a5a310(NiPointer const* ptr);
 };
 
 struct C_00c1b610
@@ -2444,7 +2424,6 @@ struct Anchor
 struct Pool
 {
     int unk00;
-    Node* __thiscall FUN_0043a010();
 };
 
 struct Self
@@ -2452,13 +2431,13 @@ struct Self
     Node* unk00;
     int unk04;
     Pool unk08;
-    Node* __thiscall FUN_00c1b520(Anchor* anchor, Ptr& ref);
+    Node* FUN_00c1b520(Anchor* anchor, Ptr& ref);
 };
 
 // @fnv 0x00c1b520
-Node* __thiscall Self::FUN_00c1b520(Anchor* anchor, Ptr& ref)
+Node* Self::FUN_00c1b520(Anchor* anchor, Ptr& ref)
 {
-    Node* node = unk08.FUN_0043a010();
+    Node* node = ((::fnv_00c1b520::Node *)(reinterpret_cast<::FUN_0043a010_shell *>(&(unk08))->FUN_0043a010()));
     node->unk08 = ref;
     node->unk00 = (Node*)anchor;
     node->unk04 = anchor->unk04;
@@ -2472,10 +2451,8 @@ Node* __thiscall Self::FUN_00c1b520(Anchor* anchor, Ptr& ref)
 }
 }  // namespace fnv_00c1b520
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 extern bool DAT_012024d8;
 extern unsigned long DAT_012024dc;
-extern unsigned char* DAT_011f5b04;
 extern unsigned int DAT_011ae6e0;
 struct Ref_00c258e0;
 struct NiPSysUpdateTask
@@ -2850,7 +2827,6 @@ struct S_00c1b0b0_Item
 
 struct S_00c1b0b0_Base
 {
-    bool FUN_00a9b190(S_00c1b0b0_Stream* kStream);
 };
 
 struct FUN_00c1b0b0_cls : S_00c1b0b0_Base
@@ -2907,14 +2883,14 @@ struct FUN_00c1b0b0_cls : S_00c1b0b0_Base
     int unkC4;
     S_00c1b0b0_Item* unkC8;
 
-    bool __thiscall FUN_00c1b0b0(S_00c1b0b0_Stream* kStream);
+    bool FUN_00c1b0b0(S_00c1b0b0_Stream* kStream);
 };
 
 // Calls the base routine, then invokes v21 on each linked element with kStream, and returns true if the base routine succeeds.
 // @fnv 0x00c1b0b0
-bool __thiscall FUN_00c1b0b0_cls::FUN_00c1b0b0(S_00c1b0b0_Stream* kStream)
+bool FUN_00c1b0b0_cls::FUN_00c1b0b0(S_00c1b0b0_Stream* kStream)
 {
-    if (!FUN_00a9b190(kStream))
+    if (!reinterpret_cast<struct ::FUN_00a9b190 *>(this)->FUN_00a9b190_Impl((*(::NiStream *)(kStream))))
         return false;
 
     for (S_00c1b0b0_Item* pkPos = unkC8; pkPos;)
@@ -2927,10 +2903,8 @@ bool __thiscall FUN_00c1b0b0_cls::FUN_00c1b0b0(S_00c1b0b0_Stream* kStream)
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
-class CloningProcess;
+struct CloningProcess;
 
 class NiRefObject
 {
@@ -2986,7 +2960,7 @@ template <class T> class NiPointerC1B
     T* m_pObject;
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual void v02();
@@ -3062,7 +3036,6 @@ template <class TheAllocator, class T> class NiTPointerListBaseC1B
 class NiNodeC1B : public NiObject
 {
   public:
-    void FUN_00a9b140(NiNodeC1B* pDest, CloningProcess& kCloning);
     int unk08;
     int unk0C;
     int unk10;
@@ -3122,12 +3095,24 @@ class BSMultiBoundNode : public NiNodeC1B
     bool m_bD8;
     bool m_bD9;
 };
+// @fnv 0x00c1b9e0
+BSFadeNode* CloneSource::FUN_00c1b9e0(uintptr_t flags)
+{
+    void* memory = ::operator new(0x110);
+    BSFadeNode* node;
+    if (memory)
+        node = ((::BSFadeNode *)(new ((void *)(((BSFadeNode*)memory))) ::FUN_00c1b5c0()));
+    else
+        node = 0;
+    reinterpret_cast<::BSMultiBoundNode *>(this)->FUN_00c1b6f0((::BSMultiBoundNode *)(node), (*(::CloningProcess *)(flags)));
+    return node;
+}
 
 // Clones the node's bounds list and multi-bound pointer into pDest via kCloning after calling the base NiNodeC1B clone routine.
 // @fnv 0x00c1b6f0
 void BSMultiBoundNode::FUN_00c1b6f0(BSMultiBoundNode* pDest, CloningProcess& kCloning)
 {
-    NiNodeC1B::FUN_00a9b140(pDest, kCloning);
+    ::FUN_00a9b140();
 
     pDest->m_bC4 = m_bC4;
 
@@ -3145,8 +3130,9 @@ void BSMultiBoundNode::FUN_00c1b6f0(BSMultiBoundNode* pDest, CloningProcess& kCl
 
 #include <windows.h>
 namespace fnv_00c1b4a0 {
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     LONG m_uiRefCount;
@@ -3190,7 +3176,6 @@ struct ListNode
 struct NodePoolView
 {
     unsigned int m_uiCount;
-    void* AddHead();
 };
 
 struct RefObjectList
@@ -3205,7 +3190,7 @@ struct RefObjectList
 // @fnv 0x00c1b4a0
 void RefObjectList::FUN_00c1b4a0(const NiRefObjectPtr& element)
 {
-    ListNode* pkNode = (ListNode*)m_kItemCount.AddHead();
+    ListNode* pkNode = (ListNode*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010()));
     pkNode->m_element = element;
     pkNode->m_pkPrev = 0;
     pkNode->m_pkNext = m_pkHead;
@@ -3217,3 +3202,5 @@ void RefObjectList::FUN_00c1b4a0(const NiRefObjectPtr& element)
     m_pkHead = pkNode;
 }
 }  // namespace fnv_00c1b4a0
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/niparticlesystem.inc"

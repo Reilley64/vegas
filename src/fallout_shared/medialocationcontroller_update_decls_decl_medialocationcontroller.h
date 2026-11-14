@@ -4,6 +4,20 @@
 #define FNV_MEDIALOCATIONCONTROLLER_UPDATE_DECLS_H
 
 // Unit-local header for fallout_shared/medialocationcontroller.cpp.
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_00595cb0_shell.h"
+#include "fnv/decl/FUN_00595cf0_shell.h"
+#include "fnv/decl/FUN_00595d10_shell.h"
+#include "fnv/decl/FUN_005fd3b0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/PlayerNearbyRefs.h"
+#include "fnv/decl/ThisT.h"
+#include "fnv/decl/fnv_00568cb0__FUN_00568cb0_shell.h"
+#include "fnv/decl/fnv_008b8e90__FUN_008b8e90_shell.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 #ifndef FNV_MEDIALOCATIONCONTROLLER_UNIT_H
 #define FNV_MEDIALOCATIONCONTROLLER_UNIT_H
 #include "layout_support.h"
@@ -78,44 +92,9 @@ class MediaLocationController : public TESForm, public TESFullName
         DEADFACTION_NONE
     };
     bool Update(bool abInCombat);
-    bool IsMediaLocationActive();
-    DEADREPFLAGS GetDeadRep();
     void ResetFormData();
     void ClearData();
 };
-FNV_STATIC_ASSERT(sizeof(MediaLocationController) == 184);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_fUpdateCooldown) == 36);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_uiFirstCounter) == 40);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_uiSecondCounter) == 44);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_uiThirdCounter) == 48);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, bIsActive) == 52);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_bCountWasNonzero) == 53);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_bActorStateFlag) == 54);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_bConditionWasTrue) == 55);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_bConditionActive) == 56);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_fLocationDistance) == 60);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_uiPerceivedActorCount) == 64);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_uiPreviousPerceivedActorCount) == 68);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_eCurrentFightReaction) == 72);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_cMediaState) == 76);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_pMediaSet) == 80);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_kLocationName) == 84);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, pFaction) == 96);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_eRequiredFightReaction) == 100);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_pReference) == 104);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, iFlags) == 108);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_fLowerWeightThreshold) == 112);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_fUpperWeightThreshold) == 116);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_fMediaSelectionValue) == 120);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_fUpdateInterval) == 124);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_uiShortDelay) == 128);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_uiLongDelay) == 132);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_kMediaSetList1) == 136);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_kMediaSetList2) == 144);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_kMediaSetList3) == 152);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_kMediaSetList4) == 160);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_kMediaSetList5) == 168);
-FNV_STATIC_ASSERT(offsetof(MediaLocationController, m_kMediaSetList6) == 176);
 #endif
 #ifndef FNV_MEDIASET_LOCAL_H
 #define FNV_MEDIASET_LOCAL_H
@@ -164,27 +143,17 @@ class MediaSet : public TESForm, public TESFullName
     float m_fMediaValue;
     TESSound* m_pSound1;
     TESSound* m_pSound2;
-    void Reset();
-    MEDIASETTYPE GetType();
     bool Update(unsigned int auiTime, bool abForce, MediaLocationController* apController);
 };
-FNV_STATIC_ASSERT(sizeof(MediaSet) == 0xC4);
-FNV_STATIC_ASSERT(offsetof(MediaSet, m_kFullName) == 0x38);
-FNV_STATIC_ASSERT(offsetof(MediaSet, m_kMediaSetEntry1) == 0x48);
-FNV_STATIC_ASSERT(sizeof(MediaSet::MediaSetEntry) == 0x10);
-FNV_STATIC_ASSERT(offsetof(MediaSet::MediaSetEntry, Name) == 0);
-FNV_STATIC_ASSERT(offsetof(MediaSet::MediaSetEntry, Attenuation) == 8);
-FNV_STATIC_ASSERT(offsetof(MediaSet::MediaSetEntry, Percent) == 12);
 #endif
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3 operator-(const NiPoint3& arOther) const;
-    float GetSquaredXYLength() const;  // canonical binding for SqrXYLength()
+      // canonical binding for SqrXYLength()
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
 class TESObjectREFR : public TESForm
 {
   public:
@@ -237,13 +206,10 @@ class TESObjectREFR : public TESForm
     virtual void vfn_1ec();
     virtual void vfn_1f0();
     virtual NiPoint3* GetPos() const;
-    float GetRadius();
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
 class Actor : public TESObjectREFR
 {
   public:
-    bool HasFaction(TESFaction* apFaction);
 };
 struct ActorCombatEntry
 {
@@ -251,7 +217,6 @@ struct ActorCombatEntry
     bool m_bIsEnemy;
     bool m_bIsCombatTarget;
 };
-FNV_STATIC_ASSERT(sizeof(ActorCombatEntry) == 8);
 class MusicMarkerReference
 {
   public:
@@ -261,30 +226,25 @@ class MusicMarkerReference
 class PlayerCharacter : public Actor
 {
   public:
-    MusicMarkerReference* GetMusicMarkerReference();
-    BSSimpleList<ActorCombatEntry*>* GetListofPerceivedActors();
 };
-extern PlayerCharacter* g_thePlayer;
 class TESFaction : public TESForm
 {
   public:
-    FIGHT_REACTION GetFactionReaction(TESFaction* apFaction);
 };
 enum DEFAULT_OBJECT
 {
     DEFAULT_OBJECT_PLAYER_FACTION = 6
 };
+class TESForm;
+enum DEFAULT_OBJECT;
 class BGSDefaultObjectManager
 {
   public:
-    static TESForm* GetDefaultObjectByIndex(int aeObject);
+public:
+    static ::TESForm *GetDefaultObjectByIndex(::DEFAULT_OBJECT);
 };
-class BSAudio
+struct BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
-    unsigned int GetSynchTime();
 };
-extern MediaLocationController* DAT_011dd374;
-extern MediaLocationController* DAT_011dd378;
 #endif

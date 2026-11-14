@@ -2,18 +2,18 @@
 // src/havok/physics/collide/shape/convex/hkpconvexshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/hkpconvexshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkpConvexShape.h"
 
 // @fnv 0x00c9e1e0
-int __stdcall FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+int FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     return 2;
 }
 
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 class hkReferencedObjectC9E3
@@ -58,7 +58,7 @@ class hkpSingleShapeContainerC9E3 : public hkpShapeContainerC9E3
     hkpSingleShapeContainerC9E3(FUN_00d1df70* pkChild, int iRef) : m_pContainedShape(pkChild)
     {
         if (iRef == 1)
-            m_pContainedShape->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((m_pContainedShape))->FUN_00c90510();
     }
     virtual ~hkpSingleShapeContainerC9E3() throw();
     FUN_00d1df70* m_pContainedShape;
@@ -166,7 +166,7 @@ struct Cb;
 
 struct VTable
 {
-    void(__thiscall* fn)(Cb*, P2*, Vec4*);
+    void(* fn)(Cb*, P2*, Vec4*);
 };
 
 struct Cb
@@ -191,12 +191,12 @@ class Shape
 
 struct FN : public Shape
 {
-    void FUN_00c9e2a0(int p1, int p2, Cb* p3);
+    void FUN_00c9e2a0(void* p1, P2* p2, Cb* p3);
 };
 
 // Calls v8 to fill out.v, multiplies it by the Mat3 in P2, stores the result back, then invokes the VTable callback fn on Cb.
 // @fnv 0x00c9e2a0
-void FN::FUN_00c9e2a0(int p1, int p2, Cb* apCb)
+void FN::FUN_00c9e2a0(void* p1, P2* p2, Cb* apCb)
 {
     bool ok;
     Out out;
@@ -206,16 +206,15 @@ void FN::FUN_00c9e2a0(int p1, int p2, Cb* apCb)
     out.b = -1;
     out.c = 0;
 
-    this->v8(&ok, (void*)(*(volatile int*)&p1), &out);
+    this->v8(&ok, *(void* volatile*)&p1, &out);
 
     if (ok)
     {
         __m128 v = _mm_load_ps(&out.v.x);
-        int p2Value = p2;
-        P2* pP2 = (P2*)p2Value;
+        P2* pP2 = p2;
         Mat3* m = pP2->m;
         VTable* vt = apCb->vt;
-        void(__thiscall * fn)(Cb*, P2*, Vec4*) = vt->fn;
+        void(* fn)(Cb*, P2*, Vec4*) = vt->fn;
 
         __m128 c0 = _mm_load_ps(&m->c0.x);
         __m128 c1 = _mm_load_ps(&m->c1.x);
@@ -227,4 +226,54 @@ void FN::FUN_00c9e2a0(int p1, int p2, Cb* apCb)
         _mm_store_ps(&out.v.x, r);
         fn(apCb, pP2, &out.v);
     }
+}
+
+// Moved from hkpconvexshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01268000.h"
+int FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+#include <emmintrin.h>
+
+
+struct CenterVector
+{
+    __m128 quad;
+    void SetAdd(const CenterVector& a, const CenterVector& b)
+    {
+        quad = _mm_add_ps(a.quad, b.quad);
+    }
+    void Scale(const float& scale)
+    {
+        __m128 scalar = _mm_load_ss(&scale);
+        __m128 factor = _mm_shuffle_ps(scalar, scalar, 0);
+        quad = _mm_mul_ps(factor, quad);
+    }
+};
+struct __declspec(align(16)) CenterAabb
+{
+    CenterVector m_kMinimumCorner;
+    CenterVector m_kMaximumCorner;
+};
+
+class DummyClass
+{
+  public:
+    virtual ~DummyClass();
+    virtual void vfn1();
+    virtual void vfn2();
+    virtual void vfn3();
+    virtual void vfn4();
+    virtual void vfn5();
+    virtual void vfn6();
+    virtual void getAabb(const hkTransform& localToWorld, float tolerance, CenterAabb& out) const;
+    void FUN_00c9e250(CenterVector* centreOut);
+};
+
+// @fnv 0x00c9e250
+void DummyClass::FUN_00c9e250(CenterVector* centreOut)
+{
+    CenterAabb aabb;
+    getAabb((*reinterpret_cast<const ::hkTransform *>(&::DAT_01268370)), 0.0f, aabb);
+    centreOut->SetAdd(aabb.m_kMaximumCorner, aabb.m_kMinimumCorner);
+    centreOut->Scale(::fnv_00c88020::DAT_01016248);
 }

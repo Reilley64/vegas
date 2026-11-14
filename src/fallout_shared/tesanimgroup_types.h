@@ -1,26 +1,16 @@
-// fallout_shared/tesanimgroup_types.h: declares NiMemObject, NiRefObject, NiPoint3, _AnimationGroupActionType, TESAnimGroup and more
+// fallout_shared/tesanimgroup_types.h: declares NiPoint3, the animation group enumerations and more; includes the shared TESAnimGroup
 #ifndef FNV_TESANIMGROUP_TYPES_H
 #define FNV_TESANIMGROUP_TYPES_H
 
 #include <stddef.h>
-#define TESANIMGROUP_JOIN_INNER(a, b) a##b
-#define TESANIMGROUP_JOIN(a, b) TESANIMGROUP_JOIN_INNER(a, b)
-#define TESANIMGROUP_ASSERT(c) typedef char TESANIMGROUP_JOIN(tesanimgroup_assert_, __LINE__)[(c) ? 1 : -1]
-class NiMemObject
-{
-};
-class NiRefObject : public NiMemObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-};
-class NiPoint3
+#include <cstring>
+#include "fnv/symbols_01197000.h"
+struct NiPoint3
 {
   public:
     float x, y, z;
-    float Length() const;
+public:
+    float ComputeMagnitude() const;
 };
 class TESSound;
 class NiControllerSequence;
@@ -362,96 +352,11 @@ enum ANIM_GROUP_ACTION
     ANIM_GROUP_ACTION_AGA_CAST_HIT = 1,
     ANIM_GROUP_ACTION_AGA_CAST_STOP = 2
 };
-// Public JohnnyGuitar BSEnums.hpp declaration, adapted to C++03 enum syntax.
-struct _AnimationGroupActionType
-{
-    enum Type
-    {
-        START_STOP,
-        LOOP,
-        SPECIAL_IDLE,
-        EQUIP,
-        UNEQUIP,
-        ATTACK,
-        ATTACK_POWER,
-        ATTACK_THROW,
-        ATTACK_THROW_ATTACH,
-        ATTACK_SPIN,
-        COUNT
-    };
-};
-typedef _AnimationGroupActionType::Type ANIM_GROUP_ACTION_TYPE;
-class TESAnimGroup : public NiRefObject
-{
-  public:
-    virtual ~TESAnimGroup();
-    struct AnimGroupSound
-    {
-        float fTime;
-        union
-        {
-            unsigned char ucVolume;
-            unsigned char eType;
-        };
-        union
-        {
-            float fCurrentSpeed;
-            unsigned int uiEnumData;
-        };
-        TESSound* SoundAssetTmp;
-    };
-    unsigned char m_ucSectionPriorities[8];
-    unsigned short sType;
-    unsigned int frameCount;
-    float* times;
-    NiPoint3 speed;
-    char m_cByteAfterSpeed;
-    unsigned char m_ucBlendCount, m_ucBlendInCount, m_ucBlendOutCount, m_ucDecal;
-    const char* pParentName;
-    unsigned int m_uiSoundEntryCount;
-    AnimGroupSound* sounds;
-    static unsigned short AnimGroup(ANIM_GROUP_MOVE_ENUM, ANIM_GROUP_WEAPON_ENUM, ANIM_GROUP_ENUM, bool);
-    static ANIM_GROUP_MOVE_ENUM GetMoveType(unsigned short);
-    static ANIM_GROUP_ENUM GetType(unsigned short);
-    ANIM_GROUP_ENUM GetType() const;
-    static bool IsActionTypeValid(ANIM_GROUP_ACTION_TYPE);
-    static bool IsActionTypeValid(unsigned short);
-    static bool IsAimAnimation(unsigned short);
-    static bool IsValidAnimationGroup(ANIM_GROUP_ACTION_TYPE);
-    static bool IsValidAnimationGroup(unsigned short);
-    bool IsJumpAnimation() const;
-    float GetAnimationSpeed() const;
-    static char* FindNextLine(char*);
-    void SetSoundsFromSequence(NiControllerSequence*);
-};
-extern "C" char* __cdecl strchr(const char*, int);  // CRT strchr, canonical _strchr = 0x00EC7690
-char* __cdecl strchr(char*, int);                   // C++ <string.h> overload, ?strchr@@YAPADPADH@Z = 0x0043B9D0
-TESANIMGROUP_ASSERT(sizeof(void*) == 4);
-TESANIMGROUP_ASSERT(sizeof(NiRefObject) == 8);
-TESANIMGROUP_ASSERT(sizeof(NiPoint3) == 12);
-TESANIMGROUP_ASSERT(sizeof(TESAnimGroup) == 60);
-TESANIMGROUP_ASSERT(sizeof(TESAnimGroup::AnimGroupSound) == 16);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucSectionPriorities) == 8);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, sType) == 16);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, frameCount) == 20);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, times) == 24);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, speed) == 28);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_cByteAfterSpeed) == 40);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucBlendCount) == 41);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucBlendInCount) == 42);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucBlendOutCount) == 43);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucDecal) == 44);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, pParentName) == 48);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_uiSoundEntryCount) == 52);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, sounds) == 56);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup::AnimGroupSound, fTime) == 0);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup::AnimGroupSound, ucVolume) == 4);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup::AnimGroupSound, fCurrentSpeed) == 8);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup::AnimGroupSound, SoundAssetTmp) == 12);
+#include "fnv/tes_anim_group.h"
+                   // C++ <string.h> overload, ?strchr@@YAPADPADH@Z = 0x0043B9D0
 struct TESAnimGroupActionEntry
 {
     ANIM_GROUP_ACTION_TYPE action;
     unsigned char padding[32];
 };
-extern TESAnimGroupActionEntry DAT_011977e4[];
 #endif

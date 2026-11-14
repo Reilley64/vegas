@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpShapeCollection.h"
 class hkpSampledHeightFieldShape;
-#pragma pack(push, 1)
 class hkpTriSampledHeightFieldCollection : public hkpShapeCollection
 {
   public:
@@ -16,7 +15,4 @@ class hkpTriSampledHeightFieldCollection : public hkpShapeCollection
     hkArray<hkUint16> m_kWeldingInfo;                 // +0x24
     hkVector4 m_kTriangleExtrusion;                   // +0x30
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpTriSampledHeightFieldCollection[(sizeof(hkpTriSampledHeightFieldCollection) == 0x40) ? 1 : -1];
 #endif

@@ -2,14 +2,39 @@
 // src/gamebryo2.2/corelibs/nimain/nibspnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nibspnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/FUN_00a5e930.h"
+#include "fnv/decl/FUN_00a5ea70_t.h"
+#include "fnv/decl/FUN_00a5ecb0.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiBound.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiNodeEq.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/NodeA5E8.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a5dd40__FUN_00a5dd40_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/sa5e9d0__Node.h"
+#include "fnv/symbols_00a5e000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_011f5000.h"
 struct NiStream;
-struct NiNode
+struct CloningProcess;
+class NiNode
 {
-    void LoadBinary(NiStream&);
+public:
+    void CopyMemberData(::NiNode *, ::CloningProcess &);
 };
+struct NiStream;
 struct NiSphere
 {
     void LoadBinary(NiStream&);
+public:
+    void SaveBinary(::NiStream &);
 };
 
 struct NiBSPNode : NiNode
@@ -21,7 +46,7 @@ struct NiBSPNode : NiNode
 // @fnv 0x00a9a710
 void NiBSPNode::FUN_00a9a710(NiStream& stream)
 {
-    NiNode::LoadBinary(stream);
+    reinterpret_cast<::fnv_00a5dd40::FUN_00a5dd40_shell *>(this)->FUN_00a5dd40((::NiStream *)&(stream));
     ((NiSphere*)((char*)this + 0xac))->LoadBinary(stream);
 }
 
@@ -29,20 +54,19 @@ namespace fnv_00a9a840 {
 struct NiUpdateData
 {
 };
-struct NiAVObject
+class NiAVObject
 {
-    void __thiscall UpdateWorldData(NiUpdateData&);
 };
 struct NiBSPNode : NiAVObject
 {
-    void __thiscall FUN_00a9a840(NiUpdateData&);
-    void __thiscall FUN_00a9a760();
+    void FUN_00a9a840(NiUpdateData&);
+    void FUN_00a9a760();
 };
 
 // @fnv 0x00a9a840
-void __thiscall NiBSPNode::FUN_00a9a840(NiUpdateData& aUpdateData)
+void NiBSPNode::FUN_00a9a840(NiUpdateData& aUpdateData)
 {
-    NiAVObject::UpdateWorldData(aUpdateData);
+    reinterpret_cast<::NiAVObject *>(this)->UpdateWorldData((::NiUpdateData &)(aUpdateData));
     FUN_00a9a760();
 }
 }  // namespace fnv_00a9a840
@@ -50,17 +74,15 @@ void __thiscall NiBSPNode::FUN_00a9a840(NiUpdateData& aUpdateData)
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011f5f54;
 
 // @fnv 0x00a9adc0
 GlobalObjectO2_00a7b610* __cdecl FUN_00a9adc0()
 {
-    return &g_011f5f54;
+    return &::g_011f5f54;
 }
 
 struct Unk_00a5e930
 {
-    void FUN_00a5e930();
 };
 void __cdecl _delete(void*, unsigned int);
 struct FUN_00a9add0_shell
@@ -71,7 +93,7 @@ struct FUN_00a9add0_shell
 // @fnv 0x00a9add0
 void* FUN_00a9add0_shell::DestroyIfFlagged(unsigned int auiFlags)
 {
-    ((Unk_00a5e930*)this)->FUN_00a5e930();
+    reinterpret_cast<class ::FUN_00a5e930 *>((((Unk_00a5e930*)this)))->FUN_00a5e930::~FUN_00a5e930();
     if (auiFlags & 1)
         _delete(this, 0xCC);
     return this;
@@ -81,11 +103,9 @@ namespace fnv_00a9a740 {
 struct NiStream;
 struct NiSphere
 {
-    void SaveBinary(NiStream& stream);
 };
-struct NiNode
+class NiNode
 {
-    void SaveBinary(NiStream& stream);
 };
 struct NiBSPNode : NiNode
 {
@@ -97,8 +117,8 @@ struct NiBSPNode : NiNode
 // @fnv 0x00a9a740
 void NiBSPNode::FUN_00a9a740(NiStream& stream)
 {
-    NiNode::SaveBinary(stream);
-    m_pSphere.SaveBinary(stream);
+    reinterpret_cast<::NodeA5E8 *>(this)->FUN_00a5e880((::NiStreamA5E8 &)(stream));
+    reinterpret_cast<::NiSphere *>(&(m_pSphere))->SaveBinary((::NiStream &)(stream));
 }
 }  // namespace fnv_00a9a740
 
@@ -106,18 +126,14 @@ struct StrArr
 {
     unsigned int m_usSize;
     unsigned int m_usMaxSize;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct FUN_00c51570_Class
 {
-    void* FUN_00a5ea70(void*);
 };
 struct FUN_00a69a60_Owner
 {
     char* FUN_00a69a60(const char*);
 };
-char* __cdecl _FUN_00a7d330(GlobalObjectO2_00a7b610*);
 
 struct FUN_00a9acf0_shell : NiBSPNode
 {
@@ -127,34 +143,32 @@ struct FUN_00a9acf0_shell : NiBSPNode
 // @fnv 0x00a9acf0
 void FUN_00a9acf0_shell::AppendPlaneNames(StrArr* apViewerStrings)
 {
-    ((FUN_00c51570_Class*)this)->FUN_00a5ea70(apViewerStrings);
-    char* pName = _FUN_00a7d330(*(GlobalObjectO2_00a7b610**)&g_011f5f54);
+    reinterpret_cast<::FUN_00a5ea70_t *>((((FUN_00c51570_Class*)this)))->FUN_00a5ea70((::StrArr *)(apViewerStrings));
+    char* pName = ::FUN_00a7d330((const char *)(*(GlobalObjectO2_00a7b610**)&::g_011f5f54));
     unsigned int uiIndex = *(unsigned short*)((char*)apViewerStrings + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)apViewerStrings + 0x8))
-        apViewerStrings->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
-    apViewerStrings->SetAt(uiIndex, pName);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(uiIndex, pName);
     pName = ((FUN_00a69a60_Owner*)((char*)this + 0xac))->FUN_00a69a60("m_kModelPlane");
     uiIndex = *(unsigned short*)((char*)apViewerStrings + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)apViewerStrings + 0x8))
-        apViewerStrings->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
-    apViewerStrings->SetAt(uiIndex, pName);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(uiIndex, pName);
     pName = ((FUN_00a69a60_Owner*)((char*)this + 0xbc))->FUN_00a69a60("m_kWorldPlane");
     uiIndex = *(unsigned short*)((char*)apViewerStrings + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)apViewerStrings + 0x8))
-        apViewerStrings->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
-    apViewerStrings->SetAt(uiIndex, pName);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(uiIndex, pName);
 }
 
 struct NiStream;
 
 struct FUN_00a59e00_shell
 {
-    void FUN_00a59e00(NiStream& stream);
 };
 
 struct FUN_0049da80_shell
 {
-    int ClassifyPoint(void* ptr);
 };
 
 struct BinaryDataRecord
@@ -276,14 +290,14 @@ struct FUN_00a9ac10_shell
 void FUN_00a9ac10_shell::LoadFromStream(NiStream& stream)
 {
     BinaryDataRecord* data = stream.unk0c;
-    int r = unkBC.ClassifyPoint(&data->unk8c);
+    int r = reinterpret_cast<::NiCamera *>(&(unkBC))->ClassifyPoint((const ::NiPoint3 *)(void *)(&data->unk8c));
     if (r == 0)
     {
         TriFloat kTriple;
         kTriple.f0 = data->unk68;
         kTriple.f1 = data->unk74;
         kTriple.f2 = data->unk80;
-        r = unkBC.ClassifyPoint(&kTriple);
+        r = reinterpret_cast<::NiCamera *>(&(unkBC))->ClassifyPoint((const ::NiPoint3 *)(void *)(&kTriple));
     }
     PtrPair* p = unkA0;
     FUN_00a59e00_shell* a = p->unk00;
@@ -292,22 +306,22 @@ void FUN_00a9ac10_shell::LoadFromStream(NiStream& stream)
     {
         if (b != 0)
         {
-            b->FUN_00a59e00(stream);
+            reinterpret_cast<::S_00a59e00 *>((b))->FUN_00a59e00((::S_00a59e00_Arg *)&(stream));
         }
         if (a != 0)
         {
-            a->FUN_00a59e00(stream);
+            reinterpret_cast<::S_00a59e00 *>((a))->FUN_00a59e00((::S_00a59e00_Arg *)&(stream));
         }
     }
     else
     {
         if (a != 0)
         {
-            a->FUN_00a59e00(stream);
+            reinterpret_cast<::S_00a59e00 *>((a))->FUN_00a59e00((::S_00a59e00_Arg *)&(stream));
         }
         if (b != 0)
         {
-            b->FUN_00a59e00(stream);
+            reinterpret_cast<::S_00a59e00 *>((b))->FUN_00a59e00((::S_00a59e00_Arg *)&(stream));
         }
     }
 }
@@ -326,7 +340,6 @@ class A9ACB0Bound
 class A9ACB0Base
 {
   public:
-    bool IsEqual(A9ACB0Object* pkObject);
 
     int unk00;
     int unk04;
@@ -385,29 +398,25 @@ class A9ACB0Node : public A9ACB0Base
 // @fnv 0x00a9acb0
 bool A9ACB0Node::IsEqualWithBound(A9ACB0Object* pkObject)
 {
-    if (!IsEqual(pkObject))
+    if (!reinterpret_cast<::NiNodeEq *>(this)->FUN_00a5e600((::NiAVObject *)(pkObject)))
         return false;
 
     A9ACB0Node* pkOther = (A9ACB0Node*)pkObject;
-    if (m_kBound != pkOther->m_kBound)
+    if (reinterpret_cast<::NiBound *>((void *)&(const ::A9ACB0Bound &)(m_kBound))->FUN_00a926b0((const ::NiBound &)(pkOther->m_kBound)))
         return false;
 
     return true;
 }
 
-extern char vtable_010a1024;
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+
 struct ObjBase
 {
-    void FUN_00a5ecb0(int);
 };
 struct SubObject
 {
-    void FUN_00a69940();
 };
 struct ChildNode
 {
-    void FUN_0060bef0(unsigned int);
 };
 struct FourInts
 {
@@ -418,46 +427,19 @@ struct FourInts
 };
 struct NodeOwner
 {
-    void FUN_00a5dc80(void*, void*);
     void* FUN_00a9ae00(void* arg);
 };
-// @fnv 0x00a9ae00
-void* NodeOwner::FUN_00a9ae00(void* arg)
-{
-    char* memory = (char*)FUN_00aa13e0(0xcc);
-    char* result;
-    if (memory)
-    {
-        ((ObjBase*)memory)->FUN_00a5ecb0(0);
-        *(void**)memory = &vtable_010a1024;
-        ((SubObject*)(memory + 0xac))->FUN_00a69940();
-        ((SubObject*)(memory + 0xbc))->FUN_00a69940();
-        ((ChildNode*)(memory + 0x9c))->FUN_0060bef0(2);
-        *(unsigned short*)(memory + 0xaa) = 0;
-        result = memory;
-    }
-    else
-    {
-        result = 0;
-    }
-    FUN_00a5dc80(result, arg);
-    *(FourInts*)(result + 0xac) = *(FourInts*)((char*)this + 0xac);
-    return result;
-}
-
-__declspec(noreturn) void __cdecl ReadChildListFromStream();
 
 // @fnv 0x00a9a730
 void __cdecl FUN_00a9a730()
 {
-    ReadChildListFromStream();
+    static_cast<::sa5e9d0::Node *>(nullptr)->ReadChildListFromStream({});
 }
 
-void __cdecl RegisterChildStreamables();
 // @fnv 0x00a93c40
 void __cdecl FUN_00a93c40()
 {
-    RegisterChildStreamables();
+    ::fnv_00a5e5b0::RegisterChildStreamables({}, {}, *(::fnv_00a5e5b0::NiStream *)nullptr);
 }
 
 struct Vec_a9a760
@@ -589,7 +571,6 @@ struct ThreeByThreeMatrix
     }
     ThreeByThreeMatrix operator*(const ThreeByThreeMatrix& m) const;
     ThreeByThreeMatrix ComposeMatrices(const ThreeByThreeMatrix& m) const;
-    bool Inverse(ThreeByThreeMatrix& inv) const;
     NiPoint3 operator*(const NiPoint3& p) const
     {
         NiPoint3 r;
@@ -613,6 +594,10 @@ struct ThreeByThreeMatrix
                         p.x * m.m_afEntries[0][1] + p.y * m.m_afEntries[1][1] + p.z * m.m_afEntries[2][1],
                         p.x * m.m_afEntries[0][2] + p.y * m.m_afEntries[1][2] + p.z * m.m_afEntries[2][2]);
     }
+public:
+    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
+public:
+    bool Inverse(::ThreeByThreeMatrix &);
 };
 struct AVChild
 {
@@ -661,11 +646,36 @@ struct NiPlane
     __forceinline void Apply(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn)
     {
         ThreeByThreeMatrix kInv;
-        kMat.Inverse(kInv);
+        reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(kMat))->Inverse(kInv);
         m_kPlaneNormal = m_kPlaneNormal * kInv;
         m_fPlaneConstant += m_kPlaneNormal * kTrn;
     }
+public:
+    NiPlane();
 };
+// @fnv 0x00a9ae00
+void* NodeOwner::FUN_00a9ae00(void* arg)
+{
+    char* memory = (char*)FUN_00aa13e0(0xcc);
+    char* result;
+    if (memory)
+    {
+        new ((void *)(((ObjBase*)memory))) ::FUN_00a5ecb0(0);
+        *(const void**)memory = &::DAT_010a1024;
+        new ((void *)(((SubObject*)(memory + 0xac)))) ::NiPlane();
+        new ((void *)(((SubObject*)(memory + 0xbc)))) ::NiPlane();
+        reinterpret_cast<::NiTObjectArrayA47 *>((((ChildNode*)(memory + 0x9c))))->FUN_0060bef0(2);
+        *(unsigned short*)(memory + 0xaa) = 0;
+        result = memory;
+    }
+    else
+    {
+        result = 0;
+    }
+    reinterpret_cast<::NiNode *>(this)->CopyMemberData((::NiNode *)(result), (*(::CloningProcess *)(arg)));
+    *(FourInts*)(result + 0xac) = *(FourInts*)((char*)this + 0xac);
+    return result;
+}
 struct BSPNodeX
 {
     void* vtbl;
@@ -711,14 +721,14 @@ struct BSPNodeX
     __forceinline void ApplyPlane(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn)
     {
         ThreeByThreeMatrix kInv;
-        kMat.Inverse(kInv);
+        reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(kMat))->Inverse(kInv);
         m_kModelPlane.m_kPlaneNormal = m_kModelPlane.m_kPlaneNormal * kInv;
         AddPlaneConst(kTrn);
     }
     __forceinline void ApplyPlane2(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn)
     {
         ThreeByThreeMatrix kInv;
-        kMat.Inverse(kInv);
+        reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(kMat))->Inverse(kInv);
         NiPoint3 normal = kInv.TransformNormal(m_kModelPlane.m_kPlaneNormal);
         m_kModelPlane.m_kPlaneNormal = normal;
         m_kModelPlane.m_fPlaneConstant += m_kModelPlane.m_kPlaneNormal * kTrn;
@@ -732,7 +742,7 @@ void BSPNodeX::FUN_00a9a860(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn
 {
     if (bOnLeft)
     {
-        ThreeByThreeMatrix kRot = m_kRotate.ComposeMatrices(kMat * m_kRotate);
+        ThreeByThreeMatrix kRot = m_kRotate.ComposeMatrices(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(kMat))->operator+(m_kRotate));
         NiPoint3 kT = ((kTrn + kMat * m_kTranslate) - m_kTranslate) * m_kRotate / m_fScale;
         ApplyPlane(kRot, kT);
         for (unsigned int i = 0; i < m_usSize; i++)

@@ -2,6 +2,25 @@
 #ifndef FNV_MAGICMODELHITEFFECT_DECLS_H
 #define FNV_MAGICMODELHITEFFECT_DECLS_H
 
+#include "fnv/decl/FUN_00445300_shell.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00a328b0__SeqExt.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_0081e000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_0103b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 #include "magichiteffect_classes.h"
 struct NiRTTI;
@@ -10,47 +29,40 @@ class SkyShaderProperty;
 class NiTimeController;
 class NiControllerSequence;
 class NiNode;
-class NiUpdateData;
+struct NiUpdateData;
+struct NiPoint3;
 class NiAVObject
 {
   public:
-    NiNode* GetParent();
     void Update(NiUpdateData&);
+public:
+    ::NiPoint3 &FUN_0043c490();
 };
-class NiObjectNET
+struct NiObjectNET
 {
   public:
-    NiTimeController* GetControllers() const;
 };
 class EffectSetting
 {
   public:
-    bool IsFlagSet(unsigned int);
 };
+class EffectSetting;
 class ActiveEffect
 {
   public:
-    float GetAge();
-    EffectSetting* GetEffectSetting();
+public:
+    ::EffectSetting *GetEffectSetting() const;
 };
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
 class PlayerCharacter
 {
   public:
-    bool FUN_004eaf60();
 };
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
-class NiUpdateData
+#include "fnv/native_fixed_string.h"
+struct NiUpdateData
 {
   public:
     float time;
@@ -97,21 +109,16 @@ class NiControllerSequence : public NiObject
     virtual void SetGroup(NiObjectGroup* apGroup);                       // v84
     virtual NiControllerManager* IsNiControllerManager();                // v88
     virtual bool Deactivate(float afEaseOutTime, bool abTransition);     // v8C
-    void SetSequenceTime(float, bool);
 };
-class NiControllerManager
+struct NiControllerManager
 {
   public:
-    NiControllerSequence* FindSequenceByName(const NiFixedString&);
     void DeactivateAllSequences(float);
     bool ActivateControllerSequence(NiControllerSequence*, int, bool, float, float, NiControllerSequence*);
-    void FUN_0047aa40(bool);
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
-    NiNode* LoadFile(const char*, int, bool, bool, bool, bool);
-    void QueueModelLoad(const char*, bool, unsigned int);
 };
 template <> class NiPointer<NiAVObject>
 {
@@ -125,12 +132,4 @@ template <> class NiPointer<NiNode>
     NiNode* m_pObject;
     NiNode* operator->() const;
 };
-extern ModelLoader* g_modelLoader;
-extern TimeGlobal g_timeGlobal;
-extern PlayerCharacter* g_thePlayer;
-extern NiRTTI DAT_011f36ac;
-SkyShaderProperty* __cdecl FUN_00653270(const NiRTTI*, NiProperty*);
-NiAVObject* __cdecl LoadAndCloneModel(const char*);
-void __cdecl FUN_00c4b500(NiAVObject*);
-extern const char kMagicModelHitEffectName[];
 #endif

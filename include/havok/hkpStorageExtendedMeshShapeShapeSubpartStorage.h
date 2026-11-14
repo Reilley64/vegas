@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkpStorageExtendedMeshShapeMaterial;
-#pragma pack(push, 1)
 class hkpStorageExtendedMeshShapeShapeSubpartStorage : public hkReferencedObject
 {
   public:
@@ -14,7 +13,4 @@ class hkpStorageExtendedMeshShapeShapeSubpartStorage : public hkReferencedObject
     hkArray<hkpStorageExtendedMeshShapeMaterial> m_kMaterials;  // +0x14
     hkArray<hkUint16> m_kMaterialIndices16;                     // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpStorageExtendedMeshShapeShapeSubpartStorage
-    [(sizeof(hkpStorageExtendedMeshShapeShapeSubpartStorage) == 0x2C) ? 1 : -1];
 #endif

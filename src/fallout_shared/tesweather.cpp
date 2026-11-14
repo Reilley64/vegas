@@ -1,11 +1,40 @@
 // fallout_shared/tesweather.cpp: TESWeather, TESWeather__WeatherSoundList, TESWeather__WeatherSound, WeatherSave and more (13 functions)
 
+#include <new>
+#include <cstring>
+#include "fnv/decl/B8AD00Header.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00581fb0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "tesweather_decls.h"
 
 // @fnv 0x005807f0
 TESWeather::TESWeather()
 {
-    SetFormType(static_cast<ENUM_FORM_ID>(0x35));
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(0x35))));
     ResetFormData();
 }
 
@@ -25,7 +54,7 @@ void TESWeather::ResetFormData()
 // @fnv 0x00581b00
 void TESWeather::InitItem()
 {
-    if (static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
     TESImageSpaceModifiableCountForm_6_::InitItem(this);
     SetInitializationState(true);
@@ -41,9 +70,9 @@ void TESWeather::ClearData()
 void TESWeather::MakeDefault()
 {
     m_iCloudLayerCount = 3;
-    m_kCloudLayerTextures[0].SetTexture("Sky\\WastelandCloudCloudyUpper01.dds");
-    m_kCloudLayerTextures[1].SetTexture("Sky\\WastelandCloudHorizon01.dds");
-    m_kCloudLayerTextures[2].SetTexture("Sky\\WastelandCloudCloudyLower01.dds");
+    reinterpret_cast<::TESFullName *>(&(m_kCloudLayerTextures[0]))->SetFullName("Sky\\WastelandCloudCloudyUpper01.dds");
+    reinterpret_cast<::TESFullName *>(&(m_kCloudLayerTextures[1]))->SetFullName("Sky\\WastelandCloudHorizon01.dds");
+    reinterpret_cast<::TESFullName *>(&(m_kCloudLayerTextures[2]))->SetFullName("Sky\\WastelandCloudCloudyLower01.dds");
     m_aucCloudLayerSpeeds[0] = 0x33;
     m_auiCloudLayerColors[0][0] = 0x5B4B46;
     m_auiCloudLayerColors[0][1] = 0x9B9B9B;
@@ -114,31 +143,31 @@ void TESWeather::MakeDefault()
 void TESWeather__WeatherSoundList::ClearWeatherSounds()
 {
     BSSimpleList<TESWeather__WeatherSound*>* iter = this;
-    while (iter && iter->GetItem())
+    while (iter && (iter->m_item))
     {
-        TESWeather__WeatherSound* sound = iter->GetItem();
-        ::operator delete(sound);
-        iter = iter->GetNext();
+        TESWeather__WeatherSound* sound = (iter->m_item);
+        ::FUN_00401030(sound);
+        iter = ((::BSSimpleList< ::TESWeather__WeatherSound *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
-    RemoveAll();
+    reinterpret_cast<::FileMatchList *>(this)->RemoveAll();
 }
 // @fnv 0x00580990
 bool TESWeather::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 0x35)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     unsigned int uiChunkID;
-    while (uiChunkID = file->GetChunkID())
+    while (uiChunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
         switch (uiChunkID)
         {
         case 0x44494445:  // EDID
         {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -148,7 +177,7 @@ bool TESWeather::Load(TESFile* file)
         case 0x44414900: {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            FUN_00581fb0(0, formID);
+            reinterpret_cast<::FUN_00581fb0_Class *>(this)->FUN_00581fb0(0, formID);
             break;
         }
         case 0x44414901:
@@ -156,68 +185,68 @@ bool TESWeather::Load(TESFile* file)
         {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            FUN_00581fb0(1, formID);
+            reinterpret_cast<::FUN_00581fb0_Class *>(this)->FUN_00581fb0(1, formID);
             break;
         }
         case 0x44414902: {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            FUN_00581fb0(2, formID);
+            reinterpret_cast<::FUN_00581fb0_Class *>(this)->FUN_00581fb0(2, formID);
             break;
         }
         case 0x44414903: {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            FUN_00581fb0(3, formID);
+            reinterpret_cast<::FUN_00581fb0_Class *>(this)->FUN_00581fb0(3, formID);
             break;
         }
         case 0x44414904: {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            FUN_00581fb0(4, formID);
+            reinterpret_cast<::FUN_00581fb0_Class *>(this)->FUN_00581fb0(4, formID);
             break;
         }
         case 0x44414905: {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            FUN_00581fb0(5, formID);
+            reinterpret_cast<::FUN_00581fb0_Class *>(this)->FUN_00581fb0(5, formID);
             break;
         }
         case 0x44414906: {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            FUN_00581fb0(6, formID);
+            reinterpret_cast<::FUN_00581fb0_Class *>(this)->FUN_00581fb0(6, formID);
             break;
         }
         case 0x4d414e43:  // CNAM
-            TESTextureLoader::ReadTextureData(&m_kCloudLayerTextures[1], file);
+            ::TESTexture::ReadTextureData(&m_kCloudLayerTextures[1], file);
             break;
         case 0x4d414e44:  // DNAM
-            TESTextureLoader::ReadTextureData(&m_kCloudLayerTextures[0], file);
+            ::TESTexture::ReadTextureData(&m_kCloudLayerTextures[0], file);
             break;
         case 0x4d414e41:  // ANAM
-            TESTextureLoader::ReadTextureData(&m_kCloudLayerTextures[2], file);
+            ::TESTexture::ReadTextureData(&m_kCloudLayerTextures[2], file);
             break;
         case 0x4d414e42:  // BNAM
-            TESTextureLoader::ReadTextureData(&m_kCloudLayerTextures[3], file);
+            ::TESTexture::ReadTextureData(&m_kCloudLayerTextures[3], file);
             break;
         case 0x4d414e45:  // ENAM (legacy fifth texture)
-            TESTextureLoader::ReadTextureData(&m_kCloudLayerTextures[4], file);
+            ::TESTexture::ReadTextureData(&m_kCloudLayerTextures[4], file);
             break;
             // Retained empty legacy branches present in the original loader.
             break;
             break;
             break;
         case 0x4d414e4f:  // ONAM
-            file->GetChunkData(m_aucCloudLayerSpeeds, sizeof(m_aucCloudLayerSpeeds));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_aucCloudLayerSpeeds), sizeof(m_aucCloudLayerSpeeds));
             break;
         case 0x4d414e50:  // PNAM
-            if (file->GetChunkSize() == sizeof(m_auiCloudLayerColors))
-                file->GetChunkData(m_auiCloudLayerColors, sizeof(m_auiCloudLayerColors));
-            else if (file->GetChunkSize() == 64)
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == sizeof(m_auiCloudLayerColors))
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_auiCloudLayerColors), sizeof(m_auiCloudLayerColors));
+            else if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == 64)
             {
                 unsigned int oldCloudColors[4][4];
-                file->GetChunkData(oldCloudColors, sizeof(oldCloudColors));
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(oldCloudColors), sizeof(oldCloudColors));
                 for (int layer = 0; layer < 4; ++layer)
                     for (int time = 0; time < 4; ++time)
                         m_auiCloudLayerColors[layer][time] = oldCloudColors[layer][time];
@@ -225,18 +254,18 @@ bool TESWeather::Load(TESFile* file)
             if (file->IsEndianConversionRequired())
                 for (int layer = 0; layer < 4; ++layer)
                     for (int time = 0; time < 6; ++time)
-                        BSEndian(&m_auiCloudLayerColors[layer][time], EndianSizeTag<4>());
+                        ::FUN_00401080((int *)(unsigned int *)(&m_auiCloudLayerColors[layer][time]));
             break;
         case 0x4c444f4d:  // MODL
             TESModel::LoadModelData(&m_kWeatherModel, file);
             break;
         case 0x304d414e:  // NAM0
-            if (file->GetChunkSize() == sizeof(m_auiWeatherColors))
-                file->GetChunkData(m_auiWeatherColors, sizeof(m_auiWeatherColors));
-            else if (file->GetChunkSize() == 160)
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == sizeof(m_auiWeatherColors))
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_auiWeatherColors), sizeof(m_auiWeatherColors));
+            else if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == 160)
             {
                 unsigned int oldColors[10][4];
-                file->GetChunkData(oldColors, sizeof(oldColors));
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(oldColors), sizeof(oldColors));
                 for (int color = 0; color < 10; ++color)
                     for (int time = 0; time < 4; ++time)
                         m_auiWeatherColors[color][time] = oldColors[color][time];
@@ -244,53 +273,53 @@ bool TESWeather::Load(TESFile* file)
             if (file->IsEndianConversionRequired())
                 for (int color = 0; color < 10; ++color)
                     for (int time = 0; time < 6; ++time)
-                        BSEndian(&m_auiWeatherColors[color][time], EndianSizeTag<4>());
+                        ::FUN_00401080((int *)(unsigned int *)(&m_auiWeatherColors[color][time]));
             break;
         case 0x41544144:  // DATA
-            if (file->GetChunkSize() == sizeof(m_aucWeatherFlags))
-                file->GetChunkData(m_aucWeatherFlags, sizeof(m_aucWeatherFlags));
-            else if (file->GetChunkSize() == 12)
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == sizeof(m_aucWeatherFlags))
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_aucWeatherFlags), sizeof(m_aucWeatherFlags));
+            else if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == 12)
             {
-                file->GetChunkData(m_aucWeatherFlags, 12);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_aucWeatherFlags), 12);
                 memset(&m_aucWeatherFlags[12], 255, 3);
             }
             break;
         case 0x4d414e46:  // FNAM
         {
             int count = 6;
-            if (file->GetChunkSize() != sizeof(m_afFogDistances))
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() != sizeof(m_afFogDistances))
                 count -= 2;
-            file->GetChunkData(m_afFogDistances, sizeof(m_afFogDistances));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_afFogDistances), sizeof(m_afFogDistances));
             if (file->IsEndianConversionRequired())
                 for (int i = 0; i < count; ++i)
-                    BSEndian(&m_afFogDistances[i], EndianSizeTag<4>());
+                    ::FUN_00401080((int *)(float *)(&m_afFogDistances[i]));
             break;
         }
         case 0x4d414e48:  // HNAM
-            file->GetChunkData(m_afHdrParameters, sizeof(m_afHdrParameters));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_afHdrParameters), sizeof(m_afHdrParameters));
             if (file->IsEndianConversionRequired())
                 for (int i = 0; i < 14; ++i)
-                    BSEndian(&m_afHdrParameters[i], EndianSizeTag<4>());
+                    ::FUN_00401080((int *)(float *)(&m_afHdrParameters[i]));
             break;
         case 0x4d414e49:  // INAM
-            file->GetChunkData(m_akImageSpaceModifierParameters, sizeof(m_akImageSpaceModifierParameters));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_akImageSpaceModifierParameters), sizeof(m_akImageSpaceModifierParameters));
             if (file->IsEndianConversionRequired())
                 for (int i = 0; i < 2; ++i)
-                    m_akImageSpaceModifierParameters[i].Endian();
+                    reinterpret_cast<::B8AD00Header *>(&(m_akImageSpaceModifierParameters[i]))->SwapEndian();
             break;
         case 0x4d414e4c:  // LNAM
-            file->GetChunkData(&m_iCloudLayerCount, sizeof(m_iCloudLayerCount));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_iCloudLayerCount), sizeof(m_iCloudLayerCount));
             if (file->IsEndianConversionRequired())
-                BSEndian(&m_iCloudLayerCount, EndianSizeTag<4>());
+                ::FUN_00401080(&m_iCloudLayerCount);
             break;
         case 0x4d414e53:  // SNAM
         {
             TESWeather__WeatherSound* sound = new TESWeather__WeatherSound;
-            file->GetChunkData(sound, sizeof(TESWeather__WeatherSound));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(sound), sizeof(TESWeather__WeatherSound));
             if (file->IsEndianConversionRequired())
-                sound->FUN_00462230();
-            RemapFormIDForFile(sound->formID, file);
-            soundList.AddTail(sound);
+                reinterpret_cast<::S_00462230 *>((sound))->FUN_00462230();
+            ::ResolveFormID((unsigned int *)&(sound->formID), file);
+            reinterpret_cast<::Callees *>(&(soundList))->FUN_00905820((void *)&(sound));
             break;
         }
         }
@@ -311,17 +340,6 @@ struct FUN_005808b0_shell
     void FUN_005808e0();
     void* DestroyIfFlagged(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_005808e0, then frees this with _Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x005808b0
-void* FUN_005808b0_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_005808e0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 class W5808E0FormBase : public TESForm
 {
   public:
@@ -347,6 +365,15 @@ class FUN_005808e0 : public W5808E0FormBase, public TESImageSpaceModifiableCount
     virtual ~FUN_005808e0();
     virtual void ClearData();
 };
+// Calls FUN_005808e0, then frees this with _Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x005808b0
+void* FUN_005808b0_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005808e0 *>(this)->FUN_005808e0::~FUN_005808e0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x005808e0
 FUN_005808e0::~FUN_005808e0()
@@ -356,11 +383,9 @@ FUN_005808e0::~FUN_005808e0()
 
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
 };
 struct FUN_00485680_shell
 {
-    void FUN_00485680();
 };
 class FUN_00582040_Class : public TESImageSpaceModifiableCountForm_6_
 {
@@ -369,17 +394,10 @@ class FUN_00582040_Class : public TESImageSpaceModifiableCountForm_6_
 };
 struct FUN_0048e370_holder
 {
-    void FUN_0048e370(unsigned int);
 };
 struct FUN_004891d0_holder
 {
-    void WriteToBuffer(unsigned int, unsigned int);
 };
-void FUN_004856f0(unsigned int, void*, unsigned int);
-void FUN_00485710(unsigned int, unsigned int*, unsigned int);
-void FUN_00485910(unsigned int, int);
-void AppendChunk(unsigned int, void*, unsigned int);
-bool FUN_00401500();
 class WeatherSave : public TESForm, public FUN_00582040_Class
 {
   public:
@@ -400,59 +418,47 @@ class WeatherSave : public TESForm, public FUN_00582040_Class
 // @fnv 0x005813d0
 void WeatherSave::FUN_005813d0()
 {
-    reinterpret_cast<FUN_004855a0_shell*>(this)->FUN_004855a0();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0_shell*>(this)))->FUN_004855a0();
     FUN_00582040_Class::ReleaseSoundSlots();
     unsigned int auiChunkIds[8] = {0x4d414e44, 0x4d414e43, 0x4d414e41, 0x4d414e42,
                                    0x4d414e45, 0x4d414e47, 0x4d414e4a, 0x4d414e4b};
     for (int i = 0; i < m_iCloudLayerCount; ++i)
-        reinterpret_cast<FUN_0048e370_holder*>(&m_kCloudLayerTextures[i])->FUN_0048e370(auiChunkIds[i]);
-    reinterpret_cast<FUN_004891d0_holder*>(&m_kWeatherModel)->WriteToBuffer(0x4c444f4d, 0x54444f4d);
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_holder*>(&m_kCloudLayerTextures[i])))->FUN_0048e370(auiChunkIds[i]);
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_holder*>(&m_kWeatherModel)))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
     FUN_00485910(0x4d414e4c, m_iCloudLayerCount);
-    FUN_004856f0(0x4d414e4f, m_aucCloudLayerSpeeds, 4);
-    FUN_00485710(0x4d414e50, &m_auiCloudLayerColors[0][0], 24);
-    FUN_00485710(0x304d414e, &m_auiWeatherColors[0][0], 60);
-    FUN_00485710(0x4d414e46, reinterpret_cast<unsigned int*>(m_afFogDistances), 6);
-    if (FUN_00401500())
+    ::FUN_004856f0((void *)(0x4d414e4f), m_aucCloudLayerSpeeds, (void *)(4));
+    ::FUN_00485710((void *)(0x4d414e50), &m_auiCloudLayerColors[0][0], (void *)(24));
+    ::FUN_00485710((void *)(0x304d414e), &m_auiWeatherColors[0][0], (void *)(60));
+    ::FUN_00485710((void *)(0x4d414e46), reinterpret_cast<unsigned int*>(m_afFogDistances), (void *)(6));
+    if (((bool)(::FUN_00401500())))
     {
         for (unsigned int j = 0; j < 2; ++j)
-            m_akImageSpaceModifierParameters[j].Endian();
+            reinterpret_cast<::B8AD00Header *>(&(m_akImageSpaceModifierParameters[j]))->SwapEndian();
     }
-    AppendChunk(0x4d414e49, m_akImageSpaceModifierParameters, 304);
-    if (FUN_00401500())
+    ::AppendChunk(0x4d414e49, m_akImageSpaceModifierParameters, 304);
+    if (((bool)(::FUN_00401500())))
     {
         for (unsigned int k = 0; k < 2; ++k)
-            m_akImageSpaceModifierParameters[k].Endian();
+            reinterpret_cast<::B8AD00Header *>(&(m_akImageSpaceModifierParameters[k]))->SwapEndian();
     }
-    FUN_004856f0(0x41544144, m_aucWeatherFlags, 15);
-    for (BSSimpleList<TESWeather__WeatherSound*>* node = &soundList; node && node->GetItem(); node = node->GetNext())
+    ::FUN_004856f0((void *)(0x41544144), m_aucWeatherFlags, (void *)(15));
+    for (BSSimpleList<TESWeather__WeatherSound*>* node = &soundList; node && (node->m_item); node = ((::BSSimpleList< ::TESWeather__WeatherSound *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
-        if (FUN_00401500())
-            node->GetItem()->FUN_00462230();
-        AppendChunk(0x4d414e53, node->GetItem(), 8);
-        if (FUN_00401500())
-            node->GetItem()->FUN_00462230();
+        if (((bool)(::FUN_00401500())))
+            reinterpret_cast<::S_00462230 *>(((node->m_item)))->FUN_00462230();
+        ::AppendChunk(0x4d414e53, (node->m_item), 8);
+        if (((bool)(::FUN_00401500())))
+            reinterpret_cast<::S_00462230 *>(((node->m_item)))->FUN_00462230();
     }
-    reinterpret_cast<FUN_00485680_shell*>(this)->FUN_00485680();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680_shell*>(this)))->FUN_00485680();
 }
-
-extern "C" int memcmp(const void* buf1, const void* buf2, unsigned int count);
 
 class TESRegionData;
 
-template <> class BSSimpleList<TESRegionData*>
-{
-  public:
-    TESRegionData* m_item;
-    BSSimpleList<TESRegionData*>* m_pkNext;
-    unsigned int ItemsInList();
-    TESRegionData*& GetItem();
-    BSSimpleList<TESRegionData*>* GetNext();
-};
 
 class FUN_005e79a0_t
 {
   public:
-    bool FUN_00485270(TESForm* form);
 };
 
 class WeatherEq : public TESWeather
@@ -471,12 +477,12 @@ bool WeatherEq::IsDifferentFrom(TESForm* pOther)
     BSSimpleList<TESRegionData*>* thisList2 = (BSSimpleList<TESRegionData*>*)&this->soundList;
     if (otherList3->ItemsInList() == thisList2->ItemsInList())
     {
-        while (otherList3 != 0 && thisList2 != 0 && otherList3->GetItem() != 0 && thisList2->GetItem() != 0)
+        while (otherList3 != 0 && thisList2 != 0 && (otherList3->m_item) != 0 && (thisList2->m_item) != 0)
         {
-            if (memcmp(otherList3->GetItem(), thisList2->GetItem(), 8) != 0)
+            if (memcmp((otherList3->m_item), (thisList2->m_item), 8) != 0)
                 return 1;
-            otherList3 = otherList3->GetNext();
-            thisList2 = thisList2->GetNext();
+            otherList3 = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((otherList3))->FUN_00726070()));
+            thisList2 = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((thisList2))->FUN_00726070()));
         }
     }
     else
@@ -495,7 +501,7 @@ bool WeatherEq::IsDifferentFrom(TESForm* pOther)
     {
         return 1;
     }
-    return ((FUN_005e79a0_t*)this)->FUN_00485270(other) || m_kWeatherModel.CompareWithBase(&other->m_kWeatherModel) ||
+    return reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(other) || m_kWeatherModel.CompareWithBase(&other->m_kWeatherModel) ||
            memcmp(this->m_aucWeatherFlags, other->m_aucWeatherFlags, 15) != 0 ||
            memcmp(this->m_auiWeatherColors, other->m_auiWeatherColors, 240) != 0 ||
            memcmp(this->m_afFogDistances, other->m_afFogDistances, 24) != 0 ||
@@ -515,7 +521,6 @@ struct FUN_004b0680
 class WeatherCopy : public TESWeather
 {
   public:
-    void FUN_004851b0(TESForm* source);
     void FUN_00581630(TESForm* source);
 };
 
@@ -526,7 +531,7 @@ void WeatherCopy::FUN_00581630(TESForm* source)
     TESWeather* weather = dynamic_cast<TESWeather*>(source);
     if (!weather)
         return;
-    FUN_004851b0(weather);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(weather);
     m_iCloudLayerCount = weather->m_iCloudLayerCount;
     for (int i = 0; i < m_iCloudLayerCount; ++i)
         m_kCloudLayerTextures[i].CopyFromBase(&weather->m_kCloudLayerTextures[i]);
@@ -537,12 +542,12 @@ void WeatherCopy::FUN_00581630(TESForm* source)
     memcpy(m_auiWeatherColors, weather->m_auiWeatherColors, 240);
     memcpy(m_afFogDistances, weather->m_afFogDistances, 24);
     memcpy(m_akImageSpaceModifierParameters, weather->m_akImageSpaceModifierParameters, 304);
-    soundList.RemoveAll();
-    for (BSSimpleList<TESWeather__WeatherSound*>* node = &weather->soundList; node && node->GetItem();
-         node = node->GetNext())
+    reinterpret_cast<::FileMatchList *>(&(soundList))->RemoveAll();
+    for (BSSimpleList<TESWeather__WeatherSound*>* node = &weather->soundList; node && (node->m_item);
+         node = ((::BSSimpleList< ::TESWeather__WeatherSound *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         TESWeather__WeatherSound* sound = reinterpret_cast<TESWeather__WeatherSound*>(
-            new FUN_004b0680(node->GetItem()->formID, node->GetItem()->type));
-        soundList.AddTail(sound);
+            new FUN_004b0680((node->m_item)->formID, (node->m_item)->type));
+        reinterpret_cast<::Callees *>(&(soundList))->FUN_00905820((void *)&(sound));
     }
 }

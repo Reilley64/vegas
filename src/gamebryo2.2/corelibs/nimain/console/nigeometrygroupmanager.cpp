@@ -1,8 +1,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00aa1000.h"
 extern int DAT_0109df2c;
 extern int DAT_011f4ab4;
-void __cdecl _delete(void*, unsigned int);
 struct NiGeometryGroupManager
 {
     void* FUN_00a7f840(unsigned int);
@@ -14,12 +14,14 @@ void* NiGeometryGroupManager::FUN_00a7f840(unsigned int auiFlags)
     *(void**)this = (void*)&DAT_0109df2c;
     DAT_011f4ab4 = 0;
     if (auiFlags & 1)
-        _delete(this, 4);
+        ::FUN_00aa1460(this, 4);
     return this;
 }
 
 // @fnv 0x00aa00c0
-bool __stdcall FUN_00aa00c0(int a, int b)
+bool FUN_00aa00c0(int a, int b)
 {
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/console/nigeometrygroupmanager.inc"

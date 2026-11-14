@@ -2,36 +2,47 @@
 // src/gamebryo2.2/corelibs/nimain/nibooleanextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nibooleanextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/decl/ExtraDataStrings.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a7b300_shell.h"
+#include "fnv/decl/FUN_00a7b330_shell.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_011f5000.h"
 struct NiRTTI;
 
-extern NiRTTI g_011f5f5c;
 
 // @fnv 0x00a9af30
 NiRTTI* __cdecl FUN_00a9af30()
 {
-    return &g_011f5f5c;
+    return &(*reinterpret_cast<::NiRTTI *>(&::g_011f5f5c));
 }
 
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
-    void FUN_00a7b2e0();
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
-extern int DAT_010a112c;
 
 // @fnv 0x00a9af90
 void* __cdecl FUN_00a9af90()
 {
-    void* p = BSFadeNode::operator new(0x10);
+    void* p = ::operator new(0x10);
     if (p)
     {
         NiExtraData* pExtraData = static_cast<NiExtraData*>(p);
-        pExtraData->FUN_00a7b2e0();
+        reinterpret_cast<::ExtraDataObject *>((pExtraData))->FUN_00a7b2e0();
         *reinterpret_cast<void**>(p) = &DAT_010a112c;
         *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(p) + 0xc) = 0;
     }
@@ -45,20 +56,17 @@ void* __cdecl FUN_00a9af90()
 namespace fnv_00a9afc0 {
 struct NiBooleanExtraData
 {
-    void* __thiscall FUN_00a9afc0(unsigned int flags);
+    void* FUN_00a9afc0(unsigned int flags);
 };
 
-extern void __cdecl _FUN_00a7b300();
-extern void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-extern void* DAT_010a112c;
 
 // @fnv 0x00a9afc0
-void* __thiscall NiBooleanExtraData::FUN_00a9afc0(unsigned int flags)
+void* NiBooleanExtraData::FUN_00a9afc0(unsigned int flags)
 {
-    *reinterpret_cast<void**>(this) = &DAT_010a112c;
-    _FUN_00a7b300();
+    *reinterpret_cast<void**>(this) = &(*reinterpret_cast<void * *>(&::DAT_010a112c));
+    static_cast<::FUN_00a7b300_shell *>(nullptr)->FUN_00a7b300();
     if (flags & 1)
-        __Dummy_00b6fef0(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 }  // namespace fnv_00a9afc0
@@ -67,7 +75,7 @@ namespace fnv_00a9af10 {
 struct NiObject
 {
 };
-struct NiExtraData : NiObject
+class NiExtraData : public NiObject
 {
 };
 struct NiBooleanExtraData : NiExtraData
@@ -91,22 +99,17 @@ struct CloningProcess;
 
 struct S_00a9af40 : NiExtraData
 {
-    int unk0;
+    intptr_t unk0;
     int unk4;
     int unk8;
     bool unkC;
 
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
     S_00a9af40() throw()
     {
-        FUN_00a7b2e0();
-        unk0 = (int)&DAT_010a112c;
+        reinterpret_cast<::ExtraDataObject *>(this)->FUN_00a7b2e0();
+        unk0 = (intptr_t)&DAT_010a112c;
         unkC = false;
     }
-    void FUN_00a7b330(S_00a9af40* pkClone, CloningProcess* pkCloning);
     S_00a9af40* FUN_00a9af40(CloningProcess* pkCloning);
 };
 
@@ -114,7 +117,7 @@ struct S_00a9af40 : NiExtraData
 S_00a9af40* S_00a9af40::FUN_00a9af40(CloningProcess* pkCloning)
 {
     S_00a9af40* pkClone = new S_00a9af40;
-    FUN_00a7b330(pkClone, pkCloning);
+    reinterpret_cast<::FUN_00a7b330_shell *>(this)->FUN_00a7b330((::NiBinaryExtraData *)(pkClone), pkCloning);
     pkClone->unkC = unkC;
     return pkClone;
 }
@@ -295,7 +298,6 @@ struct NiStream
 
 struct NiExtraDataBase_cls
 {
-    void FUN_00a7b4a0(NiStream* istr);
 };
 
 struct FUN_00a9aff0_cls
@@ -312,7 +314,7 @@ struct FUN_00a9aff0_cls
 // @fnv 0x00a9aff0
 void FUN_00a9aff0_cls::ReadFromStream(NiStream* istr)
 {
-    ((NiExtraDataBase_cls*)this)->FUN_00a7b4a0(istr);
+    reinterpret_cast<::NiExtraData *>((((NiExtraDataBase_cls*)this)))->LoadBinary((*(::NiStream *)(istr)));
     unsigned char ucValue;
     istr->GetBinaryStream()->BinaryRead(&ucValue, 1);
     m_bValue = (ucValue != 0);
@@ -486,14 +488,13 @@ struct FnVNode
     int unk04;
     int unk08;
     unsigned char unk0c;
-    void helper_b2c0(FnVArg* a);
     void FUN_00a9b040(FnVArg* s);
 };
 
 // @fnv 0x00a9b040
 void FnVNode::FUN_00a9b040(FnVArg* s)
 {
-    this->helper_b2c0(s);
+    reinterpret_cast<::FUN_00a7b2c0_shell *>((this))->FUN_00a7b2c0((*(::NiStream *)(s)));
     unsigned char ucValue = this->unk0c;
     FnVTarget* pTarget = s->unk250;
     {
@@ -504,8 +505,6 @@ void FnVNode::FUN_00a9b040(FnVArg* s)
 
 struct ObjArray
 {
-    void Grow(unsigned int newCount);
-    void Insert(unsigned int index, void** value);
     unsigned int unk00;
     unsigned int unk04;
     unsigned short m_08;
@@ -514,14 +513,10 @@ struct ObjArray
     unsigned short m_0E;
 };
 
-extern void* DAT_011f5f5c;
 extern const char str_010a11c0[];
-void* __cdecl LookupRtti(void* rtti);
-void* __cdecl LookupName(const char* name, unsigned char flag);
 
 struct FUN_00a9b090_cls
 {
-    void Touch(ObjArray* arr);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -533,22 +528,24 @@ struct FUN_00a9b090_cls
 // @fnv 0x00a9b090
 void FUN_00a9b090_cls::AppendRttiAndName(ObjArray* pArray)
 {
-    this->Touch(pArray);
-    void* v = LookupRtti(DAT_011f5f5c);
+    reinterpret_cast<::ExtraDataStrings *>((this))->FUN_00a7b580((::StrArr *)(pArray));
+    void* v = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f5f5c))))));
     unsigned int count = pArray->m_0A;
     unsigned int cap = pArray->m_08;
     if (count >= cap)
     {
-        pArray->Grow(count + pArray->m_0E);
+        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(count + pArray->m_0E);
     }
-    pArray->Insert(count, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(count, (*(char * *)(&v)));
 
-    v = LookupName(str_010a11c0, this->m_0C);
+    v = ((void *)(::FUN_00a7d370(str_010a11c0, this->m_0C)));
     count = pArray->m_0A;
     cap = pArray->m_08;
     if (count >= cap)
     {
-        pArray->Grow(count + pArray->m_0E);
+        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(count + pArray->m_0E);
     }
-    pArray->Insert(count, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(count, (*(char * *)(&v)));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nibooleanextradata.inc"

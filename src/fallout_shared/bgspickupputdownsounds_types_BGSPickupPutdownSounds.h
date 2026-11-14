@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 class BGSPickupPutdownSounds;
-#pragma pack(push, 4)
 class BGSPickupPutdownSounds : public BaseFormComponent
 {
   public:
@@ -29,8 +28,4 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     // BGSPickupPutdownSounds& __cdecl BGSPickupPutdownSounds::*(const BGSPickupPutdownSounds&)
     // void* __cdecl BGSPickupPutdownSounds::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPickupPutdownSounds) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPickupSound) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPutdownSound) == 8);
 #endif

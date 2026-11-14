@@ -3,22 +3,38 @@
 #define FNV_BGSMOVIEPLAYER_DECLS_H
 
 
+#include <cstdint>
+#include "fnv/decl/BSAudio_.h"
+#include "fnv/decl/FUN_004dc020_Class.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_00ad7230_shell.h"
+#include "fnv/decl/FUN_00ec17c0_Class.h"
+#include "fnv/decl/FUN_00ec29b0_class.h"
+#include "fnv/decl/InputPoller.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/PlaybackContinueState.h"
+#include "fnv/decl/fnv_004a03c0__DD.h"
+#include "fnv/decl/fnv_004e9530__NiRenderer.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_004bc000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_011de000.h"
 class Direct3DDeviceInterface
 {
   public:
     virtual void vfn_00();
     virtual void vfn_04();
     virtual void vfn_08();
-    virtual int __stdcall TestCooperativeLevel();
+    virtual int TestCooperativeLevel();
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
-    void StartScene();
-    void FinishScene();
-    Direct3DDeviceInterface* FUN_004dc020();
-    int FUN_004e9530();
     char _pdbpad_1[7];
     char m_spAccum_pad7_pad7[4];
     void* m_pCamera;
@@ -35,46 +51,33 @@ class NiRenderer
     char _pdbpad_20a[118];
 };
 
-NiRenderer* FUN_004bc3f0();
-NiRenderer* FUN_0043c4b0();
 
-class BSAudio
+struct BSAudio
 {
   public:
-    bool FUN_005bb4d0();
-    void FUN_007eb8a0();
-    void SetUseMultipleThreads(bool);
     void Update(bool);
     void DisableAudioPlayback();
 };
 
-BSAudio* FUN_00453a70();
 extern unsigned char DAT_011de714;
 
-bool FUN_004de070();
-bool FUN_004de080();
 float FUN_004de0e0();
 float FUN_004de0f0();
-unsigned int FUN_004dc1f0();
-unsigned int FUN_004dc200();
 
 class HotkeyWheelDisplay;
 
 class HotkeyWheelDisplay
 {
   public:
-    void FUN_00a23010();
-    int SetHotkeyItem(unsigned int, bool);
+public:
+    int SetHotkeyItem(int, int);
 };
 
 class OSGlobals
 {
   public:
-    unsigned int GetUptimeMilliseconds();
-    HotkeyWheelDisplay* FUN_00877720();
 };
 
-extern OSGlobals* g_osGlobals;
 
 class BGSMoviePlayer
 {
@@ -87,14 +90,11 @@ class BGSMoviePlayer
     void FinishScene();
     void BeginMoviePlayback();
     void EndMoviePlayback();
-    unsigned int GetUptimeMilliseconds();
+    uintptr_t GetUptimeMilliseconds();
     unsigned int UpdateInterfaceState();
     unsigned int GetScreenWidthOverride();
     unsigned int GetFirstInterfaceFloat();
     bool IsDeviceReady();
-    bool FUN_00ec1840(bool);
-    bool FUN_00ec17c0();
-    void FUN_00ec29b0();
     bool UpdateMoviePlayback(bool);
 };
 

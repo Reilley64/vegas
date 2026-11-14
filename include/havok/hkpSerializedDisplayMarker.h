@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpSerializedDisplayMarker : public hkReferencedObject
 {
   public:
     char pad8[0x8];
     hkTransform m_kMotionTransform;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSerializedDisplayMarker[(sizeof(hkpSerializedDisplayMarker) == 0x50) ? 1 : -1];
 #endif

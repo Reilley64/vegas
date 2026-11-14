@@ -2,7 +2,9 @@
 #ifndef NIPOSDATA_DECLS_H
 #define NIPOSDATA_DECLS_H
 
-class NiStream;
+#include "NiAnimationKeyTables.h"
+#include "fnv/symbols_011f3000.h"
+struct NiStream;
 class PositionKeyInterpolator;
 class AnimationKey
 {
@@ -18,7 +20,7 @@ class AnimationKey
         NUMKEYTYPES
     };
 };
-class NiObject
+struct NiObject
 {
   public:
     virtual void LoadBinary(NiStream&);
@@ -34,8 +36,6 @@ class NiPosData : public NiObject
     void SetColorKeys(PositionKeyInterpolator*, unsigned int, AnimationKey::KeyType);
     virtual void LoadBinary(NiStream&);
 };
-extern unsigned char DAT_011f375e[];
-extern void (*DAT_011f38b8[])(PositionKeyInterpolator*);
 class NiBinaryStream
 {
   public:
@@ -48,7 +48,7 @@ class NiBinaryStream
         position += read(this, data, bytes, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned char padding[0x24c];
@@ -60,20 +60,18 @@ class NiStream
         return (AnimationKey::KeyType)raw;
     }
 };
-extern PositionKeyInterpolator* (*DAT_011f3dc8[])(NiStream&, unsigned int);
-extern void (*DAT_011f3798[])(PositionKeyInterpolator*, unsigned int, unsigned char);
 inline unsigned char GetPosKeySize(AnimationKey::KeyType type)
 {
-    return DAT_011f375e[type];
+    return NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(1, 0) + type];
 }
 typedef PositionKeyInterpolator* (*CreatePosKeys)(NiStream&, unsigned int);
 typedef void (*FillPosKeys)(PositionKeyInterpolator*, unsigned int, unsigned char);
 inline CreatePosKeys GetCreatePosKeys(AnimationKey::KeyType type)
 {
-    return DAT_011f3dc8[type];
+    return NiAnimationKeyTables::Get<PositionKeyInterpolator *(*)(NiStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(1, 0) + type);
 }
 inline FillPosKeys GetFillPosKeys(AnimationKey::KeyType type)
 {
-    return DAT_011f3798[type];
+    return NiAnimationKeyTables::Get<void (*)(PositionKeyInterpolator*, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(1, 0) + type);
 }
 #endif

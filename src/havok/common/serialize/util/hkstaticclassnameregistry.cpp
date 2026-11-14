@@ -2,13 +2,16 @@
 // src/havok/common/serialize/util/hkstaticclassnameregistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkstaticclassnameregistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00db7a80_Class.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
 struct SlotEntry
 {
     int unk00;
-    SlotEntry* Key();
 };
 
-int __cdecl MatchSlotKey(void* p, SlotEntry* key);
 
 struct FUN_00db7ae0_cls
 {
@@ -17,7 +20,6 @@ struct FUN_00db7ae0_cls
     int unk08;
     SlotEntry** m_slots;
 
-    void ResetSlots();
     SlotEntry* FindSlotByKey(void* p);
 };
 
@@ -25,14 +27,14 @@ struct FUN_00db7ae0_cls
 // @fnv 0x00db7ae0
 SlotEntry* FUN_00db7ae0_cls::FindSlotByKey(void* apKey)
 {
-    ResetSlots();
+    reinterpret_cast<::FUN_00db7a80_Class *>(this)->EnsureInitialized();
     int i = 0;
     if (m_slots[i] != 0)
     {
         do
         {
-            SlotEntry* key = m_slots[i]->Key();
-            if (MatchSlotKey(apKey, key) == 0)
+            SlotEntry* key = ((::SlotEntry *)(reinterpret_cast<::FnvClassNameNode *>((m_slots[i]))->FUN_00d46d40()));
+            if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(apKey), (const char *)(key)) == 0)
             {
                 return m_slots[i];
             }
@@ -73,10 +75,10 @@ struct FUN_00db7b70_Array
 
 struct FUN_00c85750_Obj
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* unk10;
 };
 
@@ -88,18 +90,15 @@ struct FUN_00db7b70_Class
     void** unk0c;
     int unk10;
     int unk14;
-    void EnsureInitialized();
     void AppendToArray(FUN_00db7b70_Array* p);
 };
 
-void* FUN_00c85750();
-void __cdecl FUN_00c908c0(void* mm, FUN_00db7b70_Array* arr, int count, int size);
 
 // Appends the null-terminated pointer list in unk0c to the array p, growing its capacity via the memory manager when needed.
 // @fnv 0x00db7b70
 void FUN_00db7b70_Class::AppendToArray(FUN_00db7b70_Array* apArray)
 {
-    this->EnsureInitialized();
+    reinterpret_cast<::FUN_00db7a80_Class *>((this))->EnsureInitialized();
 
     int count = 0;
     while (this->unk0c[count] != 0)
@@ -114,7 +113,7 @@ void FUN_00db7b70_Class::AppendToArray(FUN_00db7b70_Array* apArray)
     if (iCapacity < iNeeded)
     {
         int iNewCapacity = (iNeeded >= iCapacity * 2) ? iNeeded : iCapacity * 2;
-        FUN_00c908c0(memmgr, apArray, iNewCapacity, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(memmgr), (::SpawnedArray *)(apArray), iNewCapacity, 4);
     }
     apArray->count += count;
 

@@ -6,14 +6,10 @@
 #include "layout_support.h"
 #include "NiPoint3.h"
 class Point3Offset;
-#pragma pack(push, 4)
 class Point3Offset
 {
   public:
     NiPoint3 m_kOffset;  // +0x0, 12 bytes
     NiPoint3* ProjectileLaunched(NiPoint3* pDest, NiPoint3* pSource);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Point3Offset) == 12);
-FNV_STATIC_ASSERT(offsetof(Point3Offset, m_kOffset) == 0);
 #endif

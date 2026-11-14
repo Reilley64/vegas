@@ -7,7 +7,7 @@ class RotationMatrix3x3
   public:
     float m_fComponents[3][3];
 };
-class Vector3D
+struct Vector3D
 {
   public:
     float x, y, z;

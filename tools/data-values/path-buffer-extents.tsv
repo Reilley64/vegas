@@ -1,0 +1,10 @@
+# The destination of WinMain's log-path builder at 0x00c3bbe0 (S3,
+# VEGAS-112), which writes up to 260 characters there. Generated data
+# defined it as one byte, the form this row fails on.
+extent	src/fallout/misc/log_paths.cpp	DAT_01202b48	260
+# The buffer that FUN_0086d480 returns in app_data_folder.cpp, into which
+# GetSaveDirectory (WinMain's S7, VEGAS-112) copies a folder of up to 260
+# characters. Generated data defined it as a 4-byte int under another name,
+# ?DAT_01202e98@@3HA; on that form the row stops with exit status 2, since
+# the object defines no array of this name.
+extent	src/fallout/misc/app_data_folder.cpp	?DAT_01202e98@@3PADA	260

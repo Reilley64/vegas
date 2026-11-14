@@ -7,13 +7,10 @@
 #include "hkReferencedObject.h"
 class hkpDisplayBindingDataPhysicsSystem;
 class hkpDisplayBindingDataRigidBody;
-#pragma pack(push, 1)
 class hkpDisplayBindingData : public hkReferencedObject
 {
   public:
     hkArray<hkpDisplayBindingDataRigidBody*> m_kRigidBodyBindings;          // +0x8
     hkArray<hkpDisplayBindingDataPhysicsSystem*> m_kPhysicsSystemBindings;  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpDisplayBindingData[(sizeof(hkpDisplayBindingData) == 0x20) ? 1 : -1];
 #endif

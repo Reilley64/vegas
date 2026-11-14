@@ -2,9 +2,42 @@
 // src/fallout/ai/backuppackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/backuppackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/save_load_game_view.h"
+#include <cstdint>
+#include "fnv/decl/A90Cls.h"
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00672fc0_shell.h"
+#include "fnv/decl/FUN_00678fd0_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_009ed330.h"
+#include "fnv/decl/LocationDescriptor.h"
+#include "fnv/decl/Package679120.h"
+#include "fnv/decl/Package6798c0.h"
+#include "fnv/decl/PackageEx.h"
+#include "fnv/decl/PackageTargetRecord.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00484ce0__TESSaveLoadGameHelper.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_00671d30__FUN_00671d30_shell.h"
+#include "fnv/decl/fnv_00679340__Package679.h"
+#include "fnv/decl/fnv_0067a1b0__FUN_0067a1b0_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00670000.h"
 struct FUN_00679a90_shell
 {
-    void __thiscall DispatchToSubobjects(void* apBuffer);
 };
 
 struct FUN_009ed010_shell
@@ -13,92 +46,99 @@ struct FUN_009ed010_shell
 };
 
 // @fnv 0x009ed010
-void __thiscall FUN_009ed010_shell::ForwardToBase(void* apBuffer)
+void FUN_009ed010_shell::ForwardToBase(void* apBuffer)
 {
-    ((FUN_00679a90_shell*)this)->DispatchToSubobjects(apBuffer);
+    reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((intptr_t)(apBuffer));
 }
 
 struct BackUpPackage
 {
     virtual ~BackUpPackage();
-    void __thiscall FUN_009ed330();
-    void* __thiscall DestroyOrFree(unsigned int flags);
+    void FUN_009ed330();
+    void* DestroyOrFree(unsigned int flags);
 };
 
-void __thiscall BackUpPackage::FUN_009ed330()
+void BackUpPackage::FUN_009ed330()
 {}
 
 // Calls FUN_009ed330, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x009ed0a0
-void* __thiscall BackUpPackage::DestroyOrFree(unsigned int flags)
+void* BackUpPackage::DestroyOrFree(unsigned int flags)
 {
-    FUN_009ed330();
+    reinterpret_cast<::FUN_009ed330 *>(this)->FUN_009ed330::~FUN_009ed330();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
+struct FUN_006797c0_arg;
 struct FUN_006797c0_shell
 {
-    void __thiscall FUN_006797c0(void* apBuffer);
+public:
+    void FUN_006797c0(::FUN_006797c0_arg *);
 };
 
 struct BGSSaveFormBuffer
 {
-    void __thiscall SaveData(void* apBuffer, int aSize, int aFlags);
 };
 
 struct FUN_009edb60_shell : public BackUpPackage
 {
-    void __thiscall FUN_009edb60(BGSSaveFormBuffer* apBuffer);
+    void FUN_009edb60(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x009edb60
-void __thiscall FUN_009edb60_shell::FUN_009edb60(BGSSaveFormBuffer* apBuffer)
+void FUN_009edb60_shell::FUN_009edb60(BGSSaveFormBuffer* apBuffer)
 {
-    ((FUN_006797c0_shell*)this)->FUN_006797c0(apBuffer);
-    apBuffer->SaveData((char*)this + 0x80, 0xc, 0);
+    ((FUN_006797c0_shell*)this)->FUN_006797c0((::FUN_006797c0_arg *)(apBuffer));
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x80, 0xc, 0);
 }
 
 struct BGSLoadFormBuffer
 {
-    void __thiscall ReadTypedData(void*, unsigned int);
 };
-struct TESPackage
+enum PACKAGE_PROCEDURE_TYPE;
+class TESPackage
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer*);
+public:
+    void SetMustReachLocation(bool);
+public:
+    void SetMustComplete(bool);
+public:
+    void SetProcedureType(::PACKAGE_PROCEDURE_TYPE);
 };
 struct BackUpPackageProxy : TESPackage
 {
-    void __thiscall LoadGameWithBackup(BGSLoadFormBuffer*);
+    void LoadGameWithBackup(BGSLoadFormBuffer*);
 };
 // Calls TESPackage::LoadGame on the buffer, then reads 12 bytes from the buffer into the object at offset 0x80.
 // @fnv 0x009edb90
-void __thiscall BackUpPackageProxy::LoadGameWithBackup(BGSLoadFormBuffer* apLoadGameBuffer)
+void BackUpPackageProxy::LoadGameWithBackup(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    TESPackage::LoadGame(apLoadGameBuffer);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x80), 12);
+    reinterpret_cast<::Package6798c0 *>(this)->LoadPackage((::LoadBuffer6798c0 *)(apLoadGameBuffer));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x80)), 12);
 }
 
 struct GlobalObject_0045cf30
 {
-    unsigned char* __thiscall Bool();
+    unsigned char* Bool();
 };
 
 struct Saver
 {
-    unsigned short __thiscall FUN_00678fd0();
 };
 
-struct TESSound
+class TESSound
 {
+  public:
     unsigned int formID;
     unsigned char byte04;
     unsigned char flags;
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void V000()
     {}
     virtual void V001()
@@ -259,8 +299,6 @@ struct TESForm
 
 struct TESSaveLoadGame
 {
-    bool __thiscall FUN_00862110();
-    TESSound* __thiscall GetHitSound();
 };
 
 struct SaveManager : public TESSaveLoadGame
@@ -269,29 +307,30 @@ struct SaveManager : public TESSaveLoadGame
 
 struct Interface
 {
-    static void __cdecl PrintDebugMessage(const char* format, ...);
 };
 
 SaveManager* DAT_011de45c;
+// Both pointer names bind the native save-pointer slot at 0x011de45c.
+__pragma(comment(linker,
+    "/alternatename:?g_TESSaveLoadGame@@3PEAUTESSaveLoadGame@@EA=?DAT_011de45c@@3PEAUSaveManager@@EA"))
 GlobalObject_0045cf30 g_011de4e8;
 
-TESForm* __cdecl _ref_004839c0(unsigned int formID);
 
 struct FUN_009ed5f0_shell : public Saver
 {
-    unsigned short __thiscall FUN_009ed5f0();
+    unsigned short FUN_009ed5f0();
 };
 
 // @fnv 0x009ed5f0
-unsigned short __thiscall FUN_009ed5f0_shell::FUN_009ed5f0()
+unsigned short FUN_009ed5f0_shell::FUN_009ed5f0()
 {
     unsigned short usSaveSize = 0;
     unsigned short usOldSize;
 
-    usSaveSize += FUN_00678fd0();
+    usSaveSize += reinterpret_cast<::FUN_00678fd0_shell *>(this)->FUN_00678fd0();
     usOldSize = usSaveSize;
 
-    if (DAT_011de45c->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((DAT_011de45c))->FUN_00862110())
     {
         usSaveSize += 4;
         usSaveSize += 2;
@@ -301,21 +340,15 @@ unsigned short __thiscall FUN_009ed5f0_shell::FUN_009ed5f0()
 
     if (*g_011de4e8.Bool())
     {
-        TESSound* m_pContactSound = DAT_011de45c->GetHitSound();
+        TESSound* m_pContactSound = reinterpret_cast<::EffectSetting *>((DAT_011de45c))->GetHitSound();
         if (m_pContactSound)
         {
-            TESForm* pForm = _ref_004839c0(m_pContactSound->formID);
-            Interface::PrintDebugMessage(
-                "GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                usSaveSize - usOldSize, m_pContactSound->formID, pForm->GetName(),
-                *reinterpret_cast<unsigned int*>(&m_pContactSound->flags), 0xD3,
-                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp");
+            TESForm* pForm = ::FUN_004839c0(m_pContactSound->formID);
+            ::FUN_0040fbe0();
         }
         else
         {
-            Interface::PrintDebugMessage("GetSaveSize(): %-5i ending at line %i in file %s", usSaveSize - usOldSize,
-                                         0xD3,
-                                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp");
+            ::FUN_0040fbe0();
         }
     }
 
@@ -385,10 +418,6 @@ struct HeaderProxy
 };
 struct SaveProxy
 {
-    char* FUN_00825c00();
-    bool FUN_00862110();
-    void FUN_008579b0(void*, unsigned int);
-    HeaderProxy* FUN_004fd3e0();
 };
 struct OwnerProxy
 {
@@ -427,56 +456,48 @@ struct OwnerProxy
     int unk80;
     int unk84;
     int unk88;
-    void SavePackage();
-    void FUN_00484ce0(void*, unsigned int);
     void SaveBackupPackage();
 };
-void FUN_0040fbe0(const char*, ...);
-void FUN_005b5e40(const char*, ...);
 // @fnv 0x009ed700
 void OwnerProxy::SaveBackupPackage()
 {
-    SavePackage();
+    reinterpret_cast<::Package679120 *>(this)->SavePackage();
     unsigned short a = 0;
     unsigned short* p = 0;
-    char* i = ((SaveProxy*)DAT_011de45c)->FUN_00825c00();
+    char* i = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
     if (*g_011de4e8.Bool())
-        i = ((SaveProxy*)DAT_011de45c)->FUN_00825c00();
-    if (((SaveProxy*)DAT_011de45c)->FUN_00862110())
+        i = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
+    if (reinterpret_cast<::FUN_00862110_cls *>((((SaveProxy*)DAT_011de45c)))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
-        ((SaveProxy*)DAT_011de45c)->FUN_008579b0(&tag, 4);
-        p = (unsigned short*)((SaveProxy*)DAT_011de45c)->FUN_00825c00();
-        ((SaveProxy*)DAT_011de45c)->FUN_008579b0(&a, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&tag, 4);
+        p = (unsigned short*)((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
+        reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&a, 2);
     }
     unsigned short s = 0;
-    char* h = ((SaveProxy*)DAT_011de45c)->FUN_00825c00();
-    ((SaveProxy*)DAT_011de45c)->FUN_008579b0(&s, 2);
-    FUN_00484ce0(&unk80, 12);
+    char* h = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
+    reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&s, 2);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unk80, 12);
     if (*g_011de4e8.Bool())
     {
-        char* header = ((SaveProxy*)DAT_011de45c)->FUN_00825c00();
-        HeaderProxy* end = ((SaveProxy*)DAT_011de45c)->FUN_004fd3e0();
+        char* header = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
+        HeaderProxy* end = ((::HeaderProxy *)(reinterpret_cast<::EffectSetting *>((((SaveProxy*)DAT_011de45c)))->GetHitSound()));
         if (end)
         {
-            TESForm* form = _ref_004839c0(end->id);
-            FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s", header - i,
-                         end->id, form->GetName(), *(unsigned int*)&end->unk05, 262,
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp");
+            TESForm* form = ::FUN_004839c0(end->id);
+            ::FUN_0040fbe0();
         }
         else
         {
-            FUN_0040fbe0("SaveGame(): %-5i ending at line %i in file %s", header - i, 262,
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp");
+            ::FUN_0040fbe0();
         }
     }
-    if (((SaveProxy*)DAT_011de45c)->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((((SaveProxy*)DAT_011de45c)))->FUN_00862110())
     {
-        char* finalend = ((SaveProxy*)DAT_011de45c)->FUN_00825c00();
+        char* finalend = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
         char* saved = (char*)p;
         if (finalend > saved + 65535)
-            FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 262);
+            ::FUN_005b5e40();
         *p = (unsigned short)(finalend - saved);
     }
 }
@@ -489,7 +510,6 @@ struct PackageLocation897
     Actor897* reference;
     PackageLocation897();
     ~PackageLocation897();
-    void FUN_0067f3c0(Actor897*);
 };
 struct PackageTargetObj
 {
@@ -502,22 +522,10 @@ struct PackageTargetObj
 };
 struct PackageData897
 {
-    void FUN_006800b0();
-    void FUN_00680110();
-    void FUN_00403550();
 };
 struct Package897 : TESPackage
 {
-    void SetPackageType(int);
-    void SetMustReachLocation(bool);
-    void SetMustComplete(bool);
-    void FUN_00671d30(PackageLocation897*);
-    void FUN_00672fc0(PackageTargetObj*);
-    void SetProcedureType(int);
-    PackageData897* FUN_00671d10(void*);
-    void FUN_0067a1b0(void*);
 };
-Package897* CreatePackageStandIn(int);
 struct Process897
 {
     virtual void V000();
@@ -661,45 +669,11 @@ struct Process897
     virtual void V138();
     virtual void* GetPackageContext();
 };
+// The actor base as far as FUN_00897bd0 reads it: data is the word the folded getter FUN_00825c00 returns.
 struct ActorBase897
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    SaveProxy data;
+    char pad[0x90];
+    void* data;
 };
 struct Actor897 : TESForm
 {
@@ -816,33 +790,31 @@ struct Actor897 : TESForm
     virtual void V187();
     virtual void V188();
     virtual void StartPackage(Package897*, int, int);
-    Process897* GetProcess();
-    ActorBase897* GetActorBase();
     void FUN_00897bd0(void*);
 };
 // Builds a package with location and target data, applies it to the actor's process context, then starts it on the actor.
 // @fnv 0x00897bd0
 void Actor897::FUN_00897bd0(void* unused)
 {
-    Package897* value = CreatePackageStandIn(14);
-    value->SetPackageType(14);
-    value->SetMustReachLocation(false);
-    value->SetMustComplete(false);
+    Package897* value = ((::Package897 *)(::CreatePackageByType(14)));
+    reinterpret_cast<::PackageEx *>((value))->SetPackageType(14);
+    reinterpret_cast<::TESPackage *>((value))->SetMustReachLocation(false);
+    reinterpret_cast<::TESPackage *>((value))->SetMustComplete(false);
     PackageLocation897* location = new PackageLocation897;
-    location->FUN_0067f3c0(this);
-    value->FUN_00671d30(location);
+    reinterpret_cast<::LocationDescriptor *>((location))->FUN_0067f3c0((::TESObjectREFR *)(::Actor897 *)(this));
+    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((value))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(location));
     delete location;
     PackageTargetObj* target = new PackageTargetObj;
-    value->FUN_00672fc0(target);
-    value->SetProcedureType(41);
-    value->FUN_00671d10(0)->FUN_006800b0();
-    value->FUN_00671d10(this)->FUN_00680110();
-    void* contextTmp = GetProcess()->GetPackageContext();
+    reinterpret_cast<::FUN_00672fc0_shell *>((value))->FUN_00672fc0((::PackageTargetRecord *)(target));
+    reinterpret_cast<::TESPackage *>((value))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(41));
+    reinterpret_cast<::PackageTargetRecord *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData()))))->SetTargetKind({});
+    reinterpret_cast<::PackageTargetRecord *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(::Actor897 *)(this));
+    void* contextTmp = ((::Process897 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetPackageContext();
     if (contextTmp)
-        value->FUN_0067a1b0(contextTmp);
-    value->FUN_00671d10(GetActorBase()->data.FUN_00825c00())->FUN_00403550();
+        reinterpret_cast<::fnv_0067a1b0::FUN_0067a1b0_shell *>((value))->FUN_0067a1b0((::TESPackage *)(contextTmp));
+    reinterpret_cast<::TESRegionGrassObject *>(((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData())))->AssignLandTexture((::TESLandTexture *)reinterpret_cast<::ActorBase897 *>(reinterpret_cast<::Actor *>(this)->GetActorBase())->data);
     delete target;
-    GetProcess()->V010();
+    ((::Process897 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->V010();
     StartPackage(value, 1, 1);
 }
 
@@ -855,93 +827,64 @@ struct LoadHeader
 };
 struct PackageReader : OwnerProxy
 {
-    void FUN_00679340();
-    void FUN_00484d00(void*, unsigned int);
     void LoadPackageBlock();
 };
 struct LoadManager
 {
-    bool FUN_00862110();
-    void FUN_008579e0(void*, unsigned int);
-    LoadHeader* FUN_004fd3c0();
-    unsigned char FUN_008df040();
-    char* FUN_00825c00();
 };
 // Reads a 4-byte block marker and a 2-byte size, then reports block header, overrun and underrun errors against the loaded buffer.
 // @fnv 0x009ed8d0
 void PackageReader::LoadPackageBlock()
 {
-    FUN_00679340();
+    reinterpret_cast<::fnv_00679340::Package679 *>(this)->FUN_00679340();
     unsigned short usBlockSize = 0;
     char* pBlockStart = 0;
-    if (((LoadManager*)DAT_011de45c)->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((((LoadManager*)DAT_011de45c)))->FUN_00862110())
     {
         unsigned int uiBlockMarker;
-        ((LoadManager*)DAT_011de45c)->FUN_008579e0(&uiBlockMarker, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((((LoadManager*)DAT_011de45c)))->FUN_008579e0(&uiBlockMarker, 4);
         if (uiBlockMarker != 0x424c4f4b)
         {
-            LoadHeader* header = ((LoadManager*)DAT_011de45c)->FUN_004fd3c0();
+            LoadHeader* header = ((::LoadHeader *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((LoadManager*)DAT_011de45c)))));
             if (header)
             {
-                TESForm* form = _ref_004839c0(header->formID);
-                FUN_005b5e40(
-                    "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 270, header->formID,
-                    form->GetName(), header->type, *(unsigned int*)&header->flags0);
+                TESForm* form = ::FUN_004839c0(header->formID);
+                ::FUN_005b5e40();
             }
             else
             {
-                FUN_005b5e40(
-                    "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 270,
-                    ((LoadManager*)DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
         }
-        pBlockStart = ((LoadManager*)DAT_011de45c)->FUN_00825c00();
-        ((LoadManager*)DAT_011de45c)->FUN_008579e0(&usBlockSize, 2);
+        pBlockStart = ((char *)(reinterpret_cast<SaveLoadGameView*>((((LoadManager*)DAT_011de45c)))->pBufferCursor));
+        reinterpret_cast<::FUN_008579e0_shell *>((((LoadManager*)DAT_011de45c)))->FUN_008579e0(&usBlockSize, 2);
     }
-    FUN_00484d00(&unk80, 12);
-    if (((LoadManager*)DAT_011de45c)->FUN_00862110())
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&unk80, 12);
+    if (reinterpret_cast<::FUN_00862110_cls *>((((LoadManager*)DAT_011de45c)))->FUN_00862110())
     {
-        char* header = ((LoadManager*)DAT_011de45c)->FUN_00825c00();
-        LoadHeader* pBlockHeader = ((LoadManager*)DAT_011de45c)->FUN_004fd3c0();
+        char* header = ((char *)(reinterpret_cast<SaveLoadGameView*>((((LoadManager*)DAT_011de45c)))->pBufferCursor));
+        LoadHeader* pBlockHeader = ((::LoadHeader *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((LoadManager*)DAT_011de45c)))));
         if (pBlockHeader)
         {
-            TESForm* form = _ref_004839c0(pBlockHeader->formID);
+            TESForm* form = ::FUN_004839c0(pBlockHeader->formID);
             if (header > pBlockStart + usBlockSize)
             {
-                FUN_005b5e40(
-                    "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    header - (pBlockStart + usBlockSize),
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 310, pBlockHeader->formID,
-                    form->GetName(), pBlockHeader->type, *(unsigned int*)&pBlockHeader->flags0);
+                ::FUN_005b5e40();
             }
             else if (header < pBlockStart + usBlockSize)
             {
-                FUN_005b5e40(
-                    "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    (pBlockStart + usBlockSize) - header,
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 310, pBlockHeader->formID,
-                    form->GetName(), pBlockHeader->type, *(unsigned int*)&pBlockHeader->flags0);
+                ::FUN_005b5e40();
             }
         }
         else
         {
             if (header > pBlockStart + usBlockSize)
             {
-                FUN_005b5e40(
-                    "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
-                    header - (pBlockStart + usBlockSize),
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 310,
-                    ((LoadManager*)DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
             else if (header < pBlockStart + usBlockSize)
             {
-                FUN_005b5e40(
-                    "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
-                    (pBlockStart + usBlockSize) - header,
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 310,
-                    ((LoadManager*)DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
         }
     }

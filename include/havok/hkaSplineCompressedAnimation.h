@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkaAnimation.h"
-#pragma pack(push, 1)
 class hkaSplineCompressedAnimation : public hkaAnimation
 {
   public:
@@ -23,6 +22,4 @@ class hkaSplineCompressedAnimation : public hkaAnimation
     hkArray<hkUint8> m_data;                 // +0x74
     hkInt32 m_iEndian;                       // +0x80
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaSplineCompressedAnimation[(sizeof(hkaSplineCompressedAnimation) == 0x84) ? 1 : -1];
 #endif

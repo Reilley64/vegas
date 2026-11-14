@@ -3,6 +3,7 @@
 #ifndef FNV_BASEPROCESS_H
 #define FNV_BASEPROCESS_H
 
+#include "fnv/decl/FUN_0045cd60_shell.h"
 #include "processlists_layout_support.h"
 #include "processlists_ActorPackage.h"
 #include "processlists_NiPoint3.h"
@@ -11,10 +12,10 @@ class ActiveEffect;
 class AnimIdle;
 class ArrowProjectile;
 class Actor;
-class BooleanFloatQuery;
-class Animation;
+struct BooleanFloatQuery;
+struct Animation;
 class BGSBodyPartData;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class BGSSaveGameBuffer;
 class BSAnimGroupSequence;
 class BSBound;
@@ -22,14 +23,14 @@ class BSFaceGenAnimationData;
 class BSFaceGenNiNode;
 class BSShaderPPLightingProperty;
 class PathingAvoidNodeArray;
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 class BipedAnim;
 class ActorCombatGroup;
-class Crime;
-class DetectionViewData;
+struct Crime;
+struct DetectionViewData;
 class ExtraDataList;
 class InventoryStackRecord;
-class KFModel;
+struct KFModel;
 class MagicCaster;
 class MagicItem;
 class MagicTarget;
@@ -51,7 +52,7 @@ class TESObjectWEAP;
 class TESTopic;
 class TESWorldSpace;
 class bhkCharacterController;
-class NiControllerManager;
+struct NiControllerManager;
 class TESPackageData;
 class DialogueItem;
 class DetectionEvent;
@@ -62,6 +63,7 @@ class TESObjectSTAT;
 class WadingWaterData;
 struct FurnitureMark;
 
+class ActorPackageContext;
 class BaseProcess
 {
   public:
@@ -667,13 +669,7 @@ class BaseProcess
     PROCESS_TYPE m_eProcessType;    // +0x28
     CachedValues* m_pCachedValues;  // +0x2C
     // Public PC 0045CD60; PROCESS_LEVEL is an alias of PROCESS_TYPE in that source.
-    PROCESS_TYPE GetProcessLevel() const;
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
 };
-FNV_STATIC_ASSERT(sizeof(BaseProcess) == 0x30);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_kProcessData) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_fValue2) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_fValue1) == 0x20);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_uiStateFlags) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_eProcessType) == 0x28);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_pCachedValues) == 0x2C);
 #endif

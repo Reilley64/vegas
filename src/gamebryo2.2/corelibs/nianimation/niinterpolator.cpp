@@ -1,15 +1,25 @@
 // gamebryo2.2/corelibs/nianimation/niinterpolator.cpp: NiInterpolator, NiKeyBasedInterpolator (8 functions)
 
+#include <new>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/CloneSourceA5d6.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niinterpolator_decls.h"
 
 // @fnv 0x00a56ff0
-NiInterpolator::NiInterpolator() : m_fLastTime(DAT_01015f5c)
+NiInterpolator::NiInterpolator() : m_fLastTime(::DAT_01015f5c)
 {
     m_pVTable = NiInterpolator_VTable;
 }
 
 struct BSBlendTreadTransfInterpolator;
-struct NiBlendInterpolator;
+class NiBlendInterpolator;
 struct CloningProcess;
 struct NiObjectNET;
 struct NiQuatTransform;
@@ -26,16 +36,16 @@ void FUN_00a57030_shell::GetKeyTimeRange(float* fBeginKeyTime, float* fEndKeyTim
     *fEndKeyTime = 0.0f;
 }
 
-extern "C" const char* const g_011f36fc_arg1;
 
 // @fnv 0x00a57070
 const char* const* __cdecl FUN_00a57070()
 {
-    return &g_011f36fc_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4200));
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 extern void* NiInterpolator_VTable[];
@@ -47,14 +57,15 @@ struct NiKeyBasedInterpolator : public NiRefObject
 void NiKeyBasedInterpolator::FUN_00a57010()
 {
     *reinterpret_cast<void**>(this) = NiInterpolator_VTable;
-    NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     char _0[8];
     unsigned short m_usMaxSize;
     unsigned short m_usSize;
@@ -63,21 +74,19 @@ template <class T, class A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall AppendCameraPathEntries(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
-char* _FUN_00a7d330(const char*);
 // Appends the string returned by _FUN_00a7d330(g_011f36fc_arg1) to pkStrings, growing the array when full.
 // @fnv 0x00a570b0
-void __stdcall FUN_00a570b0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void FUN_00a570b0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
-    AppendCameraPathEntries(pkStrings);
-    char* pcString = _FUN_00a7d330(g_011f36fc_arg1);
+    reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
+    char* pcString = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4200)));
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiMaxSize = pkStrings->m_usMaxSize;
     if (uiSize >= uiMaxSize)
     {
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrowBy);
     }
-    pkStrings->SetAt(uiSize, pcString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pcString);
 }
 
 // Reconstructed: 26-byte stdcall wrapper that grabs an object from a
@@ -140,23 +149,21 @@ class NiAnimTarget
     virtual void v52();
 };
 
-extern "C" void* __cdecl FUN_00a5d680();
 
 // @fnv 0x00a57050
-NiAnimTarget* __stdcall FUN_00a57050(int a, int b)
+NiAnimTarget* FUN_00a57050(int a, int b)
 {
-    NiAnimTarget* p = (NiAnimTarget*)FUN_00a5d680();
+    NiAnimTarget* p = (NiAnimTarget*)((void *)(static_cast<::CloneSourceA5d6 *>(nullptr)->FUN_00a5d680()));
     p->v52();
     return p;
 }
 
 // @fnv 0x00a57020
-char __stdcall FUN_00a57020(int a, int b, int c)
+char FUN_00a57020(int a, int b, int c)
 {
     return 0;
 }
 
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a57080_Owner
 {
     void* Destroy(unsigned int);
@@ -166,8 +173,8 @@ struct FUN_00a57080_Owner
 void* FUN_00a57080_Owner::Destroy(unsigned int auiFlags)
 {
     *(void**)this = (void*)NiInterpolator_VTable;
-    ((NiRefObject*)this)->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (auiFlags & 1)
-        ::operator delete(this, 0xc);
+        ::FUN_00aa1460(this, 0xc);
     return this;
 }

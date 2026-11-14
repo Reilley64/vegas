@@ -1,6 +1,10 @@
 // bsaudio/bsaudio_player_decls.h: declares PlayerCharacter
 #ifndef BSAUDIO_PLAYER_DECLS_H
 #define BSAUDIO_PLAYER_DECLS_H
+#include "fnv/decl/fnv_00951a10__ThisCls.h"
+#include "fnv/symbols_0093a000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_011e0000.h"
 class NiNode;
 template <class T> class NiPointer
 {
@@ -8,9 +12,6 @@ template <class T> class NiPointer
     T* pointer;
     T* operator->() const;
 };
-extern float DAT_011e07dc;
-extern double DAT_0101db88;
-extern bool DAT_011e07b8;
 class PlayerCharacter
 {
   public:
@@ -173,9 +174,7 @@ class PlayerCharacter
     NiPointer<NiNode> firstPersonNode;
     char padding698[0x798 - 0x698];
     bool underAIControl;
-    bool GetUnderAIControl();
     void SetUnderAIControl(bool enabled);
     void UpdateCameraMode();
-    void Show1stPerson(bool show);
 };
 #endif

@@ -2,10 +2,21 @@
 // src/fallout_shared/pathfinding/pathingrequestflee.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingrequestflee.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_006dad70_shell.h"
+#include "fnv/decl/FUN_006e3230_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00aa1000.h"
+struct BGSLoadFormBuffer;
 struct PathingRequest
 {
     ~PathingRequest();
-    static void operator delete(void* p, unsigned int size);
+public:
+    void CopyTo(::PathingRequest *);
+public:
+    void LoadGame(::BGSLoadFormBuffer *);
 };
 
 struct PathingRequestFlee : PathingRequest
@@ -19,21 +30,19 @@ struct PathingRequestFlee : PathingRequest
 // @fnv 0x006e53c0
 void* PathingRequestFlee::DestroyAndFree(unsigned int flags)
 {
-    this->PathingRequest::~PathingRequest();
+    reinterpret_cast<::FUN_006dad70_shell *>((this))->DestroyPathingRequest();
     if (flags & 1)
-        PathingRequest::operator delete(this, 0xb4);
+        ::FUN_00aa1460(this, 0xb4);
     return this;
 }
 
 namespace fnv_006e54b0 {
 struct BGSSaveFormBuffer
 {
-    void SaveData(void* a1, int a2, int a3);
 };
 
 struct PathingRequest
 {
-    void SaveGame(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 struct FUN_006e54b0_shell : PathingRequest
@@ -45,19 +54,17 @@ struct FUN_006e54b0_shell : PathingRequest
 // @fnv 0x006e54b0
 void FUN_006e54b0_shell::FUN_006e54b0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    PathingRequest::SaveGame(apSaveGameBuffer);
-    apSaveGameBuffer->SaveData(this + 0xb0, 4, 0);
+    reinterpret_cast<::FUN_006e3230_shell *>(this)->FUN_006e3230((::BGSSaveFormBuffer *)(apSaveGameBuffer));
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(this + 0xb0, 4, 0);
 }
 }  // namespace fnv_006e54b0
 
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void* p, unsigned int size);
 };
 
 struct PathingRequestLoadGameHelper
 {
-    void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
 struct PathingRequestFlee;
@@ -71,8 +78,8 @@ struct PathingRequestFleeShell : PathingRequestFlee
 // @fnv 0x006e54e0
 void PathingRequestFleeShell::FUN_006e54e0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    ((PathingRequestLoadGameHelper*)this)->LoadGame(apLoadGameBuffer);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0xb0), 4);
+    reinterpret_cast<::PathingRequest *>((((PathingRequestLoadGameHelper*)this)))->LoadGame(apLoadGameBuffer);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0xb0)), 4);
 }
 
 extern int DAT_0106d300;
@@ -100,7 +107,6 @@ FUN_006e5390::FUN_006e5390()
 namespace fnv_006e5470 {
 struct PathingRequest
 {
-    void CopyTo(PathingRequest*);
 };
 
 struct PathingRequestFlee : PathingRequest
@@ -114,7 +120,7 @@ struct PathingRequestFlee : PathingRequest
 void PathingRequestFlee::CopyToWithFleeData(PathingRequest* apDest)
 {
     PathingRequest* pdest = apDest;
-    PathingRequest::CopyTo(pdest);
+    reinterpret_cast<::PathingRequest *>(this)->CopyTo((::PathingRequest *)(pdest));
     ((PathingRequestFlee*)pdest)->m_fFleeDistance = m_fFleeDistance;
 }
 }  // namespace fnv_006e5470
@@ -122,7 +128,6 @@ void PathingRequestFlee::CopyToWithFleeData(PathingRequest* apDest)
 class C6E5400Request
 {
   public:
-    float GetGoalRadius() const;
 };
 
 class C6E5400Base
@@ -189,5 +194,5 @@ class FUN_006e5400 : public C6E5400Base
 // @fnv 0x006e5400
 FUN_006e5400::FUN_006e5400(C6E5400Request* pkRequest) : C6E5400Base(pkRequest)
 {
-    m_fGoalRadius = pkRequest->GetGoalRadius();
+    m_fGoalRadius = reinterpret_cast<::FUN_006d2c20_Class *>((void *)(pkRequest))->GetFloatAtOffsetB0();
 }

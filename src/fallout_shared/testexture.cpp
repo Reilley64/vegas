@@ -1,5 +1,22 @@
 // fallout_shared/testexture.cpp: TESTexture, TESEyes, TESSkill (21 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00481230_stand.h"
+#include "fnv/decl/FUN_00617ea0_shell.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_01183000.h"
 #include "testexture_decls.h"
 
 #include <malloc.h>
@@ -9,8 +26,8 @@
 // @fnv 0x0048e340
 void TESTexture::InitializeComponent()
 {
-    if (FullNameComponent.String())
-        FullNameComponent.Set(0, 0);
+    if (((const char *)(::FUN_00559450((int *)&(FullNameComponent)))))
+        reinterpret_cast<::TextString *>(&(FullNameComponent))->FUN_004037f0(0, 0);
 }
 
 // @fnv 0x0048e6c0
@@ -37,10 +54,10 @@ void TESTexture::ReadTextureData(TESTexture* texture, TESFile* file)
 {
     if (!file || !texture)
         return;
-    if (file->GetChunkSize())
+    if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C())
     {
-        char* buffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-        file->GetChunkData(buffer, 0);
+        char* buffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer), 0);
         if (strlen(buffer) && buffer[0] == '\\')
         {
             unsigned int index = 0;
@@ -71,8 +88,8 @@ const char* TESTexture::NormalizeTextureFilePath(BSStringT<char>& result, const 
             return 0;
         *extension = 0;
         sprintf_s(normalPath, 260, "%s_n.dds", sourcePath);
-        result.Set(normalPath, 0);
-        return result.String();
+        reinterpret_cast<::TextString *>(&(result))->FUN_004037f0(normalPath, 0);
+        return ((const char *)(::FUN_00559450((int *)&(result))));
     }
 }
 
@@ -82,7 +99,6 @@ struct BSS
 };
 struct TFH
 {
-    void InitializeComponent();
 };
 struct FUN_0048e2e0
 {
@@ -93,7 +109,7 @@ struct FUN_0048e2e0
 // @fnv 0x0048e2e0
 FUN_0048e2e0::~FUN_0048e2e0()
 {
-    ((TFH*)this)->InitializeComponent();
+    reinterpret_cast<::TESForm *>((((TFH*)this)))->ClearData();
 }
 
 // @fnv 0x0048e3b0
@@ -118,29 +134,28 @@ void __cdecl AppendNormalMapSuffix(const char* source, char* dest)
 
 struct FUN_00487400_shell
 {
-    const char* __thiscall FUN_00487400();
+    const char* FUN_00487400();
 };
 
 // @fnv 0x00487400
-const char* __thiscall FUN_00487400_shell::FUN_00487400()
+const char* FUN_00487400_shell::FUN_00487400()
 {
     return "Textures";
 }
 
 struct FNStub
 {
-    const char* GetFullName();
 };
 
 struct FUN_0048e580_shell : FNStub
 {
-    const char* __thiscall FUN_0048e580(BSStringT<char>& result);
+    const char* FUN_0048e580(BSStringT<char>& result);
 };
 
 // @fnv 0x0048e580
-const char* __thiscall FUN_0048e580_shell::FUN_0048e580(BSStringT<char>& result)
+const char* FUN_0048e580_shell::FUN_0048e580(BSStringT<char>& result)
 {
-    return TESTexture::NormalizeTextureFilePath(result, this->GetFullName());
+    return TESTexture::NormalizeTextureFilePath(result, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((this))->FUN_00408da0())));
 }
 
 struct TESTexture_shell
@@ -176,14 +191,13 @@ void FUN_005fdc30_shell::FUN_005fdc30()
 
 struct TESSkill
 {
-    void ResetData();
     void FUN_00617e80();
 };
 
 // @fnv 0x00617e80
 void TESSkill::FUN_00617e80()
 {
-    ResetData();
+    reinterpret_cast<::FUN_00617ea0_shell *>(this)->ResetState();
 }
 
 struct FUN_005eac70_shell
@@ -210,7 +224,7 @@ struct FUN_00402c40_shell : public TESTexture
 // @fnv 0x00402c40
 void FUN_00402c40_shell::DestroyTexture()
 {
-    TESTexture::~TESTexture();
+    reinterpret_cast<::FUN_0048e2e0 *>(this)->FUN_0048e2e0::~FUN_0048e2e0();
 }
 
 struct FUN_00487410_shell
@@ -225,15 +239,14 @@ const char* FUN_00487410_shell::GetLeafTexturePath()
 }
 
 namespace fnv_0048e370 {
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength() const;
 };
 struct FNStub
 {
-    char const* GetFullName();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
 struct FUN_0048e370_shell
 {
     void FUN_0048e370(unsigned int);
@@ -243,20 +256,18 @@ struct FUN_0048e370_shell
 void FUN_0048e370_shell::FUN_0048e370(unsigned int aeTextureID)
 {
     if (((TESModel*)this)->GetModelLength())
-        FUN_004856f0(aeTextureID, (void*)((FNStub*)this)->GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
+        ::FUN_004856f0((void *)(std::uintptr_t)(aeTextureID), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this)))->FUN_00408da0())), (void *)(std::uintptr_t)(((TESModel*)this)->GetModelLength() + 1));
 }
 }  // namespace fnv_0048e370
 
 namespace fnv_0048e4a0 {
 struct BSStr
 {
-    bool Set(char const*, unsigned int);
 };
 struct FNStub
 {
-    char const* GetFullName(void);
 };
-struct FUN_0048e4a0_shell
+struct FUN_0048e4a0_shell : ::TESTexture
 {
     void CopyTextureName(BaseFormComponent* apCopyFC);
 };
@@ -267,20 +278,19 @@ void FUN_0048e4a0_shell::CopyTextureName(BaseFormComponent* apCopyFC)
     TESTexture* pcopy = dynamic_cast<TESTexture*>(apCopyFC);
     if (!pcopy)
         return;
-    ((BSStr*)((char*)this + 4))->Set(((FNStub*)pcopy)->GetFullName(), 0);
+    reinterpret_cast<::TextString *>((((BSStr*)&this->FullNameComponent)))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pcopy)))->FUN_00408da0())), 0);
 }
 }  // namespace fnv_0048e4a0
 
 namespace fnv_0048e4f0 {
 struct FNStub
 {
-    char* GetFullName();
 };
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength();
 };
-int __cdecl FUN_00404dc0(const char*, const char*);
 struct FUN_0048e4f0_shell : TESModel
 {
     bool FUN_0048e4f0(BaseFormComponent* apCompareFC);
@@ -295,50 +305,45 @@ bool FUN_0048e4f0_shell::FUN_0048e4f0(BaseFormComponent* apCompareFC)
     {
         if (GetModelLength() != ((TESModel*)pcompare)->GetModelLength())
             return true;
-        else if (FUN_00404dc0(((FNStub*)this)->GetFullName(), ((FNStub*)pcompare)->GetFullName()))
+        else if (::FUN_00404dc0(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this)))->FUN_00408da0())), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pcompare)))->FUN_00408da0()))))
             return true;
     }
     return false;
 }
 }  // namespace fnv_0048e4f0
 
-extern char DAT_01183028[];
-extern char DAT_01183978[];
 
 struct FUN_00480ef0_obj;
 
-int __cdecl FUN_00ec43fb(FUN_00480ef0_obj* owner, int zero, char* name, char* table, int flags);
+std::intptr_t __cdecl FUN_00ec43fb(FUN_00480ef0_obj* owner, int zero, char* name, char* table, int flags);
 
 struct FUN_00480ef0_sub
 {
-    int FUN_00408da0();
 };
 
 struct FUN_00480ef0_obj
 {
     int FUN_00401170();
     int FUN_005f0cc0();
-    int FUN_00481230(int value);
-    FUN_00480ef0_obj* FUN_00567790();
 };
 
 // @fnv 0x00480ef0
-int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
+std::intptr_t __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, std::intptr_t param)
 {
-    FUN_00480ef0_obj* found = (FUN_00480ef0_obj*)FUN_00ec43fb(pOwner, 0, DAT_01183028, DAT_01183978, 0);
+    FUN_00480ef0_obj* found = (FUN_00480ef0_obj*)FUN_00ec43fb(pOwner, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_01183978)), 0);
     if (found == 0)
     {
         return 0;
     }
     if (param == 0)
     {
-        return ((FUN_00480ef0_sub*)((char*)found + 0x8c))->FUN_00408da0();
+        return ((std::intptr_t)(reinterpret_cast<::FUN_00408da0_Class *>((((FUN_00480ef0_sub*)((char*)found + 0x8c))))->FUN_00408da0()));
     }
-    FUN_00480ef0_obj* ref = ((FUN_00480ef0_obj*)param)->FUN_00567790();
+    FUN_00480ef0_obj* ref = ((::FUN_00480ef0_obj *)(reinterpret_cast<::OwnerLookupView *>((((FUN_00480ef0_obj*)param)))->FUN_00567790()));
     int valueX = 0;
     if (ref != 0 && ref->FUN_00401170() == 0x2a)
     {
         valueX = ref->FUN_005f0cc0();
     }
-    return found->FUN_00481230(valueX);
+    return ((std::intptr_t)(reinterpret_cast<::FUN_00481230_stand *>((found))->FUN_00481230(valueX)));
 }

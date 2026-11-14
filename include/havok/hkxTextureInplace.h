@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxTextureInplace : public hkReferencedObject
 {
   public:
@@ -14,6 +13,4 @@ class hkxTextureInplace : public hkReferencedObject
     hkStringPtr m_name;        // +0x18
     hkStringPtr m_mimeType;    // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxTextureInplace[(sizeof(hkxTextureInplace) == 0x20) ? 1 : -1];
 #endif

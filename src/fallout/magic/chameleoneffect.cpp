@@ -2,6 +2,21 @@
 // src/fallout/magic/chameleoneffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/chameleoneffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include "fnv/decl/ActiveEffect.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/LoadedValueEffect.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040d000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
 extern int DAT_0107994c;
 
 struct ValueModifierEffect
@@ -21,13 +36,14 @@ FUN_0080acf0_shell::FUN_0080acf0_shell(void* a, void* b, void* c) : ValueModifie
     *reinterpret_cast<int**>(this) = &DAT_0107994c;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
 };
-bool __cdecl FUN_005b9b00();
-struct Actor
+class Actor
 {
+  public:
     virtual void d0();
     virtual void d1();
     virtual void d2();
@@ -263,7 +279,7 @@ struct ChameleonEffect : TESForm
 // @fnv 0x0080b1b0
 void ChameleonEffect::FUN_0080b1b0(Actor* apActor)
 {
-    TESForm::Revert((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
     if (FUN_005b9b00())
         apActor->At0x384(1, 0.0F);
     else
@@ -271,13 +287,12 @@ void ChameleonEffect::FUN_0080b1b0(Actor* apActor)
 }
 
 namespace fnv_0080b310 {
-bool __cdecl FUN_005b9b00(void);
-struct TESForm
+class TESForm
 {
-    void Revert(unsigned int);
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -504,7 +519,6 @@ struct Actor
     virtual void v223();
     virtual void v224();
     virtual void func225(int, float);
-    void UpdateActorPresentation(void);
 };
 struct BGSLoadFormBuffer
 {
@@ -521,11 +535,11 @@ struct ChameleonEffect : TESForm
 void ChameleonEffect::FUN_0080b310(BGSLoadFormBuffer* apActor)
 {
     Actor* actor = apActor->b3();
-    TESForm::Revert((unsigned int)apActor);
-    if (FUN_005b9b00())
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
+    if (::FUN_005b9b00())
         actor->func225(1, 0.0f);
     else
-        actor->UpdateActorPresentation();
+        reinterpret_cast<::Actor *>((actor))->UpdateActorPresentation();
 }
 }  // namespace fnv_0080b310
 
@@ -542,7 +556,6 @@ FUN_0080acf0_shell* __cdecl FUN_0080b040(void* a, void* b, void* c)
     return new FUN_0080b040_shell(a, b, c);
 }
 
-extern double DAT_01017a40;
 
 struct FUN_0080b0c0_sub
 {
@@ -637,7 +650,6 @@ struct FUN_0080b0c0_arg : Actor
 
 struct FUN_008c4640_cls
 {
-    void FUN_008c4640();
 };
 
 struct FUN_0080b0c0_cls
@@ -661,43 +673,33 @@ struct FUN_0080b0c0_cls
     int unk40;
     int unk44;
     int m_48;
-    void FUN_0082cd10(FUN_0080b0c0_arg* a);
     void FUN_0080b0c0(FUN_0080b0c0_arg* a1);
 };
 
-float __cdecl FUN_00404010(float a, float b);
-float __cdecl FUN_0040ebd0(float a, float b);
-float __cdecl FUN_0040df50();
-float __cdecl GetOriginalRuntimeFloatSetting9();
-float __cdecl LinearInterpolate(float a, float b, float c, float d, float e);
 
 // @fnv 0x0080b0c0
 void FUN_0080b0c0_cls::FUN_0080b0c0(FUN_0080b0c0_arg* a1)
 {
-    FUN_0082cd10(a1);
+    reinterpret_cast<::LoadedValueEffect *>(this)->FUN_0082cd10((::Actor *)(a1));
     if (FUN_005b9b00())
     {
         a1->At0x41c(1.0f);
         float h;
         float s;
-        h = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, (float)(a1->m_a4.GetX(m_48) / DAT_01017a40)));
+        h = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, (float)(a1->m_a4.GetX(m_48) / ::g_d100)));
         s = LinearInterpolate(GetOriginalRuntimeFloatSetting9(), FUN_0040df50(), 0.0f, 1.0f, 1.0f - h);
         a1->At0x384(1, s);
     }
     else
     {
-        reinterpret_cast<FUN_008c4640_cls*>(a1)->FUN_008c4640();
+        reinterpret_cast<::Actor *>((reinterpret_cast<FUN_008c4640_cls*>(a1)))->UpdateActorPresentation();
     }
 }
 
-float __cdecl FUN_00404010(float, float);
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_0040df50();
-float __cdecl GetOriginalRuntimeFloatSetting9();
-float __cdecl LinearInterpolate(float, float, float, float, float);
 
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -970,7 +972,6 @@ struct ChamActor
     virtual void d261();
     virtual void d262();
     virtual void AssignActorValue(float value);
-    void UpdateActorPresentation();
 
     int unk04;
     int unk08;
@@ -1015,12 +1016,16 @@ struct ChamActor
     ActorValueOwner avOwner;
 };
 
-struct MagicTarget
+class Actor;
+class MagicTarget
 {
+  public:
     virtual void m0();
     virtual void m1();
     virtual void m2();
     virtual ChamActor* GetTargetActor();
+public:
+    ::Actor *GetOwnerActor() const;
 };
 
 struct ChamActiveEffect
@@ -1048,7 +1053,6 @@ struct ChamActiveEffect
     int unk44;
     int actorVal;
 
-    void Start(MagicTarget* target);
     void FUN_0080b200(MagicTarget* target);
 };
 
@@ -1056,7 +1060,7 @@ struct ChamActiveEffect
 void ChamActiveEffect::FUN_0080b200(MagicTarget* target)
 {
     ChamActor* actor = target->GetTargetActor();
-    Start(target);
+    reinterpret_cast<::ActiveEffect *>(this)->ApplyLoadBuffer((::BGSLoadFormBuffer *)(target));
     if (bApplied)
     {
         if (FUN_005b9b00())
@@ -1070,16 +1074,14 @@ void ChamActiveEffect::FUN_0080b200(MagicTarget* target)
         }
         else
         {
-            actor->UpdateActorPresentation();
+            reinterpret_cast<::Actor *>((actor))->UpdateActorPresentation();
         }
     }
 }
 
 struct MidObj
 {
-    FUN_0080b0c0_arg* FUN_00822b40();
 };
-extern double DAT_01012060;
 struct ThiS
 {
     int f00;
@@ -1101,8 +1103,6 @@ struct ThiS
     int f40;
     int f44;
     int actorVal;
-    void ApplyEffect();
-    MidObj* FUN_0059bb30();
     void FUN_0080aef0();
 };
 
@@ -1113,66 +1113,62 @@ void ThiS::FUN_0080aef0()
     float ratio3;
     float interp2;
 
-    ApplyEffect();
-    actor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : (FUN_0080b0c0_arg*)0;
+    reinterpret_cast<::Cls *>(this)->ApplyEffect();
+    actor = ((::MidObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::FUN_0080b0c0_arg *)(reinterpret_cast<::MagicTarget *>((((::MidObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : (FUN_0080b0c0_arg*)0;
     if (actor != 0)
     {
         if (FUN_005b9b00())
         {
-            ratio3 = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, actor->m_a4.GetX(actorVal) / DAT_01017a40));
-            if (ratio3 > DAT_01012060)
+            ratio3 = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, actor->m_a4.GetX(actorVal) / ::g_d100));
+            if (ratio3 > ::_DAT_01012060)
             {
                 interp2 = LinearInterpolate(GetOriginalRuntimeFloatSetting9(), FUN_0040df50(), 0.0f, 1.0f,
-                                            1.0f - ratio3 / DAT_01017a40);
+                                            1.0f - ratio3 / ::g_d100);
                 actor->At0x384(1, interp2);
             }
             else
             {
                 actor->At0x384(1, 0.0f);
-                ((FUN_008c4640_cls*)actor)->FUN_008c4640();
+                reinterpret_cast<::Actor *>((((FUN_008c4640_cls*)actor)))->UpdateActorPresentation();
             }
         }
         else
         {
-            ((FUN_008c4640_cls*)actor)->FUN_008c4640();
+            reinterpret_cast<::Actor *>((((FUN_008c4640_cls*)actor)))->UpdateActorPresentation();
         }
     }
 }
 
 struct MyChamActor : ChamActor
 {
-    void FUN_008c4640();
 };
 
 struct EffectOwner
 {
-    MyChamActor* FUN_00822b40();
 };
 
 struct MyActiveEffect : ChamActiveEffect
 {
-    EffectOwner* FUN_0059bb30();
-    void FUN_0082c000();
     void UpdateChameleonEffect();
 };
 
 // @fnv 0x0080add0
 void MyActiveEffect::UpdateChameleonEffect()
 {
-    MyChamActor* q = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    FUN_0082c000();
+    MyChamActor* q = ((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MyChamActor *)(reinterpret_cast<::MagicTarget *>((((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
+    reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
     if (q != 0)
     {
         if (FUN_005b9b00())
         {
             q->AssignActorValue(1.0f);
-            float r2 = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, q->avOwner.GetActorValue(actorVal) / DAT_01017a40));
+            float r2 = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, q->avOwner.GetActorValue(actorVal) / ::g_d100));
             float r3 = LinearInterpolate(GetOriginalRuntimeFloatSetting9(), FUN_0040df50(), 0.0f, 1.0f, 1.0f - r2);
             q->SetAlpha(1, r3);
         }
         else
         {
-            q->FUN_008c4640();
+            reinterpret_cast<::Actor *>((q))->UpdateActorPresentation();
         }
     }
 }

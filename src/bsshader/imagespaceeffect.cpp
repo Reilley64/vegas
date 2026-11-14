@@ -1,8 +1,12 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct ImageSpaceEffect;
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
+class ImageSpaceEffect;
 struct ImageSpaceEffectParam;
 struct ImageSpaceManager;
 struct ImageSpaceTexture;
@@ -24,6 +28,16 @@ struct NiTPrimitiveArray_int___
     void SetAt(unsigned int, int&);
 };
 
+struct ImageSpaceEffectArrays
+{
+    char pad00[8];
+    char m_kEffectList[0x10];
+    char m_kEffectParamList[0x10];
+    char m_kArray28[0x10];
+    char m_kTextureList[0x10];
+    char m_kEffectOutput[0x10];
+};
+
 struct FUN_00ba3c70_shell
 {
     void SetEffectAt(int aiEffectIndex, ImageSpaceEffect* apEffect, ImageSpaceEffectParam* apParam, int aiOutput);
@@ -34,62 +48,59 @@ struct FUN_00ba3c70_shell
 void FUN_00ba3c70_shell::SetEffectAt(int aiEffectIndex, ImageSpaceEffect* apEffect, ImageSpaceEffectParam* apParam,
                                      int aiOutput)
 {
+    ImageSpaceEffectArrays* arrays = reinterpret_cast<ImageSpaceEffectArrays*>(this);
     NiTPrimitiveArray_ImageSpaceEffect___& pEffectList =
-        *reinterpret_cast<NiTPrimitiveArray_ImageSpaceEffect___*>(this + 8);
+        *reinterpret_cast<NiTPrimitiveArray_ImageSpaceEffect___*>(arrays->m_kEffectList);
     NiTPrimitiveArray_ImageSpaceEffectParam___& pEffectParamList =
-        *reinterpret_cast<NiTPrimitiveArray_ImageSpaceEffectParam___*>(this + 0x18);
-    NiTPrimitiveArray_int___& pEffectOutput = *reinterpret_cast<NiTPrimitiveArray_int___*>(this + 0x48);
-    pEffectList.SetAt(aiEffectIndex, apEffect);
-    pEffectParamList.SetAt(aiEffectIndex, apParam);
-    pEffectOutput.SetAt(aiEffectIndex, aiOutput);
+        *reinterpret_cast<NiTPrimitiveArray_ImageSpaceEffectParam___*>(arrays->m_kEffectParamList);
+    NiTPrimitiveArray_int___& pEffectOutput = *reinterpret_cast<NiTPrimitiveArray_int___*>(arrays->m_kEffectOutput);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectList))->FUN_00ba3aa0(aiEffectIndex, (::KeyPair **)&(apEffect));
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectParamList))->FUN_00ba3aa0(aiEffectIndex, (::KeyPair **)&(apParam));
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectOutput))->FUN_00ba3aa0(aiEffectIndex, (::KeyPair **)&(aiOutput));
 }
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct FUN_00ba3b50_t
 {
     void SetArrayEntry(int, int, int, int, int);
 };
-// Allocates a 16-byte block, stores the four arguments in it, and sets it at index a1 in the array at offset 0x38.
+// Allocates a 16-byte block, stores the four arguments in it, and sets it at index a1 in the texture array.
 // @fnv 0x00ba3b50
 void FUN_00ba3b50_t::SetArrayEntry(int uiIndex, int a2, int a3, int a4, int a5)
 {
-    int* p = (int*)g_memoryManager.Allocate(16);
+    int* p = (int*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(16);
     p[0] = a2;
     p[1] = a4;
     p[2] = a3;
-    int t = (int)p;
+    int* t = p;
     p[3] = a5;
-    ((NiTPrimitiveArray_int___*)((char*)this + 0x38))->SetAt((unsigned int)uiIndex, t);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_int___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kTextureList)))->FUN_00ba3aa0((unsigned int)uiIndex, (::KeyPair **)&(t));
 }
 
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
-    void SetSize(unsigned int);
 };
-struct ImageSpaceEffect
+class ImageSpaceEffect
 {
+  public:
     void SetTextureArraySize(int count);
 };
-// Sets the size of the four texture arrays at offsets 8, 0x18, 0x38 and 0x48 to count.
+// Sets the size of the effect, parameter, texture and output arrays to count.
 // @fnv 0x00ba3f90
 void ImageSpaceEffect::SetTextureArraySize(int count)
 {
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 8))->SetSize(count);
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x18))->SetSize(count);
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x38))->SetSize(count);
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x48))->SetSize(count);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kEffectList)))->FUN_00a90180(count);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kEffectParamList)))->FUN_00a90180(count);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kTextureList)))->FUN_00a90180(count);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kEffectOutput)))->FUN_00a90180(count);
 }
 
 namespace fnv_00ba3ba0 {
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct Holder
 {
     char _pad[0x38];
@@ -100,22 +111,23 @@ struct Holder
 void Holder::FUN_00ba3ba0(unsigned int auiIndex, int aiValue0, int aiValue1, int aiValue2, int aiValue3, int aiValue4,
                           int aiValue5)
 {
-    int* p = (int*)g_memoryManager.Allocate(24);
+    int* p = (int*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ba3ba0::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(24);
     p[0] = aiValue0;
     p[1] = aiValue3;
     p[2] = aiValue1;
     p[3] = aiValue4;
     p[4] = aiValue2;
     unsigned int t = auiIndex;
-    int iEntry = (int)p;
+    int* iEntry = p;
     p[5] = aiValue5;
-    _arr.SetAt(t, iEntry);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(_arr))->FUN_00ba3aa0(t, (::KeyPair **)&(iEntry));
 }
 }  // namespace fnv_00ba3ba0
 
-struct NiCamera;
-struct NiAccumulator
+class NiCamera;
+class NiAccumulator
 {
+  public:
     void SetSortingCamera(NiCamera const*);
 };
 struct HolderForAccum
@@ -127,7 +139,7 @@ struct HolderForAccum
 // @fnv 0x00ba3cb0
 void HolderForAccum::SetAccumulatorAt(unsigned int auiIndex, NiAccumulator* apAccum, NiCamera const* apCamera)
 {
-    m_kArray.SetAt(auiIndex, reinterpret_cast<int&>(apAccum));
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_kArray))->FUN_00ba3aa0(auiIndex, (::KeyPair **)&(reinterpret_cast<int&>(apAccum)));
     if (apAccum)
         apAccum->SetSortingCamera(apCamera);
 }
@@ -135,10 +147,8 @@ void HolderForAccum::SetAccumulatorAt(unsigned int auiIndex, NiAccumulator* apAc
 class BBA3C00Heap
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
 
-extern BBA3C00Heap g_kBA3C00Heap;
 
 struct BBA3C00Range
 {
@@ -148,10 +158,6 @@ struct BBA3C00Range
 
 struct BBA3C00Entry
 {
-    static void* operator new(unsigned int uiSize)
-    {
-        return g_kBA3C00Heap.Allocate(uiSize);
-    }
 
     BBA3C00Range m_akRanges[4];
 };
@@ -200,7 +206,7 @@ void BBA3C00Shader::SetEntryRanges(unsigned int uiIndex, int iStart0, int iStart
     pkEntry->m_akRanges[3].m_iStart = iStart3;
     BBA3C00Entry* pkElement = pkEntry;
     pkEntry->m_akRanges[3].m_iEnd = iEnd3;
-    m_kEntries.SetAt(uiIndex, pkElement);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_kEntries))->FUN_00ba3aa0(uiIndex, (::KeyPair **)&(pkElement));
 }
 
 struct S_00ba3f20_Item
@@ -226,23 +232,8 @@ struct S_00ba3f20_Obj
     int unk14;
     int unk18;
     int* m_params;
-    void SetEffectParams(unsigned int i);
     void ProcessItems(int a1, int a2, int a3, int a4);
 };
-// @fnv 0x00ba3f20
-void S_00ba3f20_Obj::ProcessItems(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
-{
-    vf10(aiArg3);
-    for (int i = 0; (unsigned int)i < m_uiItemCount; i++)
-    {
-        SetEffectParams(i);
-        vf1c(aiArg3);
-        int iValue = *(volatile int*)&aiArg4;
-        m_items[i]->vf04(aiArg1, aiArg2, m_params[i], iValue);
-    }
-    vf14();
-}
-
 template <class T> class NiTMallocInterface
 {
 };
@@ -340,6 +331,19 @@ class ImageSpaceManagerView
 
     void SetEffectParams(unsigned int uiIndex);
 };
+// @fnv 0x00ba3f20
+void S_00ba3f20_Obj::ProcessItems(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+{
+    vf10(aiArg3);
+    for (int i = 0; (unsigned int)i < m_uiItemCount; i++)
+    {
+        reinterpret_cast<::ImageSpaceManagerView *>(this)->SetEffectParams(i);
+        vf1c(aiArg3);
+        int iValue = *(volatile int*)&aiArg4;
+        m_items[i]->vf04(aiArg1, aiArg2, m_params[i], iValue);
+    }
+    vf14();
+}
 
 // Assigns input and output parameter views to an effect's parameter array and sets their values via FUN_00d47a40.
 // @fnv 0x00ba3e30
@@ -358,14 +362,14 @@ void ImageSpaceManagerView::SetEffectParams(unsigned int uiEffectIndex)
         {
             int iValue = pkInput->iValue;
             ImageSpaceEffectParamView* pkParam = m_kParams.GetAt(iParam);
-            pkEffect->m_kParams.SetAt(i, pkParam);
+            reinterpret_cast<::FUN_00a41520_cls *>(&(pkEffect->m_kParams))->FUN_00ba3aa0(i, (::KeyPair **)&(pkParam));
             if (pkParam)
                 pkParam->FUN_00d47a40(iValue);
         }
     }
 
     ImageSpaceEffectParamView* pkOutput = m_kParams.GetAt(iOutputIndex);
-    pkEffect->m_kParams.SetAt(0, pkOutput);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pkEffect->m_kParams))->FUN_00ba3aa0(0, (::KeyPair **)&(pkOutput));
     if (pkOutput)
         pkOutput->FUN_00d47a40(0);
 }

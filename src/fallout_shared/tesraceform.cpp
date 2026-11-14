@@ -1,5 +1,24 @@
 // fallout_shared/tesraceform.cpp: TESRaceForm, TESNPC, ActorValue, TESActorBase (5 functions)
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0066e000.h"
 #include "tesraceform_decls.h"
 
 // Resolves the stored race form ID against the owner's file, looks up the TESRace, and warns if the race cannot be found.
@@ -8,22 +27,21 @@ void TESRaceForm::InitItem(TESForm* owner)
 {
     if (m_pRace)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(m_pRace);
-        TESForm::RemapFormIDForFile(formID, owner->GetFile(-1));
-        m_pRace = dynamic_cast<TESRace*>(GetFormByID(formID));
+        unsigned int formID = (unsigned int)(std::uintptr_t)(m_pRace);
+        ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
+        m_pRace = dynamic_cast<TESRace*>(::FUN_004839c0(formID));
         if (!m_pRace)
         {
             if (owner)
             {
                 if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find race (%08X) on owner object \"%s\".", formID, owner->GetName());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find race (%08X) on owner object (%08X).", formID,
-                            owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
             {
-                Warning("MASTERFILE: Unable to find race (%08X) on unknown owner.", formID);
+                ::FUN_005b5e40();
             }
         }
     }
@@ -34,7 +52,7 @@ void TESRaceForm::InitItem(TESForm* owner)
 int TESNPC::GetActorValue(ActorValue::Index actorValue)
 {
     int value = 0;
-    if (ActorValue::IsSkill(actorValue))
+    if (::FUN_0047f060((*(int *)&(actorValue))))
     {
         int skillIndex = static_cast<signed char>(ActorValue::ToArrayIndex(2, actorValue));
         value = kData.ucSkillValues[skillIndex];
@@ -55,7 +73,7 @@ void TESRaceForm::BaseFormRecord(BaseFormComponent* component)
     TESRaceForm* raceForm = dynamic_cast<TESRaceForm*>(component);
     if (!raceForm)
         return;
-    SetFormRace(raceForm->GetFormRace());
+    reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESRace *)(((::TESRace *)(reinterpret_cast<::Callees *>((void *)(raceForm))->FUN_00726070()))));
 }
 
 // Returns the actor value for the given ActorValue::Index converted to float.
@@ -77,7 +95,7 @@ bool FUN_0048b8c0_shell::IsEqualToBase(BaseFormComponent* apCompareFC)
     TESRaceForm* pcompare = dynamic_cast<TESRaceForm*>(apCompareFC);
     if (!pcompare)
         return true;
-    if (this->GetFormRace() != pcompare->GetFormRace())
+    if (((::TESRace *)(reinterpret_cast<::Callees *>((void *)(this))->FUN_00726070())) != ((::TESRace *)(reinterpret_cast<::Callees *>((void *)(pcompare))->FUN_00726070())))
         return true;
     return false;
 }

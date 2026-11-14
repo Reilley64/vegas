@@ -1,78 +1,102 @@
 // fallout/audio/falloutaudiomedia.cpp: FalloutAudioMedia, FAMThread (30 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include <cmath>
+#include "fnv/decl/BSFile.h"
+#include "fnv/decl/FUN_00591a40_class.h"
+#include "fnv/decl/FUN_00595cb0_shell.h"
+#include "fnv/decl/FUN_0082f6c0.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009698a0_shell.h"
+#include "fnv/decl/GList.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/S2f760.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00992d90__FUN_00992d90_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004dd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01014000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_01073000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f1000.h"
 #include "falloutaudiomedia_decls.h"
 
 // @fnv 0x008304a0
 void FalloutAudioMedia::BeginMediaUpdate()
 {
-    GetCurrentThreadId();
-    StartMenu::UpdateMedia();
-    FUN_00830490();
+    ::FUN_00830470();
+    ::ResetTaskQueueGlobals();
+    ::fnv_00830490::FUN_00830490();
 }
 
 // @fnv 0x008304c0
 void FalloutAudioMedia::EndMediaUpdate()
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     DAT_011dd310 &= ~2;
     DAT_011dd311 &= ~2;
-    FUN_00830490();
-}
-
-// @fnv 0x00830010
-void FalloutAudioMedia::PlayMedia(BGSMusicType* musicType)
-{
-    if (musicType)
-        PlayMedia(kMediaType_Music, musicType->GetRandomEntry(), 1000, musicType->FUN_00830050(), false,
-                  musicType->FUN_00830080(), 0);
+    ::fnv_00830490::FUN_00830490();
 }
 
 // @fnv 0x00830680
 void FalloutAudioMedia::FadeOutMedia(int fadeTime, MEDIATYPE mediaType)
 {
-    GetCurrentThreadId();
-    unsigned int currentTime = ((FORenderedMenu*)TESLandTexture::GetSoundSystem())->GetCurrentTimeMilliseconds();
-    if (DAT_011dd314 == mediaType || mediaType == 0)
+    ::FUN_00830470();
+    unsigned int currentTime = ((FORenderedMenu*)((void *)(::FUN_00453a70())))->GetCurrentTimeMilliseconds();
+    if ((*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) == mediaType || mediaType == 0)
     {
         if ((DAT_011dd310 & 8) == 0)
         {
             DAT_011dd310 |= 0x18;
             DAT_011dd304 = DAT_011dd300;
             DAT_011dd308 = 0.0f;
-            DAT_011dd328 = fadeTime;
-            DAT_011dd32c = currentTime + DAT_011dd328;
+            (*reinterpret_cast<unsigned long *>(&::DAT_011dd328)) = fadeTime;
+            (*reinterpret_cast<unsigned long *>(&::DAT_011dd32c)) = currentTime + (*reinterpret_cast<unsigned long *>(&::DAT_011dd328));
         }
     }
-    if (DAT_011dd348 == mediaType || mediaType == 0)
+    if ((*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) == mediaType || mediaType == 0)
     {
         if ((DAT_011dd311 & 8) == 0)
         {
             DAT_011dd311 |= 0x18;
             DAT_011dd33c = DAT_011dd338;
             DAT_011dd340 = 0.0f;
-            DAT_011dd35c = fadeTime;
-            DAT_011dd360 = currentTime + DAT_011dd35c;
+            (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c)) = fadeTime;
+            (*reinterpret_cast<unsigned long *>(&::DAT_011dd360)) = currentTime + (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c));
         }
     }
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
 }
 
 namespace fnv_anon_falloutaudiomedia {}
 using namespace fnv_anon_falloutaudiomedia;
 namespace fnv_anon_falloutaudiomedia {
-// @fnv 0x0082f7b0
+// Historical member-form copy; FUN_0082f7b0 owns the recipe binding.
 unsigned int FAMThread::ThreadProc()
 {
     state |= 2;
     while (state & 1)
     {
         WaitForThread();
-        EnsureArenaAllocated(&event);
+        ::EnsureArenaAllocated((::ArenaOwner *)(void *)(&event));
         if (state & 1)
-            RunAudioChannel(&threadID);
+            ::RunAudioChannel((int *)(void *)(&threadID));
     }
     state &= ~2;
-    FUN_00c80240(&event);
+    ::FUN_00c80240((::ArenaManagedOwner *)(void *)(&event));
     return 0;
 }
 }
@@ -90,18 +114,16 @@ char FalloutAudioMedia::IsRadioPlaying()
         char result;
     } state;
 
-    GetCurrentThreadId();
-    if (!((DAT_011dd334 != 0 && DAT_011dd314 == 7) || (DAT_011dd368 != 0 && DAT_011dd348 == 7) || DAT_011dd313 != 0))
+    ::FUN_00830470();
+    if (!(((*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) == 7) || ((*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) == 7) || DAT_011dd313 != 0))
         state.isRadio = 0;
     else
         state.isRadio = 1;
     state.result = (char)state.isRadio;
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
     return state.result;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
 
 namespace fnv_anon_falloutaudiomedia {}
 using namespace fnv_anon_falloutaudiomedia;
@@ -109,23 +131,23 @@ namespace fnv_anon_falloutaudiomedia {
 // @fnv 0x0082f790
 void FAMThread::WaitForThread()
 {
-    WaitForSingleObject(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x30), 0xFFFFFFFF);
+    WaitForSingleObject(this->hThread, 0xFFFFFFFF);
 }
 }
 
 // @fnv 0x0082f7b0
-unsigned int __fastcall FUN_0082f7b0(FAMThread* pThis)
+unsigned int FUN_0082f7b0(FAMThread* pThis)
 {
     pThis->state |= 2;
     while (pThis->state & 1)
     {
         pThis->WaitForThread();
-        EnsureArenaAllocated(&pThis->event);
+        ::EnsureArenaAllocated((::ArenaOwner *)(void *)(&pThis->event));
         if (pThis->state & 1)
-            RunAudioChannel(&pThis->threadID);
+            ::RunAudioChannel((int *)(void *)(&pThis->threadID));
     }
     pThis->state &= ~2;
-    FUN_00c80240(&pThis->event);
+    ::FUN_00c80240((::ArenaManagedOwner *)(void *)(&pThis->event));
     return 0;
 }
 
@@ -137,10 +159,9 @@ struct SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     float GetMusicVolume();
@@ -148,16 +169,9 @@ class BSAudio
     float GetMasterVolume();
 };
 
-extern SettingT_GameSettingCollection_ g_011dd084;
-extern double DAT_01073490;
-extern double g_d100;
 extern float DAT_0107cc20;
-extern double _gModifierZero;
-extern double DAT_01032980;
-extern float const g_011c5aa8_arg1;
 
 float __cdecl FUN_0082ffd0(float);
-float __cdecl FUN_004dd130(float, float);
 
 // Computes a volume from the media type's setting or BSAudio value, applies attenuation and dB clamping, then scales by the BSAudio factor and clamps the result.
 // @fnv 0x0082fec0
@@ -168,28 +182,28 @@ float __cdecl ComputeAttenuatedVolume(int aeMediaType, float attenuation)
 
     if (aeMediaType == 8)
     {
-        vol = g_011dd084.Float()->f;
+        vol = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd084))))))->f;
     }
     else if (aeMediaType == 7)
     {
-        vol = ((BSAudio*)TESLandTexture::GetSoundSystem())->GetMusicVolume();
+        vol = ((BSAudio*)((void *)(::FUN_00453a70())))->GetMusicVolume();
     }
     else
     {
-        vol = ((BSAudio*)TESLandTexture::GetSoundSystem())->FUN_00ad7ab0();
+        vol = ((BSAudio*)((void *)(::FUN_00453a70())))->FUN_00ad7ab0();
     }
 
     fVolumeDb = (float)(FUN_0082ffd0(vol) * DAT_01073490 + attenuation * g_d100);
     if (fVolumeDb < -10000.0)
         fVolumeDb = DAT_0107cc20;
-    else if (fVolumeDb > _gModifierZero)
+    else if (fVolumeDb > ::_DAT_01012060)
         fVolumeDb = 0.0f;
 
-    vol = FUN_004dd130(10.0f, (float)(fVolumeDb / DAT_01073490));
-    vol = ((BSAudio*)TESLandTexture::GetSoundSystem())->GetMasterVolume() * vol;
+    vol = ::fnv_004dd130::FUN_004dd130(10.0f, (float)(fVolumeDb / DAT_01073490));
+    vol = ((BSAudio*)((void *)(::FUN_00453a70())))->GetMasterVolume() * vol;
 
     if (vol < DAT_01032980)
-        vol = g_011c5aa8_arg1;
+        vol = ::DAT_010141cc;
     else if (vol > g_d100)
         vol = 100.0f;
 
@@ -204,12 +218,11 @@ float FUN_0082ffd0(float _X)
     return FUN_0082fff0(_X);
 }
 
-double __cdecl FUN_00ecbc80(double);
 
 // @fnv 0x0082fff0
 float __cdecl FUN_0082fff0(float value)
 {
-    return static_cast<float>(FUN_00ecbc80(value));
+    return static_cast<float>(std::log10(value));
 }
 
 // If aiMusicType is non-null, plays it as music media using its random entry, FUN_00830050 and FUN_00830080 values.
@@ -217,172 +230,174 @@ float __cdecl FUN_0082fff0(float value)
 void __cdecl PlayMusicType(BGSMusicType* aiMusicType)
 {
     if (aiMusicType)
-        FalloutAudioMedia::PlayMedia(kMediaType_Music, aiMusicType->GetRandomEntry(), 1000, aiMusicType->FUN_00830050(),
+        ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(kMediaType_Music)), ((const char *)(reinterpret_cast<::FUN_00591a40_class *>((aiMusicType))->GetRandomItem())), 1000, aiMusicType->FUN_00830050(),
                                      false, aiMusicType->FUN_00830080(), 0);
 }
 
 struct FUN_00830050_shell : public BGSMusicType
 {
     bool FUN_00830050();
+    char pad00[0x24];
+    float fVolumeScale;
 };
 
-// Returns true if the float at offset 0x24 is greater than zero.
+// Returns true if the music type's volume scale is greater than zero.
 // @fnv 0x00830050
 bool FUN_00830050_shell::FUN_00830050()
 {
-    return *(float*)((char*)this + 0x24) > 0.0f ? true : false;
+    return fVolumeScale > 0.0f ? true : false;
 }
 
 struct FUN_00830080_shell : public BGSMusicType
 {
     float FUN_00830080();
+    char pad00[0x24];
+    float fVolumeScale;
 };
+// @fnv 0x00830010
+void FalloutAudioMedia::PlayMedia(BGSMusicType* musicType)
+{
+    if (musicType)
+        ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(kMediaType_Music)), ((const char *)(reinterpret_cast<::FUN_00591a40_class *>((musicType))->GetRandomItem())), 1000, reinterpret_cast<::FUN_00830050_shell *>((musicType))->FUN_00830050(), false,
+                  reinterpret_cast<::FUN_00830080_shell *>((musicType))->FUN_00830080(), 0);
+}
 
-// Returns the float at offset 0x24 negated when it is greater than zero, otherwise returns it unchanged.
+// Returns the volume scale negated when it is greater than zero, otherwise returns it unchanged.
 // @fnv 0x00830080
 float FUN_00830080_shell::FUN_00830080()
 {
-    return (*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24) > 0.0)
-               ? -*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24)
-               : *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24);
+    return (fVolumeScale > 0.0) ? -fVolumeScale : fVolumeScale;
 }
 
 class ActorTaskManager
 {
   public:
-    void QueryPerformanceCounter(int);
+public:
+    void WaitForTasksDuringRendering();
 };
 
-extern ActorTaskManager g_011dd3d8;
 
 // @fnv 0x00830470
 void FUN_00830470()
 {
-    g_011dd3d8.QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ActorTaskManager *>(&::g_011dd3d8))))->FUN_004538a0(0);
 }
 
-extern char DAT_011dd312;
 
 // @fnv 0x00830660
 void FUN_00830660()
 {
-    GetCurrentThreadId();
-    DAT_011dd312 = 0;
-    FUN_00830490();
+    ::FUN_00830470();
+    (*reinterpret_cast<char *>(&::DAT_011dd312)) = 0;
+    ::fnv_00830490::FUN_00830490();
 }
 
 // @fnv 0x00830680
 void __cdecl StartFade(int aiFadeTime, int aeType)
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     unsigned int ticks =
-        reinterpret_cast<FORenderedMenu*>(TESLandTexture::GetSoundSystem())->GetCurrentTimeMilliseconds();
-    if ((DAT_011dd314 == aeType || aeType == 0) && !(DAT_011dd310 & 8))
+        reinterpret_cast<FORenderedMenu*>(((void *)(::FUN_00453a70())))->GetCurrentTimeMilliseconds();
+    if (((*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) == aeType || aeType == 0) && !(DAT_011dd310 & 8))
     {
         DAT_011dd310 |= 0x18;
         DAT_011dd304 = DAT_011dd300;
         DAT_011dd308 = 0.0f;
-        DAT_011dd328 = aiFadeTime;
-        DAT_011dd32c = ticks + DAT_011dd328;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd328)) = aiFadeTime;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd32c)) = ticks + (*reinterpret_cast<unsigned long *>(&::DAT_011dd328));
     }
-    if ((DAT_011dd348 == aeType || aeType == 0) && !(DAT_011dd311 & 8))
+    if (((*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) == aeType || aeType == 0) && !(DAT_011dd311 & 8))
     {
         DAT_011dd311 |= 0x18;
         DAT_011dd33c = DAT_011dd338;
         DAT_011dd340 = 0.0f;
-        DAT_011dd35c = aiFadeTime;
-        DAT_011dd360 = ticks + DAT_011dd35c;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c)) = aiFadeTime;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd360)) = ticks + (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c));
     }
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
 }
 
 // @fnv 0x00830750
 bool __cdecl FUN_00830750(unsigned long aeType, bool abIncludeFading)
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     bool ret = false;
     if (abIncludeFading)
     {
         if (aeType == 0)
         {
-            ret = (DAT_011dd334 != 0 && (DAT_011dd310 & 2) == 0) || (DAT_011dd368 != 0 && (DAT_011dd311 & 2) == 0);
+            ret = ((*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0 && (DAT_011dd310 & 2) == 0) || ((*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0 && (DAT_011dd311 & 2) == 0);
         }
         else
         {
-            ret = (DAT_011dd334 != 0 && DAT_011dd314 == aeType && (DAT_011dd310 & 2) == 0) ||
-                  (DAT_011dd368 != 0 && DAT_011dd348 == aeType && (DAT_011dd311 & 2) == 0);
+            ret = ((*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) == aeType && (DAT_011dd310 & 2) == 0) ||
+                  ((*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) == aeType && (DAT_011dd311 & 2) == 0);
         }
     }
     else
     {
         if (aeType == 0)
         {
-            ret = (DAT_011dd334 != 0 && (DAT_011dd310 & 8) == 0) || (DAT_011dd368 != 0 && (DAT_011dd311 & 8) == 0);
+            ret = ((*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0 && (DAT_011dd310 & 8) == 0) || ((*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0 && (DAT_011dd311 & 8) == 0);
         }
         else
         {
-            ret = (DAT_011dd334 != 0 && DAT_011dd314 == aeType && (DAT_011dd310 & 8) == 0) ||
-                  (DAT_011dd368 != 0 && DAT_011dd348 == aeType && (DAT_011dd311 & 8) == 0);
+            ret = ((*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) == aeType && (DAT_011dd310 & 8) == 0) ||
+                  ((*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) == aeType && (DAT_011dd311 & 8) == 0);
         }
     }
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
     return ret;
 }
 
-extern int DAT_011dd324;
-extern int DAT_011dd358;
-extern int DAT_011dd36c;
 
 // @fnv 0x00830970
 int __cdecl FUN_00830970(int auiThreadId)
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     int result = 0;
     if (auiThreadId == 0)
     {
-        if (DAT_011dd36c == 1 && DAT_011dd334 != 0)
+        if (DAT_011dd36c == 1 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0)
             result = DAT_011dd324;
-        else if (DAT_011dd36c == 0 && DAT_011dd368 != 0)
+        else if (DAT_011dd36c == 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0)
             result = DAT_011dd358;
     }
-    if (DAT_011dd36c == 1 && DAT_011dd334 != 0 && DAT_011dd314 == (unsigned long)auiThreadId)
+    if (DAT_011dd36c == 1 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) == (unsigned long)auiThreadId)
         result = DAT_011dd324;
-    else if (DAT_011dd36c == 0 && DAT_011dd368 != 0 && DAT_011dd348 == (unsigned long)auiThreadId)
+    else if (DAT_011dd36c == 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) == (unsigned long)auiThreadId)
         result = DAT_011dd358;
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
     return result;
 }
 
 namespace fnv_00830a20 {
-extern unsigned long DAT_011dd31c;
-extern unsigned long DAT_011dd350;
-extern unsigned long DAT_011dd36c;
 
 // @fnv 0x00830a20
 unsigned long __cdecl FUN_00830a20(unsigned long param_1)
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     unsigned long result = 0;
     if (param_1 == 0)
     {
-        if (DAT_011dd36c == 1 && DAT_011dd334 != 0)
+        if ((*reinterpret_cast<unsigned long *>(&::DAT_011dd36c)) == 1 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0)
         {
-            result = DAT_011dd31c;
+            result = (*reinterpret_cast<unsigned long *>(&::DAT_011dd31c));
         }
-        else if (DAT_011dd36c == 0 && DAT_011dd368 != 0)
+        else if ((*reinterpret_cast<unsigned long *>(&::DAT_011dd36c)) == 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0)
         {
-            result = DAT_011dd350;
+            result = (*reinterpret_cast<unsigned long *>(&::DAT_011dd350));
         }
     }
-    if (DAT_011dd36c == 1 && DAT_011dd334 != 0 && DAT_011dd314 == param_1)
+    if ((*reinterpret_cast<unsigned long *>(&::DAT_011dd36c)) == 1 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) == param_1)
     {
-        result = DAT_011dd31c;
+        result = (*reinterpret_cast<unsigned long *>(&::DAT_011dd31c));
     }
-    else if (DAT_011dd36c == 0 && DAT_011dd368 != 0 && DAT_011dd348 == param_1)
+    else if ((*reinterpret_cast<unsigned long *>(&::DAT_011dd36c)) == 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) != 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) == param_1)
     {
-        result = DAT_011dd350;
+        result = (*reinterpret_cast<unsigned long *>(&::DAT_011dd350));
     }
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
     return result;
 }
 }  // namespace fnv_00830a20
@@ -390,103 +405,90 @@ unsigned long __cdecl FUN_00830a20(unsigned long param_1)
 namespace fnv_00830490 {
 struct ATM
 {
-    void __thiscall WaitForTasksDuringRendering();
 };
 
-extern ATM g_011dd3d8;
 
 // @fnv 0x00830490
 void __cdecl FUN_00830490()
 {
-    g_011dd3d8.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_00830490::ATM *>(&::g_011dd3d8))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_00830490
 
 float __cdecl ComputeAttenuatedVolume(int, float);
-extern float DAT_011dd30c;
-extern int DAT_011dd318;
-extern float DAT_011dd344;
-extern int DAT_011dd34c;
-extern int DAT_011dd350;
-extern int DAT_011dd36c;
-extern unsigned long DAT_011dd31c;
 
 // @fnv 0x008304f0
 void FUN_008304f0()
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     if (DAT_011dd36c == 0)
     {
         DAT_011dd311 |= 2;
-        DAT_011dd338 = ComputeAttenuatedVolume(DAT_011dd348, DAT_011dd344);
+        DAT_011dd338 = ComputeAttenuatedVolume((*reinterpret_cast<unsigned long *>(&::DAT_011dd348)), DAT_011dd344);
         DAT_011dd34c = 0;
-        DAT_011dd35c = 0;
-        DAT_011dd360 = 0;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c)) = 0;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd360)) = 0;
         DAT_011dd350 = 0;
         DAT_011dd310 |= 1;
     }
     else
     {
         DAT_011dd310 |= 2;
-        DAT_011dd300 = ComputeAttenuatedVolume(DAT_011dd314, DAT_011dd30c);
+        DAT_011dd300 = ComputeAttenuatedVolume((*reinterpret_cast<unsigned long *>(&::DAT_011dd314)), DAT_011dd30c);
         DAT_011dd318 = 0;
-        DAT_011dd328 = 0;
-        DAT_011dd32c = 0;
-        DAT_011dd31c = 0;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd328)) = 0;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd32c)) = 0;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd31c)) = 0;
         DAT_011dd311 |= 1;
     }
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
 }
 
 // @fnv 0x008305e0
 void FUN_008305e0()
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     DAT_011dd310 |= 4;
     DAT_011dd311 |= 4;
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
 }
 
 // @fnv 0x00830610
 void ResetThreadFlags()
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     DAT_011dd310 &= -5;
     DAT_011dd311 &= -5;
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
 }
 
-extern char DAT_011dd312;
 
 // @fnv 0x00830640
 void __cdecl FUN_00830640()
 {
-    GetCurrentThreadId();
-    DAT_011dd312 = 1;
-    FUN_00830490();
+    ::FUN_00830470();
+    (*reinterpret_cast<char *>(&::DAT_011dd312)) = 1;
+    ::fnv_00830490::FUN_00830490();
 }
 
-extern int DAT_011dd36c;
-extern int DAT_011dd320;
-extern int DAT_011dd354;
 
 // @fnv 0x008308c0
 unsigned int FUN_008308c0(unsigned long aeType)
 {
-    GetCurrentThreadId();
+    ::FUN_00830470();
     unsigned int ret = 0;
     if (!aeType)
     {
-        if (DAT_011dd36c == 1 && DAT_011dd334)
+        if (DAT_011dd36c == 1 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd334)))
             ret = DAT_011dd320;
-        else if (DAT_011dd36c == 0 && DAT_011dd368)
+        else if (DAT_011dd36c == 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd368)))
             ret = DAT_011dd354;
     }
-    if (DAT_011dd36c == 1 && DAT_011dd334 && DAT_011dd314 == aeType)
+    if (DAT_011dd36c == 1 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) && (*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) == aeType)
         ret = DAT_011dd320;
-    else if (DAT_011dd36c == 0 && DAT_011dd368 && DAT_011dd348 == aeType)
+    else if (DAT_011dd36c == 0 && (*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) && (*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) == aeType)
         ret = DAT_011dd354;
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
     return ret;
 }
 
@@ -496,8 +498,7 @@ struct FUN_0082f950_shell
     void* ScalarDeletingDestructor(unsigned int flags);
 };
 
-extern void __stdcall FUN_00ec5fce(void*, unsigned int, unsigned int, void (FUN_0082f950_shell::*)());
-extern void __cdecl FUN_00401030(void*);
+extern void FUN_00ec5fce(void*, unsigned int, unsigned int, void (FUN_0082f950_shell::*)());
 
 // Destructor that runs cleanup, optionally frees the object (and its 4-byte header when flags bit 2 is set), and returns the object pointer.
 // @fnv 0x0082f950
@@ -511,20 +512,18 @@ void* FUN_0082f950_shell::ScalarDeletingDestructor(unsigned int flags)
         return (char*)this - 4;
     }
 
-    FUN_0082f6c0();
+    reinterpret_cast<::FUN_0082f6c0 *>(this)->FUN_0082f6c0::~FUN_0082f6c0();
     if ((flags & 1) != 0)
         FUN_00401030(this);
     return this;
 }
 
-extern "C" __declspec(dllimport) int __stdcall SetEvent(void*);
 extern void* DAT_011dd3b0;
 class AudioClock
 {
   public:
     unsigned int GetSynchTime();
 };
-AudioClock* FUN_00453a70();
 class MediaLocationController
 {
   public:
@@ -534,14 +533,11 @@ class MediaSet
 {
   public:
     bool Update(unsigned int, bool, MediaLocationController*);
-    void Reset();
 };
 class WorldSpace
 {
   public:
-    bool UpdateCombatMusic();
 };
-extern WorldSpace* BGSSaveLoadGlobalDataWorldlocationPtr;
 class MediaLocationRecord
 {
   public:
@@ -563,19 +559,16 @@ class MediaLocationRecord
 class AcousticEntry
 {
   public:
-    MediaLocationRecord* FUN_004f35b0();
 };
 class AcousticSpace
 {
   public:
-    AcousticEntry* FUN_009611e0(int);
 };
 class AcousticSpaceOwner
 {
   public:
     AcousticSpace* FUN_006733e0();
 };
-extern AcousticSpaceOwner* DAT_011dcfb4;
 class PlayerMedia
 {
   public:
@@ -719,14 +712,7 @@ class PlayerMedia
     virtual void Unk089();
     virtual void Unk08a();
     virtual bool IsInCombat(bool);
-    MediaLocationController* GetMediaLocationController();
 };
-extern PlayerMedia* g_thePlayer;
-extern MediaLocationController* DAT_011dd374;
-extern MediaSet* DAT_011dd378;
-extern MediaLocationRecord* DAT_011dd380;
-bool FUN_007027b0(int);
-bool FUN_00830ad0();
 // @fnv 0x0082fb70
 void UpdateMediaLocation()
 {
@@ -742,57 +728,57 @@ void UpdateMediaLocation()
     // Saved media category; mediaType below is the audio synchronization clock.
     unsigned long time;
     if (DAT_011dd36c == 0)
-        time = DAT_011dd348;
+        time = (*reinterpret_cast<unsigned long *>(&::DAT_011dd348));
     else
-        time = DAT_011dd314;
-    unsigned int mediaType = FUN_00453a70()->GetSynchTime();
+        time = (*reinterpret_cast<unsigned long *>(&::DAT_011dd314));
+    unsigned int mediaType = ((::AudioClock *)(::FUN_00453a70()))->GetSynchTime();
     bool combat =
-        BGSSaveLoadGlobalDataWorldlocationPtr ? BGSSaveLoadGlobalDataWorldlocationPtr->UpdateCombatMusic() : false;
+        (*reinterpret_cast<::WorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)) ? reinterpret_cast<::fnv_00992d90::FUN_00992d90_shell *>(((*reinterpret_cast<::WorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->UpdateCombatMusic() : false;
     if (FUN_007027b0(1007))
         return;
-    if (!DAT_011dd378 || (DAT_011dd378 && !DAT_011dd378->Update(mediaType, combat, 0)))
+    if (!(*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)) || ((*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)) && !(*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378))->Update(mediaType, combat, 0)))
     {
-        if (DAT_011dd378)
-            DAT_011dd378 = 0;
-        if (g_thePlayer &&
-            (!g_thePlayer->GetMediaLocationController() || !g_thePlayer->GetMediaLocationController()->Update(combat)))
+        if ((*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)))
+            (*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)) = 0;
+        if ((*reinterpret_cast<::PlayerMedia * *>(&::_g_thePlayer)) &&
+            (!reinterpret_cast<::FUN_009698a0_shell *>(((*reinterpret_cast<::PlayerMedia * *>(&::_g_thePlayer))))->GetMediaLocationController() || !reinterpret_cast<::FUN_009698a0_shell *>(((*reinterpret_cast<::PlayerMedia * *>(&::_g_thePlayer))))->GetMediaLocationController()->Update(combat)))
         {
             DAT_011dd374 = 0;
             if (DAT_011dcfb4 && DAT_011dcfb4->FUN_006733e0())
             {
                 if (FUN_00830750(2, true))
-                    StartFade(1000, 2);
+                    ::FalloutAudioMedia::FadeOutMedia(1000, (::MEDIATYPE)(2));
                 if (FUN_00830750(3, true))
-                    StartFade(1000, 3);
+                    ::FalloutAudioMedia::FadeOutMedia(1000, (::MEDIATYPE)(3));
                 AcousticSpace* location = DAT_011dcfb4->FUN_006733e0();
-                MediaLocationRecord* space = DAT_011dd380 ? DAT_011dd380 : location->FUN_009611e0(7)->FUN_004f35b0();
+                MediaLocationRecord* space = DAT_011dd380 ? DAT_011dd380 : ((::MediaLocationRecord *)(reinterpret_cast<::GList *>((((::AcousticEntry *)(reinterpret_cast<::FUN_009611e0_shell *>((location))->FUN_009611e0()))))->FUN_004f35b0({})));
                 if (space)
                 {
-                    if (combat && !DAT_011dd378)
+                    if (combat && !(*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)))
                     {
-                        DAT_011dd378 = space->GetCombatSet();
-                        if (DAT_011dd378)
-                            DAT_011dd378->Reset();
+                        (*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)) = space->GetCombatSet();
+                        if ((*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)))
+                            reinterpret_cast<::FUN_00595cb0_shell *>(((*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378))))->ResetState();
                     }
-                    if (!DAT_011dd378 || (DAT_011dd378 && !DAT_011dd378->Update(mediaType, combat, 0)))
+                    if (!(*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)) || ((*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)) && !(*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378))->Update(mediaType, combat, 0)))
                     {
-                        DAT_011dd378 = 0;
+                        (*reinterpret_cast<::MediaSet * *>(&::DAT_011dd378)) = 0;
                         if (space->GetExploreSet() && time == 0)
                             space->GetExploreSet()->Update(mediaType, false, 0);
                     }
                 }
             }
         }
-        else if (g_thePlayer)
+        else if ((*reinterpret_cast<::PlayerMedia * *>(&::_g_thePlayer)))
         {
-            if (g_thePlayer->IsInCombat(false))
-                StartFade(1000, 0);
-            else if (FUN_00830750(0, true) && !FUN_00830ad0() && !DAT_011dd374)
+            if ((*reinterpret_cast<::PlayerMedia * *>(&::_g_thePlayer))->IsInCombat(false))
+                ::FalloutAudioMedia::FadeOutMedia(1000, (::MEDIATYPE)(0));
+            else if (FUN_00830750(0, true) && !((bool)(::FalloutAudioMedia::IsRadioPlaying())) && !DAT_011dd374)
             {
-                StartFade(5000, 4);
-                StartFade(5000, 5);
-                StartFade(5000, 2);
-                StartFade(5000, 3);
+                ::FalloutAudioMedia::FadeOutMedia(5000, (::MEDIATYPE)(4));
+                ::FalloutAudioMedia::FadeOutMedia(5000, (::MEDIATYPE)(5));
+                ::FalloutAudioMedia::FadeOutMedia(5000, (::MEDIATYPE)(2));
+                ::FalloutAudioMedia::FadeOutMedia(5000, (::MEDIATYPE)(3));
             }
         }
     }
@@ -821,7 +807,8 @@ struct BSThread
     int unk48;
     void Initialize(int stackSize, const char* name, bool suspended);
     void SetThreadPriority(int priority);
-    void FUN_00aa6550(int value);
+public:
+    void SetSchedulingPriority(unsigned int);
 };
 
 struct FAMThread : BSThread
@@ -832,20 +819,19 @@ struct FAMThread : BSThread
 
 extern const char DAT_0107cc08[];
 extern const char DAT_0107cbf0[];
-extern BSThread* DAT_011dd1f4;
 
 // Allocates two FAMThread objects, initializes each with a 0x4000 stack and name, sets priority 1, and calls FUN_00aa6550 with 0.
 // @fnv 0x0082f830
 void __cdecl FUN_0082f830()
 {
-    DAT_011dd1f4 = new ::FAMThread[2];
-    DAT_011dd1f4->Initialize(0x4000, DAT_0107cc08, false);
-    DAT_011dd1f4->SetThreadPriority(1);
-    (DAT_011dd1f4 + 1)->Initialize(0x4000, DAT_0107cbf0, false);
-    (DAT_011dd1f4 + 1)->SetThreadPriority(1);
+    (*reinterpret_cast<::BSThread * *>(&::DAT_011dd1f4)) = new ::FAMThread[2];
+    (*reinterpret_cast<::BSThread * *>(&::DAT_011dd1f4))->Initialize(0x4000, DAT_0107cc08, false);
+    (*reinterpret_cast<::BSThread * *>(&::DAT_011dd1f4))->SetThreadPriority(1);
+    ((*reinterpret_cast<::BSThread * *>(&::DAT_011dd1f4)) + 1)->Initialize(0x4000, DAT_0107cbf0, false);
+    ((*reinterpret_cast<::BSThread * *>(&::DAT_011dd1f4)) + 1)->SetThreadPriority(1);
     int zero = 0;
-    DAT_011dd1f4->FUN_00aa6550(zero);
-    (DAT_011dd1f4 + 1)->FUN_00aa6550(zero);
+    (*reinterpret_cast<::BSThread * *>(&::DAT_011dd1f4))->SetSchedulingPriority(zero);
+    ((*reinterpret_cast<::BSThread * *>(&::DAT_011dd1f4)) + 1)->SetSchedulingPriority(zero);
 }
 
 namespace fnv_008300c0 {
@@ -860,19 +846,16 @@ struct BSFile
 
     unsigned char padding[0x154];
 
-    bool Write();
 };
 
 struct S2f760
 {
     unsigned char padding[0x4c];
 
-    void CopyAndSleep(void const*);
 };
 
 struct TaskQueueInterface
 {
-    static void __cdecl CopyStringToBuffer(char*, unsigned int, char const*);
 };
 
 struct GlobalObject_0096a2d0
@@ -880,23 +863,9 @@ struct GlobalObject_0096a2d0
     int value;
 };
 
-void _FNV_Warning(char const*, ...);
-float __cdecl ComputeAttenuatedVolume(int, float);
 
 extern int DAT_011a163c;
-extern unsigned char DAT_011dcfa5;
-extern char DAT_011dd0f0[260];
-extern char DAT_011dd1f8[260];
-extern S2f760* DAT_011dd1f4;
-extern float DAT_011dd30c;
-extern int DAT_011dd318;
-extern float DAT_011dd344;
-extern int DAT_011dd330;
-extern int DAT_011dd34c;
-extern int DAT_011dd364;
-extern int DAT_011dd36c;
 extern int DAT_011dd3c8;
-extern GlobalObject_0096a2d0 g_011dd3c4;
 
 // Validates and queues an audio media file for playback, storing fade, loop, and attenuation settings into the active or standby media slot.
 // @fnv 0x008300c0
@@ -906,104 +875,106 @@ void __cdecl PlayAudioMedia(int aeMediaType, char const* apFileName, unsigned in
     char const* pRealFilename;
     EmptyType* pTask;
 
-    GetCurrentThreadId();
+    ::FUN_00830470();
 
     if (aeMediaType == 9)
     {
-        StartMenu::UpdateMedia();
-        FUN_00830490();
+        ::ResetTaskQueueGlobals();
+        ::fnv_00830490::FUN_00830490();
         return;
     }
 
-    if (aeMediaType != 8 && DAT_011dcfa5)
+    if (aeMediaType != 8 && ::DAT_011dcfa5)
     {
-        FUN_00830490();
+        ::fnv_00830490::FUN_00830490();
         return;
     }
 
     if (!apFileName || !apFileName[0])
     {
-        FUN_00830490();
+        ::fnv_00830490::FUN_00830490();
         return;
     }
 
-    if (!abForce && ((aeMediaType < static_cast<int>(DAT_011dd314) && DAT_011dd36c == 1) ||
-                     (aeMediaType < static_cast<int>(DAT_011dd348) && DAT_011dd36c == 0)))
+    if (!abForce && ((aeMediaType < static_cast<int>((*reinterpret_cast<unsigned long *>(&::DAT_011dd314))) && ::DAT_011dd36c == 1) ||
+                     (aeMediaType < static_cast<int>((*reinterpret_cast<unsigned long *>(&::DAT_011dd348))) && ::DAT_011dd36c == 0)))
     {
-        _FNV_Warning("FalloutAudioMedia: Trying to open media out of priority");
-        FUN_00830490();
+        ::FUN_005b5e40();
+        ::fnv_00830490::FUN_00830490();
         return;
     }
 
     pRealFilename = apFileName;
     {
         BSFile fileCheck(pRealFilename, 0, 0x4000, false);
-        if (!fileCheck.Write())
+        if (!reinterpret_cast<::BSFile *>(&(fileCheck))->Write())
         {
-            _FNV_Warning("FalloutAudioMedia: File '%s' does not exist!", apFileName);
-            FUN_00830490();
+            ::FUN_005b5e40();
+            ::fnv_00830490::FUN_00830490();
             return;
         }
     }
 
     pTask = reinterpret_cast<EmptyType*>(
-        static_cast<FORenderedMenu*>(TESLandTexture::GetSoundSystem())->GetCurrentTimeMilliseconds());
+        static_cast<FORenderedMenu*>(((void *)(::FUN_00453a70())))->GetCurrentTimeMilliseconds());
 
-    if (DAT_011dd36c == 0)
+    if (::DAT_011dd36c == 0)
     {
         DAT_011dd300 = 0.0f;
         DAT_011dd304 = 0.0f;
-        DAT_011dd308 = ComputeAttenuatedVolume(aeMediaType, afAttenuation);
-        DAT_011dd30c = afAttenuation;
+        DAT_011dd308 = ::ComputeAttenuatedVolume(aeMediaType, afAttenuation);
+        ::DAT_011dd30c = afAttenuation;
         DAT_011dd310 = static_cast<char>((abLoop ? 0x20 : 0) | 0x10);
 
-        TaskQueueInterface::CopyStringToBuffer(DAT_011dd0f0, 0x104, apFileName);
+        ::TaskQueueInterface::CopyStringToBuffer((*reinterpret_cast<char (*)[260]>(&::DAT_011dd0f0)), 0x104, apFileName);
 
-        DAT_011dd314 = static_cast<unsigned long>(aeMediaType);
-        DAT_011dd318 = static_cast<int>(auiSynchTime);
-        DAT_011dd328 = auiFadeTime;
-        DAT_011dd32c = reinterpret_cast<unsigned int>(pTask) + DAT_011dd328;
-        DAT_011dd330 = 0;
-        DAT_011dd334 = DAT_011a163c;
-        g_011dd3c4.value = DAT_011a163c;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) = static_cast<unsigned long>(aeMediaType);
+        ::DAT_011dd318 = static_cast<int>(auiSynchTime);
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd328)) = auiFadeTime;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd32c)) = reinterpret_cast<uintptr_t>(pTask) + (*reinterpret_cast<unsigned long *>(&::DAT_011dd328));
+        (*reinterpret_cast<int *>(&::DAT_011dd330)) = 0;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) = DAT_011a163c;
+        (*reinterpret_cast<::fnv_008300c0::GlobalObject_0096a2d0 *>(&::g_011dd3c4)).value = DAT_011a163c;
         ++DAT_011a163c;
-        DAT_011dd3c8 = DAT_011dd36c;
-        DAT_011dd1f4[DAT_011dd36c].CopyAndSleep(&g_011dd3c4);
-        DAT_011dd36c = 1;
+        DAT_011dd3c8 = ::DAT_011dd36c;
+        reinterpret_cast<::S2f760 *>(&((*reinterpret_cast<::fnv_008300c0::S2f760 * *>(&::DAT_011dd1f4))[::DAT_011dd36c]))->CopyAndSleep(&(*reinterpret_cast<::fnv_008300c0::GlobalObject_0096a2d0 *>(&::g_011dd3c4)));
+        ::DAT_011dd36c = 1;
         DAT_011dd311 = static_cast<char>(DAT_011dd311 | 0x18);
         DAT_011dd33c = DAT_011dd338;
         DAT_011dd340 = 0.0f;
-        DAT_011dd35c = DAT_011dd328;
-        DAT_011dd360 = DAT_011dd32c;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c)) = (*reinterpret_cast<unsigned long *>(&::DAT_011dd328));
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd360)) = (*reinterpret_cast<unsigned long *>(&::DAT_011dd32c));
     }
     else
     {
         DAT_011dd338 = 0.0f;
         DAT_011dd33c = 0.0f;
-        DAT_011dd340 = ComputeAttenuatedVolume(aeMediaType, afAttenuation);
-        DAT_011dd344 = afAttenuation;
+        DAT_011dd340 = ::ComputeAttenuatedVolume(aeMediaType, afAttenuation);
+        ::DAT_011dd344 = afAttenuation;
         DAT_011dd311 = static_cast<char>((abLoop ? 0x20 : 0) | 0x10);
 
-        TaskQueueInterface::CopyStringToBuffer(DAT_011dd1f8, 0x104, apFileName);
+        ::TaskQueueInterface::CopyStringToBuffer((*reinterpret_cast<char (*)[260]>(&::DAT_011dd1f8)), 0x104, apFileName);
 
-        DAT_011dd348 = static_cast<unsigned long>(aeMediaType);
-        DAT_011dd34c = static_cast<int>(auiSynchTime);
-        DAT_011dd35c = auiFadeTime;
-        DAT_011dd360 = reinterpret_cast<unsigned int>(pTask) + DAT_011dd35c;
-        DAT_011dd364 = 0;
-        DAT_011dd368 = DAT_011a163c;
-        g_011dd3c4.value = DAT_011a163c;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) = static_cast<unsigned long>(aeMediaType);
+        ::DAT_011dd34c = static_cast<int>(auiSynchTime);
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c)) = auiFadeTime;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd360)) = reinterpret_cast<uintptr_t>(pTask) + (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c));
+        (*reinterpret_cast<int *>(&::DAT_011dd364)) = 0;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) = DAT_011a163c;
+        (*reinterpret_cast<::fnv_008300c0::GlobalObject_0096a2d0 *>(&::g_011dd3c4)).value = DAT_011a163c;
         ++DAT_011a163c;
-        DAT_011dd3c8 = DAT_011dd36c;
-        DAT_011dd1f4[DAT_011dd36c].CopyAndSleep(&g_011dd3c4);
-        DAT_011dd36c = 0;
+        DAT_011dd3c8 = ::DAT_011dd36c;
+        reinterpret_cast<::S2f760 *>(&((*reinterpret_cast<::fnv_008300c0::S2f760 * *>(&::DAT_011dd1f4))[::DAT_011dd36c]))->CopyAndSleep(&(*reinterpret_cast<::fnv_008300c0::GlobalObject_0096a2d0 *>(&::g_011dd3c4)));
+        ::DAT_011dd36c = 0;
         DAT_011dd310 = static_cast<char>(DAT_011dd310 | 0x18);
         DAT_011dd304 = DAT_011dd300;
         DAT_011dd308 = 0.0f;
-        DAT_011dd328 = DAT_011dd35c;
-        DAT_011dd32c = DAT_011dd360;
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd328)) = (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c));
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd32c)) = (*reinterpret_cast<unsigned long *>(&::DAT_011dd360));
     }
 
-    FUN_00830490();
+    ::fnv_00830490::FUN_00830490();
 }
 }  // namespace fnv_008300c0
+
+#include "generated/data/fallout/audio/falloutaudiomedia.inc"

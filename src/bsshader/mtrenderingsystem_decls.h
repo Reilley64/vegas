@@ -1,18 +1,18 @@
 // bsshader/mtrenderingsystem_decls.h: declares TaskThreadManager, AILinearTaskThread, BSRenderedTexture, NiRenderer
 #ifndef MTRENDERINGSYSTEM_DECLS_H
 #define MTRENDERINGSYSTEM_DECLS_H
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 class TaskThreadManager
 {
   public:
     static TaskThreadManager* GetSingleton();
     void StartRenderingTaskThread();
     static void EndRenderingTaskThread();
-    void LaunchWorkerThread(int, unsigned int, void(__cdecl*)(), const char*, unsigned int);
 };
-extern TaskThreadManager DAT_01200088;
-extern bool DAT_011f94b4;
 extern unsigned int DAT_01200080;
-void __cdecl FUN_00ba3190();
 class AILinearTaskThread
 {
   public:
@@ -20,12 +20,11 @@ class AILinearTaskThread
     void(__cdecl* m_pTaskFunction)();
     void ExecuteTask();
 };
-class BSRenderedTexture
+struct BSRenderedTexture
 {
   public:
-    static void EndAll();
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     virtual void vfn_0();

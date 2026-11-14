@@ -1,69 +1,152 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00520000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
+#include "fnv/game_timer.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ExtraDataList.h"
+#include "fnv/decl/FNv53b450_Source.h"
+#include "fnv/decl/FUN_00401210_shell.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0044edd0_owner.h"
+#include "fnv/decl/FUN_0044f420_class.h"
+#include "fnv/decl/FUN_00453490_shell.h"
+#include "fnv/decl/FUN_00454b90_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00474920_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b5020_shell.h"
+#include "fnv/decl/FUN_004bc5f0_shell.h"
+#include "fnv/decl/FUN_00516cd0_class.h"
+#include "fnv/decl/FUN_00527fc0_cls.h"
+#include "fnv/decl/FUN_005287e0_shell.h"
+#include "fnv/decl/FUN_00528870_shell.h"
+#include "fnv/decl/FUN_0052d240_shell.h"
+#include "fnv/decl/FUN_00534050_Class.h"
+#include "fnv/decl/FUN_00534080_Class.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_006665a0_shell.h"
+#include "fnv/decl/FUN_006ebde0_shell.h"
+#include "fnv/decl/FUN_006f74f0_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00906570_Class.h"
+#include "fnv/decl/InventoryIterOwner.h"
+#include "fnv/decl/LandObject.h"
+#include "fnv/decl/MiddleLowProcess.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/SaveLoadCallerShell.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESWorldSpace.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/VertOwner.h"
+#include "fnv/decl/fnv_00528ce0__FUN_00528ce0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_0044e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_01184000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_005224c0_Class
 {
-    unsigned int __thiscall GetField22C();
+    char pad[0x22c];
+    unsigned int unk22c;
+    unsigned int GetField22C();
 };
 
 // @fnv 0x005224c0
-unsigned int __thiscall FUN_005224c0_Class::GetField22C()
+unsigned int FUN_005224c0_Class::GetField22C()
 {
-    return *(unsigned int*)((char*)this + 0x22c);
+    return unk22c;
 }
 
 struct FUN_005224e0_class
 {
+    char pad[0x230];
+    unsigned int unk230;
     unsigned int GetField230();
 };
 
 // @fnv 0x005224e0
 unsigned int FUN_005224e0_class::GetField230()
 {
-    return *(unsigned int*)((char*)this + 0x230);
+    return unk230;
 }
 
 struct FUN_00524b40_class
 {
+    char pad[0x100];
+    unsigned char unk100;
     bool FUN_00524b40();
 };
 
 // @fnv 0x00524b40
 bool FUN_00524b40_class::FUN_00524b40()
 {
-    return reinterpret_cast<unsigned char*>(this)[0x100] & 2;
+    return unk100 & 2;
 }
 
 struct FUN_00526ae0_class
 {
+    char pad[0x28];
+    float unk28;
     float FUN_00526ae0() const;
 };
 
 // @fnv 0x00526ae0
 float FUN_00526ae0_class::FUN_00526ae0() const
 {
-    return *(const float*)((const char*)this + 0x28);
+    return unk28;
 }
 
 struct FUN_00527740_class
 {
-    void __thiscall FUN_00527740();
+    char pad[0xc];
+    int unk0c;
+    int unk10;
+    char unk14;
+    void FUN_00527740();
 };
 
 // Clears the int fields at offsets 0x0c and 0x10 and the byte at 0x14 of this object to zero.
 // @fnv 0x00527740
-void __thiscall FUN_00527740_class::FUN_00527740()
+void FUN_00527740_class::FUN_00527740()
 {
-    *(int*)((char*)this + 0x0c) = 0;
-    *(int*)((char*)this + 0x10) = 0;
-    *(char*)((char*)this + 0x14) = 0;
+    unk0c = 0;
+    unk10 = 0;
+    unk14 = 0;
 }
 
 struct BSTreeNode;
-struct TESObjectREFR;
+class TESObjectREFR;
 
 template <class Key, class Node> struct LockFreeMap
 {
@@ -82,44 +165,42 @@ FUN_00527e30::FUN_00527e30() : m(2, 0x25, 0xc)
 
 struct TESQueuedCellManager
 {
-    void SubmitQueuedItems();
     void FUN_00528540();
 };
 
 // @fnv 0x00528540
 void TESQueuedCellManager::FUN_00528540()
 {
-    SubmitQueuedItems();
+    reinterpret_cast<::FUN_00527fc0_cls *>(this)->SubmitQueuedItems();
 }
 
-extern "C" int __cdecl sprintf_s(char*, int, const char*, ...);
 
 struct FUN_0052a980_Class
 {
-    int __thiscall FUN_0052a980(char* dst);
+    int FUN_0052a980(char* dst);
 };
 
 // @fnv 0x0052a980
-int __thiscall FUN_0052a980_Class::FUN_0052a980(char* pcBuffer)
+int FUN_0052a980_Class::FUN_0052a980(char* pcBuffer)
 {
-    return sprintf_s(pcBuffer, 0x800, "  Temp");
+    return ::FUN_00406d00(pcBuffer, 0x800, "  Temp");
 }
 
 struct FUN_0052d180_cls
 {
-    void __thiscall FUN_0052d180();
+    void FUN_0052d180();
 };
 
-void __thiscall FUN_0052d180_cls::FUN_0052d180()
+void FUN_0052d180_cls::FUN_0052d180()
 {}
 
 struct FUN_0052d160_cls
 {
-    void* __thiscall FUN_0052d160();
+    void* FUN_0052d160();
 };
 
 // @fnv 0x0052d160
-void* __thiscall FUN_0052d160_cls::FUN_0052d160()
+void* FUN_0052d160_cls::FUN_0052d160()
 {
     ((FUN_0052d180_cls*)this)->FUN_0052d180();
     return this;
@@ -156,7 +237,7 @@ struct FUN_0052d220_obj : public FUN_0052d240_obj
 // @fnv 0x0052d220
 void FUN_0052d220_obj::DestroyBase()
 {
-    FUN_0052d240_obj::~FUN_0052d240_obj();
+    reinterpret_cast<::FUN_0052d240_shell *>(this)->FUN_0052d240();
 }
 
 struct NiObjectNET
@@ -177,33 +258,25 @@ struct FUN_008256d0_shell_base
 };
 struct FUN_00537b50_shell
 {
+    char pad[0xac];
+    FUN_008256d0_shell_base unkac;
     bool FUN_00537b50();
 };
 // Returns the negation of the result of calling FUN_008256d0 on the object at this+0xac.
 // @fnv 0x00537b50
 bool FUN_00537b50_shell::FUN_00537b50()
 {
-    return !reinterpret_cast<FUN_008256d0_shell_base*>(reinterpret_cast<char*>(this) + 0xac)->FUN_008256d0();
+    return !unkac.FUN_008256d0();
 }
 
 struct Base537
 {
-    void FUN_00537bb0();
     Base537* FUN_00537b80();
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
     float m_iThirdValue;
 };
-
-// @fnv 0x00537b80
-Base537* Base537::FUN_00537b80()
-{
-    FUN_00537bb0();
-    m_8 = 0;
-    m_iThirdValue = 1.0f;
-    return this;
-}
 
 struct GO
 {
@@ -212,6 +285,7 @@ struct GO
 
 struct FUN_00539f20_Class
 {
+    char pad[0xd0];
     GO m;
     void FUN_00539f20(void*);
 };
@@ -219,10 +293,9 @@ struct FUN_00539f20_Class
 // @fnv 0x00539f20
 void FUN_00539f20_Class::FUN_00539f20(void* p)
 {
-    ((GO*)((char*)this + 0xd0))->operator=(p);
+    m.operator=(p);
 }
 
-extern "C" void* __cdecl NiFreeAlias(void*);
 extern void* DAT_0102cfa0;
 
 struct FUN_005278a0
@@ -238,11 +311,10 @@ struct FUN_005278a0
 void FUN_005278a0::DoIt()
 {
     vtbl = &DAT_0102cfa0;
-    ((NiTPointerMap<int, int>*)this)->RemoveAll();
-    NiFreeAlias(b);
+    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
+    ::FUN_00aa10f0(b);
 }
 
-void __cdecl FUN_0040fca0(unsigned long);
 
 struct FUN_005289b0_Class
 {
@@ -250,144 +322,106 @@ struct FUN_005289b0_Class
     int m_field04;
     int m_field08;
     int m_field0c;
-    void __thiscall FUN_005289b0(void* p);
+    void FUN_005289b0(void* p);
 };
 
 // Loops calling FUN_0040fca0(0) while the object's m_field0c is 3 or 5.
 // @fnv 0x005289b0
-void __thiscall FUN_005289b0_Class::FUN_005289b0(void* pObject)
+void FUN_005289b0_Class::FUN_005289b0(void* pObject)
 {
     while (((FUN_005289b0_Class*)pObject)->m_field0c == 3 || ((FUN_005289b0_Class*)pObject)->m_field0c == 5)
         FUN_0040fca0(0);
 }
 
-void __cdecl Deallocate(void* p);
 struct FUN_00526ef0_Class
 {
-    void __thiscall FUN_00526d50();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
-// Calls FUN_00526d50, then deallocates this if flags has bit 0 set, and returns this.
-// @fnv 0x00526ef0
-void* FUN_00526ef0_Class::Destroy(unsigned int flags)
-{
-    FUN_00526d50();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 struct FUN_005277a0_Class
 {
-    void __thiscall FUN_00527840();
+    void FUN_00527840();
     void* FUN_005277a0(unsigned int flags);
 };
 
-// Calls FUN_00527840, then deletes this if flags has bit 0 set, and returns this.
-// @fnv 0x005277a0
-void* FUN_005277a0_Class::FUN_005277a0(unsigned int flags)
-{
-    FUN_00527840();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
-void __cdecl operator delete(void*);
 struct FUN_00528be0_Class
 {
-    void __thiscall FUN_00528be0();
+    void FUN_00528be0();
 };
 struct FUN_00528e10_Class
 {
-    void* __thiscall FUN_00528e10(unsigned int flags);
+    void* FUN_00528e10(unsigned int flags);
 };
 // @fnv 0x00528e10
-void* __thiscall FUN_00528e10_Class::FUN_00528e10(unsigned int flags)
+void* FUN_00528e10_Class::FUN_00528e10(unsigned int flags)
 {
     ((FUN_00528be0_Class*)this)->FUN_00528be0();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_00529330_Class
 {
-    void __thiscall FUN_00529330();
 };
 struct FUN_00529300_Class
 {
-    void* __thiscall FUN_00529300(unsigned int flags);
+    void* FUN_00529300(unsigned int flags);
 };
-// Calls FUN_00529330 on this, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00529300
-void* __thiscall FUN_00529300_Class::FUN_00529300(unsigned int flags)
-{
-    ((FUN_00529330_Class*)this)->FUN_00529330();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 struct FUN_005293c0_Class
 {
-    void __thiscall FUN_0044f420();
-    void* __thiscall FUN_005293c0(unsigned int flags);
+    void* FUN_005293c0(unsigned int flags);
 };
 // @fnv 0x005293c0
-void* __thiscall FUN_005293c0_Class::FUN_005293c0(unsigned int flags)
+void* FUN_005293c0_Class::FUN_005293c0(unsigned int flags)
 {
-    FUN_0044f420();
+    reinterpret_cast<::FUN_0044f420_class *>(this)->FUN_0044f420();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct GameTimerRecord
 {
-    int GetSection();
 };
-extern GameTimerRecord g_timeGlobal;
-struct TESSound
+class TESSound
 {
-    unsigned int Deallocate();
 };
 struct MapH
 {
-    bool RemoveAt(unsigned int);
 };
 struct FUN_00526c40_Class
 {
+    char pad[0x10];
+    unsigned int unk10;
+    int unk14;
     bool RemoveSound(TESSound*);
 };
 // @fnv 0x00526c40
 bool FUN_00526c40_Class::RemoveSound(TESSound* apSound)
 {
-    if (((MapH*)this)->RemoveAt(apSound->Deallocate()))
+    if (reinterpret_cast<::NiTMap_S *>((((MapH*)this)))->RemoveKey(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apSound))->FUN_0084e3a0()))))
     {
-        --(*(unsigned int*)((char*)this + 0x10));
-        *(int*)((char*)this + 0x14) = g_timeGlobal.GetSection();
+        --unk10;
+        unk14 = ((int)(::fnv::timer::Time()));
         return true;
     }
     return false;
 }
 
-struct BGSLoadedReferenceCollection;
-extern BGSLoadedReferenceCollection* DAT_011c95c8;
+class BGSLoadedReferenceCollection;
 // @fnv 0x00526eb0
 void FUN_00526eb0()
 {
     FUN_00526ef0_Class* b;
     FUN_00526ef0_Class* a;
     void* c;
-    b = (FUN_00526ef0_Class*)DAT_011c95c8;
+    b = (FUN_00526ef0_Class*)::DAT_011c95c8;
     a = b;
     if (a)
         c = a->Destroy(1);
     else
         c = 0;
-    DAT_011c95c8 = 0;
+    ::DAT_011c95c8 = 0;
 }
 
 struct FUN_005271b0_Class
@@ -395,26 +429,27 @@ struct FUN_005271b0_Class
     char m_auiShapeKeys[0x48];
     char m_field48;
     char m_field70;
-    char* __thiscall GetFieldByType(unsigned int type);
+    char* GetFieldByType(uintptr_t type);
 };
 
 // Returns a pointer to the member at offset 0x48 for type 0x29 or at offset 0x30 for type 0x28, otherwise null.
 // @fnv 0x005271b0
-char* __thiscall FUN_005271b0_Class::GetFieldByType(unsigned int type)
+char* FUN_005271b0_Class::GetFieldByType(uintptr_t type)
 {
     switch (type)
     {
     case 0x29:
-        return (char*)this + 0x48;
+        return (char*)&this->m_field48;
     case 0x28:
-        return (char*)this + 0x30;
+        return (char*)&this->m_auiShapeKeys[48];
     default:
         return 0;
     }
 }
 
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
@@ -436,29 +471,25 @@ FUN_00527270::FUN_00527270()
 }
 
 namespace fnv_00527350 {
-struct BGSLoadedReferenceCollection;
+class BGSLoadedReferenceCollection;
 struct MapX
 {
-    void* GetFirstPos();
 };
 struct ScriptS
 {
-    void* GetHeader();
 };
-extern BGSLoadedReferenceCollection* DAT_011c95c8;
 struct FUN_005271b0_Class
 {
-    void* __thiscall GetFieldByType(void*);
 };
 struct FUN_00527350
 {
     void* vtbl;
     int f4;
     int f8;
-    int fc;
+    void* fc;
     int f10;
     int f14;
-    int f18;
+    void* f18;
     int f1c;
     int f20;
     int f24;
@@ -475,10 +506,10 @@ void FUN_00527350::FUN_00527350_Init()
     f10 = 0;
     f14 = 0;
     f34 = 0;
-    fc = (int)((FUN_005271b0_Class*)DAT_011c95c8)->GetFieldByType(vtbl);
+    fc = ((void *)(reinterpret_cast<::FUN_005271b0_Class *>((((FUN_005271b0_Class*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetFieldByType((uintptr_t)(vtbl))));
     if (!fc)
-        fc = (int)((ScriptS*)DAT_011c95c8)->GetHeader();
-    f18 = (int)((MapX*)fc)->GetFirstPos();
+        fc = ((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetConditions()));
+    f18 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)fc)))->GetFirstPos();
 }
 }  // namespace fnv_00527350
 
@@ -488,41 +519,38 @@ struct FUN_005277d0_Class
     unsigned int size;
     void* data;
     void* next;
-    FUN_005277d0_Class* __thiscall InitBuffer(unsigned int size);
+    FUN_005277d0_Class* InitBuffer(unsigned int size);
 };
-void* __cdecl NiMalloc(unsigned int size);
-void* __cdecl memset(void* dst, int value, unsigned int count);
 // Sets the vtable, stores size, clears next, allocates size*4 bytes with NiMalloc, zeroes them, and returns this.
 // @fnv 0x005277d0
-FUN_005277d0_Class* __thiscall FUN_005277d0_Class::InitBuffer(unsigned int size)
+FUN_005277d0_Class* FUN_005277d0_Class::InitBuffer(unsigned int size)
 {
     vtbl = &DAT_0102cfa0;
     this->size = size;
     next = 0;
     unsigned int uiByteCount = this->size * 4;
-    data = NiMalloc(uiByteCount);
-    memset(data, 0, this->size * 4);
+    data = ::FUN_00aa1070(uiByteCount);
+    ::FUN_00403d30(data, 0, this->size * 4);
     return this;
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_005278d0_Class
 {
-    void* __thiscall FUN_005278d0(unsigned int flags);
+    void* FUN_005278d0(unsigned int flags);
 };
 // Calls DoIt on this, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x005278d0
-void* __thiscall FUN_005278d0_Class::FUN_005278d0(unsigned int flags)
+void* FUN_005278d0_Class::FUN_005278d0(unsigned int flags)
 {
     ((FUN_005278a0*)this)->DoIt();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct IOTask
 {
-    virtual void __thiscall Dummy();
+    virtual void Dummy();
     IOTask(int a);
     char _pad[20];
 };
@@ -542,69 +570,59 @@ FUN_00527c00::FUN_00527c00(int aiValue18, int aiValue1c) : IOTask(0)
 
 struct Caller27f90
 {
-    void* __thiscall FUN_00527f90(unsigned int flags);
+    void* FUN_00527f90(unsigned int flags);
 };
-extern TESQueuedCellManager* DAT_011c9618;
 // If the global TESQueuedCellManager exists, calls its FUN_00527f90 with flags 1 and clears the global pointer.
 // @fnv 0x00527f40
 void __cdecl FUN_00527f40()
 {
     TESQueuedCellManager* pManager;
     TESQueuedCellManager* pManagerCopy;
-    if (DAT_011c9618)
+    if (::DAT_011c9618)
     {
         void* r;
-        pManager = DAT_011c9618;
+        pManager = ::DAT_011c9618;
         pManagerCopy = pManager;
         if (pManagerCopy)
             r = ((Caller27f90*)pManagerCopy)->FUN_00527f90(1);
         else
             r = 0;
-        DAT_011c9618 = 0;
+        ::DAT_011c9618 = 0;
     }
 }
 
 struct FUN_00527f90_Holder
 {
-    void __thiscall FUN_00527e50();
-    void* __thiscall FUN_00527f90(unsigned int);
+    void FUN_00527e50();
+    void* FUN_00527f90(unsigned int);
 };
-void __cdecl _Deallocate(void*);
-// Calls FUN_00527e50, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x00527f90
-void* __thiscall FUN_00527f90_Holder::FUN_00527f90(unsigned int flags)
+class RecursiveSpinLock
 {
-    FUN_00527e50();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
-struct RecursiveSpinLock
-{
-    void __thiscall Lock(const char*);
-    void __thiscall Unlock();
+public:
+    void FUN_0040fba0();
 };
 struct FUN_00449f80_Class
 {
-    void* __thiscall FUN_00449f80(void* a, void* b, unsigned char c);
+    void* FUN_00449f80(void* a, void* b, unsigned char c);
 };
 struct FUN_0044c000_Class
 {
-    unsigned char __thiscall FUN_0044c000();
+    unsigned char FUN_0044c000();
 };
 struct FUN_00528b60_Class
 {
-    unsigned char __thiscall LockedCall(void* a, void* b, unsigned char c);
+    char pad[0x20];
+    RecursiveSpinLock unk20;
+    unsigned char LockedCall(void* a, void* b, unsigned char c);
 };
 // Locks the object at offset 0x20, calls FUN_00449f80 then FUN_0044c000 on its result, unlocks, and returns that result.
 // @fnv 0x00528b60
-unsigned char __thiscall FUN_00528b60_Class::LockedCall(void* a, void* b, unsigned char c)
+unsigned char FUN_00528b60_Class::LockedCall(void* a, void* b, unsigned char c)
 {
     unsigned char r;
-    ((RecursiveSpinLock*)((char*)this + 0x20))->Lock(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(((&unk20)))->FUN_0040fbf0((char *)(0));
     r = ((FUN_0044c000_Class*)((FUN_00449f80_Class*)this)->FUN_00449f80(a, b, c))->FUN_0044c000();
-    ((RecursiveSpinLock*)((char*)this + 0x20))->Unlock();
+    unk20.FUN_0040fba0();
     return r;
 }
 
@@ -638,11 +656,11 @@ struct FUN_0052cfc0_Class
 {
     int pad;
     FUN_0052cfc0_Rect rect;
-    void __thiscall FUN_0052cfc0(FUN_0052cfc0_Rect* p);
+    void FUN_0052cfc0(FUN_0052cfc0_Rect* p);
 };
 // Copies the four ints of the passed rect into this object's rect field.
 // @fnv 0x0052cfc0
-void __thiscall FUN_0052cfc0_Class::FUN_0052cfc0(FUN_0052cfc0_Rect* apRect)
+void FUN_0052cfc0_Class::FUN_0052cfc0(FUN_0052cfc0_Rect* apRect)
 {
     rect = *apRect;
 }
@@ -651,35 +669,32 @@ template <int N> struct EndianSizeTag
 {
 };
 
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
-void __cdecl BSEndian(unsigned short*, EndianSizeTag<1>);
 
-struct FUN_00535aa0_Class
-{
-    void __thiscall FUN_00535aa0();
-};
+#include "fnv/decl/FUN_00535aa0_Class.h"
 
-// @fnv 0x00535aa0
-void __thiscall FUN_00535aa0_Class::FUN_00535aa0()
-{
-    BSEndian((unsigned char*)this, EndianSizeTag<0>());
-    BSEndian((unsigned short*)((char*)this + 4), EndianSizeTag<1>());
-}
+
 
 struct CallCls537
 {
-    void __thiscall FUN_004b5020();
 };
 struct Cl537
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    Cl537* __thiscall FUN_00537bb0();
+    Cl537* FUN_00537bb0();
 };
-// @fnv 0x00537bb0
-Cl537* __thiscall Cl537::FUN_00537bb0()
+// @fnv 0x00537b80
+Base537* Base537::FUN_00537b80()
 {
-    ((CallCls537*)this)->FUN_004b5020();
+    reinterpret_cast<::Cl537 *>(this)->FUN_00537bb0();
+    m_8 = 0;
+    m_iThirdValue = 1.0f;
+    return this;
+}
+// @fnv 0x00537bb0
+Cl537* Cl537::FUN_00537bb0()
+{
+    reinterpret_cast<::FUN_004b5020_shell *>((((CallCls537*)this)))->FUN_004b5020();
     m_iWordAt04 = 0;
     return this;
 }
@@ -692,13 +707,22 @@ struct FUN_00527e30_Alloc
 // @fnv 0x00527eb0
 void __cdecl InitQueuedCellManager()
 {
-    if (!DAT_011c9618)
-        DAT_011c9618 = (TESQueuedCellManager*)new FUN_00527e30_Alloc;
+    if (!::DAT_011c9618)
+        ::DAT_011c9618 = (TESQueuedCellManager*)new FUN_00527e30_Alloc;
 }
+
+struct FUN_005285c0_Node
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    int unk0c;
+    char unk10;
+};
 
 struct FUN_005285c0_Class
 {
-    void* __thiscall FUN_005285c0(void* a, void* b, void* c);
+    void* FUN_005285c0(void* a, void* b, void* c);
 };
 // Allocates a 0x14-byte object storing a, b and c in its first three fields, zeroing the byte at 0x10 and the int at 0xC, and returns it or null if a is null.
 // @fnv 0x005285c0
@@ -707,25 +731,21 @@ void* FUN_005285c0_Class::FUN_005285c0(void* a, void* b, void* c)
     void* p = 0;
     if (a)
     {
-        void* t = operator new(0x14);
+        void* t = ::FUN_00401000(sizeof(FUN_005285c0_Node));
         p = t;
-        ((void**)p)[2] = a;
-        ((void**)p)[0] = b;
-        ((void**)p)[1] = c;
-        ((char*)p)[0x10] = 0;
-        ((int*)p)[3] = 0;
+        FUN_005285c0_Node* node = static_cast<FUN_005285c0_Node*>(p);
+        node->unk08 = a;
+        node->unk00 = b;
+        node->unk04 = c;
+        node->unk10 = 0;
+        node->unk0c = 0;
     }
     return p;
 }
 
 extern unsigned int _data_011c16bc;
 
-struct AutoMemHelper
-{
-    int m_auiShapeKeys;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct FUN_00526c90
 {
@@ -733,7 +753,6 @@ struct FUN_00526c90
     FUN_00526c90();
 };
 
-void* __cdecl operator new(unsigned int);
 
 // @fnv 0x00526e10
 void FUN_00526e10()
@@ -741,50 +760,49 @@ void FUN_00526e10()
     AutoMemHelper context(
         0x2c, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSLoadedReferenceCollection.cpp", 0x58);
 
-    DAT_011c95c8 = reinterpret_cast<BGSLoadedReferenceCollection*>(new FUN_00526c90);
+    ::DAT_011c95c8 = reinterpret_cast<BGSLoadedReferenceCollection*>(new FUN_00526c90);
 }
 
 struct FUN_005272b0_ItemChange
 {
-    void __thiscall dtor();
 };
 
 struct FUN_005272b0_Class
 {
-    void __thiscall ClearAndDestroy();
+    void ClearAndDestroy();
 };
 
 // @fnv 0x005272b0
 void FUN_005272b0_Class::ClearAndDestroy()
 {
     *(void**)this = 0;
-    reinterpret_cast<FUN_005272b0_ItemChange*>(this)->dtor();
+    reinterpret_cast<::FUN_004bc5f0_shell *>((reinterpret_cast<FUN_005272b0_ItemChange*>(this)))->FUN_004bc5f0();
 }
 
 struct FUN_005285a0_Class
 {
-    virtual void __thiscall v0();
-    virtual void __thiscall v1();
-    virtual void __thiscall v2();
-    virtual void __thiscall v3();
-    virtual void __thiscall v4();
-    virtual void __thiscall v5();
-    virtual void __thiscall v6();
-    virtual void __thiscall v7();
-    virtual void __thiscall v8();
-    virtual void __thiscall v9();
-    virtual void __thiscall v10();
-    virtual void __thiscall v11();
-    virtual void __thiscall v12();
-    virtual void __thiscall v13();
-    virtual void __thiscall v14();
-    virtual void __thiscall v15();
-    virtual void __thiscall CallVirtual17();
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void CallVirtual17();
 };
 // @fnv 0x005285a0
-void __thiscall FUN_005285a0_Class::CallVirtual17()
+void FUN_005285a0_Class::CallVirtual17()
 {
-    ((void(__thiscall*)(void*))(*(void***)this)[17])(this);
+    ((void(*)(void*))(*(void***)this)[17])(this);
 }
 
 class Sub24_b5481
@@ -812,6 +830,15 @@ class FUN_00526d50_cls
     Sub24_b5481 m_a8;
     ~FUN_00526d50_cls();
 };
+// Calls FUN_00526d50, then deallocates this if flags has bit 0 set, and returns this.
+// @fnv 0x00526ef0
+void* FUN_00526ef0_Class::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00526d50_cls *>(this)->FUN_00526d50_cls::~FUN_00526d50_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor for the class; destroys its eight Sub24_b5481 members in reverse order.
 // @fnv 0x00526d50
@@ -826,7 +853,6 @@ struct C5271F0Change
     int unk0C;
     int unk10;
     unsigned char unk14;
-
     C5271F0Change();
     ~C5271F0Change();
 };
@@ -841,18 +867,16 @@ struct FUN_005271f0
     int unk14;
     int unk18;
     C5271F0Change m_kChange;
-
     FUN_005271f0(int owner, int type);
-    void Reset();
 };
 
 // @fnv 0x005271f0
 FUN_005271f0::FUN_005271f0(int owner, int type) : m_iOwner(owner), m_iArrayLength(0), m_iType(type)
 {
-    Reset();
+    reinterpret_cast<::fnv_00527350::FUN_00527350 *>(this)->FUN_00527350_Init();
 }
 
-// The game object whose byte at +4 is read by FUN_00401170 (a plain __thiscall
+// The game object whose byte at +4 is read by FUN_00401170 (a plain
 // member of the game's own shell class, so a stand-in with the same shape is
 // enough: the call is ECX-based and its result is a plain int).
 struct FNV_FormType
@@ -896,7 +920,7 @@ struct FUN_005272d0_Class
 // @fnv 0x005272d0
 FUN_005272d0_Class::FUN_005272d0_Class(FNV_FormType* apForm, int q) : m_00(apForm->GetFormType()), m_04(apForm), m_08(q)
 {
-    FUN_00527350();
+    reinterpret_cast<::fnv_00527350::FUN_00527350 *>(this)->FUN_00527350_Init();
 }
 
 class Base_b9015
@@ -917,14 +941,22 @@ class FUN_00527840 : public Base_b9015
 {
   public:
     virtual ~FUN_00527840();
-    void DoCleanup();
 };
+// Calls FUN_00527840, then deletes this if flags has bit 0 set, and returns this.
+// @fnv 0x005277a0
+void* FUN_005277a0_Class::FUN_005277a0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00527840 *>(this)->FUN_00527840::~FUN_00527840();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor for FUN_00527840 that calls DoCleanup().
 // @fnv 0x00527840
 FUN_00527840::~FUN_00527840()
 {
-    DoCleanup();
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
 struct FUN_00528be0
@@ -934,14 +966,22 @@ struct FUN_00528be0
 
 struct FUN_00527e50 : FUN_00528be0
 {
-    void SubmitQueuedItems();
     ~FUN_00527e50();
 };
+// Calls FUN_00527e50, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x00527f90
+void* FUN_00527f90_Holder::FUN_00527f90(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00527e50 *>(this)->FUN_00527e50::~FUN_00527e50();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00527e50
 FUN_00527e50::~FUN_00527e50()
 {
-    SubmitQueuedItems();
+    reinterpret_cast<::FUN_00527fc0_cls *>(this)->SubmitQueuedItems();
 }
 
 struct FUN_005287e0_Class
@@ -952,7 +992,6 @@ struct FUN_005287e0_Class
     virtual void v3();
     virtual void v4();
     virtual void v5();
-    unsigned char FUN_005287e0();
 };
 struct Query
 {
@@ -962,18 +1001,15 @@ struct Query
     char m_iThirdValue;
     Query();
     ~Query();
-    unsigned char FUN_006ebde0();
 };
 struct Handle
 {
     FUN_005287e0_Class* value;
     Handle(int);
     ~Handle();
-    FUN_005287e0_Class* FUN_00559450();
 };
 struct Controller
 {
-    unsigned char AdvanceRequest(Query*, unsigned int*, Handle*, unsigned int);
     void ProcessQueries();
 };
 // Loops over queries until one finishes, and for each successful query whose handle value passes a check, calls its v5 method.
@@ -981,15 +1017,15 @@ struct Controller
 void Controller::ProcessQueries()
 {
     Query query;
-    while (!query.FUN_006ebde0())
+    while (!((unsigned char)(reinterpret_cast<::FUN_006ebde0_shell *>(&(query))->FUN_006ebde0())))
     {
         unsigned int x = 0;
         Handle y(0);
-        if (AdvanceRequest(&query, &x, &y, 1))
+        if (((unsigned char)(reinterpret_cast<::FUN_00906570_Class *>(this)->AdvanceRequest((::Request9065 *)(::Query *)(&query), (void **)(unsigned int *)(&x), &y, 1))))
         {
-            if (y.FUN_00559450()->FUN_005287e0())
+            if (((unsigned char)(reinterpret_cast<::FUN_005287e0_shell *>((((::FUN_005287e0_Class *)(::FUN_00559450((int *)&(y))))))->FUN_005287e0())))
             {
-                y.FUN_00559450()->v5();
+                ((::FUN_005287e0_Class *)(::FUN_00559450((int *)&(y))))->v5();
             }
         }
     }
@@ -1003,7 +1039,6 @@ struct Holder_cls
     virtual void v3();
     virtual void v4();
     virtual void v5();
-    bool FUN_005287e0();
 };
 
 struct Local_cls
@@ -1014,7 +1049,6 @@ struct Local_cls
     unsigned int unk0c;
     Local_cls();
     ~Local_cls();
-    bool FUN_006ebde0();
 };
 
 struct Obj20_cls
@@ -1022,51 +1056,44 @@ struct Obj20_cls
     int m_00;
     Obj20_cls(int a);
     ~Obj20_cls();
-    Holder_cls* FUN_00559450();
 };
 
-extern FUN_005289b0_Class* DAT_01202d98;
 
 struct FUN_005282d0_cls
 {
     void FUN_005282d0();
-    bool AdvanceRequest(Local_cls* a, int* b, Obj20_cls* o, int f);
 };
 
 // @fnv 0x005282d0
 void FUN_005282d0_cls::FUN_005282d0()
 {
     Local_cls a;
-    while (!a.FUN_006ebde0())
+    while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(a))->FUN_006ebde0())
     {
         int b = 0;
         Obj20_cls o4(0);
-        if (AdvanceRequest(&a, &b, &o4, 1))
+        if (reinterpret_cast<::FUN_00906570_Class *>(this)->AdvanceRequest((::Request9065 *)(::Local_cls *)(&a), (void **)(int *)(&b), &o4, 1))
         {
-            DAT_01202d98->FUN_005289b0(o4.FUN_00559450());
-            if (o4.FUN_00559450()->FUN_005287e0())
+            (*reinterpret_cast<::FUN_005289b0_Class * *>(&::DAT_01202d98))->FUN_005289b0(((::Holder_cls *)(::FUN_00559450((int *)&(o4)))));
+            if (reinterpret_cast<::FUN_005287e0_shell *>((((::Holder_cls *)(::FUN_00559450((int *)&(o4))))))->FUN_005287e0())
             {
-                o4.FUN_00559450()->v5();
+                ((::Holder_cls *)(::FUN_00559450((int *)&(o4))))->v5();
             }
         }
     }
 }
 
 namespace fnv_005283c0 {
-struct TESObjectCELL;
+class TESObjectCELL;
 
 struct QWorldSpace
 {
-    TESObjectCELL* GetCellAt(int x, int y);
 };
 
 class TES
 {
   public:
-    bool IsCellLoadedQ(TESObjectCELL* cell);
-    void HandleLoadedCellQ(TESObjectCELL* cell);
 };
-extern TES* g_TES;
 
 struct QIOTask
 {
@@ -1081,9 +1108,9 @@ struct QIOTask
 
 struct QCellTask : public QIOTask
 {
-    int m_18;
-    int m_1c;
-    QCellTask(int a, int b);
+    intptr_t m_18;
+    intptr_t m_1c;
+    QCellTask(intptr_t a, intptr_t b);
 };
 
 struct QTaskPtr
@@ -1094,7 +1121,7 @@ struct QTaskPtr
     operator QIOTask*() const;
 };
 
-class IOManager
+struct IOManager
 {
   public:
     virtual void v00();
@@ -1117,9 +1144,7 @@ class IOManager
     virtual void v17();
     virtual void AddTask(QIOTask* task);
 };
-extern IOManager* DAT_01202d98;
 
-int __cdecl TESWorldSpace_GetKeyForCellCoord(short x, short y);
 
 struct QCellQueue
 {
@@ -1128,44 +1153,35 @@ struct QCellQueue
     virtual void v2();
     virtual void v3();
     virtual bool Insert(int key, QTaskPtr* ptr, int flag);
-    bool IsQueuedQ(int x, int y);
-    void* MakeEntryQ(QWorldSpace* ws, int x, int y);
-    void FUN_005283c0(QWorldSpace* ws, int x, int y);
+    void FUN_005283c0(QWorldSpace* ws, intptr_t x, intptr_t y);
 };
 
 // @fnv 0x005283c0
-void QCellQueue::FUN_005283c0(QWorldSpace* ws, int x, int y)
+void QCellQueue::FUN_005283c0(QWorldSpace* ws, intptr_t x, intptr_t y)
 {
     if (!ws)
         return;
-    TESObjectCELL* cellVal = ws->GetCellAt(x, y);
-    if (cellVal && g_TES->IsCellLoadedQ(cellVal))
+    TESObjectCELL* cellVal = ((::fnv_005283c0::TESObjectCELL *)(reinterpret_cast<::TESWorldSpace *>((ws))->GetCellAtGridPosition(x, y)));
+    if (cellVal && reinterpret_cast<::FUN_00453490_shell *>(((*reinterpret_cast<::fnv_005283c0::TES * *>(&::g_TES))))->FUN_00453490((::TESObjectCELL *)(cellVal)))
     {
-        g_TES->HandleLoadedCellQ(cellVal);
+        reinterpret_cast<::FUN_00454b90_shell *>(((*reinterpret_cast<::fnv_005283c0::TES * *>(&::g_TES))))->AddCellToBuffer((::TESObjectCELL *)(cellVal));
         return;
     }
-    if (IsQueuedQ(x, y))
+    if (reinterpret_cast<::SaveLoadCallerShell *>(this)->CallSaveLoadWithHandle(x, y))
         return;
-    void* entry7 = MakeEntryQ(ws, x, y);
+    void* entry7 = reinterpret_cast<::FUN_005285c0_Class *>(this)->FUN_005285c0(ws, (void *)(x), (void *)(y));
     if (entry7)
     {
-        QTaskPtr ptr(new QCellTask((int)this, (int)entry7));
-        int key = TESWorldSpace_GetKeyForCellCoord((unsigned short)x, (unsigned short)y);
+        QTaskPtr ptr(new QCellTask((intptr_t)this, (intptr_t)entry7));
+        int key = ::PackShortPair((unsigned short)x, (unsigned short)y);
         bool ok6 = Insert(key, &ptr, 1);
-        DAT_01202d98->AddTask(ptr);
+        (*reinterpret_cast<::fnv_005283c0::IOManager * *>(&::DAT_01202d98))->AddTask(ptr);
     }
 }
 }  // namespace fnv_005283c0
 
-extern const char kThreadSafeStructuresSourceFile[];
 
-class AutoMemContext
-{
-  public:
-    int unk00;
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 struct QueuedRefPtr
 {
@@ -1176,7 +1192,6 @@ struct QueuedRefPtr
 struct NodeLink
 {
     void* p;
-    int Get();
     void Clear();
 };
 
@@ -1195,7 +1210,6 @@ struct QueuedOwner
     int unk0C;
     QueuedOwner(int data);
     ~QueuedOwner();
-    int GetData();
 };
 
 struct QueuedMap
@@ -1209,8 +1223,6 @@ struct QueuedMap
     int count;
     int unk1C;
     RecursiveSpinLock lock;
-
-    void FreeNode(QueuedNode* node);
     void FUN_00528e40(bool abFreeNodes);
 };
 
@@ -1221,27 +1233,27 @@ void QueuedMap::FUN_00528e40(bool abFreeNodes)
     AutoMemContext kMemContext(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true, kThreadSafeStructuresSourceFile, 0x42c);
     if (owner == 0)
         return;
-    lock.Lock(0);
-    int data = owner->GetData();
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
+    int data = ::FUN_00559450((int *)(owner));
     delete owner;
     owner = 0;
     count = 0;
     for (unsigned int i = 0; i < bucketCount; i++)
     {
-        QueuedNode* node = (QueuedNode*)buckets[i].Get();
-        buckets[i].Clear();
+        QueuedNode* node = (QueuedNode*)(intptr_t)::ClearLowBit((int *)&(buckets[i]));
+        reinterpret_cast<::FUN_006665a0_shell *>(&(buckets[i]))->FUN_006665a0();
         while (node)
         {
-            QueuedNode* nextNode = (QueuedNode*)node->next.Get();
-            node->next.Clear();
-            node->ref = 0;
-            FreeNode(node);
+            QueuedNode* nextNode = (QueuedNode*)(intptr_t)::ClearLowBit((int *)&(node->next));
+            reinterpret_cast<::FUN_006665a0_shell *>(&(node->next))->FUN_006665a0();
+            reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::QueuedRefPtr &)(node->ref))->FUN_006f74f0((::ObjA *)(void *)(0));
+            reinterpret_cast<::FUN_0044edd0_owner *>(this)->DispatchAndDelete((::FUN_0044edd0_Disposable *)(node));
             node = nextNode;
         }
     }
     if (!abFreeNodes)
         owner = new QueuedOwner(data);
-    lock.Unlock();
+    reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
 }
 
 struct FloatSettings
@@ -1337,7 +1349,6 @@ class FUN_00537bf0_sub
   public:
     FUN_00537bf0_sub(int a, int b);
     ~FUN_00537bf0_sub();
-    void Init();
     unsigned int m_unk00;
     unsigned int m_unk04;
 };
@@ -1363,13 +1374,12 @@ FUN_00537bf0::FUN_00537bf0(unsigned short id) : m_sub(0, 1)
     m_iOwnerObjectOffset = id;
     m_unk10 = 0;
     m_unk14 = 0;
-    m_sub.Init();
+    ::FUN_005e03d0((::NiTArray_Layout *)&(m_sub));
     m_unk18 = 0;
 }
 
 // FUN_00539f40 : returns the VALUE of a global (mov eax,[0x11f94bc]).
 // The module is unoptimised, so the frame is kept even with no locals.
-extern int g_00539f40;
 
 // @fnv 0x00539f40
 int __cdecl FUN_00539f40()
@@ -1382,7 +1392,6 @@ struct C90List
 {
     C90List();
     ~C90List();
-
     int unk00;
     int unk04;
     int unk08;
@@ -1455,7 +1464,6 @@ struct Form
     virtual void v36();
     virtual bool IsSpecial();
     int FNV_GetFormType();
-    bool Accept(Ref*, int, int);
 };
 struct Ref
 {
@@ -1599,17 +1607,9 @@ struct Ref
     virtual void v137();
     virtual void v138();
     virtual bool IsActor(int);
-    Form* CallGetFlags();
-    bool GetDisabled();
-    bool GetDeleted();
-    bool HasFlag();
-    Form* GetAcousticSpace();
-    void* FUN_00726070();
-    Changes* FUN_005d43c0();
 };
 struct Changes
 {
-    struct Entries* GetEntries();
 };
 struct EntryState
 {
@@ -1619,11 +1619,9 @@ struct EntryState
     int f0c;
     int f10;
     int f14;
-    void FUN_00527740();
 };
 struct Entries
 {
-    bool Next(EntryState*, Ref**, int);
 };
 struct Map
 {
@@ -1633,14 +1631,12 @@ struct Map
     int f0c;
     int f10;
     int f14;
-    void* GetFirstPos();
-    void GetNext(void*&, unsigned int&, Ref*&);
 };
 struct State
 {
     int type;
     Form* filter;
-    int context;
+    void* context;
     Map* map;
     Ref* current;
     Entries* entries;
@@ -1672,25 +1668,25 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
         if (state->current)
         {
             Ref* entry7 = 0;
-            while (state->entries->Next(&state->state, &entry7, 1))
+            while (reinterpret_cast<::InventoryIterOwner *>((state->entries))->AdvanceInventoryIterator((::IterState *)(::EntryState *)(&state->state), (void **)(::Ref **)(&entry7), 1))
             {
                 if (state->filter)
                 {
-                    if (entry7->CallGetFlags() != state->filter)
+                    if (((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((entry7))->GetName())) != state->filter)
                         continue;
                 }
                 else
                 {
-                    if (entry7->CallGetFlags()->FNV_GetFormType() != state->type)
+                    if (((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((entry7))->GetName()))->FNV_GetFormType() != state->type)
                         continue;
                 }
-                if (!entry7->FUN_00726070())
+                if (!reinterpret_cast<::Callees *>((entry7))->FUN_00726070())
                     continue;
                 *result = state->current;
                 *item = entry7;
                 return true;
             }
-            state->state.FUN_00527740();
+            reinterpret_cast<::FUN_00527740_class *>(&(state->state))->FUN_00527740();
             state->entries = 0;
             state->current = 0;
         }
@@ -1712,7 +1708,7 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
             }
             state->stage++;
             if (state->map)
-                state->pos = state->map->GetFirstPos();
+                state->pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((state->map))->GetFirstPos();
         }
         bool tempSwap6 = state->stage > 0;
         bool container7 = true;
@@ -1722,23 +1718,23 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
         {
             unsigned int key = 0;
             Ref* ref = 0;
-            state->map->GetNext(state->pos, key, ref);
-            if (ref->GetDisabled() || ref->GetDeleted())
+            reinterpret_cast<::C6b7f20_Map *>((state->map))->FUN_006b7f20((::C6b7f20_Node **)&(state->pos), (unsigned int *)&(key), (void **)&(ref));
+            if (reinterpret_cast<::TESForm *>((ref))->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((ref))->FUN_00440d80())
                 continue;
-            if (ref->IsExcluded() || ref->GetAcousticSpace()->IsSpecial())
+            if (ref->IsExcluded() || ((::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->IsSpecial())
                 continue;
-            if (ref->HasFlag() && !(flags & 8))
+            if (reinterpret_cast<::FUN_00401210_shell *>((ref))->HasFlag() && !(flags & 8))
                 continue;
             if (!tempSwap6)
             {
                 if (state->filter)
                 {
-                    if (state->filter != ref->GetAcousticSpace())
+                    if (state->filter != ((::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())))
                         continue;
                 }
                 else if (!container7)
                 {
-                    if (state->type != ref->GetAcousticSpace()->FNV_GetFormType())
+                    if (state->type != ((::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FNV_GetFormType())
                         continue;
                 }
                 *result = ref;
@@ -1757,13 +1753,13 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
                             continue;
                     }
                 }
-                else if (ref->GetAcousticSpace()->FNV_GetFormType() == 0x1b)
+                else if (((::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FNV_GetFormType() == 0x1b)
                 {
-                    Form* baseTmp = ref->GetAcousticSpace();
-                    if (!baseTmp->Accept(ref, state->context, 0))
+                    Form* baseTmp = ((::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
+                    if (!reinterpret_cast<::FUN_00516cd0_class *>((baseTmp))->CanUseLockedRef((::TESObjectREFR *)(ref), (::Actor *)(state->context), 0))
                         continue;
                 }
-                state->entries = ref->FUN_005d43c0()->GetEntries();
+                state->entries = ((::Entries *)(reinterpret_cast<::ExtraDataList *>((((::Changes *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->GetContainerChangeData()));
                 if (state->entries)
                     state->current = ref;
                 break;
@@ -1773,8 +1769,6 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
     return false;
 }
 
-extern "C" void __cdecl FUN_00401030(void*);
-extern "C" void FUN_0044e360(unsigned long);
 
 struct ArrayItem
 {
@@ -1784,7 +1778,6 @@ struct ArrayItem
 
 struct ElemCls
 {
-    void* __thiscall FUN_005293c0(unsigned int flags);
 };
 
 struct Cls
@@ -1792,28 +1785,36 @@ struct Cls
     void* m_iWordAt00;
     unsigned long m_iWordAt04;
     ArrayItem* m_8;
-    unsigned int __thiscall FUN_00559450();
-    void __thiscall FUN_00529330();
+    void FUN_00529330();
 };
+// Calls FUN_00529330 on this, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00529300
+void* FUN_00529300_Class::FUN_00529300(unsigned int flags)
+{
+    reinterpret_cast<::Cls *>((((FUN_00529330_Class*)this)))->FUN_00529330();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00529330
-void __thiscall Cls::FUN_00529330()
+void Cls::FUN_00529330()
 {
     unsigned int i = 0;
-    for (; i < this->FUN_00559450(); ++i)
+    for (; i < ((unsigned int)(::FUN_00559450((int *)(this)))); ++i)
     {
         void* t = this->m_8[i].m_iWordAt04;
         void* t2 = t;
-        t2 ? ((ElemCls*)t2)->FUN_005293c0(1) : 0;
+        t2 ? reinterpret_cast<::FUN_005293c0_Class *>((((ElemCls*)t2)))->FUN_005293c0(1) : 0;
     }
     {
         void* p = this->m_8;
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
-    FUN_0044e360(this->m_iWordAt04);
+    ::FUN_0044e360(this->m_iWordAt04);
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1823,12 +1824,10 @@ class NiPoint3
     NiPoint3 operator*(float) const;
     bool FUN_004390c0(const NiPoint3&);
     NiPoint3& Subtract(const NiPoint3&);
-    void FUN_004a0c10();
-    NiPoint3 FUN_0053d1a0(const NiPoint3&);
+public:
+    ::NiPoint3 CrossProduct(const ::NiPoint3 &) const;
 };
 NiPoint3 operator*(float, const NiPoint3&);
-extern const NiPoint3 DAT_011a9484;
-float FUN_004b1520(float, float);
 struct TerrainInput
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -1839,11 +1838,6 @@ struct TerrainInput
 };
 struct TerrainOwner
 {
-    NiPoint3 FUN_0053b450(unsigned char, unsigned short, int*, int*);
-    void FUN_00534240(unsigned int, unsigned int, NiPoint3&);
-    void FUN_00534390(unsigned int, unsigned int, NiPoint3&);
-    float FUN_00534080();
-    float FUN_00534050();
     bool ComputeTerrainNormalAndTangent(TerrainInput*, NiPoint3*, NiPoint3*);
 };
 // Computes a terrain normal and tangent at input->position, blending edge/u/c samples by flip flags, and returns true.
@@ -1851,15 +1845,16 @@ struct TerrainOwner
 bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3* normal, NiPoint3* tangent)
 {
     NiPoint3 origin;
-    NiPoint3 position = FUN_0053b450((unsigned char)input->region, (unsigned short)input->position, 0, 0);
-    FUN_00534240(input->region, input->position, origin);
+    NiPoint3 position;
+    reinterpret_cast<::FNv53b450_Source *>(this)->FUN_0053b450((::FNv53b450_Point *)&position, (unsigned char)input->region, (unsigned short)input->position, 0, 0);
+    reinterpret_cast<::LandObject *>(this)->FUN_00534240(input->region, input->position, (::LandPoint3 *)&(origin));
     NiPoint3 location;
-    location = NiPoint3(FUN_00534050() + 2048.0, FUN_00534080() + 2048.0, 0.0f);
+    location = NiPoint3(reinterpret_cast<::FUN_00534050_Class *>(this)->FUN_00534050() + 2048.0, ((float)(reinterpret_cast<::FUN_00534080_Class *>(this)->FUN_00534080())) + 2048.0, 0.0f);
     NiPoint3 center = origin + location;
     center.z = 0.0f;
     if (center.FUN_004390c0(position))
     {
-        FUN_00534390(input->region, input->position, *normal);
+        reinterpret_cast<::VertOwner *>(this)->FUN_00534390(input->region, input->position, (::VertPt &)(*normal));
         *tangent = *normal;
     }
     else
@@ -1870,9 +1865,9 @@ bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3*
         NiPoint3 u;
         NiPoint3 c;
         NiPoint3 v = DAT_011a9484;
-        FUN_00534390(input->region, input->edgeA, edgeA);
-        FUN_00534390(input->region, input->u, u);
-        FUN_00534390(input->region, input->c, c);
+        reinterpret_cast<::VertOwner *>(this)->FUN_00534390(input->region, input->edgeA, (::VertPt &)(edgeA));
+        reinterpret_cast<::VertOwner *>(this)->FUN_00534390(input->region, input->u, (::VertPt &)(u));
+        reinterpret_cast<::VertOwner *>(this)->FUN_00534390(input->region, input->c, (::VertPt &)(c));
         if (!input->flipA && !input->flipB)
             v = ((1.0f - blended) * u + blended * edgeA) * (1.0f - pointB) + pointB * c;
         if (!input->flipA && input->flipB)
@@ -1882,21 +1877,21 @@ bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3*
         if (input->flipA && input->flipB)
             v = ((1.0f - blended) * c + blended * edgeA) * pointB + (1.0f - pointB) * u;
         *normal = v;
-        normal->FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>((normal))->FUN_004a0c10();
         NiPoint3 a;
         NiPoint3 pointC;
         NiPoint3 edgeB;
         NiPoint3 b;
-        FUN_00534240(input->region, input->edgeA, a);
-        FUN_00534240(input->region, input->u, pointC);
+        reinterpret_cast<::LandObject *>(this)->FUN_00534240(input->region, input->edgeA, (::LandPoint3 *)&(a));
+        reinterpret_cast<::LandObject *>(this)->FUN_00534240(input->region, input->u, (::LandPoint3 *)&(pointC));
         a.Subtract(pointC);
-        FUN_00534240(input->region, input->edgeA, edgeB);
-        FUN_00534240(input->region, input->c, b);
+        reinterpret_cast<::LandObject *>(this)->FUN_00534240(input->region, input->edgeA, (::LandPoint3 *)&(edgeB));
+        reinterpret_cast<::LandObject *>(this)->FUN_00534240(input->region, input->c, (::LandPoint3 *)&(b));
         edgeB.Subtract(b);
         if ((input->flipA && !input->flipB) || (!input->flipA && input->flipB))
-            *tangent = a.FUN_0053d1a0(edgeB);
+            *tangent = reinterpret_cast<::NiPoint3 *>(&(a))->CrossProduct(edgeB);
         else
-            *tangent = edgeB.FUN_0053d1a0(a);
+            *tangent = reinterpret_cast<::NiPoint3 *>(&(edgeB))->CrossProduct(a);
     }
     return true;
 }
@@ -1909,22 +1904,18 @@ struct QueryState175
     unsigned char complete;
     QueryState175();
     ~QueryState175();
-    bool FUN_006ebde0();
 };
 struct Head175
 {
     void* value;
     Head175(int);
     ~Head175();
-    void* FUN_00559450();
 };
 struct Manager175
 {
-    bool RunQueuedTask(void*, int);
 };
 struct FUN_005281f0_Class
 {
-    bool AdvanceRequest(QueryState175*, int*, Head175*, int);
     int FUN_005281f0();
 };
 // @fnv 0x005281f0
@@ -1932,20 +1923,20 @@ int FUN_005281f0_Class::FUN_005281f0()
 {
     int count = 0;
     QueryState175 query;
-    while (!query.FUN_006ebde0())
+    while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(query))->FUN_006ebde0())
     {
         int currentValue = 0;
         Head175 itemHead(0);
-        if (AdvanceRequest(&query, &currentValue, &itemHead, 1))
+        if (reinterpret_cast<::FUN_00906570_Class *>(this)->AdvanceRequest((::Request9065 *)(::QueryState175 *)(&query), (void **)(int *)(&currentValue), &itemHead, 1))
         {
-            if (!reinterpret_cast<Manager175*>(DAT_01202d98)->RunQueuedTask(itemHead.FUN_00559450(), 0))
+            if (!reinterpret_cast<::FUN_00528870_shell *>((reinterpret_cast<Manager175*>((*reinterpret_cast<::FUN_005289b0_Class * *>(&::DAT_01202d98)))))->RunQueuedTask((::QueuedTask *)(void *)(((void *)(::FUN_00559450((int *)&(itemHead))))), (void *)(0)))
                 ++count;
         }
     }
     return count;
 }
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void slot0();
@@ -1958,7 +1949,6 @@ class NiObject
     virtual void slot7();
     virtual void slot8();
     virtual NiObject* slot9(int a, int b);
-    void FUN_00528ce0(NiObject* other);
 };
 
 struct FUN_00528bb0_class
@@ -1971,7 +1961,7 @@ struct FUN_00528bb0_class
 // @fnv 0x00528bb0
 void FUN_00528bb0_class::FUN_00528bb0(int arg)
 {
-    reinterpret_cast<NiObject*>(this)->FUN_00528ce0(m_obj->slot9(arg, arg));
+    reinterpret_cast<::fnv_00528ce0::FUN_00528ce0_shell *>((reinterpret_cast<NiObject*>(this)))->FUN_00528ce0(m_obj->slot9(arg, arg), {});
 }
 
 namespace QueueReconstruction528be0 {
@@ -1986,7 +1976,6 @@ struct FUN_00528be0 : QueueBase528be0
     void* unk04;
     unsigned int unk08;
     void* m_buckets;
-    void FUN_00528e40(bool shutdown);
     ~FUN_00528be0();
 };
 
@@ -1994,11 +1983,11 @@ struct FUN_00528be0 : QueueBase528be0
 // @fnv 0x00528be0
 FUN_00528be0::~FUN_00528be0()
 {
-    FUN_00528e40(true);
+    reinterpret_cast<::QueuedMap *>(this)->FUN_00528e40(true);
     void* buckets = m_buckets;
-    FUN_00401030(buckets);
+    ::FUN_00401030(buckets);
     void* buffer = unk04;
-    FUN_00401030(buffer);
+    ::FUN_00401030(buffer);
 }
 
 }
@@ -2007,7 +1996,6 @@ class TESAmmo;
 class BGSAmmoForm
 {
   public:
-    TESAmmo* GetAmmoHelper();
 };
 struct AmmoProcess
 {
@@ -2098,10 +2086,7 @@ struct AmmoProcess
 };
 struct AmmoActor
 {
-    AmmoProcess* FUN_008d8520();
 };
-extern char DAT_01183108;
-extern char DAT_011840c4;
 extern "C" void* __cdecl _FNV_DynamicCast(void*, int, void*, void*, int);
 struct AmmoOwner
 {
@@ -2153,10 +2138,10 @@ struct AmmoOwner
 // @fnv 0x00525980
 Form* AmmoOwner::FUN_00525980(AmmoActor* actor)
 {
-    if (actor && actor->FUN_008d8520() && actor->FUN_008d8520()->GetRight())
+    if (actor && ((::AmmoProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && ((::AmmoProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetRight())
     {
-        Form* right3 = actor->FUN_008d8520()->GetRight()->CallGetFlags();
-        Form* left5 = actor->FUN_008d8520()->GetLeft() ? actor->FUN_008d8520()->GetLeft()->CallGetFlags() : 0;
+        Form* right3 = ((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((((::AmmoProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetRight()))->GetName()));
+        Form* left5 = ((::AmmoProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetLeft() ? ((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((((::AmmoProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetLeft()))->GetName())) : 0;
         if (right3 != left5)
         {
             void* casted = _FNV_DynamicCast(right3, 0, &DAT_01183108, &DAT_011840c4, 0);
@@ -2164,27 +2149,25 @@ Form* AmmoOwner::FUN_00525980(AmmoActor* actor)
                 return right3;
         }
     }
-    return (Form*)ammo.GetAmmoHelper();
+    return (Form*)((::TESAmmo *)(reinterpret_cast<::FUN_00474920_shell *>(&(ammo))->GetFormOrScriptForm()));
 }
 
 struct Obj
 {
-    int FUN_008d80e0();
 };
 struct Thing
 {
     char pad[0x118];
     int m_uiFilterValue;
-    Obj* FUN_00525980(int arg);
-    int GetOrFallback(int arg);
+    intptr_t GetOrFallback(intptr_t arg);
 };
 // @fnv 0x00525a90
-int Thing::GetOrFallback(int arg)
+intptr_t Thing::GetOrFallback(intptr_t arg)
 {
-    Obj* result = FUN_00525980(arg);
+    Obj* result = ((::Obj *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(arg))));
     if (result != 0)
     {
-        int value = result->FUN_008d80e0();
+        int value = reinterpret_cast<::MiddleLowProcess *>((result))->GetProcessInteger();
         if (value != 0)
             return value;
     }

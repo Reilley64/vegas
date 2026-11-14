@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKCOLOR_H
 #define FNV_HAVOK_HKCOLOR_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkColor
 {
   public:
@@ -155,6 +154,4 @@ class hkColor
     };
     char pad0[0x1];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkColor[(sizeof(hkColor) == 0x1) ? 1 : -1];
 #endif

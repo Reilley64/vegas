@@ -2,7 +2,6 @@
 #define FNV_EXPRESSIONOPERAND_H
 
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ExpressionValue
 {
   public:
@@ -16,9 +15,4 @@ class ExpressionValue
         double m_dFloatingPointValue;
     };  // +0x8
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExpressionValue) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ExpressionValue, Type) == 0x0);
-FNV_STATIC_ASSERT(offsetof(ExpressionValue, m_lIntegerValue) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ExpressionValue, m_dFloatingPointValue) == 0x8);
 #endif

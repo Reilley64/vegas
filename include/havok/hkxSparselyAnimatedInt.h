@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxSparselyAnimatedInt : public hkReferencedObject
 {
   public:
     hkArray<hkInt32> m_auiHeaderValues;  // +0x8
     hkArray<hkReal> m_kTimes;            // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxSparselyAnimatedInt[(sizeof(hkxSparselyAnimatedInt) == 0x20) ? 1 : -1];
 #endif

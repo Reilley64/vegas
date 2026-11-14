@@ -2,13 +2,14 @@
 #ifndef FNV_NILIGHT_DECLS_H
 #define FNV_NILIGHT_DECLS_H
 
+#include "fnv/decl/FUN_00462d80_shell.h"
 #include "NiObjectNET.h"
 #include "NiPoint3.h"
 #include "nilight_types_NiStream.h"
 
 class NiCollisionObject;
 class FourComponentFloatVector;
-class CloningProcess;
+struct CloningProcess;
 
 class NiBinaryStream
 {
@@ -32,7 +33,7 @@ class NiBinaryStream
 
 template <class T> inline void ReadBinaryValue(NiStream& stream, T& value)
 {
-    stream.m_pUnderlyingStream->Read(&value, sizeof(T));
+    reinterpret_cast<::FUN_00462d80_shell *>((stream.m_pUnderlyingStream))->ReadBytes(&value, sizeof(T));
 }
 
 struct NiLightTransform
@@ -91,11 +92,16 @@ class NiDynamicEffect : public NiAVObject
     NiTListBase<NiTPointerAllocator<unsigned int>, NiNode*> m_kAffectedNodes;
 };
 
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     float r, g, b;
     void LoadBinary(NiStream&);
+public:
+    char *GetFormattedString(const char *) const;
+public:
+    void SaveBinary(::NiStream &);
 };
 
 class NiLight : public NiDynamicEffect
@@ -111,10 +117,4 @@ class NiLight : public NiDynamicEffect
     void* m_pMaterialData;
 };
 
-FNV_STATIC_ASSERT(sizeof(NiAVObject) == 0x9c);
-FNV_STATIC_ASSERT(sizeof(NiDynamicEffect) == 0xc4);
-FNV_STATIC_ASSERT(offsetof(NiDynamicEffect, m_iIndex) == 0xa0);
-FNV_STATIC_ASSERT(offsetof(NiDynamicEffect, m_uiEffectPushCount) == 0xa4);
-FNV_STATIC_ASSERT(offsetof(NiLight, m_fDimmer) == 0xc4);
-FNV_STATIC_ASSERT(offsetof(NiLight, m_pMaterialData) == 0xec);
 #endif

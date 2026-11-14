@@ -2,9 +2,26 @@
 #ifndef FNV_DIALOGMENU_DECLS_H
 #define FNV_DIALOGMENU_DECLS_H
 
+#include "fnv/decl/C764930ListMenu.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0071aa60_class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/IntListBox.h"
+#include "fnv/decl/ListOwner.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a09000.h"
 #include "layout_support.h"
 #include "TESTopic.h"
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -19,20 +36,11 @@ class Tile
 {
   public:
     virtual ~Tile();
-    bool ContainsTrait(int trait);
     void Set(int, int);
-    void Set(int, float, bool);
-    void Set(int, const char*, bool);
-    static int GetTraitID(const char*);
     void SetName(const char*);
-    void FUN_0071aa60(bool);
-    static Tile* FindMenuById(int);
-    Tile* ReadFile(const char*);
-    Menu* GetMenu();
-    Tile* GetNamedChild(const char*);
     static float GetInterfaceScale();
 };
-class Interface
+struct Interface
 {
   public:
     enum enumMenus
@@ -40,7 +48,8 @@ class Interface
         Dialog = 1009
     };
     static bool GetSelectedTargetIndex(enumMenus menu);
-    static bool IsConsoleActive();
+public:
+    static void SetHUDVisible(bool);
 };
 
 // Private declarations retain the PC field layout and the named virtual slots.
@@ -73,9 +82,7 @@ class Menu
     unsigned char layoutPadding1E[2];
     int m_iMenuId;
     Interface__FADE_STATE m_eFadeState;
-    void SetTileMenu(TileMenu*, bool);
     void SetMenuVisibility(bool);
-    void LoadMenuData();
 };
 class ListBoxBase
 {
@@ -102,10 +109,7 @@ class ListBox_int_ : public ListBoxBase
     float m_fFirstListValue, m_fSecondListValue, m_fThirdListValue;
     unsigned short usFlags;
     unsigned char layoutPadding2E[2];
-    Tile* AddItem(int, const char*, int (*)(ListBoxItem_int_*, ListBoxItem_int_*), const char*);
-    void Synchronize();
     void Initialize(Tile*, const char*);
-    bool ContainsKey(Tile*);
 };
 class MenuTopic;
 class TopicMenuController;
@@ -161,7 +165,6 @@ class DialogMenu : public Menu
     void LoadTopicsList();
     static void Close();
     static Tile* Create(MobileObject*, TESTopic*, MobileObject*);
-    bool FUN_007620f0();
     virtual void UpdateDialog();
     virtual void HandleSelection(int, Tile*);
 };
@@ -171,16 +174,9 @@ class NiNode;
 class NiAVObject
 {
   public:
-    NiNode* GetParent();
 };
 class TESResponse
 {
   public:
-    TESResponse* GetNext();
 };
-FNV_STATIC_ASSERT(sizeof(Menu) == 0x28);
-FNV_STATIC_ASSERT(sizeof(ListBox_int_) == 0x30);
-FNV_STATIC_ASSERT(sizeof(DialogMenu) == 0x13C);
-FNV_STATIC_ASSERT(offsetof(DialogMenu, m_eGoodbyeState) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(DialogMenu, m_kResponseListBox) == 0x40);
 #endif

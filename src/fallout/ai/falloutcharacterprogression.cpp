@@ -1,5 +1,29 @@
 // fallout/ai/falloutcharacterprogression.cpp: Flt, NiNodeBooleanState (11 functions)
 
+#include <cstdint>
+#include "fnv/decl/BGSSaveLoadUI.h"
+#include "fnv/decl/FUN_00464e10_shell.h"
+#include "fnv/decl/FUN_0094ed40_cls.h"
+#include "fnv/decl/FUN_00975ea0_shell.h"
+#include "fnv/decl/GlobalObject_0045cf30.h"
+#include "fnv/decl/StatsMenu.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/fnv_0047dfe0__TABStub.h"
+#include "fnv/decl/fnv_00484ce0__TESSaveLoadGameHelper.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_00ad7fa0__AudioUpdateStand.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_0077c000.h"
+#include "fnv/symbols_007df000.h"
+#include "fnv/symbols_00a25000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "falloutcharacterprogression_decls.h"
 
 // @fnv 0x008d51f0
@@ -23,7 +47,6 @@ struct PlayerProgressionData
     bool m_bSecondProgressionFlag;
     char _pad_9[3];
 };
-typedef char _sizecheck_CharacterProgressionData[sizeof(PlayerProgressionData) == 12 ? 1 : -1];
 struct FUN_008d55e0_shell : public PlayerProgressionData
 {
     bool FUN_008d55e0(int);
@@ -32,7 +55,6 @@ struct FUN_008d55e0_shell : public PlayerProgressionData
 class GlobalObject2_0040c150
 {
   public:
-    int* Int();
 };
 
 class ActorValueUtility
@@ -49,32 +71,32 @@ class ActorValueOwner
     virtual int GetActorValueI(int);
 };
 
+class TESActorBase;
 class Actor
 {
   public:
     char _pad[0xa4];
     ActorValueOwner avOwner;
-    unsigned short GetLevel();
+public:
+    ::TESActorBase *GetActorBase();
 };
 
 class PlayerCharacter : public Actor
 {
 };
 
-extern GlobalObject2_0040c150 g_011d0c60;
-extern PlayerCharacter* pPlayer;
 
 // Returns true and sets the flag when the player is below the level cap and their actor value 0x18 meets the threshold for aiToLevel.
 // @fnv 0x008d55e0
 bool FUN_008d55e0_shell::FUN_008d55e0(int aiToLevel)
 {
     bool bresult = false;
-    if (pPlayer->GetLevel() >= *g_011d0c60.Int())
+    if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((::_g_thePlayer))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011d0c60)))))
     {
         return false;
     }
     int inextThreshold = ActorValueUtility::ConvertActorValue(aiToLevel);
-    if (pPlayer->avOwner.GetActorValueI(0x18) >= inextThreshold)
+    if (::_g_thePlayer->avOwner.GetActorValueI(0x18) >= inextThreshold)
     {
         m_bFirstProgressionFlag = true;
         bresult = true;
@@ -100,7 +122,6 @@ unsigned short FUN_008d54e0_shell::FUN_008d54e0(unsigned int)
 namespace fnv_008d55b0 {
 struct ActorValueUtility
 {
-    static int __cdecl ConvertActorValue(int);
 };
 
 struct FUN_008d55b0_shell
@@ -108,14 +129,14 @@ struct FUN_008d55b0_shell
     unsigned char m_b0;
     int m_i4;
     unsigned char m_b8;
-    void __thiscall FUN_008d55b0();
+    void FUN_008d55b0();
 };
 
 // @fnv 0x008d55b0
-void __thiscall FUN_008d55b0_shell::FUN_008d55b0()
+void FUN_008d55b0_shell::FUN_008d55b0()
 {
     m_b0 = 0;
-    m_i4 = ActorValueUtility::ConvertActorValue(2);
+    m_i4 = ::ActorValueUtility::ConvertActorValue(2);
     m_b8 = 0;
 }
 }  // namespace fnv_008d55b0
@@ -128,38 +149,31 @@ struct Flt
 };
 struct Snd_
 {
-    void FUN_00ad7fa0(char const*, int);
 };
 struct BSAudio : Snd_
 {
-    static BSAudio* __cdecl GetSingleton();
 };
 struct XActor
 {
-    void* GetActorBase();
 };
-struct Actor : XActor
+class Actor : public XActor
 {
-    unsigned short GetLevel();
 };
 struct PC7d : Actor
 {
 };
-extern PC7d* g_thePlayer;
 struct TESActorBaseData
 {
-    void SetLevel(unsigned short);
 };
-void __cdecl FUN_00706270();
 // If the flag is set, plays the UILevelUp sound, raises the player's actor base level by one and calls FUN_00706270.
 // @fnv 0x008d5210
 void Flt::LevelUpPlayer()
 {
-    if (!*(unsigned char*)(unsigned int)(*this))
+    if (!*(unsigned char*)(uintptr_t)(*this))
         return;
-    BSAudio::GetSingleton()->FUN_00ad7fa0("UILevelUp", 0x121);
-    ((TESActorBaseData*)((char*)g_thePlayer->GetActorBase() + 0x30))->SetLevel(g_thePlayer->GetLevel() + 1);
-    FUN_00706270();
+    reinterpret_cast<::fnv_00ad7fa0::AudioUpdateStand *>((((::fnv_008d5210::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7fa0((char *)("UILevelUp"), 0x121);
+    reinterpret_cast<::fnv_0047dfe0::TABStub *>((((TESActorBaseData*)((char*)((void *)(reinterpret_cast<::Actor *>(((*reinterpret_cast<::fnv_008d5210::PC7d * *>(&::_g_thePlayer))))->GetActorBase())) + 0x30))))->FUN_0047dfe0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d5210::PC7d * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
+    ::fnv_00706270::FUN_00706270();
 }
 }  // namespace fnv_008d5210
 
@@ -170,14 +184,12 @@ struct Flt
 };
 struct PC7d
 {
-    void FUN_00484ce0(unsigned int, int);
 };
-extern PC7d* g_thePlayer;
 // @fnv 0x008d5510
 void Flt::FUN_008d5510(int aiUnused)
 {
-    g_thePlayer->FUN_00484ce0((unsigned int)*this, 1);
-    g_thePlayer->FUN_00484ce0((unsigned int)*this + 4, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_00484ce0((void *)((uintptr_t)*this), 1);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_00484ce0((void *)((uintptr_t)*this + 4), 4);
 }
 
 namespace fnv_008d5550 {
@@ -188,28 +200,25 @@ struct Flt
 };
 struct PC7d
 {
-    void FUN_00484d00(unsigned int, int);
 };
-extern PC7d* g_thePlayer;
 // Calls FUN_00484d00 on g_thePlayer twice, passing the value of *this and *this + 4 with sizes 1 and 4.
 // @fnv 0x008d5550
 void Flt::FUN_008d5550(int, int)
 {
-    g_thePlayer->FUN_00484d00((unsigned int)*this, 1);
-    g_thePlayer->FUN_00484d00((unsigned int)*this + 4, 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(((*reinterpret_cast<::fnv_008d5550::PC7d * *>(&::_g_thePlayer))))->FUN_00484d00((void *)((uintptr_t)*this), 1);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(((*reinterpret_cast<::fnv_008d5550::PC7d * *>(&::_g_thePlayer))))->FUN_00484d00((void *)((uintptr_t)*this + 4), 4);
 }
 }  // namespace fnv_008d5550
 
 struct FUN_008d5590_shell
 {
-    void __thiscall FUN_008d55b0();
-    void* __thiscall FUN_008d5590();
+    void* FUN_008d5590();
 };
 
 // @fnv 0x008d5590
-void* __thiscall FUN_008d5590_shell::FUN_008d5590()
+void* FUN_008d5590_shell::FUN_008d5590()
 {
-    FUN_008d55b0();
+    reinterpret_cast<::fnv_008d55b0::FUN_008d55b0_shell *>(this)->FUN_008d55b0();
     return this;
 }
 
@@ -221,43 +230,31 @@ struct Flt
 
 struct FUN_008d55e0_shell
 {
-    bool FUN_008d55e0(int);
 };
 
-struct Actor
+class Actor
 {
-    unsigned short GetLevel();
 };
 
-struct PlayerCharacter : public Actor
+class PlayerCharacter : public Actor
 {
-    void WriteProgressData(int);
 };
-extern PlayerCharacter* _g_thePlayer;
 
-struct TESDataHandler
+class TESDataHandler
 {
-    void GetRegions();
 };
-extern TESDataHandler* g_dataHandler;
 
 struct DAT_011e0e80_class
 {
-    void FUN_00975ea0();
 };
-extern DAT_011e0e80_class DAT_011e0e80;
 
 struct BGSSaveLoadUI
 {
-    void FUN_007d0bb0();
 };
-extern BGSSaveLoadUI* __cdecl FUN_00a25920();
 
 struct G7d1
 {
-    bool GetBoolValue();
 };
-extern G7d1 g_011e0a30;
 
 struct FUN_008d5270_shell : public Flt
 {
@@ -267,44 +264,39 @@ struct FUN_008d5270_shell : public Flt
 // @fnv 0x008d5270
 void FUN_008d5270_shell::FUN_008d5270()
 {
-    if (!((FUN_008d55e0_shell*)(unsigned int)*this)->FUN_008d55e0(_g_thePlayer->GetLevel() + 1))
+    if (!reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)(uintptr_t)*this)))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d5270::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1))
     {
-        *(char*)(unsigned int)*this = 0;
-        g_dataHandler->GetRegions();
-        DAT_011e0e80.FUN_00975ea0();
-        if (FUN_00a25920())
+        *(char*)(uintptr_t)*this = 0;
+        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008d5270::TESDataHandler * *>(&::g_dataHandler))))->GetRegions();
+        reinterpret_cast<::FUN_00975ea0_shell *>(&((*reinterpret_cast<::fnv_008d5270::DAT_011e0e80_class *>(&::g_011e0e80))))->FUN_00975ea0();
+        if (((::fnv_008d5270::BGSSaveLoadUI *)(::FUN_00a25920())))
         {
-            FUN_00a25920()->FUN_007d0bb0();
+            reinterpret_cast<::BGSSaveLoadUI *>((((::fnv_008d5270::BGSSaveLoadUI *)(::FUN_00a25920()))))->FUN_007d0bb0();
         }
-        if (g_011e0a30.GetBoolValue())
+        if (((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&((*reinterpret_cast<::fnv_008d5270::G7d1 *>(&::g_011e0a30))))->GetBoolValue())))
         {
-            _g_thePlayer->WriteProgressData(0);
+            reinterpret_cast<::FUN_0094ed40_cls *>(((*reinterpret_cast<::fnv_008d5270::PlayerCharacter * *>(&::_g_thePlayer))))->WriteProgressData(0);
         }
     }
 }
 }  // namespace fnv_008d5270
 
 namespace fnv_008d5300 {
-void __cdecl _FUN_007df4e0();
 
 struct StatsMenu
 {
-    static void __cdecl UpdateStatusEffects();
 };
 
 struct ActorValueUtility
 {
-    static int __cdecl ConvertActorValue(int);
 };
 
 struct TESActorBaseData
 {
-    void SetLevel(unsigned short);
 };
 
 struct XActor
 {
-    void* GetActorBase();
 };
 
 struct Flt
@@ -312,11 +304,10 @@ struct Flt
     operator unsigned int();
 };
 
-struct NiNodeBooleanState;
+class NiNodeBooleanState;
 
 struct FUN_00464e10_shell
 {
-    NiNodeBooleanState* FUN_00464e10();
 };
 
 struct SubA4
@@ -326,8 +317,9 @@ struct SubA4
     virtual int vfunc_8(int av);
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -564,24 +556,21 @@ struct Actor
     virtual void v233();
     virtual void vfn_3a8(int, int, int);
 
-    unsigned short GetLevel();
 };
 
-struct PlayerCharacter : public Actor
+class PlayerCharacter : public Actor
 {
 };
-extern PlayerCharacter* _g_thePlayer;
 
 struct FUN_008d5300_shell
 {
-    void FUN_008d5270();
     void SetPlayerLevel(int aLevel);
 };
 
 // @fnv 0x008d5300
 void FUN_008d5300_shell::SetPlayerLevel(int aLevel)
 {
-    if (aLevel == _g_thePlayer->GetLevel())
+    if (aLevel == reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0())
         return;
 
     int currentXP;
@@ -589,40 +578,36 @@ void FUN_008d5300_shell::SetPlayerLevel(int aLevel)
     int diff;
 
     {
-        NiNodeBooleanState* prog = ((FUN_00464e10_shell*)(void*)_g_thePlayer)->FUN_00464e10();
-        data = (char*)((Flt*)prog)->operator unsigned int();
+        NiNodeBooleanState* prog = ((::fnv_008d5300::NiNodeBooleanState *)(reinterpret_cast<::FUN_00464e10_shell *>((((FUN_00464e10_shell*)(void*)(*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_00464e10()));
+        data = *reinterpret_cast<char **>(prog);
     }
 
-    currentXP = ((SubA4*)((char*)_g_thePlayer + 0xa4))->vfunc_8(0x18);
+    currentXP = ((SubA4*)((char*)(*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer)) + 0xa4))->vfunc_8(0x18);
 
     {
-        int reqXP = ActorValueUtility::ConvertActorValue(aLevel - 1);
+        int reqXP = ::ActorValueUtility::ConvertActorValue(aLevel - 1);
         diff = reqXP - currentXP;
     }
 
     data[8] = 1;
-    _g_thePlayer->vfn_3a8(0x18, diff, 0);
+    (*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer))->vfn_3a8(0x18, diff, 0);
     data[8] = 0;
     data[0] = 0;
-    *(int*)(data + 4) = ActorValueUtility::ConvertActorValue(aLevel + 1);
+    *(int*)(data + 4) = ::ActorValueUtility::ConvertActorValue(aLevel + 1);
 
-    ((TESActorBaseData*)((char*)((XActor*)(void*)_g_thePlayer)->GetActorBase() + 0x30))->SetLevel(aLevel);
-    FUN_008d5270();
-    _FUN_007df4e0();
-    StatsMenu::UpdateStatusEffects();
+    reinterpret_cast<::fnv_0047dfe0::TABStub *>((((TESActorBaseData*)((char*)((void *)(reinterpret_cast<::Actor *>((((XActor*)(void*)(*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer)))))->GetActorBase())) + 0x30))))->FUN_0047dfe0(aLevel);
+    reinterpret_cast<::fnv_008d5270::FUN_008d5270_shell *>(this)->FUN_008d5270();
+    ::fnv_007df4e0::UpdateStatsMenuLevelText();
+    ::StatsMenu::UpdateStatusEffects();
 }
 }  // namespace fnv_008d5300
 
 namespace fnv_008d53f0 {
-extern double _gModifierZero;
 
-void __cdecl QueueLevelUpNotification(int);
 
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
-extern GlobalObject2_0040c150 g_011d0c60;
 
 struct Flt
 {
@@ -631,16 +616,15 @@ struct Flt
 
 struct FUN_008d55e0_shell
 {
-    bool FUN_008d55e0(int);
 };
 
 struct FUN_00464e10_shell
 {
-    NiNodeBooleanState* FUN_00464e10();
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -859,13 +843,11 @@ struct Actor
     virtual void v215();
     virtual bool vfn_360();
 
-    unsigned short GetLevel();
 };
 
-struct PlayerCharacter : public Actor
+class PlayerCharacter : public Actor
 {
 };
-extern PlayerCharacter* _g_thePlayer;
 
 // @fnv 0x008d53f0
 void FUN_008d53f0(void* apTarget, int a2, int aiUnused, float afValue)
@@ -873,16 +855,15 @@ void FUN_008d53f0(void* apTarget, int a2, int aiUnused, float afValue)
     Actor* pActor = apTarget ? (Actor*)((char*)apTarget - 0xa4) : 0;
     if (pActor && pActor->vfn_360())
     {
-        NiNodeBooleanState* prog = ((FUN_00464e10_shell*)_g_thePlayer)->FUN_00464e10();
-        if (*(bool*)(((Flt*)prog)->operator unsigned int() + 8))
+        NiNodeBooleanState* prog = reinterpret_cast<::FUN_00464e10_shell *>((((FUN_00464e10_shell*)(*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_00464e10();
+        if (*(bool*)(*reinterpret_cast<char **>(prog) + 8))
             return;
-        if (a2 == 0x18 && afValue > _gModifierZero)
+        if (a2 == 0x18 && afValue > ::_DAT_01012060)
         {
             if ((int)afValue > 0)
-                QueueLevelUpNotification((int)afValue);
-            if (_g_thePlayer->GetLevel() < *g_011d0c60.Int())
-                ((FUN_008d55e0_shell*)((Flt*)prog)->operator unsigned int())
-                    ->FUN_008d55e0(_g_thePlayer->GetLevel() + 1);
+                ::QueueLevelUpNotification((int)afValue);
+            if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008d53f0::GlobalObject2_0040c150 *>(&::g_011d0c60)))))))
+                reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)*reinterpret_cast<void **>(prog))))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
         }
     }
 }

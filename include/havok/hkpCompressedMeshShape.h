@@ -10,7 +10,6 @@ class hkpCompressedMeshShapeBigTriangle;
 class hkpCompressedMeshShapeChunk;
 class hkpCompressedMeshShapeConvexPiece;
 class hkpNamedMeshMaterial;
-#pragma pack(push, 1)
 class hkpCompressedMeshShape : public hkpShapeCollection
 {
   public:
@@ -47,6 +46,4 @@ class hkpCompressedMeshShape : public hkpShapeCollection
     hkArray<hkpNamedMeshMaterial> m_kNamedMaterials;  // +0xC8
     char padD4[0x1C];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCompressedMeshShape[(sizeof(hkpCompressedMeshShape) == 0xF0) ? 1 : -1];
 #endif

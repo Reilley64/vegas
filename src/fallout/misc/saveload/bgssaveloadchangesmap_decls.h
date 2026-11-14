@@ -3,6 +3,11 @@
 #define FNV_BGSSAVELOADCHANGESMAP_DECLS_H
 
 
+#include "fnv/decl/BSFlags.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_00841100_shell.h"
+#include "fnv/symbols_011c3000.h"
 #include "bgssaveloadchangesmap_types_BGSSaveLoadChangesMap.h"
 #include "bgssaveloadchangesmap_types_BGSChangeFlags.h"
 #include "bgssaveloadchangesmap_types_CombatTargetMap.h"
@@ -14,22 +19,17 @@ class FormChangeRecord : public FormChangeMask
     FormChangeMask flags;
     FormChangeRecord();
     ~FormChangeRecord();
-    bool FUN_00562210(unsigned int flags);
-    void FUN_00841100(char* buffer);
 };
 
 class TESDataHandlerAccess
 {
   public:
-    bool FormIDExists(unsigned int formID);
 };
 
-class QuantityData
+struct QuantityData
 {
   public:
-    void SetQuantity(unsigned int quantity);
 };
 
-extern TESDataHandler* g_dataHandler;
 
 #endif

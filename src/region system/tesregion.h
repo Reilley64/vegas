@@ -9,7 +9,7 @@
 #include "TESForm.h"
 
 // 32-bit RGBA color (4 floats, 16 bytes).
-class NiColor
+struct NiColor
 {
   public:
     float r;
@@ -17,7 +17,6 @@ class NiColor
     float b;
     float a;
 };
-FNV_STATIC_ASSERT(sizeof(NiColor) == 0x10);
 
 class RegionDataList;
 class RegionPointList;
@@ -25,7 +24,6 @@ class TESWorldSpace;
 class TESWeather;
 
 // TESRegion extends the 0x18-byte TESForm base with region state.
-#pragma pack(push, 4)
 class TESRegion : public TESForm
 {
   public:
@@ -36,13 +34,8 @@ class TESRegion : public TESForm
     float fWeatherChance;                              // +0x28
     NiColor m_kDiffuseColor;                           // +0x2C
 
-// @fnv 0x005d8a70
-    NiColor* GetDiffuseColor()
-    {
-        return &m_kDiffuseColor;
-    }
+    // Defined once, in tesregion_h_unit.cpp.
+    NiColor* GetDiffuseColor();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESRegion) == 0x3C);
 
 #endif

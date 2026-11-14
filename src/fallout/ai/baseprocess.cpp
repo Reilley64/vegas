@@ -1,5 +1,45 @@
 // fallout/ai/baseprocess.cpp: BaseProcess, SavedProcess, Target8d (46 functions)
 
+#include "fnv/save_load_game_view.h"
+#include <cstdint>
+#include "fnv/decl/ActorPackageLegacySave.h"
+#include "fnv/decl/ActorPackageLoad.h"
+#include "fnv/decl/ActorPackageSaver.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CFActor.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_0085a2e0_Class.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008675e0_shell.h"
+#include "fnv/decl/FUN_008c5e70_shell.h"
+#include "fnv/decl/FUN_008c6970_shell.h"
+#include "fnv/decl/FUN_008c6c80_Class.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_0092ca70_shell.h"
+#include "fnv/decl/GuardActorPackageData.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NvOuter.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00914c60__Shell914.h"
+#include "fnv/decl/p076__Shell.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_008d1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01086000.h"
+#include "fnv/symbols_01184000.h"
+#include "fnv/symbols_011de000.h"
 #include "baseprocess_worker.h"
 
 static const int kCalculateMoveModeValue1 = 257;
@@ -14,28 +54,28 @@ int BaseProcess::GetAttackChance(Actor* apActor, float afValue1, float afValue2,
 // @fnv 0x008d1050
 void BaseProcess::ApplyLoadBuffer(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<ActorPackageCall*>(&m_kProcessData)->ApplyLoadBuffer(buffer);
+    reinterpret_cast<::ActorPackageContext *>((reinterpret_cast<ActorPackageCall*>(&m_kProcessData)))->ApplyLoadBuffer(buffer);
 }
 
 // @fnv 0x008d1000
 void BaseProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<ActorPackageCall*>(&m_kProcessData)->FUN_008c6970(buffer);
+    reinterpret_cast<::FUN_008c6970_shell *>((reinterpret_cast<ActorPackageCall*>(&m_kProcessData)))->FUN_008c6970(buffer);
     if (m_pCachedValues)
-        reinterpret_cast<CachedValuesCall*>(m_pCachedValues)->ClearField44();
+        ::ClearField44((intptr_t)(reinterpret_cast<CachedValuesCall*>(m_pCachedValues)));
 }
 
 // @fnv 0x008d08b0
 void BaseProcess::SetCurrentPackageAndTarget(TESPackage* package, MobileObject* reference)
 {
     TESObjectREFR* target = reinterpret_cast<TESPackage*>(package)->GetResolvedTargetReference(reference);
-    reinterpret_cast<ActorPackageCall*>(&m_kProcessData)->SetPackageAndTarget(package, target);
+    reinterpret_cast<::ActorPackageContext *>((reinterpret_cast<ActorPackageCall*>(&m_kProcessData)))->SetPackageAndTarget(package, target);
 }
 
 // @fnv 0x008d0870
 void BaseProcess::SetReferenceTarget(TESObjectREFR* reference)
 {
-    reinterpret_cast<GuardActorPackageDataCall*>(&m_kProcessData)->SetReferenceTarget(reference);
+    reinterpret_cast<::GuardActorPackageData *>((reinterpret_cast<GuardActorPackageDataCall*>(&m_kProcessData)))->SetReferenceTarget(reference);
     ActorPackageData* data =
         reinterpret_cast<ActorPackageData*>(reinterpret_cast<LowProcess*>(this)->GetCurrentPackageData());
     if (data)
@@ -47,21 +87,21 @@ void BaseProcess::Revert(BGSLoadFormBuffer* buffer)
 {
     m_fValue1 = -1.0F;
     m_uiStateFlags = 0;
-    reinterpret_cast<ActorPackageCall*>(&m_kProcessData)->FUN_008c6c80(buffer);
+    reinterpret_cast<::FUN_008c6c80_Class *>((reinterpret_cast<ActorPackageCall*>(&m_kProcessData)))->FUN_008c6c80((intptr_t)(buffer));
     if (m_pCachedValues)
-        reinterpret_cast<CachedValuesCall*>(m_pCachedValues)->ClearField44();
+        ::ClearField44((intptr_t)(reinterpret_cast<CachedValuesCall*>(m_pCachedValues)));
 }
 
 // @fnv 0x008d0f90
 void BaseProcess::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<BGSLoadFormBuffer*>(buffer)->ReadTypedData(&m_fValue2, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reinterpret_cast<BGSLoadFormBuffer*>(buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fValue2), 4);
     if (reinterpret_cast<BGSLoadFormBufferVirtual*>(buffer)->GetVersion() >= 6)
     {
-        reinterpret_cast<BGSLoadFormBuffer*>(buffer)->ReadTypedData(&m_fValue1, 4);
-        reinterpret_cast<BGSLoadFormBuffer*>(buffer)->ReadTypedData(&m_uiStateFlags, 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reinterpret_cast<BGSLoadFormBuffer*>(buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fValue1), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reinterpret_cast<BGSLoadFormBuffer*>(buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiStateFlags), 4);
     }
-    reinterpret_cast<ActorPackageCall*>(&m_kProcessData)->LoadGame(buffer);
+    reinterpret_cast<::ActorPackageContext *>((reinterpret_cast<ActorPackageCall*>(&m_kProcessData)))->LoadGame(buffer);
 }
 
 // @fnv 0x008d0660
@@ -102,19 +142,16 @@ void BaseProcess::Copy(BaseProcess* source)
         }
     }
     if (thisSecond && thisThird)
-        reinterpret_cast<MiddleHighProcessCall*>(thisSecond)
-            ->CopyProcessDataFrom(reinterpret_cast<MiddleHighProcessCall*>(thisThird));
+        reinterpret_cast<::CFActor *>((reinterpret_cast<MiddleHighProcessCall*>(thisSecond)))->CopyFromActor((::CFActor *)(::MiddleHighProcessCall *)(reinterpret_cast<MiddleHighProcessCall*>(thisThird)));
     if (sourceSecond && sourceLow)
-        reinterpret_cast<CopyCall00914c60*>(sourceSecond)->FUN_00914c60(reinterpret_cast<CopyCall00914c60*>(sourceLow));
+        reinterpret_cast<::fnv_00914c60::Shell914 *>((reinterpret_cast<CopyCall00914c60*>(sourceSecond)))->FUN_00914c60((::MiddleHighProcess *)(::CopyCall00914c60 *)(reinterpret_cast<CopyCall00914c60*>(sourceLow)));
     if (sourceThird && thisMiddleHigh)
-        reinterpret_cast<CachedValuesCopyCall*>(sourceThird)
-            ->Copy(reinterpret_cast<CachedValuesCopyCall*>(thisMiddleHigh));
+        reinterpret_cast<::FUN_0092ca70_shell *>((reinterpret_cast<CachedValuesCopyCall*>(sourceThird)))->CopyFrom((::FUN_0092ca70_shell *)(::CachedValuesCopyCall *)(reinterpret_cast<CachedValuesCopyCall*>(thisMiddleHigh)));
     if (thisLow && sourceMiddleHigh)
-        reinterpret_cast<LowProcessCopyCall*>(thisLow)->HandlePackageChange(
-            reinterpret_cast<LowProcessCopyCall*>(sourceMiddleHigh));
+        reinterpret_cast<::LowProcess *>((reinterpret_cast<LowProcessCopyCall*>(thisLow)))->HandlePackageChange(
+            (::LowProcess *)(::LowProcessCopyCall *)(reinterpret_cast<LowProcessCopyCall*>(sourceMiddleHigh)));
     if (m_pCachedValues && source->m_pCachedValues)
-        reinterpret_cast<LowProcessCachedCopyCall*>(m_pCachedValues)
-            ->HandlePackageChange(reinterpret_cast<LowProcessCachedCopyCall*>(source->m_pCachedValues));
+        reinterpret_cast<::FUN_008675e0_shell *>((reinterpret_cast<LowProcessCachedCopyCall*>(m_pCachedValues)))->FUN_008675e0((::LowProcess *)(::LowProcessCachedCopyCall *)(reinterpret_cast<LowProcessCachedCopyCall*>(source->m_pCachedValues)));
 }
 
 struct FUN_0049bb50_shell : public ActorPackageContext
@@ -125,7 +162,7 @@ struct FUN_0049bb50_shell : public ActorPackageContext
 // @fnv 0x0049bb50
 void FUN_0049bb50_shell::AddToOffset(int aiOffset)
 {
-    *(int*)((char*)this + 0xc) += aiOffset;
+    this->m_iPackageValue += aiOffset;
 }
 
 struct Dummy_00527770
@@ -135,7 +172,7 @@ struct Dummy_00527770
 
 // Calls FUN_00527770 with 0x25, sets the first pointer to "@kR", and zeroes the ints at offsets 16 and 20 before returning pThis.
 // @fnv 0x00526b00
-void* __fastcall FUN_00526b00(void* pThis)
+void* FUN_00526b00(void* pThis)
 {
     ((Dummy_00527770*)pThis)->FUN_00527770(0x25);
     *(const char**)pThis = "@kR";
@@ -152,13 +189,12 @@ struct FUN_008d03e0_shell : public BaseProcess
 class TESSound
 {
   public:
-    unsigned int Deallocate(void);
 };
 
 // @fnv 0x008d03e0
 int FUN_008d03e0_shell::DeallocateSound()
 {
-    return reinterpret_cast<TESSound*>(reinterpret_cast<char*>(this) + 4)->Deallocate();
+    return ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(reinterpret_cast<char*>(this) + 4)))->FUN_0084e3a0()));
 }
 
 struct FUN_008d0640_shell : public BaseProcess
@@ -167,30 +203,31 @@ struct FUN_008d0640_shell : public BaseProcess
 };
 
 extern int DAT_01085e2c;
-void __fastcall DeleteData(void* pThis);
 
 // @fnv 0x008d0640
 void FUN_008d0640_shell::InitProcess()
 {
     *reinterpret_cast<int**>(this) = &DAT_01085e2c;
-    DeleteData(reinterpret_cast<char*>(this) + 4);
+    reinterpret_cast<::FUN_008c5e70_shell *>((reinterpret_cast<char*>(this) + 4))->DeleteData();
 }
 
 // @fnv 0x008d1030
-void __fastcall ClearField44(int param_1)
+void ClearField44(intptr_t param_1)
 {
     *reinterpret_cast<int*>(param_1 + 0x44) = 0;
 }
 
 struct FUN_00524b60_shell
 {
-    unsigned char __thiscall GetByteAt102();
+    unsigned char GetByteAt102();
+    char pad00[0x102];
+    unsigned char unk102;
 };
 
 // @fnv 0x00524b60
-unsigned char __thiscall FUN_00524b60_shell::GetByteAt102()
+unsigned char FUN_00524b60_shell::GetByteAt102()
 {
-    return *(unsigned char*)((char*)this + 0x102);
+    return this->unk102;
 }
 
 extern float DAT_01085df0;
@@ -208,17 +245,17 @@ float FUN_008d02d0_shell::GetNegativeGlobal(void* apActor, int abWhichList)
     return -DAT_01085df0;
 }
 
-struct MobileObject;
-struct TESIdleForm;
+class MobileObject;
+class TESIdleForm;
 
 struct FUN_008d02f0_shell
 {
-    bool __thiscall FUN_008d02f0(MobileObject* apMobile, TESIdleForm* apIdle, int aeType, bool abForce3d,
+    bool FUN_008d02f0(MobileObject* apMobile, TESIdleForm* apIdle, int aeType, bool abForce3d,
                                  bool abChooseNewOne, bool abTestConditions);
 };
 
 // @fnv 0x008d02f0
-bool __thiscall FUN_008d02f0_shell::FUN_008d02f0(MobileObject* apMobile, TESIdleForm* apIdle, int aeType,
+bool FUN_008d02f0_shell::FUN_008d02f0(MobileObject* apMobile, TESIdleForm* apIdle, int aeType,
                                                  bool abForce3d, bool abChooseNewOne, bool abTestConditions)
 {
     return false;
@@ -226,36 +263,36 @@ bool __thiscall FUN_008d02f0_shell::FUN_008d02f0(MobileObject* apMobile, TESIdle
 
 struct FUN_008d0350_shell
 {
-    void __thiscall FUN_008d0350(int, int, int, int, int, int, int);
+    void FUN_008d0350(int, int, int, int, int, int, int);
 };
 
 // @fnv 0x008d0350
-void __thiscall FUN_008d0350_shell::FUN_008d0350(int, int, int, int, int, int, int)
+void FUN_008d0350_shell::FUN_008d0350(int, int, int, int, int, int, int)
 {}
 
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorCause;
 struct ActorMover;
-struct ActorValueOwner;
+class ActorValueOwner;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct BGSLoadGameBuffer;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSAnimNote;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSFile;
 struct BSMultiBound;
@@ -273,12 +310,12 @@ struct ContinuousBeamProjectile;
 struct CellReferenceChangeData;
 struct Crime;
 struct GameFormRecord;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
 struct TeleportableReference;
-struct EffectItem;
+class EffectItem;
 struct ExteriorCellNewReferencesMap;
-struct ExtraDataList;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -290,76 +327,76 @@ struct BooleanFloatQuery;
 struct IDebugText;
 struct InteriorCellNewReferencesMap;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
 struct FormRecordMetadata;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
 struct WorldReferenceObject;
-struct Point3Offset;
-struct NiAVObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
-struct NiTexture;
+class NiTexture;
 struct NumericIDBufferMap;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
-struct Projectile;
-struct QueuedFile;
+class Projectile;
+class QueuedFile;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
+class RagDollData;
 struct SaveGameRecord;
 struct FormIDEntry;
 struct SaveGameFile;
 struct EmptyClass;
-struct Script;
+class Script;
 struct ScriptLocals;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESClass;
 struct TESCombatStyle;
-struct TESContainer;
+class TESContainer;
 struct TESFaction;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct TESGlobal;
-struct TESIdleForm;
-struct TESModel;
-struct TESObject;
-struct TESObjectARMO;
-struct TESObjectBOOK;
+class TESIdleForm;
+class TESModel;
+class TESObject;
+class TESObjectARMO;
+class TESObjectBOOK;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESObjectWEAP;
+class TESObjectREFR;
+class TESObjectWEAP;
 struct TESRace;
 struct TESSkill;
-struct TESSound;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESSound;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct TrespassPackage;
@@ -367,7 +404,7 @@ struct WaterZone;
 struct WeaponObject;
 struct _FILETIME;
 struct _SYSTEMTIME;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkNiCollisionObject;
 struct bhkRagdollController;
 struct bhkRagdollPenetrationUtil;
@@ -461,7 +498,6 @@ struct TESSaveLoadGame
     void WriteFileEndian(BSFile*, void*, unsigned int, unsigned int);
     void ReadFileEndian(BSFile*, void*, unsigned int, unsigned int);
     void AdvanceBuffer(unsigned int);
-    bool GetLoading();
     bool GetIniting();
     bool GetConstructingObject();
     bool GetInitObject();
@@ -573,7 +609,6 @@ struct TESSaveLoadGame
     void SafetyCheckReferencePositionAndAngle(TESObjectREFR*);
     bool IsInvalidPoint(NiPoint3*);
     _FILETIME* GetMostRecentSaveGame();
-    void DeleteForm(TESForm*);
     void AddFormToInitFormArray(TESForm*);
     unsigned int GetNeedToConvertPCSaveGames();
     bool ConvertPCSaveGames();
@@ -698,20 +733,18 @@ struct TESSaveLoadGame
     char m_acSaveGamePath[272];
     _FILETIME* m_pMostRecentSaveTime;
 };
-typedef char _sizecheck_TESSaveLoadGame[sizeof(TESSaveLoadGame) == 456 ? 1 : -1];
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct FUN_008d0370_shell : public TESSaveLoadGame
 {
     bool FUN_008d0370(TESForm*);
@@ -729,7 +762,7 @@ struct FUN_008d0390_shell
 };
 
 // @fnv 0x008d0390
-float __thiscall FUN_008d0390_shell::GetDistanceBetweenActors(void* apActor, void* apTarget)
+float FUN_008d0390_shell::GetDistanceBetweenActors(void* apActor, void* apTarget)
 {
     return 0.0f;
 }
@@ -740,17 +773,16 @@ struct FUN_008d05f0_shell
 };
 
 // @fnv 0x008d05f0
-float __thiscall FUN_008d05f0_shell::FUN_008d05f0(int aiWhich)
+float FUN_008d05f0_shell::FUN_008d05f0(int aiWhich)
 {
     return 0.0f;
 }
 
-extern const NiPoint3 _NiPoint3_ZERO;
 
 // @fnv 0x008d08f0
-const NiPoint3* __fastcall FUN_008d08f0(BaseProcess* this_)
+const NiPoint3* FUN_008d08f0(BaseProcess* this_)
 {
-    return &_NiPoint3_ZERO;
+    return &::NiPoint3::ZERO;
 }
 
 struct FUN_008d10c0_shell
@@ -787,8 +819,7 @@ struct NiPoint3
 {
     float x, y, z;
 };
-extern const NiPoint3 _NiPoint3_ZERO;
-struct Actor;
+class Actor;
 struct FUN_008d02a0_shell
 {
     NiPoint3 FUN_008d02a0(Actor* apActor);
@@ -796,7 +827,7 @@ struct FUN_008d02a0_shell
 // @fnv 0x008d02a0
 NiPoint3 FUN_008d02a0_shell::FUN_008d02a0(Actor* apActor)
 {
-    return _NiPoint3_ZERO;
+    return (*reinterpret_cast<const ::fnv_008d02a0::NiPoint3 *>((void *)&::NiPoint3::ZERO));
 }
 }  // namespace fnv_008d02a0
 
@@ -805,8 +836,7 @@ struct NiPoint3
 {
     float x, y, z;
 };
-extern const NiPoint3 _NiPoint3_ZERO;
-struct Actor;
+class Actor;
 struct FUN_008d0310_shell
 {
     NiPoint3 FUN_008d0310(Actor* apActor, int abWhichList);
@@ -814,7 +844,7 @@ struct FUN_008d0310_shell
 // @fnv 0x008d0310
 NiPoint3 FUN_008d0310_shell::FUN_008d0310(Actor* apActor, int abWhichList)
 {
-    return _NiPoint3_ZERO;
+    return (*reinterpret_cast<const ::fnv_008d0310::NiPoint3 *>((void *)&::NiPoint3::ZERO));
 }
 }  // namespace fnv_008d0310
 
@@ -938,15 +968,14 @@ void FUN_008d05c0_s::FUN_008d05c0(int a, Date d)
 
 struct FUN_008d0600_s
 {
-    void FUN_008d0600(int, int);
+    void FUN_008d0600(intptr_t, intptr_t);
 };
 // @fnv 0x008d0600
-void FUN_008d0600_s::FUN_008d0600(int a, int b)
+void FUN_008d0600_s::FUN_008d0600(intptr_t a, intptr_t b)
 {}
 
 struct FUN_008c64d0_target
 {
-    void FUN_008c64d0(unsigned int, unsigned int);
 };
 struct FUN_008d0e60_shell
 {
@@ -957,16 +986,14 @@ struct FUN_008d0e60_shell
 // @fnv 0x008d0e60
 void FUN_008d0e60_shell::FUN_008d0e60(unsigned int aiFlags, unsigned int aiOldFlags, MobileObject* pmob)
 {
-    ((FUN_008c64d0_target*)((char*)this + 4))->FUN_008c64d0(aiFlags, aiOldFlags);
+    reinterpret_cast<::Owner *>((((FUN_008c64d0_target*)((char*)this + 4))))->FUN_008c64d0(aiFlags, aiOldFlags);
 }
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 struct FUN_008c65d0_target
 {
-    void SavePackage(BGSSaveFormBuffer*);
 };
 struct FUN_008d0f30_shell
 {
@@ -976,10 +1003,10 @@ struct FUN_008d0f30_shell
 // @fnv 0x008d0f30
 void FUN_008d0f30_shell::FUN_008d0f30(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    apSaveGameBuffer->SaveData((char*)this + 0x1c, 4, 0);
-    apSaveGameBuffer->SaveData((char*)this + 0x20, 4, 0);
-    apSaveGameBuffer->SaveData((char*)this + 0x24, 4, 0);
-    ((FUN_008c65d0_target*)((char*)this + 4))->SavePackage(apSaveGameBuffer);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x1c, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x20, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x24, 4, 0);
+    reinterpret_cast<::ActorPackageSaver *>((((FUN_008c65d0_target*)((char*)this + 4))))->SavePackage(apSaveGameBuffer);
 }
 
 struct FUN_008c65a0_shell
@@ -999,7 +1026,7 @@ void FUN_008d0f10_s::FUN_008d0f10(unsigned int aiFlags, MobileObject* pmob)
 }
 
 namespace fnv_008d0900 {
-struct MobileObject
+class MobileObject
 {
 };
 
@@ -1010,8 +1037,9 @@ struct FormIDEntry
     unsigned char iFlags[4];
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void v0()
     {}
     virtual void v1()
@@ -1173,32 +1201,25 @@ struct TESForm
 
 struct TESSaveLoadGame
 {
-    bool FUN_00862110();
-    void* GetHitSound();
 };
 
 typedef TESSaveLoadGame SaveManager;
 
-extern SaveManager* DAT_011de45c;
 
 struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
 
-extern GlobalObject_0045cf30 g_011de4e8;
 
 struct Interface
 {
-    static void __cdecl PrintDebugMessage(const char* format, ...);
 };
 
 struct FUN_008c61a0_Class
 {
-    unsigned short ComputeTotal(unsigned int aiFlags);
 };
 
-TESForm* _ref_004839c0(unsigned int iFormID);
 
 struct FUN_008d0900_shell
 {
@@ -1217,32 +1238,26 @@ unsigned short FUN_008d0900_shell::FUN_008d0900(unsigned int aiFlags, MobileObje
     pform = 0;
     pheader = pform;
 
-    if (DAT_011de45c->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_008d0900::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         pform += 4;
         pform += 2;
     }
 
-    pform += reinterpret_cast<FUN_008c61a0_Class*>(reinterpret_cast<unsigned char*>(this) + 4)->ComputeTotal(aiFlags);
+    pform += reinterpret_cast<::NvOuter *>((reinterpret_cast<FUN_008c61a0_Class*>(reinterpret_cast<unsigned char*>(this) + 4)))->ComputeTotal(aiFlags);
     pform += 4;
 
-    if (*g_011de4e8.Bool())
+    if (*(*reinterpret_cast<::fnv_008d0900::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
     {
-        isize = static_cast<FormIDEntry*>(DAT_011de45c->GetHitSound());
+        isize = static_cast<FormIDEntry*>(((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_008d0900::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->GetHitSound())));
         if (isize)
         {
-            itempStartSize = _ref_004839c0(isize->iFormID);
-            Interface::PrintDebugMessage(
-                "GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                static_cast<unsigned int>(pform) - pheader, isize->iFormID, itempStartSize->GetName(),
-                *reinterpret_cast<unsigned int*>(isize->iFlags), 0xE8,
-                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BaseProcess.cpp");
+            itempStartSize = ((::fnv_008d0900::TESForm *)(::FUN_004839c0(isize->iFormID)));
+            ::FUN_0040fbe0();
         }
         else
         {
-            Interface::PrintDebugMessage("GetSaveSize(): %-5i ending at line %i in file %s",
-                                         static_cast<unsigned int>(pform) - pheader, 0xE8,
-                                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BaseProcess.cpp");
+            ::FUN_0040fbe0();
         }
     }
 
@@ -1411,15 +1426,11 @@ void FUN_008d04a0_shell::ForwardToVfn144(int, int aiValue)
     vfn_144(aiValue);
 }
 
-extern char DAT_01184920[];
-extern char DAT_011846d4[];
-extern void* DAT_011dea3c;
 
 void* __cdecl FUN_00ec43fb(void*, int, char*, char*, int);
 
 struct FUN_008a6ce0_shell
 {
-    void FUN_008a6ce0(int, int);
 };
 
 struct FUN_008d0e80_class
@@ -1591,13 +1602,13 @@ struct FUN_008d0e80_class
 };
 
 // @fnv 0x008d0e80
-void __thiscall FUN_008d0e80_class::FUN_008d0e80(int aiUnused1, int aiUnused2, void* p3)
+void FUN_008d0e80_class::FUN_008d0e80(int aiUnused1, int aiUnused2, void* p3)
 {
-    void* t = FUN_00ec43fb(p3, 0, DAT_01184920, DAT_011846d4, 0);
-    if (t != 0 && t != DAT_011dea3c && this->vfn_22c() == 0 && this->vfn_280() == -1)
+    void* t = FUN_00ec43fb(p3, 0, DAT_01184920, (*reinterpret_cast<char (*)[]>(&::DAT_011846d4)), 0);
+    if (t != 0 && t != (*reinterpret_cast<void * *>(&::_g_thePlayer)) && this->vfn_22c() == 0 && this->vfn_280() == -1)
     {
         this->vfn_284(0);
-        ((FUN_008a6ce0_shell*)t)->FUN_008a6ce0(1, 1);
+        reinterpret_cast<::p076::Shell *>((((FUN_008a6ce0_shell*)t)))->FUN_008a6ce0(1, 1);
     }
 }
 
@@ -1610,11 +1621,7 @@ struct SaveHeaderView
 struct TESSaveLoadGameHelper
 {
     unsigned int GetTimeStamp();
-    bool FUN_00862110();
-    void FUN_008579b0(void*, int);
-    SaveHeaderView* GetHitSound();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 class TimeGlobal
 {
   public:
@@ -1625,18 +1632,9 @@ class GlobalObject_0045cf30
   public:
     unsigned char* Bool();
 };
-extern GlobalObject_0045cf30 g_011de4e8;
-extern const char DAT_010865e0[];
-extern const char DAT_010153a0[];
-extern const char DAT_0101536c[];
-extern const char DAT_01015318[];
-void __cdecl FUN_0040fbe0(const char*, ...);
-void __cdecl FNV_Warning(const char*, ...);
-TESForm* __cdecl FUN_004839c0(unsigned int);
 struct ProcessData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
-    void FUN_008c6250(unsigned int);
 };
 struct SavedProcess
 {
@@ -1730,50 +1728,41 @@ void SavedProcess::FUN_008d0a10(unsigned int flags, unsigned int unused)
 {
     unsigned short length = 0;
     unsigned int* begin = 0;
-    unsigned int initial = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
+    std::uintptr_t initial = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
     if (*g_011de4e8.Bool())
-        initial = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-    if (((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_00862110())
+        initial = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
+    if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&tag, 4);
-        begin = (unsigned int*)((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&length, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&tag, 4);
+        begin = (unsigned int*)reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&length, 2);
     }
-    data.FUN_008c6250(flags);
-    ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&unk1c, 4);
+    reinterpret_cast<::ActorPackageLegacySave *>(&(data))->FUN_008c6250(flags);
+    reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&unk1c, 4);
     if (*g_011de4e8.Bool())
     {
-        unsigned int header = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-        SaveHeaderView* end = ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->GetHitSound();
+        std::uintptr_t header = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
+        SaveHeaderView* end = ((::SaveHeaderView *)(reinterpret_cast<::EffectSetting *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->GetHitSound()));
         if (end)
         {
             TESForm* form = FUN_004839c0(end->id);
-            FUN_0040fbe0(DAT_010153a0, header - initial, end->id, ((FormView*)form)->Describe(),
-                         *(unsigned int*)&end->flags, 0xf9, DAT_010865e0);
+            ::FUN_0040fbe0();
         }
         else
-            FUN_0040fbe0(DAT_0101536c, header - initial, 0xf9, DAT_010865e0);
+            ::FUN_0040fbe0();
     }
-    if (((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_00862110())
     {
-        unsigned int uiTimestamp = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-        unsigned int finalPosition = (unsigned int)begin;
+        std::uintptr_t uiTimestamp = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
+        uintptr_t finalPosition = (uintptr_t)begin;
         if (uiTimestamp > finalPosition + 65535)
-            FNV_Warning(DAT_01015318, DAT_010865e0, 0xf9);
+            ::FUN_005b5e40();
         *(unsigned short*)begin = (unsigned short)(uiTimestamp - finalPosition);
     }
 }
 
 namespace fnv_008d0bc0 {
-extern "C" char DAT_011de45c;
-extern "C" char DAT_010865e0;
-extern "C" char DAT_01015718;
-extern "C" char DAT_010156a8;
-extern "C" char DAT_01015588;
-extern "C" char DAT_01015500;
-extern "C" char DAT_010154a0;
-extern "C" char DAT_01015440;
 struct Record8d
 {
     unsigned id;
@@ -1781,11 +1770,6 @@ struct Record8d
 };
 struct Reader8d
 {
-    bool FUN_00862110();
-    void FUN_008579e0(void*, unsigned);
-    Record8d* FUN_004fd3c0();
-    unsigned char FUN_008df040();
-    unsigned FUN_00825c00();
 };
 struct Object8d
 {
@@ -1867,11 +1851,8 @@ struct Object8d
     virtual void v75();
     virtual const char* name();
 };
-Object8d* __cdecl FUN_004839c0(unsigned);
-void __cdecl FUN_005b5e40(const char*, ...);
 struct Base8d
 {
-    void FUN_008c6320(void*, void*);
 };
 struct Target8d
 {
@@ -1886,59 +1867,54 @@ struct Target8d
 void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
 {
     unsigned short count = 0;
-    unsigned start = 0;
-    if ((*(Reader8d**)&DAT_011de45c)->FUN_00862110())
+    std::uintptr_t start = 0;
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned tag;
-        (*(Reader8d**)&DAT_011de45c)->FUN_008579e0(&tag, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&tag, 4);
         if (tag != 0x424c4f4b)
         {
-            Record8d* record = (*(Reader8d**)&DAT_011de45c)->FUN_004fd3c0();
+            Record8d* record = ((::fnv_008d0bc0::Record8d *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))));
             if (record)
             {
-                Object8d* object = FUN_004839c0(record->id);
-                FUN_005b5e40(&DAT_01015718, &DAT_010865e0, 0x104, record->id, object->name(),
-                             *(unsigned char*)((char*)record + 9), *(unsigned*)((char*)record + 5));
+                Object8d* object = ((::fnv_008d0bc0::Object8d *)(::FUN_004839c0(record->id)));
+                ::FUN_005b5e40();
             }
             else
             {
-                FUN_005b5e40(&DAT_010156a8, &DAT_010865e0, 0x104, (*(Reader8d**)&DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
         }
-        start = (*(Reader8d**)&DAT_011de45c)->FUN_00825c00();
-        (*(Reader8d**)&DAT_011de45c)->FUN_008579e0(&count, 2);
+        start = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&count, 2);
     }
-    base.FUN_008c6320(arg1, arg2);
-    (*(Reader8d**)&DAT_011de45c)->FUN_008579e0(&field, 4);
-    if ((*(Reader8d**)&DAT_011de45c)->FUN_00862110())
+    reinterpret_cast<::ActorPackageLoad *>(&(base))->FUN_008c6320((intptr_t)(arg1), (intptr_t)(arg2));
+    reinterpret_cast<::FUN_008579e0_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&field, 4);
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned end = (*(Reader8d**)&DAT_011de45c)->FUN_00825c00();
-        Record8d* record = (*(Reader8d**)&DAT_011de45c)->FUN_004fd3c0();
+        std::uintptr_t end = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
+        Record8d* record = ((::fnv_008d0bc0::Record8d *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))));
         if (record)
         {
-            Object8d* object = FUN_004839c0(record->id);
+            Object8d* object = ((::fnv_008d0bc0::Object8d *)(::FUN_004839c0(record->id)));
             if (end > start + count)
             {
-                FUN_005b5e40(&DAT_01015588, end - (start + count), &DAT_010865e0, 0x109, record->id, object->name(),
-                             *(unsigned char*)((char*)record + 9), *(unsigned*)((char*)record + 5));
+                ::FUN_005b5e40();
             }
             else if (end < start + count)
             {
-                FUN_005b5e40(&DAT_01015500, start + count - end, &DAT_010865e0, 0x109, record->id, object->name(),
-                             *(unsigned char*)((char*)record + 9), *(unsigned*)((char*)record + 5));
+                ::FUN_005b5e40();
             }
         }
         else
         {
             if (end > start + count)
             {
-                FUN_005b5e40(&DAT_010154a0, end - (start + count), &DAT_010865e0, 0x109,
-                             (*(Reader8d**)&DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
             else if (end < start + count)
             {
-                FUN_005b5e40(&DAT_01015440, start + count - end, &DAT_010865e0, 0x109,
-                             (*(Reader8d**)&DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
         }
     }
@@ -1953,3 +1929,5 @@ struct FUN_008d0610 : BaseProcess
 // @fnv 0x008d0610
 FUN_008d0610::~FUN_008d0610()
 {}
+
+#include "generated/data/fallout/ai/baseprocess.inc"

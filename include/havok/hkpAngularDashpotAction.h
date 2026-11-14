@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPANGULARDASHPOTACTION_H
 #include "hkBase.h"
 #include "hkpBinaryAction.h"
-#pragma pack(push, 1)
 class hkpAngularDashpotAction : public hkpBinaryAction
 {
   public:
@@ -13,6 +12,4 @@ class hkpAngularDashpotAction : public hkpBinaryAction
     hkReal m_fMotorDamping;    // +0x34
     char pad38[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpAngularDashpotAction[(sizeof(hkpAngularDashpotAction) == 0x40) ? 1 : -1];
 #endif

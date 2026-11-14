@@ -15,7 +15,6 @@
 
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 
 class Tile
 {
@@ -43,6 +42,5 @@ class TileText : public Tile
     virtual int GetType();
 };
 
-#pragma pack(pop)
 
 #endif

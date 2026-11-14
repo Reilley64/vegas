@@ -1,11 +1,32 @@
 // fallout/misc/seendata.cpp: SeenData, IntSeenData, SeenData_S, SeenDataShell and more (25 functions)
 
+#include <cstring>
+#include <new>
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
 #include "seendata_decls.h"
 
 // @fnv 0x0087a0e0
 void SeenData::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    buffer->ReadTypedData(m_uiSeenData, 0x20);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(m_uiSeenData), 0x20);
 }
 
 // @fnv 0x00879940
@@ -42,12 +63,12 @@ void IntSeenData::LoadGame(BGSLoadFormBuffer* pLoadBuffer)
         unsigned int count;
         IntSeenData* section;
     } cursor;
-    cursor.count = pLoadBuffer->ReadElementCount();
+    cursor.count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((pLoadBuffer))->FUN_00864a60();
     cursor.section = this;
     for (unsigned int index = 0; index < cursor.count; ++index)
     {
-        pLoadBuffer->ReadTypedData(&cursor.section->m_cFirstByte, 1);
-        pLoadBuffer->ReadTypedData(&cursor.section->m_cFollowingByte, 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&cursor.section->m_cFirstByte), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&cursor.section->m_cFollowingByte), 1);
         cursor.section->SeenData::LoadGame(pLoadBuffer);
         if (index < cursor.count - 1)
             cursor.section->m_pNext = new IntSeenData(0, 0);
@@ -66,7 +87,7 @@ bool FUN_008799f0_shell::IsBitSet(unsigned int aiBit)
 {
     unsigned int iIndex = aiBit >> 5;
     unsigned int iWhichBit = aiBit - (iIndex << 5);
-    if ((1 << iWhichBit) & ((unsigned int*)((char*)this + 4))[iIndex])
+    if ((1 << iWhichBit) & (&this->m_uiSeenData[0])[iIndex])
         return true;
     else
         return false;
@@ -98,33 +119,25 @@ bool S79a::FUN_00879a40(unsigned int auiIndex, bool set)
 
 struct SettingT_GCol
 {
-    float* Float();
 };
-extern SettingT_GCol originalRuntimeFloatSetting37;
 // @fnv 0x00879bb0
 float GetRuntimeFloatSetting37()
 {
-    return *originalRuntimeFloatSetting37.Float();
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GCol *>(&::originalRuntimeFloatSetting37))))));
 }
 
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
-extern GlobalObject2_0040c150 g_011df198;
 struct Pt
 {
     float x, y, z;
-    void _ref_006815c0();
     Pt& operator+=(const NiPoint3&);
     Pt operator-(const NiPoint3&) const;
-    float Length() const;
 };
 float __cdecl GetRuntimeFloatSetting37();
 struct SeenData_S
 {
-    bool IsBitSet(unsigned int);
-    void FUN_00879a40(unsigned int, bool);
     bool HasEnoughSeenPoints(const NiPoint3& a, const NiPoint3& b);
 };
 
@@ -134,17 +147,16 @@ bool SeenData_S::HasEnoughSeenPoints(const NiPoint3& aPoint, const NiPoint3& aOf
     int iSeenCount = 0;
     for (unsigned int uiIndex = 0; uiIndex < DAT_011a31ec; uiIndex++)
     {
-        if (!IsBitSet(uiIndex))
+        if (!reinterpret_cast<::FUN_008799f0_shell *>(this)->IsBitSet(uiIndex))
         {
             Pt diff;
-            diff._ref_006815c0();
             SeenData::GetPositionForIndex(uiIndex, reinterpret_cast<NiPoint3&>(diff));
-            diff += aOffset;
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Pt &)(diff))->FUN_0063c8a0((void *)&(aOffset));
             {
                 Pt delta = diff - aPoint;
-                if (delta.Length() < GetRuntimeFloatSetting37())
+                if (reinterpret_cast<::NiPoint3 *>((void *)&(delta))->ComputeMagnitude() < GetRuntimeFloatSetting37())
                 {
-                    FUN_00879a40(uiIndex, true);
+                    reinterpret_cast<::S79a *>(this)->FUN_00879a40(uiIndex, true);
                     iSeenCount++;
                 }
             }
@@ -154,10 +166,9 @@ bool SeenData_S::HasEnoughSeenPoints(const NiPoint3& aPoint, const NiPoint3& aOf
             iSeenCount++;
         }
     }
-    return iSeenCount >= *g_011df198.Int();
+    return iSeenCount >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011df198))))));
 }
 
-int __cdecl TruncateFloatToInt(float);
 
 // Quantizes pos.x and pos.y to multiples of DAT_011a31e8 within their 4096-unit cells and sets pos.z to 0.
 // @fnv 0x00879ca0
@@ -167,10 +178,10 @@ void SnapToGridCell(NiPoint3& pos)
     int subX;
     int cellX;
     int iSubCellY;
-    subX = TruncateFloatToInt(pos.x) >> 12;
-    cellX = TruncateFloatToInt(pos.y) >> 12;
-    cellY = (int)(TruncateFloatToInt(pos.x - (subX << 12)) / DAT_011a31e8);
-    iSubCellY = (int)(TruncateFloatToInt(pos.y - (cellX << 12)) / DAT_011a31e8);
+    subX = ::FUN_00406d90(pos.x) >> 12;
+    cellX = ::FUN_00406d90(pos.y) >> 12;
+    cellY = (int)(::FUN_00406d90(pos.x - (subX << 12)) / DAT_011a31e8);
+    iSubCellY = (int)(::FUN_00406d90(pos.y - (cellX << 12)) / DAT_011a31e8);
     pos.x = (subX << 12) + cellY * DAT_011a31e8;
     pos.y = (cellX << 12) + iSubCellY * DAT_011a31e8;
     pos.z = 0.0f;
@@ -184,7 +195,7 @@ float FUN_00879d90()
 
 struct FUN_0087a030_shell
 {
-    unsigned short __thiscall GetSaveSize(bool abRecursing);
+    unsigned short GetSaveSize(bool abRecursing);
 };
 
 // Returns the save size for this object: a fixed 0x20 bytes, ignoring the recursion flag.
@@ -198,60 +209,49 @@ unsigned short FUN_0087a030_shell::GetSaveSize(bool abRecursing)
 
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void*, unsigned int);
 };
 
-TESSaveLoadGame* g_TESSaveLoadGame;
+extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0087a090_shell
 {
-    void __thiscall FUN_0087a090(unsigned short);
+    void FUN_0087a090(unsigned short);
+    unsigned int pad00;
+    unsigned char unk04[0x20];
 };
 
 // @fnv 0x0087a090
-void __thiscall FUN_0087a090_shell::FUN_0087a090(unsigned short)
+void FUN_0087a090_shell::FUN_0087a090(unsigned short)
 {
-    g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 4), 0x20);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(this->unk04, 0x20);
 }
 
 struct BGSSaveFormBuffer
 {
-    void __thiscall SaveData(void*, int, int);
 };
 
 struct FUN_0087a0c0_shell
 {
     void SaveFormData(void* buf);
+    unsigned int pad00;
+    unsigned char unk04[0x20];
 };
 
-// Calls SaveData on the buffer with this+4 and a size of 0x20.
+// Calls SaveData on the buffer with the 0x20 bytes at unk04.
 // @fnv 0x0087a0c0
-void __thiscall FUN_0087a0c0_shell::SaveFormData(void* buf)
+void FUN_0087a0c0_shell::SaveFormData(void* buf)
 {
-    ((BGSSaveFormBuffer*)buf)->SaveData((char*)this + 4, 0x20, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)buf)))->FUN_00865e50(this->unk04, 0x20, 0);
 }
 
 struct Class_00879970
 {
-    void SetVtable();
     void* FUN_00879970(unsigned int);
 };
-void __cdecl _Deallocate(void*);
-// @fnv 0x00879970
-void* Class_00879970::FUN_00879970(unsigned int flags)
-{
-    SetVtable();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 namespace fnv_0087a060 {
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void* a1, int a2);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct Proxy87060
 {
     int _0;
@@ -262,61 +262,51 @@ struct Proxy87060
 // @fnv 0x0087a060
 void Proxy87060::FUN_0087a060(bool abRecursing)
 {
-    g_TESSaveLoadGame->FUN_008579b0(&_4, 0x20);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0087a060::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&_4, 0x20);
 }
 }  // namespace fnv_0087a060
 
-void _Deallocate(void*);
 struct FUN_0087a140_Target
 {
     void FUN_0087a170();
     void* FUN_0087a140(unsigned int);
 };
-// Calls FUN_0087a170, then if the low bit of flags is set deallocates this, and returns this.
-// @fnv 0x0087a140
-void* FUN_0087a140_Target::FUN_0087a140(unsigned int flags)
-{
-    FUN_0087a170();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 namespace fnv_0087a4e0 {
 struct BGSSaveGameBuffer;
 struct BGSSaveFormBuffer;
 struct BGSSaveFormBuffer
 {
-    void SaveData(void* p, int a, int b);
-    unsigned int FUN_00865f20();
-    void FUN_00865ff0(int a, unsigned int b);
 };
 struct FUN_0087a0c0_shell
 {
-    void SaveFormData(void* p);
 };
 struct IntSeenData_0087a4e0
 {
     void* p;
     IntSeenData_0087a4e0* m_pNext;
     void SaveToBuffer(BGSSaveFormBuffer* buffer);
+    unsigned int pad08[0x7];
+    unsigned char unk24;
+    unsigned char unk25;
+    unsigned char pad26[0x2];
+    void* unk28;
 };
 // Saves each node's bytes at offsets 0x24 and 0x25 and its linked data to the buffer, then writes the node count at the recorded position.
 // @fnv 0x0087a4e0
 void IntSeenData_0087a4e0::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
     unsigned int icount = 0;
-    unsigned int icountPosition = buffer->FUN_00865f20();
+    unsigned int icountPosition = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
     IntSeenData_0087a4e0* pNode = this;
     while (pNode)
     {
-        buffer->SaveData((void*)((char*)pNode + 0x24), 1, 0);
-        buffer->SaveData((void*)((char*)pNode + 0x25), 1, 0);
-        ((FUN_0087a0c0_shell*)pNode)->SaveFormData(buffer);
-        pNode = *(IntSeenData_0087a4e0**)((char*)pNode + 0x28);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&pNode->unk24, 1, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&pNode->unk25, 1, 0);
+        reinterpret_cast<::FUN_0087a0c0_shell *>((((FUN_0087a0c0_shell*)pNode)))->SaveFormData(buffer);
+        pNode = *(IntSeenData_0087a4e0**)&pNode->unk28;
         ++icount;
     }
-    buffer->FUN_00865ff0(icount, icountPosition);
+    reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(icount, icountPosition);
 }
 }  // namespace fnv_0087a4e0
 
@@ -326,6 +316,14 @@ struct FUN_008799a0_shell
 {
     void SetVtable();
 };
+// @fnv 0x00879970
+void* Class_00879970::FUN_00879970(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008799a0_shell *>(this)->SetVtable();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x008799a0
 void FUN_008799a0_shell::SetVtable()
@@ -340,17 +338,14 @@ class SaveManager
 {
 };
 
-extern SaveManager* DAT_011de45c;
 
 class TESSaveLoadGame
 {
   public:
-    void ReadTypedData(void* data, unsigned int size);
 };
 
 struct FUN_0087a090_shell
 {
-    void FUN_0087a090(unsigned short value);
 };
 
 struct FUN_0087a3e0_vtable
@@ -367,49 +362,45 @@ struct FUN_0087a3e0_vtable
 struct FUN_0087a3e0_shell
 {
     void FUN_0087a3e0(unsigned short aiCount);
+    unsigned int pad00[0x9];
+    unsigned char unk24;
+    unsigned char unk25;
+    unsigned char pad26[0x2];
+    void* unk28;
 };
 
 // @fnv 0x0087a3e0
 void FUN_0087a3e0_shell::FUN_0087a3e0(unsigned short aiCount)
 {
-    reinterpret_cast<FUN_0087a090_shell*>(this)->FUN_0087a090(0xffff);
+    reinterpret_cast<::FUN_0087a090_shell *>((reinterpret_cast<FUN_0087a090_shell*>(this)))->FUN_0087a090(0xffff);
 
     if (aiCount == 0xffff)
-        reinterpret_cast<TESSaveLoadGame*>(DAT_011de45c)->ReadTypedData(&aiCount, 2);
+        reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<TESSaveLoadGame*>((*reinterpret_cast<::fnv_0087a3e0::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&aiCount, 2);
 
-    reinterpret_cast<TESSaveLoadGame*>(DAT_011de45c)->ReadTypedData(reinterpret_cast<unsigned char*>(this) + 0x24, 1);
-    reinterpret_cast<TESSaveLoadGame*>(DAT_011de45c)->ReadTypedData(reinterpret_cast<unsigned char*>(this) + 0x25, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<TESSaveLoadGame*>((*reinterpret_cast<::fnv_0087a3e0::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&this->unk24, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<TESSaveLoadGame*>((*reinterpret_cast<::fnv_0087a3e0::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&this->unk25, 1);
 
     aiCount--;
 
     if (aiCount > 0)
     {
-        *reinterpret_cast<IntSeenData**>(reinterpret_cast<unsigned char*>(this) + 0x28) = new IntSeenData(0, 0);
+        *reinterpret_cast<IntSeenData**>(&this->unk28) = new IntSeenData(0, 0);
 
         reinterpret_cast<FUN_0087a3e0_vtable*>(
-            *reinterpret_cast<IntSeenData**>(reinterpret_cast<unsigned char*>(this) + 0x28))
+            *reinterpret_cast<IntSeenData**>(&this->unk28))
             ->f6(aiCount);
     }
 }
 }  // namespace fnv_0087a3e0
 
-struct ImageSpaceEffectParam
-{
-    float r, g, b, a;
-    ImageSpaceEffectParam(float, float, float, float);
-};
+#include "fnv/image_space_effect_param.h"
 struct Position
 {
     float x, y, z;
-    void FUN_006815c0();
-    Position& FUN_0063c8a0(const NiPoint3&);
 };
 struct Marker
 {
-    void FUN_004bc1f0(float, float, float);
 };
-Marker* __cdecl CreateSquareLines(float, ImageSpaceEffectParam*, int);
-void __cdecl FUN_00879bd0(unsigned int, Position&);
 struct Parent
 {
     virtual void v0();
@@ -471,7 +462,6 @@ struct Parent
 };
 struct SeenDataShell : SeenData
 {
-    bool IsBitSet(unsigned int);
     void AttachMarkersForSeenData(Parent*, const NiPoint3&, int);
 };
 // @fnv 0x00879f20
@@ -483,15 +473,14 @@ void SeenDataShell::AttachMarkersForSeenData(Parent* parent, const NiPoint3& off
         float half = DAT_011a31e8 / 2.0;
         for (unsigned int i3 = 0; i3 < DAT_011a31ec; i3++)
         {
-            if (IsBitSet(i3))
+            if (reinterpret_cast<::FUN_008799f0_shell *>(this)->IsBitSet(i3))
             {
                 Position position;
-                position.FUN_006815c0();
-                FUN_00879bd0(i3, position);
-                position.FUN_0063c8a0(offset);
-                Marker* marker3 = CreateSquareLines(DAT_011a31e8, &effectColor, 1);
+                ::SeenData::GetPositionForIndex(i3, (::NiPoint3 &)(position));
+                reinterpret_cast<::FUN_0063c8a0_shell *>(&(position))->FUN_0063c8a0((void *)&(offset));
+                Marker* marker3 = ((::Marker *)(::CreateSquareLines(DAT_011a31e8, (*(const ::RgbaColor *)(&effectColor)), 1)));
                 parent->Attach(marker3, 1);
-                marker3->FUN_004bc1f0(position.x + half, position.y + half, position.z);
+                reinterpret_cast<::FUN_004bc1f0_S *>((marker3))->FUN_004bc1f0(position.x + half, position.y + half, position.z);
             }
         }
     }
@@ -503,7 +492,6 @@ struct B87A200Point3
     float y;
     float z;
 
-    B87A200Point3* Set(float fX, float fY, float fZ);
 };
 
 class B87A200Listener
@@ -531,7 +519,6 @@ class B87A200Cell
     char unk27;
     B87A200Listener* m_pkListener;
 
-    void AttachMarkersForSeenData(void* pvContext, B87A200Point3* pkCenter, bool bFlag);
     void FUN_0087a200(void* pvContext, B87A200Point3* pkPosition, bool bFlag);
 };
 
@@ -542,8 +529,8 @@ void B87A200Cell::FUN_0087a200(void* pvContext, B87A200Point3* pkPosition, bool 
     int iX = m_cX;
     int iY = m_cY;
     B87A200Point3 kTargetCenter;
-    kTargetCenter.Set((float)((iX << 12) + 2048), (float)((iY << 12) + 2048), pkPosition->z);
-    AttachMarkersForSeenData(pvContext, &kTargetCenter, bFlag);
+    reinterpret_cast<::FUN_00416870_t *>(&(kTargetCenter))->FUN_00416870((float)((iX << 12) + 2048), (float)((iY << 12) + 2048), pkPosition->z);
+    reinterpret_cast<::SeenDataShell *>(this)->AttachMarkersForSeenData((::Parent *)(pvContext), (*(const ::NiPoint3 *)(&kTargetCenter)), bFlag);
     if (m_pkListener)
         m_pkListener->Update(pvContext, pkPosition, bFlag);
 }
@@ -559,7 +546,6 @@ class A2A0Child
 class A2A0Base
 {
   public:
-    unsigned short GetBaseSaveSize(bool bFull);
 };
 
 class A2A0Object : public A2A0Base
@@ -585,7 +571,7 @@ class A2A0Object : public A2A0Base
 unsigned short A2A0Object::FUN_0087a2a0(bool bFull)
 {
     unsigned short usSize = 0;
-    usSize += GetBaseSaveSize(false);
+    usSize += reinterpret_cast<::FUN_0087a030_shell *>(this)->GetSaveSize(false);
     if (!bFull)
         usSize += 2;
     usSize += 1;
@@ -597,9 +583,7 @@ unsigned short A2A0Object::FUN_0087a2a0(bool bFull)
 
 struct SaveDataWriter
 {
-    void FUN_008579b0(void* data, unsigned int size);
 };
-extern SaveDataWriter* DAT_011de45c;
 
 struct SeenSectionDispatcher
 {
@@ -617,7 +601,6 @@ struct FUN_0087a330_shell : SeenData
     unsigned short layoutPadding26;
     FUN_0087a330_shell* m_pNext;
 
-    void FUN_0087a060(bool abRecursing);
     void SaveSeenSection(bool abRecursing);
 };
 
@@ -626,7 +609,7 @@ struct FUN_0087a330_shell : SeenData
 void FUN_0087a330_shell::SaveSeenSection(bool abRecursing)
 {
     FUN_0087a330_shell* pSection;
-    FUN_0087a060(false);
+    reinterpret_cast<::fnv_0087a060::Proxy87060 *>(this)->FUN_0087a060(false);
     if (!abRecursing)
     {
         unsigned short usSectionCount;
@@ -636,10 +619,10 @@ void FUN_0087a330_shell::SaveSeenSection(bool abRecursing)
         {
             ++usSectionCount;
         }
-        DAT_011de45c->FUN_008579b0(&usSectionCount, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveDataWriter * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usSectionCount, 2);
     }
-    DAT_011de45c->FUN_008579b0(&m_cFirstByte, 1);
-    DAT_011de45c->FUN_008579b0(&m_cFollowingByte, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveDataWriter * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&m_cFirstByte, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveDataWriter * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&m_cFollowingByte, 1);
     if (m_pNext)
     {
         reinterpret_cast<SeenSectionDispatcher*>(m_pNext)->SaveSeenSection(true);
@@ -653,20 +636,20 @@ void WorldToCellOffset(const NiPoint3& position, bool centered, int& x, int& y)
 {
     if (centered)
     {
-        int cellX = (TruncateFloatToInt(position.x) - 2048) >> 12;
-        int cellY = (TruncateFloatToInt(position.y) - 2048) >> 12;
-        x = TruncateFloatToInt(position.x) - ((cellX << 12) + 2048);
+        int cellX = (::FUN_00406d90(position.x) - 2048) >> 12;
+        int cellY = (::FUN_00406d90(position.y) - 2048) >> 12;
+        x = ::FUN_00406d90(position.x) - ((cellX << 12) + 2048);
         x /= (int)DAT_011a31e8;
-        y = TruncateFloatToInt(position.y) - ((cellY << 12) + 2048);
+        y = ::FUN_00406d90(position.y) - ((cellY << 12) + 2048);
         y /= (int)DAT_011a31e8;
     }
     else
     {
-        int gridX = TruncateFloatToInt(position.x) >> 12;
-        int gridY = TruncateFloatToInt(position.y) >> 12;
-        x = TruncateFloatToInt(position.x) - (gridX << 12);
+        int gridX = ::FUN_00406d90(position.x) >> 12;
+        int gridY = ::FUN_00406d90(position.y) >> 12;
+        x = ::FUN_00406d90(position.x) - (gridX << 12);
         x /= (int)DAT_011a31e8;
-        y = TruncateFloatToInt(position.y) - (gridY << 12);
+        y = ::FUN_00406d90(position.y) - (gridY << 12);
         y /= (int)DAT_011a31e8;
     }
 }
@@ -701,6 +684,15 @@ class FUN_0087a170 : public A170Base
 
     A170Helper* m_pkHelper;
 };
+// Calls FUN_0087a170, then if the low bit of flags is set deallocates this, and returns this.
+// @fnv 0x0087a140
+void* FUN_0087a140_Target::FUN_0087a140(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0087a170 *>(this)->FUN_0087a170::~FUN_0087a170();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that deletes the owned helper object pointed to by m_pkHelper.
 // @fnv 0x0087a170
@@ -708,3 +700,5 @@ FUN_0087a170::~FUN_0087a170()
 {
     delete m_pkHelper;
 }
+
+#include "generated/data/fallout/misc/seendata.inc"

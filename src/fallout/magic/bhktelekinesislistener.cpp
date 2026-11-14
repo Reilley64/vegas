@@ -2,37 +2,38 @@
 // src/fallout/magic/bhktelekinesislistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhktelekinesislistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <cstddef>
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_0096a350_class.h"
+#include "fnv/decl/FUN_00b4dec0_shell.h"
+#include "fnv/decl/HostC9C6.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/fnv_00c9c0f0__hkpWorldC9C0.h"
+#include "fnv/decl/hkOwnerC9C1.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_00807000.h"
 struct bhkTelekinesisListener
 {
-    void FUN_00807910();
     void* Destroy(unsigned int flags);
 };
 
-extern "C" void __cdecl _Deallocate(void*);
-
-// Calls FUN_00807910, then frees this with _Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x008078e0
-void* bhkTelekinesisListener::Destroy(unsigned int flags)
-{
-    FUN_00807910();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 struct FUN_00807da0_shell
 {
     unsigned short m_0006;
     int FUN_00807da0();
+    char pad02[0x4];
+    unsigned short unk06;
 };
 
 // @fnv 0x00807da0
 int FUN_00807da0_shell::FUN_00807da0()
 {
-    return *(unsigned short*)((char*)this + 6) & 0x3fff;
+    return this->unk06 & 0x3fff;
 }
 
-void __cdecl FUN_00807cb0(void*, void*);
 struct DelVirt
 {
     virtual void v0();
@@ -48,7 +49,7 @@ struct FUN_00807980_shell
 // @fnv 0x00807980
 void FUN_00807980_shell::FUN_00807980(void* apEntity)
 {
-    FUN_00807cb0((void*)((char*)this - 4), apEntity);
+    ::FUN_00807cb0((char *)(void *)((void*)((char*)this - 4)), (::hkpEntity *)(apEntity));
     delete (DelVirt*)((char*)this - 4);
 }
 
@@ -57,18 +58,20 @@ struct FUN_008079e0_shell
 {
     void FUN_00807a10(hkpEntity*);
     void FUN_008079e0(hkpEntity* entity);
+    char pad00[0x10];
+    unsigned char unk10;
+    char pad11[0x3];
 };
 // If the byte at offset 0x10 of this is set, calls FUN_00807a10 on the object at this-8 with entity.
 // @fnv 0x008079e0
 void FUN_008079e0_shell::FUN_008079e0(hkpEntity* entity)
 {
-    if (*(unsigned char*)((char*)this + 0x10))
+    if (this->unk10)
         ((FUN_008079e0_shell*)((char*)this - 8))->FUN_00807a10(entity);
 }
 
 struct BSAudio
 {
-    void* GetAudioBackendData();
 };
 struct ITopic
 {
@@ -81,7 +84,7 @@ int GetTopicResult(int aiValue)
 {
     int result;
     {
-        ITopic* topic = (ITopic*)_FUN_00c85750()->GetAudioBackendData();
+        ITopic* topic = (ITopic*)((void *)(reinterpret_cast<::MagicCaster_shell *>((_FUN_00c85750()))->FUN_0044edb0()));
         result = topic->u1(aiValue);
     }
     return result;
@@ -90,7 +93,6 @@ int GetTopicResult(int aiValue)
 namespace fnv_00807c20 {
 struct BSAudio
 {
-    void* GetAudioBackendData();
 };
 BSAudio* __cdecl _FUN_00c85750();
 struct UnkTopic
@@ -105,7 +107,7 @@ void FUN_00807c20(void* a1)
 {
     if (a1 != 0)
     {
-        void* v = _FUN_00c85750()->GetAudioBackendData();
+        void* v = ((void *)(reinterpret_cast<::MagicCaster_shell *>((_FUN_00c85750()))->FUN_0044edb0()));
         ((UnkTopic*)v)->F2(a1, 16);
     }
 }
@@ -130,60 +132,59 @@ FUN_00807c50::FUN_00807c50()
 
 struct hkpEntity
 {
-    void __thiscall RemoveContactListener(void*);
-    void __thiscall AddEntityListener(void*);
-    void __thiscall RemoveEntityListener(void*);
 };
 // @fnv 0x00807cb0
 void __cdecl FUN_00807cb0(char* listener, hkpEntity* entity)
 {
-    entity->RemoveContactListener(listener);
-    entity->AddEntityListener(listener ? listener + 4 : 0);
-    entity->RemoveEntityListener(listener ? listener + 8 : 0);
+    reinterpret_cast<::hkOwnerC9C1 *>((entity))->FUN_00c9c140(listener);
+    reinterpret_cast<::HostC9C6 *>((entity))->FUN_00c9c670(listener ? listener + 4 : 0);
+    reinterpret_cast<::fnv_00c9c0f0::hkpWorldC9C0 *>((entity))->RemoveListener((::fnv_00c9c0f0::hkpListenerC9C0 *)(void *)(listener ? listener + 8 : 0));
 }
 
 struct Unk_807d10
 {
     Unk_807d10* FUN_00807d10();
+    int unk00;
+    short unk04;
+    unsigned short unk06;
 };
 // Initialises the object: writes 0 at offset 0, 0 at offset 4 and 0x8000 at offset 6, then returns this.
 // @fnv 0x00807d10
 Unk_807d10* Unk_807d10::FUN_00807d10()
 {
-    *(int*)this = 0;
-    *(short*)((char*)this + 4) = 0;
-    *(unsigned short*)((char*)this + 6) = 0x8000;
+    unk00 = 0;
+    unk04 = 0;
+    unk06 = 0x8000;
     return this;
 }
 
 struct FUN_00807d40_shell
 {
     void FUN_00807d40();
+};
+struct FUN_00807d60_shell
+{
     void FUN_00807d60();
+    int unk00;
+    short unk04;
+    unsigned short unk06;
 };
 // @fnv 0x00807d40
 void FUN_00807d40_shell::FUN_00807d40()
 {
-    FUN_00807d60();
+    reinterpret_cast<::FUN_00807d60_shell *>(this)->FUN_00807d60();
 }
-
-int __cdecl FUN_00807dc0(int, int, int);
-struct FUN_00807d60_shell
-{
-    void FUN_00807d60();
-};
 // If the high bit of the field at offset 6 is clear, calls FUN_00807dc0 with the int at offset 0, the result of FUN_00807da0, and 0x18.
 // @fnv 0x00807d60
 void FUN_00807d60_shell::FUN_00807d60()
 {
-    if ((*(unsigned short*)((char*)this + 6) & 0x8000) == 0)
-        FUN_00807dc0(*(int*)this, ((FUN_00807da0_shell*)this)->FUN_00807da0(), 0x18);
+    if ((unk06 & 0x8000) == 0)
+        ::fnv_00807dc0::FUN_00807dc0(unk00, ((FUN_00807da0_shell*)this)->FUN_00807da0());
 }
 
 namespace fnv_00807dc0 {
 struct BSAudio
 {
-    void* GetAudioBackendData();
 };
 BSAudio* _FUN_00c85750();
 struct Topic
@@ -196,7 +197,7 @@ struct Topic
 // @fnv 0x00807dc0
 void FUN_00807dc0(int aiArg1, int aiArg2)
 {
-    void* t = _FUN_00c85750()->GetAudioBackendData();
+    void* t = ((void *)(reinterpret_cast<::MagicCaster_shell *>((_FUN_00c85750()))->FUN_0044edb0()));
     ((Topic*)t)->m2(aiArg1, aiArg2 * 4);
 }
 }  // namespace fnv_00807dc0
@@ -236,6 +237,15 @@ struct FUN_00807910_Listener : FNV_TK_Base
     FNV_TK_Member08 unk08;
     ~FUN_00807910_Listener();
 };
+// Calls FUN_00807910, then frees this with _Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x008078e0
+void* bhkTelekinesisListener::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00807910_Listener *>(this)->FUN_00807910_Listener::~FUN_00807910_Listener();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor for the listener object; destroys its member subobjects and base.
 // @fnv 0x00807910
@@ -284,9 +294,9 @@ struct FNV_807c50
 
     // The game's own heap helper; the class-scope allocation function is
     // what the original's "push 0x10 / call 0x807bf0" pair is.
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
-        return (void*)(long)GetTopicResult((int)n);
+        return (void*)(intptr_t)GetTopicResult((int)n);
     }
 };
 
@@ -444,17 +454,14 @@ FNV_807c50* FNV_807b50_owner::GetOrCreate807c50()
 namespace TelekinesisRemovalDetail {
 struct ActivationArray
 {
-    unsigned int __thiscall GetShortAtOffset4();
-    FUN_008079e0_shell*& __thiscall FUN_00629ab0(unsigned int index);
 };
 
-extern "C" hkpEntity* __fastcall FUN_004ae750(void* body);
 
 extern "C" int DAT_0119d900;
 extern "C" int DAT_011a0eac;
 
-extern "C" void* __cdecl FNV_DynamicCast(void* object, unsigned long displacement, unsigned int sourceType,
-                                         unsigned int targetType, unsigned int flags);
+extern "C" void* __cdecl FNV_DynamicCast(void* object, unsigned long displacement, uintptr_t sourceType,
+                                         uintptr_t targetType, unsigned int flags);
 
 }
 
@@ -463,21 +470,19 @@ extern "C" void* __cdecl FNV_DynamicCast(void* object, unsigned long displacemen
 void __cdecl FUN_00807ac0(void* body)
 {
     using namespace TelekinesisRemovalDetail;
-    hkpEntity* entity = FUN_004ae750(body);
+    hkpEntity* entity = ((::hkpEntity *)(::FUN_004ae750(body)));
     {
         int index;
-        for (index = 0; index < (int)reinterpret_cast<ActivationArray*>(
-                                    reinterpret_cast<FNV_807b50_owner*>(entity)->GetOrCreate807c50())
-                                    ->GetShortAtOffset4();
+        for (index = 0; index < (int)reinterpret_cast<::FUN_0096a350_class *>((reinterpret_cast<ActivationArray*>(
+                                    reinterpret_cast<FNV_807b50_owner*>(entity)->GetOrCreate807c50())))->GetShortAtOffset4();
              ++index)
         {
             FUN_008079e0_shell* listener =
-                reinterpret_cast<ActivationArray*>(reinterpret_cast<FNV_807b50_owner*>(entity)->GetOrCreate807c50())
-                    ->FUN_00629ab0((unsigned int)index);
+                ((::FUN_008079e0_shell *)&(reinterpret_cast<::FUN_00629ab0_shell *>((reinterpret_cast<ActivationArray*>(reinterpret_cast<FNV_807b50_owner*>(entity)->GetOrCreate807c50())))->FUN_00629ab0((unsigned int)index)));
             {
                 FUN_008079e0_shell* telekinesis = reinterpret_cast<FUN_008079e0_shell*>(
-                    FNV_DynamicCast(listener, 0, reinterpret_cast<unsigned int>(&DAT_0119d900),
-                                    reinterpret_cast<unsigned int>(&DAT_011a0eac), 0));
+                    FNV_DynamicCast(listener, 0, reinterpret_cast<uintptr_t>(&DAT_0119d900),
+                                    reinterpret_cast<uintptr_t>(&DAT_011a0eac), 0));
                 if (telekinesis != 0)
                 {
                     telekinesis->FUN_00807a10(entity);
@@ -491,7 +496,6 @@ void __cdecl FUN_00807ac0(void* body)
 namespace TelekinesisFinishCurrent {
 struct TelekinesisLodView
 {
-    void FUN_00b4dec0(int);
 };
 
 struct TelekinesisFadeNodeView : public TelekinesisLodView
@@ -650,10 +654,10 @@ void TelekinesisFinishReceiver::FUN_00807a10(::hkpEntity* entity)
         pav = pRef->v116();
 
         pavlod = static_cast<TelekinesisFadeNodeView*>(::TelekinesisRemovalDetail::FNV_DynamicCast(
-            pav, 0, reinterpret_cast<unsigned int>(&DAT_01186044), reinterpret_cast<unsigned int>(&DAT_0119ba28), 0));
+            pav, 0, reinterpret_cast<uintptr_t>(&DAT_01186044), reinterpret_cast<uintptr_t>(&DAT_0119ba28), 0));
 
         if (pavlod)
-            pavlod->FUN_00b4dec0(2);
+            reinterpret_cast<::FUN_00b4dec0_shell *>((pavlod))->FUN_00b4dec0(2);
     }
 
     pBody->FUN_00626cb0(m_Filter);
@@ -664,3 +668,79 @@ void TelekinesisFinishReceiver::FUN_00807a10(::hkpEntity* entity)
 }
 
 }
+
+
+// FUN_00807df0 : MSVC this-adjusting thunk  (sub ecx, 0x04 ; jmp <impl>)
+struct A1_00807df0
+{
+    A1_00807df0();
+    virtual void FUN_00807df0();
+};
+struct A2_00807df0
+{
+    A2_00807df0();
+    virtual void FUN_00807df0();
+};
+struct Own_00807df0 : A1_00807df0, A2_00807df0
+{
+    Own_00807df0();
+    virtual void key_fn();
+// @fnv 0x00807df0
+    void FUN_00807df0();
+};
+Own_00807df0::Own_00807df0()
+{}
+void Own_00807df0::key_fn()
+{}
+Own_00807df0* make_00807df0()
+{
+    static Own_00807df0 o;
+    return &o;
+}
+
+// FUN_00807e00 - MSVC 2008 adjustor thunk (8 bytes):
+//
+//     sub ecx, 8
+//     jmp  0x008078e0
+//
+// The vftable of a secondary base inside a derived class (the one at
+// 0x01079718, RTTI ".?AVbhkTelekinesisListener@@", complete object locator
+// offset 8) points at a compiler generated adjustor thunk for the virtual
+// that the derived class overrides: the secondary base sub-object starts
+// eight bytes into the derived object, so the thunk moves `this' back to the
+// derived object and tail-calls the overriding implementation.
+//
+// The primary base is eight bytes long (its vptr plus one int), which is what
+// puts the secondary base at offset 8.  The overriding implementation is only
+// declared, never defined, so the jmp stays an undefined external exactly
+// like in the image and the checker resolves that relocation from the
+// original bytes.
+
+struct bhkTelekinesisListenerBase
+{
+    bhkTelekinesisListenerBase();
+    virtual void* FUN_00807e00(unsigned int flags);
+    int unk04;
+};
+
+struct bhkTelekinesisListenerSecondary
+{
+    bhkTelekinesisListenerSecondary();
+    virtual void* FUN_00807e00(unsigned int flags);
+};
+
+struct bhkTelekinesisListenerDerived : public bhkTelekinesisListenerBase, public bhkTelekinesisListenerSecondary
+{
+    bhkTelekinesisListenerDerived();
+// @fnv 0x00807e00
+    virtual void* FUN_00807e00(unsigned int flags);
+};
+
+bhkTelekinesisListenerBase::bhkTelekinesisListenerBase()
+{}
+bhkTelekinesisListenerSecondary::bhkTelekinesisListenerSecondary()
+{}
+bhkTelekinesisListenerDerived::bhkTelekinesisListenerDerived()
+    : bhkTelekinesisListenerBase(), bhkTelekinesisListenerSecondary()
+{}
+#include "generated/data/fallout/magic/bhktelekinesislistener.inc"

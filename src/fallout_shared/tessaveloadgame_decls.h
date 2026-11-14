@@ -1,13 +1,16 @@
 // fallout_shared/tessaveloadgame_decls.h: declares TESForm, ChangesMap, TESSaveLoadGame, BSTaskManagerThread
 #pragma once
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00c42dd0.h"
 class TESForm
 {
   public:
     virtual ~TESForm();  // polymorphic: its RTTI is used (rtti_fix.py)
   public:
-    unsigned int GetFormID();
-    bool IsTemporary() const;
+public:
+    bool GetDisabled() const;
 };
 class TESObjectREFR;
 template <class K, class V> class NiTPointerMap
@@ -19,21 +22,19 @@ class ChangesMap : public NiTPointerMap<unsigned int, TESObjectREFR*>
 {
   public:
     bool HasFormChanges(TESForm*, bool);
-    bool FUN_00855220(unsigned int, bool);
 };
 class BGSNote;
 class BGSCameraShot;
-template <class T> class BSSimpleList
-{
-  public:
-    bool IsInList(T&);
-    void Remove(T const&);
-};
+#include "fnv/bs_simple_list.h"
 class TESSaveLoadGame
 {
   public:
     ChangesMap* changes;
-    char pad[0x30];
+    char pad[0x10];
+    void* unk14;
+    char pad18[0x8];
+    void* unk20;
+    char pad24[0x10];
     BSSimpleList<BGSNote*> deferred;
     TESObjectREFR* QueueRemoveReferenceChange(unsigned int);
     void HasFormChanges(TESForm*, bool);
@@ -45,7 +46,6 @@ class BSTaskManagerThread
     void* table;
     char pad[0x2c];
     void* manager;
-    void FUN_00c42dd0(unsigned int, const char*);
     BSTaskManagerThread(void*, unsigned int);
 };
 extern void* DAT_010c1740[];

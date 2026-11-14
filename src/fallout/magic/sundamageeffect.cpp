@@ -2,16 +2,69 @@
 // src/fallout/magic/sundamageeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/sundamageeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct Actor;
-struct ActiveEffect
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include "fnv/simple_list_node_view.h"
+#include <new>
+#include "fnv/decl/ActiveEffectLoader.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/EffectSaveShell.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_00461310_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_00596030_cls.h"
+#include "fnv/decl/FUN_00804f80_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_00454b10__TESObjectCELL.h"
+#include "fnv/decl/fnv_00575d10__FUN_00575d10_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008a7d50__ActorHitOwner.h"
+#include "fnv/decl/fnv_00974a50__FUN_00974a50_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00595000.h"
+#include "fnv/symbols_00644000.h"
+#include "fnv/symbols_00966000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+
+
+// The SunDamageEffect member after ActiveEffect, saved when the save version is at least 0x71.
+struct SunDamageEffectFields : ActiveEffectFields
 {
-    unsigned short GetSaveSize(Actor* apActor);
+    unsigned int unk48;
+};
+
+// The current and next weather of the sky.
+struct SkyWeatherView
+{
+    char pad00[0x10];
+    void* currWeather;
+    void* transWeather;
+};
+class Actor;
+class EffectSetting;
+class ActiveEffect
+{
+public:
+    ::EffectSetting *GetEffectSetting() const;
 };
 struct TESSaveLoadGame
 {
-    unsigned char FUN_008df040();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct SunDamageEffect : ActiveEffect
 {
     unsigned short FUN_0082a390(Actor* apActor);
@@ -21,25 +74,21 @@ struct SunDamageEffect : ActiveEffect
 unsigned short SunDamageEffect::FUN_0082a390(Actor* apActor)
 {
     unsigned short usSize = 0;
-    usSize += GetSaveSize(apActor);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x71)
+    usSize += reinterpret_cast<::FUN_00804f80_shell *>(this)->FUN_00804f80(apActor);
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x71)
         usSize += 4;
     return usSize;
 }
 
 namespace fnv_0082a420 {
-struct ActiveEffect
+class ActiveEffect
 {
-    void LoadGame(void* apActor);
 };
 
 struct TESSaveLoadGame
 {
-    unsigned char FUN_008df040();
-    void ReadTypedData(void* buf, unsigned int size);
 };
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0082a420_shell : ActiveEffect
 {
@@ -49,21 +98,19 @@ struct FUN_0082a420_shell : ActiveEffect
 // @fnv 0x0082a420
 void FUN_0082a420_shell::FUN_0082a420(void* apActor)
 {
-    ActiveEffect::LoadGame(apActor);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x71)
-        g_TESSaveLoadGame->ReadTypedData((char*)this + 0x48, 4);
+    reinterpret_cast<::ActiveEffectLoader *>(this)->FUN_00805330((::Actor *)(apActor));
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0082a420::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x71)
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0082a420::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&reinterpret_cast<SunDamageEffectFields*>(this)->unk48, 4);
 }
 }  // namespace fnv_0082a420
 
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct PC7d
 {
     char _pad[148];
 };
-extern PC7d* g_thePlayer;
 struct S_0082a150
 {
     double FUN_0082a1b0();
@@ -72,8 +119,8 @@ struct S_0082a150
 // @fnv 0x0082a150
 bool S_0082a150::FUN_0082a150()
 {
-    if (reinterpret_cast<BSThread*>(this)->GetThreadID() ==
-        (g_thePlayer ? (unsigned int)(reinterpret_cast<char*>(g_thePlayer) + 0x94) : 0))
+    if (reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType() ==
+        ((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)) ? (uintptr_t)(reinterpret_cast<char*>((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))) + 0x94) : 0))
     {
         if (this->FUN_0082a1b0() > (double)0.01f)
             return true;
@@ -83,11 +130,9 @@ bool S_0082a150::FUN_0082a150()
 
 struct ActiveEffectSaveHelper
 {
-    void SaveGame(Actor*);
 };
 struct TESSaveLoadGameHelper
 {
-    void FUN_008579b0(void*, int);
 };
 struct FUN_0082a3e0_shell : SunDamageEffect
 {
@@ -96,14 +141,14 @@ struct FUN_0082a3e0_shell : SunDamageEffect
 // @fnv 0x0082a3e0
 void FUN_0082a3e0_shell::SaveSunDamageEffect(Actor* apActor)
 {
-    ((ActiveEffectSaveHelper*)this)->SaveGame(apActor);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x71)
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0((char*)this + 0x48, 4);
+    reinterpret_cast<::EffectSaveShell *>((((ActiveEffectSaveHelper*)this)))->FUN_008050d0(apActor);
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x71)
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&reinterpret_cast<SunDamageEffectFields*>(this)->unk48, 4);
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 struct FUN_0080bc70_base
 {
     char _pad[72];
@@ -121,20 +166,18 @@ struct FUN_00829a70 : FUN_0080bc70_base
 // @fnv 0x00829a70
 FUN_00829a70::FUN_00829a70(MagicCaster* a, MagicItem* pItem, EffectItem* pEffect) : FUN_0080bc70_base(a, pItem, pEffect)
 {
-    *(int*)this = (int)&DAT_0107c3ec;
+    *(void**)this = (void*)&DAT_0107c3ec;
     f48 = 0.0f;
     b4d = 0;
     b4c = 0;
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
 struct AC0ActiveEffect
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 
     virtual void vfunc00();
     virtual void vfunc04();
@@ -199,7 +242,6 @@ AC0ActiveEffect* AC0ValueEffect::FUN_00829ac0()
 
 struct S_00829bb0_Cell
 {
-    bool FUN_00454b10();
 };
 
 struct S_00829bb0_Val
@@ -209,9 +251,6 @@ struct S_00829bb0_Val
 
 struct S_00829bb0_Proc
 {
-    S_00829bb0_Val* FUN_0044edb0();
-    S_00829bb0_Val* FUN_00825c00();
-    float FUN_006447d0();
 };
 
 struct S_00829bb0_Actor
@@ -423,10 +462,6 @@ struct S_00829bb0_Actor
     virtual void v330();
     virtual void v334();
     virtual void v338(float a, float b, int c);
-    S_00829bb0_Cell* FUN_008d6f30();
-    bool FUN_00575d10();
-    S_00829bb0_Proc* FUN_008d8520();
-    void FUN_008a7d50(int a, int b);
 };
 
 struct S_00829bb0_Caster
@@ -437,74 +472,14 @@ struct S_00829bb0_Caster
 
 struct S_00829bb0_Setting
 {
-    float* FUN_00403e20();
 };
 
-extern S_00829bb0_Actor* DAT_011dea3c;
-extern S_00829bb0_Actor* DAT_011dea10;
-extern S_00829bb0_Setting DAT_011d1944;
-extern S_00829bb0_Setting DAT_011d18d8;
 extern float DAT_011a14f8;
 
 struct S_00829bb0_Eff : FUN_00829a70
 {
-    S_00829bb0_Caster* FUN_0059bb30();
-    double FUN_0082a1b0();
-    void FUN_00829e00(bool a);
     void UpdateEffect(float arg);
 };
-
-// Toggles the effect based on the caster's actor and cell, and when the actor is DAT_011dea3c updates DAT_011a14f8 and blends proc values.
-// @fnv 0x00829bb0
-void S_00829bb0_Eff::UpdateEffect(float arg)
-{
-    if (b4d)
-    {
-        b4d = 0;
-    }
-    else if (FUN_0059bb30() && FUN_0059bb30()->GetActor())
-    {
-        S_00829bb0_Actor* actor = FUN_0059bb30()->GetActor();
-        S_00829bb0_Cell* cell = actor->FUN_008d6f30();
-        if (actor->FUN_00575d10() && (!cell || !cell->FUN_00454b10()))
-        {
-            FUN_00829e00(false);
-            if (actor == DAT_011dea3c)
-                DAT_011a14f8 = *DAT_011d1944.FUN_00403e20();
-        }
-        else
-        {
-            S_00829bb0_Proc* proc;
-            float f = FUN_0082a1b0();
-            FUN_00829e00(f > 0.01f);
-            if (actor == DAT_011dea3c)
-            {
-                if (f > 0.01f)
-                {
-                    DAT_011dea3c->v338(f * arg, 0.0f, 0);
-                    if (DAT_011a14f8 < 0.0)
-                    {
-                        DAT_011dea3c->FUN_008a7d50(1, 1);
-                        DAT_011a14f8 = *DAT_011d18d8.FUN_00403e20();
-                    }
-                    else if (DAT_011a14f8 == 3.4028234663852886e+38)
-                    {
-                        DAT_011a14f8 = *DAT_011d1944.FUN_00403e20();
-                    }
-                    DAT_011a14f8 = DAT_011a14f8 - arg;
-                }
-                proc = DAT_011dea10->FUN_008d8520();
-                float fValue = proc->FUN_0044edb0() ? proc->FUN_0044edb0()->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
-                if (proc->FUN_00825c00())
-                {
-                    float w = proc->FUN_006447d0();
-                    fValue = fValue * w;
-                    fValue += (1.0 - w) * proc->FUN_00825c00()->FUN_004ed230(5, 1.0f, 0.0f);
-                }
-            }
-        }
-    }
-}
 
 struct S_00829e00_Target;
 
@@ -516,7 +491,6 @@ struct S_00829e00_Caster
 
 struct S_00829e00_Setting
 {
-    void* FUN_00407820();
 };
 
 // Hit effect applied to the target (0x6c bytes).
@@ -577,7 +551,7 @@ struct S_00829e00_HitEffect
     int unk0C;
     int unk10;
     int unk14;
-    int unk18;
+    struct S_00829e00_ActiveEffect* pEffect;  // MagicHitEffect::pEffect
     int unk1C;
     int unk20;
     int unk24;
@@ -598,13 +572,10 @@ struct S_00829e00_HitEffect
     int unk60;
     int unk64;
     int unk68;
-    void SetByteAt24(int a);
-    void FUN_00984f60(void* owner);
 };
 
 struct S_00829e00_Effect : S_00829e00_HitEffect
 {
-    static void* operator new(unsigned int size);
     S_00829e00_Effect(S_00829e00_Target* target, void* form, float duration);
 };
 
@@ -615,17 +586,11 @@ struct S_00829e00_List
     S_00829e00_List(S_00829e00_HitEffect* const& item);
     ~S_00829e00_List();
     bool FUN_008256d0();
-    void FUN_00470470();
-    S_00829e00_HitEffect** FUN_006815c0();
-    S_00829e00_List* FUN_00726070();
 };
 
 struct S_00829e00_Manager
 {
-    void FUN_00973fd0(S_00829e00_HitEffect* effect);
-    void FUN_00974a50(S_00829e00_Target* target, void* form);
 };
-extern S_00829e00_Manager DAT_011e0e80;
 
 struct S_00829e00_ActiveEffect
 {
@@ -646,17 +611,65 @@ struct S_00829e00_ActiveEffect
     int unk38;
     int unk3C;
     S_00829e00_List* m_effects;
-    S_00829e00_Setting* FUN_007df1d0();
-    S_00829e00_Caster* FUN_0059bb30();
-    int FUN_0055b980();
     void FUN_00829e00(bool abApply);
 };
+// Toggles the effect based on the caster's actor and cell, and when the actor is DAT_011dea3c updates DAT_011a14f8 and blends proc values.
+// @fnv 0x00829bb0
+void S_00829bb0_Eff::UpdateEffect(float arg)
+{
+    if (b4d)
+    {
+        b4d = 0;
+    }
+    else if (((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) && ((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor())
+    {
+        S_00829bb0_Actor* actor = ((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor();
+        S_00829bb0_Cell* cell = ((::S_00829bb0_Cell *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()));
+        if (reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((actor))->FUN_00575d10() && (!cell || !((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((cell))->GetFakeExterior()))))
+        {
+            reinterpret_cast<::S_00829e00_ActiveEffect *>(this)->FUN_00829e00(false);
+            if (actor == (*reinterpret_cast<::S_00829bb0_Actor * *>(&::_g_thePlayer)))
+                DAT_011a14f8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1164))))));
+        }
+        else
+        {
+            S_00829bb0_Proc* proc;
+            float f = reinterpret_cast<::S_0082a150 *>(this)->FUN_0082a1b0();
+            reinterpret_cast<::S_00829e00_ActiveEffect *>(this)->FUN_00829e00(f > 0.01f);
+            if (actor == (*reinterpret_cast<::S_00829bb0_Actor * *>(&::_g_thePlayer)))
+            {
+                if (f > 0.01f)
+                {
+                    (*reinterpret_cast<::S_00829bb0_Actor * *>(&::_g_thePlayer))->v338(f * arg, 0.0f, 0);
+                    if (DAT_011a14f8 < 0.0)
+                    {
+                        reinterpret_cast<::fnv_008a7d50::ActorHitOwner *>(((*reinterpret_cast<::S_00829bb0_Actor * *>(&::_g_thePlayer))))->FUN_008a7d50(1, 1);
+                        DAT_011a14f8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1163))))));
+                    }
+                    else if (DAT_011a14f8 == 3.4028234663852886e+38)
+                    {
+                        DAT_011a14f8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1164))))));
+                    }
+                    DAT_011a14f8 = DAT_011a14f8 - arg;
+                }
+                proc = ((::S_00829bb0_Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::S_00829bb0_Actor * *>(&::g_TES))))->GetBaseTexture()));
+                float fValue = ((::S_00829bb0_Val *)(reinterpret_cast<::SkyWeatherView *>(proc)->currWeather)) ? ((::S_00829bb0_Val *)(reinterpret_cast<::SkyWeatherView *>(proc)->currWeather))->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
+                if (((::S_00829bb0_Val *)(reinterpret_cast<::SkyWeatherView *>(proc)->transWeather)))
+                {
+                    float w = ::FUN_006447d0((const char *)(proc));
+                    fValue = fValue * w;
+                    fValue += (1.0 - w) * ((::S_00829bb0_Val *)(reinterpret_cast<::SkyWeatherView *>(proc)->transWeather))->FUN_004ed230(5, 1.0f, 0.0f);
+                }
+            }
+        }
+    }
+}
 
 // @fnv 0x00829e00
 void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
 {
-    void* form = FUN_007df1d0()->FUN_00407820();
-    if (!form || !FUN_0059bb30() || FUN_0055b980() != 4)
+    void* form = ((void *)(reinterpret_cast<::FUN_00407820_shell *>((((::S_00829e00_Setting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->FUN_00407820()));
+    if (!form || !((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) || ((int)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) != 4)
         return;
     if (abApply)
     {
@@ -664,16 +677,16 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
         {
             if (m_effects)
             {
-                m_effects->FUN_00470470();
+                reinterpret_cast<::FileMatchList *>((m_effects))->RemoveAll();
                 delete m_effects;
                 m_effects = 0;
             }
-            S_00829e00_Effect* effect = new S_00829e00_Effect(FUN_0059bb30()->GetTarget(), form, -1.0f);
+            S_00829e00_Effect* effect = new S_00829e00_Effect(((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetTarget(), form, -1.0f);
             if (effect->vC4())
             {
-                DAT_011e0e80.FUN_00973fd0(effect);
+                reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(effect));
                 m_effects = new S_00829e00_List(effect);
-                effect->FUN_00984f60(this);
+                effect->pEffect = this;
             }
             else
             {
@@ -687,21 +700,21 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
         S_00829e00_List* node = m_effects;
         while (node && !node->FUN_008256d0())
         {
-            S_00829e00_HitEffect* item = *node->FUN_006815c0();
-            item->SetByteAt24(1);
-            item->FUN_00984f60(0);
-            node = node->FUN_00726070();
+            S_00829e00_HitEffect* item = *((::S_00829e00_HitEffect **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
+            reinterpret_cast<::FUN_00461310_shell *>((item))->SetByteAt24(1);
+            reinterpret_cast<::TESPackage *>((item))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0));
+            node = ((::S_00829e00_List *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
-        m_effects->FUN_00470470();
+        reinterpret_cast<::FileMatchList *>((m_effects))->RemoveAll();
         delete m_effects;
         m_effects = 0;
-        DAT_011e0e80.FUN_00974a50(FUN_0059bb30()->GetTarget(), form);
+        reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00974a50((::TESObjectREFR *)(::S_00829e00_Target *)(((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetTarget()), form);
     }
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 struct FUN_00829a70;
 
 // Allocates and constructs a FUN_00829a70 from the given MagicCaster, MagicItem and EffectItem, returning the new object.
@@ -845,21 +858,7 @@ struct H_Calls
     virtual H_Calls* v123() = 0;
     virtual H_Calls* v124() = 0;
     virtual H_Fld* v125() = 0;
-    H_Calls* FUN_0059bb30();
-    H_Calls* FUN_008d6f30();
-    bool FUN_00575d10();
-    bool FUN_00454b10();
-    H_Calls* FUN_008d8520();
-    float GetFieldEC();
-    float FUN_00595ea0();
-    float FUN_00596030();
-    H_Calls* FUN_0044edb0();
     float FUN_004ed230(int, float, float);
-    H_Calls* FUN_00825c00();
-    float FUN_006447d0();
-    bool FUN_004518e0();
-    double FUN_0057b0a0();
-    float GetFloatAtOffset1C();
 };
 float FUN_00649390(float, float, float, float, bool, float, bool);
 
@@ -869,9 +868,9 @@ double S_0082a150::FUN_0082a1b0()
 {
     H_Calls* p;
     H_Calls* aQ;
-    p = ((H_Calls*)this)->FUN_0059bb30() ? ((H_Calls*)this)->FUN_0059bb30()->v1() : 0;
-    aQ = p ? p->FUN_008d6f30() : 0;
-    if (p && (!p->FUN_00575d10() || (aQ && aQ->FUN_00454b10())))
+    p = ((::H_Calls *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::H_Calls *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->v1() : 0;
+    aQ = p ? ((::H_Calls *)(reinterpret_cast<::LowProcess *>((p))->GetTarget())) : 0;
+    if (p && (!reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((p))->FUN_00575d10() || (aQ && ((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((aQ))->GetFakeExterior())))))
     {
         bool b9;
         float f4;
@@ -881,25 +880,27 @@ double S_0082a150::FUN_0082a1b0()
         H_Calls* obj;
         float vTmp;
         float v_;
-        obj = ((H_Calls*)DAT_011dea10)->FUN_008d8520();
-        aF1c = obj->GetFieldEC();
-        f4 = obj->FUN_00595ea0();
-        f18 = obj->FUN_00596030();
+        obj = ((::H_Calls *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((H_Calls*)(*reinterpret_cast<::S_00829bb0_Actor * *>(&::g_TES)))))->GetBaseTexture()));
+        aF1c = ::GetFieldEC((const char *)(obj));
+        f4 = ::FUN_00595ea0((char *)(obj));
+        f18 = reinterpret_cast<::FUN_00596030_cls *>((obj))->FUN_00596030();
         b9 = true;
-        vTmp = obj->FUN_0044edb0() ? obj->FUN_0044edb0()->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
-        if (obj->FUN_00825c00())
+        vTmp = ((::H_Calls *)(reinterpret_cast<::SkyWeatherView *>(obj)->currWeather)) ? ((::H_Calls *)(reinterpret_cast<::SkyWeatherView *>(obj)->currWeather))->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
+        if (((::H_Calls *)(reinterpret_cast<::SkyWeatherView *>(obj)->transWeather)))
         {
-            v_ = obj->FUN_006447d0();
+            v_ = ::FUN_006447d0((const char *)(obj));
             vTmp = vTmp * v_;
-            vTmp = (1.0 - v_) * obj->FUN_00825c00()->FUN_004ed230(5, 1.0f, 0.0f) + vTmp;
+            vTmp = (1.0 - v_) * ((::H_Calls *)(reinterpret_cast<::SkyWeatherView *>(obj)->transWeather))->FUN_004ed230(5, 1.0f, 0.0f) + vTmp;
         }
         b11 = false;
-        if (p->FUN_008d6f30()->FUN_004518e0())
+        if (reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((((::H_Calls *)(reinterpret_cast<::LowProcess *>((p))->GetTarget()))))->FUN_004518e0())
         {
-            if (p->FUN_0057b0a0() >= p->v125()->f8)
+            if (((double)(reinterpret_cast<::FUN_0057b0a0_shell *>((p))->FUN_0057b0a0())) >= p->v125()->f8)
                 b11 = true;
         }
-        return FUN_00649390(((H_Calls*)this)->GetFloatAtOffset1C(), aF1c, f4, f18, b9, vTmp, b11);
+        return FUN_00649390(::GetFloatAtOffset1C((char *)(((H_Calls*)this))), aF1c, f4, f18, b9, vTmp, b11);
     }
     return 0.0;
 }
+
+#include "generated/data/fallout/magic/sundamageeffect.inc"

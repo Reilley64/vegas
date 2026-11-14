@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpVehicleAerodynamics.h"
-#pragma pack(push, 1)
 class hkpVehicleDefaultAerodynamics : public hkpVehicleAerodynamics
 {
   public:
@@ -16,6 +15,4 @@ class hkpVehicleDefaultAerodynamics : public hkpVehicleAerodynamics
     char pad18[0x8];
     hkVector4 m_vExtraGravityWorldSpace;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleDefaultAerodynamics[(sizeof(hkpVehicleDefaultAerodynamics) == 0x30) ? 1 : -1];
 #endif

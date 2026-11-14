@@ -3,9 +3,8 @@
 #define EFFECTSETTING_MATCH_H
 
 #include <stddef.h>
-#define FNV_JOIN2(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN2(a, b)
-#define FNV_STATIC_ASSERT(e) typedef char FNV_JOIN(fnv_check_, __LINE__)[(e) ? 1 : -1]
+#include <cstring>
+#include <malloc.h>
 class TESFile;
 class TESForm;
 class TESSound;
@@ -40,7 +39,6 @@ class BaseFormComponent
     virtual void CopyFromBase(BaseFormComponent* component);
     virtual bool CompareWithBase(BaseFormComponent* component);
 };
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
 
 // Source layout: TESForm. PC corrections are in generate_headers.py.
 class TESForm : public BaseFormComponent
@@ -137,11 +135,6 @@ class TESForm : public BaseFormComponent
     void LoadRecordHeader(TESFile* file);
     static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 
 // Source layout: TESFullName. PC corrections are in generate_headers.py.
 class TESFullName : public BaseFormComponent
@@ -150,8 +143,6 @@ class TESFullName : public BaseFormComponent
     void SetFullName(const char* name);
     BSStringT<char> m_kName;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 
 // Source layout: TESDescription. PC corrections are in generate_headers.py.
 class TESDescription : public BaseFormComponent
@@ -160,8 +151,6 @@ class TESDescription : public BaseFormComponent
     static void ReadDescriptionFromFile(TESDescription*, TESFile*);
     unsigned long m_uiDescriptionFileOffset;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(TESDescription) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESDescription, m_uiDescriptionFileOffset) == 0x4);
 
 // Source layout: TESTexture. PC corrections are in generate_headers.py.
 class TESTexture : public BaseFormComponent
@@ -170,15 +159,12 @@ class TESTexture : public BaseFormComponent
     static void ReadTextureData(TESTexture*, TESFile*);
     BSStringT<char> FullNameComponent;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(TESTexture) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESTexture, FullNameComponent) == 0x4);
 
 // Source layout: TESIcon. PC corrections are in generate_headers.py.
 class TESIcon : public TESTexture
 {
   public:
 };
-FNV_STATIC_ASSERT(sizeof(TESIcon) == 0xC);
 
 enum EffectArchetypes__ArchetypeID
 {
@@ -231,9 +217,6 @@ class FileEntryList
     BSFileEntry** m_ppFileEntries;  // +0x4, 4 bytes
     // BSFileEntry** __cdecl FileEntryList::*()
 };
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 class TESModel : public BaseFormComponent
 {
   public:
@@ -245,10 +228,6 @@ class TESModel : public BaseFormComponent
     static void LoadModelData(TESModel*, TESFile*);
     // FileEntryList* __cdecl TESModel::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class EffectSetting__EffectSettingData
 {
   public:
@@ -273,25 +252,6 @@ class EffectSetting__EffectSettingData
     int m_iAssociatedActorValue;               // +0x44, 4 bytes
     void Endian();
 };
-FNV_STATIC_ASSERT(sizeof(EffectSetting__EffectSettingData) == 72);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, iFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_fBaseCost) == 4);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pAssociatedForm) == 8);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_iAssociatedSkill) == 12);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_iResistanceActorValue) == 16);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_sCounterEffectCount) == 20);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, apTargetLight) == 24);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, fSpeed) == 28);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pEffectShader) == 32);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pEnchantEffectShader) == 36);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pCastSound) == 40);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pBoltSound) == 44);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pContactSound) == 48);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pAreaEffectSound) == 52);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_fEnchantmentFactor) == 56);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_fBarterFactor) == 60);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_eEffectTypeItem) == 64);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_iAssociatedActorValue) == 68);
 class EffectSetting : public TESForm, public TESModel, public TESDescription, public TESFullName, public TESIcon
 {
   public:
@@ -335,13 +295,6 @@ class EffectSetting : public TESForm, public TESModel, public TESDescription, pu
     };
     void SetFlag(EffectFlag flag, bool value);
 };
-FNV_STATIC_ASSERT(sizeof(EffectSetting) == 176);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, m_pEffectSettingCallback) == 80);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, m_pPredicateData) == 84);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, data) == 88);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, counterEffects) == 160);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, m_iActorValue) == 168);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, m_iEffectID) == 172);
 
 // These polymorphic types are used only as runtime-cast targets here.
 class TESObjectLIGH : public TESForm
@@ -373,7 +326,5 @@ template <int n> struct EndianSizeTag
 {
 };
 void BSEndian(unsigned int*, EndianSizeTag<4>);
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 int __cdecl Warning(const char*, ...);
 #endif

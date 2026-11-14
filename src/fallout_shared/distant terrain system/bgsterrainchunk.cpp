@@ -1,64 +1,134 @@
+#include "AutoMemContext.h"
+#include "fnv/native_fixed_string.h"
 
 // src/fallout_shared/distant terrain system/bgsterrainchunk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsterrainchunk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include <cstdio>
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderPPLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Cls5140.h"
+#include "fnv/decl/FUN_00439680_class.h"
+#include "fnv/decl/FUN_0043caa0_shell.h"
+#include "fnv/decl/FUN_004410d0_Class.h"
+#include "fnv/decl/FUN_004536e0_Class.h"
+#include "fnv/decl/FUN_004ea9a0_Class.h"
+#include "fnv/decl/FUN_006fa670_Target.h"
+#include "fnv/decl/FUN_006fe920_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a872d0_shell.h"
+#include "fnv/decl/Mgr_e74120.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/ObjectC3.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/decl/TargetObject.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004436c0__FUN_004436c0_Class.h"
+#include "fnv/decl/fnv_004e4c80__Main61.h"
+#include "fnv/decl/fnv_00540570__FUN_00540570_Owner.h"
+#include "fnv/decl/fnv_00c3cb70__IOTask.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0069b000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0119f000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/FUN_00c3cff0_shell.h"
+#include "fnv/decl/MLx.h"
+#include "fnv/symbols_00441000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_006fd000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/decl/FUN_00c3cee0_shell.h"
+#include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
 struct FUN_006fa840_shell
 {
+    char pad[0x5d];
+    unsigned char ucUnk5d;
     unsigned char GetByteAt5D();
 };
 
 // @fnv 0x006fa840
 unsigned char FUN_006fa840_shell::GetByteAt5D()
 {
-    return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x5d);
+    return ucUnk5d;
 }
 
 struct FUN_006fb150_shell
 {
+    char pad[0x5c];
+    unsigned char ucUnk5c;
     unsigned char GetByteAtOffset5C();
 };
 
 // @fnv 0x006fb150
 unsigned char FUN_006fb150_shell::GetByteAtOffset5C()
 {
-    return ((unsigned char*)this)[0x5c];
+    return ucUnk5c;
 }
 
-struct NiAVObject
+class NiAVObject
 {
-    void SetAppCulled(bool);
 };
 
 struct Flt
 {
+    void* m_pObject;
     operator unsigned int() const;
 };
 
 struct FUN_006fb6e0_shell
 {
+    const void* pVtable;
+    Flt aspNodes[3];
     void SetAllAppCulled();
 };
 
-// For each of the three pointers at offsets 4, 8 and 12, if non-null, calls SetAppCulled(true) on it.
+// For each of the three aspNodes pointers, if non-null, calls SetAppCulled(true) on it.
 // @fnv 0x006fb6e0
 void FUN_006fb6e0_shell::SetAllAppCulled()
 {
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())
-        reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())
-            ->SetAppCulled(true);
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 8)->operator unsigned int())
-        reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 8)->operator unsigned int())
-            ->SetAppCulled(true);
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 12)->operator unsigned int())
-        reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 12)->operator unsigned int())
-            ->SetAppCulled(true);
+    if (aspNodes[0].operator unsigned int())
+        reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
+            aspNodes[0].operator unsigned int())))->QueueActorDisarm(true);
+    if (aspNodes[1].operator unsigned int())
+        reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
+            aspNodes[1].operator unsigned int())))->QueueActorDisarm(true);
+    if (aspNodes[2].operator unsigned int())
+        reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
+            aspNodes[2].operator unsigned int())))->QueueActorDisarm(true);
 }
 
 struct FUN_006fb940_shell
 {
+    char pad[0xf0];
+    float afUnkF0[3];
     void FUN_006fb940(float a, float b, float c);
 };
 
@@ -66,9 +136,9 @@ struct FUN_006fb940_shell
 // @fnv 0x006fb940
 void FUN_006fb940_shell::FUN_006fb940(float a, float b, float c)
 {
-    *(float*)((char*)this + 0xf0) = a;
-    *(float*)((char*)this + 0xf4) = b;
-    *(float*)((char*)this + 0xf8) = c;
+    afUnkF0[0] = a;
+    afUnkF0[1] = b;
+    afUnkF0[2] = c;
 }
 
 struct QueuedFileEntry
@@ -81,16 +151,17 @@ struct BGSTerrainChunkLoadTask : QueuedFileEntry
     int iX;
     int iY;
     int iLevel;
+    void* unk40;
+    void* pUnk44;
     bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
 };
 
-extern int _sprintf_s(char*, unsigned int, const char*, ...);
 
 // Formats the chunk's X, Y and level into apDescription using _sprintf_s and returns true.
 // @fnv 0x006fc400
 bool BGSTerrainChunkLoadTask::FUN_006fc400(char* apDescription, unsigned int aiBufferSize)
 {
-    _sprintf_s(apDescription, aiBufferSize, "Terrain LOD Task for chunk ( %i, %i ) at level ( %i )", this->iX, this->iY,
+    ::FUN_00406d00(apDescription, aiBufferSize, "Terrain LOD Task for chunk ( %i, %i ) at level ( %i )", this->iX, this->iY,
                this->iLevel);
     return true;
 }
@@ -186,11 +257,10 @@ struct FakeWorld006faad0
 // @fnv 0x006faad0
 void BuildLodMeshPath(char* pcBuffer, FakeWorld006faad0* a2, int iLevel, short sX, short sY)
 {
-    _sprintf_s(pcBuffer, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\%s.Level%i.X%i.Y%i.NIF", a2->GetStr(), a2->GetStr(),
+    ::FUN_00406d00(pcBuffer, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\%s.Level%i.X%i.Y%i.NIF", a2->GetStr(), a2->GetStr(),
                iLevel, sX, sY);
 }
 
-int __cdecl _sprintf(char*, const char*, ...);
 struct FakeFab
 {
     virtual void f0();
@@ -275,30 +345,29 @@ struct FakeFab
 // @fnv 0x006fab70
 void __cdecl BuildLodNormalTexturePath(char* pBuffer, FakeFab* pNameSource, int iLevel, short iX, short iY)
 {
-    _sprintf(pBuffer, "Data\\Textures\\Landscape\\LOD\\%s\\Normals\\%s.n.Level%i.X%i.Y%i.dds", pNameSource->GetStr(),
+    std::sprintf(pBuffer, "Data\\Textures\\Landscape\\LOD\\%s\\Normals\\%s.n.Level%i.X%i.Y%i.dds", pNameSource->GetStr(),
              pNameSource->GetStr(), iLevel, iX, iY);
 }
 
 struct FUN_006fb760_shell
 {
+    const void* pVtable;
+    Flt aspNodes[3];
     void FUN_006fb760();
 };
 // For each of the three object pointers at offsets 4, 8 and 12, if non-null, calls SetAppCulled(false) on it.
 // @fnv 0x006fb760
 void FUN_006fb760_shell::FUN_006fb760()
 {
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())
-        reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())
-            ->SetAppCulled(false);
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 8)->operator unsigned int())
-        reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 8)->operator unsigned int())
-            ->SetAppCulled(false);
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 12)->operator unsigned int())
-        reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 12)->operator unsigned int())
-            ->SetAppCulled(false);
+    if (aspNodes[0].operator unsigned int())
+        reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
+            aspNodes[0].operator unsigned int())))->QueueActorDisarm(false);
+    if (aspNodes[1].operator unsigned int())
+        reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
+            aspNodes[1].operator unsigned int())))->QueueActorDisarm(false);
+    if (aspNodes[2].operator unsigned int())
+        reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
+            aspNodes[2].operator unsigned int())))->QueueActorDisarm(false);
 }
 
 struct S_006fbae0
@@ -306,45 +375,37 @@ struct S_006fbae0
     void FUN_006fbb10();
     void* DestroyIfFlagged(unsigned int);
 };
-void __cdecl _Deallocate(void*);
-// Calls FUN_006fbb10, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x006fbae0
-void* S_006fbae0::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_006fbb10();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_006fbcd0_shell
 {
-    void FUN_00c3cb70(int a, int b);
-    void SetFlagAndCall(int a, int b);
+    char pad[0x58];
+    bool bUnk58;
+    void SetFlagAndCall(int a, std::intptr_t b);
 };
 // Sets the bool at offset 0x58 to true, then forwards both arguments to FUN_00c3cb70.
 // @fnv 0x006fbcd0
-void FUN_006fbcd0_shell::SetFlagAndCall(int aiArg1, int aiArg2)
+void FUN_006fbcd0_shell::SetFlagAndCall(int aiArg1, std::intptr_t aiArg2)
 {
-    *(bool*)((char*)this + 0x58) = true;
-    FUN_00c3cb70(aiArg1, aiArg2);
+    bUnk58 = true;
+    reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aiArg1, (::fnv_00c3cb70::RefObj *)(aiArg2));
 }
 
 struct FUN_006fbfe0_shell
 {
+    char pad[0xc8];
+    unsigned int uiUnkC8;
+    char padCC;
+    unsigned char ucUnkCd;
     unsigned int GetFlagOrValue();
 };
 // Returns 1 if the byte at offset 0xcd is set, otherwise returns the unsigned int at offset 0xc8.
 // @fnv 0x006fbfe0
 unsigned int FUN_006fbfe0_shell::GetFlagOrValue()
 {
-    return ((unsigned char*)this)[0xcd] ? 1 : *(unsigned int*)((char*)this + 0xc8);
+    return ucUnkCd ? 1 : uiUnkC8;
 }
 
 struct IOTask
 {
-    bool FUN_0043caa0();
-    void NotifyParents();
 };
 struct SoundPlaybackHandle;
 template <class K, class V> struct NiTPointerMap
@@ -373,7 +434,6 @@ struct IOManager
     virtual void v17();
     virtual void vfn_48(void*);
 };
-extern IOManager* DAT_01202d98;
 struct FUN_006f7140_shell : IOTask
 {
     char _pad[48];
@@ -384,14 +444,14 @@ struct FUN_006f7140_shell : IOTask
 // @fnv 0x006f7140
 void FUN_006f7140_shell::ProcessTask()
 {
-    if (FUN_0043caa0())
+    if (reinterpret_cast<::FUN_0043caa0_shell *>(this)->FUN_0043caa0())
     {
         if (b30)
         {
-            if (reinterpret_cast<NiTPointerMap<unsigned int, SoundPlaybackHandle*>*>(this)->IsEmpty())
+            if (::IsFieldCZero((::Dummy_0069b080 *)(reinterpret_cast<NiTPointerMap<unsigned int, SoundPlaybackHandle*>*>(this))))
                 DAT_01202d98->vfn_48(this);
             else
-                NotifyParents();
+                reinterpret_cast<::ObjectC3 *>(this)->NotifyParents();
         }
     }
 }
@@ -476,19 +536,17 @@ struct FakeObj
     virtual void v75();
     virtual const char* GetStr();
 };
-int __cdecl _sprintf(char*, const char*, ...);
 // Formats a landscape LOD diffuse texture path from the object's string, level, and X/Y coordinates into buf.
 // @fnv 0x006fab20
 void __cdecl BuildLODDiffuseTexturePath(char* pBuffer, FakeObj* obj, int level, short x, short y)
 {
-    _sprintf(pBuffer, "Data\\Textures\\Landscape\\LOD\\%s\\Diffuse\\%s.n.Level%i.X%i.Y%i.dds", obj->GetStr(),
+    std::sprintf(pBuffer, "Data\\Textures\\Landscape\\LOD\\%s\\Diffuse\\%s.n.Level%i.X%i.Y%i.dds", obj->GetStr(),
              obj->GetStr(), level, x, y);
 }
 
 struct GO;
 struct FUN_006fea10_Class
 {
-    unsigned char FUN_006fe920(bool);
 };
 
 struct GO
@@ -500,24 +558,21 @@ struct GO
 struct SoundListView
 {
     bool _ref_008256d0();
-    GO** _ref_006815c0();
-    SoundListView* _ref_00726070();
 };
 
-extern SoundListView g_011d8624;
 
 // Walks the sound list view, and for each entry calls SetAllAppCulled if its checks pass, otherwise FUN_006fb760.
 // @fnv 0x006fb640
 void UpdateSoundListItems()
 {
-    SoundListView* current = &g_011d8624;
+    SoundListView* current = &(*reinterpret_cast<::SoundListView *>(&::g_011d8624));
     {
         GO* go;
         while (current != 0 && !current->_ref_008256d0())
         {
-            go = current->_ref_006815c0()[0];
-            if (((FUN_006fb150_shell*)go->operator unsigned int())->GetByteAtOffset5C() &&
-                ((FUN_006fa840_shell*)go->operator unsigned int())->GetByteAt5D() && go->f0->FUN_006fe920(false))
+            go = ((::GO **)((void *)(current)))[0];
+            if (((FUN_006fb150_shell*)(std::uintptr_t)go->operator unsigned int())->GetByteAtOffset5C() &&
+                ((FUN_006fa840_shell*)(std::uintptr_t)go->operator unsigned int())->GetByteAt5D() && ((unsigned char)(reinterpret_cast<::FUN_006fe920_Class *>((go->f0))->FUN_006fe920(false))))
             {
                 ((FUN_006fb6e0_shell*)go)->SetAllAppCulled();
             }
@@ -525,18 +580,17 @@ void UpdateSoundListItems()
             {
                 ((FUN_006fb760_shell*)go)->FUN_006fb760();
             }
-            current = current->_ref_00726070();
+            current = ((::SoundListView *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         }
     }
 }
 
-struct QueuedFile
+class QueuedFile
 {
 };
 
 struct ModelLoader
 {
-    void QueueModelFilePath(const char*, int, QueuedFile*);
 };
 
 struct FUN_0043cc60_shell
@@ -564,7 +618,6 @@ struct FUN_006fbbd0_shell : BGSTerrainChunkLoadTask
     void LoadTerrainChunkTextures();
 };
 
-extern ModelLoader* g_modelLoader;
 
 void __cdecl BuildLODDiffuseTexturePath(char*, FakeObj*, int, short, short);
 
@@ -577,23 +630,23 @@ void FUN_006fbbd0_shell::LoadTerrainChunkTextures()
 
     BuildLODDiffuseTexturePath(
         pdiffuseTextureFileName,
-        reinterpret_cast<FakeObj*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x44)), iLevel,
+        reinterpret_cast<FakeObj*>(pUnk44), iLevel,
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
-    g_modelLoader->QueueModelFilePath(pdiffuseTextureFileName,
-                                      reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60(),
+    reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pdiffuseTextureFileName,
+                                      (void *)(std::uintptr_t)(reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60()),
                                       reinterpret_cast<QueuedFile*>(this));
 
     BuildLodNormalTexturePath(
         pnormalTextureFileName,
-        reinterpret_cast<FakeFab*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x44)), iLevel,
+        reinterpret_cast<FakeFab*>(pUnk44), iLevel,
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
-    g_modelLoader->QueueModelFilePath(pnormalTextureFileName,
-                                      reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60(),
+    reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pnormalTextureFileName,
+                                      (void *)(std::uintptr_t)(reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60()),
                                       reinterpret_cast<QueuedFile*>(this));
 
-    *reinterpret_cast<bool*>(reinterpret_cast<unsigned char*>(this) + 0x30) = true;
+    *reinterpret_cast<bool*>(&this->f0[12]) = true;
 
     reinterpret_cast<FUN_006fbbd0_virtual*>(this)->f10();
 }
@@ -635,6 +688,15 @@ struct FUN_006fbb10 : FUN_006fbb10_base
     FUN_006fbb10_sub m_50;
     FUN_006fbb10_sub m_54;
 };
+// Calls FUN_006fbb10, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x006fbae0
+void* S_006fbae0::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006fbb10 *>(this)->FUN_006fbb10::~FUN_006fbb10();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that resets the m_48, m_4c and m_50 sub-objects to zero.
 // @fnv 0x006fbb10
@@ -645,7 +707,6 @@ FUN_006fbb10::~FUN_006fbb10()
     m_50.Reset(0);
 }
 
-extern "C" char DAT_011d85ec;
 struct Point006fac
 {
     float x, y, z;
@@ -657,30 +718,16 @@ struct FUN_0043d410
 };
 struct TESObjectDoorController
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Obj006fac;
 struct Ref006fac
 {
-    Obj006fac* FUN_00559450();
     void FUN_0066b0d0(void*);
     int data;
 };
 struct Obj006fac
 {
-    Obj006fac* FUN_00559450();
-    Obj006fac* FUN_004ea9a0();
-    Obj006fac* FUN_006629f0();
-    Obj006fac* FUN_0043b230();
     Point006fac& GetOffsetC();
-    Point006fac& FUN_00500940();
-    float GetFieldCC();
-    void FUN_00439920(void*);
-    void FUN_00a5a040();
-    void FUN_00a59c60(const FUN_0043d410&);
-    unsigned char GetByteAtOffset5C();
-    unsigned char GetByteAt5D();
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -789,7 +836,6 @@ struct FUN_00c37ec0 : TESObjectDoorController
     virtual void v44();
     virtual void v45();
     virtual void position(const Point006fac&);
-    void FUN_00439680(const Point006fac&);
 };
 struct FUN_00c46970 : TESObjectDoorController
 {
@@ -809,96 +855,34 @@ struct Target006fac
     int p1c, p20, p24;
     unsigned char enabled, done;
     void FUN_006facb0();
-    Obj006fac* FUN_00559450();
-    void UpdateWaterReferences(int);
-    void FUN_006fb7e0();
-    void AddSelfToList();
-    void SetAllAppCulled();
 };
-// @fnv 0x006facb0
-void Target006fac::FUN_006facb0()
-{
-    if (enabled && !done)
-    {
-        FUN_00c37ec0* p = 0;
-        ++*(int*)&DAT_011d85ec;
-        if (r10.FUN_00559450())
-        {
-            FUN_00559450()->FUN_00559450()->FUN_004ea9a0()->attach(r10.FUN_00559450(), 1);
-            Obj006fac* i = r10.FUN_00559450()->FUN_006629f0()->FUN_0043b230();
-            Point006fac s = i->GetOffsetC();
-            Point006fac eb = i->FUN_00500940();
-            BSMultiBound* f;
-            p = new FUN_00c37ec0;
-            s.z = root->FUN_00559450()->FUN_00559450()->GetFieldCC();
-            eb.z = 0.0f;
-            p->position(s);
-            p->FUN_00439680(eb);
-            r14.FUN_0066b0d0(new FUN_00c46970);
-            f = new BSMultiBound;
-            f->FUN_004addc0(p);
-            r14.FUN_00559450()->FUN_00439920(f);
-            p = new FUN_00c37ec0;
-            s.z = root->FUN_00559450()->FUN_00559450()->GetFieldCC();
-            eb.z = 0.0f;
-            p->position(s);
-            p->FUN_00439680(eb);
-            r18.FUN_0066b0d0(new FUN_00c46970);
-            f = new BSMultiBound;
-            f->FUN_004addc0(p);
-            r18.FUN_00559450()->FUN_00439920(f);
-        }
-        else
-        {
-            FUN_00559450()->FUN_00559450()->FUN_004ea9a0()->attach(r4.FUN_00559450(), 1);
-        }
-        r4.FUN_00559450()->FUN_00a5a040();
-        FUN_0043d410 a(0.0f, false, false);
-        r4.FUN_00559450()->FUN_00a59c60(a);
-        UpdateWaterReferences(0);
-        FUN_0043d410 h(0.0f, false, false);
-        FUN_00559450()->FUN_00559450()->FUN_004ea9a0()->FUN_00a59c60(h);
-        FUN_006fb7e0();
-        AddSelfToList();
-        done = 1;
-        if (root->GetByteAtOffset5C() && root->GetByteAt5D())
-            SetAllAppCulled();
-    }
-}
-
 struct B5D0Status
 {
-    unsigned char GetByteAtOffset5C();
 };
 struct B5D0Item
 {
-    B5D0Status* FUN_00559450();
-    void FUN_006fb760();
-    void SetAllAppCulled();
 };
 struct B5D0List
 {
     bool FUN_008256d0();
-    B5D0Item** FUN_006815c0();
-    B5D0List* FUN_00726070();
 };
 // Walks the list from g_011d8624, and for each item calls FUN_006fb760 if its status check passes, otherwise SetAllAppCulled.
 // @fnv 0x006fb5d0
 void __cdecl UpdateListItems()
 {
-    B5D0List* node = reinterpret_cast<B5D0List*>(&g_011d8624);
+    B5D0List* node = reinterpret_cast<B5D0List*>(&(*reinterpret_cast<::SoundListView *>(&::g_011d8624)));
     while (node && !node->FUN_008256d0())
     {
-        B5D0Item* item = *node->FUN_006815c0();
-        if (item->FUN_00559450()->GetByteAtOffset5C())
+        B5D0Item* item = *((::B5D0Item **)((void *)(node)));
+        if (reinterpret_cast<::FUN_006fb150_shell *>((((::B5D0Status *)(::FUN_00559450((int *)(item))))))->GetByteAtOffset5C())
         {
-            item->FUN_006fb760();
+            reinterpret_cast<::FUN_006fb760_shell *>((item))->FUN_006fb760();
         }
         else
         {
-            item->SetAllAppCulled();
+            reinterpret_cast<::FUN_006fb6e0_shell *>((item))->SetAllAppCulled();
         }
-        node = node->FUN_00726070();
+        node = ((::B5D0List *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
 
@@ -923,9 +907,9 @@ class NiProperty : public FUN_006fb940_shell
 class NiGeometryData
 {
   public:
-    void SetByteAtOffset38(int);
     void FUN_00a67050(int);
-    void FUN_004410f0(int);
+public:
+    void SetCompressFlags(unsigned char);
 };
 
 struct PropState
@@ -1003,7 +987,7 @@ struct PropState
     virtual void* v70(NiGeometry*, NiProperty*);
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     virtual void v0();
@@ -1066,20 +1050,13 @@ class NiRenderer
     virtual void v57();
     virtual void v58();
     virtual void v59(NiGeometry*, int, int, void*);
-    void FUN_00e74120();
 };
 
 class NiGeometry : public NiAVObject
 {
   public:
-    NiProperty* GetProperty(unsigned int);
-    NiGeometryData* FUN_005495f0();
-    PropState* FUN_004030b0();
 };
 
-int FUN_00438220();
-void __cdecl FUN_00b57e30(NiGeometry*, int, int);
-NiRenderer* FUN_0043c4b0();
 
 class TerrainChunk
 {
@@ -1110,41 +1087,31 @@ void TerrainChunk::FUN_006fb7e0()
     {
         if (m_spGeom)
         {
-            NiProperty* prop = ((NiGeometry*)m_spGeom)->GetProperty(FUN_00438220());
+            NiProperty* prop = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((NiGeometry*)m_spGeom)))->FUN_00a59d30(FUN_00438220())));
             prop->FUN_00441130(0x21, 1);
             prop->FUN_006fb940(0.0f, 0.0f, 1.0f);
-            FUN_00b57e30(m_spGeom, 0, 0);
+            ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::NiGeometry *)(m_spGeom), 0, 0);
             m_spProperty = (NiNode*)prop;
-            ((NiGeometry*)m_spGeom)->FUN_005495f0()->SetByteAtOffset38(0);
-            ((NiGeometry*)m_spGeom)->FUN_005495f0()->FUN_00a67050(0x4000);
-            ((NiGeometry*)m_spGeom)->FUN_005495f0()->FUN_004410f0(1);
-            FUN_0043c4b0()->v59(m_spGeom, 0, 0, ((NiGeometry*)m_spGeom)->FUN_004030b0()->v70(m_spGeom, prop));
-            FUN_0043c4b0()->FUN_00e74120();
+            reinterpret_cast<::FUN_004410d0_Class *>((((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((NiGeometry*)m_spGeom)))))))->SetByteAtOffset38(0);
+            ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((NiGeometry*)m_spGeom)))))->FUN_00a67050(0x4000);
+            ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((NiGeometry*)m_spGeom)))))->SetCompressFlags(1);
+            FUN_0043c4b0()->v59(m_spGeom, 0, 0, ((::PropState *)(reinterpret_cast<::AlchemyItem *>((((NiGeometry*)m_spGeom)))->FUN_004030b0()))->v70(m_spGeom, prop));
+            reinterpret_cast<::Mgr_e74120 *>((FUN_0043c4b0()))->FUN_00e74120();
             m_bFlag = true;
         }
     }
 }
 
-struct NiFixedString
-{
-    unsigned int m_data;
-    NiFixedString(const char*);
-    ~NiFixedString();
-    operator const char*() const;
-};
 struct LoadedNode
 {
-    void AssignFixedString(const NiFixedString&);
 };
 struct NodeRef
 {
     LoadedNode* m_ptr;
-    LoadedNode* Get() const;
     NodeRef& operator=(void*);
 };
 struct FinalObject
 {
-    void FUN_006fa990();
 };
 struct TerrainTask : BGSTerrainChunkLoadTask
 {
@@ -1160,27 +1127,27 @@ struct TerrainTask : BGSTerrainChunkLoadTask
 // @fnv 0x006fc020
 void TerrainTask::UpdateTerrainLODNames()
 {
-    if (m_ref48.Get())
+    if (((::LoadedNode *)(::FUN_00559450((int *)&(m_ref48)))))
     {
         if (!m_bDisabled58)
         {
             char szFile[260];
-            _sprintf(szFile, (const char*)NiFixedString("Terrain LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
+            std::sprintf(szFile, (const char*)NiFixedString("Terrain LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
                      iY, iX + iLevel - 1, iY + iLevel - 1);
-            m_ref48.Get()->AssignFixedString(NiFixedString(szFile));
-            if (m_ref4c.Get())
+            ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref48))))), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
+            if (((::LoadedNode *)(::FUN_00559450((int *)&(m_ref4c)))))
             {
-                _sprintf(szFile, (const char*)NiFixedString("Water LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
+                std::sprintf(szFile, (const char*)NiFixedString("Water LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
                          iY, iX + iLevel - 1, iY + iLevel - 1);
-                m_ref4c.Get()->AssignFixedString(NiFixedString(szFile));
+                ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref4c))))), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
             }
-            if (m_ref50.Get())
+            if (((::LoadedNode *)(::FUN_00559450((int *)&(m_ref50)))))
             {
-                _sprintf(szFile, (const char*)NiFixedString("Water LOD w/ refl.) | Level %i | Cells (%i,%i)-(%i,%i)"),
+                std::sprintf(szFile, (const char*)NiFixedString("Water LOD w/ refl.) | Level %i | Cells (%i,%i)-(%i,%i)"),
                          iLevel, iX, iY, iX + iLevel - 1, iY + iLevel - 1);
-                m_ref50.Get()->AssignFixedString(NiFixedString(szFile));
+                ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref50))))), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
             }
-            m_pExtra40->FUN_006fa990();
+            reinterpret_cast<::TargetObject *>((m_pExtra40))->FUN_006fa990();
         }
         else if (m_bDisabled58)
         {
@@ -1198,7 +1165,6 @@ struct E14
 };
 struct C43
 {
-    E14* FUN_0043b4a0();
 };
 struct Ec
 {
@@ -1219,11 +1185,9 @@ struct E1d0
 };
 struct R4e
 {
-    E1d0* CreateWaterReference();
 };
 struct TaskX
 {
-    void ResetRecordSelection();
 };
 struct Q28
 {
@@ -1233,37 +1197,28 @@ struct Q28
 struct PQ
 {
     void* p;
-    Q28* FUN_00559450();
 };
 struct G3
 {
 };
 struct G2
 {
-    G3* FUN_00559450();
-    int FUN_0043b230();
 };
 struct G1
 {
-    G2* FUN_00559450();
 };
 struct G0
 {
     void* p;
-    G1* FUN_00559450();
 };
 struct PS
 {
     void* p;
-    void* FUN_00559450();
     void FUN_0066b0d0(void* p);
 };
 struct MgrX
 {
-    R4e* FUN_0070ec90(Q28* a, G3* b, int c, void* d, int e);
 };
-extern MgrX* g_pkMgr;
-extern bool g_bFlag;
 class SelfX
 {
   public:
@@ -1278,55 +1233,91 @@ class SelfX
     E1d0* m20;
     void UpdateWaterReferences(bool bForce);
 };
+// @fnv 0x006facb0
+void Target006fac::FUN_006facb0()
+{
+    if (enabled && !done)
+    {
+        FUN_00c37ec0* p = 0;
+        ++*(int*)&DAT_011d85ec;
+        if (((::Obj006fac *)(::FUN_00559450((int *)&(r10)))))
+        {
+            ((::Obj006fac *)(reinterpret_cast<::FUN_004ea9a0_Class *>((((::Obj006fac *)(::FUN_00559450((int *)(((::Obj006fac *)(::FUN_00559450((int *)this)))))))))->FUN_004ea9a0()))->attach(((::Obj006fac *)(::FUN_00559450((int *)&(r10)))), 1);
+            Obj006fac* i = ((::Obj006fac *)(::fnv_0043b230::FUN_0043b230((const char *)(((::Obj006fac *)(reinterpret_cast<::BSFaceGenNiNode *>((((::Obj006fac *)(::FUN_00559450((int *)&(r10))))))->GetAnimationData()))))));
+            Point006fac s = i->GetOffsetC();
+            Point006fac eb = (*(::Point006fac *)(reinterpret_cast<::BGSCameraPath *>((i))->GetConditions()));
+            BSMultiBound* f;
+            p = new FUN_00c37ec0;
+            s.z = reinterpret_cast<::FUN_004536e0_Class *>((((::Obj006fac *)(::FUN_00559450((int *)(((::Obj006fac *)(::FUN_00559450((int *)(root))))))))))->GetFieldCC();
+            eb.z = 0.0f;
+            p->position(s);
+            reinterpret_cast<::FUN_00439680_class *>((p))->FUN_00439680((const ::NiPoint3 &)(eb));
+            r14.FUN_0066b0d0(new FUN_00c46970);
+            f = new BSMultiBound;
+            f->FUN_004addc0(p);
+            reinterpret_cast<::BSFaceGenNiNode *>((((::Obj006fac *)(::FUN_00559450((int *)&(r14))))))->SetAnimationData((::BSFaceGenAnimationData *)(f));
+            p = new FUN_00c37ec0;
+            s.z = reinterpret_cast<::FUN_004536e0_Class *>((((::Obj006fac *)(::FUN_00559450((int *)(((::Obj006fac *)(::FUN_00559450((int *)(root))))))))))->GetFieldCC();
+            eb.z = 0.0f;
+            p->position(s);
+            reinterpret_cast<::FUN_00439680_class *>((p))->FUN_00439680((const ::NiPoint3 &)(eb));
+            r18.FUN_0066b0d0(new FUN_00c46970);
+            f = new BSMultiBound;
+            f->FUN_004addc0(p);
+            reinterpret_cast<::BSFaceGenNiNode *>((((::Obj006fac *)(::FUN_00559450((int *)&(r18))))))->SetAnimationData((::BSFaceGenAnimationData *)(f));
+        }
+        else
+        {
+            ((::Obj006fac *)(reinterpret_cast<::FUN_004ea9a0_Class *>((((::Obj006fac *)(::FUN_00559450((int *)(((::Obj006fac *)(::FUN_00559450((int *)this)))))))))->FUN_004ea9a0()))->attach(((::Obj006fac *)(::FUN_00559450((int *)&(r4)))), 1);
+        }
+        reinterpret_cast<::FUN_00a5a040_Class *>((((::Obj006fac *)(::FUN_00559450((int *)&(r4))))))->FUN_00a5a040();
+        FUN_0043d410 a(0.0f, false, false);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::Obj006fac *)(::FUN_00559450((int *)&(r4))))))->FUN_00a59c60((std::intptr_t)&(a));
+        reinterpret_cast<::SelfX *>(this)->UpdateWaterReferences(0);
+        FUN_0043d410 h(0.0f, false, false);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::Obj006fac *)(reinterpret_cast<::FUN_004ea9a0_Class *>((((::Obj006fac *)(::FUN_00559450((int *)(((::Obj006fac *)(::FUN_00559450((int *)this)))))))))->FUN_004ea9a0()))))->FUN_00a59c60((std::intptr_t)&(h));
+        reinterpret_cast<::TerrainChunk *>(this)->FUN_006fb7e0();
+        reinterpret_cast<::FUN_006fa670_Target *>(this)->AddSelfToList();
+        done = 1;
+        if (reinterpret_cast<::FUN_006fb150_shell *>((root))->GetByteAtOffset5C() && reinterpret_cast<::FUN_006fa840_shell *>((root))->GetByteAt5D())
+            reinterpret_cast<::FUN_006fb6e0_shell *>(this)->SetAllAppCulled();
+    }
+}
 // If g_bFlag or bForce is set, recreate m20 and m1c water references via g_pkMgr, update m18 and m14, and reset record selection on mc and m8.
 // @fnv 0x006fb170
 void SelfX::UpdateWaterReferences(bool bForce)
 {
-    if (g_bFlag || bForce)
+    if (::DAT_0119f154 || bForce)
     {
-        if (mc.FUN_00559450())
+        if (((::Q28 *)(::FUN_00559450((int *)&(mc)))))
         {
-            m20 = g_pkMgr
-                      ->FUN_0070ec90(mc.FUN_00559450(), m0.FUN_00559450()->FUN_00559450()->FUN_00559450(),
-                                     m0.FUN_00559450()->FUN_00559450()->FUN_0043b230(), m18.FUN_00559450(), 1)
-                      ->CreateWaterReference();
+            m20 = ((::E1d0 *)(reinterpret_cast<::fnv_004e4c80::Main61 *>((((::R4e *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::MgrX * *>(&::g_TES))))))))->CreateWaterReference({}, {}, {}, {}, {})));
             m18.FUN_0066b0d0(0);
             if (m20)
-                m18.FUN_0066b0d0(m20->F1d0()->Fc(0)->FUN_0043b4a0()->F14());
-            if (mc.FUN_00559450()->F28())
-                mc.FUN_00559450()->F28()->ResetRecordSelection();
+                m18.FUN_0066b0d0(((::E14 *)(reinterpret_cast<::NiNode *>((m20->F1d0()->Fc(0)))->GetAt({})))->F14());
+            if (((::Q28 *)(::FUN_00559450((int *)&(mc))))->F28())
+                reinterpret_cast<::FUN_00a872d0_shell *>((((::Q28 *)(::FUN_00559450((int *)&(mc))))->F28()))->ResetRecordSelection();
         }
-        if (m8.FUN_00559450())
+        if (((::Q28 *)(::FUN_00559450((int *)&(m8)))))
         {
-            m1c = g_pkMgr
-                      ->FUN_0070ec90(m8.FUN_00559450(), m0.FUN_00559450()->FUN_00559450()->FUN_00559450(),
-                                     m0.FUN_00559450()->FUN_00559450()->FUN_0043b230(), m14.FUN_00559450(), 0)
-                      ->CreateWaterReference();
+            m1c = ((::E1d0 *)(reinterpret_cast<::fnv_004e4c80::Main61 *>((((::R4e *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::MgrX * *>(&::g_TES))))))))->CreateWaterReference({}, {}, {}, {}, {})));
             m14.FUN_0066b0d0(0);
             if (m1c)
-                m14.FUN_0066b0d0(m1c->F1d0()->Fc(0)->FUN_0043b4a0()->F14());
-            if (m8.FUN_00559450()->F28())
-                m8.FUN_00559450()->F28()->ResetRecordSelection();
+                m14.FUN_0066b0d0(((::E14 *)(reinterpret_cast<::NiNode *>((m1c->F1d0()->Fc(0)))->GetAt({})))->F14());
+            if (((::Q28 *)(::FUN_00559450((int *)&(m8))))->F28())
+                reinterpret_cast<::FUN_00a872d0_shell *>((((::Q28 *)(::FUN_00559450((int *)&(m8))))->F28()))->ResetRecordSelection();
         }
     }
 }
 
 struct ObjB
 {
-    short FUN_0047d3f0();
-    short FUN_004a8ae0();
-    int FUN_00726070();
 };
 struct ObjC
 {
-    int FUN_00441110();
-    ObjC* FUN_00a59d30(int);
-    int GetElement(int);
-    int GetFltValue(int);
 };
 struct Sub4
 {
-    ObjC* FUN_00559450();
 };
 struct Cls6fabc0
 {
@@ -1335,32 +1326,30 @@ struct Cls6fabc0
     int FUN_006fabc0(int arg);
 };
 
-extern int FUN_00438220();
 extern "C" int DAT_0106e180;
-int __cdecl FUN_005b5e40(void*, int, int, int);
 
 // @fnv 0x006fabc0
 int Cls6fabc0::FUN_006fabc0(int abFloat)
 {
     int result = 0;
-    if (m_iWordAt04.FUN_00559450())
+    if (((::ObjC *)(::FUN_00559450((int *)&(m_iWordAt04)))))
     {
-        ObjC* q = m_iWordAt04.FUN_00559450()->FUN_00a59d30(FUN_00438220());
-        ObjC* p = (q == 0 ? 0 : (q->FUN_00441110() >= 8 && q->FUN_00441110() <= 0xc)) ? q : 0;
+        ObjC* q = ((::ObjC *)(reinterpret_cast<::FUN_00a59d30_C *>((((::ObjC *)(::FUN_00559450((int *)&(m_iWordAt04))))))->FUN_00a59d30(FUN_00438220())));
+        ObjC* p = (q == 0 ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((q))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((q))->GetMinLevel())) <= 0xc)) ? q : 0;
         if (p)
         {
             if (abFloat == 0)
             {
-                result = p->GetElement(0);
+                result = ((int)(reinterpret_cast<::S *>((p))->GetElement(0)));
             }
             else
             {
-                result = p->GetFltValue(0);
+                result = ((int)(reinterpret_cast<::fnv_00540570::FUN_00540570_Owner *>((p))->GetFltValue(0)));
             }
         }
         else
         {
-            FUN_005b5e40(&DAT_0106e180, m_iWordAt00->FUN_00726070(), m_iWordAt00->FUN_004a8ae0(), m_iWordAt00->FUN_0047d3f0());
+            ::FUN_005b5e40();
         }
     }
     return result;
@@ -1444,25 +1433,19 @@ struct D6Node
 struct D6Root;
 struct D6Ref
 {
-    D6Root* FUN_00559450();
-    D6Node* FUN_0043b230();
 };
 struct D6Owner
 {
-    D6Ref* FUN_00559450();
 };
 struct D6ChildPtr
 {
     D6Child* p;
-    D6Child* FUN_00559450();
 };
 struct D6Queue
 {
-    void DetachRef(D6Object* object, D6Root* root, D6Node* node);
 };
 struct D6Manager
 {
-    D6Queue* FUN_0070ec90();
 };
 struct D6Detacher
 {
@@ -1475,13 +1458,10 @@ struct D6Detacher
     D6ChildPtr kAttachB;
     D6Object* pObjectA;
     D6Object* pObjectB;
-    D6Owner* FUN_00559450();
     void FUN_006fb3d0(bool force);
 };
 }
 using namespace detach6fb;
-extern bool DAT_0119f154;
-extern D6Manager* DAT_011dea10;
 
 // Detaches and deletes pObjectA and pObjectB from the owner node, reattaching their children, when the global flag or force is set.
 // @fnv 0x006fb3d0
@@ -1489,33 +1469,526 @@ void D6Detacher::FUN_006fb3d0(bool force)
 {
     if (DAT_0119f154 || force)
     {
-        if (kChildA.FUN_00559450() && pObjectA)
+        if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kChildA)))) && pObjectA)
         {
-            if (DAT_011dea10->FUN_0070ec90())
+            if (((::detach6fb::D6Queue *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES)))))))
             {
-                DAT_011dea10->FUN_0070ec90()->DetachRef(pObjectA, pOwner->FUN_00559450()->FUN_00559450(),
-                                                        pOwner->FUN_00559450()->FUN_0043b230());
+                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectA), (std::intptr_t)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
+                                                        (::Target5140 *)(::detach6fb::D6Node *)(((::detach6fb::D6Node *)(::fnv_0043b230::FUN_0043b230((const char *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))));
             }
-            if (kAttachA.FUN_00559450())
+            if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kAttachA)))))
             {
-                FUN_00559450()->FUN_00559450()->FUN_0043b230()->InsertChild(kAttachA.FUN_00559450());
+                ((::detach6fb::D6Node *)(::fnv_0043b230::FUN_0043b230((const char *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(((::detach6fb::D6Owner *)(::FUN_00559450((int *)this)))))))))))->InsertChild(((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kAttachA)))));
             }
             delete pObjectA;
             pObjectA = 0;
         }
-        if (kChildB.FUN_00559450() && pObjectB)
+        if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kChildB)))) && pObjectB)
         {
-            if (DAT_011dea10->FUN_0070ec90())
+            if (((::detach6fb::D6Queue *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES)))))))
             {
-                DAT_011dea10->FUN_0070ec90()->DetachRef(pObjectB, pOwner->FUN_00559450()->FUN_00559450(),
-                                                        pOwner->FUN_00559450()->FUN_0043b230());
+                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectB), (std::intptr_t)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
+                                                        (::Target5140 *)(::detach6fb::D6Node *)(((::detach6fb::D6Node *)(::fnv_0043b230::FUN_0043b230((const char *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))));
             }
-            if (kAttachB.FUN_00559450())
+            if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kAttachB)))))
             {
-                FUN_00559450()->FUN_00559450()->FUN_0043b230()->InsertChild(kAttachB.FUN_00559450());
+                ((::detach6fb::D6Node *)(::fnv_0043b230::FUN_0043b230((const char *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(((::detach6fb::D6Owner *)(::FUN_00559450((int *)this)))))))))))->InsertChild(((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kAttachB)))));
             }
             delete pObjectB;
             pObjectB = 0;
         }
     }
 }
+
+int __cdecl _sprintf(char*, const char*, ...);
+
+void __cdecl BuildLodNormalTexturePath(char* a1, FakeFab* a2, int a3, short a4, short a5);
+
+int __cdecl _sprintf(char*, const char*, ...);
+
+void __cdecl BuildLODDiffuseTexturePath(char* buf, FakeObj* obj, int level, short x, short y);
+
+void UpdateSoundListItems();
+
+struct Obj006fac_ctx;
+
+struct Obj006fac_ctx
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void attach(Obj006fac_ctx*, int);
+};
+
+struct BSMultiBound_ctx : TESObjectDoorController
+{
+    int pad[4];
+    BSMultiBound_ctx();
+};
+
+struct Target006fac_ctx
+{
+    Obj006fac_ctx* root;
+    Ref006fac r4, r8, rc, r10, r14, r18;
+    int p1c, p20, p24;
+    unsigned char enabled, done;
+    void FUN_006facb0();
+};
+
+void __cdecl UpdateListItems();
+
+class NiProperty_ctx;
+
+class NiProperty_ctx : public FUN_006fb940_shell
+{
+  public:
+};
+
+struct PropState_ctx
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void* v70(NiGeometry*, NiProperty_ctx*);
+};
+
+using AutoMemX = ::AutoMemContext;
+
+struct Q28_ctx
+{
+    virtual void v0(), v1(), v2(), v3(), v4(), v5(), v6(), v7(), v8(), v9();
+    virtual struct TaskX* F28();
+};
+
+struct Obj18
+{
+    virtual void v0(), v1(), v2(), v3(), v4(), v5();
+    virtual void* F18();
+};
+
+struct NodeX
+{
+};
+
+struct RootX
+{
+    virtual void v0(), v1(), v2();
+    virtual int Fc();
+};
+
+struct PN
+{
+    void* p;
+    void FUN_0066b0d0(void* q);
+};
+
+struct PQ_ctx
+{
+    void* p;
+    void FUN_0066b0d0(void* q);
+};
+
+struct PV
+{
+    void* p;
+    void FUN_0066b0d0(void* q);
+};
+
+struct StreamX
+{
+    char buf[0x5cc];
+    StreamX();
+    ~StreamX();
+};
+
+struct SettingX
+{
+    bool* FUN_00408d60();
+};
+
+class SelfX_ctx
+{
+  public:
+    char pad[0x48];
+    PV m48;
+    PQ_ctx m4c;
+    PV m50;
+    PN m54;
+    void FUN_006fbd00();
+public:
+    void UpdateWaterReferences(bool);
+};
+
+// @fnv 0x006fbd00
+void SelfX_ctx::FUN_006fbd00()
+{
+    AutoMemX kMemVal(
+        0x23, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Distant Terrain System\\BGSTerrainChunk.cpp",
+        0x298);
+    std::intptr_t iFile = ((std::intptr_t)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
+    StreamX kStreamVal;
+    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStreamVal))->FUN_00c3a8a0(((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), {}))
+    {
+        RootX* pkRoot = ((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0)));
+        if (pkRoot->Fc())
+        {
+            m54.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0))));
+            m48.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(0))));
+            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->FUN_00453470())) > 1 && *(*reinterpret_cast<::SettingX *>(&::g_011c7adc)).FUN_00408d60())
+            {
+                m4c.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(1)))->F18());
+                if (((::Q28_ctx *)(::FUN_00559450((int *)&(m4c))))->F28() && ((int)(reinterpret_cast<::FUN_006fbfe0_shell *>((((::Q28_ctx *)(::FUN_00559450((int *)&(m4c))))->F28()))->GetFlagOrValue())) == 3)
+                    m4c.FUN_0066b0d0(0);
+            }
+            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->FUN_00453470())) > 2 && *(*reinterpret_cast<::SettingX *>(&::g_011c7adc)).FUN_00408d60())
+                m50.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(2)))->F18());
+        }
+        else
+        {
+            m48.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0))));
+            if (((unsigned int)(::GetRefAt21C((const char *)&(kStreamVal)))) > 1)
+                m4c.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(1))));
+        }
+    }
+}
+
+class TESWorldSpace;
+
+struct QueuedFileEntry_decl
+{
+    virtual ~QueuedFileEntry_decl();
+    int f4[0x2c / 4];
+    QueuedFileEntry_decl(int priority);
+};
+
+template <class T> struct ChunkPtr
+{
+    ChunkPtr(T* p);
+    ~ChunkPtr();
+    T* p;
+};
+
+struct BGSTerrainChunkLoadTask_decl : QueuedFileEntry_decl
+{
+    bool unk30;
+    int iX;
+    int iY;
+    int iLevel;
+    void* owner;
+    TESWorldSpace* world;
+    ChunkPtr<void> unk48;
+    ChunkPtr<void> unk4c;
+    ChunkPtr<void> unk50;
+    ChunkPtr<void> unk54;
+    bool unk58;
+    BGSTerrainChunkLoadTask_decl(void* block, TESWorldSpace* space, int x, int y, int level);
+    bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
+};
+
+struct FUN_006fbbd0_shell_decl : BGSTerrainChunkLoadTask_decl
+{
+    void LoadTerrainChunkTextures();
+};
+
+struct Obj006fac_decl;
+
+struct Obj006fac_decl
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void attach(Obj006fac_decl*, int);
+};
+
+struct BSMultiBound_decl : TESObjectDoorController
+{
+    int pad[4];
+    BSMultiBound_decl();
+};
+
+struct Target006fac_decl
+{
+    Obj006fac_decl* root;
+    Ref006fac r4, r8, rc, r10, r14, r18;
+    int p1c, p20, p24;
+    unsigned char enabled, done;
+    void FUN_006facb0();
+};
+
+class NiProperty_decl;
+
+class NiProperty_decl : public FUN_006fb940_shell
+{
+  public:
+};
+
+struct PropState_decl
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void* v70(NiGeometry*, NiProperty_decl*);
+};
+
+struct TerrainTask_decl : BGSTerrainChunkLoadTask_decl
+{
+    FinalObject* m_pExtra40;
+    unsigned int m_unk44;
+    NodeRef m_ref48;
+    NodeRef m_ref4c;
+    NodeRef m_ref50;
+    unsigned int m_unk54;
+    bool m_bDisabled58;
+    void UpdateTerrainLODNames();
+};
+
+// @fnv 0x006fb980
+BGSTerrainChunkLoadTask_decl::BGSTerrainChunkLoadTask_decl(void* block, TESWorldSpace* space, int x, int y, int level)
+    : QueuedFileEntry_decl(3), unk30(false), iX(x), iY(y), iLevel(level), owner(block), world(space), unk48(0), unk4c(0),
+      unk50(0), unk54(0), unk58(false)
+{
+    char fileName[260];
+    ::BuildLodMeshPath(fileName, (::FakeWorld006faad0 *)(world), level, (short)x, (short)y);
+    reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0((char *)(fileName + 5));
+    reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(0);
+}
+
+#include "generated/data/fallout_shared/distant terrain system/bgsterrainchunk.inc"

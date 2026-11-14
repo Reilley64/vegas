@@ -1,20 +1,38 @@
 // fallout_shared/formcomponentcollection.cpp: FormComponentArray, Holder (7 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "FormComponentArray.h"
 #include "formcomponents.h"
 #include "TESForm.h"
 
+struct FUN_0047c540_shell : public FormComponentArray
+{
+    void FUN_0047c540();
+};
 // @fnv 0x0047c050
 FormComponentArray::FormComponentArray()
 {
-    ClearDataAllComponents();
+    reinterpret_cast<::FUN_0047c540_shell *>(this)->FUN_0047c540();
 }
-
 // Clears all component pointers, then stores form and dynamic_cast results for each supported component type into the component array.
 // @fnv 0x0047c070
 void FormComponentArray::InitializeFromForm(TESForm* form)
 {
-    ClearDataAllComponents();
+    reinterpret_cast<::FUN_0047c540_shell *>(this)->FUN_0047c540();
     m_pComponents[0] = form;
     m_pComponents[1] = dynamic_cast<TESAIForm*>(form);
     m_pComponents[3] = dynamic_cast<TESActorBaseData*>(form);
@@ -55,17 +73,11 @@ void FormComponentArray::InitializeFromForm(TESForm* form)
     m_pComponents[37] = dynamic_cast<BGSPickupPutdownSounds*>(form);
 }
 
-struct FUN_0047c540_shell : public FormComponentArray
-{
-    void FUN_0047c540();
-};
-
-void* __cdecl memset(void*, int, unsigned int);
 
 // @fnv 0x0047c540
 void FUN_0047c540_shell::FUN_0047c540()
 {
-    memset(this, 0, 0x98);
+    ::FUN_00403d30(this, 0, 0x98);
 }
 
 struct Elem

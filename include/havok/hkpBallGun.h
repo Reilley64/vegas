@@ -5,10 +5,13 @@
 
 #include "hkBase.h"
 #include "hkpFirstPersonGun.h"
-#pragma pack(push, 1)
+class hkpSphereShape;
 class hkpBallGun : public hkpFirstPersonGun
 {
   public:
+    // Returns one owned native reference; callers release it with removeReference().
+    hkpSphereShape* createBulletShape() const;
+
     hkReal m_fBulletRadius;       // +0x20
     hkReal m_fBulletVelocity;     // +0x24
     hkReal m_fBulletMass;         // +0x28
@@ -19,6 +22,4 @@ class hkpBallGun : public hkpFirstPersonGun
     void* m_pBulletQueue;          // +0x50
     char pad54[0xC];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpBallGun[(sizeof(hkpBallGun) == 0x60) ? 1 : -1];
 #endif

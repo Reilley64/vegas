@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpExtendedMeshShapeSubpart.h"
-#pragma pack(push, 1)
 class hkpExtendedMeshShapeTrianglesSubpart : public hkpExtendedMeshShapeSubpart
 {
   public:
@@ -24,7 +23,4 @@ class hkpExtendedMeshShapeTrianglesSubpart : public hkpExtendedMeshShapeSubpart
     hkUlong m_ulUserData;       // +0x50
     char pad54[0xC];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpExtendedMeshShapeTrianglesSubpart[(sizeof(hkpExtendedMeshShapeTrianglesSubpart) == 0x60) ? 1 : -1];
 #endif

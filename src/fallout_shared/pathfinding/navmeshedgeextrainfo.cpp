@@ -1,5 +1,8 @@
 // fallout_shared/pathfinding/navmeshedgeextrainfo.cpp: EdgeExtraInfo, EdgeHolder (2 functions)
 
+#include "fnv/decl/DFD0Data.h"
+#include "fnv/decl/Owner45A.h"
+#include "fnv/symbols_011de000.h"
 #include "navmeshedgeextrainfo_decls.h"
 
 // @fnv 0x00694de0
@@ -12,12 +15,9 @@ EdgeExtraInfo* EdgeExtraInfo::DeserializeFromFile()
 
 struct TES
 {
-    void* GetActiveCell(void* a, void* b);
 };
-extern TES* g_TES;
 struct PortalHolder
 {
-    void LoadFormRef(void* p);
 };
 struct EdgeHolder
 {
@@ -27,5 +27,5 @@ struct EdgeHolder
 void EdgeHolder::FUN_0069d240(void* apArg1, void* apArg2)
 {
     *(int*)this = 0;
-    ((PortalHolder*)((char*)this + 4))->LoadFormRef(g_TES->GetActiveCell(apArg1, apArg2));
+    reinterpret_cast<::DFD0Data *>((((PortalHolder*)((char*)this + 4))))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00())), {}, {});
 }

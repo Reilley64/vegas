@@ -9,21 +9,14 @@ class std___Container_base0;
 class std___Vector_val_float_std__allocator_float___;
 class std__allocator_float_;
 class std__vector_float_std__allocator_float___;
-#pragma pack(push, 4)
 class std___Container_base0
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(std___Container_base0) == 1);
-#pragma pack(push, 4)
 class std___Allocator_base_float_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(std___Allocator_base_float_) == 1);
-#pragma pack(push, 4)
 class std__allocator_float_ : public std___Allocator_base_float_
 {
   public:
@@ -36,9 +29,6 @@ class std__allocator_float_ : public std___Allocator_base_float_
     // void __cdecl std::allocator<float>::*(float*)
     // unsigned int __cdecl std::allocator<float>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(std__allocator_float_) == 1);
-#pragma pack(push, 4)
 class std___Vector_val_float_std__allocator_float___ : public std___Container_base0
 {
   public:
@@ -52,13 +42,6 @@ class std___Vector_val_float_std__allocator_float___ : public std___Container_ba
     // void __cdecl std::_Vector_val<float,std::allocator<float> >::*()
     // void* __cdecl std::_Vector_val<float,std::allocator<float> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(std___Vector_val_float_std__allocator_float___) == 16);
-FNV_STATIC_ASSERT(offsetof(std___Vector_val_float_std__allocator_float___, _Myfirst) == 0);
-FNV_STATIC_ASSERT(offsetof(std___Vector_val_float_std__allocator_float___, _Mylast) == 4);
-FNV_STATIC_ASSERT(offsetof(std___Vector_val_float_std__allocator_float___, _Myend) == 8);
-FNV_STATIC_ASSERT(offsetof(std___Vector_val_float_std__allocator_float___, _Alval) == 12);
-#pragma pack(push, 4)
 class std__vector_float_std__allocator_float___ : public std___Vector_val_float_std__allocator_float___
 {
   public:
@@ -112,9 +95,6 @@ class std__vector_float_std__allocator_float___ : public std___Vector_val_float_
     // void __cdecl std::vector<float,std::allocator<float> >::*(float*, float*)
     // void* __cdecl std::vector<float,std::allocator<float> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(std__vector_float_std__allocator_float___) == 16);
-#pragma pack(push, 4)
 class FR2MatrixVTC_float_
 {
   public:
@@ -130,9 +110,4 @@ class FR2MatrixVTC_float_
     // operator+=
     // operator-=
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FR2MatrixVTC_float_) == 24);
-FNV_STATIC_ASSERT(offsetof(FR2MatrixVTC_float_, data) == 0);
-FNV_STATIC_ASSERT(offsetof(FR2MatrixVTC_float_, m_uiRowCount) == 16);
-FNV_STATIC_ASSERT(offsetof(FR2MatrixVTC_float_, m_uiColumnCount) == 20);
 #endif

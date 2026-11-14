@@ -2,25 +2,62 @@
 // src/staging/blk_00ec0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
+#include <windows.h>
+#include "fnv/decl/MapOwnerStandIn.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
+#include <cstdint>
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_00ebf000.h"
+#include "fnv/symbols_00ec0000.h"
+#include "fnv/symbols_00ec1000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
 
-struct BGSMoviePlayer
+struct MoviePlayerA;
+class NiTStringMapCopy;
+namespace fnv_00ec15e0 {
+class BSMoviePlayer;
+static void BSMoviePlayer_Destroy(BSMoviePlayer* player);
+}
+static void MoviePlayerA_Load(MoviePlayerA* player, const char* list);
+static void NiTStringMapCopy_Destroy(NiTStringMapCopy* map);
+
+
+class BGSMoviePlayer
 {
-    void __thiscall FUN_00ec2760(int a);
 };
-extern BGSMoviePlayer* DAT_0126fac4;
 // @fnv 0x00ec16b0
-int __stdcall FUN_00ec16b0(int a)
+DWORD WINAPI FUN_00ec16b0(LPVOID a)
 {
-    DAT_0126fac4->FUN_00ec2760(a);
+    MoviePlayerA_Load(reinterpret_cast<MoviePlayerA*>(::DAT_0126fac4), static_cast<const char*>(a));
     return 0;
 }
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct FUN_00ec1a40_Class
 {
     void* FUN_00ec1a40();
@@ -28,91 +65,81 @@ struct FUN_00ec1a40_Class
 // @fnv 0x00ec1a40
 void* FUN_00ec1a40_Class::FUN_00ec1a40()
 {
-    void* result = g_memoryManager.Allocate(0xc);
+    void* result = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0xc);
     return result;
 }
 
-extern "C" int __cdecl _NiStricmp(const char*, const char*);
 
 struct FUN_00ec1c90_class
 {
-    int __thiscall AreStringsEqualIgnoreCase(const char* a, const char* b);
+    int AreStringsEqualIgnoreCase(const char* a, const char* b);
 };
 
 // Returns nonzero when the two strings compare equal ignoring case, via _NiStricmp.
 // @fnv 0x00ec1c90
-int __thiscall FUN_00ec1c90_class::AreStringsEqualIgnoreCase(const char* pcStringA, const char* pcStringB)
+int FUN_00ec1c90_class::AreStringsEqualIgnoreCase(const char* pcStringA, const char* pcStringB)
 {
-    return !_NiStricmp(pcStringA, pcStringB);
+    return !::NiStricmp(pcStringA, pcStringB);
 }
 
-extern int __cdecl __stricmp(const char*, const char*);
 
 struct FUN_00ec1dc0_Class
 {
-    int __thiscall IsStringEqualIgnoreCase(const char* a, const char* b);
+    int IsStringEqualIgnoreCase(const char* a, const char* b);
 };
 
 // Returns nonzero when the two strings are equal ignoring case, using __stricmp.
 // @fnv 0x00ec1dc0
-int __thiscall FUN_00ec1dc0_Class::IsStringEqualIgnoreCase(const char* pcStringA, const char* pcStringB)
+int FUN_00ec1dc0_Class::IsStringEqualIgnoreCase(const char* pcStringA, const char* pcStringB)
 {
-    return !__stricmp(pcStringA, pcStringB);
+    return !fnv::crt::stricmp(pcStringA, pcStringB);
 }
 
 struct FUN_00ec1f20Class
 {
-    void FUN_00ec1570();
     void* FUN_00ec1f20();
 };
 
 // @fnv 0x00ec1f20
 void* FUN_00ec1f20Class::FUN_00ec1f20()
 {
-    FUN_00ec1570();
+    ::FUN_00ec1570((::FUN_00ec1570_t *)this);
     return this;
 }
 
 struct FUN_00ec1f40Class
 {
-    void __thiscall FUN_00ec1020();
-    void __thiscall FUN_00ec1f40();
+    void FUN_00ec1f40();
 };
-
-// @fnv 0x00ec1f40
-void __thiscall FUN_00ec1f40Class::FUN_00ec1f40()
-{
-    FUN_00ec1020();
-}
 
 namespace fnv_00ec20a0 {
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 // @fnv 0x00ec20a0
-void __stdcall FUN_00ec20a0(void* apMemory)
+void FUN_00ec20a0(void* apMemory)
 {
-    g_memoryManager.Deallocate(apMemory);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ec20a0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(apMemory);
 }
 }  // namespace fnv_00ec20a0
 
 struct FUN_00ec29b0_class
 {
+    char m_pad00[0x21];
+    bool m_b21;
     void FUN_00ec29b0();
 };
 // @fnv 0x00ec29b0
 void FUN_00ec29b0_class::FUN_00ec29b0()
 {
-    ((char*)this)[0x21] = 1;
+    m_b21 = true;
 }
 
 struct FUN_00ec2c10
 {
     int m_0000;
     int m_0004;
-    int m_0008;
+    void* m_0008;
     int m_000c;
     int m_0010;
     int m_0014;
@@ -122,12 +149,12 @@ struct FUN_00ec2c10
     int m_0024;
     int m_0028;
     int m_002c;
-    void __thiscall SetThreadPriorityLevel(int);
-    void __thiscall FUN_00ec2c10_init();
+    void SetThreadPriorityLevel(int);
+    void FUN_00ec2c10_init();
 };
 // If m_002c is below 5, calls SetThreadPriorityLevel with m_002c + 1.
 // @fnv 0x00ec2c10
-void __thiscall FUN_00ec2c10::FUN_00ec2c10_init()
+void FUN_00ec2c10::FUN_00ec2c10_init()
 {
     if (m_002c < 5)
         SetThreadPriorityLevel(m_002c + 1);
@@ -148,7 +175,7 @@ struct FUN_00ec1570_t
 };
 // Resets all fields of the structure: integer fields to 0, f to 1.0, g and h to 0.0, and j to false.
 // @fnv 0x00ec1570
-void __fastcall FUN_00ec1570(FUN_00ec1570_t* p)
+void FUN_00ec1570(FUN_00ec1570_t* p)
 {
     p->a = 0;
     p->b = 0;
@@ -164,72 +191,53 @@ void __fastcall FUN_00ec1570(FUN_00ec1570_t* p)
 
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 struct FUN_00ec15e0_shell
 {
-    void __thiscall FUN_00ec15e0();
 };
 struct FUN_00ec19d0_class
 {
-    void* __thiscall FUN_00ec19d0(unsigned int flags);
+    void* FUN_00ec19d0(unsigned int flags);
 };
 // @fnv 0x00ec19d0
-void* __thiscall FUN_00ec19d0_class::FUN_00ec19d0(unsigned int flags)
+void* FUN_00ec19d0_class::FUN_00ec19d0(unsigned int flags)
 {
-    ((FUN_00ec15e0_shell*)this)->FUN_00ec15e0();
+    ::fnv_00ec15e0::BSMoviePlayer_Destroy(reinterpret_cast<::fnv_00ec15e0::BSMoviePlayer *>(this));
     if (flags & 1)
-        ((MemoryManager*)&g_memoryManager)->Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(this);
     return this;
 }
 
 struct FUN_00ec0cd0_Class
 {
-    unsigned char __thiscall InitPlayback(int a, int b, unsigned char c, int d);
 };
 struct FUN_00ec1f60_Class
 {
-    int m_0020;
-    unsigned char m_0024;
-    unsigned char InitAndCheck(int a, unsigned char b);
+    unsigned char InitAndCheck(intptr_t a, unsigned char b);
 };
-// @fnv 0x00ec1f60
-unsigned char FUN_00ec1f60_Class::InitAndCheck(int aiValue, unsigned char b)
-{
-    *(int*)((char*)this + 0x20) = 2;
-    *(unsigned char*)((char*)this + 0x24) = 1;
-    if (!((FUN_00ec0cd0_Class*)this)->InitPlayback(aiValue, 1, b, 0))
-    {
-        *(unsigned char*)((char*)this + 0x24) = 0;
-        return 0;
-    }
-    *(unsigned char*)((char*)this + 0x24) = 0;
-    return 1;
-}
-
-void __cdecl FNV_Warning(const char*);
 struct FUN_00ec1fb0_class
 {
-    void __thiscall DisableThreadPriorityBoost();
+    void DisableThreadPriorityBoost();
 };
 struct FUN_00ec2a10_class
 {
     int m_0000;
     int m_0004;
     int m_0008;
-    int m_000c;
-    int m_0010;
-    void __thiscall PauseMovie();
+    void* m_000c;
+    void* m_0010;
+    void PauseMovie();
 };
 // If a movie is set, warns when another is already paused, calls DisableThreadPriorityBoost on it, stores it as the paused movie and clears the active movie pointer.
 // @fnv 0x00ec2a10
-void __thiscall FUN_00ec2a10_class::PauseMovie()
+void FUN_00ec2a10_class::PauseMovie()
 {
     if (!m_000c)
         return;
     if (m_0010)
-        FNV_Warning(
-            "DEFAULT: Trying to pause a movie while another movie is already paused.  This is not currently supported.");
+        ::FUN_005b5e40(
+            );
     ((FUN_00ec1fb0_class*)m_000c)->DisableThreadPriorityBoost();
     m_0010 = m_000c;
     m_000c = 0;
@@ -242,19 +250,19 @@ struct FUN_00ec2d40_class
     int m_0008;
     int m_000c;
     int m_0010;
-    int m_0014;
+    intptr_t m_0014;
     int m_0018;
-    int m_001c;
+    void (*m_001c)(void);
     int m_0020;
-    void __thiscall SetValueAndReset(int a);
+    void SetValueAndReset(intptr_t a);
 };
 // Stores a into m_0014, clears m_0004, calls the callback at m_001c, then clears m_001c.
 // @fnv 0x00ec2d40
-void __thiscall FUN_00ec2d40_class::SetValueAndReset(int aiValue)
+void FUN_00ec2d40_class::SetValueAndReset(intptr_t aiValue)
 {
     m_0014 = aiValue;
     m_0004 = 0;
-    ((void(__thiscall*)(void))this->m_001c)();
+    ((void(*)(void))this->m_001c)();
     m_001c = 0;
 }
 
@@ -272,11 +280,11 @@ struct FUN_00ec2aa0_Class
     virtual void v9();
     virtual unsigned int v10();
     virtual unsigned int v11();
-    float __thiscall ComputeRatio(unsigned int a, unsigned int b, bool c);
+    float ComputeRatio(unsigned int a, unsigned int b, bool c);
 };
 // Returns v10() divided by a when c is true, otherwise v11() divided by b, as a float.
 // @fnv 0x00ec2aa0
-float __thiscall FUN_00ec2aa0_Class::ComputeRatio(unsigned int auiDivisorA, unsigned int auiDivisorB, bool abUseFirst)
+float FUN_00ec2aa0_Class::ComputeRatio(unsigned int auiDivisorA, unsigned int auiDivisorB, bool abUseFirst)
 {
     if (abUseFirst)
         return (float)v10() / auiDivisorA;
@@ -284,11 +292,10 @@ float __thiscall FUN_00ec2aa0_Class::ComputeRatio(unsigned int auiDivisorA, unsi
         return (float)v11() / auiDivisorB;
 }
 
-extern "C" __declspec(dllimport) int __stdcall SetThreadPriority(void* hThread, int priority);
 
 // Maps a level 0-5 to a thread priority, stores the level in m_002c and applies the priority to the thread handle at offset 8.
 // @fnv 0x00ec18a0
-void __thiscall FUN_00ec2c10::SetThreadPriorityLevel(int aiLevel)
+void FUN_00ec2c10::SetThreadPriorityLevel(int aiLevel)
 {
     int b;
     switch (aiLevel)
@@ -316,25 +323,25 @@ void __thiscall FUN_00ec2c10::SetThreadPriorityLevel(int aiLevel)
         break;
     }
     m_002c = aiLevel;
-    SetThreadPriority(*(void**)((char*)this + 8), b);
+    SetThreadPriority(m_0008, b);
 }
 
 struct FUN_00ec1fd0_shell
 {
-    void __thiscall UnpauseBink();
+    void UnpauseBink();
 };
 struct FUN_00ec2a60_class
 {
     int m_0000;
     int m_0004;
     int m_0008;
-    int m_000c;
-    int m_0010;
-    void __thiscall FUN_00ec2a60();
+    void* m_000c;
+    void* m_0010;
+    void FUN_00ec2a60();
 };
 // If m_000c is clear and m_0010 is set, moves m_0010 into m_000c, clears m_0010 and calls UnpauseBink on it.
 // @fnv 0x00ec2a60
-void __thiscall FUN_00ec2a60_class::FUN_00ec2a60()
+void FUN_00ec2a60_class::FUN_00ec2a60()
 {
     if (m_000c)
         return;
@@ -372,7 +379,6 @@ float FUN_00ec2bb0_Class::FUN_00ec2bb0(float afValue, unsigned int b, bool abEna
     return (v11() - b * afValue) / 2.0;
 }
 
-extern "C" __declspec(dllimport) int __stdcall GetExitCodeThread(void* hThread, unsigned long* pExitCode);
 
 struct FUN_00ec17c0_Class
 {
@@ -397,17 +403,16 @@ struct FUN_00ec19a0_Class
 {
     int m_0000;
     void* m_0004;
-    void __thiscall FUN_00ec19a0();
+    void FUN_00ec19a0();
 };
 
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf1c8(void* a, int b);
 
 // If m_0004 is non-null, calls FUN_00fdf1c8 with m_0004 and -1.
 // @fnv 0x00ec19a0
 void FUN_00ec19a0_Class::FUN_00ec19a0()
 {
     if (m_0004)
-        FUN_00fdf1c8(m_0004, -1);
+        WaitForSingleObject(m_0004, -1);
 }
 
 struct FUN_00ec1a60_t
@@ -418,79 +423,82 @@ struct FUN_00ec1a60_t
 };
 struct FUN_00ec1a60_class
 {
-    void __thiscall FreeStruct(FUN_00ec1a60_t* p);
+    void FreeStruct(FUN_00ec1a60_t* p);
 };
 // Clears the third field of the struct, then deallocates it through g_memoryManager.
 // @fnv 0x00ec1a60
-void __thiscall FUN_00ec1a60_class::FreeStruct(FUN_00ec1a60_t* pStruct)
+void FUN_00ec1a60_class::FreeStruct(FUN_00ec1a60_t* pStruct)
 {
     pStruct->c = 0;
     FUN_00ec1a60_t* q = pStruct;
-    ((MemoryManager*)&g_memoryManager)->Deallocate(q);
+    reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(q);
 }
 
-extern "C" void __cdecl _NiFree(void*);
 extern int DAT_010f1ca4;
 struct FUN_00ec1b80_Map
 {
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 struct FUN_00ec1b80_Class
 {
-    int m_0000;
+    void* m_0000;
     int m_0004;
-    int m_0008;
-    void __thiscall Initialize();
+    void* m_0008;
+    void Initialize();
 };
 // @fnv 0x00ec1b80
-void __thiscall FUN_00ec1b80_Class::Initialize()
+void FUN_00ec1b80_Class::Initialize()
 {
     int pad1;
     int pad2;
-    m_0000 = (int)&DAT_010f1ca4;
-    ((FUN_00ec1b80_Map*)this)->RemoveAll();
-    _NiFree((void*)m_0008);
+    m_0000 = &DAT_010f1ca4;
+    reinterpret_cast<::FUN_00438af0_Class *>((((FUN_00ec1b80_Map*)this)))->FUN_00438af0();
+    ::FUN_00aa10f0((void*)m_0008);
 }
 
-void* __cdecl _NiMalloc(unsigned int size);
-unsigned int __cdecl _strlen(const char* s);
-int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 
 struct FUN_00ec1cc0_Class
 {
-    void __thiscall AssignString(void* a, const char* b, int c);
+    char m_pad00[0x10];
+    unsigned char m_bCopyStrings;
+    void AssignString(void* a, const char* b, int c);
+};
+struct EC1CC0Target
+{
+    int unk00;
+    void* m_pString;
+    int m_iValue;
 };
 
 // Stores a string into a+4 (copying it when this+0x10 is set) and stores c into a+8.
 // @fnv 0x00ec1cc0
-void __thiscall FUN_00ec1cc0_Class::AssignString(void* apTarget, const char* apString, int aiValue)
+void FUN_00ec1cc0_Class::AssignString(void* apTarget, const char* apString, int aiValue)
 {
-    if (*(unsigned char*)((char*)this + 0x10))
+    EC1CC0Target* pkTarget = static_cast<EC1CC0Target*>(apTarget);
+    if (m_bCopyStrings)
     {
-        unsigned int uiLen = _strlen(apString) + 1;
-        *(void**)((char*)apTarget + 4) = _NiMalloc(uiLen);
-        void* dest = *(void**)((char*)apTarget + 4);
-        _strcpy_s((char*)dest, uiLen, apString);
+        unsigned int uiLen = (unsigned int)std::strlen(apString) + 1;
+        pkTarget->m_pString = ::FUN_00aa1070(uiLen);
+        void* dest = pkTarget->m_pString;
+        fnv::crt::strcpy_s((char*)dest, uiLen, apString);
     }
     else
     {
-        *(void**)((char*)apTarget + 4) = (void*)apString;
+        pkTarget->m_pString = (void*)apString;
     }
-    *(int*)((char*)apTarget + 8) = aiValue;
+    pkTarget->m_iValue = aiValue;
 }
 
-extern int DAT_010f1c20;
 struct FUN_00ec1a90_Class
 {
-    int m_ppVirtualMethodTable;
-    void __thiscall FUN_00ec1a90();
+    void* m_ppVirtualMethodTable;
 };
 struct FUN_00ec1d30_Class : FUN_00ec1a90_Class
 {
-    void __thiscall FUN_00ec1d30();
+    void FUN_00ec1d30();
 };
 // @fnv 0x00ec1d30
-void __thiscall FUN_00ec1d30_Class::FUN_00ec1d30()
+void FUN_00ec1d30_Class::FUN_00ec1d30()
 {
     int a;
     int b;
@@ -499,82 +507,82 @@ void __thiscall FUN_00ec1d30_Class::FUN_00ec1d30()
     int e;
     int f;
     int g;
-    m_ppVirtualMethodTable = (int)&DAT_010f1c20;
-    FUN_00ec1a90();
+    m_ppVirtualMethodTable = &DAT_010f1c20;
+    NiTStringMapCopy_Destroy(reinterpret_cast<::NiTStringMapCopy *>(this));
 }
 
 struct FUN_00ec0460_cls
 {
-    virtual void __stdcall v00(void);
-    virtual void __stdcall v01(void);
-    virtual void __stdcall v02(void);
-    virtual void __stdcall v03(void);
-    virtual void __stdcall v04(void);
-    virtual void __stdcall v05(void);
-    virtual void __stdcall v06(void);
-    virtual void __stdcall v07(void);
-    virtual void __stdcall v08(void);
-    virtual void __stdcall v09(void);
-    virtual void __stdcall v10(void);
-    virtual void __stdcall v11(void);
-    virtual void __stdcall v12(void);
-    virtual void __stdcall v13(void);
-    virtual void __stdcall v14(void);
-    virtual void __stdcall v15(void);
-    virtual void __stdcall v16(void);
-    virtual void __stdcall v17(void);
-    virtual void __stdcall v18(void);
-    virtual void __stdcall v19(void);
-    virtual void __stdcall v20(void);
-    virtual void __stdcall v21(void);
-    virtual void __stdcall v22(void);
-    virtual void __stdcall v23(void);
-    virtual void __stdcall v24(void);
-    virtual void __stdcall v25(void);
-    virtual void __stdcall v26(void);
-    virtual void __stdcall v27(void);
-    virtual void __stdcall v28(void);
-    virtual void __stdcall v29(void);
-    virtual void __stdcall v30(void);
-    virtual void __stdcall v31(void);
-    virtual void __stdcall v32(void);
-    virtual void __stdcall v33(void);
-    virtual void __stdcall v34(void);
-    virtual void __stdcall v35(void);
-    virtual void __stdcall v36(void);
-    virtual void __stdcall v37(void);
-    virtual void __stdcall v38(void);
-    virtual void __stdcall v39(void);
-    virtual void __stdcall v40(void);
-    virtual void __stdcall v41(void);
-    virtual void __stdcall v42(void);
-    virtual void __stdcall v43(void);
-    virtual void __stdcall v44(void);
-    virtual void __stdcall v45(void);
-    virtual void __stdcall v46(void);
-    virtual void __stdcall v47(void);
-    virtual void __stdcall v48(void);
-    virtual void __stdcall v49(void);
-    virtual void __stdcall v50(void);
-    virtual void __stdcall v51(void);
-    virtual void __stdcall v52(void);
-    virtual void __stdcall v53(void);
-    virtual void __stdcall v54(void);
-    virtual void __stdcall v55(void);
-    virtual void __stdcall v56(void);
-    virtual void __stdcall v57(int a, int b);
-    virtual void __stdcall v58(void);
-    virtual void __stdcall v59(void);
-    virtual void __stdcall v60(void);
-    virtual void __stdcall v61(void);
-    virtual void __stdcall v62(void);
-    virtual void __stdcall v63(void);
-    virtual void __stdcall v64(void);
-    virtual void __stdcall v65(void);
-    virtual void __stdcall v66(void);
-    virtual void __stdcall v67(int a, int b, int c);
-    virtual void __stdcall v68(void);
-    virtual void __stdcall v69(int a, int b, int c);
+    virtual void v00(void);
+    virtual void v01(void);
+    virtual void v02(void);
+    virtual void v03(void);
+    virtual void v04(void);
+    virtual void v05(void);
+    virtual void v06(void);
+    virtual void v07(void);
+    virtual void v08(void);
+    virtual void v09(void);
+    virtual void v10(void);
+    virtual void v11(void);
+    virtual void v12(void);
+    virtual void v13(void);
+    virtual void v14(void);
+    virtual void v15(void);
+    virtual void v16(void);
+    virtual void v17(void);
+    virtual void v18(void);
+    virtual void v19(void);
+    virtual void v20(void);
+    virtual void v21(void);
+    virtual void v22(void);
+    virtual void v23(void);
+    virtual void v24(void);
+    virtual void v25(void);
+    virtual void v26(void);
+    virtual void v27(void);
+    virtual void v28(void);
+    virtual void v29(void);
+    virtual void v30(void);
+    virtual void v31(void);
+    virtual void v32(void);
+    virtual void v33(void);
+    virtual void v34(void);
+    virtual void v35(void);
+    virtual void v36(void);
+    virtual void v37(void);
+    virtual void v38(void);
+    virtual void v39(void);
+    virtual void v40(void);
+    virtual void v41(void);
+    virtual void v42(void);
+    virtual void v43(void);
+    virtual void v44(void);
+    virtual void v45(void);
+    virtual void v46(void);
+    virtual void v47(void);
+    virtual void v48(void);
+    virtual void v49(void);
+    virtual void v50(void);
+    virtual void v51(void);
+    virtual void v52(void);
+    virtual void v53(void);
+    virtual void v54(void);
+    virtual void v55(void);
+    virtual void v56(void);
+    virtual void v57(int a, int b);
+    virtual void v58(void);
+    virtual void v59(void);
+    virtual void v60(void);
+    virtual void v61(void);
+    virtual void v62(void);
+    virtual void v63(void);
+    virtual void v64(void);
+    virtual void v65(void);
+    virtual void v66(void);
+    virtual void v67(int a, int b, int c);
+    virtual void v68(void);
+    virtual void v69(int a, int b, int c);
 };
 
 // @fnv 0x00ec0460
@@ -594,7 +602,7 @@ void __cdecl FUN_00ec0460(FUN_00ec0460_cls* p)
 
 struct GridDesc
 {
-    int unk00;
+    void* unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -612,7 +620,6 @@ struct GridDesc
     unsigned int cellSize;
 };
 
-void __cdecl FUN_00ec0720(int target, float x, float y, float sx, float sy, unsigned int w, unsigned int h);
 
 // @fnv 0x00ec0550
 void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY)
@@ -632,12 +639,12 @@ void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scal
         x = startX;
         for (col_2 = 0; col_2 < grid->cols; col_2++)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->cellSize, grid->cellSize);
+            ::FUN_00ec0720((::FUN_00ec0720_Device *)(grid->unk00), x, y_, scaleX, scaleY, grid->cellSize, grid->cellSize);
             x += stepX4;
         }
         if (grid->extraX)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->extraX, grid->cellSize);
+            ::FUN_00ec0720((::FUN_00ec0720_Device *)(grid->unk00), x, y_, scaleX, scaleY, grid->extraX, grid->cellSize);
         }
         y_ += stepY;
     }
@@ -646,12 +653,12 @@ void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scal
         x = startX;
         for (col_2 = 0; col_2 < grid->cols; col_2++)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->cellSize, grid->extraY);
+            ::FUN_00ec0720((::FUN_00ec0720_Device *)(grid->unk00), x, y_, scaleX, scaleY, grid->cellSize, grid->extraY);
             x += stepX4;
         }
         if (grid->extraX)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->extraX, grid->extraY);
+            ::FUN_00ec0720((::FUN_00ec0720_Device *)(grid->unk00), x, y_, scaleX, scaleY, grid->extraX, grid->extraY);
         }
     }
 }
@@ -672,21 +679,15 @@ class NiPlaybackManager
     virtual void v04();
     virtual void v05();
     virtual void v06();
-    virtual int GetRenderer();
-    float GetFrameRate(unsigned int uiWidth, unsigned int uiHeight, bool bLooping);
-    float GetWidthScale(float fRate, unsigned int uiWidth, bool bLooping);
-    float GetHeightScale(float fRate, unsigned int uiHeight, bool bLooping);
+    virtual void* GetRenderer();
 };
 
-void* __cdecl CreatePlaybackTextures(int iRenderer, unsigned int uiWidth, unsigned int uiHeight, int iCount, int iFlags,
-                                     int iFormat);
-void __cdecl FNV_Warning(const char*, ...);
 
 class NiPlaybackFile
 {
   public:
     NiPlaybackFrameSize* m_pkSize;
-    int m_iRenderer;
+    void* m_iRenderer;
     void* m_pkTextures;
     int m_unk0C;
     int m_unk10;
@@ -698,39 +699,39 @@ class NiPlaybackFile
     bool FindString(const char* pcName, bool bQuiet, bool bLoop, bool bFlag);
     bool InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping);
 };
-
-// Loads the playback size if needed, queries the manager for renderer, frame rate and scales, allocates textures and warns on failure.
-// @fnv 0x00ec0cd0
-bool NiPlaybackFile::InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping)
+struct EC1F60Movie : NiPlaybackFile
 {
-    if (m_pkSize == 0 && !FindString(pcName, bQuiet, bLoop, false))
-        return false;
-
-    m_iRenderer = ((NiPlaybackManager*)DAT_0126fac4)->GetRenderer();
-    m_fTextureScale = ((NiPlaybackManager*)DAT_0126fac4)->GetFrameRate(m_pkSize->uiWidth, m_pkSize->uiHeight, bLooping);
-    m_fWidthScale = ((NiPlaybackManager*)DAT_0126fac4)->GetWidthScale(m_fTextureScale, m_pkSize->uiWidth, bLooping);
-    m_fHeightScale = ((NiPlaybackManager*)DAT_0126fac4)->GetHeightScale(m_fTextureScale, m_pkSize->uiHeight, bLooping);
-    m_pkTextures = CreatePlaybackTextures(m_iRenderer, m_pkSize->uiWidth, m_pkSize->uiHeight, 4, 0x100, 0x16);
-    if (m_pkTextures == 0)
+    unsigned char m_bOpening;
+};
+// @fnv 0x00ec1f60
+unsigned char FUN_00ec1f60_Class::InitAndCheck(intptr_t aiValue, unsigned char b)
+{
+    EC1F60Movie* pkMovie = reinterpret_cast<EC1F60Movie*>(this);
+    pkMovie->m_iFadeIndex = 2;
+    pkMovie->m_bOpening = 1;
+    if (!((unsigned char)(pkMovie->InitPlayback((const char *)(aiValue), 1, b, 0))))
     {
-        if (!bQuiet)
-            FNV_Warning("Could not allocate textures for %s playback.", pcName);
-        m_iFadeIndex = 0;
-        return false;
+        pkMovie->m_bOpening = 0;
+        return 0;
     }
-    return true;
+    pkMovie->m_bOpening = 0;
+    return 1;
 }
 
-extern "C" __declspec(dllimport) void __stdcall BinkClose(int handle);
-void __cdecl ReleaseInterfaceArray(int value);
+extern "C" __declspec(dllimport) void BinkClose(int handle);
 
 struct FUN_00ec1020_cls
 {
     int m_00;
     int m_04;
-    int m_08;
+    void* m_08;
     void FUN_00ec1020();
 };
+// @fnv 0x00ec1f40
+void FUN_00ec1f40Class::FUN_00ec1f40()
+{
+    reinterpret_cast<::FUN_00ec1020_cls *>(this)->FUN_00ec1020();
+}
 
 // @fnv 0x00ec1020
 void FUN_00ec1020_cls::FUN_00ec1020()
@@ -741,7 +742,7 @@ void FUN_00ec1020_cls::FUN_00ec1020()
     }
     if (m_08 != 0)
     {
-        ReleaseInterfaceArray(m_08);
+        ::ReleaseInterfaceArray((::Struct_00ebfd20 *)(m_08));
     }
     FUN_00ec1570((FUN_00ec1570_t*)this);
 }
@@ -752,18 +753,16 @@ struct FUN_00ec14d0_bink
     unsigned int m_04;
 };
 
-int __cdecl LockNextTile(unsigned int a, int* p1, int* p2, int* p3, int* p4, int* p5, int* p6);
-int __cdecl ApplyLastEffect(unsigned int a);
 
-extern "C" __declspec(dllimport) int __stdcall BinkDoFrame(void* hBink);
-extern "C" __declspec(dllimport) int __stdcall BinkCopyToBufferRect(void* hBink, void* dest, int destPitch,
+extern "C" __declspec(dllimport) int BinkDoFrame(void* hBink);
+extern "C" __declspec(dllimport) int BinkCopyToBufferRect(void* hBink, void* dest, int destPitch,
                                                                     unsigned int destHeight, unsigned int destX,
                                                                     unsigned int destY, unsigned int srcX,
                                                                     unsigned int srcY, unsigned int srcWidth,
                                                                     unsigned int srcHeight, unsigned int flags);
 
 // @fnv 0x00ec14d0
-unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, unsigned int a2, int a3)
+unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, void* a2, int a3)
 {
     int result2 = 1;
     int v1;
@@ -771,14 +770,14 @@ unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, unsigned int a2, in
     int v3;
     int v8;
     int vB;
-    int v7;
+    void* v7;
 
     BinkDoFrame(a1);
-    while (LockNextTile(a2, &v7, &vB, &v8, &v3, &v2, &v1) != 0)
+    while (::LockNextTile((::TiledTexture *)(a2), &v7, &vB, (unsigned int *)(int *)(&v8), (unsigned int *)(int *)(&v3), (unsigned int *)(int *)(&v2), (unsigned int *)(int *)(&v1)) != 0)
     {
-        result2 = BinkCopyToBufferRect(a1, (void*)v7, vB, a1->m_04, 0, 0, v8, v3, v2, v1,
+        result2 = BinkCopyToBufferRect(a1, v7, vB, a1->m_04, 0, 0, v8, v3, v2, v1,
                                        ((a3 != 0 ? -1 : 0) & 0x80000000u) | 3u);
-        ApplyLastEffect(a2);
+        ::ApplyLastEffect((::EffectStackEBF *)(a2));
     }
     return result2 != 0;
 }
@@ -787,8 +786,8 @@ unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, unsigned int a2, in
 // The Bink library is reached through the executable's import table; the
 // address of the direct-sound entry point is passed to BinkSetSoundSystem.
 
-extern "C" __declspec(dllimport) void __stdcall BinkOpenDirectSound(void* apDirectSound);
-extern "C" __declspec(dllimport) void __stdcall BinkSetSoundSystem(void* system, unsigned int flags);
+extern "C" __declspec(dllimport) void BinkOpenDirectSound(void* apDirectSound);
+extern "C" __declspec(dllimport) void BinkSetSoundSystem(void* system, unsigned int flags);
 
 class FUN_00ec1680_cls
 {
@@ -806,14 +805,7 @@ void FUN_00ec1680_cls::EnableSoundSystem(bool bEnableSound)
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* pvSecurity, unsigned long ulStackSize,
-                                                              unsigned long(__stdcall* pfnStart)(void*), void* pvParam,
-                                                              unsigned long ulFlags, unsigned long* pulThreadId);
-extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void* hThread);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long ulMilliseconds);
 
-void __cdecl FUN_00aa2740(unsigned long ulThreadId, const char* pcName);
 
 struct BEC16D0Setting
 {
@@ -821,8 +813,6 @@ struct BEC16D0Setting
     int m_iValue;
 };
 
-extern BEC16D0Setting g_kEC16D0PrioritySetting;
-extern int g_iEC16D0DefaultSetting;
 
 struct BEC16D0Semaphore
 {
@@ -849,7 +839,6 @@ class BEC16D0MoviePlayerThread
     int unk2C;
     BEC16D0Semaphore m_kStartSemaphore;
 
-    void SetPriority(int iPriority);
     void FUN_00ec16d0(void* pvParam, bool bFlag22, int iPriority, bool bFlag23, bool bFlag24, float fValue28);
 };
 
@@ -859,21 +848,21 @@ void BEC16D0MoviePlayerThread::FUN_00ec16d0(void* pvParam, bool bFlag22, int iPr
                                             float fValue28)
 {
     unsigned long ulThreadId3;
-    m_hThread = CreateThread(0, 0, (unsigned long(__stdcall*)(void*))FUN_00ec16b0, pvParam, 4, &ulThreadId3);
-    FUN_00aa2740(ulThreadId3, "MoviePlayer");
+    m_hThread = CreateThread(0, 0, FUN_00ec16b0, pvParam, 4, &ulThreadId3);
+    ::SetDebuggerThreadName(ulThreadId3, "MoviePlayer");
     m_bFlag22 = bFlag22;
     m_bFlag23 = bFlag23;
     m_bFlag24 = bFlag24;
     m_fValue28 = fValue28;
     if (iPriority == -1)
     {
-        int* piPriority = &g_kEC16D0PrioritySetting ? &g_kEC16D0PrioritySetting.m_iValue
-                                                    : (g_iEC16D0DefaultSetting = 0, &g_iEC16D0DefaultSetting);
-        SetPriority(*piPriority);
+        int* piPriority = &(*reinterpret_cast<::BEC16D0Setting *>(&::g_0126fae0)) ? &(*reinterpret_cast<::BEC16D0Setting *>(&::g_0126fae0)).m_iValue
+                                                    : (::DAT_01202800 = 0, &::DAT_01202800);
+        reinterpret_cast<::FUN_00ec2c10 *>(this)->SetThreadPriorityLevel(*piPriority);
     }
     else
     {
-        SetPriority(iPriority);
+        reinterpret_cast<::FUN_00ec2c10 *>(this)->SetThreadPriorityLevel(iPriority);
     }
     ResumeThread(m_hThread);
     ulThreadId3 = 0;
@@ -885,21 +874,17 @@ void BEC16D0MoviePlayerThread::FUN_00ec16d0(void* pvParam, bool bFlag22, int iPr
 }
 
 extern int DAT_010f1ca4;
-void __cdecl FUN_00aa10f0(int aValue);
 
 struct FUN_00ec1df0_pool
 {
-    void FUN_00aa4060(void* apMemory);
 };
-extern FUN_00ec1df0_pool DAT_011f6238;
 
 struct FUN_00ec1df0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int m_04;
-    int m_08;
+    void* m_08;
 
-    void BaseCleanup();
 
     FUN_00ec1df0_cls* FUN_00ec1df0(unsigned int acFlags);
 };
@@ -909,25 +894,22 @@ FUN_00ec1df0_cls* FUN_00ec1df0_cls::FUN_00ec1df0(unsigned int acFlags)
 {
     int unk00;
     int unk04;
-    m_vptr = (int)&DAT_010f1ca4;
-    BaseCleanup();
-    FUN_00aa10f0(m_08);
+    m_vptr = &DAT_010f1ca4;
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+    ::FUN_00aa10f0((void *)(m_08));
     if (acFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     return this;
 }
 
 namespace fnv_00ec1ee0 {
-extern int DAT_010f1c20;
 
 class FUN_00ec1ee0_pool
 {
   public:
-    void FUN_00aa4060(void* apMemory);
 };
-extern FUN_00ec1ee0_pool DAT_011f6238;
 
 struct FUN_00ec1ee0_frame
 {
@@ -942,10 +924,9 @@ struct FUN_00ec1ee0_frame
 
 struct FUN_00ec1ee0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int unk04;
 
-    void BaseCleanup();
 
     FUN_00ec1ee0_cls* FUN_00ec1ee0(unsigned int auiFlags);
 };
@@ -954,38 +935,35 @@ struct FUN_00ec1ee0_cls
 FUN_00ec1ee0_cls* FUN_00ec1ee0_cls::FUN_00ec1ee0(unsigned int auiFlags)
 {
     FUN_00ec1ee0_frame frame;
-    m_vptr = (int)&DAT_010f1c20;
-    BaseCleanup();
+    m_vptr = &::DAT_010f1c20;
+    NiTStringMapCopy_Destroy(reinterpret_cast<::NiTStringMapCopy *>(this));
     if (auiFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ec1ee0::FUN_00ec1ee0_pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     return this;
 }
 }  // namespace fnv_00ec1ee0
 
-extern "C" __declspec(dllimport) int __stdcall SetThreadPriorityBoost(void* hThread, int fDisable);
+extern "C" __declspec(dllimport) int BinkPause(void* hThread, int fDisable);
 
 // @fnv 0x00ec1fb0
 void FUN_00ec1fb0_class::DisableThreadPriorityBoost()
 {
-    SetThreadPriorityBoost(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0]), 1);
+    BinkPause(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0]), 1);
 }
 
-extern "C" __declspec(dllimport) void __stdcall _BinkPause_8(void*, int);
 
 // @fnv 0x00ec1fd0
-void __thiscall FUN_00ec1fd0_shell::UnpauseBink()
+void FUN_00ec1fd0_shell::UnpauseBink()
 {
-    _BinkPause_8(*(void**)this, 0);
+    BinkPause(*(void**)this, 0);
 }
 
 namespace fnv_00ec25e0 {
 struct FUN_00aa4060_Obj
 {
-    void __thiscall FUN_00aa4060(FUN_00ec1f40Class* p);
 };
-extern FUN_00aa4060_Obj DAT_011f6238;
 
 struct FUN_00ec25e0_cls
 {
@@ -993,22 +971,21 @@ struct FUN_00ec25e0_cls
     int m_0004;
     int m_0008;
     FUN_00ec1f40Class* m_000c;
-    void __thiscall FUN_00ec2a60();
-    void __thiscall FUN_00ec25e0();
+    void FUN_00ec25e0();
 };
 
 // If m_000c is set, calls FUN_00ec1f40 and DAT_011f6238.FUN_00aa4060 on it, clears m_000c, then calls FUN_00ec2a60.
 // @fnv 0x00ec25e0
-void __thiscall FUN_00ec25e0_cls::FUN_00ec25e0()
+void FUN_00ec25e0_cls::FUN_00ec25e0()
 {
     if (m_000c != 0)
     {
         FUN_00ec1f40Class* t2 = m_000c;
         FUN_00ec1f40Class* p = t2;
-        p != 0 ? (p->FUN_00ec1f40(), (((0, 1) & 1) ? DAT_011f6238.FUN_00aa4060(p) : (void)0), p) : 0;
+        p != 0 ? (p->FUN_00ec1f40(), (((0, 1) & 1) ? reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ec25e0::FUN_00aa4060_Obj *>(&::g_memoryManager))))->FUN_00aa4060(p) : (void)0), p) : 0;
         m_000c = 0;
     }
-    FUN_00ec2a60();
+    reinterpret_cast<::FUN_00ec2a60_class *>(this)->FUN_00ec2a60();
 }
 }  // namespace fnv_00ec25e0
 
@@ -1028,20 +1005,39 @@ struct S_00ec2b20
     virtual unsigned int v11();
     virtual unsigned int v12();
     virtual unsigned int v13();
-    float __thiscall ComputeAdjustedValue(float a, unsigned int b, bool c);
+    float ComputeAdjustedValue(float a, unsigned int b, bool c);
 };
+// Loads the playback size if needed, queries the manager for renderer, frame rate and scales, allocates textures and warns on failure.
+// @fnv 0x00ec0cd0
+bool NiPlaybackFile::InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping)
+{
+    if (m_pkSize == 0 && !FindString(pcName, bQuiet, bLoop, false))
+        return false;
+
+    m_iRenderer = ((NiPlaybackManager*)::DAT_0126fac4)->GetRenderer();
+    m_fTextureScale = reinterpret_cast<::FUN_00ec2aa0_Class *>((((NiPlaybackManager*)::DAT_0126fac4)))->ComputeRatio(m_pkSize->uiWidth, m_pkSize->uiHeight, bLooping);
+    m_fWidthScale = reinterpret_cast<::S_00ec2b20 *>((((NiPlaybackManager*)::DAT_0126fac4)))->ComputeAdjustedValue(m_fTextureScale, m_pkSize->uiWidth, bLooping);
+    m_fHeightScale = reinterpret_cast<::FUN_00ec2bb0_Class *>((((NiPlaybackManager*)::DAT_0126fac4)))->FUN_00ec2bb0(m_fTextureScale, m_pkSize->uiHeight, bLooping);
+    m_pkTextures = ((void *)(::CreateTiledTexture((void *)(m_iRenderer), m_pkSize->uiWidth, m_pkSize->uiHeight, 4, 0x100, 0x16)));
+    if (m_pkTextures == 0)
+    {
+        if (!bQuiet)
+            ::FUN_005b5e40();
+        m_iFadeIndex = 0;
+        return false;
+    }
+    return true;
+}
 // Returns v13() as a float when c is set, otherwise v13() plus half of (v10() minus b times a).
 // @fnv 0x00ec2b20
-float __thiscall S_00ec2b20::ComputeAdjustedValue(float afScale, unsigned int auiValue, bool abDirect)
+float S_00ec2b20::ComputeAdjustedValue(float afScale, unsigned int auiValue, bool abDirect)
 {
     if (abDirect)
         return (float)v13();
     return (float)((double)v13() + ((double)v10() - (double)auiValue * afScale) / 2.0);
 }
 
-extern int DAT_0126fae0;
 extern int DAT_0126fae4;
-extern int DAT_01202800;
 
 struct FUN_00ec2c40_cls
 {
@@ -1057,7 +1053,6 @@ struct FUN_00ec2c40_cls
     int m_0024;
     int m_0028;
     int m_002c;
-    void __thiscall SetThreadPriorityLevel(int);
     void FUN_00ec2c40();
 };
 
@@ -1065,22 +1060,21 @@ struct FUN_00ec2c40_cls
 // @fnv 0x00ec2c40
 void FUN_00ec2c40_cls::FUN_00ec2c40()
 {
-    int* q = (&DAT_0126fae0 != 0) ? &DAT_0126fae4 : (DAT_01202800 = 0, &DAT_01202800);
+    int* q = (&(*reinterpret_cast<int *>(&::g_0126fae0)) != 0) ? &DAT_0126fae4 : (DAT_01202800 = 0, &DAT_01202800);
     if (m_002c > *q)
     {
-        SetThreadPriorityLevel(m_002c - 1);
+        reinterpret_cast<::FUN_00ec2c10 *>(this)->SetThreadPriorityLevel(m_002c - 1);
     }
 }
 
 namespace fnv_00ec2d80 {
 struct S_00ec2f00_Class
 {
-    void __thiscall AddOrUpdate(int a, char* b);
+    void AddOrUpdate(int a, char* b);
 };
 
 struct S_00aa3e40_Class
 {
-    char* __thiscall FUN_00aa3e40(char* a);
 };
 
 struct S_00ec2d80_Class
@@ -1103,37 +1097,24 @@ struct S_00ec2d80_Class
     int m_003c;
     S_00ec2f00_Class m_0040;
 
-    void __thiscall FUN_00ec2d80(int a, int b);
+    void FUN_00ec2d80(int a, intptr_t b);
 };
 
-extern S_00aa3e40_Class DAT_011f6238;
 
-char* __cdecl FUN_00ec6130(int a);
-void __cdecl FUN_00ec65a6(char* a, char* b, int c);
 
 // @fnv 0x00ec2d80
-void __thiscall S_00ec2d80_Class::FUN_00ec2d80(int a, int b)
+void S_00ec2d80_Class::FUN_00ec2d80(int a, intptr_t b)
 {
-    char* p;
-    char* oB;
-    char* n;
-    char* m;
-    char* l;
-    char* k;
-    char* j;
+    unsigned int uiSize = (unsigned int)std::strlen((const char *)(b)) + 1;
+    char* p = ((char *)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ec2d80::S_00aa3e40_Class *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize)));
 
-    oB = FUN_00ec6130(b);
-    n = DAT_011f6238.FUN_00aa3e40(oB + 1);
-    p = n;
-
-    FUN_00ec65a6(p, oB + 1, b);
+    fnv::crt::strcpy_s(p, uiSize, (const char *)(b));
     this->m_0040.AddOrUpdate(a, p);
 }
 }  // namespace fnv_00ec2d80
 
 // Look up the file name registered under a key and copy it into a MAX_PATH buffer.
 
-extern "C" int __cdecl strcpy_s(char* pcDest, unsigned int uiSize, const char* pcSrc);
 
 class EC2DF0NameMap
 {
@@ -1162,20 +1143,20 @@ class EC2DF0Registry
     int unk3C;
     EC2DF0NameMap m_kNames;
 
-    bool GetNameByKey(unsigned int uiKey, char* pcPath);
+    bool GetNameByKey(uintptr_t uiKey, char* pcPath);
 };
 
 // Looks up uiKey in m_kNames and, if found, copies the name into pcPath with strcpy_s and returns true; otherwise returns false.
 // @fnv 0x00ec2df0
-bool EC2DF0Registry::GetNameByKey(unsigned int uiKey, char* pcPath)
+bool EC2DF0Registry::GetNameByKey(uintptr_t uiKey, char* pcPath)
 {
     const char* pcFile = 0;
     char* pcDest;             // declared but never used in this build
     unsigned int uiDestSize;  // declared but never used in this build
-    if (m_kNames.GetAt(uiKey, pcFile))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kNames))->FUN_00853130(uiKey, (::fnv_00853130::CombatThreatRecord *&)(pcFile)))
     {
         const char* pcSource = pcFile;
-        strcpy_s(pcPath, 260, pcSource);
+        fnv::crt::strcpy_s(pcPath, 260, pcSource);
         return true;
     }
     return false;
@@ -1192,96 +1173,96 @@ struct EC0280Vertex
 };
 struct EC0280Device
 {
-    virtual void __stdcall v00();
-    virtual void __stdcall v01();
-    virtual void __stdcall v02();
-    virtual void __stdcall v03();
-    virtual void __stdcall v04();
-    virtual void __stdcall v05();
-    virtual void __stdcall v06();
-    virtual void __stdcall v07();
-    virtual void __stdcall v08();
-    virtual void __stdcall v09();
-    virtual void __stdcall v10();
-    virtual void __stdcall v11();
-    virtual void __stdcall v12();
-    virtual void __stdcall v13();
-    virtual void __stdcall v14();
-    virtual void __stdcall v15();
-    virtual void __stdcall v16();
-    virtual void __stdcall v17();
-    virtual void __stdcall v18();
-    virtual void __stdcall v19();
-    virtual void __stdcall v20();
-    virtual void __stdcall v21();
-    virtual void __stdcall v22();
-    virtual void __stdcall v23();
-    virtual void __stdcall v24();
-    virtual void __stdcall v25();
-    virtual void __stdcall v26();
-    virtual void __stdcall v27();
-    virtual void __stdcall v28();
-    virtual void __stdcall v29();
-    virtual void __stdcall v30();
-    virtual void __stdcall v31();
-    virtual void __stdcall v32();
-    virtual void __stdcall v33();
-    virtual void __stdcall v34();
-    virtual void __stdcall v35();
-    virtual void __stdcall v36();
-    virtual void __stdcall v37();
-    virtual void __stdcall v38();
-    virtual void __stdcall v39();
-    virtual void __stdcall v40();
-    virtual void __stdcall v41();
-    virtual void __stdcall v42();
-    virtual void __stdcall v43();
-    virtual void __stdcall v44();
-    virtual void __stdcall v45();
-    virtual void __stdcall v46();
-    virtual void __stdcall v47();
-    virtual void __stdcall v48();
-    virtual void __stdcall v49();
-    virtual void __stdcall v50();
-    virtual void __stdcall v51();
-    virtual void __stdcall v52();
-    virtual void __stdcall v53();
-    virtual void __stdcall v54();
-    virtual void __stdcall v55();
-    virtual void __stdcall v56();
-    virtual void __stdcall v57();
-    virtual void __stdcall v58();
-    virtual void __stdcall v59();
-    virtual void __stdcall v60();
-    virtual void __stdcall v61();
-    virtual void __stdcall v62();
-    virtual void __stdcall v63();
-    virtual void __stdcall v64();
-    virtual void __stdcall v65();
-    virtual void __stdcall v66();
-    virtual void __stdcall v67();
-    virtual void __stdcall v68();
-    virtual void __stdcall v69();
-    virtual void __stdcall v70();
-    virtual void __stdcall v71();
-    virtual void __stdcall v72();
-    virtual void __stdcall v73();
-    virtual void __stdcall v74();
-    virtual void __stdcall v75();
-    virtual void __stdcall v76();
-    virtual void __stdcall v77();
-    virtual void __stdcall v78();
-    virtual void __stdcall v79();
-    virtual void __stdcall v80();
-    virtual void __stdcall v81();
-    virtual void __stdcall v82();
-    virtual long __stdcall DrawPrimitiveUP(int eType, unsigned int ItemUpdateArray, const void* pvData, unsigned int uiStride);
-    virtual void __stdcall v84();
-    virtual void __stdcall v85();
-    virtual void __stdcall v86();
-    virtual long __stdcall SetVertexDeclaration(void* pkDecl);
-    virtual long __stdcall GetVertexDeclaration(void** ppkDecl);
-    virtual long __stdcall SetFVF(unsigned int uiFVF);
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual long DrawPrimitiveUP(int eType, unsigned int ItemUpdateArray, const void* pvData, unsigned int uiStride);
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual long SetVertexDeclaration(void* pkDecl);
+    virtual long GetVertexDeclaration(void** ppkDecl);
+    virtual long SetFVF(unsigned int uiFVF);
 };
 struct EC0280RenderState
 {
@@ -1886,7 +1867,6 @@ struct EC0280Renderer
     int unk08B4;
     EC0280RenderState* m_pCurrentRenderState;
 };
-extern EC0280Renderer* g_pkEC0280Renderer;
 
 // @fnv 0x00ec0280
 void __cdecl DrawTexturedQuad(EC0280Device* pkDevice, float fX, float fY, float fScaleX, float fScaleY, int iWidth,
@@ -1918,11 +1898,11 @@ void __cdecl DrawTexturedQuad(EC0280Device* pkDevice, float fX, float fY, float 
         akVertsVal[3].v = 1.0f;
 
         {
-            pkRenderer5 = g_pkEC0280Renderer;
+            pkRenderer5 = (*reinterpret_cast<::EC0280Renderer * *>(&::NiRenderer::ms_pRenderer));
             EC0280RenderState* kPkState1 = _pkRet1;
             kPkState1 = pkRenderer5->m_pCurrentRenderState;
             kPkState1->SetStage(0, 1);
-            pkRendererTmp = g_pkEC0280Renderer;
+            pkRendererTmp = (*reinterpret_cast<::EC0280Renderer * *>(&::NiRenderer::ms_pRenderer));
             EC0280RenderState* pkState2 = pkRetVal;
             pkState2 = pkRendererTmp->m_pCurrentRenderState;
             pkState2->SetTexture(0, 0);
@@ -1932,7 +1912,7 @@ void __cdecl DrawTexturedQuad(EC0280Device* pkDevice, float fX, float fY, float 
             pkDevice->DrawPrimitiveUP(5, 2, akVertsVal, sizeof(EC0280Vertex));
             pkDevice->SetFVF(0);
             pkDevice->SetVertexDeclaration(pkDecl_2);
-            pkRenderer4 = g_pkEC0280Renderer;
+            pkRenderer4 = (*reinterpret_cast<::EC0280Renderer * *>(&::NiRenderer::ms_pRenderer));
             EC0280RenderState* pkState5 = pkRet4;
             pkState5 = pkRenderer4->m_pCurrentRenderState;
             pkState5->Commit();
@@ -1952,29 +1932,29 @@ struct FUN_00ec0720_Vertex
 
 struct FUN_00ec0720_Device : FUN_00ec0460_cls
 {
-    virtual void __stdcall v70();
-    virtual void __stdcall v71();
-    virtual void __stdcall v72();
-    virtual void __stdcall v73();
-    virtual void __stdcall v74();
-    virtual void __stdcall v75();
-    virtual void __stdcall v76();
-    virtual void __stdcall v77();
-    virtual void __stdcall v78();
-    virtual void __stdcall v79();
-    virtual void __stdcall v80();
-    virtual void __stdcall v81();
-    virtual void __stdcall v82();
-    virtual void __stdcall v83(int a, int b, const void* c, unsigned int d);
-    virtual void __stdcall v84();
-    virtual void __stdcall v85();
-    virtual void __stdcall v86();
-    virtual void __stdcall v87();
-    virtual void __stdcall v88();
-    virtual void __stdcall v89(unsigned int a);
-    virtual void __stdcall v90();
-    virtual void __stdcall v91();
-    virtual void __stdcall v92(int a);
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83(int a, int b, const void* c, unsigned int d);
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89(unsigned int a);
+    virtual void v90();
+    virtual void v91();
+    virtual void v92(int a);
 };
 
 // @fnv 0x00ec0720
@@ -2118,67 +2098,58 @@ struct EC1060Renderer
 };
 struct EC1060Device
 {
-    virtual void __stdcall v0();
-    virtual void __stdcall v1();
-    virtual void __stdcall v2();
-    virtual void __stdcall v3();
-    virtual void __stdcall v4();
-    virtual void __stdcall v5();
-    virtual void __stdcall v6();
-    virtual void __stdcall v7();
-    virtual void __stdcall v8();
-    virtual void __stdcall v9();
-    virtual void __stdcall v10();
-    virtual void __stdcall v11();
-    virtual void __stdcall v12();
-    virtual void __stdcall v13();
-    virtual void __stdcall v14();
-    virtual void __stdcall v15();
-    virtual void __stdcall v16();
-    virtual void __stdcall v17(int, int, int, int);
-    virtual void __stdcall v18();
-    virtual void __stdcall v19();
-    virtual void __stdcall v20();
-    virtual void __stdcall v21();
-    virtual void __stdcall v22();
-    virtual void __stdcall v23();
-    virtual void __stdcall v24();
-    virtual void __stdcall v25();
-    virtual void __stdcall v26();
-    virtual void __stdcall v27();
-    virtual void __stdcall v28();
-    virtual void __stdcall v29();
-    virtual void __stdcall v30();
-    virtual void __stdcall v31();
-    virtual void __stdcall v32();
-    virtual void __stdcall v33();
-    virtual void __stdcall v34();
-    virtual void __stdcall v35();
-    virtual void __stdcall v36();
-    virtual void __stdcall v37();
-    virtual void __stdcall v38();
-    virtual void __stdcall v39();
-    virtual void __stdcall v40();
-    virtual void __stdcall v41();
-    virtual void __stdcall v42();
-    virtual void __stdcall v43(int, int, int, unsigned int, float, int);
-    virtual void __stdcall v44();
-    virtual void __stdcall v45();
-    virtual void __stdcall v46();
-    virtual void __stdcall v47(EC1060Rect*);
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17(int, int, int, int);
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43(int, int, int, unsigned int, float, int);
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47(EC1060Rect*);
 };
-extern "C" char DAT_011f4748;
-extern "C" char DAT_011f9426;
-extern "C" char DAT_011ad840;
-extern "C" char DAT_011ad844;
-extern "C" char DAT_011ad848;
-extern "C" char DAT_011ad84c;
 extern "C" char DAT_010f1be4;
-extern "C" __declspec(dllimport) int __stdcall BinkWait(void*);
-extern "C" __declspec(dllimport) void __stdcall BinkNextFrame(void*);
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
-void __cdecl FUN_0040fbe0(const char*, ...);
-void __cdecl FUN_00ebff30(unsigned int, float, float, float, float);
+extern "C" __declspec(dllimport) int BinkWait(void*);
+extern "C" __declspec(dllimport) void BinkNextFrame(void*);
 struct EC1060Bink
 {
     int a, b;
@@ -2188,7 +2159,8 @@ struct EC1060File
 {
     EC1060Bink* apDirectSound;
     EC1060Device* device;
-    unsigned int texture, frame, decoded;
+    void* texture;
+    unsigned int frame, decoded;
     float scale, x, y;
     int state;
     bool Update(bool, bool, bool);
@@ -2200,9 +2172,9 @@ bool EC1060File::Update(bool arg1, bool abLoop, bool abNoClip)
     EC1060Rect a, s;
     EC1060Size *eb, *cf, *q, *b;
     unsigned char p = false;
-    if (!((EC1060Player*)DAT_0126fac4)->v16(arg1))
+    if (!((EC1060Player*)::DAT_0126fac4)->v16(arg1))
         return false;
-    bool f = ((EC1060Player*)DAT_0126fac4)->paused;
+    bool f = ((EC1060Player*)::DAT_0126fac4)->paused;
     if (!f)
     {
         if (!BinkWait(apDirectSound))
@@ -2211,7 +2183,7 @@ bool EC1060File::Update(bool arg1, bool abLoop, bool abNoClip)
             if (p)
             {
                 decoded++;
-                FUN_0040fbe0(&DAT_010f1be4, frame, decoded);
+                ::FUN_0040fbe0();
             }
             BinkNextFrame(apDirectSound);
             frame++;
@@ -2223,32 +2195,32 @@ bool EC1060File::Update(bool arg1, bool abLoop, bool abNoClip)
         }
     }
     device->v43(0, 0, 1, 0xff000000, 1.0f, 0);
-    if (!abNoClip && *(unsigned char*)&DAT_011f9426)
+    if (!abNoClip && *(unsigned char*)&(*reinterpret_cast<char *>(&::DAT_011f9426)))
     {
-        eb = &(*(EC1060Renderer* volatile*)&DAT_011f4748)->v53();
+        eb = &(*(EC1060Renderer* volatile*)&(*reinterpret_cast<char *>(&::NiRenderer::ms_pRenderer)))->v53();
         h.x = eb->width;
-        cf = &(*(EC1060Renderer* volatile*)&DAT_011f4748)->v53();
+        cf = &(*(EC1060Renderer* volatile*)&(*reinterpret_cast<char *>(&::NiRenderer::ms_pRenderer)))->v53();
         h.y = cf->height;
         h.lo = 0.0f;
         h.hi = 1.0f;
         a.left = (unsigned int)(h.x * *(float*)&DAT_011ad840);
         a.right = (unsigned int)((*(float*)&DAT_011ad844 - *(float*)&DAT_011ad840) * h.x);
-        a.top = (unsigned int)(h.y * *(float*)&DAT_011ad84c);
-        a.bottom = (unsigned int)((*(float*)&DAT_011ad848 - *(float*)&DAT_011ad84c) * h.y);
+        a.top = (unsigned int)(h.y * *(float*)&(*reinterpret_cast<char *>(&::DAT_011ad84c)));
+        a.bottom = (unsigned int)((*(float*)&(*reinterpret_cast<char *>(&::DAT_011ad848)) - *(float*)&(*reinterpret_cast<char *>(&::DAT_011ad84c))) * h.y);
         device->v47(&a);
     }
-    if (!((EC1060Player*)DAT_0126fac4)->v12())
+    if (!((EC1060Player*)::DAT_0126fac4)->v12())
         device->v41();
-    FUN_00ebff30(texture, x, y, scale, scale);
-    if (!((EC1060Player*)DAT_0126fac4)->v12())
+    ::fnv_00ebff30::FUN_00ebff30((::fnv_00ebff30::TileGrid *)(texture), x, y, scale, scale);
+    if (!((EC1060Player*)::DAT_0126fac4)->v12())
         device->v42();
     if (!(unsigned char)(state == 2))
         device->v17(0, 0, 0, 0);
-    if (!abNoClip && *(unsigned char*)&DAT_011f9426)
+    if (!abNoClip && *(unsigned char*)&(*reinterpret_cast<char *>(&::DAT_011f9426)))
     {
-        q = &(*(EC1060Renderer* volatile*)&DAT_011f4748)->v53();
+        q = &(*(EC1060Renderer* volatile*)&(*reinterpret_cast<char *>(&::NiRenderer::ms_pRenderer)))->v53();
         i.x = q->width;
-        b = &(*(EC1060Renderer* volatile*)&DAT_011f4748)->v53();
+        b = &(*(EC1060Renderer* volatile*)&(*reinterpret_cast<char *>(&::NiRenderer::ms_pRenderer)))->v53();
         i.y = b->height;
         i.lo = 0.0f;
         i.hi = 1.0f;
@@ -2284,7 +2256,6 @@ unsigned int StrMapW::HashKey(const char* pKey)
     return uiHash % m_uiHashSize;
 }
 
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long dwMilliseconds);
 
 struct MovieJob
 {
@@ -2306,7 +2277,7 @@ struct MoviePlayer
     int m_0004;
     int m_0008;
     MovieJob* m_000c;
-    void __thiscall WaitForJobCompletion();
+    void WaitForJobCompletion();
 };
 
 // Sleeps 1 ms in a loop while m_0008 is set and the job is missing or its m_0024 flag is nonzero.
@@ -2322,7 +2293,7 @@ struct FUN_00ec2f00_item
 {
     FUN_00ec2f00_item* next;
     void* m04;
-    unsigned int m08;
+    uintptr_t m08;
 };
 
 struct FUN_00ec2f00_cls
@@ -2336,12 +2307,12 @@ struct FUN_00ec2f00_cls
     int m0c;
     unsigned char m10;
 
-    void AddOrUpdate(void* arg8, unsigned int argc);
+    void AddOrUpdate(void* arg8, uintptr_t argc);
 };
 
 // Finds an item in the m08 bucket matching arg8 via v02, updates it, or allocates and inserts a new one via v03.
 // @fnv 0x00ec2f00
-void FUN_00ec2f00_cls::AddOrUpdate(void* apKey, unsigned int uiValue)
+void FUN_00ec2f00_cls::AddOrUpdate(void* apKey, uintptr_t uiValue)
 {
     void* mem;
     FUN_00ec2f00_item* item;
@@ -2362,7 +2333,7 @@ void FUN_00ec2f00_cls::AddOrUpdate(void* apKey, unsigned int uiValue)
         }
         item = item->next;
     }
-    mem = reinterpret_cast<P03MM*>(&DAT_011f6238)->Allocate(12);
+    mem = reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&(*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(12);
     item = (FUN_00ec2f00_item*)mem;
     v03(item, apKey, (void*)uiValue);
     item->next = m08[idx];
@@ -2370,14 +2341,13 @@ void FUN_00ec2f00_cls::AddOrUpdate(void* apKey, unsigned int uiValue)
     m0c++;
 }
 
-extern "C" int __cdecl _tolower(int c);
 
 struct FUN_00ec1d50_class
 {
     int unk00;
     unsigned int unk04;
 
-    unsigned int __thiscall HashString(const char* a);
+    unsigned int HashString(const char* a);
 };
 
 // Computes a case-insensitive string hash using a shift-and-add algorithm and returns the result modulo unk04.
@@ -2398,10 +2368,8 @@ unsigned int FUN_00ec1d50_class::HashString(const char* apString)
 }
 
 namespace fnv_00ec1940 {
-#include <windows.h>
 
 DWORD WINAPI FUN_00ec2ca0(LPVOID param);
-void FUN_00aa2740(DWORD threadId, const char* name);
 
 class FUN_00ec1940_cls
 {
@@ -2424,13 +2392,12 @@ void FUN_00ec1940_cls::FUN_00ec1940(void* apThreadArg, int value)
     DWORD threadId;
     m_1c = value;
     m_04 = CreateThread(NULL, 0, FUN_00ec2ca0, apThreadArg, CREATE_SUSPENDED, &threadId);
-    FUN_00aa2740(threadId, "MovieLoader");
+    ::SetDebuggerThreadName(threadId, "MovieLoader");
     ResumeThread(m_04);
     threadId = 0;
 }
 }  // namespace fnv_00ec1940
 
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void*, long, long*);
 
 struct MovieSignalState : BEC16D0MoviePlayerThread
 {
@@ -2450,21 +2417,10 @@ void MovieSignalState::FUN_00ec1a00()
     signaled = 1;
 }
 
-struct PlaybackMessage
+struct PlaybackMessage : MSG
 {
-    void* window;
-    unsigned int message;
-    unsigned int wParam;
-    long lParam;
-    unsigned long time;
-    long cursorX;
-    long cursorY;
 };
 
-extern "C" __declspec(dllimport) int __stdcall PeekMessageA(PlaybackMessage*, void*, unsigned int, unsigned int,
-                                                            unsigned int);
-extern "C" __declspec(dllimport) int __stdcall TranslateMessage(const PlaybackMessage*);
-extern "C" __declspec(dllimport) long __stdcall DispatchMessageA(const PlaybackMessage*);
 
 struct PlaybackContinueState : MoviePlayer
 {
@@ -2475,12 +2431,12 @@ struct PlaybackContinueState : MoviePlayer
     bool unk20;
     unsigned char interrupted;
 
-    bool __thiscall FUN_00ec1840(bool allowInterruption);
+    bool FUN_00ec1840(bool allowInterruption);
 };
 
 // Pumps pending Windows messages and returns false if the playback was interrupted, otherwise true.
 // @fnv 0x00ec1840
-bool __thiscall PlaybackContinueState::FUN_00ec1840(bool allowInterruption)
+bool PlaybackContinueState::FUN_00ec1840(bool allowInterruption)
 {
     PlaybackMessage msg;
     while (PeekMessageA(&msg, 0, 0, 0, 1))
@@ -2493,3 +2449,1156 @@ bool __thiscall PlaybackContinueState::FUN_00ec1840(bool allowInterruption)
         return false;
     return true;
 }
+
+DWORD WINAPI FUN_00ec16b0(LPVOID a);
+
+extern int __cdecl __stricmp(const char*, const char*);
+
+
+int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
+
+void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY);
+
+unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, void* a2, int a3);
+
+// Look up the file name registered under a key and copy it into a MAX_PATH buffer.
+
+
+struct Scope2490
+{
+    unsigned int previous;
+    Scope2490()
+    {
+        unsigned int current = g_tlsBlock.memoryContext;
+        previous = current;
+        g_tlsBlock.memoryContext = 20;
+    }
+    ~Scope2490()
+    {
+        unsigned int restored = previous;
+        g_tlsBlock.memoryContext = restored;
+    }
+};
+
+struct Movie2490
+{
+    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
+    Movie2490();
+};
+
+struct FUN_00ec2490_Class
+{
+    int unk00, unk04, unk08;
+    Movie2490* movie;
+    int unk10;
+    Movie2490* cached;
+    bool hasCached;
+    unsigned char FUN_00ec2490(int, unsigned char);
+};
+
+// @fnv 0x00ec2490
+unsigned char FUN_00ec2490_Class::FUN_00ec2490(int value, unsigned char option)
+{
+    Scope2490 scope;
+    reinterpret_cast<::FUN_00ec2a10_class *>(this)->PauseMovie();
+    if (hasCached && cached)
+    {
+        movie = cached;
+        cached = 0;
+        hasCached = false;
+    }
+    else
+    {
+        movie = new Movie2490;
+    }
+    unsigned char result = reinterpret_cast<::FUN_00ec1f60_Class *>((movie))->InitAndCheck(value, option);
+    if (!result)
+        reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(this)->FUN_00ec25e0();
+    return result;
+}
+
+namespace fnv_00ec2ca0 {
+struct MemMgr_cls
+{
+    int unk00;
+};
+
+struct SpawnedObject
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+
+    SpawnedObject();
+};
+
+// @fnv 0x00ec2ca0
+int FUN_00ec2ca0(intptr_t a1)
+{
+    SpawnedObject* obj = new SpawnedObject();
+    reinterpret_cast<::NiPlaybackFile *>((obj))->FindString((const char *)(a1), 1, 1, 1);
+    reinterpret_cast<FUN_00ec2d40_class*>(::DAT_0126fac4)->SetValueAndReset((intptr_t)obj);
+    return 0;
+}
+}
+
+// namespace fnv_00ec2ca0
+
+struct MovieSemaphore
+{
+    long count;
+    void* handle;
+};
+
+struct ScopedAllocTag
+{
+    int saved;
+    __forceinline ScopedAllocTag(int previous)
+    {
+        saved = previous;
+        g_tlsBlock.memoryContext = 0x14;
+    }
+    __forceinline ~ScopedAllocTag()
+    {
+        int old = saved;
+        g_tlsBlock.memoryContext = old;
+    }
+};
+
+struct MovieMemMgr
+{
+    void Deallocate(void* p);
+};
+
+struct MovieBoolSetting
+{
+    int vtbl;
+    bool value;
+};
+
+extern const char g_movieExt[];
+
+extern const char g_movieWarnFmt[];
+
+struct MoviePlayerA
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void Lock();
+    virtual void Unlock();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual unsigned long GetThreadId();
+    virtual bool CanQueue(bool first);
+
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    bool unk20;
+    bool unk21;
+    bool unk22;
+    bool unk23;
+    bool unk24;
+    char unk25;
+    char unk26;
+    char unk27;
+    int unk28;
+    int unk2c;
+    MovieSemaphore semaphore30;
+    int unk38;
+    bool unk3c;
+
+    void FUN_00ec1a00()
+    {
+        MovieSemaphore* semaphore = &semaphore30;
+        ReleaseSemaphore(semaphore->handle, 1, 0);
+        InterlockedIncrement(&semaphore->count);
+        unk3c = true;
+    }
+    void FUN_00ec2760(const char* list);
+};
+
+struct MemoryManager1BB0
+{
+    void Deallocate(void* pvMem);
+};
+
+extern MemoryManager1BB0 g_kMemoryManager1BB0;
+
+struct MapItem1BB0
+{
+    MapItem1BB0* m_pkNext;
+    const char* m_key;
+    void* m_val;
+};
+
+class MapBase1BB0
+{
+  public:
+    static void operator delete(void* pvMem)
+    {
+        g_kMemoryManager1BB0.Deallocate(pvMem);
+    }
+    virtual ~MapBase1BB0()
+    {
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+        ::FUN_00aa10f0(m_ppkHashTable);
+    }
+    virtual unsigned int KeyToHashIndex(const char* key) const;
+    virtual bool IsKeysEqual(const char* key1, const char* key2) const;
+    virtual void SetValue(MapItem1BB0* pkItem, const char* key, void* val);
+    virtual void ClearValue(MapItem1BB0* pkItem);
+    virtual MapItem1BB0* NewItem();
+    virtual void DeleteItem(MapItem1BB0* pkItem);
+    void RemoveAll()
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            while (m_ppkHashTable[i])
+            {
+                MapItem1BB0* pkSave = m_ppkHashTable[i];
+                m_ppkHashTable[i] = m_ppkHashTable[i]->m_pkNext;
+                ClearValue(pkSave);
+                DeleteItem(pkSave);
+            }
+        }
+        m_uiCount = 0;
+    }
+    unsigned int m_uiHashSize;
+    MapItem1BB0** m_ppkHashTable;
+    unsigned int m_uiCount;
+};
+
+class FUN_00ec1bb0 : public MapBase1BB0
+{
+  public:
+    virtual ~FUN_00ec1bb0();
+};
+
+// @fnv 0x00ec1bb0
+FUN_00ec1bb0::~FUN_00ec1bb0()
+{
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+}
+
+struct MemPoolCalls
+{
+};
+
+inline unsigned int GetAllocContext()
+{
+    return g_tlsBlock.memoryContext;
+}
+
+inline void SetAllocContext(unsigned int v)
+{
+    g_tlsBlock.memoryContext = v;
+}
+
+struct ScopedAllocContext
+{
+    unsigned int m_saved;
+    inline ScopedAllocContext(unsigned int ctx)
+    {
+        m_saved = GetAllocContext();
+        g_tlsBlock.memoryContext = ctx;
+    }
+    inline ~ScopedAllocContext()
+    {
+        SetAllocContext(m_saved);
+    }
+};
+
+// @fnv 0x00ec1ff0
+void* FUN_00ec1ff0(unsigned int size)
+{
+    ScopedAllocContext ctx(0x14);
+    return reinterpret_cast<::MemoryManagerStandIn *>((((MemPoolCalls*)&(*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
+}
+
+struct MemoryManagerEC2200
+{
+    void Deallocate(void* pvMem);
+};
+
+inline unsigned int GetMemContextEC2200()
+{
+    return g_tlsBlock.memoryContext;
+}
+
+inline void SetMemContextEC2200(unsigned int m_uiGeometryShaderFlags)
+{
+    g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
+}
+
+class AutoMemContextEC2200
+{
+  public:
+    AutoMemContextEC2200(unsigned int m_uiGeometryShaderFlags)
+    {
+        m_uiPrevious = GetMemContextEC2200();
+        SetMemContextEC2200(m_uiGeometryShaderFlags);
+    }
+    ~AutoMemContextEC2200()
+    {
+        SetMemContextEC2200(m_uiPrevious);
+    }
+    unsigned int m_uiPrevious;
+};
+
+class PlaybackFileEC2200
+{
+  public:
+    PlaybackFileEC2200();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+};
+
+class PlaybackEC2200
+{
+  public:
+    bool FUN_00ec2200(const char* pcName, bool bA, bool bB, bool bC);
+    int unk00;
+    int unk04;
+    int unk08;
+    PlaybackFileEC2200* m_pFile;
+};
+
+// @fnv 0x00ec2200
+bool PlaybackEC2200::FUN_00ec2200(const char* pcName, bool bA, bool bB, bool bC)
+{
+    AutoMemContextEC2200 kContext(20);
+    m_pFile = new PlaybackFileEC2200;
+    bool bSuccess = reinterpret_cast<::NiPlaybackFile *>((m_pFile))->FindString(pcName, bA, bB, bC);
+    if (!bSuccess)
+        reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(this)->FUN_00ec25e0();
+    return bSuccess;
+}
+
+inline int GetMemContext()
+{
+    return g_tlsBlock.memoryContext;
+}
+
+inline void SetMemContext(int aiMemoryContext)
+{
+    g_tlsBlock.memoryContext = aiMemoryContext;
+}
+
+struct MemContextGuard
+{
+    int m_iSaved;
+    MemContextGuard(int aiMemoryContext)
+    {
+        m_iSaved = GetMemContext();
+        SetMemContext(aiMemoryContext);
+    }
+    ~MemContextGuard()
+    {
+        SetMemContext(m_iSaved);
+    }
+};
+
+class BSMovieJob
+{
+  public:
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
+    BSMovieJob();
+};
+
+class BSMovieThread
+{
+  public:
+    int unk00, unk04, unk08;
+    BSMovieJob* m_pkCurrent;
+    int unk10;
+    BSMovieJob* m_pkSaved;
+    bool m_bPending;
+    int unk1c, unk20, unk24;
+    float m_fScale;
+    bool FUN_00ec2320(void* pFile, bool a, bool b, bool c, bool d, bool e, bool bReuse, bool f, bool g);
+};
+
+// @fnv 0x00ec2760
+void MoviePlayerA::FUN_00ec2760(const char* list)
+{
+    char* ext2;
+    int tidTmp3 = g_tlsBlock.memoryContext;
+    ScopedAllocTag tag(tidTmp3);
+    Lock();
+    unsigned int size;
+    size = (unsigned int)std::strlen(list) + 1;
+    char* buf2 = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MovieMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
+    std::strcpy(buf2, list);
+    char* tok_2 = std::strtok(buf2, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));
+    bool first = true;
+    unk3c = 0;
+    while (tok_2)
+    {
+        if (!unk21 && CanQueue(first))
+        {
+            ext2 = tok_2 + std::strlen(tok_2) - 3;
+            if (fnv::crt::stricmp(ext2, g_movieExt) == 0)
+            {
+                bool* setting =
+                    &(*reinterpret_cast<::MovieBoolSetting *>(&::g_0126fac8)) ? &(*reinterpret_cast<::MovieBoolSetting *>(&::g_0126fac8)).value : (*(bool*)& DAT_01202800 = false, (bool*)&DAT_01202800);
+                reinterpret_cast<::BSMovieThread *>(this)->FUN_00ec2320((void *)(tok_2), first, 1, 0, *setting, unk22, 0, unk23, unk24);
+            }
+            else
+            {
+                ::FUN_005b5e40();
+            }
+        }
+        tok_2 = std::strtok(0, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));
+    }
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MovieMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(buf2);
+    unk21 = 0;
+    if (!unk20)
+        unk08 = 0;
+    {
+        unsigned long previous5 = GetCurrentThreadId();
+        if (previous5 != GetThreadId() && !unk3c)
+            reinterpret_cast<::MovieSignalState *>(this)->FUN_00ec1a00();
+    }
+    Unlock();
+}
+
+__forceinline int GetMemoryContext()
+{
+    return g_tlsBlock.memoryContext;
+}
+__forceinline void SetMemoryContext(int value)
+{
+    g_tlsBlock.memoryContext = value;
+}
+
+struct HeapZoneGuard
+{
+    int saved;
+    __forceinline HeapZoneGuard(int zone)
+    {
+        saved = GetMemoryContext();
+        g_tlsBlock.memoryContext = zone;
+    }
+    __forceinline ~HeapZoneGuard()
+    {
+        SetMemoryContext(saved);
+    }
+};
+
+struct EC1060Target
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    __forceinline unsigned char IsReady() const
+    {
+        return unk20 != 0;
+    }
+};
+
+struct EC2650Owner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    EC1060Target* unk0c;
+    unsigned char FUN_00ec2650(unsigned char a, unsigned char b);
+};
+
+// @fnv 0x00ec2650
+unsigned char EC2650Owner::FUN_00ec2650(unsigned char a, unsigned char b)
+{
+    HeapZoneGuard guard(0x14);
+    if (unk0c && unk0c->IsReady())
+    {
+        return ((unsigned char)(reinterpret_cast<::EC1060File *>((unk0c))->Update(a, b, 0)));
+    }
+    return 0;
+}
+
+void NiFree(void* p);
+
+class NiTStringMapBase
+{
+  public:
+    unsigned int m_uiHashSize;
+    NiTMapItem<const char*, char*>** m_ppkHashTable;
+    unsigned int m_uiCount;
+    virtual void ClearValue(NiTMapItem<const char*, char*>* pkItem);
+    virtual void DeleteItem(NiTMapItem<const char*, char*>* pkItem);
+    void RemoveAll()
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            while (m_ppkHashTable[i])
+            {
+                NiTMapItem<const char*, char*>* pkSave = m_ppkHashTable[i];
+                m_ppkHashTable[i] = m_ppkHashTable[i]->m_pkNext;
+                ClearValue(pkSave);
+                DeleteItem(pkSave);
+            }
+        }
+        m_uiCount = 0;
+    }
+    virtual ~NiTStringMapBase()
+    {
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+        ::FUN_00aa10f0(m_ppkHashTable);
+    }
+};
+
+class NiTStringMapMid : public NiTStringMapBase
+{
+  public:
+    virtual ~NiTStringMapMid()
+    {
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+    }
+};
+
+class NiTStringMapCopy : public NiTStringMapMid
+{
+  public:
+    bool m_bCopy;
+    virtual ~NiTStringMapCopy();
+};
+
+// @fnv 0x00ec1a90
+NiTStringMapCopy::~NiTStringMapCopy()
+{
+    if (m_bCopy)
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            NiTMapItem<const char*, char*>* pkItem = m_ppkHashTable[i];
+            while (pkItem)
+            {
+                NiTMapItem<const char*, char*>* pkSave = pkItem;
+                pkItem = pkItem->m_pkNext;
+                ::FUN_00aa10f0((char*)pkSave->m_key);
+            }
+        }
+    }
+}
+
+struct MapItemE40
+{
+    MapItemE40* m_pkNext;
+    int m_key;
+    int m_val;
+};
+
+struct BaseE40
+{
+    unsigned int m_uiHashSize;
+    MapItemE40** m_ppkHashTable;
+    int m_uiCount;
+    virtual ~BaseE40()
+    {
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+        ::FUN_00aa10f0((void *)(m_ppkHashTable));
+    }
+    virtual unsigned int KeyToHashIndex(int key) const;
+    virtual bool IsKeysEqual(int a, int b) const;
+    virtual void SetValue(MapItemE40* pkItem, int key, int val);
+    virtual void ClearValue(MapItemE40* pkItem);
+    virtual MapItemE40* NewItem();
+    virtual void DeleteItem(MapItemE40* pkItem);
+    void FUN_00438af0()
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            while (m_ppkHashTable[i])
+            {
+                MapItemE40* pkSave = m_ppkHashTable[i];
+                m_ppkHashTable[i] = m_ppkHashTable[i]->m_pkNext;
+                ClearValue(pkSave);
+                DeleteItem(pkSave);
+            }
+        }
+        m_uiCount = 0;
+    }
+};
+
+struct FUN_00ec1e40 : BaseE40
+{
+// @fnv 0x00ec1e40
+    virtual ~FUN_00ec1e40()
+    {
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+    }
+};
+
+void MakeE40()
+{
+    new FUN_00ec1e40;
+}
+
+namespace fnv_00ec15e0 {
+class MovieSemaphore
+{
+  public:
+    long count;
+    void* handle;
+    long maximum;
+    ~MovieSemaphore()
+    {
+        CloseHandle(handle);
+    }
+};
+template <class K, class V> class NiTMapItem;
+
+extern MemoryManager g_movieHeap;
+inline void NiFree(void* p)
+{
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_movieHeap))->FUN_00aa4060(p);
+}
+template <class T> class DFALL;
+typedef void* NiTMapIterator;
+template <class A, class K, class V> class NiTMapBase
+{
+  public:
+    virtual ~NiTMapBase();
+    unsigned int hashSize;
+    NiTMapItem<K, V>** buckets;
+    unsigned int count;
+    NiTMapIterator GetFirstPos() const
+    {
+        for (unsigned int i = 0; i < hashSize; i++)
+        {
+            if (buckets[i])
+                return buckets[i];
+        }
+        return 0;
+    }
+    void GetNext(NiTMapIterator& pos, K& key, V& val) const;
+    void RemoveAll();
+};
+template <class K, class V> class NiTMap : public NiTMapBase<DFALL<NiTMapItem<K, V> >, K, V>
+{
+  public:
+    virtual ~NiTMap();
+};
+template <class Base, class V> class NiTStringTemplateMap : public Base
+{
+  public:
+    bool copyStrings;
+    virtual ~NiTStringTemplateMap();
+};
+template <class V> class NiTStringMap : public NiTStringTemplateMap<NiTMap<const char*, V>, V>
+{
+  public:
+};
+template <class V> class BSTCaseInsensitiveStringMap : public NiTStringMap<V>
+{
+  public:
+    virtual ~BSTCaseInsensitiveStringMap()
+    {}
+};
+class BSMoviePlayer
+{
+  public:
+    virtual void Run();
+    int unk04, unk08, unk0c, unk10, unk14;
+    unsigned char unk18, unk19, unk1a, unk1b;
+    int unk1c;
+    unsigned char unk20, unk21, unk22, unk23, unk24, unk25, unk26, unk27;
+    int unk28, unk2c;
+    MovieSemaphore semaphore;
+    int unk3c;
+    BSTCaseInsensitiveStringMap<char*> strings;
+    void FUN_00ec2e50()
+    {
+        NiTMapIterator pos = strings.GetFirstPos();
+        while (pos)
+        {
+            const char* key = 0;
+            char* val = 0;
+            strings.GetNext(pos, key, val);
+            NiFree(val);
+        }
+        strings.RemoveAll();
+    }
+    virtual ~BSMoviePlayer();
+};
+// @fnv 0x00ec15e0
+BSMoviePlayer::~BSMoviePlayer()
+{
+    while (unk0c != 0)
+        reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(this)->FUN_00ec25e0();
+    reinterpret_cast<::MapOwnerStandIn *>(this)->FUN_00ec2e50();
+}
+}
+
+// namespace fnv_00ec15e0
+
+namespace fnv_00ec20c0 {
+class MovieSemaphore
+{
+  public:
+    long count;
+    void* handle;
+    long maximum;
+    MovieSemaphore(long initial = 0, long maxCount = 1) : count(initial), maximum(maxCount)
+    {
+        handle = CreateSemaphoreA(0, count, maximum, 0);
+    }
+    ~MovieSemaphore()
+    {
+        CloseHandle(handle);
+    }
+};
+template <class K, class V> class NiTMapItem;
+template <class T> class DFALL;
+void* __cdecl NiMalloc(unsigned int size);
+inline void* NiAllocBytes(unsigned int uiBytes)
+{
+    return NiMalloc(uiBytes);
+}
+inline void NiZeroBytes(void* pvDest, unsigned int uiBytes)
+{
+    memset(pvDest, 0, uiBytes);
+}
+template <class A, class K, class V> class NiTMapBase
+{
+  public:
+    virtual ~NiTMapBase();
+    unsigned int hashSize;
+    NiTMapItem<K, V>** buckets;
+    unsigned int count;
+    NiTMapBase(unsigned int uiHashSize)
+    {
+        hashSize = uiHashSize;
+        count = 0;
+        buckets = (NiTMapItem<K, V>**)NiAllocBytes(sizeof(NiTMapItem<K, V>*) * hashSize);
+        NiZeroBytes(buckets, sizeof(NiTMapItem<K, V>*) * hashSize);
+    }
+};
+template <class K, class V> class NiTMap : public NiTMapBase<DFALL<NiTMapItem<K, V> >, K, V>
+{
+  public:
+    NiTMap(unsigned int size = 37) : NiTMapBase<DFALL<NiTMapItem<K, V> >, K, V>(size)
+    {}
+    virtual ~NiTMap()
+    {}
+};
+template <class Base, class V> class NiTStringTemplateMap : public Base
+{
+  public:
+    bool copyStrings;
+    NiTStringTemplateMap(unsigned int size = 37, bool copy = true) : Base(size), copyStrings(copy)
+    {}
+    virtual ~NiTStringTemplateMap()
+    {}
+};
+template <class V> class NiTStringMap : public NiTStringTemplateMap<NiTMap<const char*, V>, V>
+{
+  public:
+    NiTStringMap(unsigned int size = 37, bool copy = true) : NiTStringTemplateMap<NiTMap<const char*, V>, V>(size, copy)
+    {}
+    virtual ~NiTStringMap()
+    {}
+};
+template <class V> class BSTCaseInsensitiveStringMap : public NiTStringMap<V>
+{
+  public:
+    BSTCaseInsensitiveStringMap(unsigned int size = 37, bool copy = true) : NiTStringMap<V>(size, copy)
+    {}
+    virtual ~BSTCaseInsensitiveStringMap()
+    {}
+};
+class BSMoviePlayer
+{
+  public:
+    virtual void Run();
+    int unk04, unk08, unk0c, unk10, unk14;
+    unsigned char unk18, unk19, unk1a, unk1b;
+    int unk1c;
+    unsigned char unk20, unk21, unk22, unk23, unk24, unk25, unk26, unk27;
+    int unk28, unk2c;
+    MovieSemaphore semaphore;
+    int unk3c;
+    BSTCaseInsensitiveStringMap<char*> strings;
+    BSMoviePlayer();
+};
+// @fnv 0x00ec20c0
+BSMoviePlayer::BSMoviePlayer()
+    : unk04(0), unk08(0), unk0c(0), unk10(0), unk14(0), unk18(0), unk19(0), unk1c(0), unk20(0), unk21(0), unk22(0),
+      unk23(1), unk24(1), unk2c(0)
+{}
+}
+
+// namespace fnv_00ec20c0
+
+
+struct S0ERTTI
+{
+    const char* m_pcName;
+    const S0ERTTI* m_pBaseRTTI;
+};
+
+struct S0ERenderer;
+
+struct S0EObject
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual const S0ERTTI* GetRTTI() const;
+
+    bool IsKindOfType(const S0ERTTI* pkRTTI) const
+    {
+        const S0ERTTI* pkTmp = GetRTTI();
+        while (pkTmp)
+        {
+            if (pkTmp == pkRTTI)
+                return true;
+            pkTmp = pkTmp->m_pBaseRTTI;
+        }
+        return false;
+    }
+};
+
+struct S0ESurface;
+
+struct S0EBufferData : S0EObject
+{
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    S0ESurface* m_pkSurface;
+
+    S0ESurface* GetSurface() const
+    {
+        return m_pkSurface;
+    }
+};
+
+struct S0ETargetGroup
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual S0EObject* GetRenderTargetBuffer(unsigned int uiIndex);
+};
+
+struct S0ERenderer
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual S0ETargetGroup* GetDefaultRenderTargetGroup();
+
+    static S0ERenderer* GetRenderer()
+    {
+        return (*reinterpret_cast<::S0ERenderer * *>(&::NiRenderer::ms_pRenderer));
+    }
+};
+
+struct S0EDevice
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual long SetRenderTarget(unsigned long RenderTargetIndex, S0ESurface* pRenderTarget);
+};
+
+struct S0EMoviePlayer
+{
+    virtual void v00();
+    virtual void BeginA();
+    virtual void EndA();
+    virtual void BeginB();
+    virtual void EndB();
+};
+
+struct S0EBink
+{
+    int unk00;
+    int unk04;
+    unsigned int m_uiFrames;
+};
+
+struct S0EPlaybackFile
+{
+    S0EBink* m_pkBink;
+    S0EDevice* m_pkDevice;
+    unsigned int m_uiTexture;
+    unsigned int m_uiFrame;
+    unsigned int m_uiDecoded;
+    float m_fScale;
+    float m_fVectorY;
+    float m_fVectorZ;
+    int m_iFadeIndex;
+    bool m_bBusy;
+
+    unsigned char FUN_00ec0e00(const char* pcName, bool b1, bool b2, bool b3, bool b4, bool b5, bool b6, bool b7,
+                               float afFinalFloat);
+};
+
+// @fnv 0x00ec2320
+bool BSMovieThread::FUN_00ec2320(void* pFile, bool a, bool b, bool c, bool d, bool e, bool bReuse, bool f, bool g)
+{
+    MemContextGuard kGuard(20);
+    if (!bReuse)
+    {
+        reinterpret_cast<::FUN_00ec2a10_class *>(this)->PauseMovie();
+        if (m_bPending && m_pkSaved)
+        {
+            m_pkCurrent = m_pkSaved;
+            m_pkSaved = 0;
+            m_bPending = false;
+        }
+        else
+        {
+            m_pkCurrent = new BSMovieJob;
+        }
+    }
+    bool bResult = ((bool)(reinterpret_cast<::S0EPlaybackFile *>((m_pkCurrent))->FUN_00ec0e00((const char *)(pFile), a, b, c, d, e, f, g, m_fScale)));
+    reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(this)->FUN_00ec25e0();
+    return bResult;
+}
+
+__forceinline S0EBufferData* DynamicCastBufferData(S0EObject* pkObject)
+{
+    if (!pkObject)
+        return 0;
+    return pkObject->IsKindOfType(&(*reinterpret_cast<::S0ERTTI *>(&::g_0126f59c))) ? (S0EBufferData*)pkObject : 0;
+}
+
+// @fnv 0x00ec0e00
+unsigned char S0EPlaybackFile::FUN_00ec0e00(const char* pcName, bool b1, bool b2, bool b3, bool b4, bool b5, bool b6,
+                                            bool b7, float afFinalFloat)
+{
+    S0EBufferData* pkCast2;
+    bool bWait;
+    unsigned char bRet;
+    unsigned int uiStart;
+    unsigned int uiNow3;
+
+    m_iFadeIndex = 1;
+    m_bBusy = true;
+    if (!reinterpret_cast<::NiPlaybackFile *>(this)->InitPlayback(pcName, b2, b4, b5))
+    {
+        m_bBusy = false;
+        return false;
+    }
+    m_bBusy = false;
+
+    if (b6)
+        ((S0EMoviePlayer*)::DAT_0126fac4)->BeginA();
+    if (b7)
+        ((S0EMoviePlayer*)::DAT_0126fac4)->BeginB();
+
+    pkCast2 =
+        DynamicCastBufferData(S0ERenderer::GetRenderer()->GetDefaultRenderTargetGroup()->GetRenderTargetBuffer(0));
+    if (pkCast2)
+        m_pkDevice->SetRenderTarget(0, pkCast2->GetSurface());
+
+    bWait = b1;
+    if (afFinalFloat != ::_DAT_01012060)
+        bWait = false;
+    uiStart = GetTickCount();
+    while (reinterpret_cast<::EC1060File *>(this)->Update(bWait, b3, b5))
+    {
+        if (afFinalFloat != ::_DAT_01012060)
+        {
+            uiNow3 = GetTickCount();
+            if (uiNow3 - uiStart > (unsigned int)(afFinalFloat * 1000.0))
+            {
+                bWait = true;
+                afFinalFloat = 0.0f;
+            }
+        }
+    }
+
+    bRet = m_uiFrame >= m_pkBink->m_uiFrames;
+    reinterpret_cast<::FUN_00ec1020_cls *>(this)->FUN_00ec1020();
+    if (b6)
+        ((S0EMoviePlayer*)::DAT_0126fac4)->EndA();
+    if (b7)
+        ((S0EMoviePlayer*)::DAT_0126fac4)->EndB();
+    return bRet;
+}
+
+static void MoviePlayerA_Load(MoviePlayerA* player, const char* list)
+{
+    player->FUN_00ec2760(list);
+}
+
+static void NiTStringMapCopy_Destroy(NiTStringMapCopy* map)
+{
+    map->NiTStringMapCopy::~NiTStringMapCopy();
+}
+
+static void fnv_00ec15e0::BSMoviePlayer_Destroy(BSMoviePlayer* player)
+{
+    player->BSMoviePlayer::~BSMoviePlayer();
+}
+
+#include "generated/data/staging/blk_00ec0000_od.inc"
+#include "generated/data/staging/blk_00ec0000_od_ob1_variant.inc"

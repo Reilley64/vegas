@@ -7,6 +7,58 @@
 // read and the setter a plain field write.
 //
 
+#include <cstdint>
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/AbstractHeap.h"
+#include "fnv/decl/B683670List.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00445300_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045aba0_cls.h"
+#include "fnv/decl/FUN_0050e640_Holder.h"
+#include "fnv/decl/FUN_00621b00_shell.h"
+#include "fnv/decl/FUN_0062e0a0_shell.h"
+#include "fnv/decl/FUN_006317a0_struct.h"
+#include "fnv/decl/FUN_006828a0_shell.h"
+#include "fnv/decl/FUN_007b5300_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/RTTIEntry.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_007e6580.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_0087b140__FUN_0087b140_Holder.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_0069b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00c69000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d6000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f9000.h"
 #include "bstempeffectdebris.h"
 
 // @fnv 0x00619b40
@@ -22,26 +74,24 @@ void BSTempEffectDebris::SetIsForegroundEffect(bool foregroundElement)
 
 struct FUN_0050e620_S
 {
-    void FUN_004405d0(unsigned char);
     void FUN_0050e620(unsigned char p);
 };
 // @fnv 0x0050e620
 void FUN_0050e620_S::FUN_0050e620(unsigned char p)
 {
-    FUN_004405d0(p);
+    reinterpret_cast<::FUN_0050e640_Holder *>(this)->MatchesValue(p);
 }
 
-void __fastcall FUN_0061bcf0(void* param_1);
 
 // @fnv 0x00618940
-void __fastcall FUN_00618940(void* thisPtr)
+void FUN_00618940(void* thisPtr)
 {
-    FUN_0061bcf0(thisPtr);
+    reinterpret_cast<::RTTIEntry *>((thisPtr))->FUN_0061bcf0();
 }
 
 struct BGSEntryPointFunctionData;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct FUN_009b3120_shell : public BSTempEffectDebris
 {
     int FUN_009b3120();
@@ -53,7 +103,6 @@ int FUN_009b3120_shell::FUN_009b3120()
     return 2;
 }
 
-extern void* g_011d6a90;
 
 struct FUN_00682ac0_shell
 {
@@ -63,21 +112,20 @@ struct FUN_00682ac0_shell
 // @fnv 0x00682ac0
 void* FUN_00682ac0_shell::GetGlobalPtr() const
 {
-    return &g_011d6a90;
+    return &(*reinterpret_cast<void * *>(&::g_011d6a90));
 }
 
 struct GlobalObject_006836f0
 {
-    void __thiscall FUN_006834e0(void** p);
+    void FUN_006834e0(void** p);
 };
 
-extern GlobalObject_006836f0 g_011d6a74;
 
 // @fnv 0x00683310
 void FUN_00683310(void* p)
 {
     if (p)
-        g_011d6a74.FUN_006834e0(&p);
+        ::g_011d6a74.FUN_006834e0(&p);
 }
 
 struct FUN_00683460_shell
@@ -96,26 +144,25 @@ struct FUN_006834a0_shell
 {
     int m_000;
     int m_004;
-    bool __thiscall MatchesValue(int arg);
+    bool MatchesValue(int arg);
 };
 
 // Returns true when the object exists and its m_004 field equals arg, otherwise false.
 // @fnv 0x006834a0
-bool __thiscall FUN_006834a0_shell::MatchesValue(int aiValue)
+bool FUN_006834a0_shell::MatchesValue(int aiValue)
 {
     return this ? m_004 == aiValue : 0;
 }
 
 struct FUN_00683480_shell
 {
-    bool MatchesValue(int);
     bool FUN_00683480(int);
 };
 
 // @fnv 0x00683480
 bool FUN_00683480_shell::FUN_00683480(int aiValue)
 {
-    return MatchesValue(aiValue);
+    return reinterpret_cast<::FUN_006834a0_shell *>(this)->MatchesValue(aiValue);
 }
 
 struct StandIn
@@ -123,17 +170,6 @@ struct StandIn
     void FUN_00682f40();
     void* FUN_00682ad0(unsigned int);
 };
-void _delete(void*, unsigned int);
-// Calls FUN_00682f40, then if the low bit of flags is set frees this with _delete and returns this.
-// @fnv 0x00682ad0
-void* StandIn::FUN_00682ad0(unsigned int flags)
-{
-    this->FUN_00682f40();
-    if (flags & 1)
-        _delete(this, 0x24);
-    return this;
-}
-
 struct Limit
 {
     int f0;
@@ -144,7 +180,6 @@ struct Holder
 {
     virtual Limit* f0();
     virtual Limit* f1();
-    void AppendBlock(Limit* p);
     void FUN_006834e0(int* p);
 };
 // Gets a Limit via f1(), stores the int pointed to by a into its f2 field, then passes it to AppendBlock.
@@ -153,7 +188,7 @@ void Holder::FUN_006834e0(int* aiValue)
 {
     Limit* p = f1();
     p->f2 = *aiValue;
-    AppendBlock(p);
+    reinterpret_cast<::AbstractHeap *>(this)->AppendBlock((::MemoryBlockHeader *)(p));
 }
 
 class EffectBase
@@ -170,7 +205,7 @@ class MemberPtr
   public:
     MemberPtr(int p);
     ~MemberPtr();
-    void FUN_0066b0d0(int p);
+    void FUN_0066b0d0(std::intptr_t p);
     int m_p;
 };
 
@@ -179,60 +214,42 @@ class FUN_00682c40 : public EffectBase
   public:
     FUN_00682c40(int iArg, float fArg, int iVal, int a4, int a5, int a6, int a7, int a8, float f9, bool b10, char c11);
     virtual void v0();
-    void SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool b10);
 
     MemberPtr m_18;
-    int m_1c;
+    std::intptr_t m_1c;
     char m_20;
     char m_21;
 };
-
-// Constructs the effect: initialises the base and member pointer, stores iVal and c11, clears m_21, then calls SpawnDebris with the remaining arguments.
-// @fnv 0x00682c40
-FUN_00682c40::FUN_00682c40(int iArg, float fArg, int iVal, int a4, int a5, int a6, int a7, int a8, float f9, bool b10,
-                           char c11)
-    : EffectBase(iArg, fArg), m_18(0)
-{
-    m_18.FUN_0066b0d0(0);
-    m_1c = iVal;
-    m_20 = c11;
-    m_21 = 0;
-    SpawnDebris(a4, a5, a6, a7, a8, f9, b10);
-}
 
 class B83330Item;
 
 class B83330List
 {
   public:
-    bool IsEmpty();
-    void* GetHeadPos();
-    B83330Item*& Get(void* pkPos);
     void RemovePos(void*& pkPos);
     B83330Item*& GetNext(void*& pkPos);
 };
 
-extern B83330List g_kB83330Menus;
 
 // Removes pkItem from g_kB83330Menus by scanning the list until the matching entry is found and erased.
 // @fnv 0x00683330
 void __cdecl RemoveMenuEntry(B83330Item* pkItem)
 {
-    if (pkItem && !g_kB83330Menus.IsEmpty())
+    if (pkItem && !::IsFieldCZero((::Dummy_0069b080 *)&((*reinterpret_cast<::B83330List *>(&::g_011d6a74)))))
     {
         void* pkPos2;
         bool bRemoved = false;
-        pkPos2 = g_kB83330Menus.GetHeadPos();
+        pkPos2 = ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::B83330List *>(&::g_011d6a74))))->GetName()));
         while (pkPos2 && !bRemoved)
         {
-            if (g_kB83330Menus.Get(pkPos2) == pkItem)
+            if (((::B83330Item *)(reinterpret_cast<::FUN_006317a0_struct *>(&((*reinterpret_cast<::B83330List *>(&::g_011d6a74))))->AddEight((std::intptr_t)(pkPos2)))) == pkItem)
             {
-                g_kB83330Menus.RemovePos(pkPos2);
+                (*reinterpret_cast<::B83330List *>(&::g_011d6a74)).RemovePos(pkPos2);
                 bRemoved = true;
             }
             else
             {
-                g_kB83330Menus.GetNext(pkPos2);
+                (*reinterpret_cast<::B83330List *>(&::g_011d6a74)).GetNext(pkPos2);
             }
         }
     }
@@ -254,8 +271,6 @@ class C683550PointerList
     virtual void vfunc01();
     virtual void DeleteItem(C683550Item* pkItem);
 
-    void* RemoveHead();
-    void* RemoveTail();
     void* RemoveAt(C683550Iterator& kPos);
 
     C683550Item* m_pkHead;
@@ -273,12 +288,12 @@ void* C683550PointerList::RemoveAt(C683550Iterator& kPos)
     if (pkNode == m_pkHead)
     {
         kPos = pkNode->m_pkNext;
-        return RemoveHead();
+        return reinterpret_cast<::FUN_0062e0a0_shell *>(this)->RemoveFirstNode();
     }
     if (pkNode == m_pkTail)
     {
         kPos = 0;
-        return RemoveTail();
+        return reinterpret_cast<::B683670List *>(this)->RemoveHead();
     }
 
     C683550Item* pkPrev = pkNode->m_pkPrev;
@@ -315,15 +330,12 @@ struct Ptr682
 struct Vec682
 {
     float x, y, z;
-    float FUN_00457990();
 };
 struct B006815c0
 {
     float m00, m01, m02, m03, m04, m05, m06, m07, m08;
     B006815c0();
-    void FUN_00a59780(float, float, float);
 };
-float FUN_004b5550(float, float);
 struct FUN_00682b00 : FUN_006827b0
 {
     Ptr682 node;
@@ -331,27 +343,8 @@ struct FUN_00682b00 : FUN_006827b0
     bool useCounter;
     bool forceDelete;
     virtual ~FUN_00682b00();
-    void SpawnDebris(void*, void*, B006815c0*, void*, void*, float, unsigned char);
     FUN_00682b00(TESObjectCELL*, float, const char*, void*, void*, Vec682*, void*, void*, float, unsigned char, bool);
 };
-// @fnv 0x00682b00
-FUN_00682b00::FUN_00682b00(TESObjectCELL* cell, float duration, const char* name, void* p4, void* p5, Vec682* direction,
-                           void* p7, void* p8, float f, unsigned char flag, bool abUseCounter)
-    : FUN_006827b0(cell, duration), node(0)
-{
-    node.FUN_0066b0d0(0);
-    filename = name;
-    useCounter = abUseCounter;
-    forceDelete = false;
-    Vec682 scene = *direction;
-    B006815c0 existing;
-    float owner = scene.z;
-    scene.z = 0.0f;
-    float active = scene.FUN_00457990();
-    existing.FUN_00a59780(FUN_004b5550(scene.x, scene.y), 0.0f, -FUN_004b5550(owner, active));
-    SpawnDebris(p4, p5, &existing, p7, p8, f, flag);
-}
-
 struct CloneContext
 {
     void* mapVtable;
@@ -436,88 +429,27 @@ struct SceneNode
 };
 struct CellContext
 {
-    SceneNode* GetDynamicNode();
 };
 struct SceneObject
 {
-    SceneObject* FUN_00a5d2c0(CloneContext&);
-    void FUN_00440460(int);
-    void FUN_0043fa80(int);
-    void FUN_00440490(float);
-    void FUN_00a5a040();
-    void FUN_00a59c60(UpdateContext&);
 };
 struct ScenePointer : MemberPtr
 {
-    SceneObject* FUN_00559450();
 };
 struct ModelService
 {
-    SceneObject* FUN_00447080(int, int, bool, bool, bool, bool);
 };
 struct QueueService
 {
-    void FindMatchingNode(SceneObject*, MemberPtr*);
 };
 struct EffectRegistry
 {
-    void FUN_00973fd0(FUN_00682c40*);
 };
-extern ModelService* g_011c3b3c;
-extern QueueService* g_011dea10;
-extern EffectRegistry g_011e0e80;
-extern float DAT_011c3c08;
-void ProcessPropertyTree(SceneObject*, int);
-void FUN_0062b8d0(SceneObject*, int, bool);
-void FUN_0062ba80(SceneObject*, int, bool);
 void FUN_006833b0();
 struct DebrisEffect : FUN_00682c40
 {
-    void FUN_007e6580(bool);
-    CellContext* FUN_0084e3a0();
-    void AttachCollisionObject(int);
-    void SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool b10);
+    void SpawnDebris(std::intptr_t a4, std::intptr_t a5, std::intptr_t a6, std::intptr_t a7, std::intptr_t a8, float f9, bool b10);
 };
-// @fnv 0x00682d10
-void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool abUseQueue)
-{
-    FUN_007e6580(false);
-    SceneObject* update = g_011c3b3c->FUN_00447080(m_1c, 0, true, false, false, false);
-    if (abUseQueue)
-    {
-        if (g_011dea10)
-            g_011dea10->FindMatchingNode(update, &m_18);
-        else
-            m_18.FUN_0066b0d0(0);
-    }
-    else
-    {
-        CloneContext clone(1.0f);
-        m_18.FUN_0066b0d0((int)update->FUN_00a5d2c0(clone));
-    }
-    if (!static_cast<ScenePointer&>(m_18).FUN_00559450() || !FUN_0084e3a0())
-        return;
-    SceneNode* model = FUN_0084e3a0()->GetDynamicNode();
-    if (model)
-        model->AttachChildInAvailableSlot(static_cast<ScenePointer&>(m_18).FUN_00559450(), true);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_00440460(a5);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_0043fa80(a6);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_00440490(f9);
-    ProcessPropertyTree(static_cast<ScenePointer&>(m_18).FUN_00559450(), 5);
-    AttachCollisionObject(a4);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_00a5a040();
-    UpdateContext node(DAT_011c3c08, true, false);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_00a59c60(node);
-    FUN_0062b8d0(static_cast<ScenePointer&>(m_18).FUN_00559450(), a7, true);
-    FUN_0062ba80(static_cast<ScenePointer&>(m_18).FUN_00559450(), a8, true);
-    g_011e0e80.FUN_00973fd0(this);
-    if ((unsigned char)m_20)
-    {
-        FUN_00683310(this);
-        FUN_006833b0();
-    }
-}
-
 class DebrisNode;
 
 struct DebrisManager
@@ -586,7 +518,6 @@ struct DebrisManager
 class DebrisNode : public NiAVObject
 {
   public:
-    DebrisManager* GetDebrisManager();
 };
 
 template <class T> class DebrisPtr
@@ -600,24 +531,18 @@ template <class T> class DebrisPtr
 
 struct ModelLoader
 {
-    void QueueModelLoad(char* name, bool flag, unsigned int count);
 };
-extern ModelLoader* g_modelLoader;
 
 struct DebrisCounter
 {
-    bool IsEnabled(int arg);
 };
-extern DebrisCounter g_011c3ea4;
 
 struct TaskQueueInterface
 {
-    static TaskQueueInterface* GetInstance();
-    void QueueDetach(NiAVObject* obj);
+public:
+    static ::TaskQueueInterface *GetSingleton();
 };
 
-void FUN_00c6a270(NiAVObject* obj, bool a, bool b, int c);
-void FUN_00c69ee0(NiAVObject* obj, bool a, int b);
 
 class FUN_00682f40 : public BSTempEffect
 {
@@ -630,24 +555,33 @@ class FUN_00682f40 : public BSTempEffect
     bool bForceDelete;
     bool m_bShouldDelete;
 };
+// Calls FUN_00682f40, then if the low bit of flags is set frees this with _delete and returns this.
+// @fnv 0x00682ad0
+void* StandIn::FUN_00682ad0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00682f40 *>((this))->FUN_00682f40::~FUN_00682f40();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x24);
+    return this;
+}
 
 // @fnv 0x00682f40
 FUN_00682f40::~FUN_00682f40()
 {
     if (pFilename)
-        g_modelLoader->QueueModelLoad((char*)pFilename, false, 1);
-    if (m_pSceneObject && ((DebrisNode*)m_pSceneObject)->GetDebrisManager())
+        reinterpret_cast<::FUN_00445300_shell *>((::g_modelLoader))->FUN_00445300((char*)pFilename, false, 1);
+    if (m_pSceneObject && ((::DebrisManager *)(reinterpret_cast<::FUN_009611e0_shell *>((((DebrisNode*)m_pSceneObject)))->FUN_009611e0())))
     {
-        ((DebrisNode*)m_pSceneObject)->GetDebrisManager()->RemoveDebris(m_pSceneObject);
+        ((::DebrisManager *)(reinterpret_cast<::FUN_009611e0_shell *>((((DebrisNode*)m_pSceneObject)))->FUN_009611e0()))->RemoveDebris(m_pSceneObject);
     }
-    if (g_011c3ea4.IsEnabled(1))
+    if (reinterpret_cast<::FUN_00683480_shell *>(&((*reinterpret_cast<::DebrisCounter *>(&::g_011c3ea4))))->FUN_00683480(1))
     {
-        FUN_00c6a270(m_pSceneObject, true, true, 0);
-        FUN_00c69ee0(m_pSceneObject, true, 0);
+        ::FUN_00c6a270((std::intptr_t)(m_pSceneObject.m_pObject), true, true, 0);
+        ::FUN_00c69ee0(m_pSceneObject, true, 0);
     }
     else
     {
-        TaskQueueInterface::GetInstance()->QueueDetach(m_pSceneObject);
+        reinterpret_cast<::fnv_0087b140::FUN_0087b140_Holder *>((::TaskQueueInterface::GetSingleton()))->QueueTaskIfPresent((::fnv_0087b140::G00559a40 *)(::NiAVObject *)(m_pSceneObject));
     }
     if (m_bForegroundEffect)
         RemoveMenuEntry((B83330Item*)this);
@@ -656,10 +590,7 @@ FUN_00682f40::~FUN_00682f40()
 
 struct GlobalObject_0040e0b0
 {
-    float* Float();
 };
-extern GlobalObject_0040e0b0 g_011cfbfc;
-extern const double _gModifierZero;
 
 struct FaceGenForm
 {
@@ -713,8 +644,6 @@ class BSFaceGenKeyframe
     virtual FaceGenForm* vf98();
 
     double GetTime();
-    double FUN_00621b00();
-    bool FUN_006828a0(float fArg);
     bool FUN_006830a0(float fArg);
 
     unsigned int unk04;
@@ -728,29 +657,28 @@ class BSFaceGenKeyframe
     unsigned char byte21;
 };
 
-void __cdecl FUN_00b6bb30(void* pForm, float fValue);
 
 // @fnv 0x006830a0
 bool BSFaceGenKeyframe::FUN_006830a0(float fArg)
 {
-    bool result5 = FUN_006828a0(fArg);
+    bool result5 = reinterpret_cast<::FUN_006828a0_shell *>(this)->FUN_006828a0(fArg);
     if (byte21)
     {
         result5 = false;
     }
     if (result5)
     {
-        float delta8 = GetTime() - FUN_00621b00();
-        if (delta8 >= _gModifierZero)
+        float delta8 = GetTime() - ((double)(reinterpret_cast<::FUN_00621b00_shell *>(this)->FUN_00621b00()));
+        if (delta8 >= ::_DAT_01012060)
         {
-            if (delta8 <= *g_011cfbfc.Float())
+            if (delta8 <= *((float *)&(::FUN_00403e20((float *)&(::g_011cfbfc)))))
             {
                 FaceGenForm* obj2 = vf98();
                 void* b = obj2 ? obj2->GetForm() : 0;
                 if (b)
                 {
-                    float v_ = delta8 / *g_011cfbfc.Float();
-                    FUN_00b6bb30(b, v_);
+                    float v_ = delta8 / *((float *)&(::FUN_00403e20((float *)&(::g_011cfbfc))));
+                    ::BSShaderRenderUtility::SetAlphaOnNode((::NiNode *)(b), v_);
                 }
             }
         }
@@ -766,16 +694,13 @@ struct WorldNode
     virtual void v002();
     virtual WorldNode* IsSceneNode();
     unsigned int FUN_0043b480();
-    WorldObj* FUN_0043b4a0(int iIndex);
 };
 struct WorldFade
 {
-    WorldObj* FUN_0045bc00(bool bArg);
 };
 struct WorldFilter
 {
     unsigned int iFilter;
-    int FUN_004a3a20();
     WorldFilter();
 };
 struct WorldActor
@@ -905,11 +830,6 @@ struct WorldHavok
     virtual void AddObject(WorldObj* pkObj, WorldNode* pk3D);
 };
 struct WorldCell;
-extern const void* const DAT_011f9140;
-WorldFade* FUN_00653270(const void* pkRTTI, WorldNode* pkObj);
-unsigned int FUN_004a8b00(WorldObj* pkObj);
-WorldHavok* __fastcall FUN_004543c0(WorldCell* pkCell);
-void FUN_00c6a3d0(WorldObj* pkObj, int iFilter, int a, int b);
 struct FUN_00683190_shell
 {
     virtual void v000();
@@ -951,9 +871,76 @@ struct FUN_00683190_shell
     virtual void v036();
     virtual void v037();
     virtual WorldNode* Get3D();
-    WorldCell* FUN_0084e3a0();
     void AttachCollisionObject(WorldActor* pkActor);
 };
+// Constructs the effect: initialises the base and member pointer, stores iVal and c11, clears m_21, then calls SpawnDebris with the remaining arguments.
+// @fnv 0x00682c40
+FUN_00682c40::FUN_00682c40(int iArg, float fArg, int iVal, int a4, int a5, int a6, int a7, int a8, float f9, bool b10,
+                           char c11)
+    : EffectBase(iArg, fArg), m_18(0)
+{
+    m_18.FUN_0066b0d0(0);
+    m_1c = iVal;
+    m_20 = c11;
+    m_21 = 0;
+    reinterpret_cast<::DebrisEffect *>(this)->SpawnDebris(a4, a5, a6, a7, a8, f9, b10);
+}
+// @fnv 0x00682b00
+FUN_00682b00::FUN_00682b00(TESObjectCELL* cell, float duration, const char* name, void* p4, void* p5, Vec682* direction,
+                           void* p7, void* p8, float f, unsigned char flag, bool abUseCounter)
+    : FUN_006827b0(cell, duration), node(0)
+{
+    node.FUN_0066b0d0(0);
+    filename = name;
+    useCounter = abUseCounter;
+    forceDelete = false;
+    Vec682 scene = *direction;
+    B006815c0 existing;
+    float owner = scene.z;
+    scene.z = 0.0f;
+    float active = reinterpret_cast<::NiPoint3 *>(&(scene))->ComputeMagnitude();
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(existing))->FUN_00a59780(FUN_004b5550(scene.x, scene.y), 0.0f, -FUN_004b5550(owner, active));
+    reinterpret_cast<::DebrisEffect *>(this)->SpawnDebris((std::intptr_t)(p4), (std::intptr_t)(p5), (std::intptr_t)(&existing), (std::intptr_t)(p7), (std::intptr_t)(p8), f, flag);
+}
+// @fnv 0x00682d10
+void DebrisEffect::SpawnDebris(std::intptr_t a4, std::intptr_t a5, std::intptr_t a6, std::intptr_t a7, std::intptr_t a8, float f9, bool abUseQueue)
+{
+    reinterpret_cast<::Twin_007e6580 *>(this)->SetIsForegroundEffect(false);
+    SceneObject* update = ((::SceneObject *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::ModelService * *>(&::g_modelLoader))))->FUN_00447080((char *)(m_1c), 0, true, false, false, false)));
+    if (abUseQueue)
+    {
+        if ((*reinterpret_cast<::QueueService * *>(&::g_TES)))
+            reinterpret_cast<::FUN_0045aba0_cls *>(((*reinterpret_cast<::QueueService * *>(&::g_TES))))->FindMatchingNode(update, (::ObjC *)(::MemberPtr *)(&m_18));
+        else
+            m_18.FUN_0066b0d0(0);
+    }
+    else
+    {
+        CloneContext clone(1.0f);
+        m_18.FUN_0066b0d0((std::intptr_t)((::SceneObject *)(reinterpret_cast<::A5D2C0Object *>((update))->FUN_00a5d2c0((::A5D2C0CloningProcess &)(clone)))));
+    }
+    if (!((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18))))) || !((::CellContext *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
+        return;
+    SceneNode* model = ((::SceneNode *)(reinterpret_cast<::TESObjectCELL *>((((::CellContext *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->GetDynamicNode()));
+    if (model)
+        model->AttachChildInAvailableSlot(((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18))))), true);
+    reinterpret_cast<::FUN_00440460_S *>((((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))))->FUN_00440460((const ::V3 *)(a5));
+    reinterpret_cast<::FUN_0043fa80_s *>((((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(a6)));
+    reinterpret_cast<::FUN_00440490_shell *>((((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))))->FUN_00440490(f9);
+    ::ProcessPropertyTree((::PropHelper *)(::SceneObject *)(((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))), 5);
+    reinterpret_cast<::FUN_00683190_shell *>(this)->AttachCollisionObject((::WorldActor *)(a4));
+    reinterpret_cast<::FUN_00a5a040_Class *>((((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))))->FUN_00a5a040();
+    UpdateContext node(::fnv_00563f30::DAT_011c3c08, true, false);
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))))->FUN_00a59c60((std::intptr_t)&(node));
+    ::FUN_0062b8d0(((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18))))), (const void *)(a7), true);
+    ::FUN_0062ba80(((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18))))), (*(const ::NiPoint3 *)(a8)), true);
+    reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::EffectRegistry *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::FUN_00682c40 *)(this));
+    if ((unsigned char)m_20)
+    {
+        FUN_00683310(this);
+        FUN_006833b0();
+    }
+}
 // Resolves the object from the 3D node (via fade or child nodes), then adds it to the cell's havok world with the actor's collision filter.
 // @fnv 0x00683190
 void FUN_00683190_shell::AttachCollisionObject(WorldActor* pkActor)
@@ -962,35 +949,35 @@ void FUN_00683190_shell::AttachCollisionObject(WorldActor* pkActor)
     WorldObj* pkObj = (WorldObj*)pk3D;
     if (pk3D)
     {
-        WorldNode* pkNode = (WorldNode*)FUN_00653270(&DAT_011f9140, pk3D);
+        WorldNode* pkNode = (WorldNode*)((::WorldFade *)(::FUN_00653270((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<const void *const *>(&::g_011f9140))), (::NiObject *)(pk3D))));
         if (pkNode)
         {
-            pkObj = ((WorldFade*)pkNode)->FUN_0045bc00(false);
+            pkObj = ((::WorldObj *)(reinterpret_cast<::S_FUN_0045bc00 *>((((WorldFade*)pkNode)))->FUN_0045bc00(false)));
         }
         else
         {
             pkNode = pk3D->IsSceneNode();
-            unsigned int uiObjType = FUN_004a8b00(pkObj);
-            if (!uiObjType && pkNode && pkNode->FUN_0043b480() && pkNode->FUN_0043b4a0(0))
+            unsigned int uiObjType = ::FUN_004a8b00((::BGSBodyPart *)(pkObj));
+            if (!uiObjType && pkNode && pkNode->FUN_0043b480() && ((::WorldObj *)(reinterpret_cast<::NiNode *>((pkNode))->GetAt(0))))
             {
-                pkObj = pkNode->FUN_0043b4a0(0);
-                unsigned int uiChildType = FUN_004a8b00(pkObj);
-                if (!uiChildType && pkNode && pkNode->FUN_0043b480() > 1 && pkNode->FUN_0043b4a0(1))
-                    pkObj = pkNode->FUN_0043b4a0(1);
+                pkObj = ((::WorldObj *)(reinterpret_cast<::NiNode *>((pkNode))->GetAt(0)));
+                unsigned int uiChildType = ::FUN_004a8b00((::BGSBodyPart *)(pkObj));
+                if (!uiChildType && pkNode && pkNode->FUN_0043b480() > 1 && ((::WorldObj *)(reinterpret_cast<::NiNode *>((pkNode))->GetAt(1))))
+                    pkObj = ((::WorldObj *)(reinterpret_cast<::NiNode *>((pkNode))->GetAt(1)));
             }
         }
         if (pkObj)
         {
-            WorldCell* pkCell = FUN_0084e3a0();
+            WorldCell* pkCell = ((::WorldCell *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()));
             if (pkCell)
             {
-                WorldHavok* pkWorld = FUN_004543c0(pkCell);
+                WorldHavok* pkWorld = ((::WorldHavok *)(reinterpret_cast<::FUN_004543c0_cls *>((pkCell))->FUN_004543c0()));
                 if (pkWorld)
                 {
                     if (pkActor && pkActor->IsCollidable())
                     {
                         WorldActor* pkCollider = pkActor;
-                        FUN_00c6a3d0(pkObj, pkCollider->FUN_00931ed0().FUN_004a3a20(), 1, 1);
+                        ::FUN_00c6a3d0(pkObj, ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::WorldFilter &)(pkCollider->FUN_00931ed0()))->FUN_004a3a20())), 1, 1);
                     }
                     pkWorld->AddObject(pkObj, pk3D);
                 }
@@ -999,25 +986,17 @@ void FUN_00683190_shell::AttachCollisionObject(WorldActor* pkActor)
     }
 }
 
-extern void* g_011cf3e4;
 
 struct FUN_006833b0_glob
 {
-    bool IsFieldCZero();
-    unsigned int FUN_0084e3a0();
-    void* FUN_0044ddc0();
-    void* GetSecondField(void* p);
-    void** AddEight(void* p);
 };
 
 struct FUN_006833b0_cf
 {
-    unsigned int* FUN_0043d4d0();
 };
 
 struct FUN_006833b0_item
 {
-    void SetFlag(unsigned char aFlag);
 };
 
 // @fnv 0x006833b0
@@ -1027,20 +1006,20 @@ void FUN_006833b0()
     void* p2;
     void* r;
 
-    if (!reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->IsFieldCZero())
+    if (!::IsFieldCZero((::Dummy_0069b080 *)(reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74))))
     {
-        if (reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->FUN_0084e3a0() >
-            *reinterpret_cast<FUN_006833b0_cf*>(&g_011cf3e4)->FUN_0043d4d0())
+        if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->FUN_0084e3a0())) >
+            *((unsigned int *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<FUN_006833b0_cf*>(&(*reinterpret_cast<void * *>(&::g_011cf3e4))))))))
         {
-            n = reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->FUN_0084e3a0() -
-                *reinterpret_cast<FUN_006833b0_cf*>(&g_011cf3e4)->FUN_0043d4d0();
-            for (p2 = reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->FUN_0044ddc0(); p2 != 0 && n > 0;
-                 p2 = reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->GetSecondField(p2))
+            n = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->FUN_0084e3a0())) -
+                *((unsigned int *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<FUN_006833b0_cf*>(&(*reinterpret_cast<void * *>(&::g_011cf3e4)))))));
+            for (p2 = ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetName())); p2 != 0 && n > 0;
+                 p2 = ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_007b5300_shell *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetSecondField((::FUN_007b5300_param *)(p2)))))
             {
-                r = *reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->AddEight(p2);
+                r = *((void **)(reinterpret_cast<::FUN_006317a0_struct *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->AddEight((std::intptr_t)(p2))));
                 if (r != 0)
                 {
-                    reinterpret_cast<FUN_006833b0_item*>(r)->SetFlag(1);
+                    reinterpret_cast<::FUN_00683460_shell *>((reinterpret_cast<FUN_006833b0_item*>(r)))->SetFlag(1);
                     n = n - 1;
                 }
             }

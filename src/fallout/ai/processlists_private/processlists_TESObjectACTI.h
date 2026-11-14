@@ -9,7 +9,7 @@
 #include "processlists_TESScriptableForm.h"
 #include "processlists_types_BGSDestructibleObjectForm.h"
 #include "processlists_BGSOpenCloseForm.h"
-class TESWaterForm;
+struct TESWaterForm;
 class BGSTalkingActivator;
 class TESSound;
 class TESObjectACTI : public TESBoundAnimObject,
@@ -29,11 +29,4 @@ class TESObjectACTI : public TESBoundAnimObject,
     BGSTalkingActivator* m_pTalkingActivator;  // +0x84
     BSStringT<char> strActivationPrompt;       // +0x88
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectACTI) == 0x90);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, m_pSoundEffect) == 0x74);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, m_pLoopSound) == 0x78);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, pRadioTemplate) == 0x7C);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, m_pWaterForm) == 0x80);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, m_pTalkingActivator) == 0x84);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, strActivationPrompt) == 0x88);
 #endif

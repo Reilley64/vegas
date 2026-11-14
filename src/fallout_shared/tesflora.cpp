@@ -2,25 +2,46 @@
 // src/fallout_shared/tesflora.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesflora.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <malloc.h>
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_0048b670_shell.h"
+#include "fnv/decl/FUN_0048b720_Cls.h"
+#include "fnv/decl/FUN_00508510_Activator.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00510770_shell.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESFile.h"
+#include "fnv/decl/TESModel.h"
+#include "fnv/decl/TESScriptableForm.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_01183000.h"
 struct S_00477f20
 {
-    void FUN_00477f20();
 };
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct S_0048a520
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct S_0048cca0
 {
@@ -39,23 +60,26 @@ struct FUN_00508920_obj
 // @fnv 0x00508920
 void FUN_00508920_obj::FUN_00508920()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00487010();
-    reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x3c)
-        ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x3c)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x5c)->FUN_0048cca0();
-    reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x68)->FUN_00477f20();
+    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x68)))->FUN_00477f20();
     reinterpret_cast<FUN_0048b5c0_shell*>(reinterpret_cast<char*>(this) - 0xc)->FUN_0048b5c0();
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void f00();
+public:
+    bool GetInitialized() const;
+public:
+    void SetInitializationState(bool);
 };
 struct FUN_005e78f0_t : TESForm
 {
-    void FUN_004851b0(TESForm*);
 };
 struct TESFlora : FUN_005e78f0_t
 {
@@ -67,25 +91,23 @@ void TESFlora::FUN_00508990(TESForm* apCopy)
     TESFlora* pcopy = dynamic_cast<TESFlora*>(apCopy);
     if (!pcopy)
         return;
-    FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(apCopy);
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_00508510_shell
 {
-    void __thiscall FUN_00508510();
 };
 struct FUN_00508dc0_shell
 {
-    void* __thiscall FUN_00508dc0(unsigned int flags);
+    void* FUN_00508dc0(unsigned int flags);
 };
 // Calls FUN_00508510 on this, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00508dc0
-void* __thiscall FUN_00508dc0_shell::FUN_00508dc0(unsigned int flags)
+void* FUN_00508dc0_shell::FUN_00508dc0(unsigned int flags)
 {
-    ((FUN_00508510_shell*)this)->FUN_00508510();
+    reinterpret_cast<::FUN_00508510_Activator *>((((FUN_00508510_shell*)this)))->FUN_00508510_Activator::~FUN_00508510_Activator();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -95,14 +117,10 @@ struct S_005085b0_Prim
     virtual void vf00();
     int unk04;
     int unk08;
-    void ResolveIngredient(S_005085b0_Sec* s);
 };
 struct S_005085b0_Sec
 {
     int unk00;
-    unsigned char FUN_004013e0();
-    void FUN_00510770();
-    void FUN_00484ab0(int flag);
     void FUN_005085b0();
 };
 struct S_005085b0_D : S_005085b0_Prim, S_005085b0_Sec
@@ -112,33 +130,24 @@ struct S_005085b0_D : S_005085b0_Prim, S_005085b0_Sec
 // @fnv 0x005085b0
 void S_005085b0_Sec::FUN_005085b0()
 {
-    if (FUN_004013e0() != 0)
+    if (((unsigned char)(reinterpret_cast<::TESForm *>(this)->GetInitialized())) != 0)
     {
         return;
     }
-    FUN_00510770();
-    ((S_005085b0_D*)((char*)this - 0xc))->ResolveIngredient((S_005085b0_D*)((char*)this - 0xc));
-    FUN_00484ab0(1);
+    reinterpret_cast<::FUN_00510770_shell *>(this)->FUN_00510770();
+    reinterpret_cast<::FUN_0048b720_Cls *>((((S_005085b0_D*)((char*)this - 0xc))))->ResolveIngredient((::FUN_00485b60_Cls *)(::S_005085b0_Sec *)((S_005085b0_D*)((char*)this - 0xc)));
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }
-
-extern "C" void* __cdecl _alloca(unsigned int uiSize);
 
 struct FloraFile
 {
-    unsigned int GetField25C();
-    int FUN_004726b0();
-    bool FUN_004726f0();
-    void FUN_00472890(void* pvBuffer, unsigned int uiSize);
     void ReadChunkInt(unsigned int* puiFormID);
-    unsigned short FUN_00403570();
 };
 
 struct FloraProduce
 {
     virtual void p00();
     int unk04, unk08;
-    void FUN_006ecd40(unsigned int auiFormId);
-    void CopyFromSource(void* pvData);
 };
 
 struct FloraFormBase;
@@ -149,22 +158,16 @@ struct FloraFullName
 struct FloraModel
 {
     int unk00[8];
-    void LoadTextureSwapList(char* pcData, unsigned int uiSize, unsigned short usVersion);
 };
 struct FloraScript
 {
     int unk00, unk04, unk08;
-    void FUN_006ecd40(unsigned int auiFormId);
-    void FUN_0048cd90(FloraFormBase* pkOwner);
 };
 struct FloraDestructible
 {
     int unk00;
 };
 
-void __cdecl ReadFullName(FloraFullName* pkFullName, FloraFile* pkFile);
-void __cdecl FUN_004892d0(FloraModel* pkModel, FloraFile* pkFile);
-void __cdecl FUN_004781e0(FloraDestructible* pkDestructible, FloraFile* pkFile);
 
 struct FloraFormBase
 {
@@ -249,8 +252,6 @@ struct FloraFormBase
     virtual void SetEditorID(const char* pcEditorID);
     int unk04[0x2c / 4];
 
-    void CallWithThis(FloraFile* pkFile);
-    void FUN_00484ab0(int i);
     virtual bool FUN_00508610(FloraFile* pkFile) = 0;
 };
 
@@ -263,16 +264,16 @@ struct FloraFull : FloraProduce, FloraFormBase, FloraFullName, FloraModel, Flora
 // @fnv 0x00508610
 bool FloraFull::FUN_00508610(FloraFile* pkFile)
 {
-    FloraFormBase::CallWithThis(pkFile);
-    FloraFormBase::FUN_00484ab0(0);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(pkFile));
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(0);
     int iChunk;
-    while ((iChunk = pkFile->FUN_004726b0()) != 0)
+    while ((iChunk = reinterpret_cast<::FUN_004726b0_class *>((pkFile))->FUN_004726b0()) != 0)
     {
         switch (iChunk)
         {
         case 0x44494445: {
-            char* pcEditorID = (char*)_alloca(pkFile->GetField25C());
-            pkFile->FUN_00472890(pcEditorID, 0x200);
+            char* pcEditorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((pkFile))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((pkFile))->FUN_00472890((char *)(pcEditorID), 0x200);
             SetEditorID(pcEditorID);
             break;
         }
@@ -280,59 +281,56 @@ bool FloraFull::FUN_00508610(FloraFile* pkFile)
             LoadBounds(pkFile);
             break;
         case 0x4c4c5546:
-            ReadFullName(this, pkFile);
+            ::ReadFullName((::TESFullName *)(::FloraFullName *)(this), (::TESFile *)(pkFile));
             break;
         case 0x4c444f4d:
         case 0x54444f4d:
         case 0x44444f4d:
         case 0x44534f4d:
-            FUN_004892d0(this, pkFile);
+            ::TESModel::LoadModelData((::TESModel *)(::FloraModel *)(this), (::TESFile *)(pkFile));
             break;
         case 0x53444f4d: {
-            unsigned int uiSizeX = pkFile->GetField25C();
+            unsigned int uiSizeX = reinterpret_cast<::FUN_00401660_Class *>((pkFile))->GetField25C();
             char* pcDataZ = (char*)_alloca(uiSizeX);
-            pkFile->FUN_00472890(pcDataZ, uiSizeX);
-            FloraModel::LoadTextureSwapList(pcDataZ, uiSizeX, pkFile->FUN_00403570());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((pkFile))->FUN_00472890((char *)(pcDataZ), uiSizeX);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(pcDataZ, uiSizeX, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((pkFile))->FUN_00403570());
             break;
         }
         case 0x49524353: {
             unsigned int uiScript = 0;
             pkFile->ReadChunkInt(&uiScript);
-            FloraScript::FUN_006ecd40(uiScript);
-            FloraScript::FUN_0048cd90(this);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiScript));
+            reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(::FloraFormBase *)(this));
             break;
         }
         case 0x47494650: {
             unsigned int uiIngredient = 0;
             pkFile->ReadChunkInt(&uiIngredient);
-            FloraProduce::FUN_006ecd40(uiIngredient);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiIngredient));
             break;
         }
         case 0x43504650: {
             int m_ucSortOrder;
-            pkFile->FUN_00472890(&m_ucSortOrder, 4);
-            FloraProduce::CopyFromSource(&m_ucSortOrder);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((pkFile))->FUN_00472890((char *)(void *)(&m_ucSortOrder), 4);
+            reinterpret_cast<::FUN_0048b670_shell *>(this)->CopyFromSource(&m_ucSortOrder);
             break;
         }
         case 0x44545344:
         case 0x54534544:
-            FUN_004781e0(this, pkFile);
+            ::FUN_004781e0((::BGSDestructibleObjectForm *)(::FloraDestructible *)(this), (::TESFile *)(pkFile));
             break;
         }
-        if (!pkFile->FUN_004726f0())
+        if (!reinterpret_cast<::TESFile *>((pkFile))->NextChunk())
             break;
     }
     return true;
 }
 
-extern int DAT_01183028;
 extern int DAT_01189f7c;
 
-void* __cdecl FUN_00ec43fb(void* apObject, long alDelta, void* apSourceType, void* apTargetType, long abFlag);
 
 struct FUN_005089d0_cls
 {
-    bool FUN_00485270(void* apChild);
     bool FUN_005089d0(void* apObject);
 };
 
@@ -340,14 +338,73 @@ struct FUN_005089d0_cls
 bool FUN_005089d0_cls::FUN_005089d0(void* apObject)
 {
     void* pFound;
-    pFound = FUN_00ec43fb(apObject, 0, &DAT_01183028, &DAT_01189f7c, 0);
+    pFound = dynamic_cast<::TESFlora *>(reinterpret_cast<::TESForm *>(apObject));
     if (pFound == 0)
     {
         return true;
     }
-    if (FUN_00485270(pFound != 0 ? (char*)pFound + 0xc : 0))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(void *)(pFound != 0 ? (char*)pFound + 0xc : 0)))
     {
         return true;
     }
     return false;
 }
+
+struct Prim_508db0
+{
+    virtual void FUN_00508db0();
+    int p04;
+    int p08;
+    int p0c;
+    int p10;
+    int p14;
+    int p18;
+    int p1c;
+    int p20;
+    int p24;
+    int p28;
+    int p2c;
+    int p30;
+    int p34;
+    int p38;
+    int p3c;
+    int p40;
+    int p44;
+};
+
+struct B1_508db0
+{
+    virtual void FUN_00508db0();
+};
+
+struct TO_508db0 : Prim_508db0, B1_508db0
+{
+// @fnv 0x00508db0
+    virtual void FUN_00508db0();
+};
+
+static TO_508db0 g_thunk;
+
+// sub ecx,0xc; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0xc).
+struct PrimaryBase_00508df0
+{
+    virtual void FUN_00508df0();
+    int unk04;
+    int unk08;
+};
+
+struct SecondaryBase_00508df0
+{
+    virtual void FUN_00508df0();
+};
+
+struct Derived_00508df0 : PrimaryBase_00508df0, SecondaryBase_00508df0
+{
+    Derived_00508df0();
+// @fnv 0x00508df0
+    virtual void FUN_00508df0();
+};
+
+Derived_00508df0::Derived_00508df0()
+{}

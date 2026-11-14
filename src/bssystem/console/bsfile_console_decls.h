@@ -1,4 +1,6 @@
 // bssystem/console/bsfile_console_decls.h: declares NiFile, BSFile
+#include "fnv/decl/FUN_00aa16d0_cls.h"
+#include "fnv/symbols_010a2000.h"
 class TESFile;
 class FUN_00474560
 {
@@ -12,9 +14,6 @@ template <class K, class V> class NiTPointerMap : public FUN_00474560
     NiTPointerMap(unsigned int);
     virtual void vfn_00();
 };
-extern int DAT_010a2480;
-extern int DAT_010a2484;
-extern int DAT_010a2488;
 class NiFile
 {
   public:
@@ -29,7 +28,6 @@ class NiFile
     virtual void vfn_20();
     virtual void vfn_24();
     virtual int vfn_28();
-    void Seek(int, int);
     char pad04[0x24];
     int buffered;
     char pad2c[0x124];
@@ -39,4 +37,10 @@ class BSFile : public NiFile
 {
   public:
     void Seek(int, int);
+public:
+    bool Open(bool, bool);
+public:
+    void SetEndianSwap(bool);
+public:
+    bool Write();
 };

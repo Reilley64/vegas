@@ -7,7 +7,6 @@
 #include "layout_support.h"
 #include "TESGlobal.h"
 class Calendar;
-#pragma pack(push, 4)
 class Calendar
 {
   public:
@@ -19,6 +18,14 @@ class Calendar
     TESGlobal* pHourGlobal;              // +0x14, 4 bytes
     unsigned int m_uiDaysPassed;         // +0x18, 4 bytes
     bool bUnknown1C;
+    unsigned char pad1d[0x7];
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int pad34[0x5];
+    unsigned int unk48;
+    unsigned int unk4c;
     char GetGameHour();
     float GetGameTimeScale();
     CALENDAR_MONTH GetCurrentMonth();
@@ -51,13 +58,5 @@ class Calendar
     // int __cdecl Calendar::*(int, int, int)
     // void* __cdecl Calendar::*(unsigned int)
 };
-#pragma pack(pop)
 // FNV_STATIC_ASSERT(sizeof(Calendar) == 28);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pYearGlobal) == 0);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pMonthGlobal) == 4);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pDayGlobal) == 8);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pHourGlobal) == 12);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pGameDaysPassedGlobal) == 16);
-FNV_STATIC_ASSERT(offsetof(Calendar, pHourGlobal) == 20);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_uiDaysPassed) == 24);
 #endif

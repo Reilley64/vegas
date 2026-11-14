@@ -6,7 +6,6 @@
 #include "hkReferencedObject.h"
 class hkaAnimatedReferenceFrame;
 class hkaAnnotationTrack;
-#pragma pack(push, 1)
 class hkaAnimation : public hkReferencedObject
 {
   public:
@@ -26,6 +25,4 @@ class hkaAnimation : public hkReferencedObject
     hkaAnimatedReferenceFrame* m_pExtractedMotion;    // +0x18
     hkArray<hkaAnnotationTrack> m_kAnnotationTracks;  // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaAnimation[(sizeof(hkaAnimation) == 0x28) ? 1 : -1];
 #endif

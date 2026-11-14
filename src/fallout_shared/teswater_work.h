@@ -2,28 +2,79 @@
 #ifndef FNV_TESWATER_WORK_H
 #define FNV_TESWATER_WORK_H
 
-class NiPoint3
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/C00c66300.h"
+#include "fnv/decl/C6B540Manager.h"
+#include "fnv/decl/Controller.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00452df0_class.h"
+#include "fnv/decl/FUN_00452e50_class.h"
+#include "fnv/decl/FUN_00452e90_Class.h"
+#include "fnv/decl/FUN_0045c780_shell.h"
+#include "fnv/decl/FUN_0045c840_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_005281f0_Class.h"
+#include "fnv/decl/FUN_005282d0_cls.h"
+#include "fnv/decl/FUN_005285a0_Class.h"
+#include "fnv/decl/FUN_0068a830_shell.h"
+#include "fnv/decl/FUN_00c66310_class.h"
+#include "fnv/decl/GridRefresh__Grid.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S457d70.h"
+#include "fnv/decl/Shell451.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/WS458200_Shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00452490__FUN_00452490_shell.h"
+#include "fnv/decl/fnv_00452ed0__FUN_00452ed0_shell.h"
+#include "fnv/decl/fnv_00454d50__FUN_00454d50_shell.h"
+#include "fnv/decl/fnv_00457070__FUN_00457070_shell.h"
+#include "fnv/decl/fnv_00457be0__OwnerProxy.h"
+#include "fnv/decl/fnv_004581e0__FUN_004581e0_Class.h"
+#include "fnv/decl/fnv_005283c0__QCellQueue.h"
+#include "fnv/decl/fnv_006271b0__Owner.h"
+#include "fnv/decl/fnv_00628da0__LoadedAreaBound.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00451000.h"
+#include "fnv/symbols_00452000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_0049e000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3();
     NiPoint3(float, float, float);
-    void ComputeMagnitude();
     static const NiPoint3 ZERO;
+public:
+    float ComputeMagnitude() const;
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
     NiPoint2(float, float);
-    bool FUN_00452df0(const NiPoint2&) const;
+public:
+    ::NiPoint2 operator*(float) const;
 };
 class TESObjectCELL;
 class TESWorldSpace;
 class TESObjectREFR;
-class TESWaterForm;
+struct TESWaterForm;
 class NiNode;
-class GridCell;
+struct GridCell;
 template <class T> class BSSimpleList
 {
   public:
@@ -35,14 +86,10 @@ template <class T> class BSSimpleList
 class LoadedAreaBound
 {
   public:
-    void FUN_00628da0();
-    void FUN_006271b0(TESObjectCELL*, void*);
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
-    bool FUN_0042ce10();
-    bool IsFlag20Set();
 };
 union SETTING_VALUE
 {
@@ -59,21 +106,15 @@ template <class T> class SettingT
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESWorldSpace*>* GetSourceFiles();
 };
 class bhkWorld
 {
   public:
-    void FUN_00c6b540(bool);
     void SetWorldActive(bool);
-    void FUN_00c66310();
-    void RefreshWorld();
-    void FUN_00c66300();
     char _pdbpad_1[15];
     void* pDebugger;
     bool bStateChanged;
@@ -107,13 +148,17 @@ class bhkWorld
 class TESObjectCELL
 {
   public:
-    static bhkWorld* GetExteriorbhkWorld();
     TESWaterForm* GetAssociatedWaterForm();
+public:
+    bool IsCellInterior() const;
 };
+struct NiPoint3;
 class BGSTerrainManager
 {
   public:
     void Update(const NiPoint3&, int);
+public:
+    void FUN_006fca90(const ::NiPoint3 &, int);
 };
 class TESWorldSpace
 {
@@ -259,6 +304,7 @@ class PlayerCharacter
     virtual void vfn_1f0();
     virtual const NiPoint3& GetPos();
 };
+struct GridCell;
 class TES
 {
   public:
@@ -280,64 +326,35 @@ class TES
     char layoutPadding8c[0xc0 - 0x8c];
     NiPointer<LoadedAreaBound> m_spLoadedAreaBound;
     int FindCellAtPosition(const NiPoint3*, bool);
-    BSSimpleList<TESObjectCELL*>* FUN_0045bb80();
-    void InitFromMatrix();
-    void InitSoundGrid();
-    TESObjectCELL* IsCellInterior();
-    TESObjectCELL* GetDetailedActorPathHandler();
-    void RefreshWorldState(int, int, int);
-    void FUN_004515a0(const NiPoint3*, bool);
-    unsigned int GetInteriorBufferCount(bool);
-    void SetTESActive(bool);
-    TESObjectCELL* FindCellByGridCoordinates(int, int);
-    TESWorldSpace* GetParentWorldSpace();
-    void FUN_004581e0(const char*);
-    void AssignWorldSpace(TESWorldSpace*);
-    bool IsCellBuffering();
-    void SetSkyMode(int);
-    void RefreshGrid();
-    void FUN_00452e50();
-    static void RefreshWorldSpace();
+public:
+    ::GridCell *FUN_00457050(int, int);
 };
-class TESQueuedCellManager
+struct TESQueuedCellManager
 {
   public:
-    void FUN_005283c0(TESObjectCELL*);
     int CallVirtual17();
-    void ProcessQueries();
-    int FUN_005281f0();
-    void FUN_005282d0();
 };
-class Interface
+struct Interface
 {
   public:
     static bool IsGamePaused();
 };
-int TruncateFloatToInt(float);
 int FUN_00ec7d40(int);
-void FUN_00452e40(bool);
-float FUN_00452e70(bool);
-extern bool DAT_011c3c0c, DAT_011f94aa;
-extern float DAT_011f94ac;
-extern NiPoint2 DAT_011f962c, DAT_011f9634, DAT_011f4980;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern TESDataHandler* g_dataHandler;
-extern PlayerCharacter* g_thePlayer;
-extern SettingT<INISettingCollection> DAT_011c9670, DAT_011c3d40;
-extern SettingT_GameSettingCollection_ DAT_011c63cc;
-extern TESQueuedCellManager* DAT_011c9618;
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];
     NiPoint3 operator*(const NiPoint3&) const;
 };
+class NiAVObject;
 class NiNode
 {
   public:
     const ThreeByThreeMatrix& FUN_00461130() const;
     const NiPoint3& FUN_0045bb80() const;
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class TESBoundObject
 {
@@ -544,17 +561,13 @@ class TESObjectREFR
     virtual void vfn_1c8();
     virtual void vfn_1cc();
     virtual NiNode* GetNiNode_v();
-    TESBoundObject* GetObjectReference();
-    TESObjectCELL* GetParentCell();
 };
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;
     float m_fPlaneConstant;
     NiPlane(const NiPoint3&, const NiPoint3&);
-    const NiPoint3& GetPlaneNormal() const;
-    float FUN_0084d030() const;
 };
 template <class T> class NiTPointerList
 {
@@ -586,6 +599,5 @@ class WaterZoneManager
     void UpdateWaterZone(TESObjectREFR*, TESObjectREFR*, float);
     void RemoveReferenceFromCell(TESObjectREFR*, WaterSurface*);
 };
-bool AreVectorsEqual(const NiPoint3&, const NiPoint3&, float);
 bool IsApproximatelyEqual(float, float, float);
 #endif

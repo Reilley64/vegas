@@ -2,13 +2,242 @@
 // src/fallout/interface/menus/racesexmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/racesexmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/tile_fields.h"
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/av_object_fields.h"
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/ActiveEffectCollection.h"
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/AudioClass_ae5680.h"
+#include "fnv/decl/BGSDehydrationStage.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSFaceGenManager.h"
+#include "fnv/decl/BSFaceGenModel.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/ButtonDevice.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DecalStub.h"
+#include "fnv/decl/DownloadableContentManager.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_004169d0_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_0043c610_shell.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_00456520_Class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a8090_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_004ed8c0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00539f20_Class.h"
+#include "fnv/decl/FUN_0059f610Class.h"
+#include "fnv/decl/FUN_005e7a60_cls.h"
+#include "fnv/decl/FUN_005fc4d0_shell.h"
+#include "fnv/decl/FUN_005fc5f0_shell.h"
+#include "fnv/decl/FUN_005fdf40_shell.h"
+#include "fnv/decl/FUN_005fdf60_shell.h"
+#include "fnv/decl/FUN_005fdf80_shell.h"
+#include "fnv/decl/FUN_005fdfa0_shell.h"
+#include "fnv/decl/FUN_00601800_shell.h"
+#include "fnv/decl/FUN_00602130_shell.h"
+#include "fnv/decl/FUN_00602170_shell.h"
+#include "fnv/decl/FUN_006031e0_shell.h"
+#include "fnv/decl/FUN_00603200_shell.h"
+#include "fnv/decl/FUN_00604250_shell.h"
+#include "fnv/decl/FUN_0060b240_shell.h"
+#include "fnv/decl/FUN_00613790_shell.h"
+#include "fnv/decl/FUN_00613870_Class.h"
+#include "fnv/decl/FUN_00624700_shell.h"
+#include "fnv/decl/FUN_006317a0_struct.h"
+#include "fnv/decl/FUN_00642660_shell.h"
+#include "fnv/decl/FUN_006546c0_Class.h"
+#include "fnv/decl/FUN_0065a840_t.h"
+#include "fnv/decl/FUN_0065a910_shell.h"
+#include "fnv/decl/FUN_0065a970_shell.h"
+#include "fnv/decl/FUN_0070ec70_class.h"
+#include "fnv/decl/FUN_0073ac90_shell.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_007adcc0_class.h"
+#include "fnv/decl/FUN_007b3810Class.h"
+#include "fnv/decl/FUN_007b52a0_class.h"
+#include "fnv/decl/FUN_007b52d0_cls.h"
+#include "fnv/decl/FUN_007b5330_Class.h"
+#include "fnv/decl/FUN_007fed10.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00874460_cls.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_0088d7d0_shell.h"
+#include "fnv/decl/FUN_008c2b60_shell.h"
+#include "fnv/decl/FUN_00944300_class.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_0095e5f0_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009cdae0_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a011f0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a0b110_shell.h"
+#include "fnv/decl/FUN_00a23390_t.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a6e960_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad88b0_h.h"
+#include "fnv/decl/FaceNpc.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/FocusManager.h"
+#include "fnv/decl/InventoryStackRecord.h"
+#include "fnv/decl/Light7FD.h"
+#include "fnv/decl/ListStandIn.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/MagicTargetDispel.h"
+#include "fnv/decl/MenuDriver.h"
+#include "fnv/decl/ModListOwner.h"
+#include "fnv/decl/MyHack.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiTPointerListBase.h"
+#include "fnv/decl/PlayerCharacter.h"
+#include "fnv/decl/RaceAppearance__Race.h"
+#include "fnv/decl/RenderTile.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/S00b5d9f0_Owner.h"
+#include "fnv/decl/S654.h"
+#include "fnv/decl/S9fb0.h"
+#include "fnv/decl/S_00a592c0_Matrix3.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESNPC_Sub.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESRace.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/TileFloatList.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/TutorialMessageGate718.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0043ecb0__FUN_0043ecb0_shell.h"
+#include "fnv/decl/fnv_0043ed90__AttachTask.h"
+#include "fnv/decl/fnv_00496940__FUN_00496940_shell.h"
+#include "fnv/decl/fnv_0056c7f0__Tile.h"
+#include "fnv/decl/fnv_006505d0__FUN_006505d0_class.h"
+#include "fnv/decl/fnv_006546e0__FUN_006546e0_Class.h"
+#include "fnv/decl/fnv_007181d0__FUN_007181d0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_0088c830__ThisC.h"
+#include "fnv/decl/fnv_008a6840__FUN_008a6840_shell.h"
+#include "fnv/decl/fnv_008a6970__FUN_008a6970_shell.h"
+#include "fnv/decl/fnv_008b78c0__FUN_008b78c0_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a1d9e0__FUN_00a1d9e0_shell.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/sa040a0__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00469000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004ea000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00603000.h"
+#include "fnv/symbols_00607000.h"
+#include "fnv/symbols_00615000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00651000.h"
+#include "fnv/symbols_00652000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00655000.h"
+#include "fnv/symbols_00656000.h"
+#include "fnv/symbols_00657000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00764000.h"
+#include "fnv/symbols_007ad000.h"
+#include "fnv/symbols_007df000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_0104a000.h"
+#include "fnv/symbols_01055000.h"
+#include "fnv/symbols_01075000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/image_space_effect_param.h"
+
+// The leading fields of a race and sex menu option.
+struct RaceSexOptionFields
+{
+    void* tile;
+    unsigned int id;
+    std::intptr_t value;
+};
 struct RaceSexMenu
 {
-    int __thiscall FUN_007ac4f0();
+    int FUN_007ac4f0();
 };
 
 // @fnv 0x007ac4f0
-int __thiscall RaceSexMenu::FUN_007ac4f0()
+int RaceSexMenu::FUN_007ac4f0()
 {
     return 0x40c;
 }
@@ -21,13 +250,16 @@ int __cdecl FUN_007ac9c0()
 
 struct FUN_007b2550_shell
 {
+    char pad00[0xe4];
+    unsigned char unke4;
+
     void SetByteAtOffsetE4(unsigned char param);
 };
 
 // @fnv 0x007b2550
-void __thiscall FUN_007b2550_shell::SetByteAtOffsetE4(unsigned char ucValue)
+void FUN_007b2550_shell::SetByteAtOffsetE4(unsigned char ucValue)
 {
-    ((unsigned char*)this)[0xe4] = ucValue;
+    this->unke4 = ucValue;
 }
 
 struct FUN_007b2570_shell
@@ -54,18 +286,20 @@ char FUN_007b2570_shell::FUN_007b2570()
 
 struct FUN_007b3720_shell
 {
+    char pad00[0x1d8];
+    int unk1d8;
+
     void FUN_007b3720(int value);
 };
 
 // @fnv 0x007b3720
 void FUN_007b3720_shell::FUN_007b3720(int value)
 {
-    *(int*)((char*)this + 0x1d8) = value;
+    this->unk1d8 = value;
 }
 
 struct TGF
 {
-    float GetFloat(int);
 };
 
 struct RaceSexMenu_MenuOption
@@ -80,29 +314,24 @@ void RaceSexMenu_MenuOption::FUN_007b3840(int& aiLow, int& aiHigh)
 {
     if (pTGF)
     {
-        aiLow = (int)pTGF->GetFloat(0x1006);
-        aiHigh = (int)pTGF->GetFloat(0x1007);
+        aiLow = (int)reinterpret_cast<::TileListBoxCalls *>((pTGF))->GetFloat(0x1006);
+        aiHigh = (int)reinterpret_cast<::TileListBoxCalls *>((pTGF))->GetFloat(0x1007);
     }
 }
 
 struct FUN_007b3b80_shell
 {
-    void CreateEntry(int a, const char* s, int b, int c);
-    void FUN_007b3b80(int a, int b);
+    void FUN_007b3b80(intptr_t a, int b);
 };
 
-// @fnv 0x007b3b80
-void FUN_007b3b80_shell::FUN_007b3b80(int aiArg1, int aiArg2)
+class Tile
 {
-    CreateEntry(aiArg1, "RSM_list_item_template", aiArg2, 0);
-}
-
-struct Tile
-{
-    void Set(int, float, bool);
+public:
+    void Set(int, int);
+public:
+    static float GetInterfaceScale();
 };
 
-int __cdecl GetTileValueID(const char*, int);
 
 struct FUN_007b4180_shell
 {
@@ -115,7 +344,7 @@ void FUN_007b4180_shell::SetSelected()
 {
     if (m_tile)
     {
-        m_tile->Set(GetTileValueID("_selected", -1), 1.0f, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((m_tile))->FUN_00a012d0(::FUN_00a00940("_selected", -1), 1.0f, true);
     }
 }
 
@@ -124,63 +353,53 @@ struct FUN_007ac530_shell
     void FUN_007ac560();
     void* FUN_007ac530(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 // Calls FUN_007ac560, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x007ac530
 void* FUN_007ac530_shell::FUN_007ac530(unsigned int flags)
 {
     FUN_007ac560();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_007b3af0_shell
 {
-    void __thiscall FUN_007b3af0();
+    void FUN_007b3af0();
 };
 struct FUN_007ac700_shell
 {
-    void* __thiscall FUN_007ac700(unsigned int flags);
+    void* FUN_007ac700(unsigned int flags);
 };
-// @fnv 0x007ac700
-void* __thiscall FUN_007ac700_shell::FUN_007ac700(unsigned int flags)
-{
-    ((FUN_007b3af0_shell*)this)->FUN_007b3af0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 namespace fnv_007acb30 {
-extern "C" void __cdecl _Deallocate(void*);
 struct FUN_007acb30_shell
 {
-    void __thiscall FUN_007fed10();
-    void* __thiscall FUN_007acb30(unsigned int flags);
+    void* FUN_007acb30(unsigned int flags);
 };
 // Calls FUN_007fed10, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x007acb30
-void* __thiscall FUN_007acb30_shell::FUN_007acb30(unsigned int flags)
+void* FUN_007acb30_shell::FUN_007acb30(unsigned int flags)
 {
-    FUN_007fed10();
+    reinterpret_cast<::FUN_007fed10 *>(this)->FUN_007fed10::~FUN_007fed10();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_007acb30
 
-extern "C" void* DAT_011da634;
 
 struct ArrSI
 {
-    unsigned int GetFlags();
+    char pad[8];
+    void* unk08;
 };
 
+class TESEffectShader;
 struct MiddleHighProcess
 {
-    unsigned int GetAnimation();
+    uintptr_t GetAnimation();
+public:
+    void AssignEffectShader(::TESEffectShader *);
 };
 
 // Returns 1 if si is non-null, has flags, and DAT_011da634's process animation equals si's flags; otherwise 0.
@@ -188,8 +407,8 @@ struct MiddleHighProcess
 char __cdecl IsAnimationMatch(ArrSI* pArrSI)
 {
     int result;
-    if (pArrSI && pArrSI->GetFlags() && DAT_011da634 && *(int*)((char*)DAT_011da634 + 0xd8) &&
-        ((MiddleHighProcess*)*(int*)((char*)DAT_011da634 + 0xd8))->GetAnimation() == pArrSI->GetFlags())
+    if (pArrSI && ((std::uintptr_t)(pArrSI->unk08)) && DAT_011da634 && *(int*)((char*)DAT_011da634 + 0xd8) &&
+        ((MiddleHighProcess*)*(intptr_t*)((char*)DAT_011da634 + 0xd8))->GetAnimation() == ((std::uintptr_t)(pArrSI->unk08)))
         result = 1;
     else
         result = 0;
@@ -205,7 +424,7 @@ struct FUN_007ae160_Obj
 // @fnv 0x007ae160
 bool FUN_007ae160_Obj::IsSelected()
 {
-    return pTGF && (pTGF->GetFloat(GetTileValueID("_selected", -1)) == 2.0);
+    return pTGF && (reinterpret_cast<::TileListBoxCalls *>((pTGF))->GetFloat(::FUN_00a00940("_selected", -1)) == 2.0);
 }
 
 struct FUN_007b3740_shell
@@ -217,38 +436,20 @@ struct FUN_007b3740_shell
 // @fnv 0x007b3740
 int FUN_007b3740_shell::GetFloat1005()
 {
-    return (int)m_pTGF->GetFloat(0x1005);
+    return (int)reinterpret_cast<::TileListBoxCalls *>((m_pTGF))->GetFloat(0x1005);
 }
 
 struct Tile_Set_Helper
 {
-    void __thiscall Set(int, int);
 };
 struct TileValueAccessor
 {
     Tile* m_tile;
-    int __thiscall GetFloat1005();
-    void __thiscall FUN_007b3760(int value);
-    void __thiscall FUN_007b3890(int aiLow, int aiHigh);
+    void FUN_007b3890(int aiLow, int aiHigh);
 };
-// @fnv 0x007b3890
-void __thiscall TileValueAccessor::FUN_007b3890(int aiLow, int aiHigh)
-{
-    if (m_tile)
-    {
-        ((Tile_Set_Helper*)m_tile)->Set(0x1006, aiLow);
-        ((Tile_Set_Helper*)m_tile)->Set(0x1007, aiHigh);
-        if (GetFloat1005() < aiLow)
-            FUN_007b3760(aiLow);
-        if (GetFloat1005() > aiHigh)
-            FUN_007b3760(aiHigh);
-    }
-}
-
 namespace fnv_007b3970 {
 struct Tile_Set_Helper
 {
-    void Set(int, int);
 };
 struct FUN_007b3970_shell
 {
@@ -260,22 +461,21 @@ struct FUN_007b3970_shell
 void FUN_007b3970_shell::SetTileEnabled(bool abEnabled)
 {
     if (m_tile)
-        m_tile->Set(GetTileValueID("_enabled", -1), abEnabled);
+        reinterpret_cast<::Tile *>((m_tile))->Set(::FUN_00a00940("_enabled", -1), abEnabled);
 }
 }  // namespace fnv_007b3970
 
 struct S007b39b0
 {
     TGF* m_iWordAt00;
-    int __thiscall GetPosition();
+    int GetPosition();
 };
 // @fnv 0x007b39b0
-int __thiscall S007b39b0::GetPosition()
+int S007b39b0::GetPosition()
 {
-    return (int)m_iWordAt00->GetFloat(GetTileValueID("_position", -1));
+    return (int)reinterpret_cast<::TileListBoxCalls *>((m_iWordAt00))->GetFloat(::FUN_00a00940("_position", -1));
 }
 
-extern float DAT_010162c0;
 extern const char $SG2670[];
 
 struct FUN_007b4140_shell
@@ -288,7 +488,7 @@ struct FUN_007b4140_shell
 void FUN_007b4140_shell::SetTileValue()
 {
     if (m_tile)
-        m_tile->Set(GetTileValueID($SG2670, -1), DAT_010162c0, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((m_tile))->FUN_00a012d0(::FUN_00a00940($SG2670, -1), DAT_010162c0, true);
 }
 
 struct Flt
@@ -297,20 +497,19 @@ struct Flt
 };
 struct TL
 {
-    Tile*& GetNext(void*&);
 };
 struct S
 {
-    Tile* FUN_007b41c0(int);
+    Tile* FUN_007b41c0(intptr_t);
 };
 // Walks the linked list starting at the value stored in this, returning the first Tile whose first int equals a, or 0 if none matches.
 // @fnv 0x007b41c0
-Tile* S::FUN_007b41c0(int a)
+Tile* S::FUN_007b41c0(intptr_t a)
 {
-    void* cur = (void*)(unsigned int)(*(Flt*)this);
+    void* cur = (void*)(uintptr_t)(*(Flt*)this);
     while (cur)
     {
-        Tile* item = ((TL*)this)->GetNext(cur);
+        Tile* item = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)this)))->FUN_0057cbe0((int **)&(cur))));
         if (*(int*)item == a)
             return item;
     }
@@ -324,7 +523,6 @@ struct Flt
 };
 struct TL
 {
-    Tile*& GetNext(void*&);
 };
 struct TileValueAccessor
 {
@@ -333,6 +531,8 @@ struct TileValueAccessor
 };
 struct FUN_007b4210_shell
 {
+    void* head;
+
     TileValueAccessor* FindByColor(unsigned int);
 };
 // Walks the tile list from this object, returning the first entry whose _04 equals aiColor, or null if none matches.
@@ -341,10 +541,10 @@ TileValueAccessor* FUN_007b4210_shell::FindByColor(unsigned int aiColor)
 {
     void* piter;
     TileValueAccessor* popt;
-    piter = (void*)((Flt*)this)->operator unsigned int();
+    piter = head;
     while (piter)
     {
-        popt = (TileValueAccessor*)(Tile*)((TL*)this)->GetNext(piter);
+        popt = (TileValueAccessor*)(Tile*)((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)this)))->FUN_0057cbe0((int **)&(piter))));
         if (popt->_04 == aiColor)
             return popt;
     }
@@ -373,6 +573,14 @@ struct FUN_007b5300_param
     int _0;
     int _4;
 };
+
+// A node of NiTList.
+struct NiTListItemFields
+{
+    NiTListItemFields* m_pkNext;
+    NiTListItemFields* m_pkPrev;
+    void* m_element;
+};
 struct FUN_007b5300_shell
 {
     int GetSecondField(FUN_007b5300_param* p);
@@ -385,7 +593,7 @@ int FUN_007b5300_shell::GetSecondField(FUN_007b5300_param* p)
 }
 
 namespace fnv_007ac500 {
-struct Tile;
+class Tile;
 struct RaceSexMenu
 {
     char pad[0x78];
@@ -403,7 +611,14 @@ void RaceSexMenu::SetTile(int aiID, Tile* apTile)
 
 struct FUN_007adc30_shell
 {
-    char _pad[0xec];
+    char _pad[0x4];
+    void* unk04;
+    char pad08[0x20];
+    void* unk28;
+    char pad2c[0x5c];
+    void* unk88;
+    void* unk8c;
+    char pad90[0x5c];
     unsigned int m_flags;
     bool FUN_007adc30(int trait);
 };
@@ -417,68 +632,32 @@ bool FUN_007adc30_shell::FUN_007adc30(int trait)
 
 struct TileHelper
 {
-    void Set(int, const char*, bool);
 };
 struct BSAudio
 {
-    int GetAudioBackendData();
 };
 struct OptList
 {
-    void FUN_007b4410();
-    int FUN_0084e3a0();
 };
-struct FORenderedMenu
+class FORenderedMenu
 {
-    void UpdateSlotSelection(int);
 };
+class Tile;
 struct InterfaceManager
 {
     FORenderedMenu* GetActiveRenderedMenu();
+public:
+    ::Tile *FUN_00586150();
 };
-InterfaceManager* FUN_004b7210();
-extern Flt g_011da700;
-extern Flt g_011da70c;
 struct FUN_007af180_shell : FUN_007adc30_shell
 {
-    void PopulateHairOptions();
-    void PopulateEyesList();
-    void SyncListItemTemplate();
-    void UpdateMinusPlusTiles();
-    bool FUN_007af180(int aeList);
+    bool FUN_007af180(intptr_t aeList);
+    char padf0[0x30];
+    int unk120;
 };
-// @fnv 0x007af180
-bool FUN_007af180_shell::FUN_007af180(int aeList)
+class TESActorBase
 {
-    if (aeList < 20)
-    {
-        (*(Tile_Set_Helper**)((char*)this + 4))->Set(0x1004, aeList);
-        ((OptList**)((char*)this + 0x28))[aeList]->FUN_007b4410();
-        if (aeList == 5 && FUN_007adc30(0))
-            PopulateHairOptions();
-        else if (aeList == 8 && FUN_007adc30(1))
-            PopulateEyesList();
-        else if (aeList == 3)
-            SyncListItemTemplate();
-        UpdateMinusPlusTiles();
-        if (FUN_004b7210()->GetActiveRenderedMenu() && aeList < 4)
-            FUN_004b7210()->GetActiveRenderedMenu()->UpdateSlotSelection(aeList);
-        (*(Tile_Set_Helper**)((char*)this + 0x88))
-            ->Set(0xfa3, ((OptList**)((char*)this + 0x28))[aeList]->FUN_0084e3a0() < 20);
-        (*(Tile_Set_Helper**)((char*)this + 0x8c))
-            ->Set(0xfa3, ((BSAudio**)((char*)this + 0x28))[aeList]->GetAudioBackendData() < 20 ||
-                             aeList == *(int*)((char*)this + 0x120));
-        (*(TileHelper**)((char*)this + 0x8c))
-            ->Set(0xfc4, (const char*)(unsigned int)(aeList == *(int*)((char*)this + 0x120) ? g_011da70c : g_011da700),
-                  true);
-        return true;
-    }
-    else
-        return false;
-}
-
-struct TESActorBase
-{
+  public:
     int GetSex();
 };
 struct HairResult
@@ -492,85 +671,78 @@ struct FUN_004ac110_shell
 };
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
-    bool FUN_0076b610();
-    unsigned int GetFlags();
+    void* vtable;
+    void** data;
+    unsigned int size;
+    unsigned int capacity;
 };
 struct MenuOption2
 {
-    MenuOption2* FindByColor(int);
-    void SetTileEnabled(bool);
-    void FUN_007b3890(int, int);
 };
-void __cdecl FUN_00603280(HairResult*, int, GlobalObject_00869f00*);
 struct FUN_007af610_shell
 {
+    char pad00[0x30];
+    MenuOption2* pOptions;
+    char pad34[0xa4];
+    void* pNPC;
+    GlobalObject_00869f00 hairs;
     void UpdateHairMenuOption();
 };
 // @fnv 0x007af610
 void FUN_007af610_shell::UpdateHairMenuOption()
 {
-    ((GlobalObject_00869f00*)((char*)this + 0xdc))->Clear(false);
-    FUN_00603280(((FUN_004ac110_shell*)*((FUN_004ac110_shell**)((char*)this + 0xd8)))->FUN_004ac110(),
-                 ((TESActorBase*)*((TESActorBase**)((char*)this + 0xd8)))->GetSex(),
-                 (GlobalObject_00869f00*)((char*)this + 0xdc));
-    MenuOption2* popt = ((MenuOption2*)*((MenuOption2**)((char*)this + 0x30)))->FindByColor(0x18);
-    if (((GlobalObject_00869f00*)((char*)this + 0xdc))->FUN_0076b610())
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((&hairs))->Clear(false);
+    ::fnv_00603280::FUN_00603280((intptr_t)(((FUN_004ac110_shell*)pNPC)->FUN_004ac110()),
+                 ((TESActorBase*)pNPC)->GetSex(),
+                 (intptr_t)(&hairs));
+    MenuOption2* popt = ((::MenuOption2 *)(reinterpret_cast<::fnv_007b4210::FUN_007b4210_shell *>((pOptions))->FindByColor(0x18)));
+    if (reinterpret_cast<::FUN_0076b610_Class *>((&hairs))->FUN_0076b610())
     {
-        popt->SetTileEnabled(false);
+        reinterpret_cast<::fnv_007b3970::FUN_007b3970_shell *>((popt))->SetTileEnabled(false);
     }
     else
     {
-        popt->SetTileEnabled(true);
-        popt->FUN_007b3890(true, ((GlobalObject_00869f00*)((char*)this + 0xdc))->GetFlags());
+        reinterpret_cast<::fnv_007b3970::FUN_007b3970_shell *>((popt))->SetTileEnabled(true);
+        reinterpret_cast<::TileValueAccessor *>((popt))->FUN_007b3890(true, hairs.size);
     }
 }
 
+struct FUN_007adc60_shell
+{
+    void FUN_007adc60(int, bool);
+};
 namespace fnv_007b1ca0 {
-struct TESNPC;
+class TESNPC;
 struct TESEyes;
 struct TESHair
 {
-    bool IsValidForNPC(TESNPC*);
-    bool FUN_005fdf60();
-    bool IsFlag4Clear();
 };
 struct FUN_005fdf40_shell
 {
-    bool FUN_005fdf40();
 };
 struct FUN_005fc5f0_shell
 {
-    bool CanBeNPC(TESNPC*);
 };
-struct TESActorBase
+class TESActorBase
 {
+  public:
     int GetSex();
 };
 struct HairNode
 {
-    TESHair** _ref_006815c0();
-    HairNode* _ref_00726070();
 };
 struct TESRace
 {
-    TESHair* FUN_00613870(int);
     TESEyes* GetReferencedValue();
 };
 struct FUN_004ac110_shell
 {
     TESRace* FUN_004ac110();
 };
-HairNode* __fastcall FUN_0045bb80(TESRace*);
-struct TESNPC
+class TESNPC
 {
+  public:
     TESHair* GetHair();
-    void SetHair(TESHair*);
-    void SetEyes(TESEyes*);
-};
-struct FUN_007adc60_shell
-{
-    void FUN_007adc60(int, bool);
 };
 struct FUN_007b1ca0_t
 {
@@ -584,29 +756,29 @@ struct FUN_007b1ca0_t
 // @fnv 0x007b1ca0
 void FUN_007b1ca0_t::UpdateHairAndEyes()
 {
-    if (!pNPC->GetHair()->IsValidForNPC(pNPC))
+    if (!reinterpret_cast<::FUN_005fdfa0_shell *>((pNPC->GetHair()))->IsHairValidForNPC((::TESNPC *)(pNPC)))
     {
-        TESHair* m_pHair = ((FUN_004ac110_shell*)pNPC)->FUN_004ac110()->FUN_00613870(((TESActorBase*)pNPC)->GetSex());
-        for (HairNode* pNode = FUN_0045bb80(((FUN_004ac110_shell*)pNPC)->FUN_004ac110());
-             m_pHair == 0 && pNode && *pNode->_ref_006815c0(); pNode = pNode->_ref_00726070())
+        TESHair* m_pHair = ((::fnv_007b1ca0::TESHair *)(reinterpret_cast<::FUN_00613870_Class *>((((FUN_004ac110_shell*)pNPC)->FUN_004ac110()))->FUN_00613870(((TESActorBase*)pNPC)->GetSex())));
+        for (HairNode* pNode = ((::fnv_007b1ca0::HairNode *)(::FUN_0045bb80((intptr_t)(((FUN_004ac110_shell*)pNPC)->FUN_004ac110()))));
+             m_pHair == 0 && pNode && *((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)); pNode = ((::fnv_007b1ca0::HairNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
         {
-            if (((FUN_005fdf40_shell*)*pNode->_ref_006815c0())->FUN_005fdf40())
+            if (reinterpret_cast<::FUN_005fdf40_shell *>((((FUN_005fdf40_shell*)*((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->FUN_005fdf40())
             {
-                if ((((TESActorBase*)pNPC)->GetSex() == 0 && (*pNode->_ref_006815c0())->FUN_005fdf60()) ||
-                    (((TESActorBase*)pNPC)->GetSex() == 1 && (*pNode->_ref_006815c0())->IsFlag4Clear()))
-                    m_pHair = *pNode->_ref_006815c0();
+                if ((((TESActorBase*)pNPC)->GetSex() == 0 && reinterpret_cast<::FUN_005fdf60_shell *>(((*((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->FUN_005fdf60()) ||
+                    (((TESActorBase*)pNPC)->GetSex() == 1 && reinterpret_cast<::FUN_005fdf80_shell *>(((*((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->IsFlag4Clear()))
+                    m_pHair = *((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
             }
         }
-        pNPC->SetHair(m_pHair);
+        reinterpret_cast<::FUN_006031e0_shell *>((pNPC))->SetHair((::TESHair *)(m_pHair));
         RebuildFaceGen(1);
     }
-    if (!((FUN_005fc5f0_shell*)((MiddleHighProcess*)pNPC)->GetAnimation())->CanBeNPC(pNPC))
+    if (!reinterpret_cast<::FUN_005fc5f0_shell *>((((FUN_005fc5f0_shell*)((MiddleHighProcess*)pNPC)->GetAnimation())))->CanBeNPC((::TESNPC *)(pNPC)))
     {
-        pNPC->SetEyes(((FUN_004ac110_shell*)pNPC)->FUN_004ac110()->GetReferencedValue());
+        reinterpret_cast<::FUN_00603200_shell *>((pNPC))->SetEyes((::TESEyes *)(::fnv_007b1ca0::TESEyes *)(((FUN_004ac110_shell*)pNPC)->FUN_004ac110()->GetReferencedValue()));
         UpdateEyeTextures();
     }
-    ((FUN_007adc60_shell*)this)->FUN_007adc60(0, true);
-    ((FUN_007adc60_shell*)this)->FUN_007adc60(1, true);
+    ((::FUN_007adc60_shell*)this)->FUN_007adc60(0, true);
+    ((::FUN_007adc60_shell*)this)->FUN_007adc60(1, true);
 }
 }  // namespace fnv_007b1ca0
 
@@ -617,9 +789,13 @@ struct NiUpdateData
     bool c;
     NiUpdateData(float, bool, bool);
 };
-struct NiNode
+class NiAVObject;
+class NiNode
 {
+  public:
     void Update(NiUpdateData const&);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 struct PC_00605d70
 {
@@ -627,7 +803,6 @@ struct PC_00605d70
 };
 struct ShadowSceneNode
 {
-    void RemoveSceneObject(NiNode*, bool);
 };
 struct NiAdditionalGeometryData
 {
@@ -635,9 +810,7 @@ struct NiAdditionalGeometryData
 };
 struct FUN_007fd660_shell
 {
-    void FUN_007fd660(float);
 };
-extern PC_00605d70* g_thePlayer;
 struct FUN_007b1ae0_shell
 {
     void UpdateShadowSceneNode();
@@ -647,16 +820,15 @@ struct FUN_007b1ae0_shell
 void FUN_007b1ae0_shell::UpdateShadowSceneNode()
 {
     int pad;
-    NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)->RemoveSceneObject(g_thePlayer->GetNode(false), false);
+    reinterpret_cast<::S00b5d9f0_Owner *>((NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false)))), false);
     NiUpdateData data(0.0f, false, false);
-    reinterpret_cast<NiNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))->Update(data);
-    if (FUN_004b7210()->GetActiveRenderedMenu())
-        reinterpret_cast<FUN_007fd660_shell*>(FUN_004b7210()->GetActiveRenderedMenu())->FUN_007fd660(1.0f);
+    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))))->FUN_00a59c60((std::intptr_t)&(data));
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu())
+        reinterpret_cast<::Light7FD *>((reinterpret_cast<FUN_007fd660_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu())))->FUN_007fd660(1.0f);
 }
 
 struct IMStandIn
 {
-    void FUN_00715860(int, int, int);
 };
 struct InputFocusController
 {
@@ -679,13 +851,13 @@ bool InputFocusController::SetFocus(bool abFocus)
     {
         if (m_20 && *(void**)m_20)
         {
-            reinterpret_cast<IMStandIn*>(FUN_004b7210())->FUN_00715860((int)*(void**)m_20, 0xfc3, 1);
+            reinterpret_cast<::FocusManager *>((reinterpret_cast<IMStandIn*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)((std::intptr_t)*(void**)m_20), 0xfc3, 1);
             bret = true;
         }
     }
     else
     {
-        reinterpret_cast<IMStandIn*>(FUN_004b7210())->FUN_00715860(0, 0xfc3, 1);
+        reinterpret_cast<::FocusManager *>((reinterpret_cast<IMStandIn*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)(0), 0xfc3, 1);
         m_20 = 0;
         bret = true;
     }
@@ -694,49 +866,89 @@ bool InputFocusController::SetFocus(bool abFocus)
 
 struct FUN_007b5180_shell : FUN_007af610_shell
 {
-    char _pad[0xc4];
+    char _pad[0x30];
+    void* unk30;
+    char pad34[0x90];
     MenuOption2* m_pCurrentOption;
     void HandleOptionSelection();
     void CreateMenuOption();
 };
-// @fnv 0x007b5180
-void FUN_007b5180_shell::CreateMenuOption()
-{
-    int ilow;
-    int ihigh;
-    UpdateHairMenuOption();
-    m_pCurrentOption = ((MenuOption2*)*(void**)((char*)this + 0x30))->FindByColor(0x18);
-    ((RaceSexMenu_MenuOption*)m_pCurrentOption)->FUN_007b3840(ilow, ihigh);
-    ((TileValueAccessor*)m_pCurrentOption)->FUN_007b3760(ilow);
-    HandleOptionSelection();
-    m_pCurrentOption = 0;
-}
-
 struct FUN_00601830_shell
 {
-    void RandomizeFace(int, int, int);
-};
-struct FUN_007adc60_shell
-{
-    void FUN_007adc60(int, bool);
-};
-struct FUN_007b18f0_shell
-{
-    void HandleMenuKey(int);
 };
 struct FUN_007b1e70_shell
 {
     void UpdateFaceGen(int, int, int);
 };
-struct FUN_007b25a0_shell
-{
-    void FUN_007b25a0();
-};
 struct FUN_007b51f0_shell : FUN_007adc30_shell
 {
     void FUN_007b51f0();
 };
-char __cdecl ConsumeByteAtE4();
+class B7B18F0Menu
+{
+  public:
+    void HandleMenuKey(int iKey);
+};
+
+struct Menu511
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    TESNPC* npc;
+    void FUN_007b25a0();
+};
 // @fnv 0x007b51f0
 void __cdecl FUN_007b51f0()
 {
@@ -744,12 +956,12 @@ void __cdecl FUN_007b51f0()
     {
         if (ConsumeByteAtE4() == 1 || ((FUN_007adc30_shell*)DAT_011da634)->FUN_007adc30(7))
         {
-            ((FUN_00601830_shell*)(void*)(*((char**)DAT_011da634 + 0xd8 / 4)))->RandomizeFace(1, 0, 1);
+            reinterpret_cast<::FaceNpc *>((((FUN_00601830_shell*)(void*)(*((char**)DAT_011da634 + 0xd8 / 4)))))->RandomizeFace(1, 0, 1);
             ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(7, true);
-            ((FUN_007b18f0_shell*)DAT_011da634)->HandleMenuKey(0x22);
-            ((FUN_007b18f0_shell*)DAT_011da634)->HandleMenuKey(0x23);
+            ((::B7B18F0Menu*)DAT_011da634)->HandleMenuKey(0x22);
+            ((::B7B18F0Menu*)DAT_011da634)->HandleMenuKey(0x23);
             ((FUN_007b1e70_shell*)DAT_011da634)->UpdateFaceGen(1, 1, 0);
-            ((FUN_007b25a0_shell*)DAT_011da634)->FUN_007b25a0();
+            ((::Menu511*)DAT_011da634)->FUN_007b25a0();
             ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(8, false);
             ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(9, false);
         }
@@ -758,7 +970,6 @@ void __cdecl FUN_007b51f0()
 
 struct _ref_006815c0_shell
 {
-    int* __thiscall _ref_006815c0();
 };
 
 struct FUN_007b1e50_shell
@@ -772,70 +983,60 @@ struct FUN_007b1e50_shell
 // @fnv 0x007b1e50
 int FUN_007b1e50_shell::GetReferencedValue()
 {
-    return *m_ref._ref_006815c0();
+    return *((int *)(&reinterpret_cast<::SimpleListNodeView*>(&(m_ref))->m_item));
 }
 
-struct Menu
+class Menu
 {
+public:
+    void SetMenuVisibility(bool);
 };
 struct InterfaceManager_helper
 {
-    Tile* FUN_00586150();
 };
 struct TileH
 {
-    Tile* ReadFile(const char*);
-    Menu* GetMenu();
 };
 struct TileNode
 {
-    NiNode* FUN_0056c7f0();
 };
 struct Tile_Helper
 {
-    static void UpdateAll(bool);
 };
 struct Str6a70
 {
     Str6a70& operator=(const char*);
 };
-Tile* __cdecl FUN_00a09030(int);
 extern const char DAT_010759bc[];
+class TileMenu;
 struct FUN_00a1dc70_shell
 {
-    void FUN_00a1dc70(Tile*, bool);
+public:
+    void FUN_00a1dc70(::TileMenu *, bool);
 };
 struct SettingT_GameSettingCollection_
 {
-    const char* String();
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
-extern GlobalObject_0040c150 g_011d35c4, g_011d34b0, g_011d1fec;
 struct StrH
 {
-    void FUN_007b52a0();
 };
-struct GlobalObject_004037b0
+class GlobalObject_004037b0
 {
 };
-extern GlobalObject_004037b0 g_011da6f4;
 int __cdecl FUN_004b7220();
-struct Actor
+class Actor
 {
-    unsigned char FUN_008a6970();
-    void FUN_008a6840(int);
-    void UnEquipObject(void*, int, void*, bool, bool, bool);
 };
-extern Actor* pPlayer;
-extern "C" unsigned char DAT_011da688;
+class TESObjectREFR;
 struct InventoryChanges
 {
-    static InventoryChanges* GetOrAddInventoryChanges(Actor*);
     ArrSI* FUN_004c8c10(unsigned int, int);
+public:
+    static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
 };
-extern "C" ArrSI* DAT_011da638[];
 struct RaceInit
 {
     void SetupRaceMenu(int);
@@ -844,9 +1045,6 @@ struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-extern GlobalObject_0045cf30 g_011db620;
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct FUN_007ac9f0
 {
     int unk000;
@@ -942,11 +1140,9 @@ struct FUN_007ac9f0
     int unk168;
     int unk16c;
     FUN_007ac9f0();
-    void FUN_007ac9d0(int);
 };
 struct MagicHitEffect
 {
-    void FUN_00984f60(unsigned int);
 };
 struct NiPick
 {
@@ -954,34 +1150,39 @@ struct NiPick
 };
 struct Im7181
 {
-    void SetRenderedMenu(int);
+};
+// 0x00984f60 is a folded field setter; on rendered menus it stores the menu tile.
+struct RenderedMenuTileView
+{
+    char pad[0x18];
+    void* pTile;
 };
 // @fnv 0x007ac730
-Tile* __cdecl GetOrCreateMenuTile(int param)
+Tile* __cdecl GetOrCreateMenuTile(intptr_t param)
 {
-    Tile* previous = FUN_00a09030(FUN_007ac9c0());
+    Tile* previous = ((::Tile *)(::FUN_00a09030(FUN_007ac9c0())));
     if (previous)
         return previous;
-    Tile* tile = ((TileH*)((InterfaceManager_helper*)FUN_004b7210())->FUN_00586150())->ReadFile(DAT_010759bc);
+    Tile* tile = reinterpret_cast<::fnv_00a01b00::TileLoader *>((((TileH*)reinterpret_cast<::InterfaceManager *>((((InterfaceManager_helper*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00586150())))->FUN_00a01b00((void *)(DAT_010759bc));
     if (tile)
     {
-        DAT_011da634 = ((TileH*)tile)->GetMenu();
-        ((FUN_00a1dc70_shell*)DAT_011da634)->FUN_00a1dc70(tile, false);
-        if (!(unsigned int)g_011da70c)
+        DAT_011da634 = reinterpret_cast<::FUN_00a03c90_shell *>((((TileH*)tile)))->FUN_00a03c90();
+        ((FUN_00a1dc70_shell*)DAT_011da634)->FUN_00a1dc70((::TileMenu *)(tile), false);
+        if (!(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011da70c)))
         {
-            *(Str6a70*)&g_011da70c = ((SettingT_GameSettingCollection_*)&g_011d35c4)->String();
-            *(Str6a70*)&g_011da700 = ((SettingT_GameSettingCollection_*)&g_011d34b0)->String();
-            *(Str6a70*)&g_011da6f4 = ((SettingT_GameSettingCollection_*)&g_011d1fec)->String();
+            *(Str6a70*)&(*reinterpret_cast<::Flt *>(&::g_011da70c)) = ((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&::g_011d35c4)))->GetMenuTitle()));
+            *(Str6a70*)&(*reinterpret_cast<::Flt *>(&::g_011da700)) = ((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&::g_011d34b0)))->GetMenuTitle()));
+            *(Str6a70*)&::g_011da6f4 = ((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&::g_011d1fec)))->GetMenuTitle()));
             if (FUN_004b7220() != 3)
             {
-                ((StrH*)&g_011da70c)->FUN_007b52a0();
-                ((StrH*)&g_011da700)->FUN_007b52a0();
-                ((StrH*)&g_011da6f4)->FUN_007b52a0();
+                reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&(*reinterpret_cast<::Flt *>(&::g_011da70c)))))->FUN_007b52a0();
+                reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&(*reinterpret_cast<::Flt *>(&::g_011da700)))))->FUN_007b52a0();
+                reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&::g_011da6f4)))->FUN_007b52a0();
             }
         }
-        DAT_011da688 = pPlayer->FUN_008a6970();
-        pPlayer->FUN_008a6840(0);
-        InventoryChanges* inventory = InventoryChanges::GetOrAddInventoryChanges(pPlayer);
+        DAT_011da688 = ((unsigned char)(reinterpret_cast<::fnv_008a6970::FUN_008a6970_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008a6970()));
+        reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008a6840(0);
+        InventoryChanges* inventory = ::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))));
         for (unsigned int i = 0; i < 20; i++)
         {
             switch (i)
@@ -998,19 +1199,19 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             case 15:
                 DAT_011da638[i] = inventory->FUN_004c8c10(i, 0);
                 if (DAT_011da638[i])
-                    pPlayer->UnEquipObject((void*)DAT_011da638[i]->GetFlags(), 1, 0, 0, 0, 1);
+                    reinterpret_cast<::FUN_0088d7d0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0088d7d0((::TESBoundObject *)(void *)((void*)((std::uintptr_t)((DAT_011da638[i])->unk08))), 1, (::ExtraDataList *)(void *)(0), 0, 0, 1);
                 break;
             }
         }
         ((RaceInit*)DAT_011da634)->SetupRaceMenu(param);
-        if (*g_011db620.Bool())
+        if (*::g_011db620.Bool())
         {
-            Tile_Helper::UpdateAll(false);
+            ::fnv_00a04200::FUN_00a04200(false);
             FUN_007ac9f0* pRenderData = new FUN_007ac9f0;
-            pRenderData->FUN_007ac9d0(param);
-            ((MagicHitEffect*)pRenderData)->FUN_00984f60((unsigned int)tile);
-            ((NiPick*)pRenderData)->FUN_00705fc0(((TileNode*)tile)->FUN_0056c7f0());
-            ((Im7181*)FUN_004b7210())->SetRenderedMenu((int)pRenderData);
+            reinterpret_cast<::MiddleHighProcess *>((pRenderData))->AssignEffectShader((::TESEffectShader *)(param));
+            reinterpret_cast<RenderedMenuTileView*>(pRenderData)->pTile = tile;
+            ((NiPick*)pRenderData)->FUN_00705fc0(((::NiNode *)(reinterpret_cast<::TileFields *>((((TileNode*)tile)))->renderedNode)));
+            reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((Im7181*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)((std::intptr_t)pRenderData));
         }
     }
     return tile;
@@ -1018,7 +1219,6 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
 
 struct Obj0
 {
-    int FUN_0044ddc0();
 };
 
 struct Obj1
@@ -1037,8 +1237,8 @@ struct Holder
 unsigned char __cdecl FUN_007ad860(Obj0* pObject)
 {
     int r;
-    if (pObject != 0 && pObject->FUN_0044ddc0() != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
-        ((Holder*)DAT_011da634)->m_d8->FUN_00603b50() == pObject->FUN_0044ddc0())
+    if (pObject != 0 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pObject))->GetName())) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
+        ((Holder*)DAT_011da634)->m_d8->FUN_00603b50() == ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pObject))->GetName())))
     {
         r = 1;
     }
@@ -1055,16 +1255,15 @@ struct FUN_007ad940_Holder
     void* m_d8;
 };
 
-int __fastcall FUN_005f0cc0(void* self);
-int __fastcall FUN_00726070(int value);
+int FUN_005f0cc0(void* self);
 
 // @fnv 0x007ad940
 unsigned char __cdecl FUN_007ad940(int aiValue)
 {
     int result;
     if (aiValue != 0 && DAT_011da634 != 0 && ((FUN_007ad940_Holder*)DAT_011da634)->m_d8 != 0 &&
-        ((FUN_005f0cc0(((FUN_007ad940_Holder*)DAT_011da634)->m_d8) == 0 && FUN_00726070(aiValue) == 0x15) ||
-         (FUN_005f0cc0(((FUN_007ad940_Holder*)DAT_011da634)->m_d8) == 1 && FUN_00726070(aiValue) == 0x16)))
+        ((FUN_005f0cc0(((FUN_007ad940_Holder*)DAT_011da634)->m_d8) == 0 && ((std::intptr_t)(reinterpret_cast<::Callees *>((aiValue))->FUN_00726070())) == 0x15) ||
+         (FUN_005f0cc0(((FUN_007ad940_Holder*)DAT_011da634)->m_d8) == 1 && ((std::intptr_t)(reinterpret_cast<::Callees *>((aiValue))->FUN_00726070())) == 0x16)))
     {
         result = 1;
     }
@@ -1078,17 +1277,14 @@ unsigned char __cdecl FUN_007ad940(int aiValue)
 struct FUN_007ad9c0_Sub
 {
     bool Probe();
-    int* Lookup();
 };
 
 struct FUN_007ad9c0_Owner
 {
-    FUN_007ad9c0_Sub* GetSub();
 };
 
 struct FUN_007ad9c0_Arg
 {
-    int Value();
 };
 
 // Returns 1 when a1 is non-null and DAT_011da634's sub at offset 0xd8 fails Probe and its Lookup equals a1->Value(); otherwise 0.
@@ -1097,8 +1293,8 @@ char __cdecl IsArgValueInSubLookup(FUN_007ad9c0_Arg* a1)
 {
     int result;
     if (a1 != 0 && DAT_011da634 != 0 && *(void**)((char*)DAT_011da634 + 0xd8) != 0 &&
-        ((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))->GetSub()->Probe() == false &&
-        *((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))->GetSub()->Lookup() == a1->Value())
+        ((::FUN_007ad9c0_Sub *)(reinterpret_cast<::FUN_00602170_shell *>((((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))))->FUN_00602170()))->Probe() == false &&
+        *((int *)(&reinterpret_cast<::SimpleListNodeView*>(((::FUN_007ad9c0_Sub *)(reinterpret_cast<::FUN_00602170_shell *>((((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))))->FUN_00602170())))->m_item)) == ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((a1))->GetName())))
     {
         result = 1;
     }
@@ -1111,20 +1307,16 @@ char __cdecl IsArgValueInSubLookup(FUN_007ad9c0_Arg* a1)
 
 struct RSTile
 {
-    bool IsVisible();
-    void Set(int id, int value);
 };
 
 struct RSOptionList
 {
-    bool SetFocus(bool abFocus);
-    void FUN_007b4410();
 };
 
 struct RSMenu
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1157,95 +1349,75 @@ struct RSMenu
     int unk88;
     RSTile* tile8C;
 
-    bool HasTrait(int trait);
     void Refresh();
-    void SetTrait(int trait, bool on);
     int GetCurrentPage();
     void Accept();
-    RSTile* GetTile();
-    void Close();
 };
 
 struct RSIM
 {
-    void ShowMessage(RSTile* tile, int id, int flag);
 };
 
 struct RSItem
 {
     ~RSItem();
-    void* GetForm();
 };
 
 struct RSPlayer
 {
-    void EquipObject(void* form, int count, void* extra, bool a, bool b, bool c);
-    void SetFlagX(bool b);
-    void Finish(bool b);
 };
 
-extern RSMenu* g_raceSexMenu;
-extern RSItem* g_raceSexItems[20];
-extern bool g_raceSexFlag;
-extern RSPlayer* g_thePlayerRS;
 
-char __cdecl ConsumeByteAtE4();
-bool __cdecl RS_IsSomething();
-RSIM* __cdecl RS_GetIM();
-void __cdecl RS_Helper();
-bool __cdecl RS_Check();
-int __cdecl RS_Lookup(int a, int b);
-void __cdecl RS_Use(int x);
 
 // @fnv 0x007ada40
 void __cdecl UpdateRaceSexMenu()
 {
-    if (g_raceSexMenu)
+    if ((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634)))
     {
-        if (g_raceSexMenu->HasTrait(9))
+        if (reinterpret_cast<::FUN_007adc30_shell *>(((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))))->FUN_007adc30(9))
         {
-            g_raceSexMenu->Refresh();
-            g_raceSexMenu->SetTrait(9, false);
+            (*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->Refresh();
+            reinterpret_cast<::FUN_007adc60_shell *>(((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))))->FUN_007adc60(9, false);
         }
         if (ConsumeByteAtE4() == 1)
         {
-            if (RS_IsSomething())
+            if (::FUN_004b71d0())
             {
-                if (!g_raceSexMenu->optionLists[g_raceSexMenu->GetCurrentPage()]->SetFocus(true))
+                if (!reinterpret_cast<::InputFocusController *>(((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->optionLists[(*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->GetCurrentPage()]))->SetFocus(true))
                 {
-                    if (g_raceSexMenu->tile8C->IsVisible())
+                    if (reinterpret_cast<::sa040a0::Owner *>(((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->tile8C))->IsAllChildrenFlag0())
                     {
-                        RS_GetIM()->ShowMessage(g_raceSexMenu->tile8C, 0xfc3, 1);
+                        reinterpret_cast<::FocusManager *>((((::RSIM *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00715860((::FocusTile *)((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->tile8C), 0xfc3, 1);
                     }
                     else
                     {
-                        g_raceSexMenu->optionLists[g_raceSexMenu->GetCurrentPage()]->FUN_007b4410();
-                        g_raceSexMenu->Accept();
+                        reinterpret_cast<::ModListOwner *>(((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->optionLists[(*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->GetCurrentPage()]))->FUN_007b4410();
+                        (*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->Accept();
                     }
                 }
             }
         }
         else
         {
-            RS_Helper();
-            g_raceSexMenu->GetTile()->Set(0x1772, 1);
-            g_raceSexMenu->Close();
-            g_raceSexMenu = 0;
-            if (RS_Check())
+            ::fnv_007df4e0::UpdateStatsMenuLevelText();
+            reinterpret_cast<::Tile *>((((::RSTile *)((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))->unk04))))->Set(0x1772, 1);
+            reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<::RSMenu * *>(&::DAT_011da634))))->FUN_00a1d9e0();
+            (*reinterpret_cast<::RSMenu * *>(&::DAT_011da634)) = 0;
+            if (::FUN_00705100())
             {
-                RS_Use(RS_Lookup(5, 4));
+                ::StartDialogueForTopic((::TESTopic *)(((std::intptr_t)(::fnv_0061a2d0::GetTopicSubTypeName(5, 4)))));
             }
             for (int i = 0; i < 20; i++)
             {
-                if (g_raceSexItems[i])
+                if ((*reinterpret_cast<RSItem * (*)[20]>(&::DAT_011da638))[i])
                 {
-                    g_thePlayerRS->EquipObject(g_raceSexItems[i]->GetForm(), 1, 0, true, false, true);
-                    delete g_raceSexItems[i];
-                    g_raceSexItems[i] = 0;
+                    reinterpret_cast<::fnv_0088c830::ThisC *>(((*reinterpret_cast<::RSPlayer * *>(&::_g_thePlayer))))->FUN_0088c830((::fnv_0088c830::FormC *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<RSItem * (*)[20]>(&::DAT_011da638))[i]))->GetName()))), 1, 0, true, false, true);
+                    delete (*reinterpret_cast<RSItem * (*)[20]>(&::DAT_011da638))[i];
+                    (*reinterpret_cast<RSItem * (*)[20]>(&::DAT_011da638))[i] = 0;
                 }
             }
-            g_thePlayerRS->SetFlagX(g_raceSexFlag);
-            g_thePlayerRS->Finish(true);
+            reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>(((*reinterpret_cast<::RSPlayer * *>(&::_g_thePlayer))))->FUN_008a6840((*reinterpret_cast<bool *>(&::DAT_011da688)));
+            reinterpret_cast<::FUN_007adcc0_class *>(((*reinterpret_cast<::RSPlayer * *>(&::_g_thePlayer))))->SetAllow(true);
         }
     }
 }
@@ -1253,28 +1425,23 @@ void __cdecl UpdateRaceSexMenu()
 class HighProcess7AE
 {
   public:
-    int GetProcessLevel();
 };
 
 class Tile7AE
 {
   public:
-    int GetValue();
 };
 
 class TileList7AE
 {
   public:
-    Tile7AE* GetTile(int iLevel);
 };
 
 class Timer7AE
 {
   public:
-    float GetTime();
 };
 
-Timer7AE* GetInterfaceTimer7AE();
 
 class StatsMenu7AE
 {
@@ -1303,48 +1470,35 @@ void StatsMenu7AE::FUN_007ae1b0(int iType, HighProcess7AE* pkProcess)
     {
     case 0x69:
         m_pkProcess = pkProcess;
-        m_pkTile = m_apkLists[GetCurrentPage()]->GetTile(pkProcess->GetProcessLevel());
-        m_iValue = m_pkTile->GetValue();
+        m_pkTile = ((::Tile7AE *)(reinterpret_cast<::S *>((m_apkLists[GetCurrentPage()]))->FUN_007b41c0(((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pkProcess))->FUN_0045cd60())))));
+        m_iValue = reinterpret_cast<::FUN_007b3740_shell *>((m_pkTile))->GetFloat1005();
     case 1:
-        m_fTime = GetInterfaceTimer7AE()->GetTime();
+        m_fTime = reinterpret_cast<::MyHack *>((((::Timer7AE *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007697f0();
     }
 }
 
 class TESNPC;
-struct TESFullName
+class TESFullName
 {
-    const char* GetFullName();
 };
 struct Hair
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     TESFullName fullName;
-    bool FUN_005fdf40();
-    bool IsHairValidForNPC(TESNPC*);
 };
 struct HairNode
 {
-    Hair** FUN_006815c0();
-    HairNode* FUN_00726070();
 };
-struct TESDataHandler
+class TESDataHandler
 {
-    HairNode* GetTESHairList();
 };
-extern TESDataHandler* DAT_011c3f2c;
 struct HairOption
 {
-    void FUN_00403550(Hair*);
 };
 struct HairOptions
 {
-    void FUN_007b45b0();
     HairOption* FUN_007b3b80(const char*, int);
-    HairOption* FUN_007af430();
-    bool FUN_007b4260(int);
-    void ApplyToAllTiles();
 };
-bool __cdecl FUN_007ad860(HairOption*);
 struct HairMenu
 {
     unsigned int unk00;
@@ -1403,38 +1557,12 @@ struct HairMenu
     unsigned int unkd4;
     TESNPC* npc;
     void PopulateHairOptions();
-    void UpdateMinusPlusTiles();
-    void FUN_007adc60(int, bool);
 };
-// @fnv 0x007af300
-void HairMenu::PopulateHairOptions()
-{
-    options->FUN_007b45b0();
-    HairOption* pChosenOption = 0;
-    for (HairNode* node = DAT_011c3f2c->GetTESHairList(); node && *node->FUN_006815c0(); node = node->FUN_00726070())
-    {
-        if ((*node->FUN_006815c0())->FUN_005fdf40() && (*node->FUN_006815c0())->IsHairValidForNPC(npc))
-        {
-            HairOption* option = options->FUN_007b3b80((*node->FUN_006815c0())->fullName.GetFullName(), 27);
-            option->FUN_00403550(*node->FUN_006815c0());
-            if (!pChosenOption && FUN_007ad860(option))
-                pChosenOption = option;
-        }
-    }
-    UpdateMinusPlusTiles();
-    while (pChosenOption && pChosenOption != options->FUN_007af430() && options->FUN_007b4260(2))
-    {
-    }
-    options->ApplyToAllTiles();
-    FUN_007adc60(0, false);
-}
-
 class B7AF450NPC;
 
 class B7AF450Texture
 {
   public:
-    const char* GetTextureResourceName() const;
 };
 
 class B7AF450Eyes
@@ -1448,38 +1576,29 @@ class B7AF450Eyes
     int unk14;
     B7AF450Texture m_kTexture;
 
-    bool IsPlayable();
-    bool CanBeUsedBy(B7AF450NPC* pkNPC);
 };
 
 class B7AF450EyesNode
 {
   public:
-    B7AF450Eyes** GetItem();
-    B7AF450EyesNode* GetNext();
 };
 
 class B7AF450DataHandler
 {
   public:
-    B7AF450EyesNode* GetEyesList();
 };
 
 class B7AF450ListItem
 {
   public:
-    void SetData(B7AF450Eyes* pkEyes);
 };
 
 class B7AF450ListBox
 {
   public:
-    void Clear();
     B7AF450ListItem* AddItem(const char* pcText, int iType);
-    void Finish();
 };
 
-extern B7AF450DataHandler* g_pkB7AF450DataHandler;
 
 class B7AF450RaceMenu
 {
@@ -1540,31 +1659,12 @@ class B7AF450RaceMenu
     int unkD4;
     B7AF450NPC* m_pkNPC;
 
-    void FUN_007adc60(int iIndex, bool bFlag);
     void PopulateEyesList();
 };
-
-// @fnv 0x007af450
-void B7AF450RaceMenu::PopulateEyesList()
-{
-    m_pkListBox->Clear();
-    for (B7AF450EyesNode* pkIter = g_pkB7AF450DataHandler->GetEyesList(); pkIter && *pkIter->GetItem();
-         pkIter = pkIter->GetNext())
-    {
-        if ((*pkIter->GetItem())->IsPlayable() && (*pkIter->GetItem())->CanBeUsedBy(m_pkNPC))
-            m_pkListBox->AddItem((*pkIter->GetItem())->m_kTexture.GetTextureResourceName(), 0x21)
-                ->SetData(*pkIter->GetItem());
-    }
-    m_pkListBox->Finish();
-    FUN_007adc60(1, false);
-}
 
 // SyncListItemTemplate: thiscall, /MT /Od /GS /EHsc. Two guarded blocks on flags from this->m_34 / this->m_d8.
 struct Opt34
 {
-    Opt34* FindByColor(int);
-    void FUN_007b3d50(int, const char*);
-    void RemoveOptionById(int);
 };
 struct D8Obj
 {
@@ -1576,14 +1676,10 @@ struct SpStr
     int m_len;
     SpStr();
     ~SpStr();
-    const char* FUN_00559450(const char*, int);
 };
 struct StrTable
 {
-    const char* FUN_00403df0();
 };
-extern StrTable DAT_011d23a0;
-extern "C" void __cdecl FUN_00406f60(SpStr* dst, const char* fmt, ...);
 
 struct FUN_007af520_cls
 {
@@ -1645,23 +1741,6 @@ struct FUN_007af520_cls
     void SyncListItemTemplate();
 };
 
-// @fnv 0x007af520
-void FUN_007af520_cls::SyncListItemTemplate()
-{
-    bool e = m_34->FindByColor(7) != 0;
-    bool d = m_d8->FUN_005f0cc0() == 0;
-    if (d && !e)
-    {
-        SpStr s;
-        FUN_00406f60(&s, "%s %c", DAT_011d23a0.FUN_00403df0(), 0x3e);
-        m_34->FUN_007b3d50(2, s.FUN_00559450("RSM_list_item_template", 7));
-    }
-    else if (e && !d)
-    {
-        m_34->RemoveOptionById(7);
-    }
-}
-
 namespace fnv_007af900 {
 struct BSStringTChar
 {
@@ -1674,30 +1753,20 @@ struct BSStringTChar
 };
 struct SettingT_GameSettingCollection_
 {
-    const char* String();
-    int* Int();
 };
 struct GameSettingCollection
 {
-    static GameSettingCollection* Instance();
     bool GetSetting(const char*, SettingT_GameSettingCollection_**);
 };
-int __cdecl FUN_00406f60(BSStringTChar*, const char*, ...);
 struct HairOption
 {
-    int FUN_00726070();
-    int GetFloat1005();
-    void FUN_007b3810(const char*);
 };
 struct HairOptionList
 {
-    HairOption* FindByColor(int);
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
-    const char* String();
 };
-extern GlobalObject_0040c150 g_011d3528;
 struct HairMenu
 {
     int unk00;
@@ -1726,24 +1795,24 @@ void HairMenu::ApplyHairOption(HairOption* option)
 {
     if (!option)
         return;
-    if (option->FUN_00726070() == 29)
+    if (((std::intptr_t)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 29)
     {
         SettingT_GameSettingCollection_* setting = 0;
         SettingT_GameSettingCollection_* valueSetting = 0;
         bool found;
         {
             BSStringTChar name;
-            FUN_00406f60(&name, "iHairColor%02d", option->GetFloat1005());
-            found = GameSettingCollection::Instance()->GetSetting(name, &valueSetting);
-            FUN_00406f60(&name, "sHairColor%d", option->GetFloat1005());
-            found = GameSettingCollection::Instance()->GetSetting(name, &setting);
-            option->FUN_007b3810(setting->String());
-            FUN_007afa40(*valueSetting->Int());
+            ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007af900::BSStringTChar *)(&name), "iHairColor%02d", reinterpret_cast<::FUN_007b3740_shell *>((option))->GetFloat1005());
+            found = ((::fnv_007af900::GameSettingCollection *)(::GetGameSettingCollection()))->GetSetting(name, &valueSetting);
+            ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007af900::BSStringTChar *)(&name), "sHairColor%d", reinterpret_cast<::FUN_007b3740_shell *>((option))->GetFloat1005());
+            found = ((::fnv_007af900::GameSettingCollection *)(::GetGameSettingCollection()))->GetSetting(name, &setting);
+            reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(((const char *)(reinterpret_cast<::StartMenu *>((setting))->GetMenuTitle())));
+            FUN_007afa40(*((int *)&(::FUN_0043d4d0((int *)(valueSetting)))));
         }
     }
     else
     {
-        unk40->FindByColor(29)->FUN_007b3810(g_011d3528.String());
+        reinterpret_cast<::FUN_007b3810Class *>((((::fnv_007af900::HairOption *)(reinterpret_cast<::fnv_007b4210::FUN_007b4210_shell *>((unk40))->FindByColor(29)))))->FUN_007b3810(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007af900::GlobalObject_0040c150 *>(&::g_011d3528))))->GetMenuTitle())));
     }
     FUN_007b3660();
 }
@@ -1751,12 +1820,9 @@ void HairMenu::ApplyHairOption(HairOption* option)
 
 struct FUN_007afa40_mgr
 {
-    void* FUN_00559450();
-    void** FUN_0057cbe0(void** pp);
 };
 struct FUN_00726070_shell
 {
-    int FUN_00726070();
 };
 struct FUN_007afa40_cls
 {
@@ -1768,78 +1834,19 @@ struct FUN_007afa40_cls
     void FUN_007afa40(unsigned int value);
 };
 
-// @fnv 0x007afa40
-void FUN_007afa40_cls::FUN_007afa40(unsigned int uiPackedValue)
-{
-    void* cur = m_40->FUN_00559450();
-    while (cur != 0)
-    {
-        void* item = *m_40->FUN_0057cbe0(&cur);
-        switch (((FUN_00726070_shell*)item)->FUN_00726070())
-        {
-        case 0x1e:
-            ((TileValueAccessor*)item)->FUN_007b3760((unsigned char)(uiPackedValue & 0xff));
-            break;
-        case 0x1f:
-            ((TileValueAccessor*)item)->FUN_007b3760((unsigned char)((((unsigned short)uiPackedValue) >> 8) & 0xff));
-            break;
-        case 0x20:
-            ((TileValueAccessor*)item)->FUN_007b3760((unsigned char)((uiPackedValue >> 16) & 0xff));
-            break;
-        }
-    }
-}
-
-class B7B18F0Menu
-{
-  public:
-    bool ClampSliderOptions(int iFrom, int iTo, bool bForward);
-    void HandleMenuKey(int iKey);
-};
-
-// @fnv 0x007b18f0
-void B7B18F0Menu::HandleMenuKey(int iKey)
-{
-    bool bOk = false;
-    unsigned int uiCounter = 0;
-    if (iKey == 0x22)
-    {
-        do
-        {
-            bOk = ClampSliderOptions(10, 0x13, false);
-        } while (bOk && uiCounter++ < 3);
-    }
-    else if (iKey == 0x23)
-    {
-        do
-        {
-            bOk = ClampSliderOptions(0x13, 0x14, true);
-        } while (bOk && uiCounter++ < 3);
-    }
-}
-
 struct Matrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void DecomposeToEulerAngles(float&, float&, float&);
-    void FUN_004a0c90(float);
-    void SetMatrixElement(int, int, float);
     Matrix FUN_0043f8d0(const Matrix&) const;
 };
-extern Matrix DAT_011f4248;
 struct SceneObject
 {
-    Matrix* FUN_006a9540();
-    void FUN_0043fa80(const Matrix*);
 };
 struct ScenePointer
 {
-    SceneObject* FUN_00559450();
 };
 struct ScaleObject
 {
-    float GetWeight();
-    float FUN_00944300();
 };
 struct Target
 {
@@ -1898,15 +1905,14 @@ struct Target
     int unk0d0;
     ScenePointer scene;
     ScaleObject* scale;
-    void UpdateShadowSceneNode();
     bool FUN_007b1970(float, bool);
 };
 // @fnv 0x007b1970
 bool Target::FUN_007b1970(float offset, bool force)
 {
-    Matrix p = *scene.FUN_00559450()->FUN_006a9540();
+    Matrix p = *((::Matrix *)(::FUN_006a9540((char *)(((::SceneObject *)(::FUN_00559450((int *)&(scene))))))));
     float s, a, i;
-    p.DecomposeToEulerAngles(s, a, i);
+    reinterpret_cast<::S_00a592c0_Matrix3 *>(&(p))->DecomposeToEulerAngles(s, a, i);
     float h = i - offset;
     if (h < 0.0)
         h += 6.2831854820251465;
@@ -1914,14 +1920,14 @@ bool Target::FUN_007b1970(float offset, bool force)
         h -= 6.2831854820251465;
     if (i == h && !force)
         return false;
-    p.FUN_004a0c90(h);
-    Matrix f = DAT_011f4248;
-    f.SetMatrixElement(0, 0, scale->GetWeight());
-    f.SetMatrixElement(1, 1, scale->GetWeight());
-    f.SetMatrixElement(2, 2, scale->FUN_00944300());
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(p))->FUN_004a0c90(h);
+    Matrix f = (*reinterpret_cast<::Matrix *>(&::DAT_011f4248));
+    reinterpret_cast<::FUN_00642660_shell *>(&(f))->SetMatrixElement(0, 0, reinterpret_cast<::FUN_00604250_shell *>((scale))->GetWeight());
+    reinterpret_cast<::FUN_00642660_shell *>(&(f))->SetMatrixElement(1, 1, reinterpret_cast<::FUN_00604250_shell *>((scale))->GetWeight());
+    reinterpret_cast<::FUN_00642660_shell *>(&(f))->SetMatrixElement(2, 2, reinterpret_cast<::FUN_00944300_class *>((scale))->FUN_00944300());
     p = p.FUN_0043f8d0(f);
-    scene.FUN_00559450()->FUN_0043fa80(&p);
-    UpdateShadowSceneNode();
+    reinterpret_cast<::FUN_0043fa80_s *>((((::SceneObject *)(::FUN_00559450((int *)&(scene))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&p)));
+    reinterpret_cast<::FUN_007b1ae0_shell *>(this)->UpdateShadowSceneNode();
     return true;
 }
 
@@ -1939,11 +1945,6 @@ struct FixedB50
     FixedB50(const char*);
     ~FixedB50();
     operator const char*() const;
-};
-struct ColorB50
-{
-    float r, g, b, a;
-    ColorB50(float, float, float, float);
 };
 struct PropertyB50
 {
@@ -1980,8 +1981,7 @@ struct PropertyB50
     unsigned unk78;
     unsigned unk7c;
     unsigned unk80;
-    ColorB50 color;
-    int FUN_00441110();
+    ::ImageSpaceEffectParam color;
 };
 struct PointB50
 {
@@ -2099,12 +2099,7 @@ struct NodeB50
     virtual void v1a8();
     virtual void v1ac();
     virtual void v1b0();
-    PropertyB50* FUN_00a59d30(int);
-    void FUN_00a5a040();
     unsigned FUN_0043b480();
-    NodeB50* FUN_0043b4a0(unsigned);
-    FixedB50& FUN_00413f40();
-    void FUN_00a59c60(const PointB50&);
 };
 struct PtrB50
 {
@@ -2184,19 +2179,15 @@ struct BaseB50
 };
 struct FaceB50
 {
-    void BuildAppearance(BaseB50*, SnapshotB50*, int, bool);
 };
 struct ObjectB50
 {
-    void FUN_00a6e960();
 };
 struct ControllerB50
 {
-    void* GetStringAtOffset();
 };
 struct AnimationB50
 {
-    ControllerB50* FUN_00496940();
 };
 struct PlayerB50
 {
@@ -2424,11 +2415,8 @@ struct PlayerB50
     virtual void v374();
     virtual void v378();
     virtual FaceB50* v37c();
-    BaseB50* FUN_007af430();
     int FUN_0087f4c0();
-    AnimationB50* FUN_00950a60(bool);
 };
-extern PlayerB50* pPlayer;
 struct DataB50
 {
     virtual void v000();
@@ -2450,8 +2438,6 @@ struct DataB50
     virtual void v040();
     virtual void v044();
     virtual void v048(int);
-    unsigned FUN_004169d0();
-    float FUN_00602130();
 };
 struct HostB50
 {
@@ -2511,16 +2497,8 @@ struct HostB50
     unsigned unk0d4;
     DataB50* data;
     bool RebuildFaceGen(bool);
-    void UpdateShadowSceneNode();
 };
-char* __cdecl FUN_00657820(char*, int);
-void __cdecl BuildHairFaceGenNodes(NodeB50**, NodeB50**, SnapshotB50*, bool);
-extern unsigned DAT_011f4a04;
-ObjectB50* __cdecl FUN_00653270(unsigned*, void*);
-void __cdecl FUN_00b57e30(NodeB50*, int, int);
-unsigned __cdecl FUN_0044a670(const char*);
 int __cdecl FUN_004564f0(const char*, const char*, unsigned);
-void __cdecl FUN_00653470(NodeB50*, float);
 // @fnv 0x007b2b50
 bool HostB50::RebuildFaceGen(bool rebuild)
 {
@@ -2533,91 +2511,91 @@ bool HostB50::RebuildFaceGen(bool rebuild)
 
     AnimationB50* j;
 
-    if (!pPlayer->v1ac(false))
+    if (!(*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false))
         return false;
     data->v048(2048);
     if (rebuild)
     {
         char p[32];
         SnapshotB50 i;
-        pPlayer->v37c()->BuildAppearance(pPlayer->FUN_007af430(), &i, pPlayer->FUN_0087f4c0(), false);
-        NodeB50* h = pPlayer->v1ac(false);
-        NodeB50* cf = pPlayer->v1b0(false);
+        reinterpret_cast<::RaceAppearance::Race *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v37c()))->BuildAppearance((::RaceAppearance::NPC *)(::fnv_007b2b50::BaseB50 *)(((::fnv_007b2b50::BaseB50 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))))->FUN_007af430()))), (::RaceAppearance::Output *)(::fnv_007b2b50::SnapshotB50 *)(&i), (*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->FUN_0087f4c0(), false);
+        NodeB50* h = (*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false);
+        NodeB50* cf = (*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1b0(false);
         for (int i = 0; i < 2; i++)
         {
-            NodeB50* part = h->v09c(FixedB50(FUN_00657820(p, i)));
+            NodeB50* part = h->v09c(FixedB50(::BSFaceGenManager::BuildFaceGenPartPath(p, i)));
             if (part)
                 h->v0e8(part);
         }
-        BuildHairFaceGenNodes(&h, &cf, &i, false);
-        j = pPlayer->FUN_00950a60(false);
-        void* a = j->FUN_00496940()->GetStringAtOffset();
+        ::fnv_00655320::BuildHairFaceGenNodes((::fnv_00655320::BSFaceGenNiNode **)(::fnv_007b2b50::NodeB50 **)(&h), (::fnv_00655320::BSFaceGenNiNode **)(::fnv_007b2b50::NodeB50 **)(&cf), (::fnv_00655320::FaceGenData *)(::fnv_007b2b50::SnapshotB50 *)(&i), false);
+        j = ((::fnv_007b2b50::AnimationB50 *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))))->GetAnimation(false)));
+        void* a = ((void *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_007b2b50::ControllerB50 *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((j))->FUN_00496940()))))));
         if (a)
         {
-            ObjectB50* object = FUN_00653270(&DAT_011f4a04, a);
+            ObjectB50* object = ((::fnv_007b2b50::ObjectB50 *)(::FUN_00653270((const ::NiRTTI *)(unsigned int *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a04))), (::NiObject *)(a))));
             if (object)
-                object->FUN_00a6e960();
+                reinterpret_cast<::FUN_00a6e960_shell *>((object))->FUN_00a6e960();
         }
-        pPlayer->FUN_007af430()->UpdateFaceGenHairVisibility(pPlayer, false);
+        ((::fnv_007b2b50::BaseB50 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))))->FUN_007af430()))->UpdateFaceGenHairVisibility((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer)), false);
         for (int i = 0; i < 2; i++)
         {
-            NodeB50* part = h->v09c(FixedB50(FUN_00657820(p, i)));
+            NodeB50* part = h->v09c(FixedB50(::BSFaceGenManager::BuildFaceGenPartPath(p, i)));
             if (part)
             {
-                FUN_00b57e30(part, 0, 0);
-                PropertyB50* color = part->FUN_00a59d30(3);
-                PropertyB50* typed = (!color ? false : color->FUN_00441110() == 8) ? color : 0;
-                unsigned property = data->FUN_004169d0();
+                ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(part), 0, 0);
+                PropertyB50* color = ((::fnv_007b2b50::PropertyB50 *)(reinterpret_cast<::FUN_00a59d30_C *>((part))->FUN_00a59d30(3)));
+                PropertyB50* typed = (!color ? false : ((int)(color->unk1c)) == 8) ? color : 0;
+                unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
                 if (typed)
-                    typed->color = ColorB50((unsigned char)(property & 255) / 255.0,
-                                            (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
-                                            (unsigned char)((property >> 16) & 255) / 255.0, 1);
+                    typed->color = ::ImageSpaceEffectParam((unsigned char)(property & 255) / 255.0,
+                                                           (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
+                                                           (unsigned char)((property >> 16) & 255) / 255.0, 1);
                 else
                 {
-                    PropertyB50* otherTyped = (!color ? false : color->FUN_00441110() == 12) ? color : 0;
+                    PropertyB50* otherTyped = (!color ? false : ((int)(color->unk1c)) == 12) ? color : 0;
                     if (otherTyped)
-                        otherTyped->color = ColorB50((unsigned char)(property & 255) / 255.0,
-                                                     (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
-                                                     (unsigned char)((property >> 16) & 255) / 255.0, 1);
+                        otherTyped->color = ::ImageSpaceEffectParam((unsigned char)(property & 255) / 255.0,
+                                                                    (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
+                                                                    (unsigned char)((property >> 16) & 255) / 255.0, 1);
                 }
             }
         }
-        h->FUN_00a5a040();
+        reinterpret_cast<::FUN_00a5a040_Class *>((h))->FUN_00a5a040();
     }
     else
     {
-        unsigned count = pPlayer->v1ac(false)->FUN_0043b480();
+        unsigned count = (*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false)->FUN_0043b480();
         for (unsigned i = 0; i < count; i++)
         {
-            b = pPlayer->v1ac(false)->FUN_0043b4a0(i);
-            bool hair = b && !FUN_004564f0(b->FUN_00413f40(), "FaceGenHair", FUN_0044a670("FaceGenHair"));
+            b = ((::fnv_007b2b50::NodeB50 *)(reinterpret_cast<::NiNode *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false)))->GetAt(i)));
+            bool hair = b && !FUN_004564f0((*(::fnv_007b2b50::FixedB50 *)(reinterpret_cast<::TESTopicInfoData *>((b))->GetLinkToList())), "FaceGenHair", ::FUN_0044a670("FaceGenHair"));
             bool accessory =
-                !hair && b && !FUN_004564f0(b->FUN_00413f40(), "FaceGenAccessory", FUN_0044a670("FaceGenAccessory"));
+                !hair && b && !FUN_004564f0((*(::fnv_007b2b50::FixedB50 *)(reinterpret_cast<::TESTopicInfoData *>((b))->GetLinkToList())), "FaceGenAccessory", ::FUN_0044a670("FaceGenAccessory"));
             if (hair || accessory)
             {
                 eb = b->v01c();
                 if ((NodeB50*)eb)
                 {
                     if (hair)
-                        FUN_00653470(eb, data->FUN_00602130());
-                    PropertyB50* color = ((NodeB50*)eb)->FUN_00a59d30(3);
-                    PropertyB50* typed = (!color ? false : color->FUN_00441110() == 8) ? color : 0;
+                        ::fnv_00653470::FUN_00653470((::fnv_00653470::NiGeometry *)(::fnv_007b2b50::NodeB50 *)(eb), reinterpret_cast<::FUN_00602130_shell *>((data))->FUN_00602130());
+                    PropertyB50* color = ((::fnv_007b2b50::PropertyB50 *)(reinterpret_cast<::FUN_00a59d30_C *>((((NodeB50*)eb)))->FUN_00a59d30(3)));
+                    PropertyB50* typed = (!color ? false : ((int)(color->unk1c)) == 8) ? color : 0;
                     if (typed)
                     {
-                        unsigned property = data->FUN_004169d0();
-                        typed->color = ColorB50((unsigned char)(property & 255) / 255.0,
-                                                (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
-                                                (unsigned char)((property >> 16) & 255) / 255.0, 1);
+                        unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
+                        typed->color = ::ImageSpaceEffectParam((unsigned char)(property & 255) / 255.0,
+                                                               (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
+                                                               (unsigned char)((property >> 16) & 255) / 255.0, 1);
                     }
                     else
                     {
-                        PropertyB50* otherTyped = (!color ? false : color->FUN_00441110() == 12) ? color : 0;
+                        PropertyB50* otherTyped = (!color ? false : ((int)(color->unk1c)) == 12) ? color : 0;
                         if (otherTyped)
                         {
-                            unsigned property = data->FUN_004169d0();
-                            otherTyped->color = ColorB50((unsigned char)(property & 255) / 255.0,
-                                                         (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
-                                                         (unsigned char)((property >> 16) & 255) / 255.0, 1);
+                            unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
+                            otherTyped->color = ::ImageSpaceEffectParam((unsigned char)(property & 255) / 255.0,
+                                                                        (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
+                                                                        (unsigned char)((property >> 16) & 255) / 255.0, 1);
                         }
                     }
                 }
@@ -2625,29 +2603,70 @@ bool HostB50::RebuildFaceGen(bool rebuild)
         }
     }
     PointB50 l(0, false, false);
-    pPlayer->v1ac(false)->FUN_00a59c60(l);
-    UpdateShadowSceneNode();
+    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false)))->FUN_00a59c60((std::intptr_t)&(l));
+    reinterpret_cast<::FUN_007b1ae0_shell *>(this)->UpdateShadowSceneNode();
     return true;
 }
 }  // namespace fnv_007b2b50
 
 struct Trait
 {
-    int FUN_0084e3a0();
-    void __thiscall FUN_00a0a270(float value, unsigned int update);
+    void FUN_00a0a270(float value, unsigned int update);
 };
 struct TileFor3760
 {
-    void __thiscall FUN_00700320(unsigned int id, int value);
-    Trait* __thiscall FUN_00a00f30(unsigned int id);
 };
 struct MenuOptionFor3760
 {
     TileFor3760* tile;
-    int __thiscall GetFloat1005();
-    void __thiscall FUN_007b3840(int& fTargetUpperBound, int& fMinimumInputValue);
-    bool __thiscall FUN_007b3760(int value);
+    bool FUN_007b3760(int value);
 };
+// @fnv 0x007b3890
+void TileValueAccessor::FUN_007b3890(int aiLow, int aiHigh)
+{
+    if (m_tile)
+    {
+        reinterpret_cast<::Tile *>((((Tile_Set_Helper*)m_tile)))->Set(0x1006, aiLow);
+        reinterpret_cast<::Tile *>((((Tile_Set_Helper*)m_tile)))->Set(0x1007, aiHigh);
+        if (reinterpret_cast<::FUN_007b3740_shell *>(this)->GetFloat1005() < aiLow)
+            reinterpret_cast<::MenuOptionFor3760 *>(this)->FUN_007b3760(aiLow);
+        if (reinterpret_cast<::FUN_007b3740_shell *>(this)->GetFloat1005() > aiHigh)
+            reinterpret_cast<::MenuOptionFor3760 *>(this)->FUN_007b3760(aiHigh);
+    }
+}
+// @fnv 0x007b5180
+void FUN_007b5180_shell::CreateMenuOption()
+{
+    int ilow;
+    int ihigh;
+    UpdateHairMenuOption();
+    m_pCurrentOption = ((::MenuOption2 *)(reinterpret_cast<::fnv_007b4210::FUN_007b4210_shell *>((((MenuOption2*)this->unk30)))->FindByColor(0x18)));
+    ((RaceSexMenu_MenuOption*)m_pCurrentOption)->FUN_007b3840(ilow, ihigh);
+    reinterpret_cast<::MenuOptionFor3760 *>((((TileValueAccessor*)m_pCurrentOption)))->FUN_007b3760(ilow);
+    HandleOptionSelection();
+    m_pCurrentOption = 0;
+}
+// @fnv 0x007afa40
+void FUN_007afa40_cls::FUN_007afa40(unsigned int uiPackedValue)
+{
+    void* cur = ((void *)(::FUN_00559450((int *)(m_40))));
+    while (cur != 0)
+    {
+        void* item = *((void **)(reinterpret_cast<::ListStandIn *>((m_40))->FUN_0057cbe0((int **)(void **)(&cur))));
+        switch (((std::intptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)item)))->FUN_00726070())))
+        {
+        case 0x1e:
+            reinterpret_cast<::MenuOptionFor3760 *>((((TileValueAccessor*)item)))->FUN_007b3760((unsigned char)(uiPackedValue & 0xff));
+            break;
+        case 0x1f:
+            reinterpret_cast<::MenuOptionFor3760 *>((((TileValueAccessor*)item)))->FUN_007b3760((unsigned char)((((unsigned short)uiPackedValue) >> 8) & 0xff));
+            break;
+        case 0x20:
+            reinterpret_cast<::MenuOptionFor3760 *>((((TileValueAccessor*)item)))->FUN_007b3760((unsigned char)((uiPackedValue >> 16) & 0xff));
+            break;
+        }
+    }
+}
 
 // Clamps value between the option's min and max, and if it differs from the current value, updates the tile and its trait, returning true.
 // @fnv 0x007b3760
@@ -2655,18 +2674,18 @@ bool MenuOptionFor3760::FUN_007b3760(int value)
 {
     if (tile != 0)
     {
-        int currentValue = GetFloat1005();
+        int currentValue = reinterpret_cast<::FUN_007b3740_shell *>(this)->GetFloat1005();
         int fTargetUpperBound, fMinimumInputValue;
-        FUN_007b3840(fTargetUpperBound, fMinimumInputValue);
+        reinterpret_cast<::RaceSexMenu_MenuOption *>(this)->FUN_007b3840(fTargetUpperBound, fMinimumInputValue);
         if (value < fTargetUpperBound)
             value = fTargetUpperBound;
         if (value > fMinimumInputValue)
             value = fMinimumInputValue;
         if (currentValue != value)
         {
-            tile->FUN_00700320(0x1005, value);
-            Trait* trait = tile->FUN_00a00f30(0x1009);
-            if (trait->FUN_0084e3a0() == 0)
+            reinterpret_cast<::Tile *>((tile))->Set(0x1005, value);
+            Trait* trait = ((struct ::Trait *)(reinterpret_cast<::FUN_00a00f30_shell *>((tile))->FUN_00a00f30(0x1009)));
+            if (reinterpret_cast<::FUN_0084e3a0_Class *>((trait))->FUN_0084e3a0() == 0)
                 trait->FUN_00a0a270((float)value, 1);
             return true;
         }
@@ -2674,7 +2693,6 @@ bool MenuOptionFor3760::FUN_007b3760(int value)
     return false;
 }
 
-extern double DAT_01012070;
 
 struct OptionValueReader
 {
@@ -2687,8 +2705,8 @@ unsigned int OptionValueReader::ReadOptionValue()
 {
     if (m_iWordAt00 != 0)
     {
-        float f = m_iWordAt00->GetFloat(0x100a);
-        return (f <= DAT_01012070) ? 1 : (unsigned int)f;
+        float f = reinterpret_cast<::TileListBoxCalls *>((m_iWordAt00))->GetFloat(0x100a);
+        return (f <= ::g_01012070) ? 1 : (unsigned int)f;
     }
     else
     {
@@ -2696,8 +2714,6 @@ unsigned int OptionValueReader::ReadOptionValue()
     }
 }
 
-extern "C" void* DAT_011da634;
-extern "C" const char str_01075b10[];
 extern "C" const char str_01075b5c[];
 
 struct FUN_0048f200
@@ -2711,8 +2727,6 @@ struct FUN_0048f200
 
 struct PropertyObject : Tile_Set_Helper
 {
-    void FUN_00a01350(int kind, int value, bool enabled);
-    void FUN_00a04640(bool enabled);
 };
 struct InterfaceRoot
 {
@@ -2747,9 +2761,7 @@ struct InterfaceRoot
     int unk70;
     int unk74;
     void* unk78;
-    PropertyObject* FUN_00a1ddb0(void* parent, const char* name, int mode);
 };
-int __cdecl FUN_00a00940(const char* name, int index);
 struct FUN_007b39e0 : FUN_0048f200
 {
     int unk0c;
@@ -2758,21 +2770,21 @@ struct FUN_007b39e0 : FUN_0048f200
     float unk18;
     int unk1c;
     int unk20;
-    FUN_007b39e0(int low, int high);
+    FUN_007b39e0(int low, intptr_t high);
 };
 // @fnv 0x007b39e0
-FUN_007b39e0::FUN_007b39e0(int low, int high)
+FUN_007b39e0::FUN_007b39e0(int low, intptr_t high)
 {
     unk10 = 20;
     unk0c = 20;
     unk18 = 0.0f;
     unk1c = 0;
-    unk14 = ((InterfaceRoot*)DAT_011da634)->FUN_00a1ddb0(((InterfaceRoot*)DAT_011da634)->unk78, str_01075b10, 0);
-    unk14->Set(0x1004, low);
-    unk14->FUN_00a01350(0xfc4, high, true);
-    unk14->Set(0xfaf, 0);
-    unk14->Set(FUN_00a00940(str_01075b5c, -1), 1);
-    unk14->FUN_00a04640(false);
+    unk14 = ((::PropertyObject *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((InterfaceRoot*)DAT_011da634)))->FUN_00a1ddb0((::Tile *)(((InterfaceRoot*)DAT_011da634)->unk78), (char *)(str_01075b10), (::Tile *)(0))));
+    reinterpret_cast<::Tile *>((unk14))->Set(0x1004, low);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk14))->FUN_00a01350(0xfc4, (char *)(high), true);
+    reinterpret_cast<::Tile *>((unk14))->Set(0xfaf, 0);
+    reinterpret_cast<::Tile *>((unk14))->Set(FUN_00a00940(str_01075b5c, -1), 1);
+    reinterpret_cast<::RenderTile *>((unk14))->FUN_00a04640(false);
     unk20 = 0;
 }
 
@@ -2792,29 +2804,16 @@ struct FUN_007b3af0 : S_007b3af0_Base
     int unk0c;
     int unk10;
     S_007b3af0_Item* m_item;
-    void FUN_007b45b0();
     ~FUN_007b3af0();
 };
-// Deletes m_item, clears it to null, then calls FUN_007b45b0.
-// @fnv 0x007b3af0
-FUN_007b3af0::~FUN_007b3af0()
-{
-    delete m_item;
-    m_item = 0;
-    FUN_007b45b0();
-}
-
 struct TempString_007b3bb0
 {
     void* unk00;
     void* unk04;
     TempString_007b3bb0();
     ~TempString_007b3bb0();
-    const char* FUN_00559450(const char* format, unsigned int value);
 };
 extern const char DAT_01075b28[];
-extern const char DAT_01075b10[];
-void __cdecl FUN_00406f60(TempString_007b3bb0* result, const char* format, const char* input, int limit);
 struct SelectedOption_007b3bb0
 {
     int unk00;
@@ -2832,25 +2831,14 @@ struct Menu_007b3bb0
     int unk0c;
     int unk10;
     TGF* pTGF;
-    int CreateEntry(const char* text, int flags);
-    int AddFloatOption(const char* input, SelectedOption_007b3bb0* selected);
+    intptr_t AddFloatOption(const char* input, SelectedOption_007b3bb0* selected);
 };
-// @fnv 0x007b3bb0
-int Menu_007b3bb0::AddFloatOption(const char* input, SelectedOption_007b3bb0* selected)
-{
-    TempString_007b3bb0 text;
-    FUN_00406f60(&text, DAT_01075b28, input, 0x3e);
-    selected->value0c = (unsigned int)pTGF->GetFloat(0x1004);
-    return CreateEntry(text.FUN_00559450(DAT_01075b10, (unsigned int)selected->pTGF->GetFloat(0x1004)), 0);
-}
-
 // RaceSex menu: add a slider option (range [iLow, iHigh], initial value) whose thumb width covers
 // fSequenceTimeRatio of the range, at least one step.
 
 class B3CA0Tile
 {
   public:
-    void Set(int eValue, float fValue, bool bPropagate);
 };
 
 class B3CA0SliderOption
@@ -2858,50 +2846,24 @@ class B3CA0SliderOption
   public:
     B3CA0Tile* m_pkTile;
 
-    void SetRange(int iLow, int iHigh);
-    void SetValue(int iValue);
 };
 
-float __cdecl B3CA0Max(float fA, float fB);
 
 class B3CA0Menu
 {
   public:
-    B3CA0SliderOption* AddOption(int m_uiSoundID, const char* pcTemplate, int iParent, int iUnk);
-    B3CA0SliderOption* FUN_007b3ca0(int m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float fSequenceTimeRatio);
+    B3CA0SliderOption* FUN_007b3ca0(intptr_t m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float fSequenceTimeRatio);
 };
-
-// @fnv 0x007b3ca0
-B3CA0SliderOption* B3CA0Menu::FUN_007b3ca0(int m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float afFraction)
-{
-    if (afFraction < 0.0)
-        afFraction = 0.0f;
-    if (afFraction > 1.0)
-        afFraction = 1.0f;
-
-    B3CA0SliderOption* pkOption = AddOption(m_uiSoundID, "RSM_slider_option_template", iParent, 0);
-    pkOption->SetRange(iLow, iHigh);
-    pkOption->SetValue(iValue);
-    pkOption->m_pkTile->Set(0x1008, B3CA0Max((float)(iHigh - iLow + 1) * afFraction, 1.0f), true);
-    return pkOption;
-}
 
 struct LocalTile
 {
     virtual ~LocalTile();
-    double FUN_00a011b0(int);
-    LocalTile* GetParent();
-    void Set(int, float, bool);
-    void FUN_00a04640(bool);
 };
 struct Date
 {
     LocalTile* tile;
     ~Date();
-    int FUN_00726070();
 };
-int __cdecl FUN_00a00940(const char*, int);
-void __cdecl FUN_00706ff0(LocalTile*);
 struct OptionList
 {
     void* unk00;
@@ -2914,11 +2876,7 @@ struct OptionList
     void* unk1c;
     Date* selected;
     operator void*() const;
-    Date*& FUN_0057cbe0(void*&);
-    Date*& AddEight(void*);
-    Date*& FUN_007b5370();
     void FUN_0057c730(Date*&);
-    void* GetSecondField(void*);
     void RemoveOptionById(int id);
 };
 // Removes the option whose id matches, updates selected, then repositions remaining options using the _top_bound value.
@@ -2928,13 +2886,13 @@ void OptionList::RemoveOptionById(int id)
     void* pos = *this;
     while (pos)
     {
-        Date* option = FUN_0057cbe0(pos);
-        if (option->FUN_00726070() == id)
+        Date* option = ((::Date *)(reinterpret_cast<::ListStandIn *>(this)->FUN_0057cbe0((int **)&(pos))));
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == id)
         {
             if (selected == option)
             {
-                selected = pos ? AddEight(pos) : FUN_007b5370();
-                FUN_00706ff0(selected->tile);
+                selected = pos ? ((::Date *)(reinterpret_cast<::FUN_006317a0_struct *>(this)->AddEight((intptr_t)(pos)))) : ((::Date *)(reinterpret_cast<::InventoryStackRecord *>(this)->GetPayloadAddress()));
+                ::FUN_00706ff0((intptr_t)(selected->tile));
             }
             delete option->tile;
             delete option;
@@ -2944,14 +2902,14 @@ void OptionList::RemoveOptionById(int id)
     }
     while (pos)
     {
-        void* prev = GetSecondField(pos);
-        Date* current = prev ? AddEight(prev) : 0;
-        Date* before = FUN_0057cbe0(pos);
-        before->tile->Set(0xfa2,
-                          current ? current->tile->FUN_00a011b0(0xfa2) + current->tile->FUN_00a011b0(0xfb0)
-                                  : before->tile->GetParent()->FUN_00a011b0(FUN_00a00940("_top_bound", -1)),
+        void* prev = ((void *)((pos ? (void *)(reinterpret_cast<::NiTListItemFields *>(pos)->m_pkPrev) : 0)));
+        Date* current = prev ? ((::Date *)(reinterpret_cast<::FUN_006317a0_struct *>(this)->AddEight((intptr_t)(prev)))) : 0;
+        Date* before = ((::Date *)(reinterpret_cast<::ListStandIn *>(this)->FUN_0057cbe0((int **)&(pos))));
+        reinterpret_cast<::FUN_00a012d0_t *>((before->tile))->FUN_00a012d0(0xfa2,
+                          current ? ((double)(reinterpret_cast<::TileListBoxCalls *>((current->tile))->GetFloat(0xfa2))) + ((double)(reinterpret_cast<::TileListBoxCalls *>((current->tile))->GetFloat(0xfb0)))
+                                  : ((double)(reinterpret_cast<::TileListBoxCalls *>((((::LocalTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((before->tile))->FUN_0045cd60()))))->GetFloat(FUN_00a00940("_top_bound", -1)))),
                           true);
-        before->tile->FUN_00a04640(false);
+        reinterpret_cast<::RenderTile *>((before->tile))->FUN_00a04640(false);
     }
 }
 
@@ -2965,8 +2923,8 @@ struct FUN_007b4050_shell
 // @fnv 0x007b4050
 void FUN_007b4050_shell::CopyControlValues(FUN_007b4050_shell* other)
 {
-    previousValue = (unsigned int)other->control->GetFloat(0x1004);
-    other->currentValue = (unsigned int)control->GetFloat(0x1004);
+    previousValue = (unsigned int)reinterpret_cast<::TileListBoxCalls *>((other->control))->GetFloat(0x1004);
+    other->currentValue = (unsigned int)reinterpret_cast<::TileListBoxCalls *>((control))->GetFloat(0x1004);
 }
 
 struct TileList
@@ -2978,8 +2936,6 @@ struct TileList
     int unk10;
     int unk14;
     int unk18;
-    void* GetHeadPos() const;
-    Tile*& GetNext(void*& pos);
 };
 struct S_007b40d0_Owner : TileList
 {
@@ -2992,10 +2948,10 @@ void S_007b40d0_Owner::ApplyToAllTiles()
 {
     if (m1c)
     {
-        void* pos = GetHeadPos();
+        void* pos = ((void *)(::FUN_00559450((int *)this)));
         while (pos)
         {
-            Tile* item = GetNext(pos);
+            Tile* item = ((::Tile *)(reinterpret_cast<::ListStandIn *>(this)->FUN_0057cbe0((int **)&(pos))));
             if (m1c(item))
                 ((FUN_007b4140_shell*)item)->SetTileValue();
             else
@@ -3027,24 +2983,50 @@ struct FUN_007b45b0_shell
     void* m_1c;
     void* m_20;
 
-    void* FUN_00559450();
-    NodeT*& FUN_0057cbe0(void*& it);
-    void FUN_004ed900();
     void FUN_007b45b0();
 };
+// @fnv 0x007af450
+void B7AF450RaceMenu::PopulateEyesList()
+{
+    reinterpret_cast<::FUN_007b45b0_shell *>((m_pkListBox))->FUN_007b45b0();
+    for (B7AF450EyesNode* pkIter = ((::B7AF450EyesNode *)&(reinterpret_cast<::NiAVObject *>(((*reinterpret_cast<::B7AF450DataHandler * *>(&::g_dataHandler))))->FUN_0043c490())); pkIter && *((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item));
+         pkIter = ((::B7AF450EyesNode *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
+    {
+        if (reinterpret_cast<::FUN_005fc4d0_shell *>(((*((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->IsFlagSet() && reinterpret_cast<::FUN_005fc5f0_shell *>(((*((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->CanBeNPC((::TESNPC *)(m_pkNPC)))
+            reinterpret_cast<::TESRegionGrassObject *>((m_pkListBox->AddItem(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)&((*((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))->m_kTexture))->FUN_00408da0())), 0x21)))->AssignLandTexture((::TESLandTexture *)(*((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item))));
+    }
+    reinterpret_cast<::S_007b40d0_Owner *>((m_pkListBox))->ApplyToAllTiles();
+    reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(1, false);
+}
+// @fnv 0x007ac700
+void* FUN_007ac700_shell::FUN_007ac700(unsigned int flags)
+{
+    reinterpret_cast<::FUN_007b3af0 *>((((FUN_007b3af0_shell*)this)))->FUN_007b3af0::~FUN_007b3af0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+// Deletes m_item, clears it to null, then calls FUN_007b45b0.
+// @fnv 0x007b3af0
+FUN_007b3af0::~FUN_007b3af0()
+{
+    delete m_item;
+    m_item = 0;
+    reinterpret_cast<::FUN_007b45b0_shell *>(this)->FUN_007b45b0();
+}
 
 // Iterates the list from FUN_00559450, deleting each node's m_item and the node, then calls FUN_004ed900 and clears m_20.
 // @fnv 0x007b45b0
 void FUN_007b45b0_shell::FUN_007b45b0()
 {
-    void* it = FUN_00559450();
+    void* it = ((void *)(::FUN_00559450((int *)this)));
     while (it != 0)
     {
-        NodeT* node = FUN_0057cbe0(it);
+        NodeT* node = ((::NodeT *)(reinterpret_cast<::ListStandIn *>(this)->FUN_0057cbe0((int **)&(it))));
         delete node->m_item;
         delete node;
     }
-    FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
     m_20 = 0;
 }
 
@@ -3054,88 +3036,64 @@ class TESBoundObject
   public:
     virtual ~TESBoundObject();
 };
+class BSFaceGenNiNode;
 class TESNPC : public TESBoundObject
 {
   public:
     int FUN_005f0cc0();
-    unsigned int FUN_004169d0();
+public:
+    void ResetFaceGen();
+public:
+    void CopyActorBaseData(::TESNPC *);
+public:
+    void GetFaceGenNodes(::BSFaceGenNiNode *&, ::BSFaceGenNiNode *&);
 };
 struct InitPlayer
 {
-    TESBoundObject* FUN_007af430();
 };
-extern InitPlayer* DAT_011dea3c;
 struct BSStringTChar
 {
     void* data;
     unsigned short length, capacity;
     BSStringTChar();
     ~BSStringTChar();
-    void FUN_004037f0(const char*, int);
-    const char* FUN_00559450();
-    void FUN_004afad0();
 };
 struct InitSetting
 {
-    const char* FUN_00403df0();
-    const char* FUN_004c69f0();
-    float* FUN_00403e20();
 };
 struct InitTile
 {
-    double FUN_00a011b0(int);
-    void FUN_00a012d0(int, float);
-    void FUN_00a01350(int, const char*, bool);
 };
 struct InitItem
 {
-    void FUN_00403550(void*);
-    void FUN_007b3810(const char*);
 };
 struct InitOptions
 {
-    void FUN_0050f9a0(void*);
     InitItem* FUN_007b3b80(const char*, int);
-    InitItem* FUN_007b3ca0(const char*, int, int, int, int, float);
-    void AddFloatOption(const char*, InitOptions*);
-    void FUN_0041fd00(int);
-    void CopyControlValues(InitOptions*);
-    void ApplyToAllTiles();
 };
 struct InitForm
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     struct Name
     {
-        const char* FUN_00408da0();
     } name;
-    bool FUN_0059f610();
-    bool FUN_005e7a60();
 };
 struct InitNode
 {
-    InitForm** FUN_006815c0();
-    InitNode* FUN_00726070();
 };
 struct InitData
 {
-    InitNode* FUN_004ea950();
-    InitNode* FUN_00624700();
 };
 
 struct InitString
 {
-    const char* FUN_00559450();
 };
-extern InitString DAT_011da6f4;
 struct InitSub
 {
     int unk00, unk04, unk08;
-    void FUN_00ad8830(int);
 };
 struct InitManager
 {
-    void FUN_00718630(int, void*, int);
 };
 struct InitRootManager
 {
@@ -3450,50 +3408,13 @@ struct InitRootManager
     int unk4d0;
     InitManager messages;
 };
-float __stdcall FUN_00a01530(int);
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
-void __cdecl FUN_00406f60(BSStringTChar*, const char*, ...);
-char __cdecl IsHairMatching(int);
-extern InitSetting DAT_011d1f38;
-extern InitSetting DAT_011d20dc;
-extern InitSetting DAT_011d2058;
-extern InitSetting DAT_011d43d8;
-extern InitSetting DAT_011d36e4;
-extern InitSetting DAT_011d22d4;
-extern InitSetting DAT_011d4a74;
 
-extern InitSetting DAT_011d31c8;
-extern InitSetting DAT_011d26d0;
-extern InitSetting DAT_011d3eb0;
-extern InitSetting DAT_011d4480;
-extern InitSetting DAT_011d4318;
-extern InitSetting DAT_011d3084;
-extern InitSetting DAT_011d4d20;
-extern InitSetting DAT_011d4180;
-extern InitSetting DAT_011d3078;
-extern InitSetting DAT_011d50e0;
-extern InitSetting DAT_011d3618;
-extern InitSetting DAT_011d2250;
-extern InitSetting DAT_011d37ec;
-extern InitSetting DAT_011d2d3c;
-extern InitSetting DAT_011d3ff4;
-extern InitSetting DAT_011d3d48;
-extern InitSetting DAT_011d4084;
-extern InitSetting DAT_011d3528;
-extern InitSetting DAT_011d2a84;
-extern InitSetting DAT_011d25a4;
-extern InitSetting DAT_011d2d48;
-extern InitSetting DAT_011d454c;
-extern InitSetting DAT_011d4108;
-extern InitSetting DAT_011da6cc;
 extern const char DAT_01063ab4[];
 extern const char DAT_010692d0[];
 extern const char DAT_01075ae4[];
 extern const char DAT_01075adc[];
 extern const char DAT_01075ad4[];
 extern const char DAT_01075acc[];
-extern const char DAT_01020770[];
 extern const char DAT_01075aac[];
 extern const char DAT_01075a74[];
 extern const char DAT_01075a4c[];
@@ -3548,221 +3469,20 @@ struct InitRaceMenu
     int unk118;
     int unk11c;
     int unk120;
-    InitTile* FUN_00726070();
-    void BuildMorphOptions();
-    void UpdateHairMenuOption();
-    bool FUN_007af180(int);
-    void FUN_00a1dc20(int);
     void SetupRaceMenu(int mode);
 };
-// @fnv 0x007acb60
-void InitRaceMenu::SetupRaceMenu(int mode)
-{
-    const char* names[20];
-    if (tile->FUN_00a011b0(0xfa7) == 6006.0 || tile->FUN_00a011b0(0xfa7) == 102.0)
-        tile->FUN_00a012d0(0xfad, FUN_00a01530(1));
-    ((InitRootManager*)FUN_004b7210())->messages.FUN_00718630(15, (void*)FUN_007ac9c0(), 0x200);
-    FUN_00726070()->FUN_00a01350(0x1005, DAT_01063ab4, true);
-    FUN_00726070()->FUN_00a01350(0x1006, DAT_010692d0, true);
-    npc = dynamic_cast<TESNPC*>(DAT_011dea3c->FUN_007af430());
-    display->FUN_00a01350(0xfc4, DAT_011da6f4.FUN_00559450(), true);
-    {
-        BSStringTChar aLabelStrings[4];
-        {
-            int page;
-            {
-                unsigned int color;
-                {
-                    InitItem* slider;
-                    {
-                        switch (mode)
-                        {
-                        case 2:
-                        case 3:
-                            aLabelStrings[0].FUN_004037f0(DAT_011d1f38.FUN_00403df0(), 0);
-                            aLabelStrings[1].FUN_004037f0(DAT_011d20dc.FUN_00403df0(), 0);
-                            aLabelStrings[2].FUN_004037f0(DAT_011d2058.FUN_00403df0(), 0);
-                            aLabelStrings[3].FUN_004037f0(DAT_011d43d8.FUN_00403df0(), 0);
-                            break;
-                        default:
-                            FUN_00406f60(&aLabelStrings[0], DAT_01075ae4, DAT_011d1f38.FUN_00403df0());
-                            FUN_00406f60(&aLabelStrings[1], DAT_01075adc, DAT_011d20dc.FUN_00403df0());
-                            FUN_00406f60(&aLabelStrings[2], DAT_01075ad4, DAT_011d2058.FUN_00403df0());
-                            FUN_00406f60(&aLabelStrings[3], DAT_01075acc, DAT_011d43d8.FUN_00403df0());
-                            break;
-                        }
-                        names[0] = aLabelStrings[0].FUN_00559450();
-                        names[1] = aLabelStrings[1].FUN_00559450();
-                        names[2] = aLabelStrings[2].FUN_00559450();
-                        names[3] = aLabelStrings[3].FUN_00559450();
-                        names[4] = DAT_011d36e4.FUN_00403df0();
-                        names[5] = DAT_011d22d4.FUN_00403df0();
-                        names[6] = DAT_011d4a74.FUN_00403df0();
-                        names[7] = DAT_011d23a0.FUN_00403df0();
-                        names[8] = DAT_011d31c8.FUN_00403df0();
-                        names[9] = DAT_011d26d0.FUN_00403df0();
-                        names[10] = DAT_011d3eb0.FUN_00403df0();
-                        names[11] = DAT_011d4480.FUN_00403df0();
-                        names[12] = DAT_011d4318.FUN_00403df0();
-                        names[13] = DAT_011d3084.FUN_00403df0();
-                        names[14] = DAT_011d4d20.FUN_00403df0();
-                        names[15] = DAT_011d4180.FUN_00403df0();
-                        names[16] = DAT_011d3078.FUN_00403df0();
-                        names[17] = DAT_011d50e0.FUN_00403df0();
-                        names[18] = DAT_011d3618.FUN_00403df0();
-                        names[19] = DAT_011d2250.FUN_00403df0();
-                        for (int i = 0; i < 20; i++)
-                        {
-                            options[i] = new FUN_007b39e0(i, (int)names[i]);
-                        }
-                        ((InitOptions*)options[0])->FUN_0050f9a0((void*)FUN_007ad940);
-                        ((InitOptions*)options[1])->FUN_0050f9a0((void*)IsHairMatching);
-                        ((InitOptions*)options[5])->FUN_0050f9a0((void*)(unsigned char(__cdecl*)(Obj0*))FUN_007ad860);
-                        ((InitOptions*)options[8])->FUN_0050f9a0((void*)IsAnimationMatch);
-                        ((InitOptions*)options[7])->FUN_0050f9a0((void*)IsArgValueInSubLookup);
-                        ((InitOptions*)options[0])->FUN_007b3b80(DAT_011d37ec.FUN_004c69f0(), 21);
-                        ((InitOptions*)options[0])->FUN_007b3b80(DAT_011d2d3c.FUN_004c69f0(), 22);
-                        for (InitNode* pRaceNode = ((InitData*)DAT_011c3f2c)->FUN_004ea950();
-                             pRaceNode && *pRaceNode->FUN_006815c0(); pRaceNode = pRaceNode->FUN_00726070())
-                        {
-                            if ((*pRaceNode->FUN_006815c0())->FUN_0059f610())
-                                ((InitOptions*)options[1])
-                                    ->FUN_007b3b80((*pRaceNode->FUN_006815c0())->name.FUN_00408da0(), 23)
-                                    ->FUN_00403550(*pRaceNode->FUN_006815c0());
-                        }
-                        ((InitOptions*)options[2])
-                            ->FUN_007b3ca0(DAT_011d3ff4.FUN_004c69f0(), 24, 1, 20, 0x80000001, 0.25f);
-                        ((InitOptions*)options[2])
-                            ->AddFloatOption(DAT_011d36e4.FUN_004c69f0(), ((InitOptions*)options[4]));
-                        ((InitOptions*)options[2])->FUN_007b3b80(DAT_011d3d48.FUN_004c69f0(), 25);
-                        slider = ((InitOptions*)options[2])
-                                     ->FUN_007b3ca0(DAT_011d4084.FUN_004c69f0(), 26, 1, 10, 0x80000001, 0.25f);
-                        slider->FUN_007b3810(DAT_01020770);
-                        ((InitOptions*)options[3])
-                            ->AddFloatOption(DAT_011d22d4.FUN_004c69f0(), ((InitOptions*)options[5]));
-                        ((InitOptions*)options[3])
-                            ->AddFloatOption(DAT_011d4a74.FUN_004c69f0(), ((InitOptions*)options[6]));
-                        if (!npc->FUN_005f0cc0())
-                            ((InitOptions*)options[3])
-                                ->AddFloatOption(((InitSetting*)&DAT_011d23a0)->FUN_004c69f0(),
-                                                 ((InitOptions*)options[7]));
-                        else
-                            ((InitOptions*)options[7])->FUN_0041fd00(3);
-                        ((InitOptions*)options[4])
-                            ->AddFloatOption(DAT_011d26d0.FUN_004c69f0(), ((InitOptions*)options[9]));
-                        ((InitOptions*)options[4])
-                            ->AddFloatOption(DAT_011d2250.FUN_004c69f0(), ((InitOptions*)options[19]));
-                        ((InitOptions*)options[4])
-                            ->AddFloatOption(DAT_011d31c8.FUN_004c69f0(), ((InitOptions*)options[8]));
-                        color = npc->FUN_004169d0();
-                        ((InitOptions*)options[6])
-                            ->FUN_007b3ca0(DAT_011d3ff4.FUN_004c69f0(), 29, 0, 15, 0x80000001, 0.25f)
-                            ->FUN_007b3810(DAT_011d3528.FUN_00403df0());
-                        ((InitOptions*)options[6])
-                            ->FUN_007b3ca0(DAT_011d2a84.FUN_004c69f0(), 30, 0, 255, (unsigned char)(color & 255),
-                                           0.125f);
-                        ((InitOptions*)options[6])
-                            ->FUN_007b3ca0(DAT_011d25a4.FUN_004c69f0(), 31, 0, 255,
-                                           (unsigned char)(((unsigned short)color >> 8) & 255), 0.125f);
-                        ((InitOptions*)options[6])
-                            ->FUN_007b3ca0(DAT_011d2d48.FUN_004c69f0(), 32, 0, 255,
-                                           (unsigned char)((color >> 16) & 255), 0.125f);
-                        for (InitNode* pBeardNode = ((InitData*)DAT_011c3f2c)->FUN_00624700();
-                             pBeardNode && *pBeardNode->FUN_006815c0(); pBeardNode = pBeardNode->FUN_00726070())
-                        {
-                            if ((*pBeardNode->FUN_006815c0())->FUN_005e7a60())
-                                ((InitOptions*)options[7])
-                                    ->FUN_007b3b80((*pBeardNode->FUN_006815c0())->name.FUN_00408da0(), 28)
-                                    ->FUN_00403550(*pBeardNode->FUN_006815c0());
-                        }
-                        for (int j = 10; j < 19; j++)
-                            ((InitOptions*)options[9])->AddFloatOption(names[j], ((InitOptions*)options[j]));
-                        BuildMorphOptions();
-                        BSStringTChar doneLabel;
-                        switch (mode)
-                        {
-                        case 2:
-                            title.FUN_004037f0(DAT_01075aac, 0);
-                            doneLabel.FUN_004037f0(DAT_011d43d8.FUN_00403df0(), 0);
-                            page = 3;
-                            unk120 = page;
-                            valuea0 = -7.4f;
-                            valuea4 = 80.0f;
-                            valuea8 = -0.84f;
-                            valueac = -12.4f;
-                            valueb0 = 135.0f;
-                            valueb4 = -0.8f;
-                            break;
-                        case 3:
-                            title.FUN_004037f0(DAT_01075a74, 0);
-                            doneLabel.FUN_004037f0(DAT_011d2058.FUN_00403df0(), 0);
-                            page = 2;
-                            unk120 = page;
-                            valuea0 = -5.2f;
-                            valuea4 = 55.0f;
-                            valuea8 = -0.84f;
-                            valueac = -12.4f;
-                            valueb0 = 135.0f;
-                            valueb4 = -0.77f;
-                            UpdateHairMenuOption();
-                            break;
-                        default:
-                            title.FUN_004037f0(DAT_01075a4c, 0);
-                            doneLabel.FUN_004037f0(DAT_011d454c.FUN_00403df0(), 0);
-                            ((InitOptions*)options[0])->CopyControlValues(((InitOptions*)options[1]));
-                            ((InitOptions*)options[1])->CopyControlValues(((InitOptions*)options[2]));
-                            ((InitOptions*)options[2])->CopyControlValues(((InitOptions*)options[3]));
-                            unk120 = 3;
-                            page = 0;
-                            valuea0 = -4.7f;
-                            valuea4 = 55.0f;
-                            valuea8 = -0.84f;
-                            valueac = -11.4f;
-                            valueb0 = 135.0f;
-                            valueb4 = -0.8f;
-                            UpdateHairMenuOption();
-                            break;
-                        }
-                        if (FUN_004b7220() != 1)
-                            doneLabel.FUN_004afad0();
-                        FUN_00406f60(&question, DAT_01074e34, DAT_011d4108.FUN_00403df0(), doneLabel.FUN_00559450());
-                        valued0 = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, *DAT_011da6cc.FUN_00403e20()));
-                        valuec8 = valued0;
-                        ((InitOptions*)options[0])->ApplyToAllTiles();
-                        ((InitOptions*)options[1])->ApplyToAllTiles();
-                        ((InitOptions*)options[7])->ApplyToAllTiles();
-                        sub0.FUN_00ad8830(0);
-                        sub1.FUN_00ad8830(0);
-                        FUN_007af180(page);
-                        FUN_00a1dc20(0);
-                    }
-                }
-            }
-        }
-    }
-}
-
 struct Tile7
 {
-    float GetValue(int aiID);
-    Tile7* GetChild(int aiID);
-    Tile7* GetParent();
 };
 struct MenuOption7
 {
-    void FUN_007b3840(int& aiLow, int& aiHigh);
-    bool FUN_007b3760(int aiValue);
 };
 struct OptionList7
 {
-    MenuOption7* FUN_007b41c0(Tile7* apTile);
 };
 struct IM7
 {
-    float FUN_007697f0();
 };
-IM7* GetInterfaceMgr7();
-float __cdecl FUN_004bd510(float a, float b);
 
 struct RaceSexMenu7
 {
@@ -3814,28 +3534,26 @@ struct RaceSexMenu7
     MenuOption7* pActiveOption;
     int GetCurrentPage();
     void HandleOptionSelection();
-    bool FUN_007b1970(float afAngle, int a2);
-    void FUN_007adc60(int aiID, bool abVal);
     void FUN_007ae240(int aiID, Tile7* apTile);
 };
 
 // @fnv 0x007ae240
 void RaceSexMenu7::FUN_007ae240(int aiID, Tile7* apTile)
 {
-    float fDelta2 = GetInterfaceMgr7()->FUN_007697f0() - fLastTime;
+    float fDelta2 = reinterpret_cast<::MyHack *>((((::IM7 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007697f0() - fLastTime;
     if (fDelta2 != 0.0)
     {
         if (aiID == 0x69 && apTile)
         {
             int iPage = GetCurrentPage();
-            MenuOption7* pOption = optionLists[iPage]->FUN_007b41c0(apTile->GetParent());
+            MenuOption7* pOption = ((::MenuOption7 *)(reinterpret_cast<::S *>((optionLists[iPage]))->FUN_007b41c0((intptr_t)(((::Tile7 *)(reinterpret_cast<::FUN_0045cd60_shell *>((apTile))->FUN_0045cd60()))))));
             if (pOption)
             {
                 int iLow6;
                 int iHigh;
-                pOption->FUN_007b3840(iLow6, iHigh);
-                float fRatio = fDelta2 / apTile->GetParent()->GetChild(0x65)->GetValue(0xfb1);
-                if (pOption->FUN_007b3760(FUN_004bd510(iBase + (iHigh - iLow6) * fRatio, 1.0f)))
+                reinterpret_cast<::RaceSexMenu_MenuOption *>((pOption))->FUN_007b3840(iLow6, iHigh);
+                float fRatio = fDelta2 / reinterpret_cast<::TileListBoxCalls *>((((::Tile7 *)(reinterpret_cast<::TileFloatList *>((((::Tile7 *)(reinterpret_cast<::FUN_0045cd60_shell *>((apTile))->FUN_0045cd60()))))->FUN_00a03eb0(0x65)))))->GetFloat(0xfb1);
+                if (reinterpret_cast<::MenuOptionFor3760 *>((pOption))->FUN_007b3760(::InventoryStackRecord::RoundToNearestStep(iBase + (iHigh - iLow6) * fRatio, 1.0f)))
                 {
                     pActiveOption = pOption;
                     pActiveTile = apTile;
@@ -3845,9 +3563,9 @@ void RaceSexMenu7::FUN_007ae240(int aiID, Tile7* apTile)
         }
         else if (aiID == 1)
         {
-            static float sfWidth = tile7c->GetValue(0xfb1);
-            FUN_007adc60(5, FUN_007b1970(fDelta2 / sfWidth * 6.2831854820251465, 0));
-            fLastTime = GetInterfaceMgr7()->FUN_007697f0();
+            static float sfWidth = reinterpret_cast<::TileListBoxCalls *>((tile7c))->GetFloat(0xfb1);
+            reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(5, reinterpret_cast<::Target *>(this)->FUN_007b1970(fDelta2 / sfWidth * 6.2831854820251465, 0));
+            fLastTime = reinterpret_cast<::MyHack *>((((::IM7 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007697f0();
         }
     }
 }
@@ -3856,22 +3574,13 @@ namespace AppearanceInput {
 struct Sound
 {
     unsigned int unk0, unk4, unk8;
-    int FUN_0044ddc0();
-    void FUN_00ad8830(int);
-    bool FUN_00ad8930();
-    void FUN_00ad88f0();
-    void FUN_00ad88b0();
 };
 struct Input
 {
-    int GetAxisState(int, int);
-    int FUN_00a23a50(int, int);
 };
 struct OS
 {
-    Input* FUN_00877720();
 };
-extern OS* DAT_011dea0c;
 struct Interface
 {
     unsigned int unk0;
@@ -3926,21 +3635,15 @@ struct Interface
     unsigned int unkc4;
     unsigned int unkc8;
     void* selected;
-    int FUN_0070ec70();
 };
-Interface* FUN_004b7210();
-bool FUN_004b71d0();
-unsigned int FUN_00457fe0();
 bool FUN_00702450(int);
 int FUN_0072fa60(int);
-int MinInt(int, int);
-float FUN_0040ebd0(float, float);
-float FUN_00404010(float, float);
 extern int DAT_011a07b0, DAT_011a07ac;
-extern double DAT_01075af8, DAT_01075af0, DAT_01017b70, DAT_01012060;
-extern float DAT_01075aec, DAT_0105559c;
-struct Menu
+extern double DAT_01075af8, DAT_01075af0;
+extern float DAT_01075aec;
+class Menu
 {
+  public:
     virtual void slot0();
     virtual void slot4();
     virtual void slot8();
@@ -4012,10 +3715,7 @@ struct Menu
     unsigned int unke8;
     unsigned int unkec;
     Sound sounds[4];
-    void FUN_007adc60(int, bool);
-    bool FUN_007adc30(int);
     bool UpdateProgress(float, int);
-    bool FUN_007b1970(float, int);
     void HandleOptionSelection();
     void HandlePendingTileAction();
     void UpdateZoomAndScroll();
@@ -4027,27 +3727,27 @@ void Menu::UpdateZoomAndScroll()
     if (FUN_00702450(Id()))
     {
         for (unsigned int i = 0; i < 4; i++)
-            if (sounds[i].FUN_0044ddc0() == 3)
-                sounds[i].FUN_00ad8830(0);
-        static unsigned int previous = FUN_00457fe0();
-        unsigned int time = FUN_00457fe0();
-        if (FUN_004b71d0())
+            if (((std::intptr_t)(sounds[i].unk8)) == 3)
+                reinterpret_cast<::FUN_00ad8830_shell *>(&(sounds[i]))->FUN_00ad8830(0);
+        static unsigned int previous = ((unsigned int)(::FUN_00457fe0()));
+        unsigned int time = ((unsigned int)(::FUN_00457fe0()));
+        if (::FUN_004b71d0())
         {
             int horizontalSlot1 = 0;
             int verticalSlot17 = 0;
-            horizontalSlot1 = DAT_011dea0c->FUN_00877720()->GetAxisState(0, 9);
-            verticalSlot17 = DAT_011dea0c->FUN_00877720()->GetAxisState(0, 10);
+            horizontalSlot1 = reinterpret_cast<::FUN_00a23390_t *>((((::AppearanceInput::Input *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::AppearanceInput::OS * *>(&::g_osGlobals))))->FUN_00877720()))))->GetAxisState(0, 9);
+            verticalSlot17 = reinterpret_cast<::FUN_00a23390_t *>((((::AppearanceInput::Input *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::AppearanceInput::OS * *>(&::g_osGlobals))))->FUN_00877720()))))->GetAxisState(0, 10);
             int absXSlot10 = FUN_0072fa60(horizontalSlot1);
             int absYSlot39 = FUN_0072fa60(verticalSlot17);
-            FUN_007adc60(5, 0);
-            FUN_007adc60(6, 0);
+            reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(5, 0);
+            reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(6, 0);
             if (absYSlot39 > 8689 && absYSlot39 > absXSlot10)
             {
                 int span = DAT_011a07b0 - 8689;
-                int amountSlot0 = span - (DAT_011a07b0 - MinInt(absYSlot39, DAT_011a07b0));
+                int amountSlot0 = span - (DAT_011a07b0 - ::MinInt(absYSlot39, DAT_011a07b0));
                 velocity += amountSlot0 * DAT_01075af8 / span * (time - previous);
-                FUN_007adc60(
-                    6, UpdateProgress((verticalSlot17 > DAT_01012060 ? -1 : 1) * velocity * (time - previous), 0));
+                reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(
+                    6, UpdateProgress((verticalSlot17 > ::_DAT_01012060 ? -1 : 1) * velocity * (time - previous), 0));
             }
             else
             {
@@ -4055,19 +3755,19 @@ void Menu::UpdateZoomAndScroll()
                 {
                     float ratio = horizontalSlot1 > 0 ? (float)(horizontalSlot1 - 8689) / (DAT_011a07b0 - 8689)
                                                       : (float)(-horizontalSlot1 - 8689) / (DAT_011a07ac + 8689);
-                    FUN_007adc60(5, FUN_007b1970(ratio * DAT_01075af0 * (time - previous) / DAT_01017b70, 0));
+                    reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(5, reinterpret_cast<::Target *>(this)->FUN_007b1970(ratio * DAT_01075af0 * (time - previous) / ::DAT_01017b70, 0));
                 }
                 velocity = 0.0f;
             }
-            if (FUN_007adc30(5) && !sounds[3].FUN_00ad8930())
-                sounds[3].FUN_00ad8830(0);
-            else if (!FUN_007adc30(5) && sounds[3].FUN_00ad8930())
-                sounds[3].FUN_00ad88f0();
-            if (FUN_007adc30(6) && !sounds[2].FUN_00ad8930())
-                sounds[2].FUN_00ad8830(0);
-            else if (!FUN_007adc30(6) && sounds[2].FUN_00ad8930())
-                sounds[2].FUN_00ad88f0();
-            if (dragY && FUN_007adc30(4))
+            if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(5) && !reinterpret_cast<::SoundPlaybackHandle *>(&(sounds[3]))->IsPlaying())
+                reinterpret_cast<::FUN_00ad8830_shell *>(&(sounds[3]))->FUN_00ad8830(0);
+            else if (!reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(5) && reinterpret_cast<::SoundPlaybackHandle *>(&(sounds[3]))->IsPlaying())
+                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(sounds[3]))->FUN_00ad88f0();
+            if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(6) && !reinterpret_cast<::SoundPlaybackHandle *>(&(sounds[2]))->IsPlaying())
+                reinterpret_cast<::FUN_00ad8830_shell *>(&(sounds[2]))->FUN_00ad8830(0);
+            else if (!reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(6) && reinterpret_cast<::SoundPlaybackHandle *>(&(sounds[2]))->IsPlaying())
+                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(sounds[2]))->FUN_00ad88f0();
+            if (dragY && reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(4))
             {
                 HandleOptionSelection();
                 dragY = 0;
@@ -4076,14 +3776,14 @@ void Menu::UpdateZoomAndScroll()
         }
         else
         {
-            FUN_007adc60(6, 0);
-            if (FUN_004b7210()->FUN_0070ec70() && FUN_004b7210()->selected)
+            reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(6, 0);
+            if (((int)(reinterpret_cast<::FUN_0070ec70_class *>((((::AppearanceInput::Interface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0070ec70())) && ((::AppearanceInput::Interface *)(::fnv_004b7210::FUN_004b7210()))->selected)
             {
-                bool up = FUN_004b7210()->FUN_0070ec70() > DAT_01012060;
-                if (FUN_004b7210()->selected == zoomTile)
+                bool up = ((int)(reinterpret_cast<::FUN_0070ec70_class *>((((::AppearanceInput::Interface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0070ec70())) > ::_DAT_01012060;
+                if (((::AppearanceInput::Interface *)(::fnv_004b7210::FUN_004b7210()))->selected == zoomTile)
                 {
-                    desired += up ? DAT_01075aec : DAT_0105559c;
-                    desired = FUN_00404010(FUN_0040ebd0(desired, 1.0f), 0.0f);
+                    desired += up ? DAT_01075aec : ::g_x;
+                    desired = ::FUN_00404010(::FUN_0040ebd0(desired, 1.0f), 0.0f);
                 }
                 else
                 {
@@ -4099,7 +3799,7 @@ void Menu::UpdateZoomAndScroll()
                 float increase = (time - previous) * velocity;
                 if (desired < current + increase)
                     increase = desired - current;
-                FUN_007adc60(6, UpdateProgress(increase, 0));
+                reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(6, UpdateProgress(increase, 0));
             }
             else if (current > desired)
             {
@@ -4107,20 +3807,20 @@ void Menu::UpdateZoomAndScroll()
                 float decrease = (time - previous) * velocity;
                 if (desired > current + decrease)
                     decrease = desired - current;
-                FUN_007adc60(6, UpdateProgress(decrease, 0));
+                reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(6, UpdateProgress(decrease, 0));
             }
             else
                 velocity = 0.0f;
-            if (FUN_007adc30(6) && !sounds[2].FUN_00ad8930())
-                sounds[2].FUN_00ad8830(0);
-            else if (!FUN_007adc30(6) && sounds[2].FUN_00ad8930())
-                sounds[2].FUN_00ad88f0();
-            if (FUN_007adc30(5) && !sounds[3].FUN_00ad8930())
-                sounds[3].FUN_00ad8830(0);
-            else if (!FUN_007adc30(5) && sounds[3].FUN_00ad8930())
-                sounds[3].FUN_00ad88f0();
-            FUN_007adc60(5, 0);
-            if (dragY && DAT_011dea0c->FUN_00877720() && DAT_011dea0c->FUN_00877720()->FUN_00a23a50(0, 2))
+            if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(6) && !reinterpret_cast<::SoundPlaybackHandle *>(&(sounds[2]))->IsPlaying())
+                reinterpret_cast<::FUN_00ad8830_shell *>(&(sounds[2]))->FUN_00ad8830(0);
+            else if (!reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(6) && reinterpret_cast<::SoundPlaybackHandle *>(&(sounds[2]))->IsPlaying())
+                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(sounds[2]))->FUN_00ad88f0();
+            if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(5) && !reinterpret_cast<::SoundPlaybackHandle *>(&(sounds[3]))->IsPlaying())
+                reinterpret_cast<::FUN_00ad8830_shell *>(&(sounds[3]))->FUN_00ad8830(0);
+            else if (!reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(5) && reinterpret_cast<::SoundPlaybackHandle *>(&(sounds[3]))->IsPlaying())
+                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(sounds[3]))->FUN_00ad88f0();
+            reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(5, 0);
+            if (dragY && ((::AppearanceInput::Input *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::AppearanceInput::OS * *>(&::g_osGlobals))))->FUN_00877720())) && reinterpret_cast<::ButtonDevice *>((((::AppearanceInput::Input *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::AppearanceInput::OS * *>(&::g_osGlobals))))->FUN_00877720()))))->FUN_00a23a50(0, 2))
                 HandlePendingTileAction();
         }
         previous = time;
@@ -4128,43 +3828,32 @@ void Menu::UpdateZoomAndScroll()
     else
     {
         for (unsigned int j = 0; j < 4; j++)
-            if (sounds[j].FUN_0044ddc0() == 1)
-                sounds[j].FUN_00ad88b0();
+            if (((std::intptr_t)(sounds[j].unk8)) == 1)
+                reinterpret_cast<::FUN_00ad88b0_h *>(&(sounds[j]))->FUN_00ad88b0();
     }
 }
 }
 
 struct Tile67
 {
-    Tile67* FUN_0045cd60();
-    bool IsAllChildrenFlag0();
-    Tile67* FUN_00a03eb0(int);
 };
 struct Option67
 {
-    int FUN_0084e3a0();
-    int FUN_0044edb0();
-    bool FUN_007b4260(int);
-    void SetFocus(int);
 };
 struct Sound67
 {
     int unk00, unk04, unk08;
     ~Sound67();
-    void FUN_00ad8830();
 };
 struct Audio67
 {
     Sound67 FUN_00ad7550(const char*, int, int);
 };
-Audio67* FUN_00453a70();
 struct Value67
 {
-    int GetAxisState();
 };
 struct Input67
 {
-    Value67* FUN_00877720(int, int);
 };
 struct Interface67
 {
@@ -4215,30 +3904,22 @@ struct Interface67
     int unkb0;
     int unkb4;
     int unkb8;
-    int unkbc;
+    struct Tile67* unkbc;
     int unkc0;
     int unkc4;
     int unkc8;
     Tile67* focused;
-    Tile67* GetFieldBC();
 };
 struct Setting67
 {
-    const char* FUN_00403df0();
 };
 struct String67
 {
-    const char* FUN_00559450();
 };
-extern Input67* DAT_011dea0c;
-extern Setting67 DAT_011d34f8, DAT_011d3684;
 extern char DAT_0106f380[], DAT_01075b00[];
 bool FUN_00702450(int);
 int FUN_0072fa60(int);
-bool FUN_004b71d0();
-void FUN_00706ff0(Tile67*);
 void UpdateRaceSexMenu();
-void FUN_00703e80(const char*, int, int, void (*)(), int, int, float, float, const char*, const char*, int);
 struct Menu67
 {
     virtual void v0();
@@ -4271,121 +3952,18 @@ struct Menu67
     Tile67* right;
     int unk90, unk94;
     String67 message;
-    void FUN_007adc60(int, bool);
     int FUN_007dcc00();
-    bool FUN_007af180(int);
     bool HandleAction(int, int);
 };
-// @fnv 0x007aecb0
-bool Menu67::HandleAction(int action, int argument)
-{
-    if (FUN_00702450(Id()))
-    {
-        if (action >= 0)
-        {
-            int key = DAT_011dea0c->FUN_00877720(0, 7)->GetAxisState();
-            FUN_007adc60(4, action != 4 && action != 3 && FUN_0072fa60(key) < 0x1ea9);
-        }
-        switch (action)
-        {
-        case 10:
-            if (FUN_007af180(options[FUN_007dcc00()]->FUN_0084e3a0()))
-                FUN_00453a70()->FUN_00ad7550(DAT_0106f380, 0x121, 0).FUN_00ad8830();
-            return true;
-        case 13:
-        case 14: {
-            int iOptionIndex = FUN_007dcc00();
-            while (iOptionIndex >= 4)
-                iOptionIndex = options[iOptionIndex]->FUN_0084e3a0();
-            bool bChanged = action == 13 ? FUN_007af180(options[iOptionIndex]->FUN_0084e3a0())
-                                         : FUN_007af180(options[iOptionIndex]->FUN_0044edb0());
-            if (bChanged)
-                FUN_00453a70()->FUN_00ad7550(DAT_01075b00, 0x121, 0).FUN_00ad8830();
-            else if (action == 14)
-                FUN_00703e80(message.FUN_00559450(), 0, 0, UpdateRaceSexMenu, 1, 0x12, 0.0f, 0.0f,
-                             DAT_011d3684.FUN_00403df0(), DAT_011d34f8.FUN_00403df0(), 0);
-            return true;
-        }
-        case 3:
-        case 4:
-        case 15:
-        case 16: {
-            Tile67* tile = ((Interface67*)FUN_004b7210())->GetFieldBC();
-            if (!tile && !FUN_004b71d0())
-            {
-                tile = ((Interface67*)FUN_004b7210())->focused;
-                while (tile && tile->FUN_0045cd60() != parent)
-                    tile = tile->FUN_0045cd60();
-            }
-            if (tile == left && action == 3 && right->IsAllChildrenFlag0())
-            {
-                FUN_00706ff0(right);
-                return true;
-            }
-            else if (tile == right && action == 4 && left->IsAllChildrenFlag0())
-            {
-                FUN_00706ff0(left);
-                return true;
-            }
-            else if (tile)
-            {
-                int trait7;
-                if (action == 15)
-                    trait7 = 0x66;
-                else if (action == 16)
-                    trait7 = 0x67;
-                else if (action == 3)
-                    trait7 = 0x68;
-                else if (action == 4)
-                    trait7 = 0x64;
-                else
-                    return false;
-                Tile67* pDestination = tile->FUN_00a03eb0(trait7);
-                if (pDestination)
-                {
-                    Activate(trait7, pDestination);
-                    return true;
-                }
-            }
-        }
-        case 1:
-            return options[FUN_007dcc00()]->FUN_007b4260(action);
-        case 2:
-            if (((Interface67*)FUN_004b7210())->GetFieldBC() == left ||
-                ((Interface67*)FUN_004b7210())->GetFieldBC() == right || options[FUN_007dcc00()]->FUN_007b4260(action))
-                return true;
-            else if (left->IsAllChildrenFlag0())
-            {
-                options[FUN_007dcc00()]->SetFocus(0);
-                FUN_00706ff0(left);
-                return true;
-            }
-            else if (right->IsAllChildrenFlag0())
-            {
-                options[FUN_007dcc00()]->SetFocus(0);
-                FUN_00706ff0(right);
-                return true;
-            }
-            break;
-        }
-    }
-    return false;
-}
-
 struct StatsMenuItem
 {
-    int GetPosition();
 };
 struct StatsMenuItemList
 {
-    StatsMenuItem* FUN_00559450();
-    StatsMenuItem** FUN_0057cbe0(StatsMenuItem*& p);
 };
 struct StatsMenuTile
 {
-    void FUN_00700320(int, int);
 };
-extern void __cdecl FUN_00a04200(int);
 class StatsMenu
 {
   public:
@@ -4398,21 +3976,47 @@ class StatsMenu
     int FUN_007dcc00();
     void UpdateMinusPlusTiles();
 };
+// @fnv 0x007af180
+bool FUN_007af180_shell::FUN_007af180(intptr_t aeList)
+{
+    if (aeList < 20)
+    {
+        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk04)))->Set(0x1004, aeList);
+        reinterpret_cast<::ModListOwner *>((((OptList**)&this->unk28)[aeList]))->FUN_007b4410();
+        if (aeList == 5 && FUN_007adc30(0))
+            reinterpret_cast<::HairMenu *>(this)->PopulateHairOptions();
+        else if (aeList == 8 && FUN_007adc30(1))
+            reinterpret_cast<::B7AF450RaceMenu *>(this)->PopulateEyesList();
+        else if (aeList == 3)
+            reinterpret_cast<::FUN_007af520_cls *>(this)->SyncListItemTemplate();
+        reinterpret_cast<::StatsMenu *>(this)->UpdateMinusPlusTiles();
+        if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu() && aeList < 4)
+            reinterpret_cast<::MenuDriver *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu()))->UpdateSlotSelection(aeList);
+        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk88)))->Set(0xfa3, reinterpret_cast<::FUN_0084e3a0_Class *>((((OptList**)&this->unk28)[aeList]))->FUN_0084e3a0() < 20);
+        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk8c)))->Set(0xfa3, ((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio**)&this->unk28)[aeList]))->FUN_0044edb0())) < 20 ||
+                             aeList == this->unk120);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(TileHelper**)&this->unk8c)))->FUN_00a01350(0xfc4, (char *)((const char*)(uintptr_t)(aeList == this->unk120 ? (*reinterpret_cast<::Flt *>(&::g_011da70c)) : (*reinterpret_cast<::Flt *>(&::g_011da700)))),
+                  true);
+        return true;
+    }
+    else
+        return false;
+}
 // Scans the current page's items for entries returning -1 or 1 and toggles the minus and plus tiles accordingly.
 // @fnv 0x007af6b0
 void StatsMenu::UpdateMinusPlusTiles()
 {
     StatsMenuItem* pos;
     StatsMenuItemList* pOwner = m_pageLists[FUN_007dcc00()];
-    pos = pOwner->FUN_00559450();
+    pos = ((::StatsMenuItem *)(::FUN_00559450((int *)(pOwner))));
     bool foundPlus;
     {
         bool foundMinus = false;
         foundPlus = false;
-        FUN_00a04200(0);
+        ::fnv_00a04200::FUN_00a04200(0);
         while (pos && (!foundMinus || !foundPlus))
         {
-            switch ((*pOwner->FUN_0057cbe0(pos))->GetPosition())
+            switch (reinterpret_cast<::S007b39b0 *>(((*((::StatsMenuItem **)(reinterpret_cast<::ListStandIn *>((pOwner))->FUN_0057cbe0((int **)&(pos)))))))->GetPosition())
             {
             case -1:
                 foundMinus = true;
@@ -4422,8 +4026,8 @@ void StatsMenu::UpdateMinusPlusTiles()
                 break;
             }
         }
-        m_minusTile->FUN_00700320(0xFA3, foundMinus);
-        m_plusTile->FUN_00700320(0xFA3, foundPlus);
+        reinterpret_cast<::Tile *>((m_minusTile))->Set(0xFA3, foundMinus);
+        reinterpret_cast<::Tile *>((m_plusTile))->Set(0xFA3, foundPlus);
     }
 }
 
@@ -4443,12 +4047,12 @@ struct B10355_Elem
 
 struct B10355_Obj2
 {
-    int Calc();
 };
 
 struct B10355_Node
 {
-    B10355_Obj2* Get();
+    void* unk00;
+    struct B10355_Obj2* unk04;
 };
 
 struct B10355_Holder
@@ -4522,19 +4126,13 @@ struct B10355_Holder
     void* unk108;
     B10355_Node m10c;
     void U1(void* p);
-    int U2(int a);
-    int U3();
+    intptr_t U3();
 };
 
 struct B10355_Param
 {
-    int M1();
-    int M2();
-    int M3();
 };
 
-void __cdecl B10355_Ext1(void* arr, int flag, int zero, int a, float f);
-void __cdecl B10355_Ext2(int a, int b, void* c, int d);
 
 struct FUN_007af770_cls
 {
@@ -4612,7 +4210,6 @@ struct FUN_007af770_cls
     void* unk11C;
     void* unk120;
     int unk124;
-    void M4(int a, bool b);
     void ApplyParam(B10355_Param* p);
 };
 
@@ -4621,14 +4218,14 @@ void FUN_007af770_cls::ApplyParam(B10355_Param* apParam)
 {
     B10355_Elem arr[4];
     m_d8->U1(arr);
-    float F = apParam->M1() / 10.0;
-    B10355_Ext1(arr, apParam->M3() != 0x22, 0, apParam->M2(), F);
+    float F = reinterpret_cast<::FUN_007b3740_shell *>((apParam))->GetFloat1005() / 10.0;
+    ::FUN_00652320((::FG652_Mat *)(arr), ((int)(reinterpret_cast<::RaceSexOptionFields *>((apParam))->id)) != 0x22, 0, ((int)(reinterpret_cast<::RaceSexOptionFields *>((apParam))->value)), F);
     m_d8->U1((void*)&unk124);
-    B10355_Ext2(m_d8->m10c.Get()->Calc(), m_d8->U3(), arr, m_d8->U2(0));
-    M4(8, true);
-    if (apParam->M3() == 0x23)
+    ::FUN_00652e00((MatrixProxy (*)[2])(((std::intptr_t)(reinterpret_cast<::S9fb0 *>((m_d8->m10c.unk04))->FUN_005d9fb0({})))), (MatrixProxy (*)[2])(m_d8->U3()), (MatrixProxy (*)[2])(arr), ((std::intptr_t)(reinterpret_cast<::FUN_00601800_shell *>((m_d8))->FUN_00601800())));
+    reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(8, true);
+    if (((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((apParam))->id)) == 0x23)
     {
-        M4(9, true);
+        reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(9, true);
     }
 }
 
@@ -4640,53 +4237,7 @@ struct FaceMorphDescriptor
 };
 struct MorphSetting
 {
-    const char* String();
-    float Float();
 };
-extern MorphSetting setting_011da6a4;
-extern MorphSetting setting_011da6dc;
-extern MorphSetting setting_011d1ecc;
-extern MorphSetting setting_011d3504;
-extern MorphSetting setting_011d3840;
-extern MorphSetting setting_011d4b34;
-extern MorphSetting setting_011d228c;
-extern MorphSetting setting_011d32dc;
-extern MorphSetting setting_011d46f0;
-extern MorphSetting setting_011d4714;
-extern MorphSetting setting_011d3150;
-extern MorphSetting setting_011d3a8c;
-extern MorphSetting setting_011d4384;
-extern MorphSetting setting_011d4e88;
-extern MorphSetting setting_011d49f0;
-extern float DAT_0104a494;
-extern float DAT_010162c0;
-extern MorphSetting setting_011d2ca0;
-extern MorphSetting setting_011d35a0;
-extern MorphSetting setting_011d3720;
-extern MorphSetting setting_011d240c;
-extern MorphSetting setting_011d2514;
-extern MorphSetting setting_011d2778;
-extern MorphSetting setting_011d34a4;
-extern MorphSetting setting_011d22e0;
-extern MorphSetting setting_011d3660;
-extern MorphSetting setting_011d2e44;
-extern MorphSetting setting_011d2dfc;
-extern MorphSetting setting_011d4900;
-extern float DAT_01017718;
-extern MorphSetting setting_011d23e8;
-extern MorphSetting setting_011d32a0;
-extern MorphSetting setting_011d2b80;
-extern MorphSetting setting_011d3b80;
-extern MorphSetting setting_011d3078;
-extern MorphSetting setting_011d4174;
-extern MorphSetting setting_011d2304;
-extern MorphSetting setting_011d4300;
-extern MorphSetting setting_011d4c30;
-extern MorphSetting setting_011d4d20;
-extern MorphSetting setting_011d5104;
-extern MorphSetting setting_011d33e4;
-extern MorphSetting setting_011d2928;
-extern MorphSetting setting_011d5098;
 struct MorphData
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -4695,11 +4246,9 @@ struct MorphData
 };
 struct MorphRace
 {
-    void* FUN_005d9fb0(int);
 };
 struct MorphRaceLink
 {
-    MorphRace* FUN_00726070();
 };
 struct FaceActor
 {
@@ -4772,24 +4321,13 @@ struct FaceActor
     unsigned int unk108;
     MorphRaceLink race;
     int FUN_005f0cc0();
-    void* FUN_00601800();
 };
-void FUN_00652af0(void*, void*, MorphData*, int, float);
-void* FUN_00651b30();
-int FUN_006521b0(int, int);
-float GetMorphCoordinateValue(MorphData*, int, int, int);
-float FUN_0040ebd0(float, float);
-float FUN_00404010(float, float);
 struct MorphMenuOption
 {
-    void FUN_007b3810(const char*);
-    void FUN_00403550(int);
 };
 struct MorphMenuList
 {
-    MorphMenuOption* FUN_007b3ca0(const char*, int, int, int, int, float);
 };
-extern const char morphFormat[];
 struct FaceMorphMenu
 {
     unsigned int unk00;
@@ -4806,249 +4344,10 @@ struct FaceMorphMenu
     unsigned int unk78, unk7c, unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unkA0, unkA4, unkA8, unkAc,
         unkB0, unkB4, unkB8, unkBc, unkC0, unkC4, unkC8, unkCc, unkD0, unkD4;
     FaceActor* actor;
-    void HandleMenuKey(int);
-    bool FUN_007adc30(int);
-    void UpdateFaceGen(int, int, int);
-    void FUN_007adc60(int, bool);
-    void FUN_007b25a0();
     void BuildMorphOptions();
 };
-// @fnv 0x007afaf0
-void FaceMorphMenu::BuildMorphOptions()
-{
-    FaceMorphDescriptor shape[] = {
-        {12, setting_011d1ecc.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {12, setting_011d3504.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {12, setting_011d3840.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {16, setting_011d4b34.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {16, setting_011d228c.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {16, setting_011d32dc.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {18, setting_011d46f0.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {18, setting_011d4714.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {18, setting_011d3150.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {18, setting_011d3a8c.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {13, setting_011d4384.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {13, setting_011d4e88.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {13, setting_011d49f0.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {10, setting_011d2ca0.String(), DAT_0104a494, DAT_010162c0},
-        {20, 0, 0.0f, 0.0f},
-        {10, setting_011d35a0.String(), DAT_0104a494, DAT_010162c0},
-        {11, setting_011d4e88.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {11, setting_011d3a8c.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {11, setting_011d3720.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {17, setting_011d240c.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {17, setting_011d2514.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {17, setting_011d2778.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {17, setting_011d32dc.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {15, setting_011d34a4.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {15, setting_011d22e0.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {14, setting_011d3660.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {14, setting_011d4384.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {14, setting_011d2e44.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {14, setting_011d2dfc.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {14, setting_011d4900.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {14, setting_011d23e8.String(), setting_011da6a4.Float(), DAT_01017718},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {14, setting_011d32a0.String(), setting_011da6a4.Float(), DAT_01017718},
-        {20, 0, 0.0f, 0.0f},
-    };
-    FaceMorphDescriptor tone[] = {
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {19, setting_011d2b80.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {19, setting_011d3b80.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {19, setting_011d3078.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {19, setting_011d4174.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {19, setting_011d2304.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {19, setting_011d4300.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {19, setting_011d4c30.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {20, 0, 0.0f, 0.0f},
-        {19, setting_011d4d20.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {19, setting_011d5104.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {19, setting_011d33e4.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {19, setting_011d2928.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-        {19, setting_011d5098.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
-    };
-    MorphData morphs[4];
-    FUN_00652af0(actor->race.FUN_00726070()->FUN_005d9fb0(actor->FUN_005f0cc0()), actor->FUN_00601800(), morphs, 0,
-                 0.0f);
-    for (int index = 0; index < (FUN_00651b30(), FUN_006521b0(0, 0)); ++index)
-    {
-        if (shape[index].group < 20 && shape[index].name)
-        {
-            float value = GetMorphCoordinateValue(morphs, 0, 0, index);
-            value = FUN_00404010(FUN_0040ebd0(value, shape[index].maximum), shape[index].minimum);
-            MorphMenuOption* option = lists[shape[index].group]->FUN_007b3ca0(
-                shape[index].name, 34, static_cast<int>(shape[index].minimum * 10.0),
-                static_cast<int>(shape[index].maximum * 10.0), static_cast<int>(value * 10.0), 0.25f);
-            option->FUN_007b3810(morphFormat);
-            option->FUN_00403550(index);
-        }
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 29);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[29].maximum), tone[29].minimum);
-        MorphMenuOption* option = lists[tone[29].group]->FUN_007b3ca0(
-            tone[29].name, 35, static_cast<int>(tone[29].minimum * 10.0), static_cast<int>(tone[29].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(29);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 28);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[28].maximum), tone[28].minimum);
-        MorphMenuOption* option = lists[tone[28].group]->FUN_007b3ca0(
-            tone[28].name, 35, static_cast<int>(tone[28].minimum * 10.0), static_cast<int>(tone[28].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(28);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 30);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[30].maximum), tone[30].minimum);
-        MorphMenuOption* option = lists[tone[30].group]->FUN_007b3ca0(
-            tone[30].name, 35, static_cast<int>(tone[30].minimum * 10.0), static_cast<int>(tone[30].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(30);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 31);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[31].maximum), tone[31].minimum);
-        MorphMenuOption* option = lists[tone[31].group]->FUN_007b3ca0(
-            tone[31].name, 35, static_cast<int>(tone[31].minimum * 10.0), static_cast<int>(tone[31].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(31);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 8);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[8].maximum), tone[8].minimum);
-        MorphMenuOption* option = lists[tone[8].group]->FUN_007b3ca0(
-            tone[8].name, 35, static_cast<int>(tone[8].minimum * 10.0), static_cast<int>(tone[8].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(8);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 9);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[9].maximum), tone[9].minimum);
-        MorphMenuOption* option = lists[tone[9].group]->FUN_007b3ca0(
-            tone[9].name, 35, static_cast<int>(tone[9].minimum * 10.0), static_cast<int>(tone[9].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(9);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 18);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[18].maximum), tone[18].minimum);
-        MorphMenuOption* option = lists[tone[18].group]->FUN_007b3ca0(
-            tone[18].name, 35, static_cast<int>(tone[18].minimum * 10.0), static_cast<int>(tone[18].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(18);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 27);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[27].maximum), tone[27].minimum);
-        MorphMenuOption* option = lists[tone[27].group]->FUN_007b3ca0(
-            tone[27].name, 35, static_cast<int>(tone[27].minimum * 10.0), static_cast<int>(tone[27].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(27);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 22);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[22].maximum), tone[22].minimum);
-        MorphMenuOption* option = lists[tone[22].group]->FUN_007b3ca0(
-            tone[22].name, 35, static_cast<int>(tone[22].minimum * 10.0), static_cast<int>(tone[22].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(22);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 5);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[5].maximum), tone[5].minimum);
-        MorphMenuOption* option = lists[tone[5].group]->FUN_007b3ca0(
-            tone[5].name, 35, static_cast<int>(tone[5].minimum * 10.0), static_cast<int>(tone[5].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(5);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 6);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[6].maximum), tone[6].minimum);
-        MorphMenuOption* option = lists[tone[6].group]->FUN_007b3ca0(
-            tone[6].name, 35, static_cast<int>(tone[6].minimum * 10.0), static_cast<int>(tone[6].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(6);
-    }
-    {
-        float value = GetMorphCoordinateValue(morphs, 1, 0, 3);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[3].maximum), tone[3].minimum);
-        MorphMenuOption* option = lists[tone[3].group]->FUN_007b3ca0(
-            tone[3].name, 35, static_cast<int>(tone[3].minimum * 10.0), static_cast<int>(tone[3].maximum * 10.0),
-            static_cast<int>(value * 10.0), 0.25f);
-        option->FUN_007b3810(morphFormat);
-        option->FUN_00403550(3);
-    }
-    HandleMenuKey(34);
-    HandleMenuKey(35);
-    if (FUN_007adc30(8))
-    {
-        UpdateFaceGen(1, 1, 0);
-        FUN_007adc60(8, false);
-    }
-    if (FUN_007adc30(9))
-    {
-        FUN_007b25a0();
-        FUN_007adc60(9, false);
-    }
-}
-
 struct SliderOption : MenuOptionFor3760
 {
-    int FUN_00726070();
-    int FUN_0044ddc0();
 };
 struct FUN_00449610
 {
@@ -5058,11 +4357,9 @@ struct FUN_00449610
 };
 struct SliderName
 {
-    const char* FUN_005d9fb0(int);
 };
 struct SliderNameRef
 {
-    SliderName* FUN_00726070();
 };
 struct SliderActor
 {
@@ -5077,10 +4374,7 @@ struct SliderActor
     int unk100, unk104, unk108;
     SliderNameRef name;
     int FUN_005f0cc0();
-    void* FUN_00601800();
 };
-void __cdecl FUN_00652af0(const char*, void*, FUN_00449610*, int, float);
-float __cdecl GetMorphCoordinateValue(FUN_00449610*, int, int, int);
 struct SliderMenu
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
@@ -5090,26 +4384,46 @@ struct SliderMenu
     SliderActor* actor;
     bool ClampSliderOptions(int iFrom, int iTo, int bForward);
 };
+// @fnv 0x007b18f0
+void B7B18F0Menu::HandleMenuKey(int iKey)
+{
+    bool bOk = false;
+    unsigned int uiCounter = 0;
+    if (iKey == 0x22)
+    {
+        do
+        {
+            bOk = reinterpret_cast<::SliderMenu *>(this)->ClampSliderOptions(10, 0x13, false);
+        } while (bOk && uiCounter++ < 3);
+    }
+    else if (iKey == 0x23)
+    {
+        do
+        {
+            bOk = reinterpret_cast<::SliderMenu *>(this)->ClampSliderOptions(0x13, 0x14, true);
+        } while (bOk && uiCounter++ < 3);
+    }
+}
 // @fnv 0x007b16d0
 bool SliderMenu::ClampSliderOptions(int iStartIndex, int iEndIndex, int bForward)
 {
     bool changed = false;
     for (int i = iStartIndex; i < iEndIndex; i++)
     {
-        void* position = optionLists[i]->FUN_00559450();
+        void* position = ((void *)(::FUN_00559450((int *)(optionLists[i]))));
         while (position)
         {
-            SliderOption* option = (SliderOption*)*optionLists[i]->FUN_0057cbe0(&position);
-            if (option && (option->FUN_00726070() == 0x22 || option->FUN_00726070() == 0x23))
+            SliderOption* option = (SliderOption*)*((void **)(reinterpret_cast<::ListStandIn *>((optionLists[i]))->FUN_0057cbe0((int **)(void **)(&position))));
+            if (option && (((std::intptr_t)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 0x22 || ((std::intptr_t)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 0x23))
             {
                 FUN_00449610 values[4];
-                FUN_00652af0(actor->name.FUN_00726070()->FUN_005d9fb0(actor->FUN_005f0cc0()), actor->FUN_00601800(),
-                             values, 0, 0.0f);
+                ::FUN_00652af0((CoordArray (*)[2])(reinterpret_cast<::S9fb0 *>((((::SliderName *)(reinterpret_cast<::Callees *>(&(actor->name))->FUN_00726070()))))->FUN_005d9fb0(actor->FUN_005f0cc0())), (CoordArray (*)[2])(void *)(reinterpret_cast<::FUN_00601800_shell *>((actor))->FUN_00601800()),
+                             (CoordArray (*)[2])(values), 0, 0.0f);
                 {
                     int low, high;
                     {
-                        int value = (int)(GetMorphCoordinateValue(values, bForward, 0, option->FUN_0044ddc0()) * 10.0);
-                        option->FUN_007b3840(low, high);
+                        int value = (int)(::GetMorphCoordinateValue((char *)(values), bForward, 0, ((int)(reinterpret_cast<::RaceSexOptionFields *>((option))->value))) * 10.0);
+                        reinterpret_cast<::RaceSexMenu_MenuOption *>((option))->FUN_007b3840(low, high);
                         if (value < low)
                         {
                             option->FUN_007b3760(low);
@@ -5132,17 +4446,13 @@ bool SliderMenu::ClampSliderOptions(int iStartIndex, int iEndIndex, int bForward
     return changed;
 }
 
-float __cdecl FUN_0040ebd0(float a, float b);
-float __cdecl FUN_00404010(float a, float b);
 
 struct PlayerStandIn
 {
-    float GetActorHeight() const;
 };
 
 struct PosTarget
 {
-    void FUN_004bc1f0(float x, float y, float z);
 };
 
 struct PosTargetPtr
@@ -5208,7 +4518,6 @@ struct RaceSexMenuCamera
     float fProgress;
     PosTargetPtr m_spTargetObject;
 
-    void UpdateShadowSceneNode();
     bool UpdateProgress(float afDelta, bool abForce);
 };
 
@@ -5220,10 +4529,9 @@ bool RaceSexMenuCamera::UpdateProgress(float afDelta, bool abForce)
     fProgress = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, fProgress + afDelta));
     if (fOldProgress == fProgress && !abForce)
         return false;
-    ((PosTarget*)m_spTargetObject)
-        ->FUN_004bc1f0((fEndX - fStartX) * fProgress + fStartX, (fEndY - fStartY) * fProgress + fStartY,
-                       ((PlayerStandIn*)g_thePlayer)->GetActorHeight() * ((fEndZ - fStartZ) * fProgress + fStartZ));
-    UpdateShadowSceneNode();
+    reinterpret_cast<::FUN_004bc1f0_S *>((((PosTarget*)m_spTargetObject)))->FUN_004bc1f0((fEndX - fStartX) * fProgress + fStartX, (fEndY - fStartY) * fProgress + fStartY,
+                       reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)(((PlayerStandIn*)(*reinterpret_cast<::PC_00605d70 * *>(&::_g_thePlayer)))))->GetActorHeight() * ((fEndZ - fStartZ) * fProgress + fStartZ));
+    reinterpret_cast<::FUN_007b1ae0_shell *>(this)->UpdateShadowSceneNode();
     return true;
 }
 
@@ -5238,11 +4546,7 @@ struct AppearanceObject
     virtual void slot018();
     virtual AppearanceObject* AsGeometry();
     unsigned int FUN_0043b480();
-    AppearanceObject* FUN_0043b4a0(unsigned int);
-    void SetByteAtOffsetE4(unsigned char);
 
-    struct AppearanceName& GetName();
-    struct ShaderProperty* GetProperty(int);
 };
 struct FaceModel
 {
@@ -5284,10 +4588,6 @@ struct FaceModel
     virtual void slot08c();
     virtual void slot090();
     virtual FaceModel* AsFaceModel();
-    unsigned char FUN_007b2570();
-    void FUN_0065a840();
-    void ApplyShape(void*, AppearanceObject*, int);
-    bool ApplyTextureCoordinate(void*, struct TexturePointer&, unsigned int);
 };
 struct SkinObject
 {
@@ -5353,7 +4653,6 @@ struct SkinObject
 };
 struct SkinRoot : AppearanceObject
 {
-    SkinObject* FUN_009611e0();
 };
 struct AppearanceProcess
 {
@@ -5960,9 +5259,6 @@ struct AppearancePlayer
     virtual SkinRoot* RootA(int);
     virtual SkinRoot* RootB(int);
     AppearanceObject* GetNode(bool);
-    struct AppearanceAnimation* GetAnimation(bool);
-    AppearanceProcess* GetCurrentProcess();
-    void* GetBipedAnim(bool);
 };
 struct AppearanceNPC
 {
@@ -5985,9 +5281,6 @@ struct AppearanceNPC
     virtual void slot040();
     virtual void slot044();
     virtual void SetFlags(int);
-    void FUN_005dd560();
-    void FUN_00607370(int*, int*);
-    void AttachHeadModels(AppearancePlayer*, void*, int, int);
     void FUN_00603ad0(void*);
 };
 struct ShaderProperty
@@ -6056,15 +5349,12 @@ struct ShaderProperty
     virtual void slot0f4();
     virtual void slot0f8();
     virtual void SetTexture(int, void*);
-    int FUN_00441110();
 };
 struct AppearanceAnimation
 {
-    struct AppearanceManager* FUN_00496940();
 };
 struct AppearanceManager
 {
-    void* GetStringAtOffset();
 };
 struct AppearanceName
 {
@@ -6083,13 +5373,7 @@ struct TexturePointer
     ~TexturePointer();
     operator void*();
 };
-FaceModel* __cdecl GetGeomExtraData(AppearanceObject*);
-extern AppearancePlayer* appearancePlayer;
-extern "C" unsigned int __cdecl strlen(const char*);
 int __cdecl _mbsnicmp(const char*, const char*, unsigned int);
-void __cdecl FUN_00a6e8e0(SkinRoot*, void*);
-void __cdecl FUN_00652e00(void*, void*, void*, int);
-unsigned int __cdecl FUN_006151d0();
 struct AppearanceMenu
 {
     int unk000;
@@ -6166,49 +5450,48 @@ struct AppearanceMenu
     int unk11c;
     int unk120;
     int faceData;
-    void UpdateShadowSceneNode();
     void UpdateFaceGen(bool remove, bool shape, bool texture);
 };
 // @fnv 0x007b1e70
 void AppearanceMenu::UpdateFaceGen(bool remove, bool shape, bool texture)
 {
-    if (!appearancePlayer->RootA(0) || !appearancePlayer->RootB(0))
+    if (!(*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))->RootA(0) || !(*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))->RootB(0))
         return;
     npc->SetFlags(0x800);
     if (remove)
     {
-        AppearanceObject* second = appearancePlayer->GetNode(false);
+        AppearanceObject* second = ((::AppearanceObject *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->FUN_00950bb0(false)));
         AppearanceObject* root = second ? second->AsNode() : 0;
         if (root)
         {
             void* manager = 0;
-            if (appearancePlayer->GetAnimation(false) && appearancePlayer->GetAnimation(false)->FUN_00496940())
-                manager = appearancePlayer->GetAnimation(false)->FUN_00496940()->GetStringAtOffset();
+            if (((::AppearanceAnimation *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetAnimation(false))) && ((::AppearanceManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((((::AppearanceAnimation *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetAnimation(false)))))->FUN_00496940())))
+                manager = ((void *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::AppearanceManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((((::AppearanceAnimation *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetAnimation(false)))))->FUN_00496940()))))));
             SkinRoot* controller;
             void* skin = manager;
-            controller = appearancePlayer->RootB(0);
-            if (controller && controller->FUN_009611e0())
+            controller = (*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))->RootB(0);
+            if (controller && ((::SkinObject *)(reinterpret_cast<::NiAVObjectFields *>((controller))->m_pkParent)))
             {
-                FUN_00a6e8e0(controller, skin);
-                appearancePlayer->GetCurrentProcess()->ResetB(0);
-                controller->FUN_009611e0()->Remove(controller);
+                ::FUN_00a6e8e0((::S_00a6e8e0_Object *)(controller), (::S_00a6e8e0_Palette *)(skin));
+                ((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->ResetB(0);
+                ((::SkinObject *)(reinterpret_cast<::NiAVObjectFields *>((controller))->m_pkParent))->Remove(controller);
             }
-            controller = appearancePlayer->RootA(0);
-            if (controller && controller->FUN_009611e0())
+            controller = (*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))->RootA(0);
+            if (controller && ((::SkinObject *)(reinterpret_cast<::NiAVObjectFields *>((controller))->m_pkParent)))
             {
-                FUN_00a6e8e0(controller, skin);
-                appearancePlayer->GetCurrentProcess()->ResetA(0);
-                appearancePlayer->GetCurrentProcess()->ResetC(0);
-                controller->FUN_009611e0()->Remove(controller);
+                ::FUN_00a6e8e0((::S_00a6e8e0_Object *)(controller), (::S_00a6e8e0_Palette *)(skin));
+                ((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->ResetA(0);
+                ((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->ResetC(0);
+                ((::SkinObject *)(reinterpret_cast<::NiAVObjectFields *>((controller))->m_pkParent))->Remove(controller);
             }
         }
-        if (appearancePlayer->GetCurrentProcess())
-            appearancePlayer->GetCurrentProcess()->Refresh();
-        npc->FUN_005dd560();
-        int first = 0;
-        int node = first;
-        npc->FUN_00607370(&node, &first);
-        npc->AttachHeadModels(appearancePlayer, appearancePlayer->GetBipedAnim(false), node, first);
+        if (((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture())))
+            ((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->Refresh();
+        reinterpret_cast<::TESNPC *>((npc))->ResetFaceGen();
+        intptr_t first = 0;
+        intptr_t node = first;
+        reinterpret_cast<::TESNPC *>((npc))->GetFaceGenNodes((*(::BSFaceGenNiNode * *)(&node)), (*(::BSFaceGenNiNode * *)(&first)));
+        reinterpret_cast<::TESNPC_Sub *>((npc))->AttachHeadModels((::TESObjectREFR *)((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))), (::BipedAnim *)(void *)(((void *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->FUN_00950b00(false)))), (::BSFaceGenNiNode *)(node), (::BSFaceGenNiNode *)(first));
     }
     else
     {
@@ -6216,48 +5499,48 @@ void AppearanceMenu::UpdateFaceGen(bool remove, bool shape, bool texture)
         FaceCoordinate modified[4];
         npc->FUN_00603ad0(coordinates);
         if (shape)
-            FUN_00652e00(&faceData, coordinates, modified, 0);
-        SkinRoot* controller = appearancePlayer->RootA(0);
+            ::FUN_00652e00((MatrixProxy (*)[2])(void *)(&faceData), (MatrixProxy (*)[2])(coordinates), (MatrixProxy (*)[2])(modified), 0);
+        SkinRoot* controller = (*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))->RootA(0);
         for (int pass = 0; pass < 2; pass++)
         {
             if (shape)
-                controller->SetByteAtOffsetE4(1);
+                reinterpret_cast<::FUN_007b2550_shell *>((controller))->SetByteAtOffsetE4(1);
             unsigned int count = controller->FUN_0043b480();
             for (unsigned int index = 0; index < count; index++)
             {
-                AppearanceObject* geometry = controller->FUN_0043b4a0(index);
+                AppearanceObject* geometry = ((::AppearanceObject *)(reinterpret_cast<::NiNode *>((controller))->GetAt(index)));
                 AppearanceObject* model = geometry ? geometry->AsGeometry() : 0;
                 if (!model)
                     continue;
-                FaceModel* extra = GetGeomExtraData(model);
+                FaceModel* extra = ((::FaceModel *)(::GetGeomExtraData((::NiTriBasedGeom *)(model))));
                 FaceModel* object = extra ? extra->AsFaceModel() : 0;
                 if (!object)
                     continue;
                 if (shape)
-                    object->ApplyShape(modified, model, 0);
-                if (texture && !_mbsnicmp(model->GetName(), "FaceGenFace", strlen("FaceGenFace")))
+                    reinterpret_cast<::FUN_0065a970_shell *>((object))->ApplyMorphs((::FaceGenCoordinate *)(modified), (::NiTriBasedGeom *)(model), 0);
+                if (texture && !_mbsnicmp((*(::AppearanceName *)(reinterpret_cast<::TESTopicInfoData *>((model))->GetLinkToList())), "FaceGenFace", strlen("FaceGenFace")))
                 {
                     ShaderProperty* generated;
                     {
-                        ShaderProperty* property = geometry->GetProperty(3);
+                        ShaderProperty* property = ((::ShaderProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(3)));
                         generated =
-                            (!property ? 0 : (property->FUN_00441110() >= 8 && property->FUN_00441110() <= 12 ? 1 : 0))
+                            (!property ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((property))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((property))->GetMinLevel())) <= 12 ? 1 : 0))
                                 ? property
                                 : 0;
                     }
                     if (!generated)
                         continue;
                     TexturePointer pkTexture(0);
-                    if (!object->FUN_007b2570())
-                        object->FUN_0065a840();
-                    object->ApplyTextureCoordinate(coordinates, pkTexture, FUN_006151d0());
+                    if (!((unsigned char)(reinterpret_cast<::FUN_007b2570_shell *>((object))->FUN_007b2570())))
+                        reinterpret_cast<::FUN_0065a840_t *>((object))->FUN_0065a840();
+                    reinterpret_cast<::BSFaceGenModel *>((object))->ApplyTextureCoordinate((::FaceGenCoordinates *)(coordinates), (::NiPointer< ::NiTexture> &)(pkTexture), ((unsigned int)(::FUN_006151d0())));
                     generated->SetTexture(1, pkTexture);
                 }
             }
-            controller = appearancePlayer->RootB(0);
+            controller = (*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))->RootB(0);
         }
     }
-    UpdateShadowSceneNode();
+    reinterpret_cast<::FUN_007b1ae0_shell *>(this)->UpdateShadowSceneNode();
 }
 
 class Player511;
@@ -6565,11 +5848,9 @@ class Root511
 };
 struct NiAVObject511
 {
-    void FUN_0043fa80(const Matrix*);
 };
 struct Node511
 {
-    NiAVObject511* FUN_0043b4a0(int);
 };
 class Player511
 {
@@ -6683,22 +5964,11 @@ class Player511
     virtual void Virtual1a8();
     virtual int HasStateA(int);
     virtual int HasStateB(int);
-    HairOption* FUN_007af430();
-    Process511* FUN_008d8520();
-    void* FUN_00950b00(bool);
-    Node511* FUN_00950bb0(bool);
     Matrix FUN_0056fac0(const Matrix&);
 };
-extern "C" Player511* _g_thePlayer;
-extern bool DAT_011c5cb4;
-extern Matrix DAT_011a9448;
 struct IOManager
 {
-    void FUN_00456520();
 };
-extern IOManager* DAT_01202d98;
-Root511* FUN_00705990();
-void FUN_006570e0(HairOption*);
 class QHeadLocal
 {
   public:
@@ -6718,100 +5988,437 @@ class QHeadLocal
     int unk34;
     QHeadLocal(TESNPC*, int);
     ~QHeadLocal();
-    void FUN_0043ecb0();
-    void RunVirtualMethod28();
-    void FUN_0043ed90(Player511*, void*);
 };
-struct Menu511
+// @fnv 0x007acb60
+void InitRaceMenu::SetupRaceMenu(int mode)
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    TESNPC* npc;
-    void UpdateShadowSceneNode();
-    void FUN_007b25a0();
-};
+    const char* names[20];
+    if (((double)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa7))) == 6006.0 || ((double)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa7))) == 102.0)
+        reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), {});
+    reinterpret_cast<::TutorialMessageGate718 *>(&(((InitRootManager*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->messages))->FUN_00718630(15, (unsigned int)(FUN_007ac9c0()), 0x200);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::InitTile *)(this->tile))))->FUN_00a01350(0x1005, (char *)(DAT_01063ab4), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::InitTile *)(this->tile))))->FUN_00a01350(0x1006, (char *)(DAT_010692d0), true);
+    npc = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer))))->FUN_007af430())));
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((display))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::InitString *>(&::g_011da6f4))))))), true);
+    {
+        BSStringTChar aLabelStrings[4];
+        {
+            int page;
+            {
+                unsigned int color;
+                {
+                    InitItem* slider;
+                    {
+                        switch (mode)
+                        {
+                        case 2:
+                        case 3:
+                            reinterpret_cast<::TextString *>(&(aLabelStrings[0]))->FUN_004037f0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d1f38))))->GetMenuTitle())), 0);
+                            reinterpret_cast<::TextString *>(&(aLabelStrings[1]))->FUN_004037f0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d20dc))))->GetMenuTitle())), 0);
+                            reinterpret_cast<::TextString *>(&(aLabelStrings[2]))->FUN_004037f0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2058))))->GetMenuTitle())), 0);
+                            reinterpret_cast<::TextString *>(&(aLabelStrings[3]))->FUN_004037f0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d43d8))))->GetMenuTitle())), 0);
+                            break;
+                        default:
+                            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringTChar *)(&aLabelStrings[0]), DAT_01075ae4, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d1f38))))->GetMenuTitle())));
+                            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringTChar *)(&aLabelStrings[1]), DAT_01075adc, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d20dc))))->GetMenuTitle())));
+                            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringTChar *)(&aLabelStrings[2]), DAT_01075ad4, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2058))))->GetMenuTitle())));
+                            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringTChar *)(&aLabelStrings[3]), DAT_01075acc, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d43d8))))->GetMenuTitle())));
+                            break;
+                        }
+                        names[0] = ((const char *)(::FUN_00559450((int *)&(aLabelStrings[0]))));
+                        names[1] = ((const char *)(::FUN_00559450((int *)&(aLabelStrings[1]))));
+                        names[2] = ((const char *)(::FUN_00559450((int *)&(aLabelStrings[2]))));
+                        names[3] = ((const char *)(::FUN_00559450((int *)&(aLabelStrings[3]))));
+                        names[4] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d36e4))))->GetMenuTitle()));
+                        names[5] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d22d4))))->GetMenuTitle()));
+                        names[6] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4a74))))->GetMenuTitle()));
+                        names[7] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrTable *>(&::g_011d23a0))))->GetMenuTitle()));
+                        names[8] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d31c8))))->GetMenuTitle()));
+                        names[9] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d26d0))))->GetMenuTitle()));
+                        names[10] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3eb0))))->GetMenuTitle()));
+                        names[11] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4480))))->GetMenuTitle()));
+                        names[12] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4318))))->GetMenuTitle()));
+                        names[13] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3084))))->GetMenuTitle()));
+                        names[14] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4d20))))->GetMenuTitle()));
+                        names[15] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4180))))->GetMenuTitle()));
+                        names[16] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3078))))->GetMenuTitle()));
+                        names[17] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d50e0))))->GetMenuTitle()));
+                        names[18] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3618))))->GetMenuTitle()));
+                        names[19] = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2250))))->GetMenuTitle()));
+                        for (int i = 0; i < 20; i++)
+                        {
+                            options[i] = new FUN_007b39e0(i, (intptr_t)names[i]);
+                        }
+                        reinterpret_cast<::BGSDehydrationStage *>((((InitOptions*)options[0])))->FUN_0050f9a0((::SpellItem *)(void *)((void*)FUN_007ad940));
+                        reinterpret_cast<::BGSDehydrationStage *>((((InitOptions*)options[1])))->FUN_0050f9a0((::SpellItem *)(void *)((void*)((char (&)(int))::IsHairMatching)));
+                        reinterpret_cast<::BGSDehydrationStage *>((((InitOptions*)options[5])))->FUN_0050f9a0((::SpellItem *)(void *)((void*)(unsigned char(__cdecl*)(Obj0*))FUN_007ad860));
+                        reinterpret_cast<::BGSDehydrationStage *>((((InitOptions*)options[8])))->FUN_0050f9a0((::SpellItem *)(void *)((void*)IsAnimationMatch));
+                        reinterpret_cast<::BGSDehydrationStage *>((((InitOptions*)options[7])))->FUN_0050f9a0((::SpellItem *)(void *)((void*)IsArgValueInSubLookup));
+                        reinterpret_cast<::FUN_007b3b80_shell *>((((InitOptions*)options[0])))->FUN_007b3b80((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d37ec))))->IsDLCAvailable()))), 21);
+                        reinterpret_cast<::FUN_007b3b80_shell *>((((InitOptions*)options[0])))->FUN_007b3b80((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2d3c))))->IsDLCAvailable()))), 22);
+                        for (InitNode* pRaceNode = ((::InitNode *)(::FUN_004ea950((intptr_t)(((InitData*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))));
+                             pRaceNode && *((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pRaceNode)->m_item)); pRaceNode = ((::InitNode *)(reinterpret_cast<::Callees *>((pRaceNode))->FUN_00726070())))
+                        {
+                            if (reinterpret_cast<::FUN_0059f610Class *>(((*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pRaceNode)->m_item)))))->FUN_0059f610())
+                                reinterpret_cast<::TESRegionGrassObject *>((((InitOptions*)options[1])
+                                    ->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pRaceNode)->m_item)))->name))->FUN_00408da0())), 23)))->AssignLandTexture((::TESLandTexture *)(*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pRaceNode)->m_item))));
+                        }
+                        reinterpret_cast<::B3CA0Menu *>((((InitOptions*)options[2])))->FUN_007b3ca0((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3ff4))))->IsDLCAvailable()))), 24, 1, 20, 0x80000001, 0.25f);
+                        reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[2])))->AddFloatOption(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d36e4))))->IsDLCAvailable())), (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[4])));
+                        reinterpret_cast<::FUN_007b3b80_shell *>((((InitOptions*)options[2])))->FUN_007b3b80((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3d48))))->IsDLCAvailable()))), 25);
+                        slider = ((::InitItem *)(reinterpret_cast<::B3CA0Menu *>((((InitOptions*)options[2])))->FUN_007b3ca0((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4084))))->IsDLCAvailable()))), 26, 1, 10, 0x80000001, 0.25f)));
+                        reinterpret_cast<::FUN_007b3810Class *>((slider))->FUN_007b3810(DAT_01020770);
+                        reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[3])))->AddFloatOption(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d22d4))))->IsDLCAvailable())), (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[5])));
+                        reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[3])))->AddFloatOption(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4a74))))->IsDLCAvailable())), (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[6])));
+                        if (!npc->FUN_005f0cc0())
+                            reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[3])))->AddFloatOption(((const char *)(reinterpret_cast<::DownloadableContentManager *>((((InitSetting*)&(*reinterpret_cast<::StrTable *>(&::g_011d23a0)))))->IsDLCAvailable())),
+                                                 (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[7])));
+                        else
+                            reinterpret_cast<::FUN_0041fd00_shell *>((((InitOptions*)options[7])))->FUN_0041fd00(3);
+                        reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[4])))->AddFloatOption(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d26d0))))->IsDLCAvailable())), (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[9])));
+                        reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[4])))->AddFloatOption(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2250))))->IsDLCAvailable())), (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[19])));
+                        reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[4])))->AddFloatOption(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d31c8))))->IsDLCAvailable())), (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[8])));
+                        color = reinterpret_cast<::FUN_004169d0_shell *>((npc))->FUN_004169d0();
+                        reinterpret_cast<::FUN_007b3810Class *>((((::InitItem *)(reinterpret_cast<::B3CA0Menu *>((((InitOptions*)options[6])))->FUN_007b3ca0((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3ff4))))->IsDLCAvailable()))), 29, 0, 15, 0x80000001, 0.25f)))))->FUN_007b3810(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3528))))->GetMenuTitle())));
+                        reinterpret_cast<::B3CA0Menu *>((((InitOptions*)options[6])))->FUN_007b3ca0((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2a84))))->IsDLCAvailable()))), 30, 0, 255, (unsigned char)(color & 255),
+                                           0.125f);
+                        reinterpret_cast<::B3CA0Menu *>((((InitOptions*)options[6])))->FUN_007b3ca0((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d25a4))))->IsDLCAvailable()))), 31, 0, 255,
+                                           (unsigned char)(((unsigned short)color >> 8) & 255), 0.125f);
+                        reinterpret_cast<::B3CA0Menu *>((((InitOptions*)options[6])))->FUN_007b3ca0((intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2d48))))->IsDLCAvailable()))), 32, 0, 255,
+                                           (unsigned char)((color >> 16) & 255), 0.125f);
+                        for (InitNode* pBeardNode = ((::InitNode *)(reinterpret_cast<::FUN_00624700_shell *>((((InitData*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_00624700()));
+                             pBeardNode && *((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pBeardNode)->m_item)); pBeardNode = ((::InitNode *)(reinterpret_cast<::Callees *>((pBeardNode))->FUN_00726070())))
+                        {
+                            if (((bool)(reinterpret_cast<::FUN_005e7a60_cls *>(((*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pBeardNode)->m_item)))))->FUN_005e7a60())))
+                                reinterpret_cast<::TESRegionGrassObject *>((((InitOptions*)options[7])
+                                    ->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pBeardNode)->m_item)))->name))->FUN_00408da0())), 28)))->AssignLandTexture((::TESLandTexture *)(*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pBeardNode)->m_item))));
+                        }
+                        for (int j = 10; j < 19; j++)
+                            reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[9])))->AddFloatOption(names[j], (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[j])));
+                        reinterpret_cast<::FaceMorphMenu *>(this)->BuildMorphOptions();
+                        BSStringTChar doneLabel;
+                        switch (mode)
+                        {
+                        case 2:
+                            reinterpret_cast<::TextString *>(&(title))->FUN_004037f0(DAT_01075aac, 0);
+                            reinterpret_cast<::TextString *>(&(doneLabel))->FUN_004037f0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d43d8))))->GetMenuTitle())), 0);
+                            page = 3;
+                            unk120 = page;
+                            valuea0 = -7.4f;
+                            valuea4 = 80.0f;
+                            valuea8 = -0.84f;
+                            valueac = -12.4f;
+                            valueb0 = 135.0f;
+                            valueb4 = -0.8f;
+                            break;
+                        case 3:
+                            reinterpret_cast<::TextString *>(&(title))->FUN_004037f0(DAT_01075a74, 0);
+                            reinterpret_cast<::TextString *>(&(doneLabel))->FUN_004037f0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2058))))->GetMenuTitle())), 0);
+                            page = 2;
+                            unk120 = page;
+                            valuea0 = -5.2f;
+                            valuea4 = 55.0f;
+                            valuea8 = -0.84f;
+                            valueac = -12.4f;
+                            valueb0 = 135.0f;
+                            valueb4 = -0.77f;
+                            reinterpret_cast<::FUN_007af610_shell *>(this)->UpdateHairMenuOption();
+                            break;
+                        default:
+                            reinterpret_cast<::TextString *>(&(title))->FUN_004037f0(DAT_01075a4c, 0);
+                            reinterpret_cast<::TextString *>(&(doneLabel))->FUN_004037f0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d454c))))->GetMenuTitle())), 0);
+                            reinterpret_cast<::FUN_007b4050_shell *>((((InitOptions*)options[0])))->CopyControlValues((::FUN_007b4050_shell *)(::InitOptions *)(((InitOptions*)options[1])));
+                            reinterpret_cast<::FUN_007b4050_shell *>((((InitOptions*)options[1])))->CopyControlValues((::FUN_007b4050_shell *)(::InitOptions *)(((InitOptions*)options[2])));
+                            reinterpret_cast<::FUN_007b4050_shell *>((((InitOptions*)options[2])))->CopyControlValues((::FUN_007b4050_shell *)(::InitOptions *)(((InitOptions*)options[3])));
+                            unk120 = 3;
+                            page = 0;
+                            valuea0 = -4.7f;
+                            valuea4 = 55.0f;
+                            valuea8 = -0.84f;
+                            valueac = -11.4f;
+                            valueb0 = 135.0f;
+                            valueb4 = -0.8f;
+                            reinterpret_cast<::FUN_007af610_shell *>(this)->UpdateHairMenuOption();
+                            break;
+                        }
+                        if (FUN_004b7220() != 1)
+                            ::FUN_004afad0((::BSStringT_layout *)&(doneLabel));
+                        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringTChar *)(&question), DAT_01074e34, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4108))))->GetMenuTitle())), ((const char *)(::FUN_00559450((int *)&(doneLabel)))));
+                        valued0 = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::InitSetting *>(&::g_011da6cc))))))));
+                        valuec8 = valued0;
+                        reinterpret_cast<::S_007b40d0_Owner *>((((InitOptions*)options[0])))->ApplyToAllTiles();
+                        reinterpret_cast<::S_007b40d0_Owner *>((((InitOptions*)options[1])))->ApplyToAllTiles();
+                        reinterpret_cast<::S_007b40d0_Owner *>((((InitOptions*)options[7])))->ApplyToAllTiles();
+                        reinterpret_cast<::FUN_00ad8830_shell *>(&(sub0))->FUN_00ad8830(0);
+                        reinterpret_cast<::FUN_00ad8830_shell *>(&(sub1))->FUN_00ad8830(0);
+                        reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180(page);
+                        reinterpret_cast<::Menu *>(this)->SetMenuVisibility(0);
+                    }
+                }
+            }
+        }
+    }
+}
+// @fnv 0x007afaf0
+void FaceMorphMenu::BuildMorphOptions()
+{
+    FaceMorphDescriptor shape[] = {
+        {12, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d1ecc))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {12, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3504))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {12, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3840))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {16, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4b34))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {16, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d228c))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {16, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d32dc))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {18, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d46f0))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {18, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4714))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {18, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3150))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {18, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3a8c))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {13, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4384))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {13, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4e88))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {13, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d49f0))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {10, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d2ca0))))->GetMenuTitle())), ::DAT_0104a494, DAT_010162c0},
+        {20, 0, 0.0f, 0.0f},
+        {10, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d35a0))))->GetMenuTitle())), ::DAT_0104a494, DAT_010162c0},
+        {11, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4e88))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {11, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3a8c))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {11, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3720))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {17, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d240c))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {17, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d2514))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {17, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d2778))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {17, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d32dc))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {15, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d34a4))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {15, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d22e0))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {14, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3660))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {14, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4384))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {14, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d2e44))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {14, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d2dfc))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {14, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4900))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {14, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d23e8))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), ::DAT_01017718},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {14, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d32a0))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), ::DAT_01017718},
+        {20, 0, 0.0f, 0.0f},
+    };
+    FaceMorphDescriptor tone[] = {
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d2b80))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3b80))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d3078))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4174))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d2304))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4300))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4c30))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {20, 0, 0.0f, 0.0f},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d4d20))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d5104))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d33e4))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d2928))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+        {19, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011d5098))))->GetMenuTitle())), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6a4))))->FUN_00450410(), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::MorphSetting *>(&::g_011da6dc))))->FUN_00450410()},
+    };
+    MorphData morphs[4];
+    ::FUN_00652af0((CoordArray (*)[2])(void *)(((void *)(reinterpret_cast<::S9fb0 *>((((::MorphRace *)(reinterpret_cast<::Callees *>(&(actor->race))->FUN_00726070()))))->FUN_005d9fb0(actor->FUN_005f0cc0())))), (CoordArray (*)[2])(void *)(reinterpret_cast<::FUN_00601800_shell *>((actor))->FUN_00601800()), (CoordArray (*)[2])(morphs), 0,
+                 0.0f);
+    for (intptr_t index = 0; index < (((void *)(::BSFaceGenManager::GetFaceGenManager())), ((int)(::fnv_006521b0::FUN_006521b0(0, 0)))); ++index)
+    {
+        if (shape[index].group < 20 && shape[index].name)
+        {
+            float value = ::GetMorphCoordinateValue((char *)(morphs), 0, 0, index);
+            value = FUN_00404010(FUN_0040ebd0(value, shape[index].maximum), shape[index].minimum);
+            MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[shape[index].group]))->FUN_007b3ca0(
+                (intptr_t)(shape[index].name), 34, static_cast<int>(shape[index].minimum * 10.0),
+                static_cast<int>(shape[index].maximum * 10.0), static_cast<int>(value * 10.0), 0.25f)));
+            reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+            reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(index));
+        }
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 29);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[29].maximum), tone[29].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[29].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[29].name), 35, static_cast<int>(tone[29].minimum * 10.0), static_cast<int>(tone[29].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(29));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 28);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[28].maximum), tone[28].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[28].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[28].name), 35, static_cast<int>(tone[28].minimum * 10.0), static_cast<int>(tone[28].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(28));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 30);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[30].maximum), tone[30].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[30].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[30].name), 35, static_cast<int>(tone[30].minimum * 10.0), static_cast<int>(tone[30].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(30));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 31);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[31].maximum), tone[31].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[31].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[31].name), 35, static_cast<int>(tone[31].minimum * 10.0), static_cast<int>(tone[31].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(31));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 8);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[8].maximum), tone[8].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[8].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[8].name), 35, static_cast<int>(tone[8].minimum * 10.0), static_cast<int>(tone[8].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(8));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 9);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[9].maximum), tone[9].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[9].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[9].name), 35, static_cast<int>(tone[9].minimum * 10.0), static_cast<int>(tone[9].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(9));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 18);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[18].maximum), tone[18].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[18].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[18].name), 35, static_cast<int>(tone[18].minimum * 10.0), static_cast<int>(tone[18].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(18));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 27);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[27].maximum), tone[27].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[27].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[27].name), 35, static_cast<int>(tone[27].minimum * 10.0), static_cast<int>(tone[27].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(27));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 22);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[22].maximum), tone[22].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[22].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[22].name), 35, static_cast<int>(tone[22].minimum * 10.0), static_cast<int>(tone[22].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(22));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 5);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[5].maximum), tone[5].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[5].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[5].name), 35, static_cast<int>(tone[5].minimum * 10.0), static_cast<int>(tone[5].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(5));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 6);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[6].maximum), tone[6].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[6].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[6].name), 35, static_cast<int>(tone[6].minimum * 10.0), static_cast<int>(tone[6].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(6));
+    }
+    {
+        float value = ::GetMorphCoordinateValue((char *)(morphs), 1, 0, 3);
+        value = FUN_00404010(FUN_0040ebd0(value, tone[3].maximum), tone[3].minimum);
+        MorphMenuOption* option = ((::MorphMenuOption *)(reinterpret_cast<::B3CA0Menu *>((lists[tone[3].group]))->FUN_007b3ca0(
+            (intptr_t)(tone[3].name), 35, static_cast<int>(tone[3].minimum * 10.0), static_cast<int>(tone[3].maximum * 10.0),
+            static_cast<int>(value * 10.0), 0.25f)));
+        reinterpret_cast<::FUN_007b3810Class *>((option))->FUN_007b3810(::DAT_01020770);
+        reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(3));
+    }
+    reinterpret_cast<::B7B18F0Menu *>(this)->HandleMenuKey(34);
+    reinterpret_cast<::B7B18F0Menu *>(this)->HandleMenuKey(35);
+    if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(8))
+    {
+        reinterpret_cast<::AppearanceMenu *>(this)->UpdateFaceGen(1, 1, 0);
+        reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(8, false);
+    }
+    if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(9))
+    {
+        reinterpret_cast<::Menu511 *>(this)->FUN_007b25a0();
+        reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(9, false);
+    }
+}
 // @fnv 0x007b25a0
 void Menu511::FUN_007b25a0()
 {
-    FUN_006570e0(_g_thePlayer->FUN_007af430());
+    ::FUN_006570e0((::QueryObject *)(::HairOption *)(((::HairOption *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))))->FUN_007af430()))));
     DAT_011c5cb4 = true;
-    _g_thePlayer->FUN_008d8520()->Reset();
-    _g_thePlayer->FUN_008d8520()->SetMode(3);
-    _g_thePlayer->FUN_008d8520()->SetOwner(_g_thePlayer);
-    if (!_g_thePlayer->HasStateB(0) && !_g_thePlayer->HasStateA(0))
+    ((::Process511 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))))->GetBaseTexture()))->Reset();
+    ((::Process511 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))))->GetBaseTexture()))->SetMode(3);
+    ((::Process511 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))))->GetBaseTexture()))->SetOwner((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer)));
+    if (!(*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))->HasStateB(0) && !(*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))->HasStateA(0))
     {
         QHeadLocal head(npc, 0);
-        head.FUN_0043ecb0();
-        head.RunVirtualMethod28();
-        head.FUN_0043ed90(_g_thePlayer, _g_thePlayer->FUN_00950b00(false));
+        reinterpret_cast<::fnv_0043ecb0::FUN_0043ecb0_shell *>(&(head))->FUN_0043ecb0();
+        reinterpret_cast<::FUN_0043c610_shell *>(&(head))->RunVirtualMethod28();
+        reinterpret_cast<::fnv_0043ed90::AttachTask *>(&(head))->FUN_0043ed90((::fnv_0043ed90::RefActor *)((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))), (intptr_t)(((void *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))))->FUN_00950b00(false)))));
     }
     DAT_011c5cb4 = false;
-    Node511* node = _g_thePlayer->FUN_00950bb0(true);
+    Node511* node = ((::Node511 *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))))->FUN_00950bb0(true)));
     Node511* matrix = node;
-    NiAVObject511* object = matrix->FUN_0043b4a0(0);
-    Matrix node2 = DAT_011a9448;
-    object->FUN_0043fa80(&_g_thePlayer->FUN_0056fac0(node2));
-    DAT_01202d98->FUN_00456520();
-    UpdateShadowSceneNode();
-    FUN_00705990()->Update();
-    FUN_00705990()->Refresh();
+    NiAVObject511* object = ((::NiAVObject511 *)(reinterpret_cast<::NiNode *>((matrix))->GetAt(0)));
+    Matrix node2 = (*reinterpret_cast<::Matrix *>(&::DAT_011a9448));
+    reinterpret_cast<::FUN_0043fa80_s *>((object))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))->FUN_0056fac0(node2)))));
+    reinterpret_cast<::FUN_00456520_Class *>((DAT_01202d98))->FUN_00456520();
+    reinterpret_cast<::FUN_007b1ae0_shell *>(this)->UpdateShadowSceneNode();
+    ((::Root511 *)(::fnv_00705990::FUN_00705990()))->Update();
+    ((::Root511 *)(::fnv_00705990::FUN_00705990()))->Refresh();
 }
 
 struct NavTile
 {
-    bool IsAllChildrenFlag0();
 };
 struct NavItem
 {
@@ -6824,7 +6431,6 @@ struct NavController
     virtual void Slot2();
     virtual void Navigate(int, int);
 };
-void FUN_00706ff0(NavTile*);
 struct NavList
 {
     int unk00;
@@ -6837,15 +6443,125 @@ struct NavList
     int unk1c;
     NavItem* selected;
     void* FUN_0049c680(NavItem*&, int);
-    void* GetSecondField(void*);
-    void* DereferenceIfNotNull(void*);
-    void* FUN_00726070();
-    void* FUN_00559450();
-    NavItem*& AddEight(void*);
-    NavItem*& FUN_007b5370();
-    NavItem*& FUN_0073ac90();
     bool FUN_007b4260(int);
 };
+// @fnv 0x007af300
+void HairMenu::PopulateHairOptions()
+{
+    reinterpret_cast<::FUN_007b45b0_shell *>((options))->FUN_007b45b0();
+    HairOption* pChosenOption = 0;
+    for (HairNode* node = ((::HairNode *)(reinterpret_cast<::FUN_00613790_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_00613790())); node && *((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::HairNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+    {
+        if (reinterpret_cast<::FUN_005fdf40_shell *>(((*((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_005fdf40() && reinterpret_cast<::FUN_005fdfa0_shell *>(((*((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->IsHairValidForNPC(npc))
+        {
+            HairOption* option = options->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->fullName))->FUN_00408da0())), 27);
+            reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(*((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item))));
+            if (!pChosenOption && ((bool)(::FUN_007ad860((::Obj0 *)(option)))))
+                pChosenOption = option;
+        }
+    }
+    reinterpret_cast<::StatsMenu *>(this)->UpdateMinusPlusTiles();
+    while (pChosenOption && pChosenOption != ((::HairOption *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((options))->FUN_007af430())) && reinterpret_cast<::NavList *>((options))->FUN_007b4260(2))
+    {
+    }
+    reinterpret_cast<::S_007b40d0_Owner *>((options))->ApplyToAllTiles();
+    reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(0, false);
+}
+// @fnv 0x007aecb0
+bool Menu67::HandleAction(int action, int argument)
+{
+    if (FUN_00702450(Id()))
+    {
+        if (action >= 0)
+        {
+            int key = reinterpret_cast<::FUN_00a23390_t *>((((::Value67 *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::Input67 * *>(&::g_osGlobals))))->FUN_00877720()))))->GetAxisState({}, {});
+            reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(4, action != 4 && action != 3 && FUN_0072fa60(key) < 0x1ea9);
+        }
+        switch (action)
+        {
+        case 10:
+            if (reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180(reinterpret_cast<::FUN_0084e3a0_Class *>((options[FUN_007dcc00()]))->FUN_0084e3a0()))
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound67 &)(((::Audio67 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_0106f380, 0x121, 0)))->FUN_00ad8830({});
+            return true;
+        case 13:
+        case 14: {
+            int iOptionIndex = FUN_007dcc00();
+            while (iOptionIndex >= 4)
+                iOptionIndex = reinterpret_cast<::FUN_0084e3a0_Class *>((options[iOptionIndex]))->FUN_0084e3a0();
+            bool bChanged = action == 13 ? reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180(reinterpret_cast<::FUN_0084e3a0_Class *>((options[iOptionIndex]))->FUN_0084e3a0())
+                                         : reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180(((intptr_t)(reinterpret_cast<::MagicCaster_shell *>((options[iOptionIndex]))->FUN_0044edb0())));
+            if (bChanged)
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound67 &)(((::Audio67 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01075b00, 0x121, 0)))->FUN_00ad8830({});
+            else if (action == 14)
+                ::fnv_00703e80::FUN_00703e80(((const char *)(::FUN_00559450((int *)&(message)))), (const char *)(0), (const char *)(0), UpdateRaceSexMenu, 1, 0x12, 0.0f, 0.0f,
+                             ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting67 *>(&::g_011d3684))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting67 *>(&::g_011d34f8))))->GetMenuTitle())), 0);
+            return true;
+        }
+        case 3:
+        case 4:
+        case 15:
+        case 16: {
+            Tile67* tile = ((Interface67*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->unkbc;
+            if (!tile && !FUN_004b71d0())
+            {
+                tile = ((Interface67*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->focused;
+                while (tile && ((::Tile67 *)(reinterpret_cast<::FUN_0045cd60_shell *>((tile))->FUN_0045cd60())) != parent)
+                    tile = ((::Tile67 *)(reinterpret_cast<::FUN_0045cd60_shell *>((tile))->FUN_0045cd60()));
+            }
+            if (tile == left && action == 3 && reinterpret_cast<::sa040a0::Owner *>((right))->IsAllChildrenFlag0())
+            {
+                ::FUN_00706ff0((intptr_t)(right));
+                return true;
+            }
+            else if (tile == right && action == 4 && reinterpret_cast<::sa040a0::Owner *>((left))->IsAllChildrenFlag0())
+            {
+                ::FUN_00706ff0((intptr_t)(left));
+                return true;
+            }
+            else if (tile)
+            {
+                int trait7;
+                if (action == 15)
+                    trait7 = 0x66;
+                else if (action == 16)
+                    trait7 = 0x67;
+                else if (action == 3)
+                    trait7 = 0x68;
+                else if (action == 4)
+                    trait7 = 0x64;
+                else
+                    return false;
+                Tile67* pDestination = ((::Tile67 *)(reinterpret_cast<::TileFloatList *>((tile))->FUN_00a03eb0(trait7)));
+                if (pDestination)
+                {
+                    Activate(trait7, pDestination);
+                    return true;
+                }
+            }
+        }
+        case 1:
+            return reinterpret_cast<::NavList *>((options[FUN_007dcc00()]))->FUN_007b4260(action);
+        case 2:
+            if (((Interface67*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->unkbc == left ||
+                ((Interface67*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->unkbc == right || reinterpret_cast<::NavList *>((options[FUN_007dcc00()]))->FUN_007b4260(action))
+                return true;
+            else if (reinterpret_cast<::sa040a0::Owner *>((left))->IsAllChildrenFlag0())
+            {
+                reinterpret_cast<::InputFocusController *>((options[FUN_007dcc00()]))->SetFocus(0);
+                ::FUN_00706ff0((intptr_t)(left));
+                return true;
+            }
+            else if (reinterpret_cast<::sa040a0::Owner *>((right))->IsAllChildrenFlag0())
+            {
+                reinterpret_cast<::InputFocusController *>((options[FUN_007dcc00()]))->SetFocus(0);
+                ::FUN_00706ff0((intptr_t)(right));
+                return true;
+            }
+            break;
+        }
+    }
+    return false;
+}
 // Moves the selection according to direction, retries navigation up to 100 times, then updates the selected tile.
 // @fnv 0x007b4260
 bool NavList::FUN_007b4260(int direction)
@@ -6860,15 +6576,15 @@ bool NavList::FUN_007b4260(int direction)
         position = FUN_0049c680(selected, 0);
         if (position)
         {
-            position = previousVal ? GetSecondField(position) : DereferenceIfNotNull(position);
+            position = previousVal ? ((void *)((position ? (void *)(reinterpret_cast<::NiTListItemFields *>(position)->m_pkPrev) : 0))) : ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(this)->DereferenceIfNotNull((int **)(position))));
         }
         else
         {
-            position = previousVal ? FUN_00726070() : FUN_00559450();
+            position = previousVal ? reinterpret_cast<::Callees *>(this)->FUN_00726070() : ((void *)(::FUN_00559450((int *)this)));
         }
         if (position)
         {
-            selected = AddEight(position);
+            selected = ((::NavItem *)(reinterpret_cast<::FUN_006317a0_struct *>(this)->AddEight((intptr_t)(position))));
         }
         else
         {
@@ -6877,10 +6593,10 @@ bool NavList::FUN_007b4260(int direction)
         break;
     }
     case 16:
-        selected = FUN_007b5370();
+        selected = ((::NavItem *)(reinterpret_cast<::InventoryStackRecord *>(this)->GetPayloadAddress()));
         break;
     case 15:
-        selected = FUN_0073ac90();
+        selected = ((::NavItem *)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90()));
         break;
     default:
         return false;
@@ -6888,22 +6604,17 @@ bool NavList::FUN_007b4260(int direction)
     if (selected && selected->tile)
     {
         int attempts = 100;
-        while (attempts-- && !selected->tile->IsAllChildrenFlag0())
+        while (attempts-- && !reinterpret_cast<::sa040a0::Owner *>((selected->tile))->IsAllChildrenFlag0())
         {
             reinterpret_cast<NavController*>(DAT_011da634)->Navigate(previousVal ? 2 : 3, 0);
         }
-        FUN_00706ff0(selected->tile);
+        ::FUN_00706ff0((intptr_t)(selected->tile));
     }
     return bResult;
 }
 
 struct OptTile
 {
-    float Read(int);
-    void Text(int, const char*, bool);
-    void Integer(int, int);
-    OptTile* Parent();
-    void Float(int, float, bool);
     void Refresh(bool);
 };
 struct OptEntry
@@ -6946,12 +6657,7 @@ struct Root4650
     int unk70;
     int unk74;
     void* parent;
-    OptTile* Create(void*, const char*, int);
 };
-extern Root4650* root4650;
-int LookupTrait(const char*, int);
-float FUN_00404010(float, float);
-extern float DAT_010162c0;
 struct List4650
 {
     int unk00, unk04, unk08, unk0c, unk10;
@@ -6959,50 +6665,72 @@ struct List4650
     float height;
     int unk1c;
     OptEntry* selected;
-    void Insert(void*, OptEntry*&);
-    void Append(OptEntry*&);
     void* Find(OptEntry*&, void*);
-    void* Previous(void*);
-    OptEntry*& At(void*);
-    OptEntry*& Next(void*&);
     OptEntry* CreateEntry(const char*, const char*, unsigned int, void*);
 };
+// @fnv 0x007b3b80
+void FUN_007b3b80_shell::FUN_007b3b80(intptr_t aiArg1, int aiArg2)
+{
+    reinterpret_cast<::List4650 *>(this)->CreateEntry((const char *)(aiArg1), "RSM_list_item_template", aiArg2, (void *)(0));
+}
+// @fnv 0x007b3bb0
+intptr_t Menu_007b3bb0::AddFloatOption(const char* input, SelectedOption_007b3bb0* selected)
+{
+    TempString_007b3bb0 text;
+    ::FUN_00406f60((::FUN_00406f90_this *)(::TempString_007b3bb0 *)(&text), DAT_01075b28, input, 0x3e);
+    selected->value0c = (unsigned int)reinterpret_cast<::TileListBoxCalls *>((pTGF))->GetFloat(0x1004);
+    return ((intptr_t)(reinterpret_cast<::List4650 *>(this)->CreateEntry((const char *)(::FUN_00559450((int *)&(text))), ::str_01075b10, (unsigned int)reinterpret_cast<::TileListBoxCalls *>((selected->pTGF))->GetFloat(0x1004), 0)));
+}
+// @fnv 0x007b3ca0
+B3CA0SliderOption* B3CA0Menu::FUN_007b3ca0(intptr_t m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float afFraction)
+{
+    if (afFraction < 0.0)
+        afFraction = 0.0f;
+    if (afFraction > 1.0)
+        afFraction = 1.0f;
+
+    B3CA0SliderOption* pkOption = ((::B3CA0SliderOption *)(reinterpret_cast<::List4650 *>(this)->CreateEntry((const char *)(m_uiSoundID), "RSM_slider_option_template", iParent, (void *)(0))));
+    reinterpret_cast<::TileValueAccessor *>((pkOption))->FUN_007b3890(iLow, iHigh);
+    reinterpret_cast<::MenuOptionFor3760 *>((pkOption))->FUN_007b3760(iValue);
+    reinterpret_cast<::FUN_00a012d0_t *>((pkOption->m_pkTile))->FUN_00a012d0(0x1008, ::InventoryStackRecord::RoundToNearestStep((float)(iHigh - iLow + 1) * afFraction, 1.0f), true);
+    return pkOption;
+}
 // Creates a new OptEntry tile from text and template, inserts or appends it, repositions following entries, updates height, and selects it if none is selected.
 // @fnv 0x007b4650
 OptEntry* List4650::CreateEntry(const char* text, const char* templ, unsigned int kind, void* pos)
 {
-    if (!text || !root4650 || !root4650->parent || !tile)
+    if (!text || !(*reinterpret_cast<::Root4650 * *>(&::DAT_011da634)) || !(*reinterpret_cast<::Root4650 * *>(&::DAT_011da634))->parent || !tile)
         return 0;
     OptEntry* entry7 = new OptEntry;
-    int index = (int)tile->Read(0x1004);
+    int index = (int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0x1004);
     entry7->kind = kind;
-    entry7->tile = root4650->Create(root4650->parent, templ, 0);
-    entry7->tile->Text(0xfc4, text, true);
-    entry7->tile->Integer(0x1004, index);
-    entry7->tile->Integer(0xfaf, 1);
+    entry7->tile = ((::OptTile *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>(((*reinterpret_cast<::Root4650 * *>(&::DAT_011da634))))->FUN_00a1ddb0((::Tile *)((*reinterpret_cast<::Root4650 * *>(&::DAT_011da634))->parent), (char *)(templ), (::Tile *)(0))));
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((entry7->tile))->FUN_00a01350(0xfc4, (char *)(text), true);
+    reinterpret_cast<::Tile *>((entry7->tile))->Set(0x1004, index);
+    reinterpret_cast<::Tile *>((entry7->tile))->Set(0xfaf, 1);
     if (pos)
-        Insert(pos, entry7);
+        reinterpret_cast<::FUN_007b5330_Class *>(this)->FUN_007b5330((intptr_t)(pos), (int *)&(entry7));
     else
-        Append(entry7);
+        reinterpret_cast<::FUN_004ed8c0_shell *>(this)->FUN_004ed8c0((int *)&(entry7));
     pos = Find(entry7, 0);
     while (pos)
     {
-        void* prev2 = Previous(pos);
-        OptEntry* beforeB = prev2 ? At(prev2) : 0;
-        OptEntry* current5 = Next(pos);
-        current5->tile->Float(0xfa2,
-                              beforeB ? beforeB->tile->Read(0xfa2) + beforeB->tile->Read(0xfb0)
-                                      : current5->tile->Parent()->Read(LookupTrait("_top_bound", -1)),
+        void* prev2 = ((void *)((pos ? (void *)(reinterpret_cast<::NiTListItemFields *>(pos)->m_pkPrev) : 0)));
+        OptEntry* beforeB = prev2 ? ((::OptEntry *)(reinterpret_cast<::FUN_006317a0_struct *>(this)->AddEight((intptr_t)(prev2)))) : 0;
+        OptEntry* current5 = ((::OptEntry *)(reinterpret_cast<::ListStandIn *>(this)->FUN_0057cbe0((int **)&(pos))));
+        reinterpret_cast<::FUN_00a012d0_t *>((current5->tile))->FUN_00a012d0(0xfa2,
+                              beforeB ? reinterpret_cast<::TileListBoxCalls *>((beforeB->tile))->GetFloat(0xfa2) + reinterpret_cast<::TileListBoxCalls *>((beforeB->tile))->GetFloat(0xfb0)
+                                      : reinterpret_cast<::TileListBoxCalls *>((((::OptTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((current5->tile))->FUN_0045cd60()))))->GetFloat(::FUN_00a00940("_top_bound", -1)),
                               true);
-        current5->tile->Refresh(false);
+        reinterpret_cast<::RenderTile *>((current5->tile))->FUN_00a04640(false);
     }
-    height = FUN_00404010(height, entry7->tile->Read(0xfb0));
+    height = FUN_00404010(height, reinterpret_cast<::TileListBoxCalls *>((entry7->tile))->GetFloat(0xfb0));
     if (index < 4 && entry7->kind < 4)
-        entry7->tile->Text(0xfcb, "UIPipBoyMode", true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((entry7->tile))->FUN_00a01350(0xfcb, (char *)("UIPipBoyMode"), true);
     if (!selected)
     {
         selected = entry7;
-        entry7->tile->Float(0xfd6, DAT_010162c0, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((entry7->tile))->FUN_00a012d0(0xfd6, DAT_010162c0, true);
     }
     return entry7;
 }
@@ -7010,16 +6738,10 @@ OptEntry* List4650::CreateEntry(const char* text, const char* templ, unsigned in
 namespace fnv_007b4930 {
 struct PendingTile : LocalTile
 {
-    const unsigned char* FUN_00a011f0(int trait);
-    void FUN_00a0b110(int trait);
 };
 struct PendingOption : MenuOptionFor3760
 {
-    int FUN_00726070();
-    int ReadOptionValue();
 };
-extern StrTable DAT_011d3528;
-int __cdecl _mbscmp(const unsigned char*, const unsigned char*);
 struct PendingMenu
 {
     int unk000;
@@ -7072,8 +6794,6 @@ struct PendingMenu
     int unk0bc;
     PendingTile* pendingTile;
     PendingOption* pendingOption;
-    bool FUN_007adc30(int trait);
-    void FUN_007adc60(int trait, bool enabled);
     void HandleOptionSelection();
     void HandlePendingTileAction();
 };
@@ -7083,42 +6803,42 @@ void PendingMenu::HandlePendingTileAction()
 {
     if (pendingTile && pendingOption)
     {
-        int action = (int)pendingTile->FUN_00a011b0(0xfaa);
+        int action = (int)((double)(reinterpret_cast<::TileListBoxCalls *>((pendingTile))->GetFloat(0xfaa)));
         bool changed = false;
-        if (pendingOption->FUN_00726070() == 29 && (action == 100 || action == 104) &&
-            _mbscmp(static_cast<PendingTile*>(pendingTile->GetParent())->FUN_00a011f0(0x1009),
-                    reinterpret_cast<const unsigned char*>(DAT_011d3528.FUN_00403df0())) == 0)
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>((pendingOption))->FUN_00726070())) == 29 && (action == 100 || action == 104) &&
+            ::FUN_00469880((void *)(((const unsigned char *)(reinterpret_cast<::FUN_00a011f0_shell *>((static_cast<PendingTile*>(((::LocalTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((pendingTile))->FUN_0045cd60())))))->FUN_00a011f0(0x1009)))),
+                    (void *)(reinterpret_cast<const unsigned char*>(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrTable *>(&::g_011d3528))))->GetMenuTitle()))))) == 0)
         {
             changed = true;
         }
         else if (action == 100)
         {
-            changed = pendingOption->FUN_007b3760(pendingOption->GetFloat1005() - pendingOption->ReadOptionValue());
+            changed = pendingOption->FUN_007b3760(reinterpret_cast<::FUN_007b3740_shell *>((pendingOption))->GetFloat1005() - ((int)(reinterpret_cast<::OptionValueReader *>((pendingOption))->ReadOptionValue())));
         }
         else if (action == 104)
         {
-            changed = pendingOption->FUN_007b3760(pendingOption->GetFloat1005() + pendingOption->ReadOptionValue());
+            changed = pendingOption->FUN_007b3760(reinterpret_cast<::FUN_007b3740_shell *>((pendingOption))->GetFloat1005() + ((int)(reinterpret_cast<::OptionValueReader *>((pendingOption))->ReadOptionValue())));
         }
         else if (action == 102)
         {
-            changed = pendingOption->FUN_007b3760(pendingOption->GetFloat1005() -
-                                                  (int)pendingTile->GetParent()->FUN_00a011b0(0x1008));
+            changed = pendingOption->FUN_007b3760(reinterpret_cast<::FUN_007b3740_shell *>((pendingOption))->GetFloat1005() -
+                                                  (int)((double)(reinterpret_cast<::TileListBoxCalls *>((((::LocalTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((pendingTile))->FUN_0045cd60()))))->GetFloat(0x1008))));
         }
         else if (action == 103)
         {
-            changed = pendingOption->FUN_007b3760(pendingOption->GetFloat1005() +
-                                                  (int)pendingTile->GetParent()->FUN_00a011b0(0x1008));
+            changed = pendingOption->FUN_007b3760(reinterpret_cast<::FUN_007b3740_shell *>((pendingOption))->GetFloat1005() +
+                                                  (int)((double)(reinterpret_cast<::TileListBoxCalls *>((((::LocalTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((pendingTile))->FUN_0045cd60()))))->GetFloat(0x1008))));
         }
         else if (action == 105)
         {
-            changed = FUN_007adc30(2);
+            changed = reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(2);
         }
         if (changed)
         {
             HandleOptionSelection();
-            pendingTile->FUN_00a0b110(0xfcb);
+            reinterpret_cast<::FUN_00a0b110_shell *>((pendingTile))->FUN_00a0b110(0xfcb);
         }
-        FUN_007adc60(2, false);
+        reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(2, false);
         pendingTile = 0;
         pendingOption = 0;
     }
@@ -7134,21 +6854,12 @@ struct FUN_00449610
 };
 struct Option7
 {
-    int FUN_00726070();
-    int GetFloat1005();
-    void ApplyToAllTiles();
-    Option7* FindByColor(int);
-    void FUN_007b3810(const char*);
-    void FUN_007b3840(int&, int&);
-    void FUN_007b3760(int);
 };
 struct Race7
 {
-    char* FUN_005d9fb0(int);
 };
 struct RaceRef7
 {
-    Race7* FUN_00726070();
 };
 struct NPC7
 {
@@ -7220,11 +6931,8 @@ struct NPC7
     int unk104;
     int unk108;
     RaceRef7 race;
-    void FUN_00603790(void*);
     void FUN_00603ad0(FUN_00449610*);
-    unsigned int FUN_004169d0();
     int GetSex();
-    void* FUN_00601800();
 };
 struct FormArray7
 {
@@ -7232,9 +6940,7 @@ struct FormArray7
 };
 struct Setting7
 {
-    const char* String();
 };
-extern Setting7 g_011d3528;
 struct Menu7
 {
     int unk000;
@@ -7290,157 +6996,130 @@ struct Menu7
     int unk120;
     FUN_00449610 face[4];
     int GetCurrentPage();
-    void ApplyHairOption(Option7*);
-    void ApplyParam(Option7*);
-    void HandleMenuKey(int);
-    bool FUN_007adc30(int);
-    void UpdateFaceGen(int, int, int);
-    void FUN_007adc60(int, bool);
-    void FUN_007b25a0();
-    void RebuildFaceGen(int);
     void UpdateEyeTextures();
-    void FUN_007afa40(unsigned int);
     void HandleOptionSelection();
 };
 
-void FUN_006521f0(FUN_00449610*);
-float FUN_00652440(FUN_00449610*, int, int);
-void FUN_00652470(FUN_00449610*, int, int, float);
-void FUN_00652e00(char*, FUN_00449610*, FUN_00449610*, int);
-bool FUN_00652900(FUN_00449610*, void*);
-void FUN_006529a0(FUN_00449610*, void*, int, int);
 // Handles the selected menu option by page and option type, updating lists, NPC face data and menu flags.
 // @fnv 0x007b4b50
 void Menu7::HandleOptionSelection()
 {
     if (GetCurrentPage() == 6)
     {
-        ApplyHairOption(selected);
+        reinterpret_cast<::fnv_007af900::HairMenu *>(this)->ApplyHairOption((::fnv_007af900::HairOption *)(selected));
     }
-    else if (selected->FUN_00726070() == 34 || selected->FUN_00726070() == 35)
+    else if (((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((selected))->id)) == 34 || ((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((selected))->id)) == 35)
     {
-        ApplyParam(selected);
-        HandleMenuKey(selected->FUN_00726070());
-        if (FUN_007adc30(8))
+        reinterpret_cast<::FUN_007af770_cls *>(this)->ApplyParam((::B10355_Param *)(selected));
+        reinterpret_cast<::B7B18F0Menu *>(this)->HandleMenuKey(((int)(reinterpret_cast<::RaceSexOptionFields *>((selected))->id)));
+        if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(8))
         {
-            if (selected->FUN_00726070() == 34)
-                UpdateFaceGen(0, 1, 0);
+            if (((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((selected))->id)) == 34)
+                reinterpret_cast<::AppearanceMenu *>(this)->UpdateFaceGen(0, 1, 0);
             else
-                UpdateFaceGen(0, 0, 1);
-            FUN_007adc60(8, false);
+                reinterpret_cast<::AppearanceMenu *>(this)->UpdateFaceGen(0, 0, 1);
+            reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(8, false);
         }
     }
-    else if (selected->FUN_00726070() == 24)
+    else if (((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((selected))->id)) == 24)
     {
-        npc->FUN_00603790(forms.FUN_00877a30(selected->GetFloat1005() - 1));
+        reinterpret_cast<::TESNPC *>((npc))->CopyActorBaseData((::TESNPC *)(forms.FUN_00877a30(reinterpret_cast<::FUN_007b3740_shell *>((selected))->GetFloat1005() - 1)));
         for (int indexB = 0; indexB < 20; indexB++)
-            lists[indexB]->ApplyToAllTiles();
-        HandleMenuKey(34);
-        HandleMenuKey(35);
-        UpdateFaceGen(1, 1, 0);
-        FUN_007b25a0();
-        RebuildFaceGen(1);
+            reinterpret_cast<::S_007b40d0_Owner *>((lists[indexB]))->ApplyToAllTiles();
+        reinterpret_cast<::B7B18F0Menu *>(this)->HandleMenuKey(34);
+        reinterpret_cast<::B7B18F0Menu *>(this)->HandleMenuKey(35);
+        reinterpret_cast<::AppearanceMenu *>(this)->UpdateFaceGen(1, 1, 0);
+        reinterpret_cast<::Menu511 *>(this)->FUN_007b25a0();
+        reinterpret_cast<::fnv_007b2b50::HostB50 *>(this)->RebuildFaceGen(1);
         UpdateEyeTextures();
-        FUN_007adc60(8, false);
-        FUN_007adc60(9, false);
-        FUN_007afa40(npc->FUN_004169d0());
-        Option7* option6 = lists[6]->FindByColor(29);
+        reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(8, false);
+        reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(9, false);
+        reinterpret_cast<::FUN_007afa40_cls *>(this)->FUN_007afa40(reinterpret_cast<::FUN_004169d0_shell *>((npc))->FUN_004169d0());
+        Option7* option6 = ((::fnv_007b4b50::Option7 *)(reinterpret_cast<::fnv_007b4210::FUN_007b4210_shell *>((lists[6]))->FindByColor(29)));
         if (option6)
         {
-            option6->FUN_007b3810(g_011d3528.String());
+            reinterpret_cast<::FUN_007b3810Class *>((option6))->FUN_007b3810(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007b4b50::Setting7 *>(&::g_011d3528))))->GetMenuTitle())));
             int low3, high;
-            option6->FUN_007b3840(low3, high);
-            option6->FUN_007b3760(low3);
+            reinterpret_cast<::RaceSexMenu_MenuOption *>((option6))->FUN_007b3840(low3, high);
+            reinterpret_cast<::MenuOptionFor3760 *>((option6))->FUN_007b3760(low3);
         }
-        FUN_007adc60(0, true);
+        reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(0, true);
     }
-    else if (selected->FUN_00726070() == 26)
+    else if (((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((selected))->id)) == 26)
     {
-        int amount7 = selected->GetFloat1005();
+        int amount7 = reinterpret_cast<::FUN_007b3740_shell *>((selected))->GetFloat1005();
         amount7 = (int)(amount7 * 5.550000190734863 + 9.449999809265137);
         FUN_00449610 base3[4];
         FUN_00449610 result6[4];
-        FUN_006521f0(result6);
+        ::BSFaceGenManager::InitializeFaceGenCoordinates((::FaceGenCoordinates *)(result6));
         npc->FUN_00603ad0(base3);
         npc->FUN_00603ad0(face);
-        float first2 = FUN_00652440(base3, 0, 0);
-        float second_ = FUN_00652440(base3, 0, 1);
+        float first2 = ::FUN_00652440((intptr_t)(base3), 0, 0);
+        float second_ = ::FUN_00652440((intptr_t)(base3), 0, 1);
         float remaining = second_ - (first2 - amount7);
         amount7 = (int)(((amount7 > 15.0 ? (float)amount7 : 15.0f) < 65.0) ? (amount7 > 15.0 ? (float)amount7 : 15.0f)
                                                                            : 65.0f);
         remaining = ((remaining > 15.0 ? remaining : 15.0f) < 65.0) ? (remaining > 15.0 ? remaining : 15.0f) : 65.0f;
-        FUN_00652470(base3, 0, 0, (float)amount7);
-        FUN_00652470(base3, 0, 1, remaining);
-        FUN_00652e00(npc->race.FUN_00726070()->FUN_005d9fb0(npc->GetSex()), base3, result6, 0);
-        if (FUN_00652900(result6, npc->FUN_00601800()))
-            FUN_006529a0(result6, npc->FUN_00601800(), 0, 0);
-        ((Menu7*)DAT_011da634)->FUN_007adc60(7, true);
-        ((Menu7*)DAT_011da634)->HandleMenuKey(34);
-        ((Menu7*)DAT_011da634)->HandleMenuKey(35);
-        ((Menu7*)DAT_011da634)->UpdateFaceGen(1, 1, 0);
-        ((Menu7*)DAT_011da634)->FUN_007adc60(8, false);
-        ((Menu7*)DAT_011da634)->FUN_007adc60(9, true);
+        ::FUN_00652470((intptr_t)(base3), 0, 0, (float)amount7);
+        ::FUN_00652470((intptr_t)(base3), 0, 1, remaining);
+        ::FUN_00652e00((MatrixProxy (*)[2])(char *)(reinterpret_cast<::S9fb0 *>((((::fnv_007b4b50::Race7 *)(reinterpret_cast<::Callees *>(&(npc->race))->FUN_00726070()))))->FUN_005d9fb0(npc->GetSex())), (MatrixProxy (*)[2])(base3), (MatrixProxy (*)[2])(result6), 0);
+        if (::fnv_00652900::FUN_00652900((const fnv_00652900::FaceGenMatrix<float> (*)[2])(result6), (fnv_00652900::FaceGenMatrix<float> (*)[2])(void *)(reinterpret_cast<::FUN_00601800_shell *>((npc))->FUN_00601800())))
+            ::fnv_006529a0::FUN_006529a0((FaceGenCoordArray (*)[2])(result6), (FaceGenCoordArray (*)[2])(void *)(reinterpret_cast<::FUN_00601800_shell *>((npc))->FUN_00601800()), 0, 0);
+        reinterpret_cast<::FUN_007adc60_shell *>((((Menu7*)DAT_011da634)))->FUN_007adc60(7, true);
+        reinterpret_cast<::B7B18F0Menu *>((((Menu7*)DAT_011da634)))->HandleMenuKey(34);
+        reinterpret_cast<::B7B18F0Menu *>((((Menu7*)DAT_011da634)))->HandleMenuKey(35);
+        reinterpret_cast<::AppearanceMenu *>((((Menu7*)DAT_011da634)))->UpdateFaceGen(1, 1, 0);
+        reinterpret_cast<::FUN_007adc60_shell *>((((Menu7*)DAT_011da634)))->FUN_007adc60(8, false);
+        reinterpret_cast<::FUN_007adc60_shell *>((((Menu7*)DAT_011da634)))->FUN_007adc60(9, true);
     }
     else
         return;
-    FUN_007adc60(7, false);
+    reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(7, false);
 }
 }  // namespace fnv_007b4b50
 
-int __fastcall FUN_0044ddc0(void* self);
-HairResult* __fastcall FUN_004ac110(void* self);
+HairResult* FUN_004ac110(void* self);
 // Returns 1 if p is non-null, its FUN_0044ddc0 result is non-zero, and the holder's m_d8 hair result equals that value; otherwise 0.
 // @fnv 0x007ad7f0
 char __cdecl IsHairMatching(Obj0* p)
 {
     int result;
-    if (p != 0 && FUN_0044ddc0(p) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
-        (int)FUN_004ac110(((Holder*)DAT_011da634)->m_d8) == FUN_0044ddc0(p))
+    if (p != 0 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((p))->GetName())) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
+        (std::intptr_t)FUN_004ac110(((Holder*)DAT_011da634)->m_d8) == ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((p))->GetName())))
         result = 1;
     else
         result = 0;
     return *(char*)&result;
 }
 
-extern Setting67 DAT_011d3288;
 
 class HCTile
 {
   public:
-    HCTile* FUN_0045cd60();
-    bool IsTraitNonZero(int m_iValueId);
 };
 
 class HCOption
 {
   public:
-    unsigned int FUN_00726070();  // GetID
-    bool IsSelected();
-    int FUN_0044ddc0();  // GetValue
+      // GetID
+      // GetValue
 };
 
 class HCOptionList
 {
   public:
-    HCOption* FUN_007b41c0(HCTile* pkTile);
-    void ApplyToAllTiles();
-    int FUN_0084e3a0();
-    int FUN_0044edb0();
-    void FUN_007b4530(int iStep);
 };
 
 struct HCHairList
 {
-    void FUN_00470470();              // RemoveAll
+                  // RemoveAll
     void FUN_005ae3d0(int& riValue);  // AddHead
 };
 struct HCFaceData
 {
-    void FUN_00613fd0();
 };
 struct HCFaceFlags
 {
-    void FUN_0047dd50(int iA, bool bB, int iC);
 };
 
 class HCNPC
@@ -7459,16 +7138,11 @@ class HCNPC
     int unk28;
     int unk2c;
     HCFaceFlags m_kFlags;  // +0x30
-    HCHairList* FUN_00602170();
     HCFaceData* FUN_004ac110();
-    void SetRace(int iValue, int iFlag);
-    void SetHair(int iValue);
-    void SetEyes(int iValue);
 };
 
 struct HCPlayerSub
 {
-    void FUN_008249d0(int iValue);
 };
 class HCPlayer
 {
@@ -7511,14 +7185,10 @@ class HCPlayer
     int unk08c;
     int unk090;
     HCPlayerSub m_kSub94;  // +0x94
-    void FUN_0095e5f0();
-    void ApplyActorSpells();
-    void UpdateHurtReaction(int iValue);
 };
 
 struct HCName
 {
-    const char* FUN_00559450();
 };
 
 class HCMenuView
@@ -7575,17 +7245,7 @@ class HCMenuView
     int m_iNameList;  // +0x120
 
     int FUN_007dcc00();
-    void CreateMenuOption();
-    void FUN_007b25a0();
-    void UpdateHairAndEyes();
-    bool FUN_007adc30(int m_iValueId);
-    void RebuildFaceGen(int iValue);
     void UpdateEyeTextures();
-    void UpdateFaceGen(int iA, int iB, int iC);
-    bool FUN_007af180(int iValue);
-    void FUN_007adc60(int m_uiSoundID, int iValue);
-    void HandlePendingTileAction();
-    void UpdateMinusPlusTiles();
     void FUN_007adce0(int aiIndex, HCTile* pkTile);
 };
 
@@ -7595,114 +7255,114 @@ void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
     if (!pkTile && aiIndex < 6)
         pkTile = m_apDefaultTiles[aiIndex];
     int iList = FUN_007dcc00();
-    HCOption* pkOption = m_apLists[iList]->FUN_007b41c0(pkTile);
+    HCOption* pkOption = ((::HCOption *)(reinterpret_cast<::S *>((m_apLists[iList]))->FUN_007b41c0((intptr_t)(pkTile))));
     if (pkOption)
     {
         bool bChangedTmp = false;
         bool bUpdatePlayer = false;
-        switch (pkOption->FUN_00726070())
+        switch (((std::uintptr_t)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->id)))
         {
         case 0x16:
-            m_pkNPC->FUN_00602170()->FUN_00470470();
+            reinterpret_cast<::FileMatchList *>((((::HCHairList *)(reinterpret_cast<::FUN_00602170_shell *>((m_pkNPC))->FUN_00602170()))))->RemoveAll();
         case 0x15:
         case 0x17:
-            if (!pkOption->IsSelected())
+            if (!reinterpret_cast<::FUN_007ae160_Obj *>((pkOption))->IsSelected())
             {
-                if (pkOption->FUN_00726070() == 0x17)
+                if (((std::uintptr_t)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->id)) == 0x17)
                 {
-                    m_pkNPC->FUN_004ac110()->FUN_00613fd0();
-                    ((HCPlayer*)DAT_011dea3c)->FUN_0095e5f0();
-                    ((HCPlayer*)DAT_011dea3c)->m_kSub94.FUN_008249d0(0);
-                    ((HCPlayer*)DAT_011dea3c)->ApplyActorSpells();
-                    m_pkNPC->SetRace(pkOption->FUN_0044ddc0(), 0);
+                    reinterpret_cast<::TESRace *>((m_pkNPC->FUN_004ac110()))->ClearFaceGenUndo();
+                    reinterpret_cast<::FUN_0095e5f0_cls *>((((HCPlayer*)(*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer)))))->FUN_0095e5f0();
+                    reinterpret_cast<::MagicTargetDispel *>(&(((HCPlayer*)(*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer)))->m_kSub94))->FUN_008249d0(0);
+                    reinterpret_cast<::FUN_008c2b60_shell *>((((HCPlayer*)(*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer)))))->ApplyActorSpells();
+                    reinterpret_cast<::FUN_0060b240_shell *>((m_pkNPC))->SetRace((::TESRace *)(((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->value))), (::FUN_008b78c0_shell *)(0));
                 }
                 else
                 {
-                    m_pkNPC->FUN_004ac110()->FUN_00613fd0();
-                    m_pkNPC->m_kFlags.FUN_0047dd50(1, pkOption->FUN_00726070() == 0x16, 1);
+                    reinterpret_cast<::TESRace *>((m_pkNPC->FUN_004ac110()))->ClearFaceGenUndo();
+                    reinterpret_cast<::FlagSet *>(&(m_pkNPC->m_kFlags))->FUN_0047dd50(1, ((std::uintptr_t)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->id)) == 0x16, 1);
                     bUpdatePlayer = true;
                 }
-                CreateMenuOption();
-                FUN_007b25a0();
-                UpdateHairAndEyes();
+                reinterpret_cast<::FUN_007b5180_shell *>(this)->CreateMenuOption();
+                reinterpret_cast<::Menu511 *>(this)->FUN_007b25a0();
+                reinterpret_cast<::fnv_007b1ca0::FUN_007b1ca0_t *>(this)->UpdateHairAndEyes();
                 bChangedTmp = true;
                 if (bUpdatePlayer)
-                    ((HCPlayer*)DAT_011dea3c)->UpdateHurtReaction(1);
+                    reinterpret_cast<::fnv_008b78c0::FUN_008b78c0_shell *>((((HCPlayer*)(*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer)))))->UpdateHurtReaction(1);
             }
             break;
         case 0x19:
-            if (FUN_007adc30(7))
+            if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(7))
                 FUN_007b51f0();
             else
-                FUN_00703e80(DAT_011d3288.FUN_00403df0(), 0, 0, FUN_007b51f0, 0, 0x12, 0.0f, 0.0f,
-                             DAT_011d3684.FUN_00403df0(), DAT_011d34f8.FUN_00403df0(), 0);
+                ::fnv_00703e80::FUN_00703e80(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting67 *>(&::g_011d3288))))->GetMenuTitle())), (const char *)(0), (const char *)(0), FUN_007b51f0, 0, 0x12, 0.0f, 0.0f,
+                             ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting67 *>(&::g_011d3684))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting67 *>(&::g_011d34f8))))->GetMenuTitle())), 0);
             break;
         case 0x1b:
-            if (!pkOption->IsSelected())
+            if (!reinterpret_cast<::FUN_007ae160_Obj *>((pkOption))->IsSelected())
             {
-                m_pkNPC->SetHair(pkOption->FUN_0044ddc0());
-                RebuildFaceGen(1);
+                reinterpret_cast<::FUN_006031e0_shell *>((m_pkNPC))->SetHair((::TESHair *)(((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->value))));
+                reinterpret_cast<::fnv_007b2b50::HostB50 *>(this)->RebuildFaceGen(1);
                 bChangedTmp = true;
             }
             break;
         case 0x21:
-            if (!pkOption->IsSelected())
+            if (!reinterpret_cast<::FUN_007ae160_Obj *>((pkOption))->IsSelected())
             {
-                m_pkNPC->SetEyes(pkOption->FUN_0044ddc0());
+                reinterpret_cast<::FUN_00603200_shell *>((m_pkNPC))->SetEyes((::TESEyes *)(((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->value))));
                 UpdateEyeTextures();
                 bChangedTmp = true;
             }
             break;
         case 0x1c:
-            m_pkNPC->FUN_00602170()->FUN_00470470();
-            if (!pkOption->IsSelected())
+            reinterpret_cast<::FileMatchList *>((((::HCHairList *)(reinterpret_cast<::FUN_00602170_shell *>((m_pkNPC))->FUN_00602170()))))->RemoveAll();
+            if (!reinterpret_cast<::FUN_007ae160_Obj *>((pkOption))->IsSelected())
             {
-                int iValue = pkOption->FUN_0044ddc0();
-                m_pkNPC->FUN_00602170()->FUN_005ae3d0(iValue);
+                int iValue = ((int)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->value));
+                ((::HCHairList *)(reinterpret_cast<::FUN_00602170_shell *>((m_pkNPC))->FUN_00602170()))->FUN_005ae3d0(iValue);
             }
-            UpdateFaceGen(1, 1, 0);
+            reinterpret_cast<::AppearanceMenu *>(this)->UpdateFaceGen(1, 1, 0);
             bChangedTmp = true;
             break;
         default:
-            if (pkOption->FUN_00726070() < 0x14)
-                FUN_007af180(pkOption->FUN_00726070());
+            if (((std::uintptr_t)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->id)) < 0x14)
+                reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180(((unsigned int)(reinterpret_cast<::RaceSexOptionFields *>((pkOption))->id)));
         }
         if (bChangedTmp)
         {
-            m_apLists[iList]->ApplyToAllTiles();
-            FUN_007adc60(7, 0);
+            reinterpret_cast<::S_007b40d0_Owner *>((m_apLists[iList]))->ApplyToAllTiles();
+            reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(7, 0);
         }
     }
     else if (aiIndex == 4)
     {
-        FUN_007af180(m_apLists[iList]->FUN_0084e3a0());
+        reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180(reinterpret_cast<::FUN_0084e3a0_Class *>((m_apLists[iList]))->FUN_0084e3a0());
     }
     else if (aiIndex == 5)
     {
         if (iList == m_iNameList)
-            FUN_00703e80(m_kName.FUN_00559450(), 0, 0, UpdateRaceSexMenu, 1, 0x12, 0.0f, 0.0f,
-                         DAT_011d3684.FUN_00403df0(), DAT_011d34f8.FUN_00403df0(), 0);
+            ::fnv_00703e80::FUN_00703e80(((const char *)(::FUN_00559450((int *)&(m_kName)))), (const char *)(0), (const char *)(0), UpdateRaceSexMenu, 1, 0x12, 0.0f, 0.0f,
+                         ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting67 *>(&::g_011d3684))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting67 *>(&::g_011d34f8))))->GetMenuTitle())), 0);
         else
-            FUN_007af180(m_apLists[iList]->FUN_0044edb0());
+            reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180(((intptr_t)(reinterpret_cast<::MagicCaster_shell *>((m_apLists[iList]))->FUN_0044edb0())));
     }
     else
     {
-        pkOption = m_apLists[iList]->FUN_007b41c0(pkTile->FUN_0045cd60());
+        pkOption = ((::HCOption *)(reinterpret_cast<::S *>((m_apLists[iList]))->FUN_007b41c0((intptr_t)(((::HCTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((pkTile))->FUN_0045cd60()))))));
         if (pkOption)
         {
             m_pkSelectedTile = pkTile;
             m_pkSelectedOption = pkOption;
-            HandlePendingTileAction();
+            reinterpret_cast<::fnv_007b4930::PendingMenu *>(this)->HandlePendingTileAction();
         }
-        else if (aiIndex == 2 && pkTile->IsTraitNonZero(0xfa3))
+        else if (aiIndex == 2 && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(0xfa3))
         {
-            m_apLists[iList]->FUN_007b4530(1);
-            UpdateMinusPlusTiles();
+            reinterpret_cast<::ActiveEffectCollection *>((m_apLists[iList]))->FUN_007b4530(1);
+            reinterpret_cast<::StatsMenu *>(this)->UpdateMinusPlusTiles();
         }
-        else if (aiIndex == 3 && pkTile->IsTraitNonZero(0xfa3))
+        else if (aiIndex == 3 && reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(0xfa3))
         {
-            m_apLists[iList]->FUN_007b4530(-1);
-            UpdateMinusPlusTiles();
+            reinterpret_cast<::ActiveEffectCollection *>((m_apLists[iList]))->FUN_007b4530(-1);
+            reinterpret_cast<::StatsMenu *>(this)->UpdateMinusPlusTiles();
         }
     }
 }
@@ -7756,8 +7416,6 @@ class NiAVObject
     virtual void av_05();
     virtual void av_06();
     virtual NiNode* GetNiNode();  // index 7, offset 0x1c
-    NiFixedString& GetName();
-    NiProperty* GetProperty(unsigned int);
 };
 
 class NiProperty
@@ -7769,7 +7427,6 @@ class NiProperty
 class NiTimeController
 {
   public:
-    int FUN_00441110();
 };
 
 class BSShaderProperty : public NiProperty
@@ -7841,7 +7498,6 @@ class _FakeNiNode
 {
   public:
     unsigned int FUN_0043b480();
-    NiAVObject* FUN_0043b4a0(unsigned int);
 };
 
 class PlayerCharacter
@@ -7956,7 +7612,6 @@ class PlayerCharacter
     virtual void pc_106();
     virtual _FakeNiNode* GetNode(bool);  // index 107, offset 0x1ac
 };
-extern PlayerCharacter* _g_thePlayer;
 
 class TESEyes
 {
@@ -8001,11 +7656,8 @@ class TESNPC
 class TES
 {
   public:
-    void CreateTextureImage(const char*, NiPointer<NiSourceTexture>&, bool, bool);
 };
-extern TES* g_TES;
 
-int __cdecl FUN_00408b20(const char*, const char*);
 
 class RSMenuTarget
 {
@@ -8065,7 +7717,6 @@ class RSMenuTarget
     int unk_0d0;
     int unk_0d4;
     TESNPC* m_npc;  // offset 0xd8
-    void UpdateShadowSceneNode();
     bool UpdateEyeTextures();
 };
 
@@ -8075,23 +7726,23 @@ bool RSMenuTarget::UpdateEyeTextures()
     NiPointer<NiNode> spEyeLeft2;
     NiPointer<NiNode> spEyeRight;
 
-    if (!_g_thePlayer->GetNode(0))
+    if (!(*reinterpret_cast<::fnv_007b27c0::PlayerCharacter * *>(&::_g_thePlayer))->GetNode(0))
     {
         return false;
     }
 
     this->m_npc->MarkAsModified(0x800);
 
-    unsigned int childCount3 = _g_thePlayer->GetNode(0)->FUN_0043b480();
+    unsigned int childCount3 = (*reinterpret_cast<::fnv_007b27c0::PlayerCharacter * *>(&::_g_thePlayer))->GetNode(0)->FUN_0043b480();
     NiAVObject* child;
     for (unsigned int aI = 0; aI < childCount3; ++aI)
     {
-        child = _g_thePlayer->GetNode(0)->FUN_0043b4a0(aI);
-        if (FUN_00408b20(child->GetName(), "FaceGenEyeLeft") == 0)
+        child = ((::fnv_007b27c0::NiAVObject *)(reinterpret_cast<::NiNode *>(((*reinterpret_cast<::fnv_007b27c0::PlayerCharacter * *>(&::_g_thePlayer))->GetNode(0)))->GetAt(aI)));
+        if (::FUN_00408b20((*(::fnv_007b27c0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((child))->GetLinkToList())), "FaceGenEyeLeft") == 0)
         {
             spEyeLeft2 = child->GetNiNode();
         }
-        if (FUN_00408b20(child->GetName(), "FaceGenEyeRight") == 0)
+        if (::FUN_00408b20((*(::fnv_007b27c0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((child))->GetLinkToList())), "FaceGenEyeRight") == 0)
         {
             spEyeRight = child->GetNiNode();
         }
@@ -8102,30 +7753,30 @@ bool RSMenuTarget::UpdateEyeTextures()
         BSStringT<char> strEyeTexture;
         if (this->m_npc->FUN_00602150())
         {
-            FUN_00406f60((SpStr*)&strEyeTexture, "Textures\\%s", this->m_npc->FUN_00602150()->fullName.GetFullName());
+            ::FUN_00406f60((::FUN_00406f90_this *)(::SpStr *)((SpStr*)&strEyeTexture), "Textures\\%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(this->m_npc->FUN_00602150()->fullName))->FUN_00408da0())));
         }
         else
         {
-            FUN_00406f60((SpStr*)&strEyeTexture, "Textures\\Characters\\Eyes\\EyeDefault.dds");
+            ::FUN_00406f60((::FUN_00406f90_this *)(::SpStr *)((SpStr*)&strEyeTexture), "Textures\\Characters\\Eyes\\EyeDefault.dds");
         }
         NiPointer<NiSourceTexture> spTextureVal;
-        g_TES->CreateTextureImage(strEyeTexture, spTextureVal, false, false);
+        reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_007b27c0::TES * *>(&::g_TES))))->FUN_004568c0(strEyeTexture, (::TexPtr< ::NiSourceTexture> &)(spTextureVal), false, false);
         if (spTextureVal)
         {
-            NiProperty* prop2 = ((NiAVObject*)(NiNode*)spEyeLeft2)->GetProperty(3);
+            NiProperty* prop2 = ((::fnv_007b27c0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((NiAVObject*)(NiNode*)spEyeLeft2)))->FUN_00a59d30(3)));
             BSShaderProperty* shaderProp = (prop2 == 0 ? 0
-                                                       : (((NiTimeController*)prop2)->FUN_00441110() >= 8 &&
-                                                          ((NiTimeController*)prop2)->FUN_00441110() <= 12))
+                                                       : (((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)prop2)))->GetMinLevel())) >= 8 &&
+                                                          ((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)prop2)))->GetMinLevel())) <= 12))
                                                ? (BSShaderProperty*)prop2
                                                : 0;
             if (shaderProp)
             {
                 shaderProp->SetTexture(0, 0, spTextureVal);
             }
-            prop2 = ((NiAVObject*)(NiNode*)spEyeRight)->GetProperty(3);
+            prop2 = ((::fnv_007b27c0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((NiAVObject*)(NiNode*)spEyeRight)))->FUN_00a59d30(3)));
             shaderProp = (prop2 == 0 ? 0
-                                     : (((NiTimeController*)prop2)->FUN_00441110() >= 8 &&
-                                        ((NiTimeController*)prop2)->FUN_00441110() <= 12))
+                                     : (((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)prop2)))->GetMinLevel())) >= 8 &&
+                                        ((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)prop2)))->GetMinLevel())) <= 12))
                              ? (BSShaderProperty*)prop2
                              : 0;
             if (shaderProp)
@@ -8135,20 +7786,17 @@ bool RSMenuTarget::UpdateEyeTextures()
         }
     }
 
-    this->UpdateShadowSceneNode();
+    reinterpret_cast<::FUN_007b1ae0_shell *>((this))->UpdateShadowSceneNode();
     return true;
 }
 }  // namespace fnv_007b27c0
 
 struct FUN_00559450_shell
 {
-    int FUN_00559450();
-    int* FUN_0057cbe0(int*);
 };
 
 struct FUN_007b3720_shell_
 {
-    void FUN_007b3720(int value);
 };
 struct FUN_007b3660_shell
 {
@@ -8208,7 +7856,6 @@ struct FUN_007b3660_shell
     int unkD4;
     FUN_007b3720_shell_* mD8;
     void FUN_007b3660();
-    void RebuildFaceGen(int);
 };
 // Iterates m40's entries, reads the values of types 0x1e/0x1f/0x20 into f0/mid/hi, packs them into a 24-bit value passed to mD8, then calls RebuildFaceGen(0).
 // @fnv 0x007b3660
@@ -8218,11 +7865,11 @@ void FUN_007b3660_shell::FUN_007b3660()
     int f0 = -1;
     int mid = -1;
     int hi = -1;
-    iter = m40->FUN_00559450();
+    iter = ::FUN_00559450((int *)(m40));
     while (iter != 0)
     {
-        int u1 = *(m40->FUN_0057cbe0(&iter));
-        switch (((FUN_00726070_shell*)u1)->FUN_00726070())
+        intptr_t u1 = *(reinterpret_cast<::ListStandIn *>((m40))->FUN_0057cbe0((int **)(int *)(&iter)));
+        switch (((std::intptr_t)(reinterpret_cast<::RaceSexOptionFields *>((((FUN_00726070_shell*)u1)))->id)))
         {
         case 0x1e:
             f0 = ((FUN_007b3740_shell*)u1)->GetFloat1005();
@@ -8235,9 +7882,9 @@ void FUN_007b3660_shell::FUN_007b3660()
             break;
         }
     }
-    mD8->FUN_007b3720((unsigned char)f0 | ((unsigned int)(unsigned char)mid << 8) |
+    reinterpret_cast<::FUN_007b3720_shell *>((mD8))->FUN_007b3720((unsigned char)f0 | ((unsigned int)(unsigned char)mid << 8) |
                       ((unsigned int)(unsigned char)hi << 0x10));
-    this->RebuildFaceGen(0);
+    reinterpret_cast<::fnv_007b2b50::HostB50 *>((this))->RebuildFaceGen(0);
 }
 
 template <class T> class FGPtr
@@ -8281,28 +7928,19 @@ struct FGLink
     int unk04;
     int unk08;
     FGLink();
-    void* FUN_00559450();
 };
 
 struct FGProperty
 {
-    void* FUN_006546e0();
-    float FUN_009a9350();
-    void FUN_00654700(float fValue);
 };
 struct FGShape
 {
-    void FUN_00539f20(void* pvData);
 };
 struct FGChildProperty
 {
-    FGShape* FUN_00a5d2c0(FGNameBuffer* pkBuffer);
 };
 struct FGSkin
 {
-    bool FUN_00a67360(int iFlag);
-    void FUN_00a67410(FGLink* pkLink);
-    void* FUN_00460140();
 };
 struct FGName
 {
@@ -8312,17 +7950,6 @@ struct FGName
 class FGNode
 {
   public:
-    void AssignFixedString(const FGFixedString& kName);
-    void FUN_00440460(const void* pkTranslate);
-    void FUN_0043fa80(const void* pkRotate);
-    void FUN_00440490(float fScale);
-    FGProperty* FUN_00a59d30(int iType);
-    void ForwardToSubobject(FGProperty* pkProperty);
-    void FUN_00439410(FGShape* pkShape);
-    void FUN_00874460(int iFlags);
-    unsigned short CallTargetV36();
-    FGSkin* FUN_005495f0();
-    void FUN_00a5a040();
 };
 
 class FGChild
@@ -8336,12 +7963,6 @@ class FGChild
     virtual void v014();
     virtual void v018();
     virtual void* GetGeometryData();  // +0x1c
-    FGName* FUN_00413f40();
-    const void* FUN_0043c490();
-    const void* FUN_006a9540();
-    float GetFloatAt64();
-    FGChildProperty* FUN_00a59d30(int iType);
-    int FUN_004030b0();
 };
 
 class FGRoot
@@ -8423,37 +8044,16 @@ class FGRoot
     virtual void v124();
     virtual void SetSelectiveUpdate(int iFlags);  // +0x128
     unsigned int FUN_0043b480();
-    FGChild* FUN_0043b4a0(unsigned int uiIndex);
-    int FUN_009611e0(int iFlag);
-    void SetByteE0(int iFlag);
 };
 
 struct FGGeometry
 {
-    const char* GetFloatValue();
 };
 struct FGModel
 {
-    bool FUN_0065a910(FUN_00449610* pkCoords, FGPtr<FGNode>* pspNode);
 };
 struct FGGenerator;
 
-int FUN_00408b20(const char* pcA, const char* pcB);
-FGGeometry* FUN_006530e0(void* pvData);
-FGGenerator* FUN_006521e0();
-void FUN_006529a0(FGGenerator* pkGeneratorCur, FUN_00449610* pkCoords, int iA, int iB);
-void GetModelNifFilename(BSStringTChar* pkOut, const char* pcPath);
-void FUN_00653a10(BSStringTChar* pkOut, const char* pcPath);
-void BuildModelFilename(BSStringTChar* pkOut, const char* pcPath);
-void HashPathComponents(const char* pcPath, FGPoint2* pkA, FGPoint2* pkB);
-int FindFileEntryInArchives(int iFlag, FGPoint2* pkA, FGPoint2* pkB, const char* pcPath);
-const char* GetModelEgtFilename(BSStringTChar* pkOut, const char* pcPath);
-const char* BuildTriPathAndSet(BSStringTChar* pkOut, const char* pcPath, int iIndex);
-const char* BuildEgmFilename(BSStringTChar* pkOut, const char* pcPath, int iIndex);
-FGModel* GetOrCreateFaceGenModel(const char* pcTri, const char* pcPath, const char* pcEgm, const char* pcEgt, int iA,
-                                 int iB, int iC);
-void FUN_00b57e30(FGNode* pkNode, int iA, int iB);
-void ComputeBoundingSphere(void* pvData, FGLink* pkLink, unsigned short usFlags);
 
 // For each non-FaceGenFace child, loads a model, builds a FaceGenFace node, copies transforms and shape properties, then replaces the child.
 // @fnv 0x00653e50
@@ -8461,14 +8061,14 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
 {
     for (unsigned int i = 0; i < pkRoot->FUN_0043b480(); i++)
     {
-        FGChild* pkChild = pkRoot->FUN_0043b4a0(i);
+        FGChild* pkChild = ((::FGChild *)(reinterpret_cast<::NiNode *>((pkRoot))->GetAt(i)));
         if (pkChild)
         {
-            const char* pcName = pkChild->FUN_00413f40()->FUN_0043b1b0();
+            const char* pcName = ((::FGName *)(reinterpret_cast<::TESTopicInfoData *>((pkChild))->GetLinkToList()))->FUN_0043b1b0();
             if (!FUN_00408b20(pcName, "FaceGenFace"))
             {
                 void* pvGeomData = pkChild->GetGeometryData();
-                FGGeometry* pkSampleGeom = FUN_006530e0(pvGeomData);
+                FGGeometry* pkSampleGeom = ((::FGGeometry *)(::BSFaceGenModel::GetFaceGenModelNode((::NiAVObject *)(pvGeomData))));
                 FGPtr<FGNode> spFaceTmp(0);
                 FGNode* pkFaceInfo = 0;
                 BSStringTChar kModelPath;
@@ -8478,66 +8078,66 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
                 BSStringTChar kEgtPath;
                 BSStringTChar kUnusedCur;
                 FUN_00449610 akCoordsLocal[4];
-                FGGenerator* pkGeneratorCur = FUN_006521e0();
-                FUN_006529a0(pkGeneratorCur, akCoordsLocal, 0, 0);
-                GetModelNifFilename(&kModelPath, pkSampleGeom->GetFloatValue());
+                FGGenerator* pkGeneratorCur = ((::FGGenerator *)(::BSFaceGenManager::GetFaceGenCoordinates()));
+                ::fnv_006529a0::FUN_006529a0((FaceGenCoordArray (*)[2])(pkGeneratorCur), (FaceGenCoordArray (*)[2])(akCoordsLocal), 0, 0);
+                ::fnv_00653620::GetModelNifFilename((*(::fnv_00653620::BSStringT<char> *)(&kModelPath)), ((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pkSampleGeom))->GetFloatValue())));
                 switch (iMode)
                 {
                 case 0:
-                    FUN_00653a10(&kPathLast, kModelPath.FUN_00559450());
+                    ::FUN_00653a10((::BSStr *)(::BSStringTChar *)(&kPathLast), ((const char *)(::FUN_00559450((int *)&(kModelPath)))));
                     break;
                 case 1:
-                    BuildModelFilename(&kPathLast, kModelPath.FUN_00559450());
+                    ::fnv_00653c40::BuildModelFilename((*(::fnv_00653c40::BSStringT<char> *)(&kPathLast)), ((const char *)(::FUN_00559450((int *)&(kModelPath)))));
                 }
-                if (!kPathLast.FUN_00559450())
+                if (!((const char *)(::FUN_00559450((int *)&(kPathLast)))))
                     return;
                 FGPoint2 kMinVal;
                 FGPoint2 kMaxTotal;
-                HashPathComponents(kPathLast.FUN_00559450(), &kMinVal, &kMaxTotal);
-                int iFoundItem = FindFileEntryInArchives(0, &kMinVal, &kMaxTotal, kPathLast.FUN_00559450());
+                ::HashPathComponents(((const char *)(::FUN_00559450((int *)&(kPathLast)))), (::FileNameHash *)(::FGPoint2 *)(&kMinVal), (::FileNameHash *)(::FGPoint2 *)(&kMaxTotal));
+                intptr_t iFoundItem = ((intptr_t)(::fnv_00af6540::FindFileEntryInArchives(0, (*(::fnv_00af6540::FileNameHash *)(&kMinVal)), (*(::fnv_00af6540::FileNameHash *)(&kMaxTotal)), ((const char *)(::FUN_00559450((int *)&(kPathLast)))))));
                 if (!iFoundItem)
                     return;
-                FGPtr<FGModel> m_pRenderedNodeEntry(GetOrCreateFaceGenModel(
-                    BuildEgmFilename(&kTriPathData, kPathLast.FUN_00559450(), -1), kPathLast.FUN_00559450(),
-                    BuildTriPathAndSet(&kEgmPathEntry, kPathLast.FUN_00559450(), -1),
-                    GetModelEgtFilename(&kEgtPath, kPathLast.FUN_00559450()), 1, -1, 0));
-                if (!m_pRenderedNodeEntry->FUN_0065a910(akCoordsLocal, &spFaceTmp) || !spFaceTmp)
+                FGPtr<FGModel> m_pRenderedNodeEntry(((::FGModel *)(::GetOrCreateFaceGenModel(
+                    (char *)(::fnv_00653520::BuildEgmFilename((::fnv_00653520::StrMem *)(::BSStringTChar *)(&kTriPathData), ((const char *)(::FUN_00559450((int *)&(kPathLast)))), -1)), (char *)(((const char *)(::FUN_00559450((int *)&(kPathLast))))),
+                    (char *)(((const char *)(::fnv_006536d0::BuildTriPathAndSet((::fnv_006536d0::StrMem *)(::BSStringTChar *)(&kEgmPathEntry), ((const char *)(::FUN_00559450((int *)&(kPathLast)))), -1)))),
+                    (char *)(::GetModelEgtFilename((::BSStr *)(::BSStringTChar *)(&kEgtPath), ((const char *)(::FUN_00559450((int *)&(kPathLast)))))), 1, -1, 0))));
+                if (!reinterpret_cast<::FUN_0065a910_shell *>(((m_pRenderedNodeEntry).operator->()))->FUN_0065a910(akCoordsLocal, &spFaceTmp) || !spFaceTmp)
                     return;
-                spFaceTmp->AssignFixedString(FGFixedString("FaceGenFace"));
+                ::AssignFixedString((char *)((spFaceTmp).operator->()), (std::intptr_t)&(const ::FGFixedString &)(FGFixedString("FaceGenFace")), {});
                 pkFaceInfo = spFaceTmp;
-                pkFaceInfo->FUN_00440460(pkChild->FUN_0043c490());
-                pkFaceInfo->FUN_0043fa80(pkChild->FUN_006a9540());
-                pkFaceInfo->FUN_00440490(pkChild->GetFloatAt64());
-                FUN_00b57e30(pkFaceInfo, 0, 0);
-                FGProperty* pkProperty = pkFaceInfo->FUN_00a59d30(3);
-                FGChildProperty* pkChildPropertyValue = pkChild->FUN_00a59d30(3);
+                reinterpret_cast<::FUN_00440460_S *>((pkFaceInfo))->FUN_00440460((const ::V3 *)(const void *)(((const void *)&(reinterpret_cast<::NiAVObject *>((pkChild))->FUN_0043c490()))));
+                reinterpret_cast<::FUN_0043fa80_s *>((pkFaceInfo))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(pkChild)))));
+                reinterpret_cast<::FUN_00440490_shell *>((pkFaceInfo))->FUN_00440490(reinterpret_cast<::FUN_009cdae0_shell *>((pkChild))->GetFloatAt64());
+                ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(pkFaceInfo), 0, 0);
+                FGProperty* pkProperty = ((::FGProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pkFaceInfo))->FUN_00a59d30(3)));
+                FGChildProperty* pkChildPropertyValue = ((::FGChildProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pkChild))->FUN_00a59d30(3)));
                 FGNameBuffer kBufferData(0x101);
-                FGShape* pkShape = pkChildPropertyValue->FUN_00a5d2c0(&kBufferData);
-                pkShape->FUN_00539f20(pkProperty->FUN_006546e0());
-                pkFaceInfo->ForwardToSubobject(pkProperty);
-                pkFaceInfo->FUN_00439410(pkShape);
-                pkFaceInfo->FUN_00874460(pkChild->FUN_004030b0());
-                unsigned short usFlags = pkFaceInfo->CallTargetV36();
-                if (pkFaceInfo->FUN_005495f0()->FUN_00a67360(1))
+                FGShape* pkShape = ((::FGShape *)(reinterpret_cast<::A5D2C0Object *>((pkChildPropertyValue))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kBufferData)))));
+                reinterpret_cast<::FUN_00539f20_Class *>((pkShape))->FUN_00539f20(((void *)(reinterpret_cast<::fnv_006546e0::FUN_006546e0_Class *>((pkProperty))->FUN_006546e0())));
+                reinterpret_cast<::S654 *>((pkFaceInfo))->ForwardToSubobject((std::intptr_t)(pkProperty));
+                reinterpret_cast<::FUN_00439410_cls *>((pkFaceInfo))->FUN_00439410((::ArgObject *)(pkShape));
+                reinterpret_cast<::FUN_00874460_cls *>((pkFaceInfo))->set(((intptr_t)(reinterpret_cast<::AlchemyItem *>((pkChild))->FUN_004030b0())));
+                unsigned short usFlags = ((unsigned short)(reinterpret_cast<::FUN_004a8090_shell *>((pkFaceInfo))->CallTargetV36()));
+                if (reinterpret_cast<::NiGeometryData *>((((::FGSkin *)(::fnv_005495f0::FUN_005495f0((const char *)(pkFaceInfo))))))->IsGeometryDataStreamable(1))
                 {
                     FGLink kLink;
-                    pkFaceInfo->FUN_005495f0()->FUN_00a67410(&kLink);
-                    if (kLink.FUN_00559450())
-                        ComputeBoundingSphere(pkFaceInfo->FUN_005495f0()->FUN_00460140(), &kLink, usFlags);
+                    reinterpret_cast<::S00a67410 *>((((::FGSkin *)(::fnv_005495f0::FUN_005495f0((const char *)(pkFaceInfo))))))->FUN_00a67410((::BSFaceGenMorphData *)(::FGLink *)(&kLink));
+                    if (((void *)(::FUN_00559450((int *)&(kLink)))))
+                        ::ComputeBoundingSphere((::BoundingSphere *)(void *)(((void *)(::FUN_00460140((std::intptr_t)(((::FGSkin *)(::fnv_005495f0::FUN_005495f0((const char *)(pkFaceInfo))))))))), (::PointIterator *)(::FGLink *)(&kLink), usFlags);
                 }
-                FGProperty* pkAlphaData = pkFaceInfo->FUN_00a59d30(2);
-                if (pkAlphaData && pkAlphaData->FUN_009a9350() < 1.0)
-                    pkAlphaData->FUN_00654700(4.0f);
+                FGProperty* pkAlphaData = ((::FGProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pkFaceInfo))->FUN_00a59d30(2)));
+                if (pkAlphaData && reinterpret_cast<::BGSImpactData *>((pkAlphaData))->FUN_009a9350() < 1.0)
+                    reinterpret_cast<::DecalStub *>((pkAlphaData))->FUN_00654700(4.0f);
                 pkRoot->SetAt(i, pkFaceInfo);
-                pkFaceInfo->FUN_00a5a040();
-                pkRoot->SetSelectiveUpdate(pkRoot->FUN_009611e0(0));
+                reinterpret_cast<::FUN_00a5a040_Class *>((pkFaceInfo))->FUN_00a5a040();
+                pkRoot->SetSelectiveUpdate(reinterpret_cast<::FUN_009611e0_shell *>((pkRoot))->FUN_009611e0());
                 switch (iMode)
                 {
                 case 0:
-                    pkRoot->SetByteE0(1);
+                    reinterpret_cast<::FUN_006546c0_Class *>((pkRoot))->SetByteE0(1);
                     break;
                 case 1:
-                    pkRoot->SetByteE0(0);
+                    reinterpret_cast<::FUN_006546c0_Class *>((pkRoot))->SetByteE0(0);
                 }
             }
         }
@@ -8562,28 +8162,42 @@ class StringList7B3D
 
     ListNode7B3D* GetHeadPos()
     {
-        return (ListNode7B3D*)reinterpret_cast<FUN_00726070_shell*>(this)->FUN_00726070();
+        return (ListNode7B3D*)((std::intptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_00726070_shell*>(this)))->FUN_00726070()));
     }
-    ListNode7B3D* DereferenceIfNotNull(ListNode7B3D* pkPos);
-    int CreateEntry(const char* pcText, int iA, int iB, ListNode7B3D* pkPos);
-    int FUN_007b3d50(int iIndex, const char* pcText, int iA, int iB);
+    intptr_t FUN_007b3d50(int iIndex, const char* pcText, intptr_t iA, int iB);
 };
+// @fnv 0x007af520
+void FUN_007af520_cls::SyncListItemTemplate()
+{
+    bool e = ((::Opt34 *)(reinterpret_cast<::fnv_007b4210::FUN_007b4210_shell *>((m_34))->FindByColor(7))) != 0;
+    bool d = m_d8->FUN_005f0cc0() == 0;
+    if (d && !e)
+    {
+        SpStr s;
+        ::FUN_00406f60((::FUN_00406f90_this *)(::SpStr *)(&s), "%s %c", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrTable *>(&::g_011d23a0))))->GetMenuTitle())), 0x3e);
+        reinterpret_cast<::StringList7B3D *>((m_34))->FUN_007b3d50(2, ((const char *)(::FUN_00559450((int *)&(s)))), {}, {});
+    }
+    else if (e && !d)
+    {
+        reinterpret_cast<::OptionList *>((m_34))->RemoveOptionById(7);
+    }
+}
 
 // Inserts a new entry with pcText at position iIndex in the string list, returning 0 on failure or the result of CreateEntry.
 // @fnv 0x007b3d50
-int StringList7B3D::FUN_007b3d50(int iIndex, const char* pcText, int iA, int iB)
+intptr_t StringList7B3D::FUN_007b3d50(int iIndex, const char* pcText, intptr_t iA, int iB)
 {
     if (!pcText || !DAT_011da634 || !((Manager7B3D*)DAT_011da634)->m_pkActive || !m_uiCount)
     {
         return 0;
     }
-    ListNode7B3D* pkPos = GetHeadPos();
+    ListNode7B3D* pkPos = ((::ListNode7B3D *)(::FUN_00559450((int *)this)));
     while (pkPos && iIndex)
     {
-        pkPos = DereferenceIfNotNull(pkPos);
+        pkPos = ((::ListNode7B3D *)(reinterpret_cast<::FUN_007b52d0_cls *>(this)->DereferenceIfNotNull((int **)(pkPos))));
         iIndex--;
     }
-    return CreateEntry(pcText, iA, iB, pkPos);
+    return ((intptr_t)(reinterpret_cast<::List4650 *>(this)->CreateEntry(pcText, (const char *)(iA), iB, pkPos)));
 }
 
 namespace fnv_007ac1f0 {
@@ -8636,7 +8250,6 @@ struct ObjDC
 
 struct Res
 {
-    void FUN_004f15a0();
 };
 
 struct T12
@@ -8646,7 +8259,6 @@ struct T12
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
-    Res* FUN_00418900(const T12& v);
 };
 
 struct Elem32
@@ -8665,12 +8277,8 @@ struct Elem32
 
 struct MgrObj
 {
-    T12 ResolveAudioHandle(const char* name, unsigned int kind, bool flag);
 };
 
-MgrObj* FUN_00ad9060();
-void __cdecl FUN_00403d30(void* p, int v, unsigned int n);
-extern Pt12 DAT_011f426c;
 
 class FUN_007ac1f0_cls : public FUN_007ac1f0_base
 {
@@ -8727,21 +8335,21 @@ class FUN_007ac1f0_cls : public FUN_007ac1f0_base
 // @fnv 0x007ac1f0
 FUN_007ac1f0_cls::FUN_007ac1f0_cls() : m_d4(0)
 {
-    FUN_00403d30(&unk78, 0, 0x18);
-    FUN_00403d30(&unk28, 0, 0x50);
+    ::FUN_00403d30(&unk78, 0, 0x18);
+    ::FUN_00403d30(&unk28, 0, 0x50);
     m_b8 = 0.0f;
     m_bc = 0;
     m_ec = 3;
     m_c8 = 0.0f;
     m_d0 = 0.0f;
     m_cc = 0.0f;
-    m_a0[1] = DAT_011f426c;
+    m_a0[1] = (*reinterpret_cast<::fnv_007ac1f0::Pt12 *>((void *)&::NiPoint3::ZERO));
     m_a0[0] = m_a0[1];
-    MgrObj* mgr = FUN_00ad9060();
-    m_f0[0].FUN_00418900(mgr->ResolveAudioHandle("OBJComputerTerminal01LP", 0x31, true))->FUN_004f15a0();
-    m_f0[1].FUN_00418900(mgr->ResolveAudioHandle("QSTBirthRoomLP", 0x31, true))->FUN_004f15a0();
-    m_f0[2].FUN_00418900(mgr->ResolveAudioHandle("UIFaceGenZoomLP", 0x31, true))->FUN_004f15a0();
-    m_f0[3].FUN_00418900(mgr->ResolveAudioHandle("UIFaceGenRotateLP", 0x31, true))->FUN_004f15a0();
+    MgrObj* mgr = ((::fnv_007ac1f0::MgrObj *)(::FUN_00ad9060()));
+    reinterpret_cast<::FUN_004f15a0_shell *>((((::fnv_007ac1f0::Res *)&(reinterpret_cast<::SoundPlaybackHandle *>(&(m_f0[0]))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_007ac1f0::T12 &)((*(::fnv_007ac1f0::T12 *)(reinterpret_cast<::AudioClass_ae5680 *>((mgr))->ResolveAudioHandle((::Handle_ae5680 *)("OBJComputerTerminal01LP"), 0x31, true))))))))))->FUN_004f15a0({});
+    reinterpret_cast<::FUN_004f15a0_shell *>((((::fnv_007ac1f0::Res *)&(reinterpret_cast<::SoundPlaybackHandle *>(&(m_f0[1]))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_007ac1f0::T12 &)((*(::fnv_007ac1f0::T12 *)(reinterpret_cast<::AudioClass_ae5680 *>((mgr))->ResolveAudioHandle((::Handle_ae5680 *)("QSTBirthRoomLP"), 0x31, true))))))))))->FUN_004f15a0({});
+    reinterpret_cast<::FUN_004f15a0_shell *>((((::fnv_007ac1f0::Res *)&(reinterpret_cast<::SoundPlaybackHandle *>(&(m_f0[2]))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_007ac1f0::T12 &)((*(::fnv_007ac1f0::T12 *)(reinterpret_cast<::AudioClass_ae5680 *>((mgr))->ResolveAudioHandle((::Handle_ae5680 *)("UIFaceGenZoomLP"), 0x31, true))))))))))->FUN_004f15a0({});
+    reinterpret_cast<::FUN_004f15a0_shell *>((((::fnv_007ac1f0::Res *)&(reinterpret_cast<::SoundPlaybackHandle *>(&(m_f0[3]))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_007ac1f0::T12 &)((*(::fnv_007ac1f0::T12 *)(reinterpret_cast<::AudioClass_ae5680 *>((mgr))->ResolveAudioHandle((::Handle_ae5680 *)("UIFaceGenRotateLP"), 0x31, true))))))))))->FUN_004f15a0({});
     m_c4 = 0;
     m_c0 = 0;
     m_120 = 0x14;
@@ -8751,13 +8359,10 @@ FUN_007ac1f0_cls::FUN_007ac1f0_cls() : m_d4(0)
 namespace fnv_007ac560 {
 struct Im7181
 {
-    void Fn7181(int);
 };
-Im7181* GetInterfaceMgr();
 
 struct Proc613
 {
-    void Fn613();
 };
 
 struct PlayerStub
@@ -8987,7 +8592,6 @@ struct PlayerStub
     virtual void vde();
     virtual Proc613* GetProc();
 };
-extern PlayerStub* g_player;
 
 struct Item7ac700
 {
@@ -9016,7 +8620,6 @@ struct SimpleArr
     int m_iElementCount;
     int m_alloc;
     int unk10;
-    void Clear(bool);
     ~SimpleArr();
 };
 
@@ -9025,8 +8628,6 @@ struct IdentifierState
     int unk00;
     int unk04;
     int unk08;
-    void Stop();
-    void FnAd8d10();
     ~IdentifierState();
 };
 
@@ -9094,15 +8695,17 @@ struct FUN_007ac560 : MenuBase
 // @fnv 0x007ac560
 FUN_007ac560::~FUN_007ac560()
 {
-    GetInterfaceMgr()->Fn7181(0);
-    g_player->GetProc()->Fn613();
+    reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::fnv_007ac560::Im7181 *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)(0));
+    reinterpret_cast<::TESRace *>(((*reinterpret_cast<::fnv_007ac560::PlayerStub * *>(&::_g_thePlayer))->GetProc()))->ClearFaceGenUndo();
     for (int i = 0; i < 20; i++)
         delete m_items[i];
-    m_arrdc.Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(m_arrdc))->Clear(true);
     for (int j = 0; j < 4; j++)
     {
-        m_sounds[j].Stop();
-        m_sounds[j].FnAd8d10();
+        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(m_sounds[j]))->FUN_00ad88f0();
+        reinterpret_cast<::SoundPlaybackHandle *>(&(m_sounds[j]))->Release();
     }
 }
 }  // namespace fnv_007ac560
+
+#include "generated/data/fallout/interface/menus/racesexmenu.inc"

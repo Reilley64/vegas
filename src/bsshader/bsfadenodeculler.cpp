@@ -2,11 +2,12 @@
 // src/bsshader/bsfadenodeculler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsfadenodeculler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/symbols_01201000.h"
 class GlobalObjectO2_00a7b610
 {
 };
 
-extern GlobalObjectO2_00a7b610 g_01201f84;
 
 // @fnv 0x00bc2bc0
 GlobalObjectO2_00a7b610* __cdecl FUN_00bc2bc0()
@@ -16,13 +17,15 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00bc2bc0()
 
 struct FUN_00bc2b20_shell
 {
-    void __thiscall FUN_00bc2b20(int a, int b, int c);
+    char pad00[0xc];
+    int m_iCamera;
+    void FUN_00bc2b20(int a, int b, int c);
 };
 
 // @fnv 0x00bc2b20
-void __thiscall FUN_00bc2b20_shell::FUN_00bc2b20(int a, int b, int c)
+void FUN_00bc2b20_shell::FUN_00bc2b20(int a, int b, int c)
 {
-    *(int*)((char*)this + 0xc) = a;
+    m_iCamera = a;
 }
 
 struct SpawnedBound
@@ -49,7 +52,6 @@ struct SpawnedObject
     int unk2C;
     unsigned int m_uiObjectFlags;
 
-    SpawnedBound* GetBoundingVolume();
 };
 
 struct SpawnedSource
@@ -101,7 +103,7 @@ void FUN_00bc2b30_cls::FUN_00bc2b30(SpawnedSource* apSource)
     unsigned int uCount = 0;
     do
     {
-        SpawnedBound* pBound = pTarget->GetBoundingVolume();
+        SpawnedBound* pBound = ((::SpawnedBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pTarget))->FUN_0043d450()));
         SpawnedPlane* pPlane = &m_kPlaneArray[uCount];
         volatile float fDot = pPlane->m_fNy * pBound->m_fVectorZ + pPlane->m_fNx * pBound->m_fVectorY +
                               pPlane->m_fNz * pBound->m_fScalarPart;

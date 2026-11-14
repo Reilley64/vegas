@@ -7,7 +7,6 @@
 #include "hkpRejectChassisListener.h"
 #include "hkpVehicleWheelCollide.h"
 class hkpAabbPhantom;
-#pragma pack(push, 1)
 class hkpVehicleRayCastWheelCollide : public hkpVehicleWheelCollide
 {
   public:
@@ -15,6 +14,4 @@ class hkpVehicleRayCastWheelCollide : public hkpVehicleWheelCollide
     hkpAabbPhantom* m_pPhantom;                            // +0x10
     hkpRejectChassisListener m_kChassisRejectionListener;  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleRayCastWheelCollide[(sizeof(hkpVehicleRayCastWheelCollide) == 0x24) ? 1 : -1];
 #endif

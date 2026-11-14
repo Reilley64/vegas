@@ -2,6 +2,13 @@
 // src/havok/common/scenedata/attributes/hkxattributeholder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributeholder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <new>
+#include "fnv/decl/FUN_00dfb720.h"
+#include "fnv/decl/FUN_00dfd840.h"
+#include "fnv/decl/S00e5cce0_Class.h"
+#include "fnv/symbols_00c90000.h"
 struct S_00e3eaa0_Allocator
 {
     virtual ~S_00e3eaa0_Allocator();
@@ -12,21 +19,20 @@ struct S_00e3eaa0_Allocator
 };
 struct S_00e3eaa0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00e3eaa0_Allocator* m_pStreamAllocator;
     S_00e3eaa0_Allocator& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-S_00e3eaa0_Router* FUN_00c85750();
 template <class T> __forceinline void destruct(T* t, int n)
 {
     for (int i = 0; i < n; ++i)
-        t[i].~T();
+        reinterpret_cast<::FUN_00dfd840 *>(&(t[i]))->FUN_00dfd840::~FUN_00dfd840();
 }
 template <class T> struct S_00e3eaa0_Array
 {
@@ -44,7 +50,7 @@ template <class T> struct S_00e3eaa0_Array
     }
     __forceinline ~S_00e3eaa0_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00e3eaa0_Router*>(::FUN_00c85750())->heap());
     }
 };
 struct S_00e3eaa0_Elem
@@ -72,18 +78,14 @@ struct FUN_00e3eaa0 : S_00e3eaa0_Base
 FUN_00e3eaa0::~FUN_00e3eaa0() throw()
 {}
 
-inline void* __cdecl operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
 
 struct S_00e3e950_Heap;
 struct S_00e3e950_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00e3e950_Heap* m_pStreamAllocator;
     S_00e3e950_Heap& heap()
     {
@@ -91,9 +93,7 @@ struct S_00e3e950_Router
     }
 };
 namespace fnvc_adapt {
-S_00e3e950_Router& FUN_00c85750();
 }
-int __cdecl FUN_00c908c0(S_00e3e950_Heap& alloc, void* array, int n, int elemSize);
 
 struct S_00e3e950_Str
 {
@@ -118,7 +118,7 @@ struct S_00e3e950_Elem
         m_aiIndexedValues.m_data = 0;
         m_aiIndexedValues.m_iElementCount = 0;
         m_aiIndexedValues.m_iCapacityState = 0x80000000;
-        *this = o;
+        reinterpret_cast<::S00e5cce0_Class *>((void *)&(const ::S_00e3e950_Elem &)(*this))->FUN_00e5cce0((const ::S00e5cce0_Class &)(o));
     }
     ~S_00e3e950_Elem();
     S_00e3e950_Elem& operator=(const S_00e3e950_Elem& o);
@@ -130,14 +130,14 @@ struct S_00e3e950_ArrayUtil
     {
         for (int i = 0; i < n; i++)
         {
-            t[i].~T();
+            reinterpret_cast<::FUN_00dfd840 *>(&(t[i]))->FUN_00dfd840::~FUN_00dfd840();
         }
     }
     template <typename T> static __forceinline void copy(T* dst, const T* src, int n)
     {
         for (int i = 0; i < n; i++)
         {
-            dst[i] = src[i];
+            reinterpret_cast<::S00e5cce0_Class *>((void *)&(const ::S_00e3e950_Elem &)(dst[i]))->FUN_00e5cce0((const ::S00e5cce0_Class &)(src[i]));
         }
     }
     template <typename T> static __forceinline void construct(T* dst, const T* src, int n)
@@ -168,7 +168,7 @@ template <typename T> struct S_00e3e950_Array
         {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
 
@@ -189,7 +189,7 @@ template <typename T> struct S_00e3e950_Array
 
     __forceinline S_00e3e950_Array& operator=(const S_00e3e950_Array& a)
     {
-        _copyFromArray(fnvc_adapt::FUN_00c85750().heap(), a);
+        _copyFromArray((*static_cast<S_00e3e950_Router*>(::FUN_00c85750())).heap(), a);
         return *this;
     }
 };
@@ -231,14 +231,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfe360_cls
 {
@@ -260,13 +259,12 @@ struct FUN_00dfe360_cls
     unsigned int m_uCapBits1;
 
     void FUN_00dfe360();
-    void FUN_00dfb720();
 };
 
 // @fnv 0x00dfe360
 void FUN_00dfe360_cls::FUN_00dfe360()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -277,7 +275,7 @@ void FUN_00dfe360_cls::FUN_00dfe360()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
@@ -287,6 +285,6 @@ void FUN_00dfe360_cls::FUN_00dfe360()
     }
     m_pData2 = 0;
     m_uCapBits2 = 0x80000000u;
-    FUN_00dfb720();
+    reinterpret_cast<::FUN_00dfb720 *>(this)->FUN_00dfb720::~FUN_00dfb720();
 }
 }  // namespace fnv_00dfe360

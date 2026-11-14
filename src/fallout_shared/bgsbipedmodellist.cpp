@@ -1,5 +1,16 @@
 // fallout_shared/bgsbipedmodellist.cpp: BGSBipedModelList (8 functions)
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00480d50_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008c6060_shell.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "bgsbipedmodellist_decls.h"
 // Returns the biped model list of a TESForm if it is an NPC or armor, otherwise null.
 // @fnv 0x00475020
@@ -29,24 +40,24 @@ BGSBipedModelList* BGSBipedModelList::GetBipedModelList(TESForm* form)
 // @fnv 0x00474da0
 void BGSBipedModelList::InitItem(TESForm* owner)
 {
-    unsigned int formID = (unsigned int)list;
+    unsigned int formID = (unsigned int)(std::uintptr_t)list;
     if (formID)
     {
         TESFile* file = owner ? owner->GetFile(-1) : 0;
-        TESForm::RemapFormIDForFile(formID, file);
-        list = dynamic_cast<BGSListForm*>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), file);
+        list = dynamic_cast<BGSListForm*>(::FUN_004839c0(formID));
         bool bad;
         if (!list)
         {
             if (owner)
             {
                 if (((BGSCameraPath*)owner)->HasNameForWarning())
-                    Warning(DAT_0101a5f0, formID, owner->GetName());
+                    ::FUN_005b5e40();
                 else
-                    Warning(DAT_0101a5a0, formID, owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
-                Warning(DAT_0101a558, formID);
+                ::FUN_005b5e40();
         }
         else
         {
@@ -56,66 +67,62 @@ void BGSBipedModelList::InitItem(TESForm* owner)
             while (iter && !((BSSimpleList<BGSCameraShot*>*)iter)->IsEmpty())
             {
                 TESBipedModelForm* model;
-                entry = (TESForm*)iter->GetItem();
-                model = TESBipedModelForm::GetFormAsBipedModel(entry);
+                entry = (TESForm*)(iter->m_item);
+                model = ::TESBipedModelForm::GetFormAsBipedModel(entry);
                 if (!model)
                 {
-                    Warning(DAT_0101a4d8, entry->GetName(), entry->GetFormID(), list->GetName(), list->GetFormID(),
-                            owner->GetName(), owner->GetFormID());
+                    ::FUN_005b5e40();
                     list = 0;
                     break;
                 }
                 else
-                    model->FUN_00480d50(true);
-                iter = iter->GetNext();
+                    reinterpret_cast<::FUN_00480d50_shell *>((model))->FUN_00480d50(true);
+                iter = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
             }
         }
     }
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct FUN_00474fc0_shell : BGSBipedModelList
 {
     bool FUN_00474fc0(BaseFormComponent* apCompareFC);
-    BSSimpleList<BGSCameraShot*>* GetNext();
 };
 
 extern int DAT_0101a4c4;
-void __fastcall FUN_008c6060(void* pThis);
 
 // Initialises the BaseFormComponent at pThis, installs the vtable from DAT_0101a4c4, calls FUN_008c6060, and returns pThis.
 // @fnv 0x00474d10
-void* __fastcall FUN_00474d10(void* pThis)
+void* FUN_00474d10(void* pThis)
 {
-    ((BaseFormComponent*)pThis)->BaseFormComponent::BaseFormComponent();
+    ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101a4c4;
-    FUN_008c6060(pThis);
+    reinterpret_cast<::FUN_008c6060_shell *>((pThis))->FUN_008c6060();
     return pThis;
 }
 
-extern "C" void __cdecl _FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_00474d60_shell
 {
     int _pad;
     TESForm* m_pForm;
-    void __thiscall FUN_00474d60();
+    void FUN_00474d60();
 };
 
 // @fnv 0x00474d60
-void __thiscall FUN_00474d60_shell::FUN_00474d60()
+void FUN_00474d60_shell::FUN_00474d60()
 {
     if (m_pForm)
     {
-        unsigned int id = m_pForm->GetFormID();
-        _FUN_00485910(0x4c504942, id);
+        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pForm))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4c504942, id);
     }
 }
 
-void __cdecl _FUN_00485910(unsigned int, unsigned int);
 struct FUN_00479350_shell
 {
     void FUN_00479350();
@@ -125,7 +132,7 @@ void FUN_00479350_shell::FUN_00479350()
 {
     unsigned int tempint;
     tempint = *(unsigned int*)((char*)this + 4);
-    _FUN_00485910(0x50595445, tempint);
+    ::FUN_00485910(0x50595445, tempint);
 }
 
 extern int DAT_0101a4c4;
@@ -153,14 +160,13 @@ bool FUN_00474fc0_shell::FUN_00474fc0(BaseFormComponent* apCompareFC)
     BGSBipedModelList* pcomp = dynamic_cast<BGSBipedModelList*>(apCompareFC);
     if (!pcomp)
         return true;
-    if (reinterpret_cast<FUN_00474fc0_shell*>(pcomp)->GetNext() != this->GetNext())
+    if (((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_00474fc0_shell*>(pcomp)))->FUN_00726070())) != ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((this))->FUN_00726070())))
         return true;
     return false;
 }
 
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 
 struct FUN_00474f70_shell : BaseFormComponent
@@ -175,5 +181,5 @@ void FUN_00474f70_shell::FUN_00474f70(BaseFormComponent* apCopyFC)
     BGSBipedModelList* pCopyFC = dynamic_cast<BGSBipedModelList*>(apCopyFC);
     if (!pCopyFC)
         return;
-    ((TESRaceForm*)this)->Initialize((unsigned int)((BSSimpleList<BGSBipedModelList>*)pCopyFC)->GetNext());
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)((std::uintptr_t)((::BSSimpleList< ::BGSBipedModelList> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSBipedModelList>*)pCopyFC)))->FUN_00726070()))));
 }

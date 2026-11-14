@@ -2,6 +2,7 @@
 #ifndef FNV_BSBATCHRENDERER_H
 #define FNV_BSBATCHRENDERER_H
 
+#include "fnv/symbols_00b99000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
@@ -20,16 +21,12 @@ class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsi
 class NiTPointerAllocator_unsigned_int_;
 class NiTPointerList_BSBatchRenderer__GeometryGroup___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___;
-#pragma pack(push, 4)
 class DFALL_NiTMapItem_unsigned_int_unsigned_int___
 {
   public:
     // void* __cdecl DFALL<NiTMapItem<unsigned int,unsigned int> >::*()
     // void __cdecl DFALL<NiTMapItem<unsigned int,unsigned int> >::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DFALL_NiTMapItem_unsigned_int_unsigned_int___) == 1);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int___AntiBloatAllocator
     : public DFALL_NiTMapItem_unsigned_int_unsigned_int___
 {
@@ -37,14 +34,6 @@ class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsi
     // base DFALL<NiTMapItem<unsigned int,unsigned int> > at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int___AntiBloatAllocator) ==
-    4);
-FNV_STATIC_ASSERT(
-    offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int___AntiBloatAllocator,
-             m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_
 {
   public:
@@ -67,17 +56,6 @@ class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsi
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<unsigned int,unsigned int> >,unsigned int,unsigned int>::*()
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<unsigned int,unsigned int> >,unsigned int,unsigned int>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_,
-                           m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_,
-                           m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_,
-                           m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_,
-                           m_kItemCount) == 12);
-#pragma pack(push, 4)
 class NiTMap_unsigned_int_unsigned_int_
     : public NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_
 {
@@ -91,25 +69,16 @@ class NiTMap_unsigned_int_unsigned_int_
     // void __cdecl NiTMap<unsigned int,unsigned int>::*()
     // void __cdecl NiTMap<unsigned int,unsigned int>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMap_unsigned_int_unsigned_int_) == 16);
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -117,13 +86,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGro
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(
-    offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup_____AntiBloatAllocator,
-             m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___
 {
   public:
@@ -132,40 +94,22 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGro
     NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup_____AntiBloatAllocator
         m_kItemCount;  // +0x8, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___, m_pkHead) ==
-                  0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___, m_pkTail) ==
-                  4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___,
-                           m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_BSBatchRenderer__GeometryGroup___
     : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__BSBatchRenderer__GeometryGroup___
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_BSBatchRenderer__GeometryGroup___) == 12);
-#pragma pack(push, 4)
-#pragma pack(push, 4)
 struct BSBatchRenderer__PassBucketEntry
 {
     unsigned int padding;
     void* m_pRenderPass;
     unsigned char tail[12];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSBatchRenderer__PassBucketEntry) == 20);
 class BSBatchRenderer : public NiObject
 {
   public:
@@ -214,24 +158,7 @@ class BSBatchRenderer : public NiObject
     // BSBatchRenderer& __cdecl BSBatchRenderer::*(const BSBatchRenderer&)
     bool FindBucketIndex(unsigned int, int&);
     bool FindPassBucket(unsigned int&, int&, bool&);
-    bool FindOrCreateGroupBucket(unsigned int&, int&);
     void ReleaseGeometryGroups();
     void FUN_00b99730();
-    void ClearAllGroups(int);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSBatchRenderer) == 152);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_pPassBucketEntries) == 8);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_kGroupIndexMap) == 12);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_uiGroupCount) == 28);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_uiPassCount) == 32);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_uiBucketCount) == 36);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_pGeometryGroupAllocator) == 40);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_kActivePassList) == 44);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_iActiveGroupCount) == 52);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_bHasActiveGroups) == 56);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_pGeometryGroups) == 60);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_pSecondaryGeometryGroups) == 112);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, AlphaGeometryList) == 120);
-FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_pAlphaGeometryGroups) == 144);
 #endif

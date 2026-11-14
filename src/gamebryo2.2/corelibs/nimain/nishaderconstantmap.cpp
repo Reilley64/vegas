@@ -1,660 +1,673 @@
 // gamebryo2.2/corelibs/nimain/nishaderconstantmap.cpp: NiShaderConstantMap (10 functions)
 
+#include <cstdlib>
+#include "runtime/crt.h"
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/RefCountedPair.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nishaderconstantmap_decls.h"
 
 // @fnv 0x00a9c2a0
 void NiShaderConstantMap::InitializePoint3()
 {
     ms_uiShaderConstantMapEntryCount = 136;
-    ms_pkShaderConstantMap = new ShaderConstantMapEntry[ms_uiShaderConstantMapEntryCount];
+    (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024)) = new ShaderConstantMapEntry[ms_uiShaderConstantMapEntryCount];
     unsigned int index = 0;
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(0, NiFixedString("Invalid"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(0, NiFixedString("Invalid"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(1, NiFixedString("Proj"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(1, NiFixedString("Proj"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(1, NiFixedString("Projection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(1, NiFixedString("Projection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(2, NiFixedString("InvProj"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(2, NiFixedString("InvProj"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(2, NiFixedString("InvProjection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(2, NiFixedString("InvProjection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(3, NiFixedString("View"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(3, NiFixedString("View"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(4, NiFixedString("InvView"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(4, NiFixedString("InvView"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(5, NiFixedString("World"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(5, NiFixedString("World"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(6, NiFixedString("InvWorld"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(6, NiFixedString("InvWorld"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(7, NiFixedString("WorldView"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(7, NiFixedString("WorldView"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(8, NiFixedString("InvWorldView"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(8, NiFixedString("InvWorldView"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(9, NiFixedString("ViewProj"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(9, NiFixedString("ViewProj"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(9, NiFixedString("ViewProjection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(9, NiFixedString("ViewProjection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(10, NiFixedString("InvViewProj"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(10, NiFixedString("InvViewProj"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(10, NiFixedString("InvViewProjection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(10, NiFixedString("InvViewProjection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(11, NiFixedString("WorldViewProj"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(11, NiFixedString("WorldViewProj"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(11, NiFixedString("WorldViewProjection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(11, NiFixedString("WorldViewProjection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(12, NiFixedString("InvWorldViewProj"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(12, NiFixedString("InvWorldViewProj"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(12, NiFixedString("InvWorldViewProjection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(12, NiFixedString("InvWorldViewProjection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(13, NiFixedString("ProjTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(13, NiFixedString("ProjTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(13, NiFixedString("ProjectionTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(13, NiFixedString("ProjectionTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(14, NiFixedString("InvProjTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(14, NiFixedString("InvProjTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(14, NiFixedString("InvProjectionTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(14, NiFixedString("InvProjectionTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(15, NiFixedString("ViewTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(15, NiFixedString("ViewTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(16, NiFixedString("InvViewTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(16, NiFixedString("InvViewTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(17, NiFixedString("WorldTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(17, NiFixedString("WorldTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(18, NiFixedString("InvWorldTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(18, NiFixedString("InvWorldTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(19, NiFixedString("WorldViewTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(19, NiFixedString("WorldViewTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(20, NiFixedString("InvWorldViewTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(20, NiFixedString("InvWorldViewTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(21, NiFixedString("ViewProjTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(21, NiFixedString("ViewProjTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(21, NiFixedString("ViewProjectionTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(21, NiFixedString("ViewProjectionTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(22, NiFixedString("InvViewProjTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(22, NiFixedString("InvViewProjTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(22, NiFixedString("InvViewProjectionTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(22, NiFixedString("InvViewProjectionTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(23, NiFixedString("WorldViewProjTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(23, NiFixedString("WorldViewProjTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(23, NiFixedString("WorldViewProjectionTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(23, NiFixedString("WorldViewProjectionTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(24, NiFixedString("InvWorldViewProjTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(24, NiFixedString("InvWorldViewProjTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(24, NiFixedString("InvWorldViewProjectionTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(24, NiFixedString("InvWorldViewProjectionTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(25, NiFixedString("SkinWorldView"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(25, NiFixedString("SkinWorldView"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(26, NiFixedString("InvSkinWorldView"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(26, NiFixedString("InvSkinWorldView"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(27, NiFixedString("SkinWorldViewTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(27, NiFixedString("SkinWorldViewTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(28, NiFixedString("InvSkinWorldViewTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(28, NiFixedString("InvSkinWorldViewTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(29, NiFixedString("SkinWorldViewProj"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(29, NiFixedString("SkinWorldViewProj"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(29, NiFixedString("SkinWorldViewProjection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(29, NiFixedString("SkinWorldViewProjection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(30, NiFixedString("InvSkinWorldViewProj"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(30, NiFixedString("InvSkinWorldViewProj"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(30, NiFixedString("InvSkinWorldViewProjection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(30, NiFixedString("InvSkinWorldViewProjection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(31, NiFixedString("SkinWorldViewProjTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(31, NiFixedString("SkinWorldViewProjTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(31, NiFixedString("SkinWorldViewProjectionTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(31, NiFixedString("SkinWorldViewProjectionTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(32, NiFixedString("InvSkinWorldViewProjTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(32, NiFixedString("InvSkinWorldViewProjTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(32, NiFixedString("InvSkinWorldViewProjectionTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(32, NiFixedString("InvSkinWorldViewProjectionTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(33, NiFixedString("BoneMatrix3"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(33, NiFixedString("BoneMatrix3"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(34, NiFixedString("BoneMatrix4"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(34, NiFixedString("BoneMatrix4"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(35, NiFixedString("SkinBoneMatrix3"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(35, NiFixedString("SkinBoneMatrix3"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(36, NiFixedString("SkinBoneMatrix4"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(36, NiFixedString("SkinBoneMatrix4"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(37, NiFixedString("TexTransformBase"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(37, NiFixedString("TexTransformBase"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(38, NiFixedString("InvTexTransformBase"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(38, NiFixedString("InvTexTransformBase"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(39, NiFixedString("TexTransformBaseTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(39, NiFixedString("TexTransformBaseTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(40, NiFixedString("InvTexTransformBaseTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(40, NiFixedString("InvTexTransformBaseTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(41, NiFixedString("TexTransformDark"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(41, NiFixedString("TexTransformDark"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(42, NiFixedString("InvTexTransformDark"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(42, NiFixedString("InvTexTransformDark"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(43, NiFixedString("TexTransformDarkTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(43, NiFixedString("TexTransformDarkTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(44, NiFixedString("InvTexTransformDarkTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(44, NiFixedString("InvTexTransformDarkTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(45, NiFixedString("TexTransformDetail"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(45, NiFixedString("TexTransformDetail"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(46, NiFixedString("InvTexTransformDetail"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(46, NiFixedString("InvTexTransformDetail"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(47, NiFixedString("TexTransformDetailTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(47, NiFixedString("TexTransformDetailTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(48, NiFixedString("InvTexTransformDetailTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(48, NiFixedString("InvTexTransformDetailTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(49, NiFixedString("TexTransformGloss"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(49, NiFixedString("TexTransformGloss"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(50, NiFixedString("InvTexTransformGloss"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(50, NiFixedString("InvTexTransformGloss"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(51, NiFixedString("TexTransformGlossTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(51, NiFixedString("TexTransformGlossTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(52, NiFixedString("InvTexTransformGlossTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(52, NiFixedString("InvTexTransformGlossTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(53, NiFixedString("TexTransformGlow"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(53, NiFixedString("TexTransformGlow"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(54, NiFixedString("InvTexTransformGlow"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(54, NiFixedString("InvTexTransformGlow"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(55, NiFixedString("TexTransformGlowTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(55, NiFixedString("TexTransformGlowTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(56, NiFixedString("InvTexTransformGlowTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(56, NiFixedString("InvTexTransformGlowTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(57, NiFixedString("TexTransformBump"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(57, NiFixedString("TexTransformBump"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(58, NiFixedString("InvTexTransformBump"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(58, NiFixedString("InvTexTransformBump"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(59, NiFixedString("TexTransformBumpTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(59, NiFixedString("TexTransformBumpTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(60, NiFixedString("InvTexTransformBumpTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(60, NiFixedString("InvTexTransformBumpTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(61, NiFixedString("TexTransformDecal"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(61, NiFixedString("TexTransformDecal"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(62, NiFixedString("InvTexTransformDecal"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(62, NiFixedString("InvTexTransformDecal"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(63, NiFixedString("TexTransformDecalTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(63, NiFixedString("TexTransformDecalTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(64, NiFixedString("InvTexTransformDecalTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(64, NiFixedString("InvTexTransformDecalTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(65, NiFixedString("TexTransformShader"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(65, NiFixedString("TexTransformShader"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(66, NiFixedString("InvTexTransformShader"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(66, NiFixedString("InvTexTransformShader"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(67, NiFixedString("TexTransformShaderTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(67, NiFixedString("TexTransformShaderTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(68, NiFixedString("InvTexTransformShaderTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(68, NiFixedString("InvTexTransformShaderTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(69, NiFixedString("LightPosWS"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(69, NiFixedString("LightPosWS"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(70, NiFixedString("LightDirWS"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(70, NiFixedString("LightDirWS"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(71, NiFixedString("LightPosOS"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(71, NiFixedString("LightPosOS"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(72, NiFixedString("LightDirOS"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(72, NiFixedString("LightDirOS"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(73, NiFixedString("MaterialDiffuse"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(73, NiFixedString("MaterialDiffuse"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(73, NiFixedString("Diffuse"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(73, NiFixedString("Diffuse"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(74, NiFixedString("MaterialAmbient"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(74, NiFixedString("MaterialAmbient"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(74, NiFixedString("Ambient"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(74, NiFixedString("Ambient"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(75, NiFixedString("MaterialSpecular"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(75, NiFixedString("MaterialSpecular"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(75, NiFixedString("Specular"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(75, NiFixedString("Specular"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(76, NiFixedString("MaterialEmissive"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(76, NiFixedString("MaterialEmissive"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(77, NiFixedString("MaterialPower"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(77, NiFixedString("MaterialPower"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(77, NiFixedString("SpecularPower"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(77, NiFixedString("SpecularPower"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(78, NiFixedString("EyePos"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(78, NiFixedString("EyePos"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(79, NiFixedString("EyeDir"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(79, NiFixedString("EyeDir"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(80, NiFixedString("TaylorSin"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(80, NiFixedString("TaylorSin"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(81, NiFixedString("TaylorCos"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(81, NiFixedString("TaylorCos"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(82, NiFixedString("time"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(82, NiFixedString("time"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(83, NiFixedString("sin_time"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(83, NiFixedString("sin_time"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(84, NiFixedString("cos_time"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(84, NiFixedString("cos_time"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(85, NiFixedString("tan_time"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(85, NiFixedString("tan_time"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(86, NiFixedString("time_sin_cos_tan"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(86, NiFixedString("time_sin_cos_tan"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(87, NiFixedString("AmbientLight"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(87, NiFixedString("AmbientLight"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(92, NiFixedString("TexTransformParallax"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(92, NiFixedString("TexTransformParallax"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(93, NiFixedString("InvTexTransformParallax"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(93, NiFixedString("InvTexTransformParallax"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(94, NiFixedString("TexTransformParallaxTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(94, NiFixedString("TexTransformParallaxTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(95, NiFixedString("InvTexTransformParallaxTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(95, NiFixedString("InvTexTransformParallaxTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(88, NiFixedString("TexTransformNormal"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(88, NiFixedString("TexTransformNormal"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(89, NiFixedString("InvTexTransformNormal"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(89, NiFixedString("InvTexTransformNormal"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(90, NiFixedString("TexTransformNormalTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(90, NiFixedString("TexTransformNormalTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(91, NiFixedString("InvTexTransformNormalTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(91, NiFixedString("InvTexTransformNormalTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(96, NiFixedString("SkinWorld"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(96, NiFixedString("SkinWorld"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(97, NiFixedString("InvSkinWorld"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(97, NiFixedString("InvSkinWorld"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(98, NiFixedString("SkinWorldTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(98, NiFixedString("SkinWorldTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(99, NiFixedString("InvSkinWorldTranspose"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(99, NiFixedString("InvSkinWorldTranspose"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(100, NiFixedString("FogDensity"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(100, NiFixedString("FogDensity"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(101, NiFixedString("FogNearFar"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(101, NiFixedString("FogNearFar"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(102, NiFixedString("FogColor"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(102, NiFixedString("FogColor"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(103, NiFixedString("BumpMatrix"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(103, NiFixedString("BumpMatrix"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(104, NiFixedString("BumpLumaAndScale"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(104, NiFixedString("BumpLumaAndScale"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(105, NiFixedString("ParallaxOffset"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(105, NiFixedString("ParallaxOffset"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(106, NiFixedString("TexSizeBase"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(106, NiFixedString("TexSizeBase"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(107, NiFixedString("TexSizeDark"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(107, NiFixedString("TexSizeDark"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(108, NiFixedString("TexSizeDetail"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(108, NiFixedString("TexSizeDetail"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(109, NiFixedString("TexSizeGloss"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(109, NiFixedString("TexSizeGloss"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(110, NiFixedString("TexSizeGlow"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(110, NiFixedString("TexSizeGlow"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(111, NiFixedString("TexSizeBump"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(111, NiFixedString("TexSizeBump"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(111, NiFixedString("TexSizeNormal"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(111, NiFixedString("TexSizeNormal"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(111, NiFixedString("TexSizeParallax"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(111, NiFixedString("TexSizeParallax"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(114, NiFixedString("TexSizeDecal"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(114, NiFixedString("TexSizeDecal"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[index++];
-        entry = ShaderConstantMapEntry(115, NiFixedString("TexSizeShader"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(115, NiFixedString("TexSizeShader"))));
     }
 
     ms_uiConstantMapEntryCount = 25;
-    ms_pkConstantMap = new ShaderConstantMapEntry[ms_uiConstantMapEntryCount];
+    (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c)) = new ShaderConstantMapEntry[ms_uiConstantMapEntryCount];
     index = 0;
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(0, NiFixedString("Invalid"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(0, NiFixedString("Invalid"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(1, NiFixedString("Dimmer"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(1, NiFixedString("Dimmer"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(2, NiFixedString("UndimmedAmbient"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(2, NiFixedString("UndimmedAmbient"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(3, NiFixedString("UndimmedDiffuse"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(3, NiFixedString("UndimmedDiffuse"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(4, NiFixedString("UndimmedSpecular"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(4, NiFixedString("UndimmedSpecular"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(5, NiFixedString("Ambient"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(5, NiFixedString("Ambient"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(6, NiFixedString("Diffuse"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(6, NiFixedString("Diffuse"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(7, NiFixedString("Specular"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(7, NiFixedString("Specular"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(8, NiFixedString("WorldPosition"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(8, NiFixedString("WorldPosition"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(9, NiFixedString("ModelPosition"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(9, NiFixedString("ModelPosition"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(10, NiFixedString("WorldDirection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(10, NiFixedString("WorldDirection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(11, NiFixedString("ModelDirection"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(11, NiFixedString("ModelDirection"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(12, NiFixedString("WorldTransform"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(12, NiFixedString("WorldTransform"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(13, NiFixedString("ModelTransform"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(13, NiFixedString("ModelTransform"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(14, NiFixedString("SpotAttenuation"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(14, NiFixedString("SpotAttenuation"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(15, NiFixedString("Attenuation"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(15, NiFixedString("Attenuation"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(16, NiFixedString("WorldProjectionMatrix"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(16, NiFixedString("WorldProjectionMatrix"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(17, NiFixedString("ModelProjectionMatrix"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(17, NiFixedString("ModelProjectionMatrix"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(18, NiFixedString("WorldProjectionTranslation"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(18, NiFixedString("WorldProjectionTranslation"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(19, NiFixedString("ModelProjectionTranslation"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(19, NiFixedString("ModelProjectionTranslation"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(20, NiFixedString("WorldClippingPlane"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(20, NiFixedString("WorldClippingPlane"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(21, NiFixedString("ModelClippingPlane"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(21, NiFixedString("ModelClippingPlane"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(22, NiFixedString("TexCoordGen"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(22, NiFixedString("TexCoordGen"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(23, NiFixedString("WorldProjectionTransform"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(23, NiFixedString("WorldProjectionTransform"))));
     }
     {
-        ShaderConstantMapEntry& entry = ms_pkConstantMap[index++];
-        entry = ShaderConstantMapEntry(24, NiFixedString("ModelProjectionTransform"));
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[index++];
+        reinterpret_cast<::RefCountedPair *>((void *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(entry))->Assign((const ::RefCountedPair *)&(const ::NiShaderConstantMap::ShaderConstantMapEntry &)(ShaderConstantMapEntry(24, NiFixedString("ModelProjectionTransform"))));
     }
 }
 
@@ -665,17 +678,17 @@ bool NiShaderConstantMap::ParseConstantName(const char* key, char* name, unsigne
     char buffer[260];
     if (sizeof(buffer) > size + 1)
         return false;
-    strcpy_s(buffer, sizeof(buffer), key);
-    strcpy_s(name, sizeof(buffer), key);
+    fnv::crt::strcpy_s(buffer, sizeof(buffer), key);
+    fnv::crt::strcpy_s(name, sizeof(buffer), key);
     char* suffix = strchr(buffer, '_');
     if (suffix && isdigit(suffix[1]) && suffix[2] == 0)
     {
         char* context;
-        char* prefix = strtok_s(buffer, "_", &context);
-        char* number = strtok_s(0, "_", &context);
+        char* prefix = fnv::crt::strtok_s(buffer, "_", &context);
+        char* number = fnv::crt::strtok_s(0, "_", &context);
         if (number)
         {
-            extra = FUN_00eca6d3(number);
+            extra = std::atoi(number);
             strcpy_s(name, size, prefix);
         }
     }
@@ -690,7 +703,7 @@ bool NiShaderConstantMap::FindConstantMapping(const char* key, unsigned int& map
         return false;
     for (unsigned int i = 0; i < ms_uiShaderConstantMapEntryCount; ++i)
     {
-        ShaderConstantMapEntry& entry = ms_pkShaderConstantMap[i];
+        ShaderConstantMapEntry& entry = (*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f6024))[i];
         if (!NiStricmp(entry.m_kConstantName, name))
         {
             mapping = entry.m_uiConstantID;
@@ -781,31 +794,30 @@ NiShaderAttributeDesc_AttributeType __cdecl GetAttributeTypeForMapping(unsigned 
 }
 
 // @fnv 0x00a9bd60
-unsigned int __stdcall FUN_00a9bd60(const char*, unsigned int, unsigned int, const char*)
+unsigned int FUN_00a9bd60(const char*, unsigned int, unsigned int, const char*)
 {
     return 0x30;
 }
 
 // @fnv 0x00a9bd70
-int __stdcall FUN_00a9bd70(int a, int b, int c, int d, int e, int f, int g, int h, int i, int j)
+int FUN_00a9bd70(int a, int b, int c, int d, int e, int f, int g, int h, int i, int j)
 {
     return 0x30;
 }
 
 // @fnv 0x00a9bd80
-int __stdcall FUN_00a9bd80(int a, int b, int c, int d, int e, int f)
+int FUN_00a9bd80(int a, int b, int c, int d, int e, int f)
 {
     return 0x30;
 }
 
 // @fnv 0x00a9bd90
-unsigned int __stdcall FUN_00a9bd90(const char* pszKey, unsigned int uiShaderRegister, const char* pszVariableName,
+unsigned int FUN_00a9bd90(const char* pszKey, unsigned int uiShaderRegister, const char* pszVariableName,
                                     unsigned int uiObjectIndex, int eObjectType)
 {
     return 0x30;
 }
 
-extern int __cdecl _NiStricmp(const char*, const char*);
 
 // Searches the shader constant map table for a case-insensitive name match and writes the matching entry's ID to uiMappingID, returning true if found.
 // @fnv 0x00a9c0e0
@@ -816,8 +828,8 @@ bool __cdecl LookupShaderConstantMapping(const char* pcName, unsigned int* uiMap
 
     for (uiIndex = 0; uiIndex < NiShaderConstantMap::ms_uiConstantMapEntryCount; ++uiIndex)
     {
-        pkMapping = &NiShaderConstantMap::ms_pkConstantMap[uiIndex];
-        if (_NiStricmp(pkMapping->m_kConstantName, pcName) == 0)
+        pkMapping = &(*reinterpret_cast<::NiShaderConstantMap::ShaderConstantMapEntry * *>(&::fnv_00a9fda0::DAT_011f602c))[uiIndex];
+        if (::NiStricmp(pkMapping->m_kConstantName, pcName) == 0)
         {
             *uiMappingID = pkMapping->m_uiConstantID;
             return true;
@@ -975,3 +987,5 @@ ShaderLight* GetLightByType(ShaderLights* lights, unsigned int type, unsigned in
 
     return result;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nishaderconstantmap.inc"

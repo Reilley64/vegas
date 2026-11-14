@@ -2,12 +2,12 @@
 // src/gamebryo2.2/corelibs/nicollision/niobbroot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niobbroot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011f6000.h"
 struct MM
 {
-    void _DeallocateAlias(void*);
 };
-extern MM g_memoryManager;
-extern int DAT_010f1b44;
 struct DelBase
 {
     virtual ~DelBase();
@@ -24,10 +24,10 @@ struct NiOBBRoot
 void* NiOBBRoot::Destroy(unsigned int auiFlags)
 {
     DelBase* t = p8;
-    vf = (void*)&DAT_010f1b44;
+    vf = (void*)&(*reinterpret_cast<int *>(&::UNK_010f1b44));
     delete t;
     if (auiFlags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 

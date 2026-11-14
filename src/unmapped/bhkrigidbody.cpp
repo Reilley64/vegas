@@ -1,36 +1,59 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <cstddef>
+#include <windows.h>
+#include "fnv/decl/ActionOwnerC9d590.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_004ee840_cls.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00c87a40_obj.h"
+#include "fnv/decl/FUN_00c9d4f0_cls.h"
+#include "fnv/decl/FUN_00ca8420_Class.h"
+#include "fnv/decl/ListX.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/Obj577.h"
+#include "fnv/decl/RefOwner.h"
+#include "fnv/decl/S00c859e0_cls.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/ScaleOwner.h"
+#include "fnv/decl/SwapBlock_c8ce70.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/WorldObjectView.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c87000.h"
+#include "fnv/symbols_00c8e000.h"
+#include "fnv/symbols_00c8f000.h"
+#include "fnv/symbols_00cc8000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104f000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 struct NiObject;
 struct NiStream
 {
     NiObject* GetLoadedObject();
-    unsigned int GetLinkID();
 };
 struct bhkRigidBody
 {
-    void FUN_00c859e0(NiStream*);
-    void FUN_00c8ef80(NiObject*);
     void FUN_00c8f3c0(NiStream*);
+public:
+    float GetBodyMass();
 };
-// Calls FUN_00c859e0, reads a count from the stream, then reads that many NiObjects and passes each non-null one to FUN_00c8ef80.
-// @fnv 0x00c8f3c0
-void bhkRigidBody::FUN_00c8f3c0(NiStream* stream)
-{
-    FUN_00c859e0(stream);
-    unsigned int count = stream->GetLinkID();
-    for (unsigned int i = 0; i < count; ++i)
-    {
-        NiObject* obj = stream->GetLoadedObject();
-        if (obj)
-            FUN_00c8ef80(obj);
-    }
-}
-
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
 struct NiTPrimitiveArray_unsigned_int_
 {
-    unsigned int AddFirstEmpty(unsigned int const&);
 };
 struct StrArr
 {
@@ -40,14 +63,12 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Add(char*& e)
     {
         unsigned int i = m_usSize;
         if (i >= m_usMaxSize)
-            SetSize(i + m_usGrowBy);
-        SetAt(i, e);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(i + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, e);
     }
 };
 
@@ -59,31 +80,31 @@ void __cdecl AddMotionTypeName(StrArr* arr, int type)
     switch (type)
     {
     case 1:
-        s = FUN_00a7d5e0("MOTION", "DYNAMIC");
-        ((NiTPrimitiveArray_unsigned_int_*)arr)->AddFirstEmpty((unsigned int&)s);
+        s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "DYNAMIC");
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 2:
-        s = FUN_00a7d5e0("MOTION", "SPHERE");
-        ((NiTPrimitiveArray_unsigned_int_*)arr)->AddFirstEmpty((unsigned int&)s);
+        s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "SPHERE");
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 3:
-        s = FUN_00a7d5e0("MOTION", "BOX");
-        ((NiTPrimitiveArray_unsigned_int_*)arr)->AddFirstEmpty((unsigned int&)s);
+        s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "BOX");
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 4:
-        s = FUN_00a7d5e0("MOTION", "KEYFRAMED");
-        ((NiTPrimitiveArray_unsigned_int_*)arr)->AddFirstEmpty((unsigned int&)s);
+        s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "KEYFRAMED");
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 5:
-        s = FUN_00a7d5e0("MOTION", "FIXED");
-        ((NiTPrimitiveArray_unsigned_int_*)arr)->AddFirstEmpty((unsigned int&)s);
+        s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "FIXED");
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 6:
-        s = FUN_00a7d5e0("MOTION", "THIN BOX");
-        ((NiTPrimitiveArray_unsigned_int_*)arr)->AddFirstEmpty((unsigned int&)s);
+        s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "THIN BOX");
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     default:
-        s = FUN_00a7d5e0("MOTION", "INVALID");
+        s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "INVALID");
         arr->Add(s);
         break;
     }
@@ -91,18 +112,13 @@ void __cdecl AddMotionTypeName(StrArr* arr, int type)
 
 struct FUN_00c8eb00_s
 {
-    void __thiscall ProcessListNodes();
-    void __thiscall FUN_00c9d590();
-    void __thiscall FUN_00c8eb00();
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int m_uiFlags;
+    void FUN_00c8eb00();
 };
-// @fnv 0x00c8eb00
-void __thiscall FUN_00c8eb00_s::FUN_00c8eb00()
-{
-    *(unsigned int*)(this + 0x10) &= 0xffffff77;
-    ProcessListNodes();
-    FUN_00c9d590();
-}
-
 struct LinkedRecord
 {
     unsigned int unk00;
@@ -207,12 +223,11 @@ struct S_00c8d440_Target
     virtual void v4(unsigned int id, S_00c8d440_Arg arg);
 };
 
-extern S_00c8d440_Target* DAT_01268360;
 
 // @fnv 0x00c8d440
-void __stdcall FUN_00c8d440(bool flag)
+void FUN_00c8d440(bool flag)
 {
-    S_00c8d440_Target* t = DAT_01268360;
+    S_00c8d440_Target* t = (*reinterpret_cast<::S_00c8d440_Target * *>(&::DAT_01268360));
     t->v4(0xf043d534, S_00c8d440_Arg(flag));
     t->v4(0xf02e32e1, S_00c8d440_Arg(flag));
     t->v4(0xf02e32e2, S_00c8d440_Arg(flag));
@@ -307,7 +322,6 @@ struct NativeThing
 struct NiRTTI
 {
 };
-extern NiRTTI DAT_01267b70;
 struct NativeLink
 {
     NativeThing* object;
@@ -366,18 +380,14 @@ struct BodyUpdate
     {
         return (flags >> 6) & 1;
     }
-    bool FUN_00c85810(void*);
-    void FUN_00a29680();
-    void UpdateMatchingNodes(void*);
-    void* FUN_00c87a40();
     bool InWorld()
     {
         NativeThing* body = native;
         if (!body)
             return false;
-        FUN_00a29680();
+        ::FUN_00a29680();
         bool inWorld = body->world != 0;
-        FUN_00a29680();
+        ::FUN_00a29680();
         return inWorld;
     }
     int MotionType() const
@@ -391,35 +401,6 @@ struct BodyUpdate
     }
     bool UpdateBody(void*);
 };
-// @fnv 0x00c8db50
-bool BodyUpdate::UpdateBody(void* update)
-{
-    NativeLink link;
-    NativeThing* object = FUN_00c85ef0(&link, this ? native : 0, &DAT_01267b70)->object;
-    NativeData* data = object ? object->GetData() : 0;
-    bool bUnitScale = data && data->factor18 == 1.0f && data->factor1c == 1.0f;
-    if ((!bUnitScale || data->count > 0 || DAT_011afe59) && !IsDisabled())
-    {
-        bool result = FUN_00c85810(update);
-        if (result || (InWorld() && IsMoving()))
-        {
-            if ((!bUnitScale || data->count > 0) && !IsDisabled())
-                UpdateMatchingNodes(update);
-        }
-        if (data)
-            data->lastUpdate = update;
-        return result;
-    }
-    else
-    {
-        if (FUN_00c87a40())
-            Reset();
-        if (data)
-            data->lastUpdate = update;
-        return true;
-    }
-}
-
 namespace fnv_00c8dcb0 {
 struct S_c8dcb0_Res
 {
@@ -447,7 +428,6 @@ struct S_c8dcb0_Obj
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     int unk24;
 };
-extern int DAT_01267b70;
 S_c8dcb0_Res* __cdecl FUN_00c85ef0(S_c8dcb0_Res*, int, int*);
 struct S_c8dcb0_Base
 {
@@ -467,7 +447,7 @@ bool S_c8dcb0_Base::FUN_00c8dcb0(int aiValue)
         UpdateMatchingNodes(aiValue);
     int key = this ? unk08 : 0;
     S_c8dcb0_Res res;
-    S_c8dcb0_Obj* o = FUN_00c85ef0(&res, key, &DAT_01267b70)->p;
+    S_c8dcb0_Obj* o = FUN_00c85ef0(&res, key, &(*reinterpret_cast<int *>(&::g_01267b70)))->p;
     if (o)
     {
         S_c8dcb0_Obj* t = o->v15();
@@ -562,7 +542,6 @@ struct C8Obj
     int unkE0;
     int unkE4;
     unsigned char state;
-    void Setup(int, bool, int);
 };
 
 struct C8Owner
@@ -570,9 +549,7 @@ struct C8Owner
     int unk00;
     int unk04;
     C8Obj* obj;
-    void Toggle();
     void Apply(C8Flags);
-    float GetValue();
     bool SetState(int state);
 };
 
@@ -599,10 +576,10 @@ bool C8Owner::SetState(int state)
             newFlags.type = hit ? 0x1d : 8;
             if (state != iCurrent)
             {
-                Toggle();
+                ::FUN_00a29680();
                 o->base.flags = newFlags;
-                o->Setup(state, true, 0);
-                Toggle();
+                reinterpret_cast<::FUN_00ca8420_Class *>((o))->FUN_00ca8420(state, true, 0);
+                ::FUN_00a29680();
             }
             else
             {
@@ -617,15 +594,15 @@ bool C8Owner::SetState(int state)
             {
             case 4:
             case 5:
-                if (FUN_00c8cce0(&state) && GetValue() == 0.0f)
+                if (FUN_00c8cce0(&state) && reinterpret_cast<::bhkRigidBody *>(this)->GetBodyMass() == 0.0f)
                     skip = true;
                 break;
             }
             if (!skip)
             {
-                Toggle();
-                o->Setup(state, true, 0);
-                Toggle();
+                ::FUN_00a29680();
+                reinterpret_cast<::FUN_00ca8420_Class *>((o))->FUN_00ca8420(state, true, 0);
+                ::FUN_00a29680();
                 result = true;
             }
         }
@@ -678,8 +655,6 @@ struct ObjBase
     virtual void v98();
     virtual void v9C();
     virtual void vA0();
-    int Helper1();
-    int Helper2();
 };
 
 struct ListNode
@@ -698,9 +673,14 @@ struct FUN_00c8e770_cls
     ListNode m_14;
     void ProcessListNodes();
 };
+// @fnv 0x00c8eb00
+void FUN_00c8eb00_s::FUN_00c8eb00()
+{
+    m_uiFlags &= 0xffffff77;
+    reinterpret_cast<::FUN_00c8e770_cls *>(this)->ProcessListNodes();
+    reinterpret_cast<::ActionOwnerC9d590 *>(this)->FUN_00c9d590();
+}
 
-extern char DAT_0126818c;
-extern char DAT_01268158;
 
 // Walks the m_14 list; for each node with an ObjBase, checks its v08 list for DAT_0126818c/DAT_01268158 and calls Helper1/Helper2, invoking vA0 if nonzero.
 // @fnv 0x00c8e770
@@ -720,9 +700,9 @@ void FUN_00c8e770_cls::ProcessListNodes()
             {
                 for (; p; p = p->m_04)
                 {
-                    if (p == (ListNode*)&DAT_0126818c)
+                    if (p == (ListNode*)&(*reinterpret_cast<char *>(&::g_0126818c)))
                     {
-                        r = o->Helper1();
+                        r = ((int)(reinterpret_cast<::RigidLinkSource *>((o))->GetLinkedRecordValue()));
                         goto L_070;
                     }
                 }
@@ -732,9 +712,9 @@ void FUN_00c8e770_cls::ProcessListNodes()
             {
                 for (; p; p = p->m_04)
                 {
-                    if (p == (ListNode*)&DAT_01268158)
+                    if (p == (ListNode*)&(*reinterpret_cast<char *>(&::g_01268158)))
                     {
-                        r = o->Helper2();
+                        r = reinterpret_cast<::FUN_00c87a40_obj *>((o))->FUN_00c87a40() != 0;
                         goto L_070;
                     }
                 }
@@ -814,17 +794,13 @@ class C8EC60Object
 class C8EC60Constraint : public C8EC60Object
 {
   public:
-    static const C8EC60RTTI ms_kRTTI;
 
-    void* GetConstraint();
 };
 
 class C8EC60RefObject : public C8EC60Object
 {
   public:
-    static const C8EC60RTTI ms_kRTTI;
 
-    void* GetReferencedData();
 };
 
 class C8EC60Iterator
@@ -832,7 +808,6 @@ class C8EC60Iterator
   public:
     C8EC60Object* m_pkCurrent;
 
-    void Next();
 };
 
 class C8EC60World
@@ -852,31 +827,6 @@ class C8EC60World
     void FUN_00c8ec60();
 };
 
-// Iterates the world's objects and calls ResetWorldObject on constraints and ref objects that hold a non-null constraint or referenced data.
-// @fnv 0x00c8ec60
-void C8EC60World::FUN_00c8ec60()
-{
-    C8EC60Iterator* pkIter = GetIterator();
-    while (pkIter && pkIter->m_pkCurrent)
-    {
-        C8EC60Object* pkObject = pkIter->m_pkCurrent;
-        if (pkObject->IsKindOfType(C8EC60Constraint::ms_kRTTI))
-        {
-            if (static_cast<C8EC60Constraint*>(pkObject)->GetConstraint())
-                pkObject->ResetWorldObject();
-        }
-        else if (pkObject->IsKindOfType(C8EC60RefObject::ms_kRTTI))
-        {
-            if (static_cast<C8EC60RefObject*>(pkObject)->GetReferencedData())
-                pkObject->ResetWorldObject();
-        }
-        pkIter->Next();
-    }
-}
-
-extern int DAT_0126810c;
-extern int DAT_012681fc;
-extern int DAT_012681bc;
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
@@ -888,10 +838,6 @@ struct OwnerBase
     unsigned int m_04;
     unsigned int m_08;
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct Pair8
@@ -944,7 +890,7 @@ SpawnedObject* __cdecl FUN_00c8ed70()
     return new SpawnedObject();
 }
 
-struct NiNode;
+class NiNode;
 struct HavokShape
 {
     void FUN_00c8f080();
@@ -960,7 +906,6 @@ struct HavokLookup
 };
 struct HavokProperty
 {
-    HavokLookup* FUN_00653290(const void* key);
 };
 struct HavokObject
 {
@@ -977,10 +922,10 @@ struct HavokObject
     void* source;
     HavokProperty* property;
 
-    void FUN_00a68bf0();
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     float rotation[3][3];
     float translation[3];
     float scale;
@@ -990,8 +935,9 @@ struct NiBound
     float center[3];
     float radius;
 };
-struct NiNode
+class NiNode
 {
+  public:
     void* vtbl;
     unsigned int referenceCount;
     const char* name;
@@ -1010,17 +956,16 @@ struct NiNode
     unsigned short maxChildren;
     unsigned short childCount;
 };
-extern char DAT_012043f8;
 // @fnv 0x00c8f210
 void __cdecl ApplyHavokOperation(HavokObject* object, int operation, void* context)
 {
     if (object != 0)
     {
-        object->FUN_00a68bf0();
+        reinterpret_cast<::NiAVObject *>((object))->UpdateWorldLoc();
         HavokProperty* property = object->property;
         if (property != 0)
         {
-            HavokLookup* lookup = property->FUN_00653290(&DAT_012043f8);
+            HavokLookup* lookup = ((::HavokLookup *)(reinterpret_cast<::NiObject *>((property))->DynamicCast((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012043f8))))));
             if (lookup != 0 && lookup->shape != 0)
             {
                 if ((char)operation)
@@ -1353,8 +1298,6 @@ struct RigidBodyS
     unsigned int unk10;
     CloneNode list;
 
-    void BaseCopyMembers(RigidBodyS* dest, CloningProcess* c);
-    void LockStub();
     unsigned int GetFlagsW()
     {
         return GetWFlags(unk08);
@@ -1369,9 +1312,9 @@ struct RigidBodyS
         hkWorldObjStub* w = unk08;
         if (!w)
             return;
-        LockStub();
+        ::FUN_00a29680();
         hkWorldObjSub* s = w->GetSub();
-        LockStub();
+        ::FUN_00a29680();
         if (s)
             s->flags = f;
     }
@@ -1383,52 +1326,22 @@ struct RigidBodyS
     void CopyBodyToClone(RigidBodyS* dest, CloningProcess* c);
 };
 
-// Copies body members into dest, scales the body stub when c->scale != 1, sets unk28 from unk08->unk210, and clones list nodes into dest.
-// @fnv 0x00c8f2a0
-void RigidBodyS::CopyBodyToClone(RigidBodyS* dest, CloningProcess* c)
-{
-    bool b;
-    ScaledBody* body = GetBodyStub(&b);
-    if (Flag9())
-        body->unkD4 = 1;
-    float s = c->scale;
-    if (s != 1.0f)
-        body->Scale(s);
-    body->unk28 = unk08->unk210;
-    BaseCopyMembers(dest, c);
-    dest->unk10 = (dest->unk10 | unk10) & 0xfffffc07;
-    CloneNode* n = &list;
-    if (WFlag13(unk08) || c->scale != 1.0f)
-    {
-        dest->SetFlagsW(dest->GetFlagsWith(0x2000));
-        dest->UpdateStub();
-    }
-    for (; n && n->data; n = n->next)
-        reinterpret_cast<bhkRigidBody*>(dest)->FUN_00c8ef80(n->data->CreateCloneStub(c));
-}
-
-extern __declspec(thread) unsigned int hkThreadMemoryFlags;
 
 struct ThreadFlagsGuard
 {
-    unsigned int saved;
+    int saved;
     ThreadFlagsGuard()
     {
-        saved = hkThreadMemoryFlags;
-        hkThreadMemoryFlags = 0x10;
+        saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 0x10;
     }
     ~ThreadFlagsGuard()
     {
-        hkThreadMemoryFlags = saved;
+        g_tlsBlock.memoryContext = saved;
     }
 };
 
-void LockWorldStub();
-void UnlockWorldStub();
 
-extern unsigned int g_iRefObjectCountA;
-extern int g_iSerializableCount;
-extern int g_iLiquidActionCount;
 
 struct bhkRefObjectBase
 {
@@ -1436,8 +1349,6 @@ struct bhkRefObjectBase
     int refCount;
     int unk08;
     bhkRefObjectBase();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 };
 
 struct bhkRefObjectLvl : bhkRefObjectBase
@@ -1451,7 +1362,7 @@ struct bhkRefObjectLvl : bhkRefObjectBase
     } links;
     bhkRefObjectLvl()
     {
-        ++g_iRefObjectCountA;
+        ++(*reinterpret_cast<unsigned int *>(&::DAT_0126810c));
     }
 };
 
@@ -1459,7 +1370,7 @@ struct bhkSerializableLvl : bhkRefObjectLvl
 {
     bhkSerializableLvl()
     {
-        ++g_iSerializableCount;
+        ++::DAT_012681fc;
     }
 };
 
@@ -1471,7 +1382,7 @@ struct bhkLiquidAction : bhkSerializableLvl
     {
         unk14 = 0;
         unk18 = 0;
-        ++g_iLiquidActionCount;
+        ++::DAT_012681bc;
     }
 };
 
@@ -1541,43 +1452,40 @@ struct bhkRigidBodyX
     virtual void vfF4();
     virtual void vfF8();
     virtual void SetLockedStub(bool locked);
-    void AddActionStub(bhkLiquidAction* action, int param);
-    bhkLiquidAction* CreateAndAddLiquidAction(int param);
+    bhkLiquidAction* CreateAndAddLiquidAction(::CloningProcess* apCloning);
 };
 
 // Creates a new bhkLiquidAction, adds it to the rigid body with param, and returns it while locking and unlocking the world.
 // @fnv 0x00c8f400
-bhkLiquidAction* bhkRigidBodyX::CreateAndAddLiquidAction(int param)
+bhkLiquidAction* bhkRigidBodyX::CreateAndAddLiquidAction(::CloningProcess* apCloning)
 {
     ThreadFlagsGuard guard;
-    LockWorldStub();
+    ::FUN_00c876f0();
     SetLockedStub(false);
     bhkLiquidAction* action = new bhkLiquidAction;
-    AddActionStub(action, param);
+    reinterpret_cast<::RigidBodyS *>(this)->CopyBodyToClone((::RigidBodyS *)(action), apCloning);
     SetLockedStub(true);
-    UnlockWorldStub();
+    ::FUN_00c87700();
     return action;
 }
 
-extern __declspec(thread) int g_tlsMemContext;
 
 struct ScopedMemoryContext
 {
     int iOldContext;
     ScopedMemoryContext(int aiContext)
     {
-        iOldContext = g_tlsMemContext;
-        g_tlsMemContext = aiContext;
+        iOldContext = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = aiContext;
     }
     ~ScopedMemoryContext()
     {
-        g_tlsMemContext = iOldContext;
+        g_tlsBlock.memoryContext = iOldContext;
     }
 };
 
 struct GlobalObject_004ee810
 {
-    void FUN_004ee920();
 };
 
 struct FUN_00c9d4c0_holder
@@ -1602,7 +1510,7 @@ struct Shell_c8da40 : public FUN_00c9d4c0_holder
 void Shell_c8da40::FUN_00c8da40()
 {
     ScopedMemoryContext kContext(0x10);
-    uTmpnk.FUN_004ee920();
+    reinterpret_cast<::ListX *>(&(uTmpnk))->FUN_004ee920();
     FUN_00c9d4c0();
 }
 
@@ -1611,8 +1519,6 @@ struct C8DAC0RTTI
     const char* m_pcName;
     const C8DAC0RTTI* m_pBaseRTTI;
 };
-extern char DAT_0126818c;
-extern char DAT_01268628;
 class C8DAC0Object
 {
   public:
@@ -1700,8 +1606,8 @@ void C8DAC0Owner::UpdateMatchingNodes(void* pvContext)
         if (!pkNode->m_pPointer)
             break;
         bool bMatch = bFilterByKind &&
-                      C8DAC0IsKindOf(reinterpret_cast<const C8DAC0RTTI&>(DAT_0126818c), pkNode->m_pPointer) &&
-                      C8DAC0IsKindOf(reinterpret_cast<const C8DAC0RTTI&>(DAT_01268628), pkNode->m_pPointer);
+                      C8DAC0IsKindOf(reinterpret_cast<const C8DAC0RTTI&>((*reinterpret_cast<char *>(&::g_0126818c))), pkNode->m_pPointer) &&
+                      C8DAC0IsKindOf(reinterpret_cast<const C8DAC0RTTI&>((*reinterpret_cast<char *>(&::g_01268628))), pkNode->m_pPointer);
         if (!bFilterByKind || bMatch)
             pkNode->m_pPointer->Update(pvContext);
     }
@@ -1720,32 +1626,28 @@ struct LiquidLink
 struct FUN_00c8e9c0 : LiquidBase
 {
     LiquidLink link;
-    void FUN_00c8da40();
     virtual ~FUN_00c8e9c0();
 };
 // Destructor that calls FUN_00c8da40 and decrements g_iLiquidActionCount.
 // @fnv 0x00c8e9c0
 FUN_00c8e9c0::~FUN_00c8e9c0()
 {
-    FUN_00c8da40();
-    --g_iLiquidActionCount;
+    reinterpret_cast<::Shell_c8da40 *>(this)->FUN_00c8da40();
+    --::DAT_012681bc;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
-extern __declspec(thread) int g_iAllocTagC8E;
 struct AllocTagScopeC8E
 {
     int m_iSaved;
 
     AllocTagScopeC8E(int aiAllocationTag)
     {
-        m_iSaved = g_iAllocTagC8E;
-        g_iAllocTagC8E = aiAllocationTag;
+        m_iSaved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~AllocTagScopeC8E()
     {
-        g_iAllocTagC8E = m_iSaved;
+        g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 class NiRTTIC8E
@@ -1788,8 +1690,6 @@ class NiObjectC8E
 
     unsigned int m_uiRefCount;
 };
-extern const NiRTTIC8E g_kGeometryRTTIC8E;
-extern const NiRTTIC8E g_kNodeRTTIC8E;
 template <class T> class NiPointerC8E
 {
   public:
@@ -1845,13 +1745,49 @@ class SceneC8E
 
     void FUN_00c8ef80(NiObjectC8E* pkObject);
 };
+// Calls FUN_00c859e0, reads a count from the stream, then reads that many NiObjects and passes each non-null one to FUN_00c8ef80.
+// @fnv 0x00c8f3c0
+void bhkRigidBody::FUN_00c8f3c0(NiStream* stream)
+{
+    reinterpret_cast<::S00c859e0_cls *>(this)->FUN_00c859e0(stream);
+    unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>((stream))->FUN_00a63460();
+    for (unsigned int i = 0; i < count; ++i)
+    {
+        NiObject* obj = stream->GetLoadedObject();
+        if (obj)
+            reinterpret_cast<::SceneC8E *>(this)->FUN_00c8ef80((::NiObjectC8E *)(obj));
+    }
+}
+// Copies body members into dest, scales the body stub when c->scale != 1, sets unk28 from unk08->unk210, and clones list nodes into dest.
+// @fnv 0x00c8f2a0
+void RigidBodyS::CopyBodyToClone(RigidBodyS* dest, CloningProcess* c)
+{
+    bool b;
+    ScaledBody* body = GetBodyStub(&b);
+    if (Flag9())
+        body->unkD4 = 1;
+    float s = c->scale;
+    if (s != 1.0f)
+        reinterpret_cast<::ScaleOwner *>((body))->FUN_00c8cdf0(s);
+    body->unk28 = unk08->unk210;
+    reinterpret_cast<::WorldObjectView *>(this)->FUN_00c85900(reinterpret_cast<std::intptr_t>(dest), reinterpret_cast<std::intptr_t>(c));
+    dest->unk10 = (dest->unk10 | unk10) & 0xfffffc07;
+    CloneNode* n = &list;
+    if (WFlag13(unk08) || c->scale != 1.0f)
+    {
+        dest->SetFlagsW(dest->GetFlagsWith(0x2000));
+        dest->UpdateStub();
+    }
+    for (; n && n->data; n = n->next)
+        reinterpret_cast<::SceneC8E *>((reinterpret_cast<bhkRigidBody*>(dest)))->FUN_00c8ef80((::NiObjectC8E *)(::NiObject *)(n->data->CreateCloneStub(c)));
+}
 // Adds pkObject to the object list if it is a geometry or node, using an allocation tag scope of 0x10.
 // @fnv 0x00c8ef80
 void SceneC8E::FUN_00c8ef80(NiObjectC8E* pkObject)
 {
     AllocTagScopeC8E kScope(0x10);
-    if (pkObject && (pkObject->IsKindOfType(g_kGeometryRTTIC8E) || pkObject->IsKindOfType(g_kNodeRTTIC8E)))
-        m_kThirdFollowingStreamField.AddTail(pkObject);
+    if (pkObject && (pkObject->IsKindOfType((*reinterpret_cast<const ::NiRTTIC8E *>(&::g_0126818c))) || pkObject->IsKindOfType((*reinterpret_cast<const ::NiRTTIC8E *>(&::g_01268158)))))
+        reinterpret_cast<::RefOwner *>(&(m_kThirdFollowingStreamField))->FUN_00c80a30((int *)&(const ::NiPointerC8E< ::NiObjectC8E> &)(pkObject));
 }
 
 struct RefCountedObj
@@ -1865,14 +1801,11 @@ struct LinkNode
 {
     RefCountedObj* m_pEntryObject;
     LinkNode* m_pNext;
-    void Release();
 };
 
 struct LinkNodePool
 {
-    void Free(LinkNode*);
 };
-extern LinkNodePool g_linkNodePool;
 
 class FUN_00c88990_cls
 {
@@ -1881,6 +1814,27 @@ class FUN_00c88990_cls
     LinkNode* m_pNext;
     void PopAndRelease();
 };
+// Iterates the world's objects and calls ResetWorldObject on constraints and ref objects that hold a non-null constraint or referenced data.
+// @fnv 0x00c8ec60
+void C8EC60World::FUN_00c8ec60()
+{
+    C8EC60Iterator* pkIter = GetIterator();
+    while (pkIter && pkIter->m_pkCurrent)
+    {
+        C8EC60Object* pkObject = pkIter->m_pkCurrent;
+        if (pkObject->IsKindOfType((*reinterpret_cast<const ::C8EC60RTTI *>(&::g_0126818c))))
+        {
+            if (reinterpret_cast<::RigidLinkSource *>((static_cast<C8EC60Constraint*>(pkObject)))->GetLinkedRecordValue() != 0)
+                pkObject->ResetWorldObject();
+        }
+        else if (pkObject->IsKindOfType((*reinterpret_cast<const ::C8EC60RTTI *>(&::g_01268158))))
+        {
+            if (reinterpret_cast<::FUN_00c87a40_obj *>((static_cast<C8EC60RefObject*>(pkObject)))->FUN_00c87a40())
+                pkObject->ResetWorldObject();
+        }
+        reinterpret_cast<::FUN_00c88990_cls *>((pkIter))->PopAndRelease();
+    }
+}
 
 // @fnv 0x00c88990
 void FUN_00c88990_cls::PopAndRelease()
@@ -1903,8 +1857,8 @@ void FUN_00c88990_cls::PopAndRelease()
         }
 
         node->m_pNext = 0;
-        node->Release();
-        g_linkNodePool.Free(node);
+        reinterpret_cast<::FUN_004ee840_cls *>((node))->FUN_004ee840_cls::~FUN_004ee840_cls();
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::LinkNodePool *>(&::g_memoryManager))))->FUN_00aa4060(node);
     }
     else
     {
@@ -1927,7 +1881,7 @@ void __cdecl FUN_00c8ecf0(HavokObject* object)
 
     if (object->property)
     {
-        HavokLookup* link = object->property->FUN_00653290(&DAT_012043f8);
+        HavokLookup* link = ((::HavokLookup *)(reinterpret_cast<::NiObject *>((object->property))->DynamicCast((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012043f8))))));
         if (link && link->shape)
             reinterpret_cast<C8EC60World*>(link->shape)->FUN_00c8ec60();
     }
@@ -1941,6 +1895,24 @@ void __cdecl FUN_00c8ecf0(HavokObject* object)
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/C74C20Quat.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_005610f0_cls.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S_00c8cd20_object.h"
+#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
+#include "fnv/decl/fnv_00626cb0__FUN_00626cb0_Class.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_011af000.h"
+#include <math.h>
 struct hkVector
 {
     __m128 m_vComponents;
@@ -1951,7 +1923,6 @@ struct hkVector
         m_vComponents = v.m_vComponents;
     }
 };
-extern hkVector DAT_01267e30;
 namespace c8d {
 struct Body
 {
@@ -1973,7 +1944,7 @@ hkVector Ent::FUN_00c8d200()
     if (this && m_pPhysicsBody)
         p = &m_pPhysicsBody->m_kPos;
     else
-        p = &DAT_01267e30;
+        p = &(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
     return *p;
 }
 }
@@ -1992,7 +1963,6 @@ struct __declspec(align(16)) hkVector4
     }
 };
 
-extern hkVector4 g_zero;
 
 struct Inner
 {
@@ -2011,7 +1981,7 @@ struct Outer
 // @fnv 0x00c8d240
 hkVector4 Outer::GetVec() const
 {
-    const hkVector4* p = (this && m_pChildAtom) ? &m_pChildAtom->m_vec : &g_zero;
+    const hkVector4* p = (this && m_pChildAtom) ? &m_pChildAtom->m_vec : &(*reinterpret_cast<::hkVector4 *>(&::DAT_01267e30));
     return *p;
 }
 
@@ -2022,7 +1992,6 @@ struct Transform_c8d3
     __m128 m_kColumn2;
     __m128 m_vTranslation;
 };
-extern Transform_c8d3 DAT_01268370;
 
 struct Aabb_c8d3
 {
@@ -2068,7 +2037,6 @@ class WorldObject_c8d3
     int unk04;
     Entity_c8d3* m_pkEntity;
 
-    void FUN_00a29680();
     void GetAabb(Aabb_c8d3& kOut);
 };
 
@@ -2082,15 +2050,15 @@ void WorldObject_c8d3::GetAabb(Aabb_c8d3& kOut)
         Entity_c8d3* pkEntity = m_pkEntity;
         if (pkEntity)
         {
-            FUN_00a29680();
+            ::FUN_00a29680();
             pkBody = static_cast<CdBody_c8d3*>(pkEntity);
-            FUN_00a29680();
+            ::FUN_00a29680();
         }
     }
     Shape_c8d3* pkShape = pkBody ? pkBody->getShape() : 0;
     if (pkShape)
     {
-        pkShape->getAabb(DAT_01268370, 0.001f, kOut);
+        pkShape->getAabb((*reinterpret_cast<::Transform_c8d3 *>(&::DAT_01268370)), 0.001f, kOut);
     }
     else
     {
@@ -2444,9 +2412,7 @@ struct FUN_00ca8c90
     unsigned int unk218;
     unsigned int unk21C;
     FUN_00ca8c90(void* settings);
-    void FUN_00ca8420(int motion, int activate, int extra);
-    void FUN_00c905b0();
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         FUN_00ca8c90* p = (FUN_00ca8c90*)FUN_00c85750()->AllocateBody(size);
         p->allocationSize = (unsigned short)size;
@@ -2524,17 +2490,14 @@ struct BodyBuild
     virtual void FinishBuild(BuildSettings* settings);
     unsigned int unk04;
     BodyNative* native;
-    void FUN_00a29680();
-    void GetAabb(Bounds* bounds);
-    float FUN_00577b50();
     BodyMotion* GetMotion()
     {
         BodyNative* p = native;
         if (!p)
             return 0;
-        FUN_00a29680();
+        ::FUN_00a29680();
         BodyMotion* result = p ? &p->motion : 0;
-        FUN_00a29680();
+        ::FUN_00a29680();
         return result;
     }
     void ConfigureBody(BuildSettings* settings);
@@ -2579,10 +2542,10 @@ void BodyBuild::ConfigureBody(BuildSettings* settings)
     if (savedMotion != 8)
     {
         settings->motionType = (signed char)savedMotion;
-        body->FUN_00ca8420(savedMotion, 1, 0);
+        reinterpret_cast<::FUN_00ca8420_Class *>((body))->FUN_00ca8420(savedMotion, 1, 0);
     }
     SetBody(body);
-    body->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((body))->FUN_00c905b0();
     int motion = settings->motionType;
     if (motion > 0 && (motion <= 3 || motion == 6) && settings->motionType > 0)
     {
@@ -2590,16 +2553,16 @@ void BodyBuild::ConfigureBody(BuildSettings* settings)
         if (nativeMotion)
         {
             Bounds bounds;
-            GetAabb(&bounds);
+            reinterpret_cast<::WorldObject_c8d3 *>(this)->GetAabb((*(::Aabb_c8d3 *)(&bounds)));
             __m128 extent = _mm_sub_ps(bounds.maximum, bounds.minimum);
             int axis;
-            if (extent.m128_f32[0] > extent.m128_f32[1])
-                axis = extent.m128_f32[1] > extent.m128_f32[2] ? 2 : 1;
+            if (extent[0] > extent[1])
+                axis = extent[1] > extent[2] ? 2 : 1;
             else
-                axis = extent.m128_f32[0] > extent.m128_f32[2] ? 2 : 0;
-            if (!(extent.m128_f32[axis] > DAT_012677bc))
+                axis = extent[0] > extent[2] ? 2 : 0;
+            if (!(extent[axis] > DAT_012677bc))
             {
-                float scale = FUN_00577b50();
+                float scale = reinterpret_cast<::Obj577 *>(this)->FUN_00577b50();
                 scale *= DAT_011b0c48;
                 if (!(scale < DAT_012677c0))
                 {
@@ -2631,7 +2594,19 @@ struct Matrix
 };
 struct Receiver
 {
+    __m128 m_value;
     void FUN_00c7f640(Matrix*, const __m128*);
+};
+struct CollisionBody
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void Dispatch(Matrix* apSource, float afScale, Receiver* apTarget);
 };
 struct BodySlot
 {
@@ -2643,51 +2618,111 @@ struct BodySlot
         return 0;
     }
 };
+struct CollisionNode
+{
+    char pad00[16];
+    BodySlot m_kSlot;
+};
 struct CollisionOwner
 {
-    void* vtable;
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void GetTransform(Matrix* apOut);
+
     void* unk04;
-    void* node;
-    void FUN_00a29680();
+    CollisionNode* node;
     void DispatchCollision(Receiver*);
     __forceinline BodySlot* GetSlot()
     {
-        char* base = (char*)node;
-        if (base)
+        if (node)
         {
-            FUN_00a29680();
-            base += 16;
-            FUN_00a29680();
-            if (base)
-                return (BodySlot*)base;
+            ::FUN_00a29680();
+            BodySlot* slot = &node->m_kSlot;
+            ::FUN_00a29680();
+            if (slot)
+                return slot;
         }
         return 0;
     }
 };
-extern float DAT_0104ffb8;
-extern float DAT_01011d78;
-extern float DAT_01017d00;
-// Gets a matrix via virtual slot 61, then passes it to the body slot's virtual 7 if present, otherwise to target and target+16 with fixed vectors.
+// Gets a matrix via virtual slot 61, then passes it to the body slot's virtual 7 if present, otherwise to target[0] and target[1] with fixed vectors.
 // @fnv 0x00c8e670
 void CollisionOwner::DispatchCollision(Receiver* target)
 {
     __m128 second, first;
     __declspec(align(16)) Matrix source;
-    typedef void(__thiscall * GetSource)(CollisionOwner*, Matrix*);
-    ((GetSource)((void**)vtable)[61])(this, &source);
+    GetTransform(&source);
     BodySlot* slot = GetSlot();
     void* body = slot ? slot->getBody() : 0;
     if (body)
     {
-        typedef void(__thiscall * Dispatch)(void*, Matrix*, float, Receiver*);
-        ((Dispatch)((void**)*(void* volatile*)body)[7])(body, &source, DAT_01017d00, target);
+        static_cast<CollisionBody*>(body)->Dispatch(&source, ::AngularDashpotApplyD4DCB0::DAT_01017d00, target);
     }
     else
     {
-        first = _mm_setr_ps(DAT_0104ffb8, DAT_0104ffb8, DAT_0104ffb8, DAT_01011d78);
-        second = _mm_setr_ps(DAT_01017d00, DAT_01017d00, DAT_01017d00, DAT_01011d78);
-        target->FUN_00c7f640(&source, &first);
-        ((Receiver*)((char*)target + 16))->FUN_00c7f640(&source, &second);
+        first = _mm_setr_ps(DAT_0104ffb8, DAT_0104ffb8, DAT_0104ffb8, ::DAT_01011d78);
+        second = _mm_setr_ps(::AngularDashpotApplyD4DCB0::DAT_01017d00, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::DAT_01011d78);
+        target[0].FUN_00c7f640(&source, &first);
+        target[1].FUN_00c7f640(&source, &second);
     }
 }
 
@@ -2697,7 +2732,6 @@ struct RTTI
     const char* name;
     const RTTI* parent;
 };
-extern RTTI DAT_012043f8;
 struct Node;
 struct Collision;
 struct Object
@@ -2709,14 +2743,13 @@ struct Object
     unsigned int unk04, unk08, unk0c, unk10, unk14, unk18;
     Collision* collision;
 };
-extern const __m128 DAT_010ec7f0;
 struct Vector
 {
     __m128 value;
     void Interpolate(const Vector& oldValue, const Vector& newValue, float factor)
     {
         __m128 weight = _mm_set1_ps(factor);
-        value = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, weight), oldValue.value),
+        value = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, weight), oldValue.value),
                            _mm_mul_ps(weight, newValue.value));
     }
 };
@@ -2783,7 +2816,6 @@ struct Body
     virtual void Slot58();
     virtual void Slot59();
     virtual void GetNavMeshData(Vector* out);
-    float FUN_0062ab20();
 };
 struct Collision : Object
 {
@@ -2837,13 +2869,12 @@ struct CollisionData
     unsigned int unk04, unk08, unk0c;
     Body* body;
 };
-extern const __m128 DAT_010ec7f0;
 inline bool IsKindOfType(Collision* object)
 {
     const RTTI* type = object->GetRTTI();
     while (type)
     {
-        if (type == &DAT_012043f8)
+        if (type == &(*reinterpret_cast<::fnv_00c8e800::RTTI *>(&::g_012043f8)))
             return true;
         type = type->parent;
     }
@@ -2870,7 +2901,7 @@ void __cdecl AccumulateCenterOfMass(Object* object, Vector* center, float* total
     Body* body = data->body;
     if (!body)
         return;
-    float mass = body->FUN_0062ab20();
+    float mass = reinterpret_cast<::bhkRigidBody *>((body))->GetBodyMass();
     Vector next;
     body->GetNavMeshData(&next);
     *total += mass;
@@ -2879,17 +2910,15 @@ void __cdecl AccumulateCenterOfMass(Object* object, Vector* center, float* total
 }
 }  // namespace fnv_00c8e800
 
-extern const float g_fConst01011d78;
 
-void AccumulateCenterOfMass(void* a, __m128* v, float* f);
 
 // Calls AccumulateCenterOfMass with a broadcast of g_fConst01011d78, then stores the resulting __m128 into out and the float result into pf.
 // @fnv 0x00c8e940
 void __cdecl GetScalarAndVector(void* a, __m128* out, float* pf)
 {
     float f = 0.0f;
-    __m128 v = _mm_setr_ps(g_fConst01011d78, g_fConst01011d78, g_fConst01011d78, g_fConst01011d78);
-    AccumulateCenterOfMass(a, &v, &f);
+    __m128 v = _mm_setr_ps(::DAT_01011d78, ::DAT_01011d78, ::DAT_01011d78, ::DAT_01011d78);
+    ::fnv_00c8e800::AccumulateCenterOfMass((::fnv_00c8e800::Object *)(a), (::fnv_00c8e800::Vector *)(::__m128 *)(&v), &f);
     *out = v;
     *pf = f;
 }
@@ -2914,20 +2943,26 @@ class RigidBody_c8ea
 {
   public:
     unsigned int m_uiValue1;
-    void SwapEndian();
+    char pad004[0xb0 - 0x4];
+    float m_fMass;
+    char pad0b4[0xc8 - 0xb4];
+    float m_fC8;
+    char pad0cc[0xd4 - 0xcc];
+    unsigned char m_ucQualityType;
 };
 
 class WorldObject_c8ea
 {
   public:
     virtual void v00();
-    void FUN_00c9d4f0(char* pkStream);
-    float FUN_0062ab20();
 };
 
 struct LoadStream_c8ea
 {
-    void FUN_00a64670();
+    char pad000[0x1e5];
+    unsigned char m_ucEndianMatch;
+    char pad1e6[0x24c - 0x1e6];
+    BinaryStream_c8ea* m_pkIstr;
 };
 
 class Entity_c8ea : public WorldObject_c8ea
@@ -2989,29 +3024,29 @@ class Entity_c8ea : public WorldObject_c8ea
 // @fnv 0x00c8ea30
 void Entity_c8ea::FUN_00c8ea30(char* pkStream)
 {
-    FUN_00c9d4f0(pkStream);
-    char* pkBody;
+    reinterpret_cast<::FUN_00c9d4f0_cls *>(this)->FUN_00c9d4f0((::FUN_00c9d4f0_obj *)(pkStream));
+    RigidBody_c8ea* pkBody;
     {
         int iIndex;
-        pkBody = GetRigidBody(&iIndex);
+        pkBody = reinterpret_cast<RigidBody_c8ea*>(GetRigidBody(&iIndex));
     }
-    if (*(unsigned char*)(pkStream + 0x1e5) != 1)
-        ((RigidBody_c8ea*)pkBody)->SwapEndian();
-    if (*(float*)(pkBody + 0xc8) > 1000.0)
-        *(float*)(pkBody + 0xc8) = 1000.0f;
-    if (*(float*)(pkBody + 0xb0) == 0.0f && FUN_0062ab20() == 0.0f)
+    LoadStream_c8ea* pkLoad = reinterpret_cast<LoadStream_c8ea*>(pkStream);
+    if (pkLoad->m_ucEndianMatch != 1)
+        reinterpret_cast<::SwapBlock_c8ce70 *>(pkBody)->SwapEndian();
+    if (pkBody->m_fC8 > 1000.0)
+        pkBody->m_fC8 = 1000.0f;
+    if (pkBody->m_fMass == 0.0f && reinterpret_cast<::bhkRigidBody *>(this)->GetBodyMass() == 0.0f)
     {
-        unsigned int uiType = ((RigidBody_c8ea*)pkBody)->m_uiValue1 & 0x7f;
+        unsigned int uiType = pkBody->m_uiValue1 & 0x7f;
         if (uiType != 2 && uiType != 0x1c)
-            *(unsigned char*)(pkBody + 0xd4) = 5;
+            pkBody->m_ucQualityType = 5;
         if (uiType == 0xe)
-            *(unsigned char*)(pkBody + 0xd4) = 4;
+            pkBody->m_ucQualityType = 4;
     }
-    ((LoadStream_c8ea*)pkStream)->FUN_00a64670();
-    (*(BinaryStream_c8ea**)(pkStream + 0x24c))->Read(&m_iSlotCount, 4);
+    reinterpret_cast<::S_00a64670_Foo *>(pkLoad)->FUN_00a64670();
+    pkLoad->m_pkIstr->Read(&m_iSlotCount, 4);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct RTTI_eb20
 {
@@ -3074,14 +3109,12 @@ class Constraint_eb20
         return false;
     }
 
-    unsigned int GetLinkedRecordValue();
 };
 
 struct ConstraintList_eb20
 {
     Constraint_eb20* m_pkItem;
     ConstraintList_eb20* m_pkNext;
-    void PopAndRelease();
 };
 
 struct WorldData_eb20
@@ -3310,10 +3343,9 @@ struct RefObject_eb20
     unsigned int m_uiValue1;
     ConstraintList_eb20 m_kConstraints;
 
-    void* FUN_00c87a40();
     int GetWorld()
     {
-        WorldData_eb20* pkData = (WorldData_eb20*)FUN_00c87a40();
+        WorldData_eb20* pkData = (WorldData_eb20*)reinterpret_cast<::FUN_00c87a40_obj *>(this)->FUN_00c87a40();
         return pkData ? pkData->m_iWorld : 0;
     }
     unsigned char IsInWorld() const
@@ -3323,22 +3355,20 @@ struct RefObject_eb20
     void FUN_00c8eb20(bool bSetWorld);
 };
 
-extern "C" __declspec(thread) int tls_iMemContext_eb20;
 struct MemContextGuard_eb20
 {
     int m_iOldContext;
     MemContextGuard_eb20(int aiMemoryContext)
     {
-        m_iOldContext = tls_iMemContext_eb20;
-        tls_iMemContext_eb20 = aiMemoryContext;
+        m_iOldContext = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~MemContextGuard_eb20()
     {
-        tls_iMemContext_eb20 = m_iOldContext;
+        g_tlsBlock.memoryContext = m_iOldContext;
     }
 };
 
-extern char DAT_0126818c;
 
 // If in a world, registers linked constraints and pops them, sets the world on the others when bSetWorld is true, then clears the in-world bit.
 // @fnv 0x00c8eb20
@@ -3360,13 +3390,13 @@ void RefObject_eb20::FUN_00c8eb20(bool bSetWorld)
                     if (!pkItem)
                         break;
                     Constraint_eb20* pkConstraint =
-                        pkItem->IsKindOfType(reinterpret_cast<const RTTI_eb20&>(DAT_0126818c)) ? pkItem : 0;
+                        pkItem->IsKindOfType(reinterpret_cast<const RTTI_eb20&>((*reinterpret_cast<char *>(&::g_0126818c)))) ? pkItem : 0;
                     if (pkConstraint)
                     {
-                        if (pkConstraint->GetLinkedRecordValue())
+                        if (reinterpret_cast<::RigidLinkSource *>((pkConstraint))->GetLinkedRecordValue())
                         {
                             pkConstraint->RegisterWithWorld();
-                            m_kConstraints.PopAndRelease();
+                            reinterpret_cast<::FUN_00c88990_cls *>(&(m_kConstraints))->PopAndRelease();
                         }
                         else
                         {
@@ -3382,201 +3412,17 @@ void RefObject_eb20::FUN_00c8eb20(bool bSetWorld)
     }
 }
 
-extern "C" unsigned long __readfsdword(unsigned long);
-extern unsigned int DAT_0126fd98;
-extern const float DAT_01017870;
-struct TlsBlock
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    int unk2b4;
-};
-extern __declspec(thread) TlsBlock g_tlsBlock;
 struct MemScope
 {
-    TlsBlock* block;
     int saved;
     MemScope()
     {
-        unsigned int index = *(volatile unsigned int*)&DAT_0126fd98;
-        block = ((TlsBlock**)__readfsdword(0x2c))[index];
-        saved = block->unk2b4;
-        block->unk2b4 = 16;
+        saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 16;
     }
     ~MemScope()
     {
-        block->unk2b4 = saved;
+        g_tlsBlock.memoryContext = saved;
     }
 };
 struct RTTI
@@ -3584,7 +3430,6 @@ struct RTTI
     const char* name;
     RTTI* parent;
 };
-extern const unsigned char* const g_01268310_arg1;
 struct Obj
 {
     virtual void v0();
@@ -3639,7 +3484,37 @@ struct Obj
         }
         return false;
     }
+public:
+    bool FUN_00c85810(::Obj *);
 };
+// @fnv 0x00c8db50
+bool BodyUpdate::UpdateBody(void* update)
+{
+    NativeLink link;
+    NativeThing* object = FUN_00c85ef0(&link, this ? native : 0, &(*reinterpret_cast<::NiRTTI *>(&::g_01267b70)))->object;
+    NativeData* data = object ? object->GetData() : 0;
+    bool bUnitScale = data && data->factor18 == 1.0f && data->factor1c == 1.0f;
+    if ((!bUnitScale || data->count > 0 || DAT_011afe59) && !IsDisabled())
+    {
+        bool result = reinterpret_cast<::Obj *>(this)->FUN_00c85810((::Obj *)(update));
+        if (result || (InWorld() && IsMoving()))
+        {
+            if ((!bUnitScale || data->count > 0) && !IsDisabled())
+                reinterpret_cast<::C8DAC0Owner *>(this)->UpdateMatchingNodes(update);
+        }
+        if (data)
+            data->lastUpdate = update;
+        return result;
+    }
+    else
+    {
+        if (reinterpret_cast<::FUN_00c87a40_obj *>(this)->FUN_00c87a40())
+            Reset();
+        if (data)
+            data->lastUpdate = update;
+        return true;
+    }
+}
 struct Node
 {
     Obj* object;
@@ -3863,9 +3738,7 @@ struct IntegerTriple
 };
 struct bhkRefObject
 {
-    void* GetReferencedData();
 };
-Obj* __cdecl FUN_00cc81c0(Obj*, float);
 struct ParentData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
@@ -3889,7 +3762,7 @@ struct Target
     Node list;
     void* getOwner()
     {
-        IntegerTriple* data = (IntegerTriple*)((bhkRefObject*)this)->GetReferencedData();
+        IntegerTriple* data = (IntegerTriple*)reinterpret_cast<::FUN_00c87a40_obj *>((((bhkRefObject*)this)))->FUN_00c87a40();
         return data ? data->unk350 : 0;
     }
     unsigned char getFlag()
@@ -3910,7 +3783,7 @@ void Target::FUN_00c8f080()
     MemScope scope;
     if (getFlag() & 1)
         return;
-    IntegerTriple* data = (IntegerTriple*)((bhkRefObject*)this)->GetReferencedData();
+    IntegerTriple* data = (IntegerTriple*)reinterpret_cast<::FUN_00c87a40_obj *>((((bhkRefObject*)this)))->FUN_00c87a40();
     void* owner;
     if (data)
         *(void* volatile*)&owner = data->unk350;
@@ -3924,7 +3797,7 @@ void Target::FUN_00c8f080()
         Obj* object = node->object;
         if (!object)
             break;
-        bool valid = object->isType((const RTTI*)&g_01268310_arg1);
+        bool valid = object->isType((const RTTI*)&(*reinterpret_cast<const unsigned char *const *>(&::g_0126818c)));
         node = node->next;
         Obj* body = valid ? object : 0;
         if (body)
@@ -3936,12 +3809,12 @@ void Target::FUN_00c8f080()
             {
                 unsigned int sub = (bits >> 8) & 31;
                 if (sub == 17 || (sub >= 21 && sub <= 22))
-                    scale = DAT_01017870;
+                    scale = ::DAT_01017870;
             }
-            Obj* replacement = FUN_00cc81c0(body, scale);
+            Obj* replacement = ((::Obj *)(::fnv_00cc81c0::FUN_00cc81c0((::fnv_00cc81c0::ParamStub *)(body), scale)));
             if (replacement)
             {
-                ((bhkRigidBody*)this)->FUN_00c8ef80((NiObject*)replacement);
+                reinterpret_cast<::SceneC8E *>((((bhkRigidBody*)this)))->FUN_00c8ef80((::NiObjectC8E *)(::NiObject *)((NiObject*)replacement));
                 body->detach();
                 replacement->attach(owner);
             }
@@ -3949,3 +3822,984 @@ void Target::FUN_00c8f080()
     }
     flags |= 4;
 }
+
+void FUN_00c8d440(bool flag);
+
+typedef __m128 hkQuadReal;
+
+// (-0.5f, -0.5f, -0.5f, -0.5f)
+  // sign mask for x,y,z
+  // (1, 1, 1, 1)
+
+struct KFSimdReal
+{
+    hkQuadReal m_vValue;
+    KFSimdReal(float x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+};
+
+struct KFVector4
+{
+    hkQuadReal m_vComponents;
+
+    void setZero4()
+    {
+        m_vComponents = (*reinterpret_cast<::hkVector *>(&::DAT_01267e30)).m_vComponents;
+    }
+    void setAdd4(const KFVector4& a, const KFVector4& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setSub4(const KFVector4& a, const KFVector4& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setMul4(const KFVector4& a, const KFVector4& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setMul4(const KFSimdReal& s, const KFVector4& b)
+    {
+        m_vComponents = _mm_mul_ps(b.m_vComponents, _mm_shuffle_ps(s.m_vValue, s.m_vValue, 0));
+    }
+    void add4(const KFVector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    void mul4(const KFSimdReal& s)
+    {
+        m_vComponents = _mm_mul_ps(_mm_shuffle_ps(s.m_vValue, s.m_vValue, 0), m_vComponents);
+    }
+    void addMul4(const hkQuadReal& s, const KFVector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(_mm_shuffle_ps(s, s, 0), a.m_vComponents));
+    }
+    void addMul4(const KFVector4& a, const KFVector4& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    void setCross(const KFVector4& a, const KFVector4& b)
+    {
+        hkQuadReal cross0 = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)),
+                                       _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)));
+        hkQuadReal cross1 = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)),
+                                       _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    hkQuadReal dot3(const KFVector4& a) const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)),
+                          _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2));
+    }
+    float length3() const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, m_vComponents);
+        float r;
+        _mm_store_ss(&r, _mm_sqrt_ss(_mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)),
+                                                _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2))));
+        return r;
+    }
+    float getZ() const
+    {
+        float r;
+        _mm_store_ss(&r, _mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(2, 2, 2, 2)));
+        return r;
+    }
+    float& operator()(int i)
+    {
+        return reinterpret_cast<float*>(&m_vComponents)[i];
+    }
+    void setInterpolate4(const KFVector4& v0, const KFVector4& v1, const KFSimdReal& t)
+    {
+        hkQuadReal tt = _mm_shuffle_ps(t.m_vValue, t.m_vValue, 0);
+        hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, tt);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(tt, v1.m_vComponents));
+    }
+};
+
+struct KFQuaternion
+{
+    KFVector4 m_vec;
+
+    void SetConjugate(const KFQuaternion& q)
+    {
+        m_vec.m_vComponents = _mm_xor_ps(DAT_010c4c00, q.m_vec.m_vComponents);
+    }
+                                               // normalize
+                                        // getAngle
+    __declspec(noalias) void FUN_00c74c90(KFVector4& axis) const;  // getAxis
+    void SetInverseProduct(const KFQuaternion& q0, const KFQuaternion& q1)
+    {
+        KFQuaternion inv;
+        inv.SetConjugate(q1);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)this, nullptr, (const ::fnv_00c66320::__m128 *)&(q0), (const ::fnv_00c66320::__m128 *)&(inv));
+    }
+};
+
+__forceinline void SetRotatedDir(KFVector4& out, const KFQuaternion& quat, const KFVector4& direction)
+{
+    KFVector4 minusHalf;
+    minusHalf.m_vComponents = ::DAT_010c71e0;
+    KFVector4 qreal;
+    qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+    KFVector4 q2minus1;
+    q2minus1.setMul4(qreal, qreal);
+    q2minus1.add4(minusHalf);
+
+    KFVector4 ret;
+    ret.setMul4(direction, q2minus1);
+
+    hkQuadReal imagDotDir = quat.m_vec.dot3(direction);
+
+    ret.addMul4(imagDotDir, quat.m_vec);
+
+    KFVector4 imagCrossDir;
+    imagCrossDir.setCross(quat.m_vec, direction);
+    ret.addMul4(imagCrossDir, qreal);
+
+    out.setAdd4(ret, ret);
+}
+
+inline bool KFGreater(double a, double b)
+{
+    return a > b;
+}
+
+struct KFWorldInfo
+{
+    int unk00, unk04, unk08, unk0C;
+    KFVector4 gravity;
+};
+
+struct KFNativeBody : public NativeThing
+{
+    int unk0ec;
+    int unk0f0, unk0f4, unk0f8, unk0fc;
+    int unk100, unk104, unk108, unk10c;
+    int unk110, unk114, unk118, unk11c;
+    int unk120, unk124, unk128, unk12c;
+    int unk130, unk134, unk138, unk13c;
+    int unk140, unk144, unk148, unk14c;
+    int unk150, unk154, unk158, unk15c;
+    int unk160, unk164, unk168, unk16c;
+    int unk170, unk174, unk178, unk17c;
+    int unk180, unk184, unk188, unk18c;
+    int unk190, unk194, unk198, unk19c;
+    int unk1a0, unk1a4, unk1a8, unk1ac;
+    KFVector4 linearVelocity;
+    KFVector4 angularVelocity;
+
+};
+
+struct KFRigidBody
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2C();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3C();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4C();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5C();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6C();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7C();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8C();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9C();
+    virtual void vA0();
+    virtual void vA4();
+    virtual void vA8();
+    virtual void vAC();
+    virtual void vB0();
+    virtual void vB4();
+    virtual void vB8();
+    virtual void vBC();
+    virtual void vC0();
+    virtual void vC4();
+    virtual void vC8();
+    virtual void vCC();
+    virtual void vD0();
+    virtual void vD4();
+    virtual KFQuaternion GetRotation();
+    virtual void vDC();
+    virtual void vE0();
+    virtual void vE4();
+    virtual void vE8();
+    virtual KFVector4& GetCenterOfMassLocal(KFVector4& out);
+    virtual KFVector4& GetCenterOfMassInWorld(KFVector4& out);
+
+    unsigned int unk04;
+    KFNativeBody* native;
+
+       // max linear velocity
+      // max angular velocity
+      // lock / unlock
+
+    const KFVector4& GetLinearVelocityVector()
+    {
+        KFNativeBody* b = native;
+        return b ? b->linearVelocity : *(const KFVector4*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+    }
+    const KFVector4& GetAngularVelocity()
+    {
+        KFNativeBody* b = native;
+        return b ? b->angularVelocity : *(const KFVector4*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+    }
+    void SetLinearVelocity(const KFVector4& v)
+    {
+        KFNativeBody* b = native;
+        if (b)
+        {
+            ::FUN_00a29680();
+            reinterpret_cast<::FUN_005616d0_Owner *>((b))->OnTrigger((::TriggerContext *)&(v));
+            ::FUN_00a29680();
+        }
+    }
+    void SetAngularVelocity(const KFVector4& v)
+    {
+        KFNativeBody* b = native;
+        if (b)
+        {
+            ::FUN_00a29680();
+            reinterpret_cast<::FUN_00561800_Class *>((b))->FUN_00561800((::FUN_00561730_Obj *)&(v));
+            ::FUN_00a29680();
+        }
+    }
+
+    void FUN_00c8de20(const KFVector4& nextPosition, const KFQuaternion& nextOrientation, float invDeltaTime,
+                      float blend);
+};
+
+// @fnv 0x00c8de20
+void KFRigidBody::FUN_00c8de20(const KFVector4& nextPosition, const KFQuaternion& nextOrientation, float invDeltaTime,
+                               float blend)
+{
+    KFVector4 center;
+    KFVector4 newCenterOfMassPosition;
+    SetRotatedDir(newCenterOfMassPosition, nextOrientation, GetCenterOfMassLocal(center));
+    newCenterOfMassPosition.add4(nextPosition);
+
+    KFVector4 linearVelocity;
+    linearVelocity.setSub4(newCenterOfMassPosition, GetCenterOfMassInWorld(center));
+    linearVelocity.setMul4(invDeltaTime, linearVelocity);
+
+    float linLen = linearVelocity.length3();
+    float maxLin = reinterpret_cast<::Obj577 *>(this)->FUN_00577b50();
+    if (linLen > maxLin)
+    {
+        linearVelocity.mul4(maxLin / linLen);
+    }
+
+    KFQuaternion quatDif;
+    quatDif.SetInverseProduct(nextOrientation, GetRotation());
+    reinterpret_cast<::FUN_005611c0_t *>(&(quatDif))->FUN_005611c0();
+
+    KFVector4 angularVelocity;
+    angularVelocity.setZero4();
+    float angle = reinterpret_cast<::C74C20Quat *>((void *)&(quatDif))->GetAngle();
+    if (0.001f < angle)
+    {
+        quatDif.FUN_00c74c90(angularVelocity);
+        angularVelocity.setMul4(angle * invDeltaTime, angularVelocity);
+    }
+
+    float angLen = angularVelocity.length3();
+    float maxAng = reinterpret_cast<::S_00c8cd20_object *>(this)->GetFloatValue();
+    if (angLen > maxAng)
+    {
+        angularVelocity.mul4(maxAng / angLen);
+    }
+
+    KFWorldInfo* world = ((::KFWorldInfo *)(reinterpret_cast<::FUN_00c87a40_obj *>(this)->FUN_00c87a40()));
+    if (world)
+    {
+        float g = world->gravity.getZ();
+        linearVelocity(2) -= g * blend / invDeltaTime;
+    }
+
+    KFVector4 newLin;
+    newLin.setInterpolate4(GetLinearVelocityVector(), linearVelocity, blend);
+    KFVector4 newAng;
+    newAng.setInterpolate4(GetAngularVelocity(), angularVelocity, blend);
+    SetLinearVelocity(newLin);
+    SetAngularVelocity(newAng);
+}
+
+namespace fnv_00c8e160 {
+extern "C" double fabs(double);
+struct V4_160
+{
+    __m128 v;
+    void Set(float x, float y, float z, float w)
+    {
+        v[0] = x;
+        v[1] = y;
+        v[2] = z;
+        v[3] = w;
+    }
+    V4_160& operator=(const V4_160& rhs)
+    {
+        v = rhs.v;
+        return *this;
+    }
+};
+extern float DAT_012681c8;
+extern const float DAT_010c6090 = 1.0000001111620804e-06f;
+extern const float DAT_010959f4 = 9.9999999747524271e-07f;
+namespace threshold160 {
+extern const float DAT_01017d00 = 0.0010000000474974513f;
+}
+struct SmartObj160;
+struct RotationArg160
+{
+    float* volatile rotation;
+    RotationArg160(float* q) : rotation(q)
+    {}
+};
+struct Inner160
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int unk2b4;
+    int unk2b8;
+    int unk2bc;
+    int unk2c0;
+    int unk2c4;
+    int unk2c8;
+    int unk2cc;
+    int unk2d0;
+    int unk2d4;
+    int unk2d8;
+    int unk2dc;
+    int unk2e0;
+    int unk2e4;
+    int unk2e8;
+    int unk2ec;
+    int unk2f0;
+    int unk2f4;
+    int unk2f8;
+    int unk2fc;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30c;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31c;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32c;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33c;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34c;
+    int m_350;
+};
+struct Linked160
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    Inner160* unk08;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    V4_160 linear;
+    V4_160 angular;
+};
+struct This160
+{
+    virtual void slot_000();
+    virtual void slot_004();
+    virtual void slot_008();
+    virtual void slot_00c();
+    virtual void slot_010();
+    virtual void slot_014();
+    virtual void slot_018();
+    virtual void slot_01c();
+    virtual void slot_020();
+    virtual void slot_024();
+    virtual void slot_028();
+    virtual void slot_02c();
+    virtual void slot_030();
+    virtual void slot_034();
+    virtual void slot_038();
+    virtual void slot_03c();
+    virtual void slot_040();
+    virtual void slot_044();
+    virtual void slot_048();
+    virtual void slot_04c();
+    virtual void slot_050();
+    virtual void slot_054();
+    virtual void slot_058();
+    virtual void slot_05c();
+    virtual void slot_060();
+    virtual void slot_064();
+    virtual void slot_068();
+    virtual void slot_06c();
+    virtual void slot_070();
+    virtual void slot_074();
+    virtual void slot_078();
+    virtual void slot_07c();
+    virtual void slot_080();
+    virtual void slot_084();
+    virtual void slot_088();
+    virtual void slot_08c();
+    virtual void slot_090();
+    virtual void slot_094();
+    virtual void slot_098();
+    virtual void slot_09c();
+    virtual void slot_0a0();
+    virtual void slot_0a4();
+    virtual void slot_0a8();
+    virtual void slot_0ac();
+    virtual void slot_0b0();
+    virtual void slot_0b4();
+    virtual void slot_0b8();
+    virtual void slot_0bc();
+    virtual void slot_0c0();
+    virtual void slot_0c4();
+    virtual void slot_0c8();
+    virtual void slot_0cc();
+    virtual void slot_0d0();
+    virtual void GetA160(V4_160* out);
+    virtual void GetB160(V4_160* out);
+    virtual void slot_0dc();
+    virtual void slot_0e0();
+    virtual void slot_0e4();
+    virtual void V160e8(V4_160* a, V4_160* b);
+    virtual V4_160* V160ec(V4_160* out);
+    virtual V4_160* V160f0(V4_160* in);
+    unsigned int unk04;
+    Linked160* m_08;
+    void FUN_00c8e160(float* p1, RotationArg160 input, void* p3);
+};
+struct SmartObj160
+{
+    int unk00;
+    int ref04;
+};
+struct Vec50Obj
+{
+    __m128 v;
+    void FUN_00c74c90(V4_160* out);
+};
+extern "C" void _ReadWriteBarrier();
+static __forceinline int MaskBits160(__m128 a)
+{
+    return _mm_movemask_ps(a) & 15;
+}
+struct DotSpeed160
+{
+    float vel;
+    float dot;
+};
+struct Ws160
+{
+    V4_160 v60;
+    V4_160 v70;
+    V4_160 tmpB;
+    V4_160 outB;
+    V4_160 outC;
+    V4_160 outA;
+    V4_160 tmpC0;
+};
+// @fnv 0x00c8e160
+void This160::FUN_00c8e160(float* p1, RotationArg160 input, void* p3)
+{
+    V4_160 separate_q;
+    V4_160 separate_p;
+    Vec50Obj separate_v50;
+    Ws160 W;
+    float inv, s1, len;
+    DotSpeed160 pair;
+    SmartObj160* a3;
+    a3 = static_cast<SmartObj160*>(p3);
+    Linked160* linked = this ? m_08 : 0;
+    Inner160* inner = linked->unk08;
+    if (!inner)
+        return;
+    if (!inner->m_350)
+        return;
+    const float x = p1[0];
+    separate_p.Set(x * DAT_012681c8, p1[1] * DAT_012681c8, p1[2] * DAT_012681c8, 0.0f);
+    float* p2 = input.rotation;
+    separate_q.v[0] = p2[1];
+    separate_q.v[1] = p2[2];
+    separate_q.v[2] = p2[3];
+    separate_q.v[3] = p2[0];
+    GetA160(&W.outA);
+    GetB160(&W.outB);
+    __m128 d = _mm_sub_ps(_mm_load_ps((float*)&separate_p), _mm_load_ps((float*)&W.outA));
+    d = _mm_mul_ps(d, d);
+    __m128 sh = _mm_shuffle_ps(d, d, 0x55);
+    __m128 sum1 = _mm_add_ss(sh, d);
+    __m128 sh2 = _mm_shuffle_ps(d, d, 0xaa);
+    __m128 sum2 = _mm_add_ss(sh2, sum1);
+    _mm_store_ss(&s1, sum2);
+    if (!(s1 > DAT_010c6090))
+    {
+        __m128 b = _mm_load_ps((float*)&W.outB);
+        __m128 prod = _mm_mul_ps(_mm_load_ps((float*)&separate_q), b);
+        __m128 sw = _mm_shuffle_ps(prod, prod, 0x4e);
+        __m128 s1 = _mm_add_ps(sw, prod);
+        __m128 sw2 = _mm_shuffle_ps(s1, s1, 0xb1);
+        __m128 s2 = _mm_add_ps(sw2, s1);
+        _mm_store_ss(&pair.dot, s2);
+        *(volatile float*)&inv = pair.dot - 1.0f;
+        inv = (float)fabs(*(volatile float*)&inv);
+        if (!(*(volatile float*)&inv > ::DAT_010959f4))
+        {
+            Linked160* lk = m_08;
+            V4_160* v1p = lk ? &lk->linear : (V4_160*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+            __m128 eps = _mm_set1_ps(::AngularDashpotApplyD4DCB0::DAT_01017d00);
+            if ((MaskBits160(_mm_cmple_ps(
+                     _mm_and_ps(_mm_sub_ps(_mm_load_ps((float*)v1p), *(const __m128*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))), ::DAT_01017d10),
+                     eps)) != 15))
+            {
+                _mm_store_ps((float*)&W.v60, eps);
+                if (lk)
+                {
+                    ::FUN_00a29680();
+                    reinterpret_cast<::FUN_005616d0_Owner *>((lk))->OnTrigger((::TriggerContext *)(float *)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+                    ::FUN_00a29680();
+                    eps = W.v60.v;
+                }
+            }
+            else
+            {
+                _mm_store_ps((float*)&W.v60, eps);
+            }
+            __m128 eps2 = eps;
+            lk = m_08;
+            V4_160* v2p = lk ? &lk->angular : (V4_160*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+            int mask2 =
+                _mm_movemask_ps(_mm_cmple_ps(
+                    _mm_and_ps(_mm_sub_ps(_mm_load_ps((float*)v2p), *(const __m128*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))), ::DAT_01017d10),
+                    eps2)) &
+                0xf;
+            if (mask2 != 0xf)
+            {
+                if (lk)
+                {
+                    ::FUN_00a29680();
+                    reinterpret_cast<::FUN_00561800_Class *>((lk))->FUN_00561800((::FUN_00561730_Obj *)(float *)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+                    ::FUN_00a29680();
+                }
+            }
+            return;
+        }
+    }
+    inv = ::DAT_011afe64;
+    if (inv == 0.0f)
+        return;
+    inv = 1.0f / inv;
+    V4_160* ec = V160ec(&W.outC);
+    __m128 b128;
+    (void)b128;
+    __m128 q128 = _mm_load_ps((float*)&separate_q);
+    b128 = _mm_load_ps((float*)ec);
+    __m128 w4 = _mm_shuffle_ps(q128, q128, 0xff);
+    __m128 prodB = q128;
+    prodB = _mm_mul_ps(prodB, b128);
+    __m128 tb = _mm_shuffle_ps(prodB, prodB, 0x55);
+    tb = _mm_add_ss(tb, prodB);
+    __m128 dot4 = _mm_shuffle_ps(prodB, prodB, 0xaa);
+    dot4 = _mm_add_ss(dot4, tb);
+    tb = _mm_shuffle_ps(b128, b128, 0xd2);
+    __m128 cross = _mm_shuffle_ps(q128, q128, 0xc9);
+    const __m128& phaseValue = _mm_mul_ps(cross, tb);
+    __m128 crossAlias = phaseValue;
+    tb = _mm_shuffle_ps(b128, b128, 0xc9);
+    __m128 t2 = _mm_shuffle_ps(q128, q128, 0xd2);
+    t2 = _mm_mul_ps(t2, tb);
+    crossAlias = _mm_sub_ps(crossAlias, t2);
+    __m128 u = _mm_mul_ps(w4, w4);
+    crossAlias = _mm_mul_ps(crossAlias, w4);
+    u = _mm_add_ps(u, ::DAT_010c71e0);
+    u = _mm_mul_ps(u, b128);
+    __m128 v = _mm_mul_ps(_mm_shuffle_ps(dot4, dot4, 0), separate_q.v);
+    u = _mm_add_ps(u, v);
+    crossAlias = _mm_add_ps(crossAlias, u);
+    _mm_store_ps((float*)&separate_v50, crossAlias);
+    V4_160* fr = V160f0(&W.outC);
+    __m128 rv = _mm_load_ps((float*)fr);
+    _ReadWriteBarrier();
+    __m128 t = separate_v50.v;
+    t = _mm_add_ps(t, t);
+    t = _mm_add_ps(t, separate_p.v);
+    t = _mm_sub_ps(t, rv);
+    __m128 invScalar = _mm_load_ss(&inv);
+    __m128 invVector = _mm_shuffle_ps(invScalar, invScalar, 0);
+    t = _mm_mul_ps(t, invVector);
+    _mm_store_ps((float*)&W.v60, t);
+    __m128 sq = _mm_mul_ps(t, t);
+    __m128 sq1 = _mm_shuffle_ps(sq, sq, 0x55);
+    __m128 sqs = _mm_add_ss(sq1, sq);
+    __m128 sq2 = _mm_shuffle_ps(sq, sq, 0xaa);
+    __m128 sqs2 = _mm_add_ss(sq2, sqs);
+    _mm_store_ss(&pair.vel, sqs2);
+    len = reinterpret_cast<::Obj577 *>(this)->FUN_00577b50();
+    if (pair.vel > len * len)
+    {
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&W.tmpC0)), (*(const ::fnv_004a3e00::NiPoint3 *)(p1)));
+        W.tmpB.v[0] = p2[1];
+        W.tmpB.v[1] = p2[2];
+        W.tmpB.v[2] = p2[3];
+        W.tmpB.v[3] = p2[0];
+        V160e8(&W.tmpC0, &W.tmpB);
+        return;
+    }
+    __m128 t60 = _mm_load_ps((float*)&W.v60);
+    __m128 sqC = _mm_mul_ps(t60, t60);
+    __m128 sc1 = _mm_shuffle_ps(sqC, sqC, 0x55);
+    __m128 scs1 = _mm_add_ss(sc1, sqC);
+    __m128 sc2 = _mm_shuffle_ps(sqC, sqC, 0xaa);
+    __m128 scs2 = _mm_add_ss(sc2, scs1);
+    _mm_store_ss(&len, _mm_sqrt_ss(scs2));
+    if (::CombatWeapons::DAT_0106b798 < len)
+    {
+        if (a3)
+            reinterpret_cast<::FUN_0040fbf0_shell *>((a3))->FUN_0040fbf0((char *)(0));
+        reinterpret_cast<::FUN_005610f0_cls *>(this)->FUN_005610f0(reinterpret_cast<std::intptr_t>(p1));
+        if (a3)
+        {
+            if (--a3->ref04 == 0)
+                a3->unk00 = 0;
+        }
+        reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+    }
+    else
+    {
+        reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)((float*)&W.v60));
+    }
+    reinterpret_cast<::Quat74 *>(&(separate_v50))->FUN_00c74ac0((*(const ::Quat74 *)((float*)&separate_q)), (*(const ::Quat74 *)(&W.outB)));
+    reinterpret_cast<::FUN_005611c0_t *>(&(separate_v50))->FUN_005611c0();
+    s1 = reinterpret_cast<::C74C20Quat *>(&(separate_v50))->GetAngle();
+    if (s1 < ::AngularDashpotApplyD4DCB0::DAT_01017d00)
+    {
+        _mm_store_ps((float*)&W.v70, _mm_setzero_ps());
+    }
+    else
+    {
+        separate_v50.FUN_00c74c90(&W.v70);
+        float sc = *(volatile float*)&s1 * inv;
+        __m128 scalar = _mm_load_ss(&sc);
+        __m128 factor = _mm_shuffle_ps(scalar, scalar, 0);
+        __m128 axis = W.v70.v;
+        W.v70.v = _mm_mul_ps(factor, axis);
+    }
+    reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((std::intptr_t)((float*)&W.v70));
+}
+}
+
+#include "generated/data/unmapped/bhkrigidbody.inc"
+#include "generated/data/unmapped/bhkrigidbody_rtm_variant.inc"

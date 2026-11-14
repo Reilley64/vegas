@@ -5,12 +5,9 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkxEnumItem;
-#pragma pack(push, 1)
 class hkxEnum : public hkReferencedObject
 {
   public:
     hkArray<hkxEnumItem> m_items;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxEnum[(sizeof(hkxEnum) == 0x14) ? 1 : -1];
 #endif

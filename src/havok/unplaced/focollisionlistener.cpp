@@ -2,76 +2,92 @@
 // src/havok/unplaced/focollisionlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/focollisionlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <cstddef>
+#include <new>
+#include "fnv/decl/C00624070.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_00452370_shell.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_00624020_Class.h"
+#include "fnv/decl/FUN_00624050_Class.h"
+#include "fnv/decl/GPShell.h"
+#include "fnv/decl/GlobalObject_008c71b0.h"
+#include "fnv/decl/Holder0042f780.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TaskQueueProxy.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/bhkFilter.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004b4ea0__TESDataHandler.h"
+#include "fnv/decl/fnv_00963eb0__PlayerView.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_00837000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011de000.h"
 extern int DAT_0104dd5c;
 struct FUN_006234d0
 {
-    void __thiscall FUN_006234f0();
     ~FUN_006234d0();
 };
-// @fnv 0x006234d0
-FUN_006234d0::~FUN_006234d0()
-{
-    *(int*)this = (int)&DAT_0104dd5c;
-    FUN_006234f0();
-}
-
-extern int DAT_0104dd7c;
 
 struct FUN_006234f0_class
 {
     void FUN_006234f0();
 };
+// @fnv 0x006234d0
+FUN_006234d0::~FUN_006234d0()
+{
+    *(int*)this = (intptr_t)&DAT_0104dd5c;
+    reinterpret_cast<::FUN_006234f0_class *>(this)->FUN_006234f0();
+}
 
 // @fnv 0x006234f0
 void FUN_006234f0_class::FUN_006234f0()
 {
-    *reinterpret_cast<int**>(this) = &DAT_0104dd7c;
+    *reinterpret_cast<int**>(this) = &(*reinterpret_cast<int *>(&::DAT_0104dd7c));
 }
 
-extern int DAT_0104dd7c;
 
 struct FUN_00623570_class
 {
-    int __fastcall FUN_00623570();
+    intptr_t FUN_00623570();
 };
 
 // @fnv 0x00623570
-int __fastcall FUN_00623570_class::FUN_00623570()
+intptr_t FUN_00623570_class::FUN_00623570()
 {
-    *reinterpret_cast<int**>(this) = &DAT_0104dd7c;
-    return reinterpret_cast<int>(this);
+    *reinterpret_cast<int**>(this) = &(*reinterpret_cast<int *>(&::DAT_0104dd7c));
+    return reinterpret_cast<intptr_t>(this);
 }
 
 struct FUN_00623590_class
 {
-    void __thiscall FUN_006235c0();
-    void* __thiscall FUN_00623590(unsigned int flags);
+    void FUN_006235c0();
+    void* FUN_00623590(unsigned int flags);
 };
-// Calls FUN_006235c0, then deletes this if flags has bit 0 set, and returns this.
-// @fnv 0x00623590
-void* __thiscall FUN_00623590_class::FUN_00623590(unsigned int flags)
-{
-    FUN_006235c0();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
-extern "C" void __cdecl Deallocate(void*);
 struct FUN_00623820_class
 {
-    void __thiscall FUN_00623850();
-    void* __thiscall FUN_00623820(unsigned int flags);
+    void FUN_00623850();
+    void* FUN_00623820(unsigned int flags);
 };
-// @fnv 0x00623820
-void* __thiscall FUN_00623820_class::FUN_00623820(unsigned int flags)
-{
-    FUN_00623850();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 struct GO
 {
     ~GO();
@@ -87,6 +103,14 @@ struct FUN_00623850
     FUN_0042f760 c;
     ~FUN_00623850();
 };
+// @fnv 0x00623820
+void* FUN_00623820_class::FUN_00623820(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00623850 *>(this)->FUN_00623850::~FUN_00623850();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Empty destructor for the structure; destroys its members GO and FUN_0042f760.
 // @fnv 0x00623850
 FUN_00623850::~FUN_00623850()
@@ -99,13 +123,12 @@ struct FUN_00623510_class
 // @fnv 0x00623510
 void* FUN_00623510_class::FUN_00623510(unsigned int flags)
 {
-    ((FUN_006234d0*)this)->FUN_006234f0();
+    reinterpret_cast<::FUN_006234f0_class *>((((FUN_006234d0*)this)))->FUN_006234f0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-extern int DAT_011cc224;
 
 struct SubMember
 {
@@ -129,6 +152,15 @@ struct FUN_006235c0 : BaseObject
 
     ~FUN_006235c0();
 };
+// Calls FUN_006235c0, then deletes this if flags has bit 0 set, and returns this.
+// @fnv 0x00623590
+void* FUN_00623590_class::FUN_00623590(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006235c0 *>(this)->FUN_006235c0::~FUN_006235c0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Clears DAT_011cc224 to 0 and then calls ProcessPendingRequests before the object is destroyed.
 // @fnv 0x006235c0
@@ -140,7 +172,6 @@ FUN_006235c0::~FUN_006235c0()
 
 struct SmartRef
 {
-    void* FUN_00559450();
 };
 struct Request
 {
@@ -151,20 +182,17 @@ struct Request
 struct RequestList
 {
     bool FUN_008256d0();
-    Request** FUN_006815c0();
     void FUN_0063f7b0();
 };
 struct Reference
 {
-    void* FUN_004ae750();
 };
 struct Form
 {
-    void* FUN_0044ddc0();
 };
-Form* FUN_004b5a20(void*);
-struct Actor
+class Actor
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -255,17 +283,10 @@ struct Actor
     virtual void v57();
     virtual void v58();
     virtual void SetSource(void*);
-    bool FUN_00477ba0();
-    void SetEffectValue(int, float, int);
 };
-Actor* FUN_0056f930(void*);
-bool FUN_008c7aa0();
 struct ActorSystem
 {
-    void QueueDamageTask(Actor*, float, int);
 };
-ActorSystem* FUN_004537b0();
-extern Actor* g_thePlayer;
 struct Processor
 {
     unsigned int flags;
@@ -279,24 +300,24 @@ void Processor::ProcessRequests()
     RequestList* pRequests = &requests;
     while (pRequests && !pRequests->FUN_008256d0())
     {
-        Request* item = *pRequests->FUN_006815c0();
+        Request* item = *((::Request **)(new ((void *)(pRequests)) ::Vec3()));
         pRequests->FUN_0063f7b0();
-        if (item->subject.FUN_00559450() && item->amount > 0.0)
+        if (((*(void * *)(&(item->subject)))) && item->amount > 0.0)
         {
-            void* form = static_cast<Reference*>(item->subject.FUN_00559450())->FUN_004ae750();
-            Form* ref = form ? FUN_004b5a20(form) : 0;
-            void* actor = ref ? ref->FUN_0044ddc0() : 0;
-            Actor* base = actor ? FUN_0056f930(actor) : 0;
+            void* form = ((void *)(::FUN_004ae750((void *)(static_cast<Reference*>(((*(void * *)(&(item->subject)))))))));
+            Form* ref = form ? ((::Form *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(form)))) : 0;
+            void* actor = ref ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())) : 0;
+            Actor* base = actor ? ((::Actor *)(::FUN_0056f930((::NiAVObject *)(actor)))) : 0;
             if (base)
             {
-                base->SetSource(item->source.FUN_00559450());
+                base->SetSource(((*(void * *)(&(item->source)))));
                 if (!FUN_008c7aa0())
                     base->SetAmount(item->amount, 0);
                 else
-                    FUN_004537b0()->QueueDamageTask(base, item->amount, 0);
-                if (base->FUN_00477ba0() && item->source.FUN_00559450() &&
-                    static_cast<SmartRef*>(item->source.FUN_00559450())->FUN_00559450() == g_thePlayer)
-                    g_thePlayer->SetEffectValue(10, 8.0f, 0);
+                    reinterpret_cast<::TaskQueueProxy *>((((::ActorSystem *)(::TaskQueueInterface::GetSingleton()))))->QueueDamageTask((::TESObjectREFR *)(base), item->amount, 0);
+                if (reinterpret_cast<::FUN_00477ba0_shell *>((base))->FUN_00477ba0() && ((*(void * *)(&(item->source)))) &&
+                    ((*(void * *)((static_cast<SmartRef*>(((*(void * *)(&(item->source))))))))) == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
+                    reinterpret_cast<::fnv_00963eb0::PlayerView *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->SetEffectValue((void *)(10), 8.0f, (::fnv_00963eb0::EffectSource *)(0));
             }
         }
         delete reinterpret_cast<FUN_00623850*>(item);
@@ -505,16 +526,15 @@ struct S_006240f0_Actor : S_006240f0_Form
 };
 struct S_006240f0_Char : S_006240f0_Actor
 {
-    void HandleContactHit(int a);
 };
 struct S_006240f0
 {
-    void ApplyToCharacter(S_006240f0_Form* form, int arg);
+    void ApplyToCharacter(S_006240f0_Form* form, intptr_t arg);
 };
 
 // If form is an actor of kind 3, casts it to a character and calls HandleContactHit with arg.
 // @fnv 0x006240f0
-void S_006240f0::ApplyToCharacter(S_006240f0_Form* form, int arg)
+void S_006240f0::ApplyToCharacter(S_006240f0_Form* form, intptr_t arg)
 {
     if (form && form->IsActor())
     {
@@ -522,19 +542,15 @@ void S_006240f0::ApplyToCharacter(S_006240f0_Form* form, int arg)
         if (actor->GetKind() == 3)
         {
             S_006240f0_Char* pChar = (S_006240f0_Char*)actor;
-            pChar->HandleContactHit(arg);
+            reinterpret_cast<::GPShell *>((pChar))->HandleContactHit((::GPContact *)(arg));
         }
     }
 }
 
 struct HitForm
 {
-    float FUN_004b4ea0();
 };
 struct HitRefTarget;
-HitRefTarget* __cdecl FUN_004b5a80(HitForm* pkForm);
-float __cdecl FUN_00408820(float f);
-float __cdecl ComputeDistanceFactor(float fScale, float fAmount);
 
 struct HitActor
 {
@@ -677,15 +693,11 @@ struct HitActor
     virtual void v136();
     virtual bool IsDead();
 
-    bool FUN_00452370();
-    bool FUN_00477ba0();
 };
 
 struct HitSetting
 {
-    float* FUN_00403e20();
 };
-extern HitSetting g_s_011ce75c;
 
 template <class T> struct HitPtr
 {
@@ -695,7 +707,6 @@ template <class T> struct HitPtr
 struct HitHandle
 {
     int m_iHandle;
-    void FUN_0042f780(void* pkHandle);
 };
 struct HitEntry
 {
@@ -704,8 +715,6 @@ struct HitEntry
     HitHandle m_kSource;
     HitEntry* FUN_00623bd0();
     HitEntry();
-    void* operator new(unsigned int uiSize);
-    void operator delete(void* pvMem);
 };
 struct HitList
 {
@@ -723,38 +732,38 @@ struct HitTrackerImpl
 void HitTrackerImpl::AddHitEntries(float fAmount, HitForm* pkFormA, HitForm* pkFormB, HitActor* pkActorA,
                                    HitActor* pkActorB)
 {
-    float fAbs = FUN_00408820(fAmount);
-    if (fAbs < *g_s_011ce75c.FUN_00403e20())
+    float fAbs = ((float)(::FUN_00408820(fAmount)));
+    if (fAbs < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::HitSetting *>(&::originalRuntimeFloatSetting727)))))))
         return;
-    if (pkActorA && pkActorA->FUN_00452370() && !pkActorA->FUN_00477ba0() && !pkActorA->IsDead() &&
+    if (pkActorA && reinterpret_cast<::FUN_00452370_shell *>((pkActorA))->FUN_00452370() && !reinterpret_cast<::FUN_00477ba0_shell *>((pkActorA))->FUN_00477ba0() && !pkActorA->IsDead() &&
         (!pkActorB || !pkActorB->IsDead()))
     {
-        float fScaleX = pkFormB->FUN_004b4ea0();
+        float fScaleX = reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((pkFormB))->FUN_004b4ea0();
         if (fScaleX == 0.0)
             fScaleX = 10000.0f;
         float fValueVal2 = ComputeDistanceFactor(fScaleX, fAbs);
         if (fValueVal2 > 0.0)
         {
             HitEntry* pkEntry = new HitEntry;
-            pkEntry->m_spReferencedObject.FUN_0066b0d0(FUN_004b5a80(pkFormA));
+            pkEntry->m_spReferencedObject.FUN_0066b0d0(((::HitRefTarget *)(::FUN_004b5a80(pkFormA))));
             pkEntry->m_fAmount = fValueVal2;
-            pkEntry->m_kSource.FUN_0042f780(pkActorB ? pkActorB->GetHandle() : 0);
+            reinterpret_cast<::Holder0042f780 *>(&(pkEntry->m_kSource))->FUN_0042f780((::AC_0042f730 *)(void *)(pkActorB ? pkActorB->GetHandle() : 0));
             m_kEntries.FUN_005ae3d0(pkEntry);
         }
     }
-    if (pkActorB && pkActorB->FUN_00452370() && !pkActorB->FUN_00477ba0() && !pkActorB->IsDead() &&
+    if (pkActorB && reinterpret_cast<::FUN_00452370_shell *>((pkActorB))->FUN_00452370() && !reinterpret_cast<::FUN_00477ba0_shell *>((pkActorB))->FUN_00477ba0() && !pkActorB->IsDead() &&
         (!pkActorA || !pkActorA->IsDead()))
     {
-        float fScale2 = pkFormA->FUN_004b4ea0();
+        float fScale2 = reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((pkFormA))->FUN_004b4ea0();
         if (fScale2 == 0.0)
             fScale2 = 10000.0f;
         float fSecondFunctionValue = ComputeDistanceFactor(fScale2, fAbs);
         if (fSecondFunctionValue > 0.0)
         {
             HitEntry* pkEntry2 = new HitEntry;
-            pkEntry2->m_spReferencedObject.FUN_0066b0d0(FUN_004b5a80(pkFormB));
+            pkEntry2->m_spReferencedObject.FUN_0066b0d0(((::HitRefTarget *)(::FUN_004b5a80(pkFormB))));
             pkEntry2->m_fAmount = fSecondFunctionValue;
-            pkEntry2->m_kSource.FUN_0042f780(pkActorA ? pkActorA->GetHandle() : 0);
+            reinterpret_cast<::Holder0042f780 *>(&(pkEntry2->m_kSource))->FUN_0042f780((::AC_0042f730 *)(void *)(pkActorA ? pkActorA->GetHandle() : 0));
             m_kEntries.FUN_005ae3d0(pkEntry2);
         }
     }
@@ -774,7 +783,6 @@ struct SubHelper
 
     SubHelper(int value);
     ~SubHelper();
-    void FUN_0042f780(int value);
 };
 
 struct FUN_00623bd0 : BaseNoVtable
@@ -792,12 +800,11 @@ FUN_00623bd0::FUN_00623bd0() : BaseNoVtable(0), m_08(0)
 {
     FUN_0066b0d0(0);
     m_04 = 0.0f;
-    m_08.FUN_0042f780(0);
+    reinterpret_cast<::Holder0042f780 *>(&(m_08))->FUN_0042f780((::AC_0042f730 *)(0));
 }
 
 struct RequestEntry
 {
-    void* FUN_00623820(unsigned int flags);
 };
 
 // @fnv 0x00623c50
@@ -805,22 +812,18 @@ void FUN_006235c0::ProcessPendingRequests()
 {
     while (!((RequestList*)&m_kSub)->FUN_008256d0())
     {
-        Request* b = *((RequestList*)&m_kSub)->FUN_006815c0();
+        Request* b = *((::Request **)(new ((void *)(((RequestList*)&m_kSub))) ::Vec3()));
         Request* a = b;
-        a ? ((RequestEntry*)a)->FUN_00623820(1) : 0;
+        a ? reinterpret_cast<::FUN_00623820_class *>((((RequestEntry*)a)))->FUN_00623820(1) : 0;
         ((RequestList*)&m_kSub)->FUN_0063f7b0();
     }
 }
 
 // ProcessHit: thiscall, one stack arg, /MT /Od /GS /EHsc
 
-extern float DAT_01017870;
-extern double DAT_01012070;
-extern int DAT_011cc270;
 
 struct Ctx_623cb0
 {
-    void FUN_006240d0();
     int m_00;
     int m_04;
     int m_08;
@@ -828,20 +831,11 @@ struct Ctx_623cb0
 
 struct Key_623cb0
 {
-    void FUN_008c71b0(void* v);
-    int FUN_004a3a20();
-    unsigned char FUN_00624070();
-    int FUN_006240b0();
     void* m_00;
 };
 
 struct Gen_623cb0
 {
-    void* GetLastNode();
-    float FUN_00624050();
-    int FUN_004b5980();
-    void* FUN_0043b540();
-    float FUN_00450410();
 };
 
 struct Rec_623cb0
@@ -867,15 +861,8 @@ struct Owner_623cb0
 {
     int m_00;
     void ProcessHit(Rec_623cb0* a1);
-    void AddHitEntries(float f, void* a, void* b, void* c, void* d);
 };
 
-unsigned char FUN_0062b150(void* obj, void* ctx);
-void FUN_00458620(Ctx_623cb0* ctx, void* req);
-float FUN_004587d0(float v);
-float FUN_00408820(float v);
-void FUN_00837550(Ctx_623cb0* ctx);
-void* FUN_004b59f0(void* obj);
 
 // Does nothing if a1->m_20 is set; unless early checks return, calls AddHitEntries with a1->m_1c and the two nodes, then ApplyToCharacter for both.
 // @fnv 0x00623cb0
@@ -903,78 +890,78 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
     {
         return;
     }
-    ctx2.FUN_006240d0();
-    cur = FUN_00408820(FUN_004587d0(apHitRecord->m_1c));
-    keyTmp = ((Gen_623cb0*)apHitRecord->m_00)->GetLastNode();
-    entry = ((Gen_623cb0*)apHitRecord->m_04)->GetLastNode();
+    ::FUN_006240d0((void *)&(ctx2));
+    cur = ((float)(::FUN_00408820(FUN_004587d0(apHitRecord->m_1c))));
+    keyTmp = ((void *)(reinterpret_cast<::FUN_00624020_Class *>((((Gen_623cb0*)apHitRecord->m_00)))->GetLastNode()));
+    entry = ((void *)(reinterpret_cast<::FUN_00624020_Class *>((((Gen_623cb0*)apHitRecord->m_04)))->GetLastNode()));
 
-    if (cur >= ((Gen_623cb0*)&DAT_011cc270)->FUN_00450410() && cur >= DAT_01012070)
+    if (cur >= reinterpret_cast<::FUN_00450410_Class *>((((Gen_623cb0*)&(*reinterpret_cast<int *>(&::g_011cc270)))))->FUN_00450410() && cur >= ::g_01012070)
     {
         if (keyTmp != 0 && entry != 0)
         {
             Key_623cb0 key1;
             Key_623cb0 key8;
-            key1.FUN_008c71b0(((Gen_623cb0*)keyTmp)->FUN_0043b540());
-            key8.FUN_008c71b0(((Gen_623cb0*)entry)->FUN_0043b540());
-            if (key1.FUN_004a3a20() == key8.FUN_004a3a20())
+            new ((void *)&(key1)) ::GlobalObject_008c71b0((intptr_t)(((void *)(::FUN_0043b540((char *)(((Gen_623cb0*)keyTmp)))))));
+            new ((void *)&(key8)) ::GlobalObject_008c71b0((intptr_t)(((void *)(::FUN_0043b540((char *)(((Gen_623cb0*)entry)))))));
+            if (((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(key1))->FUN_004a3a20())) == ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(key8))->FUN_004a3a20())))
             {
-                if (key1.FUN_00624070())
+                if (((unsigned char)(reinterpret_cast<::C00624070 *>(&(key1))->FUN_00624070())))
                 {
                     return;
                 }
             }
-            else if (key1.FUN_00624070())
+            else if (((unsigned char)(reinterpret_cast<::C00624070 *>(&(key1))->FUN_00624070())))
             {
-                if (key1.FUN_006240b0() == 0x11)
+                if (reinterpret_cast<::bhkFilter *>(&(key1))->FUN_006240b0() == 0x11)
                 {
                     return;
                 }
             }
-            else if (key8.FUN_00624070())
+            else if (((unsigned char)(reinterpret_cast<::C00624070 *>(&(key8))->FUN_00624070())))
             {
-                if (key8.FUN_006240b0() == 0x11)
+                if (reinterpret_cast<::bhkFilter *>(&(key8))->FUN_006240b0() == 0x11)
                 {
                     return;
                 }
             }
         }
-        FUN_00458620(&ctx2, ((RequestList*)apHitRecord->m_10)->FUN_006815c0());
-        extra = apHitRecord->m_18 ? ((Gen_623cb0*)((char*)apHitRecord->m_18 + 8))->FUN_00624050() : DAT_01017870;
-        fval.a = FUN_0062b150(apHitRecord->m_00, &ctx2);
-        fval.b = FUN_0062b150(apHitRecord->m_04, &ctx2);
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&ctx2)), (*(const ::hkVector4 *)(((::Request **)(new ((void *)(((RequestList*)apHitRecord->m_10))) ::Vec3())))));
+        extra = apHitRecord->m_18 ? reinterpret_cast<::FUN_00624050_Class *>((((Gen_623cb0*)((char*)apHitRecord->m_18 + 8))))->FUN_00624050() : DAT_01017870;
+        fval.a = ((unsigned char)(::FUN_0062b150((uintptr_t)(apHitRecord->m_00), (uintptr_t)(&ctx2))));
+        fval.b = ((unsigned char)(::FUN_0062b150((uintptr_t)(apHitRecord->m_04), (uintptr_t)(&ctx2))));
         mid = 0;
         node1 = 0;
-        if (keyTmp != 0 && ((Gen_623cb0*)keyTmp)->FUN_004b5980() == 1)
+        if (keyTmp != 0 && ::FUN_004b5980((intptr_t)(((Gen_623cb0*)keyTmp))) == 1)
         {
-            void* src = FUN_004b59f0(keyTmp);
+            void* src = ::FUN_004b59f0(keyTmp);
             if (src != 0)
             {
-                mid = FUN_004b5a80((HitForm*)src);
+                mid = ((::HitRefTarget *)(::FUN_004b5a80((HitForm*)src)));
             }
         }
-        if (entry != 0 && ((Gen_623cb0*)entry)->FUN_004b5980() == 1)
+        if (entry != 0 && ::FUN_004b5980((intptr_t)(((Gen_623cb0*)entry))) == 1)
         {
-            void* src = FUN_004b59f0(entry);
+            void* src = ::FUN_004b59f0(entry);
             if (src != 0)
             {
-                node1 = FUN_004b5a80((HitForm*)src);
+                node1 = ((::HitRefTarget *)(::FUN_004b5a80((HitForm*)src)));
             }
         }
         count = (fval.a + 1) * (fval.b + 1);
-        FUN_00837550(&ctx2);
+        ::ImpactSound::FUN_00837550((::ImpactSound::ImpactData *)(::Ctx_623cb0 *)(&ctx2));
     }
 
-    node = FUN_004b59f0(keyTmp);
-    item = node ? FUN_004b5a20(node) : 0;
-    cat = item ? item->FUN_0044ddc0() : 0;
-    cell3 = cat ? FUN_0056f930(cat) : 0;
-    cell2 = FUN_004b59f0(entry);
-    idx = cell2 ? FUN_004b5a20(cell2) : 0;
-    key2 = idx ? idx->FUN_0044ddc0() : 0;
-    hold = key2 ? FUN_0056f930(key2) : 0;
-    AddHitEntries(apHitRecord->m_1c, node, cell2, cell3, hold);
-    ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)cell3, (int)apHitRecord);
-    ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)hold, (int)apHitRecord);
+    node = ::FUN_004b59f0(keyTmp);
+    item = node ? ((::Form *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(node)))) : 0;
+    cat = item ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())) : 0;
+    cell3 = cat ? ((::Actor *)(::FUN_0056f930((::NiAVObject *)(cat)))) : 0;
+    cell2 = ::FUN_004b59f0(entry);
+    idx = cell2 ? ((::Form *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(cell2)))) : 0;
+    key2 = idx ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((idx))->GetName())) : 0;
+    hold = key2 ? ((::Actor *)(::FUN_0056f930((::NiAVObject *)(key2)))) : 0;
+    reinterpret_cast<::HitTrackerImpl *>(this)->AddHitEntries(apHitRecord->m_1c, (::HitForm *)(node), (::HitForm *)(cell2), (::HitActor *)(cell3), (::HitActor *)(hold));
+    ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)cell3, (intptr_t)apHitRecord);
+    ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)hold, (intptr_t)apHitRecord);
 }
 
 struct FUN_00623540 : FUN_006234d0

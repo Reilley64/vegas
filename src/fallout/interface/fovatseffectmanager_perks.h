@@ -2,9 +2,10 @@
 #ifndef FNV_FOVATSEFFECTMANAGER_PERKS_H
 #define FNV_FOVATSEFFECTMANAGER_PERKS_H
 
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011de000.h"
 #include "Actor.h"
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
 class BGSPerkEntry
 {
   public:
@@ -43,5 +44,4 @@ class EntryPointFunctionDispatcher
 extern const char g_entryPointArgumentErrorFormat[];
 extern const char g_entryPointFilterParameterName[];
 extern const char g_entryPointFunctionArgumentName[];
-int Warning(const char*, ...);
 #endif

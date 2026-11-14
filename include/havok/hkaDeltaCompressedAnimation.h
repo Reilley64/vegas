@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkaAnimation.h"
 #include "hkaDeltaCompressedAnimationQuantizationFormat.h"
-#pragma pack(push, 1)
 class hkaDeltaCompressedAnimation : public hkaAnimation
 {
   public:
@@ -25,6 +24,4 @@ class hkaDeltaCompressedAnimation : public hkaAnimation
     hkUint32 m_iLastBlockSize;                                            // +0x68
     hkArray<hkUint8> m_kCompressedData;                                   // +0x6C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaDeltaCompressedAnimation[(sizeof(hkaDeltaCompressedAnimation) == 0x78) ? 1 : -1];
 #endif

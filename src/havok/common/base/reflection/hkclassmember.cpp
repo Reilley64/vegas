@@ -2,11 +2,19 @@
 // src/havok/common/base/reflection/hkclassmember.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclassmember.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/FUN_00d46cf0_C.h"
+#include "fnv/decl/FUN_00d46f00_s.h"
+#include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
+#include "fnv/decl/HkClassNode.h"
+#include "fnv/decl/S_00dba990.h"
+#include "fnv/decl/StringBuf.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/symbols_011b6000.h"
 #include "havok/hkClassMember.h"
 
 struct hkCustomAttributes
 {
-    const hkVariant* getAttribute(const char* name) const;
 };
 
 struct hkClassMember_FUN_00d86960
@@ -20,14 +28,14 @@ struct hkClassMember_FUN_00d86960
 const hkVariant* hkClassMember_FUN_00d86960::FUN_00d86960(const char* name) const
 {
     if (m_pCustomAttributes)
-        return m_pCustomAttributes->getAttribute(name);
+        return ((const ::hkVariant *)(reinterpret_cast<::FUN_00d46cf0_C *>((void *)(m_pCustomAttributes))->FindEntry(name)));
     return 0;
 }
 
 extern char DAT_011b6ab0;
 
 // @fnv 0x00d868a0
-char* __cdecl FUN_00d868a0(int index)
+char* __cdecl FUN_00d868a0(intptr_t index)
 {
     return &DAT_011b6ab0 + index * 12;
 }
@@ -36,7 +44,7 @@ int __cdecl FUN_00d86980();
 
 // Stores v into p as a char, short or int depending on the size returned by FUN_00d86980.
 // @fnv 0x00d86bc0
-void __stdcall FUN_00d86bc0(int apTarget, int aiValue)
+void FUN_00d86bc0(intptr_t apTarget, intptr_t aiValue)
 {
     switch (FUN_00d86980())
     {
@@ -82,11 +90,11 @@ struct Struct_d86920
 {
     int unk00;
     int unk04;
-    int FUN_00d86920();
+    intptr_t FUN_00d86920();
 };
 
 // @fnv 0x00d86920
-int Struct_d86920::FUN_00d86920()
+intptr_t Struct_d86920::FUN_00d86920()
 {
     return unk04;
 }
@@ -109,7 +117,6 @@ hkClassEnum* FUN_00d86930_StandIn::FUN_00d86930()
 
 struct FUN_00dba990_Obj
 {
-    int FUN_00dba990();
 };
 
 struct FUN_00d86bc0_Obj
@@ -118,11 +125,10 @@ struct FUN_00d86bc0_Obj
     int unk04;
     int unk08;
     unsigned char unk0C;
-    void FUN_00d86bc0(int a, int b);
 };
 
 // @fnv 0x00dc1bf0
-unsigned int __stdcall FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiUnused)
+unsigned int FUN_00dc1bf0(intptr_t aiArg, intptr_t pMember, intptr_t pSource, intptr_t aiUnused)
 {
     FUN_00d86bc0_Obj* member = (FUN_00d86bc0_Obj*)pMember;
     unsigned int type = member->unk0C;
@@ -132,14 +138,14 @@ unsigned int __stdcall FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiU
     case 0x18:
         if (member->unk08 != 0)
         {
-            int result = ((FUN_00dba990_Obj*)pSource)->FUN_00dba990();
-            member->FUN_00d86bc0(aiArg, result);
+            int result = reinterpret_cast<::S_00dba990 *>((((FUN_00dba990_Obj*)pSource)))->FUN_00dba990();
+            ::FUN_00d86bc0((intptr_t)(member), aiArg);
         }
         return 0;
     case 0x1f:
         if (member->unk08 != 0)
         {
-            member->FUN_00d86bc0(aiArg, ((FUN_00dba990_Obj*)pSource)->FUN_00dba990());
+            ::FUN_00d86bc0((intptr_t)(member), aiArg);
         }
         return 0;
     }
@@ -186,8 +192,6 @@ class hkClassMemberD86A
 class hkClassD86A
 {
   public:
-    int FUN_00d46f00() const;
-    const hkClassMemberD86A& FUN_00d46f20(int i) const;
 };
 
 // Returns the memory alignment of this class member, derived from its type, struct member alignments, or explicit ALIGN_8/ALIGN_16 flags.
@@ -202,10 +206,10 @@ int hkClassMemberD86A::GetAlignment() const
     if (type == TYPE_STRUCT)
     {
         int structAlign = 1;
-        for (int i = 0; i < m_class->FUN_00d46f00(); i++)
+        for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00d46f00_s *>((void *)(m_class))->FUN_00d46f00())); i++)
         {
-            if (m_class->FUN_00d46f20(i).GetAlignment() > structAlign)
-                structAlign = m_class->FUN_00d46f20(i).GetAlignment();
+            if ((*(const ::hkClassMemberD86A *)(reinterpret_cast<::HkClassNode *>((void *)(m_class))->FUN_00d46f20(i))).GetAlignment() > structAlign)
+                structAlign = (*(const ::hkClassMemberD86A *)(reinterpret_cast<::HkClassNode *>((void *)(m_class))->FUN_00d46f20(i))).GetAlignment();
         }
         align = structAlign;
     }
@@ -229,21 +233,19 @@ struct TypeDescription
     const char* displayName;
     int size;
 };
-extern TypeDescription DAT_011b6ab4[];
 extern const char str_010d3a74[];
 struct TypeNameOutput
 {
     void FUN_00d61c10(const char*);
 };
-extern void __cdecl FUN_00d61d00(TypeNameOutput*, const char*, const char*, const char*);
 // Writes the selected type name to output, calling FUN_00d61d00 with that name and detail when detail is non-null.
 // @fnv 0x00d868e0
 static __declspec(noinline) void FUN_00d868e0(TypeNameOutput* output, const char* detail, int type)
 {
     if (!detail)
-        output->FUN_00d61c10(DAT_011b6ab4[type].name);
+        output->FUN_00d61c10((*reinterpret_cast<TypeDescription (*)[]>(&::DAT_011b6ab4))[type].name);
     else
-        FUN_00d61d00(output, str_010d3a74, DAT_011b6ab4[type].name, detail);
+        reinterpret_cast<::StringBuf *>((output))->FUN_00d61d00(str_010d3a74, (*reinterpret_cast<TypeDescription (*)[]>(&::DAT_011b6ab4))[type].name, detail);
 }
 void formatTypeName(TypeNameOutput* output, const char* detail, int type)
 {
@@ -278,7 +280,6 @@ struct TypeProps_d869
 class hkClass_d869
 {
   public:
-    int GetObjectAlignment() const;
 };
 
 struct ClassMember_d869 : public hkClassMember
@@ -337,19 +338,19 @@ int ClassMember_d869::FUN_00d86980() const
     case TYPE_ULONG:
     case TYPE_HALF:
     case TYPE_STRINGPTR: {
-        int nelem = GetMemberOffset() ? GetMemberOffset() : 1;
+        int nelem = reinterpret_cast<::OwnerD869 *>((void *)this)->FUN_00d86940() ? reinterpret_cast<::OwnerD869 *>((void *)this)->FUN_00d86940() : 1;
         size = nelem * typeProps_d869()[m_type].m_iElementCount;
     }
     break;
     case TYPE_ENUM:
     case TYPE_FLAGS: {
-        int nelem = GetMemberOffset() ? GetMemberOffset() : 1;
+        int nelem = reinterpret_cast<::OwnerD869 *>((void *)this)->FUN_00d86940() ? reinterpret_cast<::OwnerD869 *>((void *)this)->FUN_00d86940() : 1;
         size = nelem * typeProps_d869()[m_eSubtype].m_iElementCount;
     }
     break;
     case TYPE_STRUCT: {
-        int nelem = GetMemberOffset() ? GetMemberOffset() : 1;
-        size = nelem * GetReferencedClass().GetObjectAlignment();
+        int nelem = reinterpret_cast<::OwnerD869 *>((void *)this)->FUN_00d86940() ? reinterpret_cast<::OwnerD869 *>((void *)this)->FUN_00d86940() : 1;
+        size = nelem * reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((void *)&((*(const ::hkClass_d869 *)(reinterpret_cast<::TestClass *>((void *)this)->FUN_00d86910()))))->FUN_00d470d0();
     }
     break;
     case TYPE_ZERO:
@@ -358,3 +359,5 @@ int ClassMember_d869::FUN_00d86980() const
     }
     return size;
 }
+
+#include "generated/data/havok/common/base/reflection/hkclassmember.inc"

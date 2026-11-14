@@ -2,16 +2,24 @@
 // src/havok/animation/animation/animation/hkaanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/hkaanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <new>
+#include "fnv/decl/Cb0StringCopy.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00dfb5a0_cls.h"
+#include "fnv/decl/FUN_00e2f680_Class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
 #include "havok/hkaAnimation.h"
 
 // @fnv 0x00e2f270
-void __stdcall FUN_00e2f270(int)
+void FUN_00e2f270(int)
 {}
 
 struct FUN_00cb0c30_s
 {
     char* m_pcString;
-    void FUN_00cb0c30(const FUN_00cb0c30_s& kOther) throw();
 };
 class hkaAnnotationTrack
 {
@@ -24,7 +32,7 @@ class hkaAnnotationTrack
         Annotation& operator=(const Annotation& kOther)
         {
             m_uiCommandId = kOther.m_uiCommandId;
-            m_pText.FUN_00cb0c30(kOther.m_pText);
+            reinterpret_cast<::Cb0StringCopy *>(&(m_pText))->FUN_00cb0c30((const ::CB0StringPtr &)(kOther.m_pText));
             return *this;
         }
     };
@@ -78,7 +86,7 @@ class hkMemoryAllocatorE2F;
 
 struct hkMemoryRouterE2F
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorE2F* m_pStreamAllocator;
 
     hkMemoryAllocatorE2F& heap()
@@ -88,15 +96,9 @@ struct hkMemoryRouterE2F
 };
 
 namespace hkRouterE2F {
-extern "C" hkMemoryRouterE2F& __cdecl FUN_00c85750() throw();
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE2F& kAlloc, void* pArray, int iNumElements, int iSizeElem);
 
-inline void* operator new(unsigned int, void* pvWhere)
-{
-    return pvWhere;
-}
 struct TrackE2F
 {
     int unk00, unk04, unk08, unk0C;
@@ -108,20 +110,18 @@ struct TrackE2F
 
 struct RefFrameE2F
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 
 template <class T> __forceinline void destructE2F(T* pArr, int n)
 {
     for (int i = 0; i < n; i++)
-        pArr[i].~T();
+        reinterpret_cast<::FUN_00dfb5a0_cls *>(&(pArr[i]))->FUN_00dfb5a0();
 }
 
 template <class T> __forceinline void copyE2F(T* pDst, const T* pSrc, int n)
 {
     for (int i = 0; i < n; i++)
-        pDst[i] = pSrc[i];
+        reinterpret_cast<::FUN_00e2f680_Class *>((void *)&(const ::TrackE2F &)(pDst[i]))->CopyFrom((const ::FUN_00e2f680_Class &)(pSrc[i]));
 }
 
 template <class T> __forceinline void constructWithArrayE2F(T* pDst, int n, const T* pSrc)
@@ -151,13 +151,13 @@ template <class T> class hkArrayE2F
         {
             int iCap2 = 2 * getCapacity();
             int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(T));
         }
     }
 
     __forceinline hkArrayE2F& operator=(const hkArrayE2F& a)
     {
-        hkMemoryAllocatorE2F& kAlloc = hkRouterE2F::FUN_00c85750().heap();
+        hkMemoryAllocatorE2F& kAlloc = (*static_cast<hkMemoryRouterE2F*>(::FUN_00c85750())).heap();
         const int iOldSize = m_iElementCount;
         const int iNewSize = a.m_iElementCount;
         int iCopiedSize = (iNewSize > iOldSize) ? iOldSize : iNewSize;
@@ -179,9 +179,9 @@ struct RefPtrE2F
     __forceinline void operator=(const RefPtrE2F& other)
     {
         if (other.m_pRetainedObject)
-            other.m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((other.m_pRetainedObject))->FUN_00c90510();
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = other.m_pRetainedObject;
     }
 };

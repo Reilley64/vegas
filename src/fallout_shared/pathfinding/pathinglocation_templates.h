@@ -1,10 +1,10 @@
 // fallout_shared/pathfinding/pathinglocation_templates.h: declares NiPoint3
 
-class NiPoint3
+#include "fnv/decl/TESCombatStyle.h"
+struct NiPoint3
 {
   public:
     float x, y, z;
-    float FUN_004a7290() const;
 };
 class SandboxProcedureData;
 class TESLoadScreen;

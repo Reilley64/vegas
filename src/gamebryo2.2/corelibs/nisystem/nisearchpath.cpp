@@ -2,6 +2,10 @@
 // src/gamebryo2.2/corelibs/nisystem/nisearchpath.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nisearchpath.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "runtime/crt.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_011f6000.h"
 struct NiSearchPath
 {
     unsigned int m_uiSearchPathValue;
@@ -15,8 +19,6 @@ void NiSearchPath::FUN_00aa2500()
 }
 
 namespace fnv_00aa2540 {
-extern void _fnv_StandardizeFilePath(char*);
-extern void _fnv_CopyFilePath(char*, int, const char*, int);
 
 struct NiSearchPath
 {
@@ -30,18 +32,16 @@ void NiSearchPath::SetPath(const char* pcFilePath)
 {
     if (pcFilePath && *pcFilePath)
     {
-        _fnv_CopyFilePath((char*)this + 8, 0x104, pcFilePath, 0x103);
-        _fnv_StandardizeFilePath((char*)this + 8);
+        fnv::crt::strncpy_s((char*)&this->m_acFilePathBuffer[8], 0x104, pcFilePath, 0x103);
+        ::FUN_00aa2a00((char*)&this->m_acFilePathBuffer[8]);
     }
     else
     {
-        *(char*)((char*)this + 8) = 0;
+        this->m_acFilePathBuffer[8] = 0;
     }
 }
 }  // namespace fnv_00aa2540
 
-int _strcpy_s(char* dst, unsigned int size, const char* src);
-void _fnv_StandardizeFilePath(char* path);
 extern char DAT_011f6120[];
 struct FileNameComponents
 {
@@ -51,18 +51,17 @@ struct FileNameComponents
     char m_acExtension[256];
     char m_acPlatformSubDir[256];
     FileNameComponents(const char* pcFullPath);
-    void FUN_00aa29d0(char* pcFullPath, unsigned int uiStringLen);
     void SetDrive(const char* pc)
     {
-        _strcpy_s(m_acDriveLetter, 3, pc);
+        fnv::crt::strcpy_s(m_acDriveLetter, 3, pc);
     }
     void SetDir(const char* pc)
     {
-        _strcpy_s(m_acFolderPath, 256, pc);
+        fnv::crt::strcpy_s(m_acFolderPath, 256, pc);
     }
     void SetPlatformSubDir(const char* pc)
     {
-        _strcpy_s(m_acPlatformSubDir, 256, pc);
+        fnv::crt::strcpy_s(m_acPlatformSubDir, 256, pc);
     }
     const char* GetDir() const
     {
@@ -111,25 +110,21 @@ bool NiSearchPathS::ResolveSearchPath(char* pcOutPath, unsigned int uiOutLen)
     default:
         return false;
     }
-    kFullPath.FUN_00aa29d0(pcOutPath, uiOutLen);
-    _fnv_StandardizeFilePath(pcOutPath);
+    ::FUN_00aa29d0();
+    ::FUN_00aa2a00(pcOutPath);
     m_uiSearchPathValue++;
     return true;
 }
 
 struct MemoryManager
 {
-    void* Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00aa2510
 {
     virtual ~FUN_00aa2510();
-    void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 };
 // @fnv 0x00aa2510
 FUN_00aa2510::~FUN_00aa2510()
 {}
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/nisearchpath.inc"

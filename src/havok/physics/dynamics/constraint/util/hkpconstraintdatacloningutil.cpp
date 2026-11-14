@@ -2,25 +2,21 @@
 // src/havok/physics/dynamics/constraint/util/hkpconstraintdatacloningutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/util/hkpconstraintdatacloningutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct Allocator858
-{
-    virtual void v00();
-    virtual void* Allocate(unsigned int uiSize);
-};
-struct Heap858
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator858* m_pHeapAllocator;
-
-    void* Allocate(unsigned int uiSize)
-    {
-        return m_pHeapAllocator->Allocate(uiSize);
-    }
-};
-extern "C" Heap858* __cdecl FUN_00c85750();
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <new>
+#include "fnv/decl/FUN_00cb9090.h"
+#include "fnv/decl/FUN_00cdf2f0.h"
+#include "fnv/decl/FUN_00cdf6d0_t.h"
+#include "fnv/decl/FUN_00cdf710.h"
+#include "fnv/decl/FUN_00d4fe80.h"
+#include "fnv/decl/FUN_00d85a20_Stub.h"
+#include "fnv/decl/ObjD85.h"
+#include "fnv/decl/S_00d85af0_Cls.h"
+#include "fnv/decl/fnv_00d4df30__FUN_00d4df30.h"
+#include "fnv/decl/fnv_00dee6f0__FUN_00dee6f0_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00d85000.h"
 
 struct Clonable858
 {
@@ -49,9 +45,6 @@ struct Object858
 
 struct Payload858
 {
-    void FUN_00d85ba0(const Payload858* pkSrc);
-    void AssignFrom(const Payload858* pkSrc);
-    void CopyStateFrom(const Payload858* pkSrc);
 };
 
 struct Type7Object858 : Object858
@@ -75,14 +68,11 @@ struct Type2Object858 : Object858
 
 struct Raw858
 {
-    Type7Object858* FUN_00cdf2f0();
-    Type6Object858* FUN_00d4fe80();
-    Type2Object858* FUN_00cb9090();
 };
 
 inline Raw858* Allocate858(unsigned int uiSize)
 {
-    Object858* pkObject = (Object858*)FUN_00c85750()->Allocate(uiSize);
+    Object858* pkObject = (Object858*)hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
     pkObject->usSize = (unsigned short)uiSize;
     return (Raw858*)pkObject;
 }
@@ -94,8 +84,8 @@ Object858* __cdecl FUN_00d858f0(Object858* pkSource)
     switch (pkSource->GetType())
     {
     case 7: {
-        Type7Object858* pkResult = Allocate858(0x140)->FUN_00cdf2f0();
-        pkResult->kPayload.FUN_00d85ba0(&((Type7Object858*)pkSource)->kPayload);
+        Type7Object858* pkResult = ((::Type7Object858 *)(new ((void *)(Allocate858(0x140))) ::FUN_00cdf2f0()));
+        reinterpret_cast<::ObjD85 *>(&(pkResult->kPayload))->FUN_00d85ba0((*(const ::ObjD85 *)(&((Type7Object858*)pkSource)->kPayload)));
         pkResult->iValue = pkSource->iValue;
         Clonable858** ppkChildren = pkResult->apkChildren;
         for (int i = 0; i < 3; i++)
@@ -106,8 +96,8 @@ Object858* __cdecl FUN_00d858f0(Object858* pkSource)
         return pkResult;
     }
     case 6: {
-        Type6Object858* pkResult = Allocate858(0xd0)->FUN_00d4fe80();
-        pkResult->kPayload.AssignFrom(&((Type6Object858*)pkSource)->kPayload);
+        Type6Object858* pkResult = ((::Type6Object858 *)(new ((void *)(Allocate858(0xd0))) ::FUN_00d4fe80()));
+        reinterpret_cast<::S_00d85af0_Cls *>(&(pkResult->kPayload))->AssignFrom((const ::S_00d85af0_Cls *)(const ::Payload858 *)(&((Type6Object858*)pkSource)->kPayload));
         pkResult->iValue = pkSource->iValue;
         Clonable858*& rpkChild = pkResult->pkChild;
         if (rpkChild)
@@ -115,8 +105,8 @@ Object858* __cdecl FUN_00d858f0(Object858* pkSource)
         return pkResult;
     }
     case 2: {
-        Type2Object858* pkResult = Allocate858(0xe0)->FUN_00cb9090();
-        pkResult->kPayload.CopyStateFrom(&((Type2Object858*)pkSource)->kPayload);
+        Type2Object858* pkResult = ((::Type2Object858 *)(new ((void *)(Allocate858(0xe0))) ::FUN_00cb9090()));
+        reinterpret_cast<::FUN_00d85a20_Stub *>(&(pkResult->kPayload))->CopyStateFrom((int *)(&((Type2Object858*)pkSource)->kPayload));
         pkResult->iValue = pkSource->iValue;
         Clonable858*& rpkChild = pkResult->pkChild;
         if (rpkChild)
@@ -129,23 +119,11 @@ Object858* __cdecl FUN_00d858f0(Object858* pkSource)
 
 struct hkRefObj858
 {
-    void removeReference();
 };
-struct Heap858b
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator858* m_pHeapAllocator;
-    Allocator858& heap()
-    {
-        return *m_pHeapAllocator;
-    }
-};
+
 template <class T> __forceinline T* AllocA(unsigned int uiSize)
 {
-    Object858* p = (Object858*)((Heap858b*)FUN_00c85750())->heap().Allocate(uiSize);
+    Object858* p = (Object858*)hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
     p->usSize = (unsigned short)uiSize;
     return (T*)p;
 }
@@ -155,7 +133,6 @@ struct Node858 : Object858
     int unk14;
     Object858* pkChild;
     float unk1c;
-    Object858* FUN_00cdf6d0();
 };
 struct Breakable858 : Object858
 {
@@ -214,25 +191,10 @@ struct Kind3Shape858
 };
 struct Kind3Result858
 {
-    void FUN_00dee6f0(Kind3Shape858* pkChild);
 };
 struct Raw858b
 {
-    Breakable858* FUN_00d4df30(Object858* pkChild);
-    Node858* FUN_00cdf710(Object858* pkChild);
 };
-Object858* __cdecl FUN_00d85360(Object858* pkSource);
-Object858* __cdecl FUN_00d853a0(Object858* pkSource);
-Object858* __cdecl FUN_00d853f0(Object858* pkSource);
-Object858* __cdecl CloneShape(Object858* pkSource);
-Object858* __cdecl CloneAllocatedObject(Object858* pkSource);
-Object858* __cdecl CloneStub(Object858* pkSource);
-Object858* __cdecl FUN_00d85530(Object858* pkSource);
-Object858* __cdecl CloneWithInit(Object858* pkSource);
-Object858* __cdecl CloneDataBlock(Object858* pkSource);
-Object858* __cdecl CloneWithCopiedPayload(Object858* pkSource);
-Object858* __cdecl FUN_00d85660(Object858* pkSource);
-Object858* __cdecl CloneWithAllocatedCopy(Object858* pkSource);
 
 // Dispatches on pkSource->GetType() to clone the object, recursively cloning child nodes and copying breakable properties.
 // @fnv 0x00d85700
@@ -241,42 +203,42 @@ Object858* __cdecl FUN_00d85700(Object858* pkSource)
     switch (pkSource->GetType())
     {
     case 0:
-        return FUN_00d85360(pkSource);
+        return ((::Object858 *)(::FUN_00d85360((intptr_t)(pkSource))));
     case 1:
-        return FUN_00d853a0(pkSource);
+        return ((::Object858 *)(::fnv_00d853a0::FUN_00d853a0((intptr_t)(pkSource))));
     case 2:
-        return FUN_00d853f0(pkSource);
+        return ((::Object858 *)(::fnv_00d853f0::FUN_00d853f0((char *)(pkSource))));
     case 3: {
-        Object858* pkResult = CloneShape(pkSource);
+        Object858* pkResult = ((::Object858 *)(::fnv_00d85440::CloneShape((const ::fnv_00d85440::D85440Shape *)(pkSource))));
         Kind3Shape858* pkChild = (Kind3Shape858*)((Node858*)pkSource)->pkChild;
         hkRefObj858* pkShape = pkChild->GetChildShape();
-        ((Kind3Result858*)pkResult)->FUN_00dee6f0(pkChild);
-        pkShape->removeReference();
+        reinterpret_cast<::fnv_00dee6f0::FUN_00dee6f0_class *>((((Kind3Result858*)pkResult)))->FUN_00dee6f0((::fnv_00dee6f0::RefObj *)(pkChild));
+        reinterpret_cast<::hkReferencedObjectC905 *>((pkShape))->FUN_00c905b0();
         return pkResult;
     }
     case 6:
-        return CloneAllocatedObject(pkSource);
+        return ((::Object858 *)(::fnv_00d85490::CloneAllocatedObject((int *)(pkSource))));
     case 7:
-        return CloneStub(pkSource);
+        return ((::Object858 *)(::fnv_00d854e0::CloneStub((::fnv_00d854e0::Src_Stub *)(pkSource))));
     case 8:
-        return FUN_00d85530(pkSource);
+        return ((::Object858 *)(::fnv_00d85530::FUN_00d85530((::fnv_00d85530::SpawnedSource *)(pkSource))));
     case 9:
-        return CloneWithInit(pkSource);
+        return ((::Object858 *)(::fnv_00d85570::CloneWithInit((intptr_t)(pkSource))));
     case 14:
-        return CloneDataBlock(pkSource);
+        return ((::Object858 *)(::fnv_00d855c0::CloneDataBlock(pkSource)));
     case 15:
-        return CloneWithCopiedPayload(pkSource);
+        return ((::Object858 *)(::fnv_00d85610::CloneWithCopiedPayload((intptr_t)(pkSource))));
     case 18:
-        return FUN_00d85660(pkSource);
+        return ((::Object858 *)(::FUN_00d85660((const ::D85660Object *)(pkSource))));
     case 19:
-        return CloneWithAllocatedCopy(pkSource);
+        return ((::Object858 *)(::fnv_00d856b0::CloneWithAllocatedCopy((intptr_t)(pkSource))));
     case 12: {
         Breakable858* pkOld = (Breakable858*)pkSource;
         Object858* pkChild = FUN_00d85700(pkOld->GetBreakableObject());
         if (!pkChild)
             return 0;
-        Breakable858* pkNew = AllocA<Raw858b>(0x28)->FUN_00d4df30(pkChild);
-        ((hkRefObj858*)pkChild)->removeReference();
+        Breakable858* pkNew = ((::Breakable858 *)(new ((void *)(AllocA<Raw858b>(0x28))) ::fnv_00d4df30::FUN_00d4df30((::fnv_00d4df30::hkpConstraintDataD4D *)(pkChild))));
+        reinterpret_cast<::hkReferencedObjectC905 *>((((hkRefObj858*)pkChild)))->FUN_00c905b0();
         pkNew->m_fBreakingStrength = pkOld->m_fBreakingStrength;
         pkNew->m_bRemoveWhenBroken = pkOld->m_bRemoveWhenBroken;
         pkNew->m_bRevertBackVelocityOnBreak = pkOld->m_bRevertBackVelocityOnBreak;
@@ -285,11 +247,11 @@ Object858* __cdecl FUN_00d85700(Object858* pkSource)
     }
     case 13: {
         Node858* pkNode = (Node858*)pkSource;
-        Object858* pkChild = FUN_00d85700(pkNode->FUN_00cdf6d0());
+        Object858* pkChild = FUN_00d85700(static_cast<::Object858 *>(reinterpret_cast<::FUN_00cdf6d0_t *>((pkNode))->FUN_00cdf6d0()));
         if (!pkChild)
             return 0;
-        Node858* pkClone = AllocA<Raw858b>(0x20)->FUN_00cdf710(pkChild);
-        ((hkRefObj858*)pkChild)->removeReference();
+        Node858* pkClone = ((::Node858 *)(new ((void *)(AllocA<Raw858b>(0x20))) ::FUN_00cdf710((::hkReferencedObjectCDF7 *)(pkChild))));
+        reinterpret_cast<::hkReferencedObjectC905 *>((((hkRefObj858*)pkChild)))->FUN_00c905b0();
         pkClone->unk1c = pkNode->unk1c;
         pkClone->iValue = pkNode->iValue;
         return pkClone;

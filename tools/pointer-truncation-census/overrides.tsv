@@ -1,0 +1,6 @@
+file	function	kind	detail	disposition
+src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.cpp	CreateCreatorMap	F	int *	open: a 37-slot pointer table seen through an int* declaration; 4 bytes per slot (hand-checked)
+src/fallout_shared/bgsidlecollection.cpp	IdleCollectionStandIn::RemoveAt	E	TESForm ** <- TESForm **	open: a stale stand-in; its count at 0x5 and array at 0x8 are not those of BGSIdleCollection (0x9 and 0x10 on x64), so the copy never reaches the allocated array (hand-checked)
+src/fallout_shared/bgsidlecollection.cpp	IdleCollectionStandIn::RemoveAt	F	TESForm ** <- TESForm **	open: a stale stand-in; its count at 0x5 and array at 0x8 are not those of BGSIdleCollection (0x9 and 0x10 on x64), so the copy never reaches the allocated array (hand-checked)
+src/fallout_shared/tesscriptfunctions.cpp	Script::IsCurrentFurnitureRef	D	unsigned int -> void *	open: a 4-byte local named formID, filled by ExtractArgs, goes through the void* parameter of FUN_0059df40, which compares it with a pointer; form ID or reference not established (hand-checked)
+src/staging/blk_00c40000_od.cpp	S_00c42960::FUN_00c42960	F	S_00c42960_Slot *	open: count times 4 on an array of S_00c42960_Slot, a structure of one pointer; on a 64-bit build target the copy covers half the slots (hand-checked)

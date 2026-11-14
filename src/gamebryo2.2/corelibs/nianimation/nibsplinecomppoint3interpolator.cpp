@@ -1,5 +1,16 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinecomppoint3interpolator.cpp: NiBSplineCompPoint3Interpolator, SplineEvaluationState (8 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/A50880Light.h"
+#include "fnv/decl/FUN_00a50960_shell.h"
+#include "fnv/decl/NiBSplineData.h"
+#include "fnv/decl/NiBSplineTransformInterpolator.h"
+#include "fnv/decl/S_00a508d0_Obj.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nibsplinecomppoint3interpolator_decls.h"
 // Calls the base LoadBinary, then reads 8 bytes from the stream's input into the interpolator's data.
 // @fnv 0x00a51400
@@ -10,12 +21,11 @@ void NiBSplineCompPoint3Interpolator::LoadBinary(NiStream& stream)
     input->Read(&m_fSequenceOffset, 8);
 }
 
-extern "C" void* g_011f4014;
 
 // @fnv 0x00a51270
 void* __cdecl FUN_00a51270()
 {
-    return &g_011f4014;
+    return &(*reinterpret_cast<void * *>(&::g_011f4014));
 }
 
 struct NiObject
@@ -24,7 +34,6 @@ struct NiObject
 };
 struct BaseFor51230
 {
-    bool FUN_00a508d0(NiObject* pkObject);
     char _pad[0x2c];
 };
 struct OwnerFor51230 : BaseFor51230
@@ -37,7 +46,7 @@ bool OwnerFor51230::FUN_00a51230(NiObject* pkObject)
 {
     OwnerFor51230* pkDest;
     unsigned int iIndex;
-    if (!FUN_00a508d0(pkObject))
+    if (!reinterpret_cast<::S_00a508d0_Obj *>(this)->FUN_00a508d0((::S_00a508d0_Obj *)(pkObject)))
         return false;
     pkDest = (OwnerFor51230*)pkObject;
     for (iIndex = 0; iIndex < 2; iIndex++)
@@ -55,22 +64,18 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _pad2;
     unsigned short m_usGrow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a50960(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
 // Grows the string array if it is full, then appends the string returned by _FUN_00a7d330(g_011f4014) at the current size index.
 // @fnv 0x00a51480
-void __stdcall FUN_00a51480(StrArr* pkStrings)
+void FUN_00a51480(StrArr* pkStrings)
 {
-    FUN_00a50960(pkStrings);
-    char* pszStr = _FUN_00a7d330((const char*)g_011f4014);
+    reinterpret_cast<::FUN_00a50960_shell *>((pkStrings))->FUN_00a50960({});
+    char* pszStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f4014)));
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiMax = pkStrings->m_usMax;
     if (uiSize >= uiMax)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiSize, pszStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pszStr);
 }
 
 struct Vec3
@@ -83,8 +88,6 @@ struct Vec3
 };
 struct SplinePath
 {
-    void __thiscall FUN_00a526b0(float time, float* output, unsigned int count, unsigned int offset, unsigned int index,
-                                 float scale, float bias);
 };
 struct SplineEvaluationState
 {
@@ -94,13 +97,13 @@ struct SplineEvaluationState
     float startTime;
     float endTime;
     SplinePath* spline;
-    unsigned int componentOffset;
+    uintptr_t componentOffset;
     Vec3 lastValue;
     unsigned int controlPointIndex;
     float scale;
     float bias;
 
-    bool __thiscall EvaluateSplineAtTime(float time, unsigned int unused, Vec3* out);
+    bool EvaluateSplineAtTime(float time, unsigned int unused, Vec3* out);
 };
 // @fnv 0x00a51280
 bool SplineEvaluationState::EvaluateSplineAtTime(float time, unsigned int unused, Vec3* out)
@@ -114,7 +117,7 @@ bool SplineEvaluationState::EvaluateSplineAtTime(float time, unsigned int unused
     {
         float samples[4];
         float normalized = (time - startTime) / (endTime - startTime);
-        spline->FUN_00a526b0(normalized, samples, 3, componentOffset, controlPointIndex, scale, bias);
+        reinterpret_cast<::NiBSplineData *>((spline))->CalculateSplineValue(normalized, samples, 3, (::NiBSplineBasisData *)(componentOffset), controlPointIndex, scale, bias);
         Vec3 updatedValue(samples[0], samples[1], samples[2]);
         lastValue = updatedValue;
     }
@@ -150,7 +153,6 @@ struct Point3InterpolatorStand
 {
     void* vtable;
     char unk04[0x28];
-    void LoadStream(NiStream& stream);
 };
 
 struct FUN_00a51440_cls : public NiBSplineCompPoint3Interpolator
@@ -162,7 +164,7 @@ struct FUN_00a51440_cls : public NiBSplineCompPoint3Interpolator
 // @fnv 0x00a51440
 void FUN_00a51440_cls::FUN_00a51440(NiStream& stream)
 {
-    reinterpret_cast<Point3InterpolatorStand*>(this)->LoadStream(stream);
+    reinterpret_cast<::A50880Light *>((reinterpret_cast<Point3InterpolatorStand*>(this)))->FUN_00a50880((::A50880Stream &)(stream));
 
     CompStreamView* pStream = reinterpret_cast<CompStreamView*>(&stream);
     CompBinaryStreamView* pBinaryStream = pStream->m_pUnderlyingStream;
@@ -174,7 +176,6 @@ class CloningProcessA513;
 const float DAT_01099a1c = 3.402823466e+38f;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 class FUN_00a506c0
@@ -201,15 +202,10 @@ class ObjA513 : public FUN_00a506c0
     {}
     virtual ~ObjA513() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
 
     float m_2c;
     float m_30;
 
-    void CopyUnknownFields(ObjA513* dest, CloningProcessA513& cloning);
     ObjA513* FUN_00a51360(CloningProcessA513& cloning);
 };
 
@@ -226,20 +222,17 @@ ObjA513* ObjA513::FUN_00a51360(CloningProcessA513& cloning)
     {
         pNew = 0;
     }
-    CopyUnknownFields(pNew, cloning);
+    reinterpret_cast<::NiBSplineTransformInterpolator *>(this)->CopyUnknownFields((::NiBSplineTransformInterpolator *)(pNew), (::CloningProcess &)(cloning));
     pNew->m_2c = m_2c;
     pNew->m_30 = m_30;
     return pNew;
 }
 
-extern "C" void* g_011f4014;
 void* __cdecl FUN_00a51270();
 
-void __stdcall FUN_00a50960(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
-void __stdcall FUN_00a51480(StrArr* pkStrings);
+void FUN_00a51480(StrArr* pkStrings);
 
-extern void* FUN_00aa13e0(unsigned int bytes) throw();
+
 
 struct Base506
 {
@@ -260,10 +253,6 @@ struct Pair
 struct Comp4 : Base506
 {
     Pair m_pair;
-    static void* operator new(unsigned int bytes) throw()
-    {
-        return FUN_00aa13e0(bytes);
-    }
     Comp4() throw() : Base506(0, 0xffff, 0)
     {}
 };

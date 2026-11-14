@@ -1,11 +1,28 @@
 // gamebryo2.2/corelibs/nianimation/nibsplineinterpolator.cpp: SplineShell, NiBSplineInterpolator (10 functions)
 
+#include "fnv/symbols_00a81000.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a57f80_cls.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/FUN_00ba87d0_Class.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a72000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nibsplineinterpolator_decls.h"
 // Loads the interpolator base data, reads start and end times from the stream, and assigns both spline objects from the stream.
 // @fnv 0x00a58080
 void NiBSplineInterpolator::LoadBinary(NiStream& stream)
 {
-    NiInterpolator::LoadBinary(stream);
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40(stream);
     stream.input->ReadFloat(m_fStartTime);
     stream.input->ReadFloat(m_fEndTime);
     AssignSplineObject(m_spTransformData, stream.DeserializeObject());
@@ -17,12 +34,11 @@ struct FUN_00a57f70_shell : public NiBSplineInterpolator
     void* FUN_00a57f70();
 };
 
-extern "C" const char* g_011f3fe4_arg1;
 
 // @fnv 0x00a57f70
 void* FUN_00a57f70_shell::FUN_00a57f70()
 {
-    return &g_011f3fe4_arg1;
+    return &(*reinterpret_cast<const char * *>(&::g_011f4240));
 }
 
 struct BaseThunk
@@ -61,7 +77,7 @@ struct FUN_00a57e50_shell : public NiBSplineInterpolator
 // @fnv 0x00a57e50
 bool FUN_00a57e50_shell::LoadNiBSplineInterpolator(NiStream& kStream)
 {
-    if (!((BaseThunk*)this)->FUN_00a81fe0(kStream))
+    if (!reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0((::NiStream &)kStream))
         return false;
     ThunkReg* pFirstStreamable = *(ThunkReg**)&m_spTransformData;
     if (pFirstStreamable)
@@ -72,8 +88,6 @@ bool FUN_00a57e50_shell::LoadNiBSplineInterpolator(NiStream& kStream)
     return true;
 }
 
-void __fastcall FUN_00a57f80(void*);
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00a581e0_shell
 {
     void* FUN_00a581e0(unsigned int);
@@ -82,14 +96,12 @@ struct FUN_00a581e0_shell
 // @fnv 0x00a581e0
 void* FUN_00a581e0_shell::FUN_00a581e0(unsigned int auiFlags)
 {
-    FUN_00a57f80(this);
+    reinterpret_cast<::FUN_00a57f80_cls *>((this))->FUN_00a57f80();
     if (auiFlags & 1)
-        _delete(this, 0x1c);
+        ::FUN_00aa1460(this, 0x1c);
     return this;
 }
 
-extern double DAT_010231b0;
-extern double DAT_010241b0;
 struct FUN_00a57d60_holder
 {
     char _pad[12];
@@ -100,7 +112,7 @@ struct FUN_00a57d60_holder
 // @fnv 0x00a57d60
 void FUN_00a57d60_holder::FUN_00a57d60(float& fBegin, float& m_fEndValue)
 {
-    if (fBegin == DAT_010231b0 && m_fEndValue == DAT_010241b0)
+    if (fBegin == ::_DAT_010231b0 && m_fEndValue == ::DAT_010241b0)
         m_fEndValue = fBegin = 0.0f;
     else
     {
@@ -501,11 +513,10 @@ int SplineShell::v60()
 
 struct Basis
 {
-    void* FUN_00a62660();
 };
 
 // @fnv 0x00a57e00
-int __thiscall SplineShell::FUN_00a57e00(int param)
+int SplineShell::FUN_00a57e00(int param)
 {
     int r0 = this->v52();
     if ((unsigned short)param < (unsigned short)r0)
@@ -515,7 +526,7 @@ int __thiscall SplineShell::FUN_00a57e00(int param)
             int r1 = this->v59(param);
             if (r1 != 0xffff)
             {
-                void* p = ((Basis*)this->m_spSplineBasisData)->FUN_00a62660();
+                void* p = ((void *)&(reinterpret_cast<::FUN_00a62660_cls *>((((Basis*)this->m_spSplineBasisData)))->FUN_00a62660()));
                 return *(int*)p;
             }
         }
@@ -569,7 +580,6 @@ template <class T> struct A57E90Pointer
 class A57E90Controller : public A57E90Object
 {
   public:
-    bool BaseIsEqual(A57E90Object* pkObject);
     bool FUN_00a57e90(A57E90Object* pkObject);
 
     int unk04;
@@ -583,7 +593,7 @@ class A57E90Controller : public A57E90Object
 // @fnv 0x00a57e90
 bool A57E90Controller::FUN_00a57e90(A57E90Object* pkObject)
 {
-    if (!BaseIsEqual(pkObject))
+    if (!reinterpret_cast<::FUN_00ba87d0_Class *>(this)->FUN_00ba87d0((::NiObj_s *)(pkObject)))
         return false;
     A57E90Controller* pkOther = (A57E90Controller*)pkObject;
     if (m_fLow == pkOther->m_fLow && m_fHigh == pkOther->m_fHigh)
@@ -779,7 +789,6 @@ struct S_00a58160_Stream
 
 struct S_00a58160_Foo : NiBSplineInterpolator
 {
-    void FUN_00a724d0(S_00a58160_Stream* s);
     void SaveToStream(S_00a58160_Stream* s);
 };
 
@@ -787,7 +796,7 @@ struct S_00a58160_Foo : NiBSplineInterpolator
 // @fnv 0x00a58160
 void S_00a58160_Foo::SaveToStream(S_00a58160_Stream* pStream)
 {
-    FUN_00a724d0(pStream);
+    ::FUN_00a724d0();
     pStream->unk250->Save(&m_fStartTime);
     pStream->unk250->Save(&m_fEndTime);
     pStream->f12(m_spTransformData);
@@ -798,14 +807,12 @@ class BA58200StringArray
 {
   public:
     virtual ~BA58200StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -820,10 +827,7 @@ class BA58200StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcA58200Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
-char* __cdecl FUN_00a7d550(const char* pcName, float fValue);
 
 class BA58200Object
 {
@@ -873,7 +877,6 @@ template <class T> class BA58200Pointer
 class BA58200Sequence
 {
   public:
-    void BaseGetViewerStrings(BA58200StringArray* pkStrings);
     void FUN_00a58200(BA58200StringArray* pkStrings);
 
     int unk00;
@@ -888,8 +891,8 @@ class BA58200Sequence
 // @fnv 0x00a58200
 void BA58200Sequence::FUN_00a58200(BA58200StringArray* pkStrings)
 {
-    BaseGetViewerStrings(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_pcA58200Name));
+    ::FUN_00a570b0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)this);
+    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f4240))));
     pkStrings->Add(FUN_00a7d550("m_fStartTime", m_fStartTime));
     pkStrings->Add(FUN_00a7d550("m_fEndTime", m_fEndTime));
     if (m_spFirst)

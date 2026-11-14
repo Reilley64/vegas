@@ -1,9 +1,20 @@
-// Unit-local declaration extension; copied pack declarations remain otherwise unchanged.
-// Source layout: TESForm. PC corrections are in generate_headers.py.
+// TESForm: the shared declaration in include/fnv/tes_form.h. A unit that
+// defines FNV_KEEPS_OWN_TESFORM gets its former copy below instead (source
+// layout: TESForm; PC corrections are in generate_headers.py).
 #ifndef FNV_TESFORM_H
 #define FNV_TESFORM_H
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
+enum ENUM_FORM_ID;
+#ifdef FNV_KEEPS_OWN_TESFORM
 class TESForm : public BaseFormComponent
 {
   public:
@@ -90,19 +101,12 @@ class TESForm : public BaseFormComponent
     TESForm();
     static TESForm* GetFormByID(unsigned int auiFormID);
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    ::ENUM_FORM_ID GetFormType() const;
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
+#else
+#include "fnv/tes_form.h"
+#endif
 #endif

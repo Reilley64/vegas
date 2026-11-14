@@ -1,5 +1,23 @@
 // fallout_shared/magic/magicitemobject.cpp: MagicItemObject, MagicItemObjectShell (5 functions)
 
+#include "fnv/decl/B5B10Owner.h"
+#include "fnv/decl/EffectItemList4056.h"
+#include "fnv/decl/EffectListCmp.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/List.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
 #include "magicitemobject_decls.h"
 // @fnv 0x0040c9d0
 void MagicItemObject::InitItem()
@@ -16,14 +34,14 @@ void MagicItemObject::InitItem()
 bool MagicItemObject::Load(TESFile* file)
 {
     int chunk;
-    LoadRecordHeader(file);
-    while (chunk = file->GetChunkID())
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    while (chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
         switch (chunk)
         {
         case 0x44494445: {
-            char* editor = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editor, 512);
+            char* editor = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editor), 512);
             SetEditorID_AtRuntime(editor);
             break;
         }
@@ -31,44 +49,40 @@ bool MagicItemObject::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 0x44494645:
         case 0x41445443:
-            effectList.Load(file, GetFullName());
+            reinterpret_cast<::List *>(&(effectList))->FUN_00405760((::File *)(file), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(this)->FUN_00408da0())));
             break;
         }
         Unk_10(file, chunk);
         if (chunk == GetTypeSignature())
         {
             memset(Unk_0A(), 0, Unk_0B());
-            file->GetChunkData(Unk_0A(), Unk_0B());
-            if (file->GetChunkData())
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(Unk_0A()), Unk_0B());
+            if (file->IsEndianConversionRequired())
                 vfn_180();
         }
         if (!file->NextChunk())
             break;
     }
     if (!effectList.effects.ItemsInList())
-        Warning("GAME EFFECTS: Effect Item (%08X) %s has no effects defined.", GetFormID(), GetFullName());
+        ::FUN_005b5e40();
     return true;
 }
 
 struct FUN_004855a0
 {
-    void M(void);
 };
 struct FUN_00485680
 {
-    void M(void);
 };
 struct DoorPart30
 {
-    void FUN_00487010(void);
 };
-void __fastcall FUN_004056d0(void*);
 
-struct FUN_0040c5f0_shell
+struct FUN_0040c5f0_shell : ::MagicItemObject
 {
     void FUN_0040c5f0();
 };
@@ -77,12 +91,12 @@ struct FUN_0040c5f0_shell
 // @fnv 0x0040c5f0
 void FUN_0040c5f0_shell::FUN_0040c5f0()
 {
-    ((FUN_004855a0*)this)->M();
-    ((DoorPart30*)((char*)this + 0x30))->FUN_00487010();
-    (*(void(__thiscall**)(void*))(*(int*)((char*)this + 0x30) + 0x38))((char*)this + 0x30);
-    (*(void(__thiscall**)(void*))(*(int*)((char*)this + 0x30) + 0x3c))((char*)this + 0x30);
-    FUN_004056d0((char*)this + 0x3c);
-    ((FUN_00485680*)this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((DoorPart30*)static_cast<MagicItem *>(this))))->FUN_00487010();
+    (*(void(**)(void*))(*(std::intptr_t*)((char*)this + 0x30) + 0x38))((char*)static_cast<MagicItem *>(this));
+    (*(void(**)(void*))(*(std::intptr_t*)((char*)this + 0x30) + 0x3c))((char*)static_cast<MagicItem *>(this));
+    reinterpret_cast<::EffectItemList4056 *>(((char*)this + 0x3c))->FUN_004056d0();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 struct MagicItemCompare
@@ -104,12 +118,10 @@ struct MagicItemCompare
 };
 struct EffectListCompare
 {
-    bool FUN_00405a00(EffectItemList* other);
 };
 struct MagicItemObjectShell : TESForm, MagicItemCompare
 {
     EffectItemList effectList;
-    bool FUN_00485270(TESForm* other);
     bool FUN_0040c870(TESForm* other);
 };
 // @fnv 0x0040c870
@@ -118,11 +130,11 @@ bool MagicItemObjectShell::FUN_0040c870(TESForm* other)
     MagicItemObject* converted = dynamic_cast<MagicItemObject*>(other);
     if (!converted)
         return true;
-    if (FUN_00485270(other))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(other))
         return true;
     if (CompareMagic(static_cast<MagicItem*>(converted)))
         return true;
-    if (reinterpret_cast<EffectListCompare*>(&effectList)->FUN_00405a00(converted ? &converted->effectList : 0))
+    if (reinterpret_cast<::EffectListCmp *>((reinterpret_cast<EffectListCompare*>(&effectList)))->FUN_00405a00((::EffectListCmp *)(::EffectItemList *)(converted ? &converted->effectList : 0)))
         return true;
     return false;
 }
@@ -147,7 +159,6 @@ struct FUN_0040c930_m30
 
 struct FUN_00405b10_Obj
 {
-    void CopyItemsFromList(int other);
 };
 
 struct FUN_005054b0_shell
@@ -169,25 +180,22 @@ struct FUN_005054b0_shell
     int unk38;
     FUN_00405b10_Obj m3c;
 
-    void FUN_004851b0(TESForm* other);
     void FUN_0040c930(TESForm* arg);
 };
 
-extern int DAT_01183028;
 extern int DAT_011830e8;
 
-MagicItemObject* __cdecl FUN_00ec43fb(TESForm* arg, int a, int* b, int* c, int d);
 
 // @fnv 0x0040c930
 void FUN_005054b0_shell::FUN_0040c930(TESForm* pForm)
 {
-    MagicItemObject* result = FUN_00ec43fb(pForm, 0, &DAT_01183028, &DAT_011830e8, 0);
+    MagicItemObject* result = dynamic_cast<::MagicItemObject *>(reinterpret_cast<::TESForm *>(pForm));
     if (!result)
         return;
 
-    FUN_004851b0(pForm);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pForm);
 
-    m30.vfn_34(result ? reinterpret_cast<MagicItem*>(reinterpret_cast<char*>(result) + 0x30) : 0);
+    m30.vfn_34(result ? static_cast<MagicItem *>(result) : 0);
 
-    m3c.CopyItemsFromList(result ? reinterpret_cast<int>(reinterpret_cast<char*>(result) + 0x3C) : 0);
+    reinterpret_cast<::B5B10Owner *>(&(m3c))->CopyItemsFromList((::EffectItemList *)(result ? reinterpret_cast<std::intptr_t>(reinterpret_cast<char*>(result) + 0x3C) : 0));
 }

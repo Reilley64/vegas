@@ -3,11 +3,27 @@
 #define FNV_BGSLISTFORM_DECLS_H
 
 
+#include "fnv/decl/BGSHungerStage.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/HungerStageData.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "BaseFormComponent.h"
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
-#pragma pack(push, 4)
 class TESForm : public BaseFormComponent
 {
   public:
@@ -91,28 +107,13 @@ class TESForm : public BaseFormComponent
     virtual bool SetEditorID_AtRuntime(const char* edid);
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
     bool GetInitialized() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static TESForm* GetFormByID(unsigned int formID);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    void LoadGame(void *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
 
-template <> class BSSimpleList<TESForm*>
-{
-  public:
-    TESForm* m_item;
-    BSSimpleList<TESForm*>* m_pkNext;
-    void FUN_004019f0();
-};
 
 class BGSListForm : public TESForm
 {
@@ -122,11 +123,10 @@ class BGSListForm : public TESForm
 
     BGSListForm();
     virtual void ClearData();
-    virtual void Revert(class BGSLoadFormBuffer* buffer);
-    virtual void LoadGame(class BGSLoadFormBuffer* buffer);
+    virtual void Revert(struct BGSLoadFormBuffer* buffer);
+    virtual void LoadGame(struct BGSLoadFormBuffer* buffer);
     virtual bool Load(class TESFile* file);
     virtual void InitItem();
-    void ClearFormList();
     void IncludeForm(TESForm* form);
 };
 
@@ -136,34 +136,17 @@ class BGSQuestObjective;
 class EffectSetting;
 class MediaSet;
 
-template <> class BSSimpleList<BGSQuestObjective*>
-{
-  public:
-    BGSQuestObjective* m_item;
-    BSSimpleList<BGSQuestObjective*>* m_pkNext;
-    bool IsInList(BGSQuestObjective*& item);
-};
 
-template <> class BSSimpleList<EffectSetting*>
-{
-  public:
-    EffectSetting* m_item;
-    BSSimpleList<EffectSetting*>* m_pkNext;
-    void AddHead(EffectSetting*& item);
-};
 
-template <> class BSSimpleList<MediaSet*>
-{
-  public:
-    MediaSet* m_item;
-    BSSimpleList<MediaSet*>* m_pkNext;
-    void AddTail(MediaSet* const& item);
-};
 
+class BGSCameraShot;
+template <class> class BSSimpleList;
 class BGSCameraPath
 {
   public:
     PerkEntryConditionSet* GetConditions();
+public:
+    ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
 
 class FormChangeMask
@@ -173,47 +156,25 @@ class FormChangeMask
     operator bool() const;
 };
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
-    unsigned int ReadFormIdentifier();
 };
 
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     FormChangeMask GetOldChangeFlags(unsigned int flags);
     FormChangeMask GetChangeFlags(unsigned int flags);
-    void ReadTypedData(void* buffer, unsigned int size);
 };
 
-TESForm* GetFormByID(unsigned int formID);
 
 class BGSRadiationStage
 {
   public:
-    void ResetFormData();
 };
 
-FNV_STATIC_ASSERT(sizeof(BGSListForm) == 36);
-FNV_STATIC_ASSERT(offsetof(BGSListForm, m_kFormList) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSListForm, m_uiFormCount) == 32);
 
 class BGSCameraShot;
 class BGSPerkEntry;
-template <> class BSSimpleList<BGSCameraShot*>
-{
-  public:
-    bool IsEmpty();
-    void SetItem(BGSCameraShot* const&);
-    void Remove(BGSCameraShot* const&);
-    void RemoveHead();
-};
-template <> class BSSimpleList<BGSPerkEntry*>
-{
-  public:
-    BGSPerkEntry*& GetItem();
-    BSSimpleList<BGSPerkEntry*>* GetNext();
-};
-int Warning(const char*, ...);
 #endif

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPSIMPLECONTACTCONSTRAINTDATAINFO_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpSimpleContactConstraintDataInfo
 {
   public:
@@ -12,7 +11,4 @@ class hkpSimpleContactConstraintDataInfo
     hkUint16 m_uiEdgeIndex;  // +0x2
     hkUint32 m_data[7];      // +0x4
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpSimpleContactConstraintDataInfo[(sizeof(hkpSimpleContactConstraintDataInfo) == 0x20) ? 1 : -1];
 #endif

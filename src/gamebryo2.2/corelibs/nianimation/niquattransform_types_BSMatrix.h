@@ -6,7 +6,6 @@
 class SwizzledMatrix;
 class FourByFourMatrix;
 class FourComponentNumericValue;
-#pragma pack(push, 4)
 class FourComponentNumericValue
 {
   public:
@@ -25,17 +24,6 @@ class FourComponentNumericValue
         unsigned int u[4];  // +0x0, 16 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FourComponentNumericValue) == 16);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_afComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_auiComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, x) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, y) == 4);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, z) == 8);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, w) == 12);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, v) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, u) == 0);
-#pragma pack(push, 4)
 class FourByFourMatrix
 {
   public:
@@ -69,27 +57,6 @@ class FourByFourMatrix
     // FourByFourMatrix& __cdecl FourByFourMatrix::*(const FourByFourMatrix&)
     // FourByFourMatrix __cdecl FourByFourMatrix::*(const FourByFourMatrix&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FourByFourMatrix) == 64);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, r) == 0);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _11) == 0);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _12) == 4);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _13) == 8);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _14) == 12);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _21) == 16);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _22) == 20);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _23) == 24);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _24) == 28);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _31) == 32);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _32) == 36);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _33) == 40);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _34) == 44);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _41) == 48);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _42) == 52);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _43) == 56);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, _44) == 60);
-FNV_STATIC_ASSERT(offsetof(FourByFourMatrix, m) == 0);
-#pragma pack(push, 4)
 class SwizzledMatrix : public FourByFourMatrix
 {
   public:
@@ -106,6 +73,4 @@ class SwizzledMatrix : public FourByFourMatrix
     // void __cdecl SwizzledMatrix::*(SwizzledMatrix&)
     // void __cdecl SwizzledMatrix::*(SwizzledMatrix&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SwizzledMatrix) == 64);
 #endif

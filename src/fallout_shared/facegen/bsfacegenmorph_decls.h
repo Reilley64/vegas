@@ -3,6 +3,16 @@
 #define BSFACEGENMORPH_DECLS_H
 
 
+#include "fnv/decl/C6533F0Holder.h"
+#include "fnv/decl/FUN_00534570_shell.h"
+#include "fnv/decl/FUN_00656fd0_shell.h"
+#include "fnv/decl/FUN_00657be0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00660000.h"
+#include "fnv/symbols_01065000.h"
 class NiTriBasedGeom;
 class BSFaceGenBaseMorphExtraData;
 class BSFaceGenMorph
@@ -13,7 +23,7 @@ class BSFaceGenMorph
     void** m_ppVirtualMethodTable;
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     NiPoint3();
@@ -51,8 +61,6 @@ class BSFaceGenMorphStatistical : public BSFaceGenMorph_d006606e0
     void ApplyDifferentialMorph(NiTriBasedGeom*, BSFaceGenBaseMorphExtraData*, float);
 };
 
-extern "C" char DAT_01065cc4[];
-extern "C" char DAT_01065cd0[];
 
 class MagicItem;
 class MagicCaster
@@ -69,21 +77,14 @@ class GeometryVertexBuffer
 
     void SetVertex(unsigned int, const NiPoint3&);
     GeometryVertexBuffer();
-    void FUN_00534570(unsigned int, NiPoint3&);
-    void CopyV3(NiPoint3&);
-    void SetPoint(const NiPoint3&);
-    void AddToA();
 };
 class NiGeometryData
 {
   public:
-    unsigned short GetVertexCount();
-    void FUN_00a67410(GeometryVertexBuffer&);
 };
 class NiGeometry
 {
   public:
-    NiGeometryData* FUN_005495f0();
 };
 class NiTriBasedGeom : public NiGeometry
 {
@@ -91,7 +92,5 @@ class NiTriBasedGeom : public NiGeometry
 class BSFaceGenBaseMorphExtraData
 {
   public:
-    NiPoint3* FUN_0084e3a0();
 };
-unsigned int MinUnsigned(unsigned int, unsigned int);
 #endif

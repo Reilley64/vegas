@@ -1,7 +1,8 @@
 // src/havok/common/base/types/hkbasetypes.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/hkbasetypes.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern unsigned char DAT_010c7948;
+#include <cstdint>
+#include "fnv/symbols_010c7000.h"
 extern unsigned char DAT_010c7b48;
 extern unsigned char DAT_010c7d48;
 extern unsigned char str_010c7d44;
@@ -17,25 +18,25 @@ struct FUN_00ca9360_cls
 FUN_00ca9360_cls* FUN_00ca9360_cls::FUN_00ca9360(const float* key)
 {
     FUN_00ca9360_cls* pResult = this;
-    unsigned lo;
-    lo = (unsigned)&DAT_010c7948;
+    uintptr_t lo;
+    lo = (uintptr_t)&(*reinterpret_cast<unsigned char *>(&::DAT_010c7948));
     int iKey = *(const int*)key;
-    unsigned hi;
-    unsigned mid;
+    uintptr_t hi;
+    uintptr_t mid;
 
     if (iKey < 0x3c23d70a)
     {
         pResult->m_00 = 0;
         return pResult;
     }
-    hi = (unsigned)&DAT_010c7d48;
+    hi = (uintptr_t)&DAT_010c7d48;
     if (iKey > 0x4358cccd)
     {
-        lo = (unsigned)&DAT_010c7b48;
+        lo = (uintptr_t)&DAT_010c7b48;
     }
     else
     {
-        hi = (unsigned)&DAT_010c7b48;
+        hi = (uintptr_t)&DAT_010c7b48;
     }
 
     mid = (hi >> 1) + (lo >> 1);
@@ -70,10 +71,12 @@ FUN_00ca9360_cls* FUN_00ca9360_cls::FUN_00ca9360(const float* key)
         hi = mid;
 
     mid = (hi >> 1) + (lo >> 1);
-    if (iKey > *(const int*)mid && mid < (unsigned)&str_010c7d44)
+    if (iKey > *(const int*)mid && mid < (uintptr_t)&str_010c7d44)
     {
         mid += 4;
     }
-    pResult->m_00 = (unsigned char)(((int)(mid - (unsigned)&DAT_010c7948)) >> 2);
+    pResult->m_00 = (unsigned char)(((int)(mid - (uintptr_t)&(*reinterpret_cast<unsigned char *>(&::DAT_010c7948)))) >> 2);
     return pResult;
 }
+
+#include "generated/data/havok/common/base/types/hkbasetypes.inc"

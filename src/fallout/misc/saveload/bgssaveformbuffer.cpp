@@ -2,15 +2,20 @@
 // src/fallout/misc/saveload/bgssaveformbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssaveformbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00853570_shell.h"
+#include "fnv/decl/FUN_00853670_shell.h"
+#include "fnv/symbols_00845000.h"
 struct FUN_00865aa0_shell
 {
     unsigned char c;
-    void __thiscall SetFlags(unsigned int a);
+    void SetFlags(unsigned int a);
 };
 
 // Stores the low 2 bits of a into the upper 2 bits of c, preserving c's lower 6 bits.
 // @fnv 0x00865aa0
-void __thiscall FUN_00865aa0_shell::SetFlags(unsigned int a)
+void FUN_00865aa0_shell::SetFlags(unsigned int a)
 {
     c = (c & 0x3f) | (a << 6);
 }
@@ -18,26 +23,26 @@ void __thiscall FUN_00865aa0_shell::SetFlags(unsigned int a)
 struct FUN_00865b10_shell
 {
     unsigned char c;
-    unsigned int __thiscall GetValuePlusNine();
+    unsigned int GetValuePlusNine();
 };
 
 unsigned int __cdecl FUN_00845d40(unsigned int);
 unsigned int __cdecl FUN_00845d70(unsigned int);
 struct _ref_0084e3a0_shell
 {
-    unsigned int __thiscall _ref_0084e3a0();
 };
 
 // Calls _ref_0084e3a0, passes the result through FUN_00845d40 and FUN_00845d70, then returns that value plus 9.
 // @fnv 0x00865b10
-unsigned int __thiscall FUN_00865b10_shell::GetValuePlusNine()
+unsigned int FUN_00865b10_shell::GetValuePlusNine()
 {
-    unsigned int value = FUN_00845d70(FUN_00845d40(reinterpret_cast<_ref_0084e3a0_shell*>(this)->_ref_0084e3a0()));
+    unsigned int value = FUN_00845d70(FUN_00845d40(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<_ref_0084e3a0_shell*>(this)))->FUN_0084e3a0()))));
     return value + 9;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void f0();
     virtual void f1();
     virtual void f2();
@@ -100,7 +105,7 @@ struct TESForm
     virtual void f59();
     virtual bool IsReference();
 };
-struct TESObjectREFR : TESForm
+class TESObjectREFR : public TESForm
 {
 };
 struct BGSSaveFormBuffer
@@ -124,9 +129,10 @@ TESObjectREFR* BGSSaveFormBuffer::GetFormAsReference()
 }
 
 namespace fnv_00865b80 {
-struct Actor;
-struct TESObjectREFR
+class Actor;
+class TESObjectREFR
 {
+  public:
     virtual void v00()
     {}
     virtual void v01()
@@ -260,7 +266,7 @@ struct TESObjectREFR
         return false;
     }
 };
-struct Actor : TESObjectREFR
+class Actor : public TESObjectREFR
 {
 };
 struct BGSSaveFormBuffer
@@ -285,13 +291,16 @@ Actor* BGSSaveFormBuffer::GetActorReference()
 }  // namespace fnv_00865b80
 
 namespace fnv_00865ad0 {
+#pragma pack(push, 1)
 struct PackedFormID
 {
-    void __thiscall WriteFormIDBytes(unsigned int a);
+    unsigned char m_ucIDByte0;
+    unsigned char m_ucIDByte1;
+    unsigned char m_ucIDByte2;
 };
 struct BGSFormInfo
 {
-    void __thiscall FUN_00853670(unsigned int a);
+    unsigned char cData;
 };
 struct BGSSaveFormBuffer
 {
@@ -300,19 +309,20 @@ struct BGSSaveFormBuffer
     unsigned int m_iChangeFlags;
     BGSFormInfo m_FormInfo;
     unsigned char m_cVersion;
-    void __thiscall InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, unsigned int aeFormType,
+    void InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, uintptr_t aeFormType,
                                   unsigned char acVersion);
 };
+#pragma pack(pop)
 
 // Stores the form ID, change flags, form type and version into this save-form buffer's fields.
 // @fnv 0x00865ad0
-void BGSSaveFormBuffer::InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, unsigned int aeFormType,
+void BGSSaveFormBuffer::InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, uintptr_t aeFormType,
                                       unsigned char acVersion)
 {
-    ((PackedFormID*)((char*)this + 0x14))->WriteFormIDBytes(aiFormID);
-    ((unsigned int*)((char*)this + 0x17))[0] = aiChangeFlags;
-    ((BGSFormInfo*)((char*)this + 0x1b))->FUN_00853670(aeFormType);
-    ((unsigned char*)this + 0x1c)[0] = acVersion;
+    reinterpret_cast<::FUN_00853570_shell *>(((&this->m_FormIDIndex)))->WriteFormIDBytes(aiFormID);
+    this->m_iChangeFlags = aiChangeFlags;
+    reinterpret_cast<::FUN_00853670_shell *>(&this->m_FormInfo)->FUN_00853670(aeFormType);
+    this->m_cVersion = acVersion;
 }
 }  // namespace fnv_00865ad0
 
@@ -354,18 +364,21 @@ FUN_008659c0::FUN_008659c0() : BGSSaveGameBuffer(), header()
     unk20 = 0;
 }
 
+struct FUN_00846330_shell;
 struct FUN_00865c80_shell
 {
     unsigned char c;
-    void __thiscall FUN_00865c80(void* buffer, unsigned int value);
+public:
+    void FUN_00865c80(::FUN_00846330_shell *, int);
 };
 struct FUN_00846330_shell
 {
-    void __thiscall WriteToFile(void* data, int size);
+public:
+    unsigned int WriteToFile(const void *, unsigned int);
 };
 
 unsigned int __cdecl FUN_00845d40(unsigned int);
-void __cdecl WriteValueByType(void*, unsigned int, unsigned int);
+#pragma pack(push, 1)
 struct FUN_00865a30_owner
 {
     int unk00;
@@ -373,17 +386,20 @@ struct FUN_00865a30_owner
     int unk08;
     int unk0c;
     int unk10;
-    int unk14;
-    int unk18;
-    void __thiscall FUN_00865a30(void* buffer);
+    unsigned char unk14[3];
+    unsigned int unk17;
+    FUN_00865aa0_shell unk1b;
+    unsigned char unk1c;
+    void FUN_00865a30(void* buffer);
 };
+#pragma pack(pop)
 // @fnv 0x00865a30
 void FUN_00865a30_owner::FUN_00865a30(void* buffer)
 {
-    unsigned int secondValue = ((_ref_0084e3a0_shell*)this)->_ref_0084e3a0();
+    unsigned int secondValue = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((_ref_0084e3a0_shell*)this)))->FUN_0084e3a0()));
     unsigned int firstValue = FUN_00845d40(secondValue);
-    ((FUN_00865aa0_shell*)((char*)this + 0x1b))->SetFlags(firstValue);
-    ((FUN_00846330_shell*)buffer)->WriteToFile((char*)this + 0x14, 9);
-    WriteValueByType(buffer, secondValue, firstValue);
-    ((FUN_00865c80_shell*)this)->FUN_00865c80(buffer, secondValue);
+    this->unk1b.SetFlags(firstValue);
+    ((FUN_00846330_shell*)buffer)->WriteToFile(this->unk14, 9);
+    ::fnv_00845d80::WriteValueByType((::fnv_00845d80::FUN_00846330_shell *)(buffer), secondValue, firstValue);
+    ((FUN_00865c80_shell*)this)->FUN_00865c80((::FUN_00846330_shell *)(buffer), secondValue);
 }

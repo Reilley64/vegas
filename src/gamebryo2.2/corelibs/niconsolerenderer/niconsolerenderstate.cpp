@@ -1,5 +1,9 @@
 // gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderstate.cpp: ShaderPassRenderer, RenderState (3 functions)
 
+#include "fnv/decl/LightManager.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00e69000.h"
+#include "fnv/symbols_0126f000.h"
 #include "niconsolerenderstate_decls.h"
 
 // @fnv 0x00e69460
@@ -8,34 +12,34 @@ unsigned int ShaderPassRenderer::Create(unsigned int useEx)
     unsigned int result = 0;
     if (!DAT_0126f0d8)
     {
-        if (!InitD3D9CreateFunctions())
+        if (!((bool)(::InitD3D9CreateFunctions())))
             goto failure;
-        if (DAT_0126f0e0 && (unsigned char)useEx)
+        if ((*reinterpret_cast<int (**)(unsigned int, DepthDevice **)>(&::DAT_0126f0e0)) && (unsigned char)useEx)
         {
             DepthDevice* device;
-            DAT_0126f0e0(32, &device);
+            (*reinterpret_cast<int (**)(unsigned int, DepthDevice **)>(&::DAT_0126f0e0))(32, &device);
             if (!device)
             {
-                NiD3DDefaultShader::SetShaderName("Create D3D9Ex instance...FAILED\n");
+                ::FUN_00a29680();
                 result = ~0u;
             }
             else
             {
                 DAT_0126f0d0 = true;
                 DAT_0126f0d8 = device;
-                NiD3DDefaultShader::SetShaderName("Create D3D9Ex instance...SUCCESSFUL\n");
+                ::FUN_00a29680();
             }
         }
         if (!DAT_0126f0d8)
         {
-            DAT_0126f0d8 = DAT_0126f0dc(32);
+            DAT_0126f0d8 = (*reinterpret_cast<DepthDevice *(**)(unsigned int)>(&::g_0126f0dc))(32);
             if (!DAT_0126f0d8)
             {
             failure:
-                NiD3DDefaultShader::SetShaderName("Create D3D9 instance...FAILED\n");
+                ::FUN_00a29680();
                 return ~0u;
             }
-            NiD3DDefaultShader::SetShaderName("Create D3D9 instance...SUCCESSFUL\n");
+            ::FUN_00a29680();
         }
     }
     return result;
@@ -45,11 +49,11 @@ struct FUN_00a77960_shell
 {
     int field0;
     int field4;
-    int __thiscall IsField4InRange();
+    int IsField4InRange();
 };
 
 // @fnv 0x00a77960
-int __thiscall FUN_00a77960_shell::IsField4InRange()
+int FUN_00a77960_shell::IsField4InRange()
 {
     if (field4 >= 4 && field4 <= 6)
         return 1;
@@ -117,7 +121,6 @@ struct RenderState
     unsigned short unk2e;
     unsigned int kind;
     unsigned int mode;
-    void FUN_00e8b740(void*);
     void ApplyRenderModes(void*, Descriptor*, RenderModes*);
 };
 // @fnv 0x00e8bb70
@@ -192,7 +195,7 @@ void RenderState::ApplyRenderModes(void* resource, Descriptor* desc, RenderModes
         device->SetState(137, 1, 0, 0);
         if (cached == invalid || resource != cached || enabled != oldEnabled)
         {
-            FUN_00e8b740(resource);
+            reinterpret_cast<::LightManager *>(this)->FUN_00e8b740((::LightInput *)(resource));
             cached = resource;
             oldEnabled = enabled;
         }
@@ -202,3 +205,5 @@ void RenderState::ApplyRenderModes(void* resource, Descriptor* desc, RenderModes
         device->SetState(137, 0, 0, 0);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderstate.inc"

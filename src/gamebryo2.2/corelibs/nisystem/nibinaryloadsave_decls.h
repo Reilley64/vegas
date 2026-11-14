@@ -20,7 +20,7 @@ template <class T> inline void NiBinaryStreamLoad(NiBinaryStream& input, T* valu
     unsigned int size = sizeof(T);
     input.BinaryRead(value, sizeof(T), &size, 1);
 }
-class NiStream
+struct NiStream
 {
   public:
     unsigned char padding[0x24c];

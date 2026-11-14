@@ -1,7 +1,78 @@
 // fallout_shared/tescontainer.cpp: TESContainer, InventoryItemEntry, DelStandIn, ContainerOperation and more (31 functions)
 
+#include <new>
+#include <cstdlib>
+#include <cstring>
+#include "fnv/decl/ActorBaseTarget.h"
+#include "fnv/decl/AddInventory.h"
+#include "fnv/decl/AmmoOwner.h"
+#include "fnv/decl/B81390ContainerObject.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ChallengeManager.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0040eb90_shell.h"
+#include "fnv/decl/FUN_00418800_shell.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_00419ad0_shell.h"
+#include "fnv/decl/FUN_00419ed0_shell.h"
+#include "fnv/decl/FUN_00419f80_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00452e90_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00487620.h"
+#include "fnv/decl/FUN_00487980_shell.h"
+#include "fnv/decl/FUN_00488350_shell.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_005abf60_shell.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0088d7d0_shell.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/Fn40ea20.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/PickupSoundActorView.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESBipedModelForm.h"
+#include "fnv/decl/TESWeightForm.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0041d280__FUN_0041d280_shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00574fa0__AddBoundItemRef.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004c0000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101c000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 #include "tescontainer_decls.h"
 #include "BaseFormComponent.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_0040e7f0_owner.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 
 class ContainerItemExtra
 {
@@ -17,9 +88,11 @@ class ContainerItemExtra
     ContainerItemExtra();
     void Copy(ContainerItemExtra* other);
     bool IsDefault();
+public:
+    bool Compare(::ContainerItemExtra *);
 };
 
-class InventoryItemEntry
+struct InventoryItemEntry
 {
   public:
     int count;
@@ -64,8 +137,6 @@ class TESContainer : public BaseFormComponent
   public:
     BSSimpleList<InventoryStackRecord*> objectList;
     virtual void Init();
-    BSSimpleList<InventoryStackRecord*>* GetObjectList();
-    void AddObject(InventoryItemEntry* object);
     void ClearObjects();
     void InitItem(TESForm* form);
     virtual void Free();
@@ -76,13 +147,6 @@ class TESContainer : public BaseFormComponent
     static bool IsValidContainerType(unsigned char type);
     TESContainer();
 };
-
-// Constructs a TESContainer, initializing its objectList and calling Init().
-// @fnv 0x00481610
-TESContainer::TESContainer() : objectList()
-{
-    Init();
-}
 
 // @fnv 0x004816e0
 void TESContainer::Free()
@@ -96,37 +160,19 @@ TESContainer::~TESContainer()
     Free();
 }
 
-// Copies the object list from the source TESContainer component into this container, adding each item.
-// @fnv 0x00481c80
-void TESContainer::CopyFromBase(BaseFormComponent* component)
-{
-    CopyComponentState state;
-    state.source = dynamic_cast<TESContainer*>(component);
-    if (state.source == 0)
-        return;
-    ClearObjects();
-    state.list = state.source->GetObjectList();
-    while (state.list != 0 && !state.list->IsEmpty())
-    {
-        InventoryItemEntry* item = reinterpret_cast<InventoryItemEntry*>(state.list->GetItem());
-        AddObject(item);
-        state.list = state.list->GetNext();
-    }
-}
-
 // Searches the container's object list for an entry whose object pointer equals object and returns whether one is found.
 // @fnv 0x00481eb0
 bool TESContainer::HasObjectOfType(TESObject* object)
 {
-    BSSimpleList<InventoryStackRecord*>* list = GetObjectList();
-    if (list->GetItem() == 0)
+    BSSimpleList<InventoryStackRecord*>* list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
+    if ((list->m_item) == 0)
         list = 0;
     while (list != 0)
     {
-        InventoryItemEntry* item = reinterpret_cast<InventoryItemEntry*>(list->GetItem());
+        InventoryItemEntry* item = reinterpret_cast<InventoryItemEntry*>((list->m_item));
         if (item->object == object)
             return true;
-        list = list->GetNext();
+        list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
     return false;
 }
@@ -137,12 +183,12 @@ int TESContainer::GetObjectCount(TESObject* object)
 {
     ContainerCountState state;
     state.count = 0;
-    state.list = GetObjectList();
-    while (state.list != 0 && state.list->GetItem() != 0)
+    state.list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
+    while (state.list != 0 && (state.list->m_item) != 0)
     {
-        if (reinterpret_cast<InventoryItemEntry*>(state.list->GetItem())->object == object)
-            state.count += reinterpret_cast<InventoryItemEntry*>(state.list->GetItem())->count;
-        state.list = state.list->GetNext();
+        if (reinterpret_cast<InventoryItemEntry*>((state.list->m_item))->object == object)
+            state.count += reinterpret_cast<InventoryItemEntry*>((state.list->m_item))->count;
+        state.list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((state.list))->FUN_00726070()));
     }
     return state.count;
 }
@@ -178,9 +224,9 @@ bool TESContainer::IsValidContainerType(unsigned char type)
 // @fnv 0x00481700
 void TESContainer::ClearObjects()
 {
-    BSSimpleList<InventoryStackRecord*>* list = GetObjectList();
+    BSSimpleList<InventoryStackRecord*>* list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     InventoryItemEntry* item;
-    while ((item = reinterpret_cast<InventoryItemEntry*>(list->GetItem())) != 0)
+    while ((item = reinterpret_cast<InventoryItemEntry*>((list->m_item))) != 0)
     {
         InventoryItemEntry* deletion = item;
         InventoryItemEntry* temporary = deletion;
@@ -192,18 +238,18 @@ void TESContainer::ClearObjects()
 // @fnv 0x00481bb0
 void TESContainer::InitItem(TESForm* form)
 {
-    BSSimpleList<InventoryStackRecord*>* list = GetObjectList();
+    BSSimpleList<InventoryStackRecord*>* list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     BSSimpleList<InventoryStackRecord*>* previous = 0;
     while (list != 0 && !list->IsEmpty())
     {
-        InventoryItemEntry* item = reinterpret_cast<InventoryItemEntry*>(list->GetItem());
-        item->InitItem(form);
+        InventoryItemEntry* item = reinterpret_cast<InventoryItemEntry*>((list->m_item));
+        reinterpret_cast<::B81390ContainerObject *>((item))->FUN_00481390(form);
         if (item->object == 0)
         {
             if (previous != 0)
             {
-                previous->Remove(reinterpret_cast<InventoryStackRecord* const&>(item));
-                list = previous->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330(reinterpret_cast<InventoryStackRecord* const&>(item));
+                list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
             {
@@ -217,7 +263,7 @@ void TESContainer::InitItem(TESForm* form)
         else
         {
             previous = list;
-            list = list->GetNext();
+            list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
         }
     }
 }
@@ -231,6 +277,23 @@ struct FUN_00481a90_shell : TESContainer
 {
     void AddContainerCopy(InventoryItemEntry* object);
 };
+// Copies the object list from the source TESContainer component into this container, adding each item.
+// @fnv 0x00481c80
+void TESContainer::CopyFromBase(BaseFormComponent* component)
+{
+    CopyComponentState state;
+    state.source = dynamic_cast<TESContainer*>(component);
+    if (state.source == 0)
+        return;
+    ClearObjects();
+    state.list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>((state.source))->GetCurrentProcessData()));
+    while (state.list != 0 && !state.list->IsEmpty())
+    {
+        InventoryItemEntry* item = reinterpret_cast<InventoryItemEntry*>((state.list->m_item));
+        reinterpret_cast<::FUN_00481a90_shell *>(this)->AddContainerCopy(item);
+        state.list = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((state.list))->FUN_00726070()));
+    }
+}
 
 // If object is non-null, allocates a ContainerObjectNew, copies object into it, and adds it to the head of the object list.
 // @fnv 0x00481a90
@@ -240,7 +303,7 @@ void FUN_00481a90_shell::AddContainerCopy(InventoryItemEntry* object)
         return;
     InventoryItemEntry* newObj = new ContainerObjectNew;
     newObj->Copy(object);
-    GetObjectList()->AddHead((InventoryStackRecord*&)newObj);
+    ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()))->AddHead((InventoryStackRecord*&)newObj);
 }
 
 struct FUN_00481fd0_shell : public TESContainer
@@ -248,8 +311,6 @@ struct FUN_00481fd0_shell : public TESContainer
     void AddAllFromContainer(TESContainer*);
 };
 
-InventoryItemEntry** __fastcall _ref_006815c0(void*);
-void* __fastcall _ref_00726070(void*);
 
 struct TeleportableReference
 {
@@ -268,16 +329,16 @@ void FUN_00481fd0_shell::AddAllFromContainer(TESContainer* apAddCont)
 {
     if (apAddCont)
     {
-        void* pListEntry = apAddCont->GetObjectList();
+        void* pListEntry = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>((apAddCont))->GetCurrentProcessData()));
         while (pListEntry)
         {
-            InventoryItemEntry* pcont = *_ref_006815c0(pListEntry);
+            InventoryItemEntry* pcont = *((::InventoryItemEntry **)((void *)(pListEntry)));
             if (pcont)
             {
                 reinterpret_cast<TESContainer_Add*>(this)->AddObject(static_cast<TESForm*>(pcont->object), pcont->count,
                                                                      pcont->extra);
             }
-            pListEntry = _ref_00726070(pListEntry);
+            pListEntry = reinterpret_cast<::Callees *>((pListEntry))->FUN_00726070();
         }
     }
 }
@@ -287,22 +348,20 @@ struct FUN_00482040_shell : public TESContainer
     void ScaleEntryCounts(int);
 };
 
-InventoryItemEntry** __fastcall _ref_006815c0(void*);
-void* __fastcall _ref_00726070(void*);
 
 // Walks the object list and multiplies each contained entry's count by aiMult.
 // @fnv 0x00482040
 void FUN_00482040_shell::ScaleEntryCounts(int aiMult)
 {
-    void* pCurrentElementNext = (void*)GetObjectList();
+    void* pCurrentElementNext = (void*)((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     while (pCurrentElementNext)
     {
-        InventoryItemEntry* pcont = *_ref_006815c0(pCurrentElementNext);
+        InventoryItemEntry* pcont = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
         if (pcont)
         {
             pcont->count *= aiMult;
         }
-        pCurrentElementNext = _ref_00726070(pCurrentElementNext);
+        pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
     }
 }
 
@@ -312,38 +371,35 @@ struct FUN_00482090_shell : public TESContainer
     void FUN_00482090(float);
 };
 
-class NiPoint3;
-class TeleportableReference
+struct NiPoint3;
+struct TeleportableReference
 {
   public:
     NiPoint3 const& GetPosition(void);
 };
-bool __fastcall _ref_008256d0(void* pThis);
-InventoryItemEntry** __fastcall _ref_006815c0(void* pThis);
-void* __fastcall _ref_00726070(void* pThis);
+bool _ref_008256d0(void* pThis);
 
 struct ContainerItemExtra_helper
 {
-    void FUN_0040eb90(float);
 };
 
 // Walks the container's item list, creating each item's extra data if missing, applies afHealthPerc to it, and deletes extras that become default.
 // @fnv 0x00482090
 void FUN_00482090_shell::FUN_00482090(float afHealthPerc)
 {
-    void* pCurrentElementNext = (void*)&((TeleportableReference*)this)->GetPosition();
+    void* pCurrentElementNext = (void*)&(*(const ::fnv_00482090::NiPoint3 *)(reinterpret_cast<::BaseProcess *>((((TeleportableReference*)this)))->GetCurrentProcessData()));
     while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
     {
-        InventoryItemEntry* pcont = *_ref_006815c0(pCurrentElementNext);
+        InventoryItemEntry* pcont = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
         if (!pcont->extra)
             pcont->extra = new ContainerItemExtra;
-        ((ContainerItemExtra_helper*)pcont->extra)->FUN_0040eb90(afHealthPerc);
+        reinterpret_cast<::FUN_0040eb90_shell *>((((ContainerItemExtra_helper*)pcont->extra)))->FUN_0040eb90(afHealthPerc);
         if (pcont->extra->IsDefault())
         {
             delete pcont->extra;
             pcont->extra = 0;
         }
-        pCurrentElementNext = _ref_00726070(pCurrentElementNext);
+        pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
     }
 }
 }  // namespace fnv_00482090
@@ -357,18 +413,18 @@ struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct LeveledObject;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct TESActorBase;
-struct TESBoundObject;
-struct TESForm;
+class TESActorBase;
+class TESBoundObject;
+class TESForm;
 struct TESGlobal;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -380,8 +436,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESLeveledList : public BaseFormComponent
+class TESLeveledList : public BaseFormComponent
 {
+  public:
     virtual unsigned char GetChanceNone();
     virtual bool UsesAllEntries();
     virtual int GetMaxLevelDifference();
@@ -402,8 +459,6 @@ struct TESLeveledList : public BaseFormComponent
     void DeleteLeveledObject(LeveledObject*);
     void SelectLeveledObject(unsigned short, TESForm**, unsigned short*, ContainerItemExtra**, bool, int);
     void PopulateContainerWithLeveledItems(unsigned short, unsigned short, TESContainer*, int);
-    void PopulateContainerFromReference(TESObjectREFR*, TESContainer*);
-    void ClearScriptAddedLeveledObjects();
     void AddScriptAddedLeveledObject(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
     void SaveGame(BGSSaveFormBuffer*);
     void LoadGame(BGSLoadFormBuffer*);
@@ -422,9 +477,8 @@ struct TESLeveledList : public BaseFormComponent
     TESGlobal* m_pLevelGlobal;
     char m_kLeveledObjects[8];
 };
-typedef char _sizecheck_TESLeveledList[sizeof(TESLeveledList) == 28 ? 1 : -1];
 
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 struct TESLevPad
 {
@@ -470,23 +524,21 @@ TESLeveledList* __cdecl FUN_00487be0(TESForm* apForm)
     return pLeveledList;
 }
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
-    void* Destroy(unsigned int flags);
+    void* Destroy_00481760(unsigned int flags);
 };
 // Runs the destructor on this object, frees it with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00481760
-void* DelStandIn::Destroy(unsigned int flags)
+void* DelStandIn::Destroy_00481760(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::FUN_00487620 *>((((DtorStandIn*)this)))->FUN_00487620::~FUN_00487620();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -500,14 +552,14 @@ struct ContainerChanges;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESForm;
-struct TESObject;
+class TESBoundObject;
+class TESForm;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TESWaterForm;
 struct blob8
 {
@@ -529,18 +581,17 @@ InventoryItemEntry* FUN_004817f0_shell::AddContainerObject(ContainerChanges* apO
     if (!apObj)
         return 0;
     InventoryItemEntry* pcobj;
-    BSSimpleList<InventoryStackRecord*>* pList = GetObjectList();
+    BSSimpleList<InventoryStackRecord*>* pList = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     pcobj = new ContainerObjectNew;
     pcobj->object = *(void**)apObj;
     pcobj->count = ((int*)apObj)[1];
-    GetObjectList()->AddHead(reinterpret_cast<InventoryStackRecord*&>(pcobj));
+    ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()))->AddHead(reinterpret_cast<InventoryStackRecord*&>(pcobj));
     return pcobj;
 }
 }  // namespace fnv_004817f0
 
 struct CompareHelper
 {
-    bool Compare(ContainerItemExtra* other);
 };
 
 struct FUN_00481470_shell
@@ -565,36 +616,32 @@ bool FUN_00481470_shell::IsNotEqual(InventoryItemEntry* apCompare)
         return true;
     if (!extra && apCompare->extra && !apCompare->extra->IsDefault())
         return true;
-    if (extra && apCompare->extra && ((CompareHelper*)extra)->Compare(apCompare->extra))
+    if (extra && apCompare->extra && reinterpret_cast<::ContainerItemExtra *>((((CompareHelper*)extra)))->Compare(apCompare->extra))
         return true;
     return false;
 }
 
 struct FUN_0084e3a0_shell
 {
-    int __thiscall FUN_0084e3a0();
 };
 
 // @fnv 0x00481f10
 bool __cdecl FUN_00481f10(TESObject* pObj)
 {
-    if (pObj && ((FUN_0084e3a0_shell*)pObj)->FUN_0084e3a0() == 0xF)
+    if (pObj && reinterpret_cast<::FUN_0084e3a0_Class *>((((FUN_0084e3a0_shell*)pObj)))->FUN_0084e3a0() == 0xF)
         return true;
     return false;
 }
 
 namespace fnv_004818e0 {
-void* __cdecl operator new(unsigned int);
 namespace N {
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     bool _ref_008256d0();
-    InventoryItemEntry** _ref_006815c0();
-    BSSimpleList* GetNext();
 };
-struct ContainerItemExtra
+class ContainerItemExtra
 {
-    bool Compare(::ContainerItemExtra*);
 };
 }
 struct TgtOps
@@ -623,22 +670,22 @@ InventoryItemEntry* FUN_004818e0_t::FUN_004818e0(TESObject* apObj, int aiCount, 
     N::BSSimpleList* pCurrentElementNext;
     InventoryItemEntry* pcobj;
     pcobj = 0;
-    pCurrentElementNext = (N::BSSimpleList*)((TgtOps*)this)->GetPosition();
+    pCurrentElementNext = (N::BSSimpleList*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)this)))->GetCurrentProcessData()));
     while (pCurrentElementNext && !pCurrentElementNext->_ref_008256d0())
     {
-        pcobj = *pCurrentElementNext->_ref_006815c0();
+        pcobj = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
         if (pcobj->object == apObj)
         {
             if (pcobj->extra)
             {
-                if (apExtra && !((N::ContainerItemExtra*)pcobj->extra)->Compare(apExtra))
+                if (apExtra && !reinterpret_cast<::ContainerItemExtra *>((((N::ContainerItemExtra*)pcobj->extra)))->Compare(apExtra))
                     break;
             }
             else if (!apExtra)
                 break;
         }
         pcobj = 0;
-        pCurrentElementNext = pCurrentElementNext->GetNext();
+        pCurrentElementNext = ((::fnv_004818e0::N::BSSimpleList *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
     if (pcobj)
     {
@@ -654,35 +701,35 @@ InventoryItemEntry* FUN_004818e0_t::FUN_004818e0(TESObject* apObj, int aiCount, 
             pcobj->extra = new ContainerItemExtra;
             pcobj->extra->Copy(apExtra);
         }
-        ((G2*)((TgtOps*)this)->GetPosition())->AddHead((int*)&pcobj);
+        ((G2*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)this)))->GetCurrentProcessData())))->AddHead((int*)&pcobj);
     }
     return pcobj;
 }
 }  // namespace fnv_004818e0
 
 namespace fnv_00482770 {
-struct Actor;
+class Actor;
 struct ActorCause;
 struct ActorPackageData;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSAcousticSpace;
-struct BGSEncounterZone;
+class BGSAcousticSpace;
+class BGSEncounterZone;
 struct BGSListForm;
 struct BGSLoadFormBuffer;
 struct BGSMusicType;
-struct BGSPrimitive;
+class BGSPrimitive;
 struct BGSSaveFormBuffer;
 struct BGSTalkingActivator;
-struct BSExtraData;
+class BSExtraData;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
 struct BSOcclusionPlane;
 struct BSPortal;
 struct SoundPlaybackHandle;
-struct BaseExtraList;
+class BaseExtraList;
 struct BipedAnim;
 struct CellMopp;
 struct CollisionData;
@@ -690,23 +737,23 @@ struct Crime;
 struct TeleportableReference;
 struct ExtraAction;
 struct ExtraActorCause;
-struct ExtraAmmo;
+class ExtraAmmo;
 struct ExtraAnim;
 struct ExtraAshPileReference;
 struct ExtraAudioBuoyMarker;
 struct ExtraAudioMarker;
 struct ExtraCannotWearData;
-struct ExtraDataList;
-struct ExtraDismemberedLimbs;
-struct ExtraFactionChanges;
-struct ExtraFollower;
+class ExtraDataList;
+class ExtraDismemberedLimbs;
+class ExtraFactionChanges;
+class ExtraFollower;
 struct ExtraFollowerSwimBreadcrumbs;
-struct ExtraLeveledItem;
+class ExtraLeveledItem;
 struct ExtraLight;
 struct ExtraLock;
 struct ExtraMapMarker;
 struct ExtraNavMeshPortal;
-struct ExtraRefractionProperty;
+class ExtraRefractionProperty;
 struct ExtraSayToTopicInfo;
 struct ExtraSayTopicInfoOnceADay;
 struct ExtraStartingPosition;
@@ -715,11 +762,11 @@ struct ExtraTeleport;
 struct PositionRotation;
 struct ImpactSwap;
 struct InventoryIterator;
-struct InventoryStackRecord;
-struct MapMarkerData;
+class InventoryStackRecord;
+class MapMarkerData;
 struct MenuTopic;
-struct Point3Offset;
-struct NiNode;
+class Point3Offset;
+class NiNode;
 struct NiPoint3;
 struct NiRenderedTexture;
 struct IndexedPointerCollection;
@@ -728,37 +775,37 @@ struct PatrolRefData;
 struct LinkedReferencePair;
 struct RadioReferenceData;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceFloatEntry;
-struct RagDollData;
+class RagDollData;
 struct PointerFlagNode;
 struct TopicInfoVisitRecord;
-struct Script;
+class Script;
 struct ScriptLocals;
 struct SeenData;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESClimate;
 struct TESCombatStyle;
 struct TESFaction;
-struct TESForm;
+class TESForm;
 struct TESGlobal;
 struct TESImageSpace;
 struct TESLevItem;
-struct TESModel;
-struct TESNPC;
-struct TESObject;
-struct TESObjectCELL;
-struct TESObjectLAND;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
-struct TESRegionList;
-struct TESTopic;
-struct TESTopicInfo;
+class TESModel;
+class TESNPC;
+class TESObject;
+class TESObjectCELL;
+class TESObjectLAND;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
+class TESRegionList;
+class TESTopic;
+class TESTopicInfo;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct TrespassPackage;
 struct WorldLocation;
 struct WaterZone;
@@ -883,63 +930,47 @@ struct InventoryChanges
     bool m_bChanged;
     char _pad_11[3];
 };
-typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 struct FUN_00482770_shell : public TESContainer
 {
     void AddLeveledItemsToChanges(int, InventoryChanges*);
 };
 
-struct ExtraDataList
+class ExtraDataList
 {
+  public:
     char pad[0x20];
     ExtraDataList();
-    void SetLeveledItemIndex(int);
 };
 struct FUN_00419ad0_shell
 {
-    void FUN_00419ad0(unsigned short);
 };
 struct TESHealthForm
 {
-    static TESHealthForm* __cdecl GetFormAsHealthForm(TESForm*);
 };
 struct Fn40ea20
 {
-    void FUN_0040ea20(ExtraDataList*, TESHealthForm*);
 };
-struct TESForm
+class TESForm
 {
+  public:
     void SetFormFlags(int);
 };
 struct FUN_004c29a0_t
 {
-    void FUN_004c29a0(void*, ExtraDataList*, int);
 };
 struct PatrolActorPackageData
 {
-    bool IsPatrolling();
 };
 struct BGSSaveLoadGame
 {
-    bool FUN_0042ce10();
-    bool IsFlag20Set();
 };
 struct GridArray
 {
-    TESForm* GetCenterX();
 };
 struct TgtOps
 {
     void* GetPosition();
 };
-struct ContList
-{
-    bool _ref_008256d0();
-    InventoryItemEntry** _ref_006815c0();
-    ContList* GetNext();
-};
-extern PatrolActorPackageData* g_osGlobals;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 // @fnv 0x00482770
 void FUN_00482770_shell::AddLeveledItemsToChanges(int aiLevItemIndex, InventoryChanges* apChanges)
@@ -947,27 +978,26 @@ void FUN_00482770_shell::AddLeveledItemsToChanges(int aiLevItemIndex, InventoryC
     bool bhadChanges = false;
     if (apChanges)
     {
-        ContList* pCurrentElementNext = (ContList*)((TgtOps*)this)->GetPosition();
-        while (pCurrentElementNext && !pCurrentElementNext->_ref_008256d0())
+        ::BSSimpleList< ::InventoryStackRecord *>* pCurrentElementNext = (::BSSimpleList< ::InventoryStackRecord *>*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)this)))->GetCurrentProcessData()));
+        while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
         {
-            InventoryItemEntry* pcont = *pCurrentElementNext->_ref_006815c0();
+            InventoryItemEntry* pcont = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
             if (pcont)
             {
                 bhadChanges = true;
                 ExtraDataList* pextra = new ExtraDataList();
-                pextra->SetLeveledItemIndex(aiLevItemIndex);
-                ((FUN_00419ad0_shell*)pextra)->FUN_00419ad0(pcont->count);
+                reinterpret_cast<::fnv_0041d280::FUN_0041d280_shell *>((pextra))->SetLeveledItemIndex(aiLevItemIndex);
+                reinterpret_cast<::FUN_00419ad0_shell *>((((FUN_00419ad0_shell*)pextra)))->FUN_00419ad0(pcont->count);
                 if (pcont->extra)
-                    ((Fn40ea20*)pcont->extra)
-                        ->FUN_0040ea20(pextra, TESHealthForm::GetFormAsHealthForm((TESForm*)pcont->object));
-                ((FUN_004c29a0_t*)apChanges)->FUN_004c29a0(pcont->object, pextra, pcont->count);
+                    reinterpret_cast<::Fn40ea20 *>((((Fn40ea20*)pcont->extra)))->FUN_0040ea20((::ExtraL *)(pextra), (::HealthForm *)(::fnv_00482770::TESHealthForm *)(((::fnv_00482770::TESHealthForm *)(::GetHealthForm((::TESForm *)(::fnv_00482770::TESForm *)((TESForm*)pcont->object))))));
+                reinterpret_cast<::AddInventory *>((((FUN_004c29a0_t*)apChanges)))->FUN_004c29a0((::AddForm *)(pcont->object), (::AddExtra *)(pextra), pcont->count);
             }
-            pCurrentElementNext = pCurrentElementNext->GetNext();
+            pCurrentElementNext = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
-        if (bhadChanges && ((GridArray*)apChanges)->GetCenterX() && g_osGlobals->IsPatrolling())
+        if (bhadChanges && ((::fnv_00482770::TESForm *)(reinterpret_cast<::Callees *>((((GridArray*)apChanges)))->FUN_00726070())) && reinterpret_cast<::PatrolActorPackageData *>(((*reinterpret_cast<::fnv_00482770::PatrolActorPackageData * *>(&::g_osGlobals))))->IsPatrolling())
         {
-            if (!g_BGSSaveLoadGame->FUN_0042ce10() || g_BGSSaveLoadGame->IsFlag20Set())
-                ((GridArray*)apChanges)->GetCenterX()->SetFormFlags(0x8000000);
+            if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00482770::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10() || reinterpret_cast<::FUN_00452e90_Class *>(((*reinterpret_cast<::fnv_00482770::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->IsFlag20Set())
+                ((::fnv_00482770::TESForm *)(reinterpret_cast<::Callees *>((((GridArray*)apChanges)))->FUN_00726070()))->SetFormFlags(0x8000000);
         }
     }
 }
@@ -975,7 +1005,6 @@ void FUN_00482770_shell::AddLeveledItemsToChanges(int aiLevItemIndex, InventoryC
 
 struct RefH
 {
-    bool IsDeleted() const;
 };
 struct ItemNode
 {
@@ -998,61 +1027,65 @@ struct FUN_00481b40_shell
 // @fnv 0x00481b40
 void FUN_00481b40_shell::FUN_00481b40()
 {
-    BSSimpleList<ItemNode*>* node = (BSSimpleList<ItemNode*>*)((TgtOps*)this)->GetPosition();
-    if (!node->GetItem())
+    BSSimpleList<ItemNode*>* node = (BSSimpleList<ItemNode*>*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)this)))->GetCurrentProcessData()));
+    if (!(node->m_item))
         node = 0;
     while (node)
     {
-        ItemNode* item = node->GetItem();
-        if (!item->ref->IsDeleted())
+        ItemNode* item = (node->m_item);
+        if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)(item->ref))->FUN_00440d80())
             ((FUN_00481310_shell*)item)->FUN_00481310();
-        node = (BSSimpleList<ItemNode*>*)node->GetNext();
+        node = (BSSimpleList<ItemNode*>*)((::BSSimpleList< ::ItemNode *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
 
 struct ObjectReference
 {
-    bool __thiscall FUN_00440d80();
 };
 struct ContainerNode
 {
-    InventoryItemEntry** __thiscall FUN_006815c0();
-    ContainerNode* __thiscall FUN_00726070();
 };
-int __cdecl FUN_00ec7d40(int);
-double __cdecl FUN_0048ebc0(void*, unsigned char);
 struct FUN_00481e10_shell
 {
-    ContainerNode* __thiscall FUN_00717e50();
-    float __thiscall FUN_00481e10(unsigned char);
+    float FUN_00481e10(unsigned char);
 };
 // @fnv 0x00481e10
-float __thiscall FUN_00481e10_shell::FUN_00481e10(unsigned char flag)
+float FUN_00481e10_shell::FUN_00481e10(unsigned char flag)
 {
     ContainerNode* node;
     float sum = 0.0f;
-    node = FUN_00717e50();
-    if (*node->FUN_006815c0() == 0)
+    node = ((::ContainerNode *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
+    if (*((::InventoryItemEntry **)((void *)(node))) == 0)
         node = 0;
     while (node != 0)
     {
-        InventoryItemEntry* entry = *node->FUN_006815c0();
-        node = node->FUN_00726070();
-        if (reinterpret_cast<ObjectReference*>(entry->object)->FUN_00440d80())
+        InventoryItemEntry* entry = *((::InventoryItemEntry **)((void *)(node)));
+        node = ((::ContainerNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        if (reinterpret_cast<::FUN_00440d80_shell *>((reinterpret_cast<ObjectReference*>(entry->object)))->FUN_00440d80())
             continue;
-        sum = static_cast<float>((double)FUN_00ec7d40(entry->count) * FUN_0048ebc0(entry->object, flag) + sum);
+        sum = static_cast<float>((double)std::abs(entry->count) * ((double)(::TESWeightForm::GetWeightForForm((::TESForm *)(entry->object), flag))) + sum);
     }
     return sum;
 }
 
-class ScriptLocals;
+struct ScriptLocals;
 class Script;
 class ExtraDataList;
 class TESForm
 {
   public:
     unsigned FUN_00401170();
+public:
+    void ClearData();
+public:
+    void NotifySaveLoadGameOfFormChange();
 };
+// Constructs a TESContainer, initializing its objectList and calling Init().
+// @fnv 0x00481610
+TESContainer::TESContainer() : objectList()
+{
+    Init();
+}
 class TESObjectREFR
 {
   public:
@@ -1087,8 +1120,6 @@ class TESObjectREFR
     unsigned unk60;
     unsigned unk64;
     TESObjectREFR();
-    void FUN_00484490();
-    void FUN_00574fa0(TESForm*, ExtraDataList*, int);
 };
 class Actor : public TESObjectREFR
 {
@@ -1189,28 +1220,19 @@ class Actor : public TESObjectREFR
     virtual void Unk62();
     virtual void Unk63();
     virtual void AddItem(TESForm*, ExtraDataList*, int);
-    const char* FUN_008adcf0(TESForm*, int, int);
 };
 class ExtraDataList
 {
   public:
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     ExtraDataList();
-    void FUN_00419ad0(unsigned short);
-    Script* FUN_00418800();
-    void FUN_00419ed0(Script*);
-    void FUN_00419f80(ScriptLocals*);
-    ScriptLocals* FUN_00418830();
 };
 class Script
 {
   public:
-    ScriptLocals* FUN_005abf60();
-    void FUN_005ac1e0(TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool);
 };
 struct ItemExtra
 {
-    void FUN_0040ea20(ExtraDataList*, void*);
 };
 struct Item
 {
@@ -1220,23 +1242,13 @@ struct Item
 };
 struct Node
 {
-    Item** FUN_006815c0();
-    Node* FUN_00726070();
 };
 struct SettingString
 {
     const char* FUN_00403df0();
 };
-extern SettingString DAT_011d4e7c, DAT_011d3114;
-extern Actor* DAT_011dea3c;
-Script* FUN_004826d0(TESForm*);
-void* GetHealthForm(TESForm*);
-const char* FUN_00482720(TESForm*);
-int FUN_00406f60(BSStringT<char>*, const char*, ...);
-bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
 struct ContainerOperation
 {
-    Node* FUN_00717e50();
     void FUN_004821a0(TESObjectREFR*, bool);
 };
 // @fnv 0x004821a0
@@ -1246,13 +1258,13 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
     {
         Actor* last = dynamic_cast<Actor*>(target);
         Item* actor = 0;
-        Node* node = FUN_00717e50();
+        Node* node = ((::Node *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
         while (node)
         {
-            Item* item = *node->FUN_006815c0();
+            Item* item = *((::Item **)((void *)(node)));
             if (item)
             {
-                Script* script = FUN_004826d0(item->form);
+                Script* script = ((::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(item->form))));
                 int count = item->count;
                 actor = item;
                 if (script)
@@ -1261,22 +1273,22 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
                     {
                         ExtraDataList* extra = 0;
                         extra = new ExtraDataList;
-                        extra->FUN_00419ad0(1);
-                        if (extra && !extra->FUN_00418800())
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extra))->FUN_00419ad0(1);
+                        if (extra && !reinterpret_cast<::FUN_00418800_shell *>((extra))->FUN_00418800())
                         {
-                            extra->FUN_00419ed0(script);
-                            extra->FUN_00419f80(script->FUN_005abf60());
+                            reinterpret_cast<::FUN_00419ed0_shell *>((extra))->FUN_00419ed0(script);
+                            reinterpret_cast<::FUN_00419f80_shell *>((extra))->FUN_00419f80(reinterpret_cast<::FUN_005abf60_shell *>((script))->FUN_005abf60());
                             TESObjectREFR* ref = new TESObjectREFR;
-                            ref->FUN_00484490();
-                            script->FUN_005ac1e0(ref, extra->FUN_00418830(), 0, false);
+                            reinterpret_cast<::TESForm *>((ref))->NotifySaveLoadGameOfFormChange();
+                            reinterpret_cast<::FUN_005ac1e0_shell *>((script))->FUN_005ac1e0(ref, reinterpret_cast<::FUN_00418830_shell *>((extra))->FUN_00418830(), 0, false);
                             delete ref;
                             if (item->extra)
-                                item->extra->FUN_0040ea20(extra, GetHealthForm(item->form));
+                                reinterpret_cast<::Fn40ea20 *>((item->extra))->FUN_0040ea20((::ExtraL *)(extra), (::HealthForm *)(void *)(((void *)(::GetHealthForm(item->form)))));
                         }
                         if (last)
                             last->AddItem(item->form, extra, 1);
                         else
-                            target->FUN_00574fa0(item->form, extra, 1);
+                            reinterpret_cast<::fnv_00574fa0::AddBoundItemRef *>((target))->FUN_00574fa0((::TESBoundObject *)(item->form), extra, 1);
                     }
                 }
                 else
@@ -1285,25 +1297,25 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
                     if (item->extra)
                     {
                         data = new ExtraDataList;
-                        data->FUN_00419ad0((unsigned short)item->count);
-                        item->extra->FUN_0040ea20(data, GetHealthForm(item->form));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((data))->FUN_00419ad0((unsigned short)item->count);
+                        reinterpret_cast<::Fn40ea20 *>((item->extra))->FUN_0040ea20((::ExtraL *)(data), (::HealthForm *)(void *)(((void *)(::GetHealthForm(item->form)))));
                     }
                     if (last)
                         last->AddItem(item->form, data, item->count);
                     else
-                        target->FUN_00574fa0(item->form, data, item->count);
+                        reinterpret_cast<::fnv_00574fa0::AddBoundItemRef *>((target))->FUN_00574fa0((::TESBoundObject *)(item->form), data, item->count);
                 }
             }
-            node = node->FUN_00726070();
+            node = ((::Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
-        if (last == DAT_011dea3c && actor && !silent)
+        if (last == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && actor && !silent)
         {
             BSStringT<char> text;
             if (actor->count > 1)
-                FUN_00406f60(&text, "%i %s%s %s", actor->count, FUN_00482720(actor->form), DAT_011d3114.FUN_00403df0(),
-                             DAT_011d4e7c.FUN_00403df0());
+                ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&text), "%i %s%s %s", actor->count, ::FUN_00482720(actor->form), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d3114))))->GetMenuTitle())),
+                             ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4e7c))))->GetMenuTitle())));
             else
-                FUN_00406f60(&text, "%s %s", FUN_00482720(actor->form), DAT_011d4e7c.FUN_00403df0());
+                ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&text), "%s %s", ::FUN_00482720(actor->form), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4e7c))))->GetMenuTitle())));
             switch (actor->form->FUN_00401170())
             {
             case 25:
@@ -1318,45 +1330,38 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
             case 108:
             case 115:
             case 116:
-                QueueUIMessage(text.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_giftbox.dds",
-                               silent ? 0 : DAT_011dea3c->FUN_008adcf0(actor->form, 1, 0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(text))))), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_giftbox.dds"),
+                               (const char *)(silent ? 0 : reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(actor->form), 1, 0)), 2.0f, false);
                 break;
             case 24:
-                QueueUIMessage(text.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_giftbox.dds",
-                               silent ? 0 : DAT_011dea3c->FUN_008adcf0(actor->form, 1, 0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(text))))), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_giftbox.dds"),
+                               (const char *)(silent ? 0 : reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(actor->form), 1, 0)), 2.0f, false);
                 break;
             }
         }
     }
 }
 
-extern float DAT_01015f5c;
-extern char DAT_01183108;
-extern char DAT_01183998;
 
 struct FUN_00482910_rec
 {
     int unk00;
-    int unk04;
+    std::intptr_t unk04;
 };
 
 struct FUN_00482910_node
 {
-    void* FUN_006815c0();
-    FUN_00482910_node* FUN_00726070();
 };
 
 struct FUN_00482910_obj
 {
-    float FUN_005f0d60(FUN_00482910_rec* r);
 };
 
-int __cdecl FUN_00ec43fb(int a, int b, void* c, void* d, int e);
+std::intptr_t __cdecl FUN_00ec43fb(std::intptr_t a, int b, void* c, void* d, int e);
 
 class FUN_00482910_cls
 {
   public:
-    FUN_00482910_node* FUN_00717e50();
     FUN_00482910_rec* FindBestRecord(FUN_00482910_obj* a1);
 };
 
@@ -1364,18 +1369,18 @@ class FUN_00482910_cls
 // @fnv 0x00482910
 FUN_00482910_rec* FUN_00482910_cls::FindBestRecord(FUN_00482910_obj* pScorer)
 {
-    FUN_00482910_node* p = FUN_00717e50();
+    FUN_00482910_node* p = ((::FUN_00482910_node *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     float best = DAT_01015f5c;
     FUN_00482910_rec* result2 = 0;
     while (p != 0)
     {
-        FUN_00482910_rec* t3 = *(FUN_00482910_rec**)p->FUN_006815c0();
+        FUN_00482910_rec* t3 = *(FUN_00482910_rec**)((void *)((void *)(p)));
         if (t3 != 0)
         {
             FUN_00482910_rec* r = (FUN_00482910_rec*)FUN_00ec43fb(t3->unk04, 0, &DAT_01183108, &DAT_01183998, 0);
             if (r != 0)
             {
-                float f7 = pScorer->FUN_005f0d60(r);
+                float f7 = reinterpret_cast<::ActorBaseTarget *>((pScorer))->FUN_005f0d60((::FormTarget *)(r));
                 if (f7 > best)
                 {
                     best = f7;
@@ -1383,7 +1388,7 @@ FUN_00482910_rec* FUN_00482910_cls::FindBestRecord(FUN_00482910_obj* pScorer)
                 }
             }
         }
-        p = p->FUN_00726070();
+        p = ((::FUN_00482910_node *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
     }
     return result2;
 }
@@ -1392,8 +1397,7 @@ struct FUN_00481d10_shell : TESContainer
 {
     bool FUN_00481d10(BaseFormComponent* other);
 };
-void* __fastcall _ref_00717e50(void*);
-int __fastcall _ref_005ae380(void*);
+int _ref_005ae380(void*);
 // Compares this container's entries against another TESContainer's entries, returning true when they differ or the counts do not match.
 // @fnv 0x00481d10
 bool FUN_00481d10_shell::FUN_00481d10(BaseFormComponent* other)
@@ -1402,19 +1406,19 @@ bool FUN_00481d10_shell::FUN_00481d10(BaseFormComponent* other)
     if (otherContainer == 0)
         return true;
     int matchCount = 0;
-    void* current = _ref_00717e50(this);
+    void* current = ((void *)(reinterpret_cast<::BaseProcess *>((this))->GetCurrentProcessData()));
     void* otherCurrent = 0;
     InventoryItemEntry* itemBeingChecked;
     while (current != 0)
     {
-        itemBeingChecked = *_ref_006815c0(current);
+        itemBeingChecked = *((::InventoryItemEntry **)((void *)(current)));
         if (itemBeingChecked != 0)
         {
-            otherCurrent = _ref_00717e50(otherContainer);
+            otherCurrent = ((void *)(reinterpret_cast<::BaseProcess *>((otherContainer))->GetCurrentProcessData()));
             bool differenceFound = false;
             while (otherCurrent != 0)
             {
-                InventoryItemEntry* compareItem = *_ref_006815c0(otherCurrent);
+                InventoryItemEntry* compareItem = *((::InventoryItemEntry **)((void *)(otherCurrent)));
                 if (compareItem != 0)
                 {
                     if (!reinterpret_cast<FUN_00481470_shell*>(compareItem)->IsNotEqual(itemBeingChecked))
@@ -1423,20 +1427,19 @@ bool FUN_00481d10_shell::FUN_00481d10(BaseFormComponent* other)
                         break;
                     }
                 }
-                otherCurrent = _ref_00726070(otherCurrent);
+                otherCurrent = reinterpret_cast<::Callees *>((otherCurrent))->FUN_00726070();
             }
             if (!differenceFound)
                 return true;
             ++matchCount;
         }
-        current = _ref_00726070(current);
+        current = reinterpret_cast<::Callees *>((current))->FUN_00726070();
     }
-    if (_ref_005ae380(_ref_00717e50(otherContainer)) != matchCount)
+    if (_ref_005ae380(((void *)(reinterpret_cast<::BaseProcess *>((otherContainer))->GetCurrentProcessData()))) != matchCount)
         return true;
     return false;
 }
 
-void* __cdecl operator new(unsigned int);
 class InventoryStackRecord
 {
   public:
@@ -1455,27 +1458,27 @@ BSSimpleList<InventoryStackRecord*>* Source08::CopyUniqueObjects()
 {
     BSSimpleList<InventoryStackRecord*>* pNewList = new BSSimpleList<InventoryStackRecord*>;
     BSSimpleList<InventoryStackRecord*>* pList = &objects;
-    while (pList && pList->GetItem())
+    while (pList && (pList->m_item))
     {
-        pNewList->AddHead(pList->GetItem());
-        pList = pList->GetNext();
+        pNewList->AddHead((pList->m_item));
+        pList = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
     pList = pNewList;
     BSSimpleList<InventoryStackRecord*>* iter = 0;
-    while (pList && pList->GetItem())
+    while (pList && (pList->m_item))
     {
-        iter = pList->GetNext();
-        while (iter && iter->GetItem())
+        iter = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
+        while (iter && (iter->m_item))
         {
-            if (pList->GetItem()->object == iter->GetItem()->object)
+            if ((pList->m_item)->object == (iter->m_item)->object)
             {
-                pList->Remove(iter->GetItem());
-                iter = pList->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((pList))->FUN_00905330((iter->m_item));
+                iter = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
             }
             else
-                iter = iter->GetNext();
+                iter = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         }
-        pList = pList->GetNext();
+        pList = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
     return pNewList;
 }
@@ -1484,9 +1487,7 @@ struct VATSCommand;
 struct ContNode;
 struct VATS_CommandList
 {
-    void FUN_00905330(VATSCommand* const& apCommand);
 };
-ContNode* __fastcall FUN_00717e50(void* apList);
 struct FUN_00481790_t
 {
     void FUN_00481790(BGSPerkEntry* apEntry);
@@ -1496,10 +1497,10 @@ void FUN_00481790_t::FUN_00481790(BGSPerkEntry* apEntry)
 {
     if (!apEntry)
         return;
-    ((VATS_CommandList*)FUN_00717e50(this))->FUN_00905330((VATSCommand* const&)apEntry);
+    reinterpret_cast<::ItemChangeListNode *>((((VATS_CommandList*)((::ContNode *)(reinterpret_cast<::BaseProcess *>((this))->GetCurrentProcessData())))))->FUN_00905330((::InventoryStackRecord *const &)((VATSCommand* const&)apEntry));
     BGSPerkEntry* pkEntry = apEntry;
     BGSPerkEntry* pkDeleteCur = pkEntry;
-    pkDeleteCur ? pkDeleteCur->Destroy(1) : 0;
+    pkDeleteCur ? reinterpret_cast<::p07::DelStandIn *>((pkDeleteCur))->Destroy_00481760(1) : 0;
 }
 
 class TESBoundObject
@@ -1509,7 +1510,6 @@ class TESBoundObject
 };
 struct ArmorSlotMask
 {
-    bool FUN_00480af0(int slot, int a2, int a3);
 };
 class TESObjectARMO : public TESBoundObject
 {
@@ -1522,7 +1522,6 @@ class TESObjectARMO : public TESBoundObject
 };
 struct ArmorRater
 {
-    float FUN_005f0d60(TESObjectARMO* armor);
 };
 static const float kNegInfinity = -3.402823466e+38f;
 struct ArmorContainer : TESContainer
@@ -1533,18 +1532,18 @@ struct ArmorContainer : TESContainer
 // @fnv 0x004829c0
 TESObjectARMO* ArmorContainer::FindBestArmorForSlot(ArmorRater* rater, int slot)
 {
-    BSSimpleList<InventoryStackRecord*>* iter = GetObjectList();
+    BSSimpleList<InventoryStackRecord*>* iter = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     float best = kNegInfinity;
     TESObjectARMO* pkResult = 0;
     while (iter)
     {
-        InventoryItemEntry* pkObject = (InventoryItemEntry*)iter->GetItem();
+        InventoryItemEntry* pkObject = (InventoryItemEntry*)(iter->m_item);
         if (pkObject)
         {
             TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>((TESBoundObject*)pkObject->object);
-            if (armor && slot != -1 && armor->bipedSlots.FUN_00480af0(slot, 0, 0))
+            if (armor && slot != -1 && reinterpret_cast<::TESBipedModelForm *>(&(armor->bipedSlots))->HasBipedModel((::BIPED_OBJECT)(slot), 0, (::BGSBipedModelList *)(0)))
             {
-                float fVal = rater->FUN_005f0d60(armor);
+                float fVal = reinterpret_cast<::ActorBaseTarget *>((rater))->FUN_005f0d60((::FormTarget *)(armor));
                 if (fVal > best)
                 {
                     best = fVal;
@@ -1552,14 +1551,13 @@ TESObjectARMO* ArmorContainer::FindBestArmorForSlot(ArmorRater* rater, int slot)
                 }
             }
         }
-        iter = iter->GetNext();
+        iter = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
     return pkResult;
 }
 
 struct RecipeAmmoData
 {
-    void FUN_006ecd40(unsigned int count);
 };
 
 struct RecipeProcess
@@ -1762,17 +1760,10 @@ struct RecipeActorForm
     virtual void RemoveItem(void* item, int extra, int count, int a4, int a5, int a6, int a7, int a8, int a9, int a10);
 
     int FUN_00401170();
-    void* FUN_008a1710();
-    int FUN_00575610(void* item);
-    void FUN_0088d7d0(void* item, int count, void* extra, bool a4, bool a5, bool a6);
-    RecipeProcess* FUN_008d8520();
-    bool FUN_004c0bf0();
-    void FUN_00574fa0(void* item, int extra, int count);
 };
 
 struct RecipeListBox
 {
-    void* FindItemData(void* item);
 };
 
 struct RecipeMenuState
@@ -1821,26 +1812,14 @@ struct RecipeMenuState
 
 struct ActiveRecipe
 {
-    void* FUN_005a8080();
-    void* FUN_005d43c0();
 };
 
 struct RecipeComponentItem
 {
-    void* FUN_00726070();
-    int FUN_00559450();
-};
-
-struct RecipeComponentNode
-{
-    bool FUN_008256d0();
-    RecipeComponentItem** FUN_006815c0();
-    RecipeComponentNode* FUN_00726070();
 };
 
 struct FUN_004f2770_Class
 {
-    const char* FUN_008adcf0(void* item, int a2, int a3);
 };
 
 struct GameSettingStr
@@ -1850,36 +1829,19 @@ struct GameSettingStr
 
 struct WeaponFormOps
 {
-    void* FUN_00525980(void* actor);
 };
 
 struct RecipeContainerOps : TESContainer
 {
-    void FUN_004818e0(TESForm* form, int count, ContainerItemExtra* extra);
-    void FUN_00482090(float health);
-    void FUN_004821a0(void* target, int a2);
 };
 
 struct RecipeStringOps : BSStringT<char>
 {
-    const char* FUN_00559450();
 };
 
-extern RecipeMenuState* DAT_011d8e90;
-extern ActiveRecipe* DAT_011d8e94;
-extern FUN_004f2770_Class* _g_thePlayer;
-extern float DAT_01030ff0;
-extern float DAT_010162c0;
-extern const char str_0101c178[];
-extern const char str_01012058[];
 extern const char str_0101c140[];
 
-int __cdecl FUN_005f5950(int a1, int a2, void* a3, int a4, int a5, int a6, int a7);
 void __cdecl FUN_004d5e10(int statId, int delta);
-const char* __cdecl FUN_00482720(void* form);
-int __cdecl FUN_00406f60(BSStringT<char>* outStr, const char* fmt, ...);
-bool __cdecl QueueUIMessage(const char* msg, int emotion, const char* iconPath, const char* soundName, float duration,
-                            bool instant);
 void __cdecl FUN_00727430();
 
 // Removes recipe components from the crafter and adds the crafted item, queuing a UI message with the item name and quantity.
@@ -1893,12 +1855,12 @@ void CraftRecipe(int count)
         {
             void* compForm;
             {
-                RecipeComponentNode* node;
+                ::BSSimpleList< ::InventoryStackRecord *>* node;
                 {
                     RecipeActorForm* itemForm;
                     {
-                        void* recipeTile = DAT_011d8e90->recipeList->FindItemData(&DAT_011d8e94);
-                        node = (RecipeComponentNode*)DAT_011d8e94->FUN_005a8080();
+                        void* recipeTile = ((void *)(reinterpret_cast<::Owner *>(((*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->recipeList))->FindItemData((int *)(void *)(&(*reinterpret_cast<::ActiveRecipe * *>(&::fnv_00726df0::DAT_011d8e94))))));
+                        node = (::BSSimpleList< ::InventoryStackRecord *>*)reinterpret_cast<struct ::FUN_005a8080 *>(((*reinterpret_cast<::ActiveRecipe * *>(&::fnv_00726df0::DAT_011d8e94))))->GetField();
                         itemForm = 0;
                         compForm = 0;
                         compQty = 0;
@@ -1908,19 +1870,19 @@ void CraftRecipe(int count)
                         }
                         playedSound = 0;
                         isCasinoChip = 0;
-                        for (; node != 0 && !node->FUN_008256d0();)
+                        for (; node != 0 && !node->IsEmpty();)
                         {
-                            compForm = (*node->FUN_006815c0())->FUN_00726070();
+                            compForm = reinterpret_cast<::Callees *>(((*((::RecipeComponentItem **)((void *)(node))))))->FUN_00726070();
                             if (!playedSound)
                             {
-                                FUN_005f5950(12, 1, compForm, 0, 0, 0, 0);
+                                ::ChallengeManager::UpdateChallengeProgress((::CHALLENGE_TYPE)(12), 1, (::TESForm *)(compForm), (::TESForm *)(0), 0, 0, 0);
                                 if (((RecipeActorForm*)compForm)->FUN_00401170() == 0x6c)
                                 {
                                     isCasinoChip = 1;
                                 }
                             }
                             playedSound = 1;
-                            compQty = (*node->FUN_006815c0())->FUN_00559450();
+                            compQty = ::FUN_00559450((int *)((*((::RecipeComponentItem **)((void *)(node))))));
                             if (compForm != 0 && ((RecipeActorForm*)compForm)->IsBoundObject())
                             {
                                 itemForm = (RecipeActorForm*)compForm;
@@ -1930,44 +1892,44 @@ void CraftRecipe(int count)
                                 RecipeActorForm* actor;
                                 {
                                     bool isCurrentAmmo = 0;
-                                    actor = (DAT_011d8e90->crafterRef != 0 && DAT_011d8e90->crafterRef->IsActor())
-                                                ? DAT_011d8e90->crafterRef
+                                    actor = ((*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->crafterRef != 0 && (*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->crafterRef->IsActor())
+                                                ? (*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->crafterRef
                                                 : 0;
-                                    if (actor != 0 && actor->FUN_008a1710() != 0)
+                                    if (actor != 0 && ((void *)(reinterpret_cast<::FUN_008a1710_shell *>((actor))->FUN_008a1710())) != 0)
                                     {
                                         isCurrentAmmo =
-                                            (((WeaponFormOps*)actor->FUN_008a1710())->FUN_00525980(_g_thePlayer) ==
-                                             (*node->FUN_006815c0())->FUN_00726070());
+                                            (((void *)(reinterpret_cast<::AmmoOwner *>((((WeaponFormOps*)((void *)(reinterpret_cast<::FUN_008a1710_shell *>((actor))->FUN_008a1710())))))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::FUN_004f2770_Class * *>(&::_g_thePlayer)))))) ==
+                                             reinterpret_cast<::Callees *>(((*((::RecipeComponentItem **)((void *)(node))))))->FUN_00726070());
                                     }
                                     if (itemForm->FUN_00401170() == 0x28)
                                     {
-                                        if (actor->FUN_00575610(itemForm) == 1 && itemForm == actor->FUN_008a1710())
+                                        if (reinterpret_cast<::CombatState *>((actor))->GetInventoryItemCount((::TESForm *)(itemForm)) == 1 && itemForm == ((void *)(reinterpret_cast<::FUN_008a1710_shell *>((actor))->FUN_008a1710())))
                                         {
-                                            actor->FUN_0088d7d0(itemForm, 1, 0, 0, 0, 1);
+                                            reinterpret_cast<::FUN_0088d7d0_shell *>((actor))->FUN_0088d7d0((::TESBoundObject *)(itemForm), 1, (::ExtraDataList *)(void *)(0), 0, 0, 1);
                                         }
                                     }
-                                    DAT_011d8e90->crafterRef->RemoveItem(itemForm, 0, compQty * count, 0, 0, 0, 0, 0, 1,
+                                    (*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->crafterRef->RemoveItem(itemForm, 0, compQty * count, 0, 0, 0, 0, 0, 1,
                                                                          0);
                                     if (isCurrentAmmo)
                                     {
-                                        actor->FUN_008d8520()->GetAmmoData()->FUN_006ecd40(0);
+                                        reinterpret_cast<::CombatProcedure *>((((::RecipeProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetAmmoData()))->Initialize((::CombatController *)(0));
                                     }
                                 }
                             }
-                            node = node->FUN_00726070();
+                            node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                         }
                         if (!isCasinoChip)
                         {
                             FUN_004d5e10(0x20, count);
                         }
-                        node = (RecipeComponentNode*)DAT_011d8e94->FUN_005d43c0();
+                        node = (::BSSimpleList< ::InventoryStackRecord *>*)reinterpret_cast<::FUN_005d43c0_ *>(((*reinterpret_cast<::ActiveRecipe * *>(&::fnv_00726df0::DAT_011d8e94))))->FUN_005d43c0();
                         itemForm = 0;
                         compForm = 0;
                         compQty = 0;
-                        for (; node != 0 && !node->FUN_008256d0();)
+                        for (; node != 0 && !node->IsEmpty();)
                         {
-                            compForm = (*node->FUN_006815c0())->FUN_00726070();
-                            compQty = (*node->FUN_006815c0())->FUN_00559450();
+                            compForm = reinterpret_cast<::Callees *>(((*((::RecipeComponentItem **)((void *)(node))))))->FUN_00726070();
+                            compQty = ::FUN_00559450((int *)((*((::RecipeComponentItem **)((void *)(node))))));
                             if (compForm != 0 && ((RecipeActorForm*)compForm)->IsBoundObject())
                             {
                                 itemForm = (RecipeActorForm*)compForm;
@@ -1977,20 +1939,19 @@ void CraftRecipe(int count)
                                 if (itemForm->FUN_00401170() == 0x28)
                                 {
                                     RecipeActorForm* weapForm = itemForm;
-                                    if (weapForm->FUN_004c0bf0())
+                                    if (::FUN_004c0bf0((::TESObjectWEAP *)(weapForm)))
                                     {
-                                        DAT_011d8e90->crafterRef->FUN_00574fa0(itemForm, 0, compQty * count);
+                                        reinterpret_cast<::fnv_00574fa0::AddBoundItemRef *>(((*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->crafterRef))->FUN_00574fa0((::TESBoundObject *)(itemForm), (::ExtraDataList *)(0), compQty * count);
                                     }
                                     else
                                     {
                                         TESContainer tempCont1;
                                         if (itemForm != 0)
                                         {
-                                            ((RecipeContainerOps*)&tempCont1)
-                                                ->FUN_004818e0((TESForm*)itemForm, compQty * count, 0);
+                                            reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>((((RecipeContainerOps*)&tempCont1)))->FUN_004818e0((::TESObject *)(::TESForm *)((TESForm*)itemForm), compQty * count, 0);
                                         }
-                                        ((RecipeContainerOps*)&tempCont1)->FUN_00482090(DAT_01030ff0);
-                                        ((RecipeContainerOps*)&tempCont1)->FUN_004821a0(DAT_011d8e90->crafterRef, 0);
+                                        reinterpret_cast<::fnv_00482090::FUN_00482090_shell *>((((RecipeContainerOps*)&tempCont1)))->FUN_00482090(::DAT_01030ff0);
+                                        reinterpret_cast<::ContainerOperation *>((((RecipeContainerOps*)&tempCont1)))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->crafterRef), 0);
                                     }
                                 }
                                 else if (itemForm->FUN_00401170() == 0x18 || itemForm->FUN_00401170() == 0x1a)
@@ -1998,31 +1959,30 @@ void CraftRecipe(int count)
                                     TESContainer tempCont2;
                                     if (itemForm != 0)
                                     {
-                                        ((RecipeContainerOps*)&tempCont2)
-                                            ->FUN_004818e0((TESForm*)itemForm, compQty * count, 0);
+                                        reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>((((RecipeContainerOps*)&tempCont2)))->FUN_004818e0((::TESObject *)(::TESForm *)((TESForm*)itemForm), compQty * count, 0);
                                     }
-                                    ((RecipeContainerOps*)&tempCont2)->FUN_00482090(DAT_01030ff0);
-                                    ((RecipeContainerOps*)&tempCont2)->FUN_004821a0(DAT_011d8e90->crafterRef, 0);
+                                    reinterpret_cast<::fnv_00482090::FUN_00482090_shell *>((((RecipeContainerOps*)&tempCont2)))->FUN_00482090(::DAT_01030ff0);
+                                    reinterpret_cast<::ContainerOperation *>((((RecipeContainerOps*)&tempCont2)))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->crafterRef), 0);
                                 }
                                 else
                                 {
-                                    DAT_011d8e90->crafterRef->FUN_00574fa0(itemForm, 0, compQty * count);
+                                    reinterpret_cast<::fnv_00574fa0::AddBoundItemRef *>(((*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->crafterRef))->FUN_00574fa0((::TESBoundObject *)(itemForm), (::ExtraDataList *)(0), compQty * count);
                                 }
                                 BSStringT<char> msgStr;
                                 if (compQty * count > 1)
                                 {
-                                    FUN_00406f60(&msgStr, str_0101c178, compQty * count, FUN_00482720(itemForm),
-                                                 DAT_011d3114.FUN_00403df0(), DAT_011d4e7c.FUN_00403df0());
+                                    ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msgStr), ::DAT_0101c178, compQty * count, ::FUN_00482720((::TESForm *)(itemForm)),
+                                                 ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d3114))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4e7c))))->GetMenuTitle())));
                                 }
                                 else
                                 {
-                                    FUN_00406f60(&msgStr, str_01012058, FUN_00482720(itemForm),
-                                                 DAT_011d4e7c.FUN_00403df0());
+                                    ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msgStr), ::DAT_01012058, ::FUN_00482720((::TESForm *)(itemForm)),
+                                                 ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4e7c))))->GetMenuTitle())));
                                 }
-                                QueueUIMessage(((RecipeStringOps*)&msgStr)->FUN_00559450(), 0, str_0101c140,
-                                               _g_thePlayer->FUN_008adcf0(itemForm, 1, 0), DAT_010162c0, 0);
+                                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)(((RecipeStringOps*)&msgStr)))))), 0, (const char *)(str_0101c140),
+                                               (const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::FUN_004f2770_Class * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(itemForm), 1, 0)), DAT_010162c0, 0);
                             }
-                            node = node->FUN_00726070();
+                            node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                         }
                         FUN_00727430();
                     }
@@ -2041,10 +2001,10 @@ struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct Script;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectREFR;
+class Script;
+class TESBoundObject;
+class TESForm;
+class TESObjectREFR;
 struct blob8
 {
     char b[8];
@@ -2067,19 +2027,199 @@ struct TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     char _pad_9[3];
 };
-typedef char _sizecheck_TESScriptableForm[sizeof(TESScriptableForm) == 12 ? 1 : -1];
 
-struct Script;
+class Script;
 
-extern unsigned char DAT_01183028;
-extern unsigned char DAT_01183254;
 extern "C" void* __cdecl FNV_DynamicCast(void*, long, void*, void*, int);
 // Dynamic-casts apForm to TESScriptableForm and returns its script, or null if the cast fails.
 // @fnv 0x004826d0
 Script* FUN_004826d0(TESForm* apForm)
 {
     TESScriptableForm* pSF =
-        static_cast<TESScriptableForm*>(FNV_DynamicCast(apForm, 0, &DAT_01183028, &DAT_01183254, 0));
-    return pSF ? pSF->GetScriptForForm() : 0;
+        static_cast<TESScriptableForm*>(FNV_DynamicCast(apForm, 0, &(*reinterpret_cast<unsigned char *>(&::DAT_01183028)), &(*reinterpret_cast<unsigned char *>(&::load_extra_fixup::DAT_01183254)), 0));
+    return pSF ? ((::fnv_004826d0::Script *)(reinterpret_cast<::Callees *>((pSF))->FUN_00726070())) : 0;
 }
 }  // namespace fnv_004826d0
+
+class ContainerItemExtra_rtti2
+{
+  public:
+    void* m_pForm;
+    union
+    {
+        void* m_pGlobal;
+        int m_cRank;
+        unsigned int bits;
+    };
+    float m_fHealth;
+    ContainerItemExtra_rtti2();
+    void Copy(ContainerItemExtra_rtti2* other);
+    bool IsDefault();
+};
+
+class InventoryItemEntry_rtti2
+{
+  public:
+    int count;
+    void* object;
+    ContainerItemExtra_rtti2* extra;
+    void Copy(InventoryItemEntry_rtti2* other);
+};
+
+class TESContainer_rtti2;
+
+struct CopyComponentState_rtti2
+{
+    BSSimpleList<InventoryStackRecord*>* list;
+    TESContainer_rtti2* source;
+};
+
+class TESForm_rtti2;
+
+class TESContainer_rtti2 : public BaseFormComponent
+{
+  public:
+    BSSimpleList<InventoryStackRecord*> objectList;
+    virtual void Init();
+    void ClearObjects();
+    void InitItem(TESForm_rtti2* form);
+    virtual void Free();
+    virtual void CopyFromBase(BaseFormComponent* component);
+    ~TESContainer_rtti2();
+    bool HasObjectOfType(TESObject* object);
+    int GetObjectCount(TESObject* object);
+    static bool IsValidContainerType(unsigned char type);
+    TESContainer_rtti2();
+};
+
+class TESFile;
+
+class TESForm_rtti2
+{
+  public:
+    virtual void vfn000();
+    virtual void vfn004();
+    virtual void vfn008();
+    virtual void vfn00C();
+    virtual void vfn010();
+    virtual void vfn014();
+    virtual void vfn018();
+    virtual void vfn01C();
+    virtual void vfn020();
+    virtual void vfn024();
+    virtual void vfn028();
+    virtual void vfn02C();
+    virtual void vfn030();
+    virtual void vfn034();
+    virtual void vfn038();
+    virtual void vfn03C();
+    virtual void vfn040();
+    virtual void vfn044();
+    virtual void vfn048();
+    virtual void vfn04C();
+    virtual void vfn050();
+    virtual void vfn054();
+    virtual void vfn058();
+    virtual void vfn05C();
+    virtual void vfn060();
+    virtual void vfn064();
+    virtual void vfn068();
+    virtual void vfn06C();
+    virtual void vfn070();
+    virtual void vfn074();
+    virtual void vfn078();
+    virtual void vfn07C();
+    virtual void vfn080();
+    virtual void vfn084();
+    virtual void vfn088();
+    virtual void vfn08C();
+    virtual void vfn090();
+    virtual void vfn094();
+    virtual void vfn098();
+    virtual void vfn09C();
+    virtual void vfn0A0();
+    virtual void vfn0A4();
+    virtual void vfn0A8();
+    virtual void vfn0AC();
+    virtual void vfn0B0();
+    virtual void vfn0B4();
+    virtual void vfn0B8();
+    virtual void vfn0BC();
+    virtual void vfn0C0();
+    virtual void vfn0C4();
+    virtual void vfn0C8();
+    virtual void vfn0CC();
+    virtual void vfn0D0();
+    virtual void vfn0D4();
+    virtual void vfn0D8();
+    virtual void vfn0DC();
+    virtual void vfn0E0();
+    virtual void vfn0E4();
+    virtual void vfn0E8();
+    virtual void vfn0EC();
+    virtual void vfn0F0();
+    virtual void vfn0F4();
+    virtual void vfn0F8();
+    virtual void vfn0FC();
+    virtual void vfn100();
+    virtual void vfn104();
+    virtual void vfn108();
+    virtual void vfn10C();
+    virtual void vfn110();
+    virtual void vfn114();
+    virtual void vfn118();
+    virtual void vfn11C();
+    virtual void vfn120();
+    virtual void vfn124();
+    virtual void vfn128();
+    virtual void vfn12C();
+    virtual const char* GetEditorID();
+
+public:
+    ::TESFile *GetFile(int);
+};
+
+class TESBoundObject_rtti2 : public TESForm_rtti2
+{
+};
+
+class B81390Extra
+{
+  public:
+};
+
+class B81390ContainerObject_rtti2
+{
+  public:
+    void FUN_00481390(TESForm_rtti2* pkOwner);
+
+    int m_iArrayLength;
+    TESBoundObject_rtti2* m_pPointer;
+    B81390Extra* m_pkExtra;
+};
+
+// @fnv 0x00481390
+void B81390ContainerObject_rtti2::FUN_00481390(TESForm_rtti2* pkOwner)
+{
+    unsigned int auiFormId = (unsigned int)(std::uintptr_t)m_pPointer;
+    ::ResolveFormID(&auiFormId, (::TESFile *)(((std::intptr_t)(pkOwner->GetFile(-1)))));
+    m_pPointer = dynamic_cast<TESBoundObject_rtti2*>(reinterpret_cast<TESForm_rtti2*>(FUN_004839c0(auiFormId)));
+    if (!m_pPointer)
+    {
+        if (pkOwner)
+        {
+            if (reinterpret_cast<::BGSCameraPath *>((pkOwner))->HasNameForWarning())
+                ::FUN_005b5e40();
+            else
+                ::FUN_005b5e40();
+        }
+        else
+        {
+            ::FUN_005b5e40();
+        }
+    }
+    if (m_pkExtra)
+        reinterpret_cast<::FUN_0040e7f0_owner *>((m_pkExtra))->ResolveFormReferences((::FormContext *)(pkOwner));
+}
+
+#include "generated/data/fallout_shared/tescontainer.inc"

@@ -1,709 +1,201 @@
 // fallout_shared/tesobjectweap.cpp: TESObjectWEAP, TransHolder, Weapon, WeaponCopyAccess and more (72 functions)
 
+#include "fnv_asm_helpers.h"
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/AmmoOwner.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BipedAnim.h"
+#include "fnv/decl/CalcActor.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/Controller.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00402d50.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00424940_shell.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004600d0_shell.h"
+#include "fnv/decl/FUN_0046e8c0_class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_00474a80_Class.h"
+#include "fnv/decl/FUN_00474bc0_shell.h"
+#include "fnv/decl/FUN_00474d60_shell.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00479350_shell.h"
+#include "fnv/decl/FUN_0047a240_shell.h"
+#include "fnv/decl/FUN_0047bd70_shell.h"
+#include "fnv/decl/FUN_00484bf0_shell.h"
+#include "fnv/decl/FUN_00485e00_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_00489240_Class.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_0048ea80_Class.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004ab500_shell.h"
+#include "fnv/decl/FUN_004ad010_shell.h"
+#include "fnv/decl/FUN_004ad030_shell.h"
+#include "fnv/decl/FUN_004bcf60_shell.h"
+#include "fnv/decl/FUN_004bd570_this.h"
+#include "fnv/decl/FUN_004bd8d0_shell.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00501c90_shell.h"
+#include "fnv/decl/FUN_00504e60_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0051f4b0_shell.h"
+#include "fnv/decl/FUN_0051f4d0_class.h"
+#include "fnv/decl/FUN_0051f4f0_Class.h"
+#include "fnv/decl/FUN_0051f530_class.h"
+#include "fnv/decl/FUN_005224c0_Class.h"
+#include "fnv/decl/FUN_005224e0_class.h"
+#include "fnv/decl/FUN_00524b40_class.h"
+#include "fnv/decl/FUN_00524b60_shell.h"
+#include "fnv/decl/FUN_00525430_Class.h"
+#include "fnv/decl/FUN_00535aa0_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_006d6d90_shell.h"
+#include "fnv/decl/FUN_006e4fb0_shell.h"
+#include "fnv/decl/FUN_008126e0_shell.h"
+#include "fnv/decl/FUN_008133b0_class.h"
+#include "fnv/decl/FUN_00821680_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_008bbc10_shell.h"
+#include "fnv/decl/FUN_008d8a60_Class.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009c8b90_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FakeForm.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/HighProcess.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/Holder009807f0.h"
+#include "fnv/decl/ListHolder.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/MobileObject.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/PC7d.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/Proxy804.h"
+#include "fnv/decl/QueueModelHolder.h"
+#include "fnv/decl/RotationMatrix.h"
+#include "fnv/decl/S0047b8a0.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_0048cca0.h"
+#include "fnv/decl/S_009c8c40.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/Shell474af0.h"
+#include "fnv/decl/Standin77900.h"
+#include "fnv/decl/TESAmmoInitCalls.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/TESPackageShell.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_007e6580.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047b560__FUN_0047b560_shell.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/decl/fnv_0048e9b0__TESValueForm.h"
+#include "fnv/decl/fnv_0048e9e0__TESValueForm.h"
+#include "fnv/decl/fnv_0048ea10__TESValueForm.h"
+#include "fnv/decl/fnv_0048ea40__TESValueForm.h"
+#include "fnv/decl/fnv_004994f0__FUN_004994f0_shell.h"
+#include "fnv/decl/fnv_004bda70__FUN_004bda70_shell.h"
+#include "fnv/decl/fnv_00676140__FUN_00676140_shell.h"
+#include "fnv/decl/fnv_0067ff10__FUN_0067ff10_Class.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/form_load_legacy__TESFormLoadProxy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00416000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_004c0000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00567000.h"
+#include "fnv/symbols_0059a000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_0066d000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_0083a000.h"
+#include "fnv/symbols_00950000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_009bc000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00c55000.h"
+#include "fnv/symbols_00c58000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
 #include "tesobjectweap_decls.h"
-// Reads a weapon record from the file: validates form type 40, then dispatches each chunk to its loader and fixes up invalid weapon data.
-// @fnv 0x0051f630
-bool TESObjectWEAP::Load(TESFile* file)
-{
-    unsigned char formType = file->GetTESForm();
-    if(formType != 40) return false;
-    LoadRecordHeader(file);
-    SetInitializationState(false);
-    CHUNK_ID chunk;
-    while((chunk = (CHUNK_ID)file->GetChunkID()) != 0) {
-        switch(chunk) {
-        case 0x44494445: // EDID
-        {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID,512);
-            SetEditorID_AtRuntime(editorID);
-            break;
-        }
-        case 0x444e424f: // OBND
-        {
-            readOBNDSubRecord(file);
-            break;
-        }
-        case 0x4c4c5546: // FULL
-        {
-            TESFullNameLoader::LoadFullNameChunk(this,file);
-            break;
-        }
-        case 0x44444f4d: // MODD
-        case 0x44534f4d: // MOSD
-        case 0x4c444f4d: // MODL
-        case 0x54444f4d: // MODT
-        {
-            TESModel::LoadModelData(this,file);
-            break;
-        }
-        case 0x53444f4d: // MODS
-        {
-            unsigned int textureSwapSize = file->GetChunkSize();
-            void* textureSwaps = _alloca(textureSwapSize);
-            file->GetChunkData(textureSwaps,textureSwapSize);
-            ParseTextureSwapData(textureSwaps,textureSwapSize,((TESFileFormVersion*)file)->GetFormVersion());
-            break;
-        }
-        case 0x4e4f4349: // ICON
-        {
-            TESTexture::ReadTextureData(this,file);
-            break;
-        }
-        case 0x4f43494d: // MICO
-        {
-            BGSMessageIcon::LoadMessageIconChunk(this,file);
-            break;
-        }
-        case 0x49524353: // SCRI
-        {
-            Script* script = (Script*)0;
-            file->GetChunkData((unsigned int*)&script);
-            TESScriptableForm::SetScript(script);
-            TESScriptableForm::InitItem(this);
-            break;
-        }
-        case 0x4d544945: // EITM
-        case 0x4d414e45: // ENAM
-        {
-            EnchantmentItem* enchantment = (EnchantmentItem*)0;
-            file->GetChunkData((unsigned int*)&enchantment);
-            SetFormEnchanting(enchantment);
-            break;
-        }
-        case 0x4d414e41: // ANAM
-        case 0x544d4145: // EAMT
-        {
-            unsigned short enchantmentAmount = 0;
-            ((TESFileChunkData16*)file)->GetChunkData(&enchantmentAmount);
-            FUN_00483170(enchantmentAmount);
-            break;
-        }
-        case 0x304d414e: // NAM0
-        {
-            TESAmmo* ammo = (TESAmmo*)0;
-            file->GetChunkData((unsigned int*)&ammo);
-            SetAmmo(ammo);
-            break;
-        }
-        case 0x44545344: // DSTD
-        case 0x54534544: // DEST
-        {
-            BGSDestructibleObjectForm::LoadDestructibleData(this,file);
-            break;
-        }
-        case 0x4c504552: // REPL
-        {
-            BGSListForm* repairList = (BGSListForm*)0;
-            file->GetChunkData((unsigned int*)&repairList);
-            SetRepairItemList(repairList);
-            break;
-        }
-        case 0x50595445: // ETYP
-        {
-            BGSEquipType__EQUIP_TYPE equipType = (BGSEquipType__EQUIP_TYPE)0;
-            file->GetChunkData((unsigned int*)&equipType);
-            SetEquipType(equipType);
-            break;
-        }
-        case 0x4c504942: // BIPL
-        {
-            BGSListForm* bipedList = (BGSListForm*)0;
-            file->GetChunkData((unsigned int*)&bipedList);
-            SetBipedModelList(bipedList);
-            break;
-        }
-        case 0x4d414e59: // YNAM
-        {
-            TESSound* pickupSound = (TESSound*)0;
-            file->GetChunkData((unsigned int*)&pickupSound);
-            SetPickupSound(pickupSound);
-            break;
-        }
-        case 0x4d414e5a: // ZNAM
-        {
-            TESSound* putdownSound = (TESSound*)0;
-            file->GetChunkData((unsigned int*)&putdownSound);
-            SetPutdownSound(putdownSound);
-            break;
-        }
-        case 0x41544144: // DATA
-        {
-            ((BGSImpactData*)this)->ReadTypedData(file,0,0);
-            break;
-        }
-        case 0x4d414e44: // DNAM
-        {
-            if (((TESFileFormVersion*)file)->GetFormVersion() < 12) {
-                memset(&data,0,sizeof(data));
-                data.m_fMinimumSemiAutomaticFireDelay = 0.1f;
-                data.m_fMaximumSemiAutomaticFireDelay = 0.5f;
-                file->GetChunkData(&data,file->GetChunkSize());
-                if(file->IsEndianConversionRequired()) data.Endian();
-                if(data.m_ucAttackAnimation < 168 && data.m_ucAttackAnimation >= 56) {
-                    data.m_ucAttackAnimation += 18;
-                    if(data.m_ucAttackAnimation < 168 && data.m_ucAttackAnimation >= 86) data.m_ucAttackAnimation += 6;
-                }
-            } else if (((TESFileFormVersion*)file)->GetFormVersion() < 14) {
-                memset(&data,0,sizeof(data));
-                data.m_fMinimumSemiAutomaticFireDelay = 0.1f;
-                data.m_fMaximumSemiAutomaticFireDelay = 0.5f;
-                file->GetChunkData(&data,file->GetChunkSize());
-                if(file->IsEndianConversionRequired()) data.Endian();
-                if(data.m_ucAttackAnimation < 168 && data.m_ucAttackAnimation >= 86) data.m_ucAttackAnimation += 6;
-            } else {
-                memset(&data,0,sizeof(data));
-                data.m_fMinimumSemiAutomaticFireDelay = 0.1f;
-                data.m_fMaximumSemiAutomaticFireDelay = 0.5f;
-                file->GetChunkData(&data,sizeof(data));
-                if(file->IsEndianConversionRequired()) data.Endian();
-                if(data.m_fLimbDamageMultiplier <= 0.0) data.m_fLimbDamageMultiplier = 1.0f;
-                switch(data.m_ucGripAnimation) {
-                case 230: case 231: case 232: case 233: case 234: case 235: case 255: break;
-                default: data.m_ucGripAnimation = 255; break;
-                }
-                if(!ActorValue::IsSkill(data.m_eWeaponSkill)) data.m_eWeaponSkill = (ActorValue__Index)45;
-                if(!FUN_0066eba0(data.m_eResistanceType) && data.m_eResistanceType != -1) data.m_eResistanceType = (ActorValue__Index)-1;
-            }
-            break;
-        }
-        case 0x4d414e57: // WNAM
-        {
-            TESObjectSTAT* firstPersonObject0 = 0;
-            file->GetChunkData((unsigned int*)&firstPersonObject0);
-            Set1stPersonObject(firstPersonObject0);
-            break;
-        }
-        case 0x314d4e57: // WNM1
-        {
-            TESObjectSTAT* firstPersonObject1 = 0;
-            file->GetChunkData((unsigned int*)&firstPersonObject1);
-            SetModObject(1,firstPersonObject1);
-            break;
-        }
-        case 0x324d4e57: // WNM2
-        {
-            TESObjectSTAT* firstPersonObject2 = 0;
-            file->GetChunkData((unsigned int*)&firstPersonObject2);
-            SetModObject(2,firstPersonObject2);
-            break;
-        }
-        case 0x334d4e57: // WNM3
-        {
-            TESObjectSTAT* firstPersonObject3 = 0;
-            file->GetChunkData((unsigned int*)&firstPersonObject3);
-            SetModObject(3,firstPersonObject3);
-            break;
-        }
-        case 0x344d4e57: // WNM4
-        {
-            TESObjectSTAT* firstPersonObject4 = 0;
-            file->GetChunkData((unsigned int*)&firstPersonObject4);
-            SetModObject(4,firstPersonObject4);
-            break;
-        }
-        case 0x354d4e57: // WNM5
-        {
-            TESObjectSTAT* firstPersonObject5 = 0;
-            file->GetChunkData((unsigned int*)&firstPersonObject5);
-            SetModObject(5,firstPersonObject5);
-            break;
-        }
-        case 0x364d4e57: // WNM6
-        {
-            TESObjectSTAT* firstPersonObject6 = 0;
-            file->GetChunkData((unsigned int*)&firstPersonObject6);
-            SetModObject(6,firstPersonObject6);
-            break;
-        }
-        case 0x374d4e57: // WNM7
-        {
-            TESObjectSTAT* firstPersonObject7 = 0;
-            file->GetChunkData((unsigned int*)&firstPersonObject7);
-            SetModObject(7,firstPersonObject7);
-            break;
-        }
-        case 0x31494d57: // WMI1
-        {
-            TESObjectIMOD* modItem1 = 0;
-            file->GetChunkData((unsigned int*)&modItem1);
-            SetModItem(1,modItem1);
-            break;
-        }
-        case 0x32494d57: // WMI2
-        {
-            TESObjectIMOD* modItem2 = 0;
-            file->GetChunkData((unsigned int*)&modItem2);
-            SetModItem(2,modItem2);
-            break;
-        }
-        case 0x33494d57: // WMI3
-        {
-            TESObjectIMOD* modItem3 = 0;
-            file->GetChunkData((unsigned int*)&modItem3);
-            SetModItem(4,modItem3);
-            break;
-        }
-        case 0x314d414e: // NAM1
-        case 0x32444f4d: // MOD2
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath0 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath0,0);
-                m_kModel.SetModelFilePath(modelPath0);
-            } else m_kModel.SetModelFilePath(0);
-            break;
-        }
-        case 0x54324f4d: // MO2T
-        {
-            TESModel::LoadTextureSwapData(&m_kModel,file);
-            break;
-        }
-        case 0x33444f4d: // MOD3
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath1 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath1,0);
-                m_kModel1stPerson.SetModelFilePath(modelPath1);
-            } else m_kModel1stPerson.SetModelFilePath(0);
-            break;
-        }
-        case 0x54334f4d: // MO3T
-        {
-            TESModel::LoadTextureSwapData(&m_kModel1stPerson,file);
-            break;
-        }
-        case 0x34444f4d: // MOD4
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath2 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath2,0);
-                m_kModel3rdPerson.SetModelFilePath(modelPath2);
-            } else m_kModel3rdPerson.SetModelFilePath(0);
-            break;
-        }
-        case 0x54344f4d: // MO4T
-        {
-            TESModel::LoadTextureSwapData(&m_kModel3rdPerson,file);
-            break;
-        }
-        case 0x3144574d: // MWD1
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath3 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath3,0);
-                m_kWeaponModTextureSwap1.SetModelFilePath(modelPath3);
-            } else m_kWeaponModTextureSwap1.SetModelFilePath(0);
-            break;
-        }
-        case 0x3154574d: // MWT1
-        {
-            TESModel::LoadTextureSwapData(&m_kWeaponModTextureSwap1,file);
-            break;
-        }
-        case 0x3244574d: // MWD2
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath4 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath4,0);
-                m_kWeaponModTextureSwap2.SetModelFilePath(modelPath4);
-            } else m_kWeaponModTextureSwap2.SetModelFilePath(0);
-            break;
-        }
-        case 0x3254574d: // MWT2
-        {
-            TESModel::LoadTextureSwapData(&m_kWeaponModTextureSwap2,file);
-            break;
-        }
-        case 0x3444574d: // MWD4
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath5 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath5,0);
-                m_kWeaponModTextureSwap3.SetModelFilePath(modelPath5);
-            } else m_kWeaponModTextureSwap3.SetModelFilePath(0);
-            break;
-        }
-        case 0x3454574d: // MWT4
-        {
-            TESModel::LoadTextureSwapData(&m_kWeaponModTextureSwap3,file);
-            break;
-        }
-        case 0x3344574d: // MWD3
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath6 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath6,0);
-                m_kWeaponModTextureSwap4.SetModelFilePath(modelPath6);
-            } else m_kWeaponModTextureSwap4.SetModelFilePath(0);
-            break;
-        }
-        case 0x3354574d: // MWT3
-        {
-            TESModel::LoadTextureSwapData(&m_kWeaponModTextureSwap4,file);
-            break;
-        }
-        case 0x3544574d: // MWD5
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath7 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath7,0);
-                m_kWeaponModTextureSwap5.SetModelFilePath(modelPath7);
-            } else m_kWeaponModTextureSwap5.SetModelFilePath(0);
-            break;
-        }
-        case 0x3554574d: // MWT5
-        {
-            TESModel::LoadTextureSwapData(&m_kWeaponModTextureSwap5,file);
-            break;
-        }
-        case 0x3644574d: // MWD6
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath8 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath8,0);
-                m_kWeaponModTextureSwap6.SetModelFilePath(modelPath8);
-            } else m_kWeaponModTextureSwap6.SetModelFilePath(0);
-            break;
-        }
-        case 0x3654574d: // MWT6
-        {
-            TESModel::LoadTextureSwapData(&m_kWeaponModTextureSwap6,file);
-            break;
-        }
-        case 0x3744574d: // MWD7
-        {
-            if(file->GetChunkSize()) {
-                char* modelPath9 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelPath9,0);
-                m_kWeaponModTextureSwap7.SetModelFilePath(modelPath9);
-            } else m_kWeaponModTextureSwap7.SetModelFilePath(0);
-            break;
-        }
-        case 0x3754574d: // MWT7
-        {
-            TESModel::LoadTextureSwapData(&m_kWeaponModTextureSwap7,file);
-            break;
-        }
-        case 0x44534645: // EFSD
-        {
-            TESEffectShader* scopeEffect = 0;
-            file->GetChunkData((unsigned int*)&scopeEffect);
-            SetEffectShader(scopeEffect);
-            break;
-        }
-        case 0x4d414e4e: // NNAM
-        {
-            char* embeddedWeaponNodeText = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(embeddedWeaponNodeText,0);
-            m_kEmbeddedWeaponNodeName.Set(embeddedWeaponNodeText,0);
-            break;
-        }
-        case 0x4d4e4156: // VANM
-        {
-            char* vATSAttackNameText = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(vATSAttackNameText,0);
-            VATSAttackName.Set(vATSAttackNameText,0);
-            break;
-        }
-        case 0x54445243: // CRDT
-        {
-            file->GetChunkData(&m_kCriticalData,sizeof(m_kCriticalData));
-            if(file->IsEndianConversionRequired()) m_kCriticalData.FUN_00535aa0();
-            break;
-        }
-        case 0x53544156: // VATS
-        {
-            file->GetChunkData(&m_kVATSData,sizeof(m_kVATSData));
-            if(file->IsEndianConversionRequired()) m_kVATSData.FUN_0067ff10();
-            break;
-        }
-        case 0x4d414e49: // INAM
-        {
-            BGSImpactDataSet* impactDataSet = 0;
-            file->GetChunkData((unsigned int*)&impactDataSet);
-            SetImpactDataSet(impactDataSet);
-            break;
-        }
-        case 0x4d414e53: // SNAM
-        {
-            TESSound* attackSound = 0;
-            file->GetChunkData((unsigned int*)&attackSound);
-            if(GetAttackSound(false)) SetDistantAttackSound(attackSound);
-            else SetAttackSound(attackSound);
-            break;
-        }
-        case 0x4d414e58: // XNAM
-        {
-            TESSound* attackSound2 = 0;
-            file->GetChunkData((unsigned int*)&attackSound2);
-            SetAttackSound2(attackSound2);
-            break;
-        }
-        case 0x374d414e: // NAM7
-        {
-            TESSound* attackLoop = 0;
-            file->GetChunkData((unsigned int*)&attackLoop);
-            FUN_00521650(attackLoop);
-            break;
-        }
-        case 0x4d414e54: // TNAM
-        {
-            TESSound* attackFail = 0;
-            file->GetChunkData((unsigned int*)&attackFail);
-            SetAttackFailSound(attackFail);
-            break;
-        }
-        case 0x364d414e: // NAM6
-        {
-            TESSound* meleeBlock = 0;
-            file->GetChunkData((unsigned int*)&meleeBlock);
-            SetMeleeBlockSound(meleeBlock);
-            break;
-        }
-        case 0x4d414e55: // UNAM
-        {
-            TESSound* idleSound = 0;
-            file->GetChunkData((unsigned int*)&idleSound);
-            SetIdleSound(idleSound);
-            break;
-        }
-        case 0x394d414e: // NAM9
-        {
-            TESSound* equipSound = 0;
-            file->GetChunkData((unsigned int*)&equipSound);
-            SetEquipSound(equipSound);
-            break;
-        }
-        case 0x384d414e: // NAM8
-        {
-            TESSound* unequipSound = 0;
-            file->GetChunkData((unsigned int*)&unequipSound);
-            SetUnequipSound(unequipSound);
-            break;
-        }
-        case 0x31534d57: // WMS1
-        {
-            TESSound* modAttackSound = 0;
-            file->GetChunkData((unsigned int*)&modAttackSound);
-            if(GetModDistantAttackSound()) SetModAttackSound2(modAttackSound);
-            else SetModAttackSound(modAttackSound);
-            break;
-        }
-        case 0x32534d57: // WMS2
-        {
-            TESSound* modDistantAttackSound = 0;
-            file->GetChunkData((unsigned int*)&modDistantAttackSound);
-            SetModDistantAttackSound2(modDistantAttackSound);
-            break;
-        }
-        case 0x4d414e56: // VNAM
-        {
-            unsigned int soundLevel;
-            file->GetChunkData(&soundLevel);
-            if(soundLevel > 3) m_eSoundLevel = SOUND_LEVEL_SOUND_LEVEL_NORMAL;
-            else m_eSoundLevel = (SOUND_LEVEL)soundLevel;
-            break;
-        }
-        }
-        if(!file->NextChunk()) break;
-    }
-    if(!GetDamageForActor(false,true,0) && GetProjectileData(0)) FUN_00521580(1);
-    if(data.eType >= 14) {
-        Warning("MASTERFILE: Clearing invalid type on weapon '%s' (%08X).",GetName(),GetFormID());
-        data.eType = 0;
-    }
-    return true;
-}
-
-// @fnv 0x0051e420
-void TESObjectWEAP::InitItem()
-{
-    if(IsFormInitialized()) return;
-    BGSBipedModelList::InitItem(this);
-    TESScriptableForm::InitItem(this);
-    TESEnchantableForm::InitItem(this);
-    BGSAmmoForm::InitItem(this);
-    BGSDestructibleObjectForm::InitItem(this);
-    TESModelTextureSwap::InitItem(this);
-    BGSRepairItemList::InitItem(this);
-    BGSPickupPutdownSounds::InitItem(this);
-    unsigned int formID = (unsigned int)GetProjectileData(0);
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        FUN_0051f4b0(dynamic_cast<BGSProjectile*>(TESForm::GetFormByID(formID)));
-        if(!GetProjectileData(0)) Warning("MASTERFILE: Could not find projectile (%08X) on weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)GetScopeEffect();
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        SetEffectShader(dynamic_cast<TESEffectShader*>(TESForm::GetFormByID(formID)));
-        if(!GetScopeEffect()) Warning("MASTERFILE: Could not find scope effect (%08X) on weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)GetField1CC();
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        FUN_0051f4f0(dynamic_cast<SpellItem*>(TESForm::GetFormByID(formID)));
-        if(!GetField1CC()) Warning("MASTERFILE: Could not find Spell Item (%08X) on weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)GetVATSSpecialEffect();
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        FUN_0051f530(dynamic_cast<SpellItem*>(TESForm::GetFormByID(formID)));
-        if(!GetVATSSpecialEffect()) Warning("MASTERFILE: Could not find vats Spell Item (%08X) on weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponSound1;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponSound1 = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponSound1) Warning("MASTERFILE: Could not find open sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponSound2;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponSound2 = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponSound2) Warning("MASTERFILE: Could not find open sound2 (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponSound3;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponSound3 = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponSound3) Warning("MASTERFILE: Could not find open sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponSound4;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponSound4 = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponSound4) Warning("MASTERFILE: Could not find sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponSound5;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponSound5 = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponSound5) Warning("MASTERFILE: Could not find open sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponSound6;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponSound6 = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponSound6) Warning("MASTERFILE: Could not find open sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponSound7;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponSound7 = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponSound7) Warning("MASTERFILE: Could not find idle sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponSound8;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponSound8 = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponSound8) Warning("MASTERFILE: Could not find equip sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponUnequipSound;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponUnequipSound = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponUnequipSound) Warning("MASTERFILE: Could not find unequip sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponEquipSound;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponEquipSound = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponEquipSound) Warning("MASTERFILE: Could not find unequip sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponPickupSound;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponPickupSound = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponPickupSound) Warning("MASTERFILE: Could not find unequip sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponDropSound;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponDropSound = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponDropSound) Warning("MASTERFILE: Could not find unequip sound (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pImpactDataSet;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pImpactDataSet = dynamic_cast<BGSImpactDataSet*>(TESForm::GetFormByID(formID));
-        if(!m_pImpactDataSet) Warning("MASTERFILE: Could not find impact data set (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)p1stPersonObject;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        p1stPersonObject = dynamic_cast<TESObjectSTAT*>(TESForm::GetFormByID(formID));
-        if(!p1stPersonObject) Warning("MASTERFILE: Could not find 1st person model object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)p1stPersonMod1Object;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        p1stPersonMod1Object = dynamic_cast<TESObjectSTAT*>(TESForm::GetFormByID(formID));
-        if(!p1stPersonMod1Object) Warning("MASTERFILE: Could not find 1st person model object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)p1stPersonMod2Object;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        p1stPersonMod2Object = dynamic_cast<TESObjectSTAT*>(TESForm::GetFormByID(formID));
-        if(!p1stPersonMod2Object) Warning("MASTERFILE: Could not find 1st person model object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)p1stPersonMod3Object;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        p1stPersonMod3Object = dynamic_cast<TESObjectSTAT*>(TESForm::GetFormByID(formID));
-        if(!p1stPersonMod3Object) Warning("MASTERFILE: Could not find 1st person model object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)p1stPersonMod12Object;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        p1stPersonMod12Object = dynamic_cast<TESObjectSTAT*>(TESForm::GetFormByID(formID));
-        if(!p1stPersonMod12Object) Warning("MASTERFILE: Could not find 1st person model object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)p1stPersonMod13Object;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        p1stPersonMod13Object = dynamic_cast<TESObjectSTAT*>(TESForm::GetFormByID(formID));
-        if(!p1stPersonMod13Object) Warning("MASTERFILE: Could not find 1st person model object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)p1stPersonMod23Object;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        p1stPersonMod23Object = dynamic_cast<TESObjectSTAT*>(TESForm::GetFormByID(formID));
-        if(!p1stPersonMod23Object) Warning("MASTERFILE: Could not find 1st person model object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)p1stPersonMod123Object;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        p1stPersonMod123Object = dynamic_cast<TESObjectSTAT*>(TESForm::GetFormByID(formID));
-        if(!p1stPersonMod123Object) Warning("MASTERFILE: Could not find 1st person model object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponMod1;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponMod1 = dynamic_cast<TESObjectIMOD*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponMod1) Warning("MASTERFILE: Could not find misc object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponMod2;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponMod2 = dynamic_cast<TESObjectIMOD*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponMod2) Warning("MASTERFILE: Could not find misc object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    formID = (unsigned int)m_pWeaponMod3;
-    if(formID) {
-        TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        m_pWeaponMod3 = dynamic_cast<TESObjectIMOD*>(TESForm::GetFormByID(formID));
-        if(!m_pWeaponMod3) Warning("MASTERFILE: Could not find misc object (%08X) for weapon '%s' (%08X).",formID,GetName(),GetFormID());
-    }
-    if(data.fSpeed <= 0.0) data.fSpeed = 1.0f;
-    if(data.m_fAnimationAttackMultiplier <= 0.0) data.m_fAnimationAttackMultiplier = 1.0f;
-    if(DAT_011c94d0.Bool()->b) SetNPCsUseAmmo(true);
-    m_bHasReloadAnimation = false;
-    if(data.m_ucReloadAnimation >= 19) m_bHasReloadAnimation = true;
-    SetInitializationState(true);
-}
-
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/symbols_00472000.h"
+#include <math.h>
+#include "fnv/image_space_effect_param.h"
 // Resets the weapon's data block to defaults, initializes embedded sub-structures, sets casting type and sound level, and flags a reload-anim condition.
 // @fnv 0x0051ddf0
 void TESObjectWEAP::ResetFormData()
@@ -791,7 +283,7 @@ void TESObjectWEAP::ResetFormData()
     m_kWeaponModTextureSwap5.Init();
     m_kWeaponModTextureSwap6.Init();
     m_kWeaponModTextureSwap7.Init();
-    SetCastingType(MagicSystem__CastingType_WHEN_STRIKES);
+    reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((*(int *)&(const ::MagicSystem__CastingType &)(MagicSystem__CastingType_WHEN_STRIKES)));
     m_eSoundLevel = SOUND_LEVEL_SOUND_LEVEL_NORMAL;
     m_bHasReloadAnimation = false;
     if(GetReloadAnim(false) >= 196) m_bHasReloadAnimation = true;
@@ -800,46 +292,36 @@ void TESObjectWEAP::ResetFormData()
 // @fnv 0x0051d770
 TESObjectWEAP::TESObjectWEAP()
 {
-    SetFormType(ENUM_FORM_ID_WEAP_ID);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(ENUM_FORM_ID_WEAP_ID)));
     ResetFormData();
 }
 
 // @fnv 0x0051e300
 void TESObjectWEAP::ClearData()
 {
-    m_kModel.Free();
-    m_kModel1stPerson.Free();
-    m_kModel3rdPerson.Free();
-    m_kWeaponModTextureSwap1.Free();
-    m_kWeaponModTextureSwap2.Free();
-    m_kWeaponModTextureSwap3.Free();
-    m_kWeaponModTextureSwap4.Free();
-    m_kWeaponModTextureSwap5.Free();
-    m_kWeaponModTextureSwap6.Free();
-    m_kWeaponModTextureSwap7.Free();
-    m_kEmbeddedWeaponNodeName.Set(0,0);
-    VATSAttackName.Set(0,0);
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kModel))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kModel1stPerson))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kModel3rdPerson))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kWeaponModTextureSwap1))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kWeaponModTextureSwap2))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kWeaponModTextureSwap3))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kWeaponModTextureSwap4))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kWeaponModTextureSwap5))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kWeaponModTextureSwap6))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::FUN_00402d50 *>(&(m_kWeaponModTextureSwap7))->FUN_00402d50::~FUN_00402d50();
+    reinterpret_cast<::TextString *>(&(m_kEmbeddedWeaponNodeName))->FUN_004037f0(0,0);
+    reinterpret_cast<::TextString *>(&(VATSAttackName))->FUN_004037f0(0,0);
 }
 
 // @fnv 0x00525510
 void TESObjectWEAP::QueueResourceLoad(int priority, QueuedFile* file, bool includeScope)
 {
     if(m_kModel.GetModelLength())
-        g_modelLoader->ProcessModelRequest(&m_kModel,priority,file,false,true,false,false);
-    if(includeScope && GetHasScope() && m_kModel1stPerson.GetModelLength())
-        g_modelLoader->ProcessModelRequest(&m_kModel1stPerson,priority,file,TES::GetModelResourceType(this),true,false,false);
-    if(GetProjectileData(0)) GetProjectileData(0)->QueueResourceLoad(priority,file);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(&m_kModel),priority,(std::uintptr_t)(file),false,true,false,false);
+    if(includeScope && reinterpret_cast<::FUN_004ad010_shell *>(this)->IsFlag4Set() && m_kModel1stPerson.GetModelLength())
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::intptr_t)(&m_kModel1stPerson),priority,(std::intptr_t)(file),::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESObject *)(this)),true,false,false);
+    if(((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) ((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))->QueueResourceLoad(priority,file);
     if(m_pImpactDataSet) m_pImpactDataSet->QueueResourceLoad(priority,file);
-}
-
-// @fnv 0x00525b20
-unsigned char TESObjectWEAP::GetDamageForActor(bool includeMods, bool ignoreAmmo, Actor* actor)
-{
-    unsigned char count = data.m_ucProjectileCount;
-    if(!ignoreAmmo && GetCurrentAmmo(actor) && GetCurrentAmmo(actor)->GetByteAtOffsetB0() > 0)
-        count = GetCurrentAmmo(actor)->GetByteAtOffsetB0() * GetAmmoPerShot();
-    if(includeMods) count += GetModdedWeaponValue(WEAPON_MOD_EFFECT_WEAPON_MOD_SPLIT_BEAM,0);
-    return count;
 }
 
 // @fnv 0x009b6600
@@ -1019,7 +501,6 @@ struct ThreeByThreeMatrix {
     void MakeDiagonal(float, float, float);
     void SetXRotation(float);
     void SetYRotation(float);
-    void SetZRotation(float);
     void MakeZRotationQ(float);
     void MakeAxisAngleRotation(float, void*);
     void MakeAxisAngleRotation(float, float, float, float);
@@ -1057,7 +538,6 @@ struct ThreeByThreeMatrix {
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct FUN_00524ac0_shell : public ThreeByThreeMatrix {
     void FUN_00524ac0(float);
 };
@@ -1082,51 +562,52 @@ void FUN_00524ac0_shell::FUN_00524ac0(float afAngle)
     *(float*)&m_afEntries[32] = cs;
 }
 
-struct TESObjectCELL {
+class TESObjectCELL {
+  public:
     NiAVObject* GetCellChildAt(int);
 };
 
 // @fnv 0x00524cf0
-NiAVObject* __fastcall FUN_00524cf0(TESObjectCELL* apCell)
+NiAVObject* FUN_00524cf0(TESObjectCELL* apCell)
 {
     return apCell->GetCellChildAt(1);
 }
 
 // @fnv 0x00524d10
-bool __fastcall FUN_00524d10(bool* pThis)
+bool FUN_00524d10(bool* pThis)
 {
     return pThis[0x64b];
 }
 
 namespace fnv_00524d70 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorCause;
 struct ActorMover;
-struct ActorValueOwner;
+class ActorValueOwner;
 struct ActorCombatEntry;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
 struct MusicMarkerReference;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
 struct BGSMusicType;
 struct BGSNote;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
-struct BGSQuestObjective;
+class BGSQuestObjective;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSAnimNote;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -1136,18 +617,18 @@ struct BipedAnim;
 struct BipedActor;
 struct CombatGroupCollection;
 struct CellMopp;
-struct NiNodeBooleanState;
+class NiNodeBooleanState;
 struct CombatController;
 struct ActorCombatGroup;
 struct ContinuousBeamProjectile;
 struct Crime;
 struct GameFormRecord;
 struct DialoguePackage;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
 struct TeleportableReference;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -1156,81 +637,81 @@ struct BooleanIntegerAccessor;
 struct FurnitureRelatedType;
 struct BooleanFloatQuery;
 struct IDebugText;
-struct ImageSpaceModifierInstanceDOF;
+class ImageSpaceModifierInstanceDOF;
 struct ImageSpaceModifierInstanceDRB;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
 struct MagicShaderHitEffect;
-struct MagicTarget;
-struct MapMarkerData;
-struct MediaLocationController;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicTarget;
+class MapMarkerData;
+class MediaLocationController;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct PlayerTargetLocation;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
 struct IntegerPairPointerRecord;
-struct Projectile;
-struct QueuedFile;
+class Projectile;
+class QueuedFile;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
-struct TESActorBase;
+class TESActorBase;
 struct TESCaravanCard;
 struct TESClass;
 struct TESCombatStyle;
-struct TESContainer;
+class TESContainer;
 struct TESFaction;
 struct TESGlobal;
-struct TESIdleForm;
-struct TESObjectARMO;
-struct TESObjectBOOK;
-struct TESObjectCELL;
+class TESIdleForm;
+class TESObjectARMO;
+class TESObjectBOOK;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectDOOR;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESPackage;
-struct TESQuest;
+class TESObjectREFR;
+class TESPackage;
+class TESQuest;
 struct PlayerQuestData;
 struct TESRace;
-struct TESRegion;
-struct TESRegionList;
+class TESRegion;
+class TESRegionList;
 struct TESReputation;
 struct TESSkill;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct PathingPath;
 struct TrapEntry;
 struct TrespassPackage;
 struct WaterZone;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkMouseSpringAction;
 struct bhkNiCollisionObject;
 struct bhkRagdollController;
@@ -1245,40 +726,39 @@ struct blob48 { char b[48]; };
 extern blob12 NiPoint3_ZERO;
 
 // @fnv 0x00524d70
-void __fastcall FUN_00524d70(char* this_ptr)
+void FUN_00524d70(char* this_ptr)
 {
     *(int*)(this_ptr + 0xd2c) = 0;
     *(blob12*)(this_ptr + 0xd30) = NiPoint3_ZERO;
 }
 }  // namespace fnv_00524d70
 
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode { BSFaceGenAnimationData* GetAnimationData(); };
-struct Flt { BSFaceGenNiNode* GetNode() const; };
+struct Flt {  };
 struct GlobalObject_00633c90 { char pad[4]; };
-extern GlobalObject_00633c90 g_011deb7c;
 // @fnv 0x00524c90
 BSFaceGenAnimationData* FUN_00524c90()
 {
-    return ((BSFaceGenNiNode*)(((Flt*)&g_011deb7c)->GetNode()))->GetAnimationData();
+    return ((BSFaceGenNiNode*)(((::BSFaceGenNiNode *)(::FUN_00559450((int *)(((Flt*)&::g_011deb7c)))))))->GetAnimationData();
 }
 
-struct FUN_00522440_shell
+struct FUN_00522440_shell : public ::TESObjectWEAP
 {
-    int __thiscall GetValueByFlag(bool bUse);
+    std::intptr_t GetValueByFlag(bool bUse);
 };
 
 // Returns the int at offset 0x244 when bUse is true, otherwise the int at offset 0x220.
 // @fnv 0x00522440
-int __thiscall FUN_00522440_shell::GetValueByFlag(bool bUse)
+std::intptr_t FUN_00522440_shell::GetValueByFlag(bool bUse)
 {
     if (bUse)
     {
-        return *(int*)((char*)this + 0x244);
+        return reinterpret_cast<std::intptr_t>(m_pWeaponPickupSound);
     }
     else
     {
-        return *(int*)((char*)this + 0x220);
+        return reinterpret_cast<std::intptr_t>(m_pWeaponSound2);
     }
 }
 
@@ -1286,42 +766,42 @@ struct FUN_00522500_shell
 {
     char pad[0x234];
     unsigned int field234;
-    unsigned int GetField234();
+    std::uintptr_t GetField234();
 };
 
 // @fnv 0x00522500
-unsigned int FUN_00522500_shell::GetField234()
+std::uintptr_t FUN_00522500_shell::GetField234()
 {
     return field234;
 }
 
-struct FUN_00522520_shell
+struct FUN_00522520_shell : public ::TESObjectWEAP
 {
-    int __thiscall GetField238();
+    std::intptr_t GetField238();
 };
 
 // @fnv 0x00522520
-int __thiscall FUN_00522520_shell::GetField238()
+std::intptr_t FUN_00522520_shell::GetField238()
 {
-    return *(int*)((char*)this + 0x238);
+    return reinterpret_cast<std::intptr_t>(m_pWeaponSound8);
 }
 
-struct FUN_00522560_shell
+struct FUN_00522560_shell : public ::TESObjectWEAP
 {
-    int __thiscall FUN_00522560(bool param);
+    int FUN_00522560(bool param);
 };
 
 // Returns 2 when param is true, otherwise returns the int stored at offset 0x364 of this object.
 // @fnv 0x00522560
-int __thiscall FUN_00522560_shell::FUN_00522560(bool abReturnTwo)
+int FUN_00522560_shell::FUN_00522560(bool abReturnTwo)
 {
     if (abReturnTwo)
         return 2;
     else
-        return *(int*)((char*)this + 0x364);
+        return m_eSoundLevel;
 }
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 struct FUN_0048ea80_t {
     void FUN_0048ea80(BGSLoadFormBuffer* b);
@@ -1329,7 +809,7 @@ struct FUN_0048ea80_t {
 
 void FUN_0048ea80_t::FUN_0048ea80(BGSLoadFormBuffer* b) {}
 
-struct FUN_00523120_shell : public TESForm {
+struct FUN_00523120_shell : public ::TESObjectWEAP {
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
@@ -1337,47 +817,56 @@ struct FUN_00523120_shell : public TESForm {
 void FUN_00523120_shell::LoadGame(BGSLoadFormBuffer* buffer)
 {
     TESForm::LoadGame(buffer);
-    reinterpret_cast<FUN_0048ea80_t*>(reinterpret_cast<char*>(this) + 0x84)->FUN_0048ea80(buffer);
+    reinterpret_cast<::FUN_0048ea80_Class *>(static_cast<TESValueForm*>(this))->FUN_0048ea80(buffer);
 }
 
-extern void* DAT_011c621c;
 
 // @fnv 0x00524cb0
 void* FUN_00524cb0()
 {
-    return DAT_011c621c;
+    return (*reinterpret_cast<void * *>(&::DAT_011c621c));
 }
 
-struct NiFixedString;
-extern NiFixedString* DAT_011c6220;
+class NiFixedString;
 
 // @fnv 0x00524cc0
 NiFixedString* FUN_00524cc0()
 {
-    return DAT_011c6220;
+    return ::DAT_011c6220;
 }
 
 struct FUN_00524d30_shell {
+    char pad[0x1f8];
+    char cUnk1f8;
     void SetByteAtOffset1F8(char arg);
 };
 
 // @fnv 0x00524d30
 void FUN_00524d30_shell::SetByteAtOffset1F8(char acValue) {
-    ((char*)this)[0x1f8] = acValue;
+    cUnk1f8 = acValue;
 }
 
-struct FUN_00525be0_shell
+struct FUN_00525be0_shell : public ::TESObjectWEAP
 {
     char GetByteAtOffsetB0();
 };
+// @fnv 0x00525b20
+unsigned char TESObjectWEAP::GetDamageForActor(bool includeMods, bool ignoreAmmo, Actor* actor)
+{
+    unsigned char count = data.m_ucProjectileCount;
+    if(!ignoreAmmo && ((::TESAmmo *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(actor)))) && ((unsigned char)(reinterpret_cast<::FUN_00525be0_shell *>((((::TESAmmo *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(actor))))))->GetByteAtOffsetB0())) > 0)
+        count = ((unsigned char)(reinterpret_cast<::FUN_00525be0_shell *>((((::TESAmmo *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(actor))))))->GetByteAtOffsetB0())) * reinterpret_cast<::FUN_00524b60_shell *>(this)->GetByteAt102();
+    if(includeMods) count += reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_SPLIT_BEAM)),0);
+    return count;
+}
 
 // @fnv 0x00525be0
 char FUN_00525be0_shell::GetByteAtOffsetB0()
 {
-    return *reinterpret_cast<char*>(reinterpret_cast<unsigned char*>(this) + 0xb0);
+    return m_ucClipRounds;
 }
 
-struct FUN_00645c60_shell
+struct FUN_00645c60_shell : public ::TESObjectWEAP
 {
     virtual float GetField178Float() const;
 };
@@ -1385,21 +874,21 @@ struct FUN_00645c60_shell
 // @fnv 0x00645c60
 float FUN_00645c60_shell::GetField178Float() const
 {
-    return *reinterpret_cast<const float*>(reinterpret_cast<const unsigned char*>(this) + 0x178);
+    return data.m_fMaximumSemiAutomaticFireDelay;
 }
 
-struct FUN_008bffa0_shell
+struct FUN_008bffa0_shell : public ::TESObjectWEAP
 {
-    int __thiscall GetField228();
+    std::intptr_t GetField228();
 };
 
 // @fnv 0x008bffa0
-int __thiscall FUN_008bffa0_shell::GetField228()
+std::intptr_t FUN_008bffa0_shell::GetField228()
 {
-    return *(int*)((char*)this + 0x228);
+    return reinterpret_cast<std::intptr_t>(m_pWeaponSound4);
 }
 
-struct FUN_0051f5f0_shell
+struct FUN_0051f5f0_shell : public ::TESObjectWEAP
 {
     unsigned int GetByteAt11D();
 };
@@ -1407,20 +896,20 @@ struct FUN_0051f5f0_shell
 // @fnv 0x0051f5f0
 unsigned int FUN_0051f5f0_shell::GetByteAt11D()
 {
-    return ((unsigned char*)this)[0x11d];
+    return data.m_ucAttackAnimation;
 }
 
-struct FUN_0051f610_shell {
+struct FUN_0051f610_shell : public ::TESObjectWEAP {
     unsigned int GetByteAtOffset101();
 };
 
 // @fnv 0x0051f610
 unsigned int FUN_0051f610_shell::GetByteAtOffset101()
 {
-    return ((unsigned char*)this)[0x101];
+    return data.m_ucGripAnimation;
 }
 
-struct FUN_00521580_shell {
+struct FUN_00521580_shell : public ::TESObjectWEAP {
     char m_011e; // placeholder
     void FUN_00521580(bool bVal);
 };
@@ -1428,17 +917,17 @@ struct FUN_00521580_shell {
 // @fnv 0x00521580
 void FUN_00521580_shell::FUN_00521580(bool bVal)
 {
-    *(char*)((char*)this + 0x11E) = bVal;
+    data.m_ucProjectileCount = bVal;
 }
 
-struct FUN_00522540_shell {
-    int __thiscall GetField23C();
+struct FUN_00522540_shell : public ::TESObjectWEAP {
+    std::intptr_t GetField23C();
 };
 
 // @fnv 0x00522540
-int __thiscall FUN_00522540_shell::GetField23C()
+std::intptr_t FUN_00522540_shell::GetField23C()
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x23c);
+    return reinterpret_cast<std::intptr_t>(m_pWeaponUnequipSound);
 }
 
 namespace fnv_00522c00 {
@@ -1446,28 +935,25 @@ struct Flt {
     operator unsigned int() const;
 };
 
-struct FUN_00522c00_shell {
-    unsigned char FUN_0046e8c0();
-    unsigned int FUN_00522c00();
+struct FUN_00522c00_shell : public ::TESObjectWEAP {
+    std::uintptr_t FUN_00522c00();
 };
 
 // @fnv 0x00522c00
-unsigned int FUN_00522c00_shell::FUN_00522c00()
+std::uintptr_t FUN_00522c00_shell::FUN_00522c00()
 {
-    if (FUN_0046e8c0())
+    if (((unsigned char)(reinterpret_cast<::FUN_0046e8c0_class *>(this)->FUN_0046e8c0())))
     {
-        return reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x35c)->operator unsigned int();
+        return reinterpret_cast<Flt*>(&m_kEmbeddedWeaponNodeName)->operator unsigned int();
     }
     return 0;
 }
 }  // namespace fnv_00522c00
 
 struct TESFormStub {
-    void FUN_00484c50(unsigned int, unsigned int);
 };
 
 struct TESValueFormStub {
-    void FUN_0048ea10(unsigned int, unsigned int);
 };
 
 struct FUN_005230b0_shell {
@@ -1481,17 +967,15 @@ struct FUN_005230b0_shell {
 // @fnv 0x005230b0
 void FUN_005230b0_shell::FUN_005230b0(unsigned int auiArg1, unsigned int auiArg2)
 {
-    m_stub.FUN_00484c50(auiArg1, auiArg2);
-    m_valueStub.FUN_0048ea10(auiArg1, auiArg2);
+    reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>(&(m_stub))->FUN_00484c50(auiArg1, auiArg2);
+    reinterpret_cast<::fnv_0048ea10::TESValueForm *>(&(m_valueStub))->FUN_0048ea10(auiArg1, auiArg2);
 }
 
 struct BGSSaveFormBuffer;
 
 struct FUN_00484d60_holder {
-    void SaveIfChanged(BGSSaveFormBuffer*);
 };
 struct FUN_0048ea40_holder {
-    void FUN_0048ea40(BGSSaveFormBuffer*);
 };
 
 struct FUN_005230f0_shell : TESObjectWEAP {
@@ -1501,103 +985,94 @@ struct FUN_005230f0_shell : TESObjectWEAP {
 // @fnv 0x005230f0
 void FUN_005230f0_shell::FUN_005230f0(BGSSaveFormBuffer* buffer)
 {
-    reinterpret_cast<FUN_00484d60_holder*>(this)->SaveIfChanged(buffer);
-    reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x84)->FUN_0048ea40(buffer);
+    reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
 }
 
 struct FUN_00524cd0_shell
 {
+    char pad[0xd];
+    unsigned char ucUnk0d;
     unsigned char GetByteAt0D();
 };
 
 // @fnv 0x00524cd0
 unsigned char FUN_00524cd0_shell::GetByteAt0D()
 {
-    return ((unsigned char*)this)[0x0d];
+    return ucUnk0d;
 }
 
 struct FUN_00524d50_shell
 {
+    char pad[0x1f8];
+    char cUnk1f8;
     char GetByteAtOffset1F8();
 };
 
 // @fnv 0x00524d50
 char FUN_00524d50_shell::GetByteAtOffset1F8()
 {
-    return ((char*)this)[0x1f8];
+    return cUnk1f8;
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_0051dad0_This {
     void FUN_0051db00();
     void* FUN_0051dad0(unsigned int);
 };
-// Calls FUN_0051db00 on this, frees this with _Deallocate when flags has bit 1 set, and returns this.
-// @fnv 0x0051dad0
-void* FUN_0051dad0_This::FUN_0051dad0(unsigned int flags)
-{
-    this->FUN_0051db00();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
-struct FUN_004fb7a0_obj { int FUN_004fb7a0(int); };
-struct FUN_00522ba0_obj { int FUN_00522ba0(int); };
+struct FUN_004fb7a0_obj {  };
+struct FUN_00522ba0_obj : public ::TESObjectWEAP { std::intptr_t FUN_00522ba0(int); };
 // If the object at offset 0x24C is non-null, forwards a1 to its FUN_004fb7a0 and returns the result; otherwise returns 0.
 // @fnv 0x00522ba0
-int FUN_00522ba0_obj::FUN_00522ba0(int a1)
+std::intptr_t FUN_00522ba0_obj::FUN_00522ba0(int a1)
 {
-    int val = 0;
-    if (*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C) != 0)
-        val = (*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C))->FUN_004fb7a0(a1);
+    std::intptr_t val = 0;
+    if (reinterpret_cast<FUN_004fb7a0_obj*&>(m_pImpactDataSet) != 0)
+        val = ((std::intptr_t)(reinterpret_cast<::Proxy804 *>(((reinterpret_cast<FUN_004fb7a0_obj*&>(m_pImpactDataSet))))->FUN_004fb7a0(a1)));
     return val;
 }
 
 namespace fnv_00522be0 {
 struct Flt { operator unsigned int(); };
-struct FUN_00522be0_shell {
-    unsigned int FUN_00522be0();
+struct FUN_00522be0_shell : public ::TESObjectWEAP {
+    uintptr_t FUN_00522be0();
 };
 // @fnv 0x00522be0
-unsigned int FUN_00522be0_shell::FUN_00522be0()
+uintptr_t FUN_00522be0_shell::FUN_00522be0()
 {
-    return ((Flt*)((char*)this + 0x368))->operator unsigned int();
+    return reinterpret_cast<Flt*>(&VATSAttackName)->operator unsigned int();
 }
 }  // namespace fnv_00522be0
 
-struct FUN_0051b070_shell { void FUN_00484c20(unsigned int); void FUN_0048e9e0(unsigned int); };
-struct FUN_00523080_shell { void FUN_00523080(unsigned int); };
+struct FUN_0051b070_shell {   };
+struct FUN_00523080_shell : public ::TESObjectWEAP { void FUN_00523080(unsigned int); };
 // Forwards aiFlags to FUN_00484c20 on this and to FUN_0048e9e0 on the object at offset 0x84.
 // @fnv 0x00523080
 void FUN_00523080_shell::FUN_00523080(unsigned int aiFlags)
 {
-    ((FUN_0051b070_shell*)this)->FUN_00484c20(aiFlags);
-    ((FUN_0051b070_shell*)((char*)this + 0x84))->FUN_0048e9e0(aiFlags);
+    reinterpret_cast<::PC7d *>((((FUN_0051b070_shell*)this)))->FUN_00484c20(aiFlags);
+    reinterpret_cast<::fnv_0048e9e0::TESValueForm *>(static_cast<TESValueForm*>(this))->FUN_0048e9e0(aiFlags);
 }
 
-float __cdecl FUN_00404010(float, float);
 struct FUN_00524b80_This : TESObjectWEAP { float FUN_00524b80(bool); };
 // Returns the weapon's spread at offset 0x104, reduced by the weapon-mod decrease-spread effect when bModValue is set.
 // @fnv 0x00524b80
 float FUN_00524b80_This::FUN_00524b80(bool abApplyMod)
 {
 	if (abApplyMod)
-		return FUN_00404010(0.0f, *(float*)((char*)this + 0x104) - GetModdedWeaponValue(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD, 0));
+		return FUN_00404010(0.0f, this->data.m_fMinimumSpread - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
 	else
-		return *(float*)((char*)this + 0x104);
+		return this->data.m_fMinimumSpread;
 }
 
-float __cdecl FUN_00404010(float, float);
 struct FUN_00524be0_shell : TESObjectWEAP { float FUN_00524be0(bool); };
 // Returns the weapon's spread at offset 0x108, reduced by the weapon-mod decrease-spread effect when bModValue is set.
 // @fnv 0x00524be0
 float FUN_00524be0_shell::FUN_00524be0(bool abApplyMod)
 {
 	if (abApplyMod)
-		return FUN_00404010(0.0f, *(float *)((char *)this + 0x108) - GetModdedWeaponValue(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD, 0));
+		return FUN_00404010(0.0f, this->data.fBodyPartChance - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
 	else
-		return *(float *)((char *)this + 0x108);
+		return this->data.fBodyPartChance;
 }
 
 namespace fnv_00524c40 {
@@ -1613,28 +1088,26 @@ NiPoint3 TransHolder::FUN_00524c40(NiPoint3 const &aPoint) const
 }  // namespace fnv_00524c40
 
 struct Unk005256b0 {
-    bool FUN_0046e8c0();
-    const char* FUN_00522c00();
     const char* GetProjectileNodeName();
 };
 // Returns the result of FUN_00522c00 if FUN_0046e8c0 and FUN_00522c00 succeed and the string is non-empty, otherwise "ProjectileNode".
 // @fnv 0x005256b0
 const char* Unk005256b0::GetProjectileNodeName()
 {
-    return FUN_0046e8c0() && FUN_00522c00() && *FUN_00522c00() ? FUN_00522c00() : "ProjectileNode";
+    return reinterpret_cast<::FUN_0046e8c0_class *>(this)->FUN_0046e8c0() && ((const char *)(reinterpret_cast<::fnv_00522c00::FUN_00522c00_shell *>(this)->FUN_00522c00())) && *((const char *)(reinterpret_cast<::fnv_00522c00::FUN_00522c00_shell *>(this)->FUN_00522c00())) ? ((const char *)(reinterpret_cast<::fnv_00522c00::FUN_00522c00_shell *>(this)->FUN_00522c00())) : "ProjectileNode";
 }
 
-struct SceneObjectLookup { static NiAVObject* __cdecl GetObjectByName(NiAVObject*, char const*); };
-struct UnkClass25700 { const char* GetProjectileNodeName(); NiAVObject* FUN_00525700(NiAVObject*); };
+struct SceneObjectLookup {  };
+struct UnkClass25700 {  NiAVObject* FUN_00525700(NiAVObject*); };
 // @fnv 0x00525700
 NiAVObject* UnkClass25700::FUN_00525700(NiAVObject* apObject)
 {
     NiAVObject* pFoundObject;
     const char* pNodeName;
-    pNodeName = this->GetProjectileNodeName();
-    pFoundObject = SceneObjectLookup::GetObjectByName(apObject, pNodeName);
+    pNodeName = reinterpret_cast<::Unk005256b0 *>((this))->GetProjectileNodeName();
+    pFoundObject = ::FUN_004aae30(apObject, (::NiFixedString *)(pNodeName));
     if (pFoundObject == 0)
-        pFoundObject = SceneObjectLookup::GetObjectByName(apObject, "##ProjectileNode");
+        pFoundObject = ::FUN_004aae30(apObject, (::NiFixedString *)("##ProjectileNode"));
     return pFoundObject;
 }
 
@@ -1660,7 +1133,6 @@ struct S522c30
 {
     unsigned char _pad[0x11F];
     unsigned char field_11F;
-    bool FUN_0046e8c0();
     int FUN_00522c30();
 };
 // Returns -1 unless FUN_0046e8c0 succeeds, otherwise field_11F + 0x19 clamped to at most 0x1F.
@@ -1668,7 +1140,7 @@ struct S522c30
 int S522c30::FUN_00522c30()
 {
     int model = -1;
-    if (FUN_0046e8c0())
+    if (reinterpret_cast<::FUN_0046e8c0_class *>(this)->FUN_0046e8c0())
     {
         model = field_11F + 0x19;
         if (model >= 0x20)
@@ -1696,8 +1168,8 @@ struct FUN_00523020_shell {
 unsigned short FUN_00523020_shell::GetSaveSize(unsigned int aiFlags)
 {
     unsigned short usSize = 0;
-    usSize += m_iWordAt00.GetSaveSize(aiFlags);
-    usSize += m_cByteAtOffset1.GetSaveSize(aiFlags);
+    usSize += reinterpret_cast<::FUN_00484bf0_shell *>(&(m_iWordAt00))->FUN_00484bf0(aiFlags);
+    usSize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>(&(m_cByteAtOffset1))->FUN_0048e9b0(aiFlags);
     return usSize;
 }
 
@@ -1775,43 +1247,40 @@ TESModel* FUN_00522df0_shell::GetModelForModFlags(unsigned char acModFlags, bool
                 m_kModelObjectsItem = &m_kWeaponModTextureSwap3;
         }
     }
-    if (!m_kModelObjectsItem || GetFormID() == 0x1735d4)
+    if (!m_kModelObjectsItem || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) == 0x1735d4)
         m_kModelObjectsItem = this;
     return m_kModelObjectsItem;
 }
 
-struct FUN_00525450_shell {
+struct FUN_00525450_shell : public ::BGSPreloadable {
     void QueueModelsForLoad(int, class QueuedFile*);
 };
 
 // @fnv 0x00525450
 void FUN_00525450_shell::QueueModelsForLoad(int aiIndex, class QueuedFile* apFile)
 {
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)->GetModelLength())
-        g_modelLoader->ProcessModelRequest(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104), aiIndex, apFile, 0, true, false, false);
-    if (reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)->GetProjectileData(0))
-        reinterpret_cast<TESModel*>(reinterpret_cast<char*>(reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)->GetProjectileData(0)) + 0x54)->vfn_10(aiIndex, apFile);
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x180))
-        reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x180)) + 0x18)->vfn_10(aiIndex, apFile);
+    if (static_cast<TESModel*>(&static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_kModel)->GetModelLength())
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(static_cast<TESModel*>(&static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_kModel)), aiIndex, (std::uintptr_t)(apFile), 0, true, false, false);
+    if (((::BGSProjectile *)(reinterpret_cast<::Thing *>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this)))->GetOrFallback((int)(0)))))
+        reinterpret_cast<TESModel*>(static_cast<BGSPreloadable *>((::BGSProjectile *)(reinterpret_cast<::Thing *>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this)))->GetOrFallback((int)(0)))))->vfn_10(aiIndex, apFile);
+    if (static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_pImpactDataSet)
+        reinterpret_cast<TESModelTextureSwap*>(static_cast<BGSPreloadable *>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_pImpactDataSet))->vfn_10(aiIndex, apFile);
 }
 
-struct GlobalObject_0045cfe0 { int* Int(); };
-extern GlobalObject_0045cfe0 g_011cd3b4;
-extern GlobalObject_0045cfe0 g_011cd538;
-extern GlobalObject_0045cfe0 g_011cdde0;
-struct FUN_00525620_shell { int GetStateValue(bool a, bool b); };
+struct GlobalObject_0045cfe0 {  };
+struct FUN_00525620_shell : public ::TESObjectWEAP { int GetStateValue(bool a, bool b); };
 // Reads a state value from offset 0x364, overridden to 2 or 1 by the flags, and returns the int from the matching global.
 // @fnv 0x00525620
 int FUN_00525620_shell::GetStateValue(bool abForceState2, bool abForceState1)
 {
     int r7 = 0;
-    int s = *(int*)((char*)this + 0x364);
+    int s = m_eSoundLevel;
     if (abForceState2) s = 2;
     if (abForceState1) s = 1;
     switch (s) {
-    case 2: r7 = *g_011cd3b4.Int(); break;
-    case 1: r7 = *g_011cd538.Int(); break;
-    case 0: r7 = *g_011cdde0.Int(); break;
+    case 2: r7 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4)))))); break;
+    case 1: r7 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd538)))))); break;
+    case 0: r7 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cdde0)))))); break;
     }
     return r7;
 }
@@ -1883,6 +1352,15 @@ struct FUN_0051db00 :
 
     ~FUN_0051db00();
 };
+// Calls FUN_0051db00 on this, frees this with _Deallocate when flags has bit 1 set, and returns this.
+// @fnv 0x0051dad0
+void* FUN_0051dad0_This::FUN_0051dad0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0051db00 *>((this))->FUN_0051db00::~FUN_0051db00();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that clears the weapon's data via TESObjectWEAP::ClearData.
 // @fnv 0x0051db00
@@ -1971,6 +1449,193 @@ public:
     unsigned int m_flags;
     void SetFlag2(bool abSet);
 };
+// @fnv 0x0051e420
+void TESObjectWEAP::InitItem()
+{
+    if(reinterpret_cast<::TESForm *>((void *)this)->GetInitialized()) return;
+    BGSBipedModelList::InitItem(this);
+    TESScriptableForm::InitItem(this);
+    TESEnchantableForm::InitItem(this);
+    reinterpret_cast<::FUN_00474bc0_shell *>(this)->CompareAmmo((::BaseFormComponent *)(::TESForm *)(this));
+    BGSDestructibleObjectForm::InitItem(this);
+    TESModelTextureSwap::InitItem(this);
+    BGSRepairItemList::InitItem(this);
+    BGSPickupPutdownSounds::InitItem(this);
+    std::uintptr_t formID = (std::uintptr_t)((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        reinterpret_cast<::FUN_0051f4b0_shell *>(this)->FUN_0051f4b0((std::intptr_t)(dynamic_cast<BGSProjectile*>(::FUN_004839c0(formID))));
+        if(!((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)((::TESEffectShader *)(std::uintptr_t)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()));
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        reinterpret_cast<::FUN_0051f570_shell *>(this)->SetEffectShader(dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID)));
+        if(!((::TESEffectShader *)(std::uintptr_t)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()))) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()));
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        reinterpret_cast<::FUN_0051f4f0_Class *>(this)->FUN_0051f4f0((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
+        if(!((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()))) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()));
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        reinterpret_cast<::FUN_0051f530_class *>(this)->FUN_0051f530((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
+        if(!((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()))) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponSound1;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponSound1 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponSound1) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponSound2;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponSound2 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponSound2) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponSound3;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponSound3 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponSound3) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponSound4;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponSound4 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponSound4) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponSound5;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponSound5 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponSound5) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponSound6;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponSound6 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponSound6) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponSound7;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponSound7 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponSound7) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponSound8;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponSound8 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponSound8) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponUnequipSound;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponUnequipSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponUnequipSound) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponEquipSound;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponEquipSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponEquipSound) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponPickupSound;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponPickupSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponPickupSound) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponDropSound;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponDropSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if(!m_pWeaponDropSound) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pImpactDataSet;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pImpactDataSet = dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID));
+        if(!m_pImpactDataSet) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)p1stPersonObject;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        p1stPersonObject = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
+        if(!p1stPersonObject) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)p1stPersonMod1Object;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        p1stPersonMod1Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
+        if(!p1stPersonMod1Object) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)p1stPersonMod2Object;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        p1stPersonMod2Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
+        if(!p1stPersonMod2Object) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)p1stPersonMod3Object;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        p1stPersonMod3Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
+        if(!p1stPersonMod3Object) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)p1stPersonMod12Object;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        p1stPersonMod12Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
+        if(!p1stPersonMod12Object) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)p1stPersonMod13Object;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        p1stPersonMod13Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
+        if(!p1stPersonMod13Object) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)p1stPersonMod23Object;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        p1stPersonMod23Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
+        if(!p1stPersonMod23Object) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)p1stPersonMod123Object;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        p1stPersonMod123Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
+        if(!p1stPersonMod123Object) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponMod1;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponMod1 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));
+        if(!m_pWeaponMod1) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponMod2;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponMod2 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));
+        if(!m_pWeaponMod2) ::FUN_005b5e40();
+    }
+    formID = (std::uintptr_t)m_pWeaponMod3;
+    if(formID) {
+        ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
+        m_pWeaponMod3 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));
+        if(!m_pWeaponMod3) ::FUN_005b5e40();
+    }
+    if(data.fSpeed <= 0.0) data.fSpeed = 1.0f;
+    if(data.m_fAnimationAttackMultiplier <= 0.0) data.m_fAnimationAttackMultiplier = 1.0f;
+    if((*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011c94d0)).Bool()->b) reinterpret_cast<::FUN_0051f590_cls *>(this)->SetFlag2(true);
+    m_bHasReloadAnimation = false;
+    if(data.m_ucReloadAnimation >= 19) m_bHasReloadAnimation = true;
+    SetInitializationState(true);
+}
 
 // @fnv 0x0051f590
 void FUN_0051f590_cls::SetFlag2(bool abSet)
@@ -1982,37 +1647,31 @@ typedef unsigned int UInt32;
 
 
 
-void __cdecl WriteChunkU32(UInt32 chunk, UInt32 value);
-void __cdecl WriteChunkStr(UInt32 chunk, const char* str, UInt32 len);
-void __cdecl WriteChunkBuf(UInt32 chunk, void* buf, UInt32 len);
-bool __cdecl IsBigEndian();
 
 struct BSString
 {
     char* pString;
     unsigned short len;
     unsigned short max;
-    UInt32 Length();
-    const char* CStr();
 };
 
-struct FullName { char pad[0xc]; void Save(); };
-struct ModelSwap { char pad[0x20]; void Save(UInt32 a, UInt32 b, UInt32 c); void SaveSwap(UInt32 a); };
-struct Icon { char pad[0xc]; void Save(UInt32 a); };
-struct Scriptable { char pad[0xc]; void Save(); };
-struct Enchantable { char pad[0x30]; void Save(); };
-struct ValueForm { char pad[0x10]; void Save(); };
-struct WeightForm { char pad[0x8]; void Save(); };
-struct HealthForm { char pad[0x8]; void Save(); };
-struct AttackDamage { char pad[0xc]; void Save(); };
-struct MessageFullNameRecord { char pad[0x10]; void Save(UInt32 a); };
-struct AmmoForm { char pad[0x8]; void Save(); };
-struct ClipRounds { char pad[0xc]; void Save(); };
-struct WeapData { char pad[0x24]; TESForm* pProjectile; char pad2[0xa4]; void Swap(); };
-struct CritData { char pad[0xc]; TESForm* pEffect; void Swap(); };
-struct Model { char pad[0x18]; void Save(UInt32 a, UInt32 b); };
-struct ModModel { char pad[0x20]; void Save(UInt32 a, UInt32 b, UInt32 c); };
-struct VATSData { TESForm* pEffect; char pad[0x10]; void Swap(); };
+struct FullName { char pad[0xc];  };
+struct ModelSwap { char pad[0x20];   };
+struct Icon { char pad[0xc];  };
+struct Scriptable { char pad[0xc];  };
+struct Enchantable { char pad[0x30];  };
+struct ValueForm { char pad[0x10];  };
+struct WeightForm { char pad[0x8];  };
+struct HealthForm { char pad[0x8];  };
+struct AttackDamage { char pad[0xc];  };
+struct MessageFullNameRecord { char pad[0x10];  };
+struct AmmoForm { char pad[0x8];  };
+struct ClipRounds { char pad[0xc];  };
+struct WeapData { char pad[0x24]; TESForm* pProjectile; char pad2[0xa4];  };
+struct CritData { char pad[0xc]; TESForm* pEffect;  };
+struct Model { char pad[0x18];  };
+struct ModModel { char pad[0x20];  };
+struct VATSData { TESForm* pEffect; char pad[0x10];  };
 
 struct Weapon
 {
@@ -2071,180 +1730,46 @@ struct Weapon
     BSString vatsAttackName;    // 0x368
     VATSData vats;              // 0x370
 
-    void BeginSave();
-    void EndSave();
-    void SaveHeader();
-    bool HasScope();
     void Save();
 };
 
-// @fnv 0x00521730
-void Weapon::Save()
-{
-    UInt32 savedProj;
-    UInt32 savedVats;
-    UInt32 savedCrit;
-
-    BeginSave();
-    fullName.Save();
-    model.Save(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    model.SaveSwap(0x44444f4d);
-    icon.Save(0x4e4f4349);
-    messageIcon.Save(0x4f43494d);
-    script.Save();
-    enchant.Save();
-    value.Save();
-    weight.Save();
-    health.Save();
-    damage.Save();
-    ammo.Save();
-    clip.Save();
-    shellModel.Save(0x32444f4d, 0x54324f4d);
-    if (HasScope()) {
-        scopeModel.Save(0x33444f4d, 0x54334f4d);
-        if (m_pWeaponEffectShader) {
-            UInt32 a = m_pWeaponEffectShader->GetFormID();
-            WriteChunkU32(0x44534645, a);
-        }
-    }
-    worldModel.Save(0x34444f4d, 0x54344f4d);
-    mod1.Save(0x3144574d, 0x3154574d, 0x53444f4d);
-    mod2.Save(0x3244574d, 0x3254574d, 0x53444f4d);
-    mod3.Save(0x3444574d, 0x3454574d, 0x53444f4d);
-    mod12.Save(0x3344574d, 0x3354574d, 0x53444f4d);
-    mod13.Save(0x3544574d, 0x3554574d, 0x53444f4d);
-    mod23.Save(0x3644574d, 0x3654574d, 0x53444f4d);
-    mod123.Save(0x3744574d, 0x3754574d, 0x53444f4d);
-    if (embeddedNode.Length())
-        WriteChunkStr(0x4d414e4e, embeddedNode.CStr(), embeddedNode.Length() + 1);
-    if (vatsAttackName.Length())
-        WriteChunkStr(0x4d4e4156, vatsAttackName.CStr(), vatsAttackName.Length() + 1);
-    if (pImpact) { UInt32 b = pImpact->GetFormID(); WriteChunkU32(0x4d414e49, b); }
-    if (p1st) { UInt32 c = p1st->GetFormID(); WriteChunkU32(0x4d414e57, c); }
-    if (p1st1) { UInt32 d = p1st1->GetFormID(); WriteChunkU32(0x314d4e57, d); }
-    if (p1st2) { UInt32 e = p1st2->GetFormID(); WriteChunkU32(0x324d4e57, e); }
-    if (p1st3) { UInt32 f = p1st3->GetFormID(); WriteChunkU32(0x344d4e57, f); }
-    if (p1st12) { UInt32 g = p1st12->GetFormID(); WriteChunkU32(0x334d4e57, g); }
-    if (p1st23) { UInt32 h = p1st23->GetFormID(); WriteChunkU32(0x364d4e57, h); }
-    if (p1st13) { UInt32 i = p1st13->GetFormID(); WriteChunkU32(0x354d4e57, i); }
-    if (p1st123) { UInt32 j = p1st123->GetFormID(); WriteChunkU32(0x374d4e57, j); }
-    if (pMod1) { UInt32 k = pMod1->GetFormID(); WriteChunkU32(0x31494d57, k); }
-    if (pMod2) { UInt32 l = pMod2->GetFormID(); WriteChunkU32(0x32494d57, l); }
-    if (pMod3) { UInt32 m = pMod3->GetFormID(); WriteChunkU32(0x33494d57, m); }
-    if (m_pWeaponSound1) { UInt32 n = m_pWeaponSound1->GetFormID(); WriteChunkU32(0x4d414e53, n); }
-    if (m_pWeaponSound2) { UInt32 o = m_pWeaponSound2->GetFormID(); WriteChunkU32(0x4d414e53, o); }
-    if (m_pWeaponSound3) { UInt32 p = m_pWeaponSound3->GetFormID(); WriteChunkU32(0x4d414e58, p); }
-    if (m_pWeaponSound4) { UInt32 q = m_pWeaponSound4->GetFormID(); WriteChunkU32(0x374d414e, q); }
-    if (pAttackFail) { UInt32 r = pAttackFail->GetFormID(); WriteChunkU32(0x4d414e54, r); }
-    if (pMeleeBlock) { UInt32 s = pMeleeBlock->GetFormID(); WriteChunkU32(0x364d414e, s); }
-    if (m_pIdleForm) { UInt32 t = m_pIdleForm->GetFormID(); WriteChunkU32(0x4d414e55, t); }
-    if (pEquip) { UInt32 u = pEquip->GetFormID(); WriteChunkU32(0x394d414e, u); }
-    if (pUnEquip) { UInt32 v = pUnEquip->GetFormID(); WriteChunkU32(0x384d414e, v); }
-    if (pSilenced) { UInt32 w = pSilenced->GetFormID(); WriteChunkU32(0x31534d57, w); }
-    if (pSilenced2) { UInt32 x = pSilenced2->GetFormID(); WriteChunkU32(0x31534d57, x); }
-    if (pSilenced2D) { UInt32 y = pSilenced2D->GetFormID(); WriteChunkU32(0x32534d57, y); }
-
-    SaveHeader();
-
-    savedCrit = (UInt32)data.pProjectile;
-    data.pProjectile = (TESForm*)(data.pProjectile ? data.pProjectile->GetFormID() : 0);
-    if (IsBigEndian())
-        data.Swap();
-    WriteChunkBuf(0x4d414e44, &data, 0xcc);
-    if (IsBigEndian())
-        data.Swap();
-
-    savedProj = (UInt32)crit.pEffect;
-    crit.pEffect = (TESForm*)(crit.pEffect ? crit.pEffect->GetFormID() : 0);
-    if (IsBigEndian())
-        crit.Swap();
-    WriteChunkBuf(0x54445243, &crit, 0x10);
-    if (IsBigEndian())
-        crit.Swap();
-
-    savedVats = (UInt32)vats.pEffect;
-    vats.pEffect = (TESForm*)(vats.pEffect ? vats.pEffect->GetFormID() : 0);
-    if (IsBigEndian())
-        vats.Swap();
-    WriteChunkBuf(0x53544156, &vats, 0x14);
-    if (IsBigEndian())
-        vats.Swap();
-
-    WriteChunkU32(0x4d414e56, soundLevel);
-
-    data.pProjectile = (TESForm*)savedCrit;
-    crit.pEffect = (TESForm*)savedProj;
-    vats.pEffect = (TESForm*)savedVats;
-    EndSave();
-}
-
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-extern unsigned char DAT_01183028;
-extern unsigned char DAT_01183998;
-TESObjectWEAP* __cdecl FUN_00ec43fb(unsigned int, unsigned int, void*, void*, unsigned int);
 struct StringCopyAccess : BSStringT<char> {
-    const char* FUN_00559450(bool);
-    void FUN_004037f0(const char*);
 };
 struct StackWord { unsigned int word; };
 struct WeaponCopyAccess;
-extern "C" void __fastcall FUN_004851b0(WeaponCopyAccess*, StackWord);
-extern "C" void* __fastcall FUN_008d8ac0(WeaponCopyAccess*);
 struct WeaponCopyAccess : TESObjectWEAP {
     void CopyFromWeapon(unsigned int id);
-    void FUN_008d8ae0(void*);
-    BGSImpactDataSet* FUN_008d8b00();
-    TESObjectSTAT* GetModSlotStat(unsigned char);
-    TESObjectIMOD* FUN_004bd570(unsigned char);
-    TESSound* GetValueByFlag(bool);
-    TESSound* GetPointerByFlag(bool);
-    TESSound* GetField228();
-    TESSound* GetField230();
-    TESSound* GetField22C();
-    TESSound* FUN_00522500();
-    TESSound* GetField238();
-    TESSound* GetField23C();
-    TESSound* FUN_00521630();
-    TESSound* GetField244();
-    TESSound* FUN_005224a0();
-    void FUN_005215f0(TESSound*);
-    void FUN_005c8a30(TESSound*);
-    void FUN_00521710(BGSImpactDataSet*);
-    void FUN_00521610(TESSound*);
-    void FUN_008d8a80(TESSound*);
-    void FUN_008d8aa0(TESSound*);
     SOUND_LEVEL FUN_00522560(bool);
     unsigned int FUN_00401170();
-    void FUN_004f15a0(unsigned int);
 };
 // Copies weapon data, strings, mods, sounds and flags from the weapon with the given id into this object.
 // @fnv 0x00522020
 void WeaponCopyAccess::CopyFromWeapon(unsigned int id)
 {
-    WeaponCopyAccess* source = (WeaponCopyAccess*)FUN_00ec43fb(id, 0, &DAT_01183028, &DAT_01183998, 0);
+    WeaponCopyAccess* source = (WeaponCopyAccess*)dynamic_cast<::TESObjectWEAP *>(reinterpret_cast<::TESForm *>(id));
     if (source == 0) return;
     {
-        FUN_004851b0(this, *(StackWord*)&id);
+        reinterpret_cast<::FormCloneOperation *>((this))->FUN_004851b0((*(void * *)&(const ::StackWord &)(*(StackWord*)&id)));
         m_kModel.CopyFromBase(&source->m_kModel);
-        ((StringCopyAccess*)&m_kEmbeddedWeaponNodeName)->FUN_004037f0(
-            ((StringCopyAccess*)&source->m_kEmbeddedWeaponNodeName)->FUN_00559450(false));
-        ((StringCopyAccess*)&VATSAttackName)->FUN_004037f0(
-            ((StringCopyAccess*)&source->VATSAttackName)->FUN_00559450(false));
+        reinterpret_cast<::TextString *>((((StringCopyAccess*)&m_kEmbeddedWeaponNodeName)))->FUN_004037f0(
+            ((const char *)(::FUN_00559450((int *)(((StringCopyAccess*)&source->m_kEmbeddedWeaponNodeName))))), {});
+        reinterpret_cast<::TextString *>((((StringCopyAccess*)&VATSAttackName)))->FUN_004037f0(
+            ((const char *)(::FUN_00559450((int *)(((StringCopyAccess*)&source->VATSAttackName))))), {});
         m_kModel3rdPerson.CopyFromBase(&source->m_kModel3rdPerson);
         m_kModel1stPerson.CopyFromBase(&source->m_kModel1stPerson);
-        SetEffectShader(source->GetScopeEffect());
-        FUN_008d8ae0(FUN_008d8ac0(source));
-        FUN_00521710(source->FUN_008d8b00());
-        SetModObject(1, source->GetModSlotStat(1));
-        SetModObject(2, source->GetModSlotStat(2));
-        SetModObject(3, source->GetModSlotStat(3));
-        SetModObject(4, source->GetModSlotStat(4));
-        SetModObject(5, source->GetModSlotStat(5));
-        SetModObject(6, source->GetModSlotStat(6));
-        SetModObject(7, source->GetModSlotStat(7));
-        SetModItem(1, source->FUN_004bd570(1));
-        SetModItem(2, source->FUN_004bd570(2));
-        SetModItem(4, source->FUN_004bd570(4));
+        reinterpret_cast<::FUN_0051f570_shell *>(this)->SetEffectShader(((::TESEffectShader *)(std::uintptr_t)(reinterpret_cast<::TESDataHandler *>((source))->GetCompiledFileCount())));
+        reinterpret_cast<::MiddleHighProcess *>(this)->SetFaceGenHeadNode((::BSFaceGenNiNode *)(void *)(((void *)(reinterpret_cast<::MiddleHighProcess *>((source))->GetFaceGenHeadNode()))));
+        reinterpret_cast<::MiddleHighProcess *>(this)->SetAnimationNode((::NiAVObject *)(::BGSImpactDataSet *)(((::BGSImpactDataSet *)(reinterpret_cast<::MiddleHighProcess *>((source))->GetAnimationObject()))));
+        reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(1, reinterpret_cast<::FUN_004ab500_shell *>((source))->GetModSlotStat(1));
+        reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(2, reinterpret_cast<::FUN_004ab500_shell *>((source))->GetModSlotStat(2));
+        reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(3, reinterpret_cast<::FUN_004ab500_shell *>((source))->GetModSlotStat(3));
+        reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(4, reinterpret_cast<::FUN_004ab500_shell *>((source))->GetModSlotStat(4));
+        reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(5, reinterpret_cast<::FUN_004ab500_shell *>((source))->GetModSlotStat(5));
+        reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(6, reinterpret_cast<::FUN_004ab500_shell *>((source))->GetModSlotStat(6));
+        reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(7, reinterpret_cast<::FUN_004ab500_shell *>((source))->GetModSlotStat(7));
+        reinterpret_cast<::TESObjectWEAP *>(this)->SetModItem(1, ((::TESObjectIMOD *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>((source))->FUN_004bd570(1))));
+        reinterpret_cast<::TESObjectWEAP *>(this)->SetModItem(2, ((::TESObjectIMOD *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>((source))->FUN_004bd570(2))));
+        reinterpret_cast<::TESObjectWEAP *>(this)->SetModItem(4, ((::TESObjectIMOD *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>((source))->FUN_004bd570(4))));
         m_kWeaponModTextureSwap1.CopyFromBase(&source->m_kWeaponModTextureSwap1);
         m_kWeaponModTextureSwap2.CopyFromBase(&source->m_kWeaponModTextureSwap2);
         m_kWeaponModTextureSwap3.CopyFromBase(&source->m_kWeaponModTextureSwap3);
@@ -2255,20 +1780,20 @@ void WeaponCopyAccess::CopyFromWeapon(unsigned int id)
         memcpy(&data, &source->data, sizeof(data));
         memcpy(&m_kCriticalData, &source->m_kCriticalData, sizeof(m_kCriticalData));
         memcpy(&m_kVATSData, &source->m_kVATSData, sizeof(m_kVATSData));
-        SetAttackSound(source->GetAttackSound(false));
-        FUN_005215f0(source->GetValueByFlag(false));
-        FUN_005c8a30(source->GetPointerByFlag(false));
-        FUN_00521650(source->GetField228());
-        SetMeleeBlockSound(source->GetField230());
-        SetAttackFailSound(source->GetField22C());
-        SetIdleSound(source->FUN_00522500());
-        SetEquipSound(source->GetField238());
-        SetUnequipSound(source->GetField23C());
-        FUN_00521610(source->FUN_00521630());
-        FUN_008d8a80(source->GetField244());
-        FUN_008d8aa0(source->FUN_005224a0());
+        reinterpret_cast<::FUN_005215d0_shell *>(this)->FUN_005215d0(reinterpret_cast<::FUN_005215a0_shell *>((source))->FUN_005215a0(false));
+        reinterpret_cast<::FUN_005215f0_shell *>(this)->FUN_005215f0(((::TESSound *)(reinterpret_cast<::FUN_00522440_shell *>((source))->GetValueByFlag(false))));
+        reinterpret_cast<::MiddleHighProcess *>(this)->SetBoundingBox((::BSBound *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::S_00522470 *>((source))->GetPointerByFlag(false)))));
+        reinterpret_cast<::FUN_00521650_shell *>(this)->FUN_00521650(((::TESSound *)(reinterpret_cast<::FUN_008bffa0_shell *>((source))->GetField228())));
+        SetMeleeBlockSound(((::TESSound *)(reinterpret_cast<::FUN_005224e0_class *>((source))->GetField230())));
+        reinterpret_cast<::FUN_00521670_shell *>(this)->FUN_00521670(((::TESSound *)(reinterpret_cast<::FUN_005224c0_Class *>((source))->GetField22C())));
+        reinterpret_cast<::FUN_005216b0_shell *>(this)->FUN_005216b0(((::TESSound *)(reinterpret_cast<::FUN_00522500_shell *>((source))->GetField234())));
+        reinterpret_cast<::FUN_005216d0_shell *>(this)->FUN_005216d0(((::TESSound *)(reinterpret_cast<::FUN_00522520_shell *>((source))->GetField238())));
+        reinterpret_cast<::FUN_005216f0_shell *>(this)->FUN_005216f0(((::TESSound *)(reinterpret_cast<::FUN_00522540_shell *>((source))->GetField23C())));
+        reinterpret_cast<::FUN_00521610_shell *>(this)->FUN_00521610(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((source))->RefreshActorRuntimeData())));
+        reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((std::intptr_t)(((::TESSound *)(std::uintptr_t)(reinterpret_cast<::FUN_008d8a60_Class *>((source))->GetField244()))));
+        reinterpret_cast<::MiddleHighProcess *>(this)->AttachFaceGenerationNode((::BSFaceGenNiNode *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((source))->GetFacialAnimationNode()))));
         m_eSoundLevel = source->FUN_00522560(false);
-        FUN_004f15a0(source->FUN_00401170());
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(source->FUN_00401170());
     }
 }
 
@@ -2307,7 +1832,6 @@ FUN_00522d80_virtual_object* FUN_00522d80_shell::FUN_00522d80() {
 }
 
 struct ConversionTag {};
-void __cdecl SwapField(int*, ConversionTag);
 struct ResetAccess {
     int field00;
     int field04;
@@ -2362,85 +1886,679 @@ struct ResetAccess {
     int fieldC8;
     void FUN_00520ff0();
 };
+// Reads a weapon record from the file: validates form type 40, then dispatches each chunk to its loader and fixes up invalid weapon data.
+// @fnv 0x0051f630
+bool TESObjectWEAP::Load(TESFile* file)
+{
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
+    if(formType != 40) return false;
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    SetInitializationState(false);
+    CHUNK_ID chunk;
+    while((chunk = (CHUNK_ID)((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0) {
+        switch(chunk) {
+        case 0x44494445: // EDID
+        {
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID),512);
+            SetEditorID_AtRuntime(editorID);
+            break;
+        }
+        case 0x444e424f: // OBND
+        {
+            readOBNDSubRecord(file);
+            break;
+        }
+        case 0x4c4c5546: // FULL
+        {
+            ::ReadFullName(this,file);
+            break;
+        }
+        case 0x44444f4d: // MODD
+        case 0x44534f4d: // MOSD
+        case 0x4c444f4d: // MODL
+        case 0x54444f4d: // MODT
+        {
+            TESModel::LoadModelData(this,file);
+            break;
+        }
+        case 0x53444f4d: // MODS
+        {
+            unsigned int textureSwapSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+            void* textureSwaps = _alloca(textureSwapSize);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(textureSwaps),textureSwapSize);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(textureSwaps,textureSwapSize,reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570());
+            break;
+        }
+        case 0x4e4f4349: // ICON
+        {
+            TESTexture::ReadTextureData(this,file);
+            break;
+        }
+        case 0x4f43494d: // MICO
+        {
+            ::FUN_0047a290((::TeleportableReference *)(::BGSMessageIcon *)(this),file);
+            break;
+        }
+        case 0x49524353: // SCRI
+        {
+            Script* script = (Script*)0;
+            file->GetChunkData((unsigned int*)&script);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(script));
+            TESScriptableForm::InitItem(this);
+            break;
+        }
+        case 0x4d544945: // EITM
+        case 0x4d414e45: // ENAM
+        {
+            EnchantmentItem* enchantment = (EnchantmentItem*)0;
+            file->GetChunkData((unsigned int*)&enchantment);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(enchantment));
+            break;
+        }
+        case 0x4d414e41: // ANAM
+        case 0x544d4145: // EAMT
+        {
+            unsigned short enchantmentAmount = 0;
+            reinterpret_cast<::FUN_00472840_impl *>((((TESFileChunkData16*)file)))->ReadChunkData(&enchantmentAmount);
+            reinterpret_cast<::TESEnchantableForm *>(this)->SetFormEnchantmentAmount(enchantmentAmount);
+            break;
+        }
+        case 0x304d414e: // NAM0
+        {
+            TESAmmo* ammo = (TESAmmo*)0;
+            file->GetChunkData((unsigned int*)&ammo);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(ammo));
+            break;
+        }
+        case 0x44545344: // DSTD
+        case 0x54534544: // DEST
+        {
+            ::FUN_004781e0(this,file);
+            break;
+        }
+        case 0x4c504552: // REPL
+        {
+            BGSListForm* repairList = (BGSListForm*)0;
+            file->GetChunkData((unsigned int*)&repairList);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(repairList));
+            break;
+        }
+        case 0x50595445: // ETYP
+        {
+            BGSEquipType__EQUIP_TYPE equipType = (BGSEquipType__EQUIP_TYPE)0;
+            file->GetChunkData((unsigned int*)&equipType);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((*(::CombatController * *)&(equipType)));
+            break;
+        }
+        case 0x4c504942: // BIPL
+        {
+            BGSListForm* bipedList = (BGSListForm*)0;
+            file->GetChunkData((unsigned int*)&bipedList);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(bipedList));
+            break;
+        }
+        case 0x4d414e59: // YNAM
+        {
+            TESSound* pickupSound = (TESSound*)0;
+            file->GetChunkData((unsigned int*)&pickupSound);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(pickupSound));
+            break;
+        }
+        case 0x4d414e5a: // ZNAM
+        {
+            TESSound* putdownSound = (TESSound*)0;
+            file->GetChunkData((unsigned int*)&putdownSound);
+            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(putdownSound));
+            break;
+        }
+        case 0x41544144: // DATA
+        {
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((((BGSImpactData*)this)))->FUN_004861f0(file,0,0);
+            break;
+        }
+        case 0x4d414e44: // DNAM
+        {
+            if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 12) {
+                memset(&data,0,sizeof(data));
+                data.m_fMinimumSemiAutomaticFireDelay = 0.1f;
+                data.m_fMaximumSemiAutomaticFireDelay = 0.5f;
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&data),reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                if(file->IsEndianConversionRequired()) reinterpret_cast<::ResetAccess *>(&(data))->FUN_00520ff0();
+                if(data.m_ucAttackAnimation < 168 && data.m_ucAttackAnimation >= 56) {
+                    data.m_ucAttackAnimation += 18;
+                    if(data.m_ucAttackAnimation < 168 && data.m_ucAttackAnimation >= 86) data.m_ucAttackAnimation += 6;
+                }
+            } else if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 14) {
+                memset(&data,0,sizeof(data));
+                data.m_fMinimumSemiAutomaticFireDelay = 0.1f;
+                data.m_fMaximumSemiAutomaticFireDelay = 0.5f;
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&data),reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                if(file->IsEndianConversionRequired()) reinterpret_cast<::ResetAccess *>(&(data))->FUN_00520ff0();
+                if(data.m_ucAttackAnimation < 168 && data.m_ucAttackAnimation >= 86) data.m_ucAttackAnimation += 6;
+            } else {
+                memset(&data,0,sizeof(data));
+                data.m_fMinimumSemiAutomaticFireDelay = 0.1f;
+                data.m_fMaximumSemiAutomaticFireDelay = 0.5f;
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&data),sizeof(data));
+                if(file->IsEndianConversionRequired()) reinterpret_cast<::ResetAccess *>(&(data))->FUN_00520ff0();
+                if(data.m_fLimbDamageMultiplier <= 0.0) data.m_fLimbDamageMultiplier = 1.0f;
+                switch(data.m_ucGripAnimation) {
+                case 230: case 231: case 232: case 233: case 234: case 235: case 255: break;
+                default: data.m_ucGripAnimation = 255; break;
+                }
+                if(!::FUN_0047f060((*(int *)&(data.m_eWeaponSkill)))) data.m_eWeaponSkill = (ActorValue__Index)45;
+                if(!FUN_0066eba0(data.m_eResistanceType) && data.m_eResistanceType != -1) data.m_eResistanceType = (ActorValue__Index)-1;
+            }
+            break;
+        }
+        case 0x4d414e57: // WNAM
+        {
+            TESObjectSTAT* firstPersonObject0 = 0;
+            file->GetChunkData((unsigned int*)&firstPersonObject0);
+            reinterpret_cast<::MiddleHighProcess *>(this)->SetAnimationNode((::NiAVObject *)(firstPersonObject0));
+            break;
+        }
+        case 0x314d4e57: // WNM1
+        {
+            TESObjectSTAT* firstPersonObject1 = 0;
+            file->GetChunkData((unsigned int*)&firstPersonObject1);
+            reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(1,firstPersonObject1);
+            break;
+        }
+        case 0x324d4e57: // WNM2
+        {
+            TESObjectSTAT* firstPersonObject2 = 0;
+            file->GetChunkData((unsigned int*)&firstPersonObject2);
+            reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(2,firstPersonObject2);
+            break;
+        }
+        case 0x334d4e57: // WNM3
+        {
+            TESObjectSTAT* firstPersonObject3 = 0;
+            file->GetChunkData((unsigned int*)&firstPersonObject3);
+            reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(3,firstPersonObject3);
+            break;
+        }
+        case 0x344d4e57: // WNM4
+        {
+            TESObjectSTAT* firstPersonObject4 = 0;
+            file->GetChunkData((unsigned int*)&firstPersonObject4);
+            reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(4,firstPersonObject4);
+            break;
+        }
+        case 0x354d4e57: // WNM5
+        {
+            TESObjectSTAT* firstPersonObject5 = 0;
+            file->GetChunkData((unsigned int*)&firstPersonObject5);
+            reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(5,firstPersonObject5);
+            break;
+        }
+        case 0x364d4e57: // WNM6
+        {
+            TESObjectSTAT* firstPersonObject6 = 0;
+            file->GetChunkData((unsigned int*)&firstPersonObject6);
+            reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(6,firstPersonObject6);
+            break;
+        }
+        case 0x374d4e57: // WNM7
+        {
+            TESObjectSTAT* firstPersonObject7 = 0;
+            file->GetChunkData((unsigned int*)&firstPersonObject7);
+            reinterpret_cast<::FUN_005214d0_shell *>(this)->SetFirstPersonModObject(7,firstPersonObject7);
+            break;
+        }
+        case 0x31494d57: // WMI1
+        {
+            TESObjectIMOD* modItem1 = 0;
+            file->GetChunkData((unsigned int*)&modItem1);
+            reinterpret_cast<::TESObjectWEAP *>(this)->SetModItem(1,modItem1);
+            break;
+        }
+        case 0x32494d57: // WMI2
+        {
+            TESObjectIMOD* modItem2 = 0;
+            file->GetChunkData((unsigned int*)&modItem2);
+            reinterpret_cast<::TESObjectWEAP *>(this)->SetModItem(2,modItem2);
+            break;
+        }
+        case 0x33494d57: // WMI3
+        {
+            TESObjectIMOD* modItem3 = 0;
+            file->GetChunkData((unsigned int*)&modItem3);
+            reinterpret_cast<::TESObjectWEAP *>(this)->SetModItem(4,modItem3);
+            break;
+        }
+        case 0x314d414e: // NAM1
+        case 0x32444f4d: // MOD2
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath0 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath0),0);
+                m_kModel.SetModelFilePath(modelPath0);
+            } else m_kModel.SetModelFilePath(0);
+            break;
+        }
+        case 0x54324f4d: // MO2T
+        {
+            ::FUN_004893e0(&m_kModel,file);
+            break;
+        }
+        case 0x33444f4d: // MOD3
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath1 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath1),0);
+                m_kModel1stPerson.SetModelFilePath(modelPath1);
+            } else m_kModel1stPerson.SetModelFilePath(0);
+            break;
+        }
+        case 0x54334f4d: // MO3T
+        {
+            ::FUN_004893e0(&m_kModel1stPerson,file);
+            break;
+        }
+        case 0x34444f4d: // MOD4
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath2 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath2),0);
+                m_kModel3rdPerson.SetModelFilePath(modelPath2);
+            } else m_kModel3rdPerson.SetModelFilePath(0);
+            break;
+        }
+        case 0x54344f4d: // MO4T
+        {
+            ::FUN_004893e0(&m_kModel3rdPerson,file);
+            break;
+        }
+        case 0x3144574d: // MWD1
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath3 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath3),0);
+                m_kWeaponModTextureSwap1.SetModelFilePath(modelPath3);
+            } else m_kWeaponModTextureSwap1.SetModelFilePath(0);
+            break;
+        }
+        case 0x3154574d: // MWT1
+        {
+            ::FUN_004893e0(&m_kWeaponModTextureSwap1,file);
+            break;
+        }
+        case 0x3244574d: // MWD2
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath4 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath4),0);
+                m_kWeaponModTextureSwap2.SetModelFilePath(modelPath4);
+            } else m_kWeaponModTextureSwap2.SetModelFilePath(0);
+            break;
+        }
+        case 0x3254574d: // MWT2
+        {
+            ::FUN_004893e0(&m_kWeaponModTextureSwap2,file);
+            break;
+        }
+        case 0x3444574d: // MWD4
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath5 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath5),0);
+                m_kWeaponModTextureSwap3.SetModelFilePath(modelPath5);
+            } else m_kWeaponModTextureSwap3.SetModelFilePath(0);
+            break;
+        }
+        case 0x3454574d: // MWT4
+        {
+            ::FUN_004893e0(&m_kWeaponModTextureSwap3,file);
+            break;
+        }
+        case 0x3344574d: // MWD3
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath6 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath6),0);
+                m_kWeaponModTextureSwap4.SetModelFilePath(modelPath6);
+            } else m_kWeaponModTextureSwap4.SetModelFilePath(0);
+            break;
+        }
+        case 0x3354574d: // MWT3
+        {
+            ::FUN_004893e0(&m_kWeaponModTextureSwap4,file);
+            break;
+        }
+        case 0x3544574d: // MWD5
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath7 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath7),0);
+                m_kWeaponModTextureSwap5.SetModelFilePath(modelPath7);
+            } else m_kWeaponModTextureSwap5.SetModelFilePath(0);
+            break;
+        }
+        case 0x3554574d: // MWT5
+        {
+            ::FUN_004893e0(&m_kWeaponModTextureSwap5,file);
+            break;
+        }
+        case 0x3644574d: // MWD6
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath8 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath8),0);
+                m_kWeaponModTextureSwap6.SetModelFilePath(modelPath8);
+            } else m_kWeaponModTextureSwap6.SetModelFilePath(0);
+            break;
+        }
+        case 0x3654574d: // MWT6
+        {
+            ::FUN_004893e0(&m_kWeaponModTextureSwap6,file);
+            break;
+        }
+        case 0x3744574d: // MWD7
+        {
+            if(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()) {
+                char* modelPath9 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelPath9),0);
+                m_kWeaponModTextureSwap7.SetModelFilePath(modelPath9);
+            } else m_kWeaponModTextureSwap7.SetModelFilePath(0);
+            break;
+        }
+        case 0x3754574d: // MWT7
+        {
+            ::FUN_004893e0(&m_kWeaponModTextureSwap7,file);
+            break;
+        }
+        case 0x44534645: // EFSD
+        {
+            TESEffectShader* scopeEffect = 0;
+            file->GetChunkData((unsigned int*)&scopeEffect);
+            reinterpret_cast<::FUN_0051f570_shell *>(this)->SetEffectShader(scopeEffect);
+            break;
+        }
+        case 0x4d414e4e: // NNAM
+        {
+            char* embeddedWeaponNodeText = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(embeddedWeaponNodeText),0);
+            reinterpret_cast<::TextString *>(&(m_kEmbeddedWeaponNodeName))->FUN_004037f0(embeddedWeaponNodeText,0);
+            break;
+        }
+        case 0x4d4e4156: // VANM
+        {
+            char* vATSAttackNameText = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(vATSAttackNameText),0);
+            reinterpret_cast<::TextString *>(&(VATSAttackName))->FUN_004037f0(vATSAttackNameText,0);
+            break;
+        }
+        case 0x54445243: // CRDT
+        {
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_kCriticalData),sizeof(m_kCriticalData));
+            if(file->IsEndianConversionRequired()) reinterpret_cast<::FUN_00535aa0_Class *>(&(m_kCriticalData))->FUN_00535aa0();
+            break;
+        }
+        case 0x53544156: // VATS
+        {
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_kVATSData),sizeof(m_kVATSData));
+            if(file->IsEndianConversionRequired()) reinterpret_cast<::fnv_0067ff10::FUN_0067ff10_Class *>(&(m_kVATSData))->FUN_0067ff10();
+            break;
+        }
+        case 0x4d414e49: // INAM
+        {
+            BGSImpactDataSet* impactDataSet = 0;
+            file->GetChunkData((unsigned int*)&impactDataSet);
+            reinterpret_cast<::MiddleHighProcess *>(this)->SetFaceGenHeadNode((::BSFaceGenNiNode *)(impactDataSet));
+            break;
+        }
+        case 0x4d414e53: // SNAM
+        {
+            TESSound* attackSound = 0;
+            file->GetChunkData((unsigned int*)&attackSound);
+            if(reinterpret_cast<::FUN_005215a0_shell *>(this)->FUN_005215a0(false)) reinterpret_cast<::FUN_005215f0_shell *>(this)->FUN_005215f0(attackSound);
+            else reinterpret_cast<::FUN_005215d0_shell *>(this)->FUN_005215d0(attackSound);
+            break;
+        }
+        case 0x4d414e58: // XNAM
+        {
+            TESSound* attackSound2 = 0;
+            file->GetChunkData((unsigned int*)&attackSound2);
+            reinterpret_cast<::MiddleHighProcess *>(this)->SetBoundingBox((::BSBound *)(attackSound2));
+            break;
+        }
+        case 0x374d414e: // NAM7
+        {
+            TESSound* attackLoop = 0;
+            file->GetChunkData((unsigned int*)&attackLoop);
+            reinterpret_cast<::FUN_00521650_shell *>(this)->FUN_00521650(attackLoop);
+            break;
+        }
+        case 0x4d414e54: // TNAM
+        {
+            TESSound* attackFail = 0;
+            file->GetChunkData((unsigned int*)&attackFail);
+            reinterpret_cast<::FUN_00521670_shell *>(this)->FUN_00521670(attackFail);
+            break;
+        }
+        case 0x364d414e: // NAM6
+        {
+            TESSound* meleeBlock = 0;
+            file->GetChunkData((unsigned int*)&meleeBlock);
+            SetMeleeBlockSound(meleeBlock);
+            break;
+        }
+        case 0x4d414e55: // UNAM
+        {
+            TESSound* idleSound = 0;
+            file->GetChunkData((unsigned int*)&idleSound);
+            reinterpret_cast<::FUN_005216b0_shell *>(this)->FUN_005216b0(idleSound);
+            break;
+        }
+        case 0x394d414e: // NAM9
+        {
+            TESSound* equipSound = 0;
+            file->GetChunkData((unsigned int*)&equipSound);
+            reinterpret_cast<::FUN_005216d0_shell *>(this)->FUN_005216d0(equipSound);
+            break;
+        }
+        case 0x384d414e: // NAM8
+        {
+            TESSound* unequipSound = 0;
+            file->GetChunkData((unsigned int*)&unequipSound);
+            reinterpret_cast<::FUN_005216f0_shell *>(this)->FUN_005216f0(unequipSound);
+            break;
+        }
+        case 0x31534d57: // WMS1
+        {
+            TESSound* modAttackSound = 0;
+            file->GetChunkData((unsigned int*)&modAttackSound);
+            if(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>(this)->RefreshActorRuntimeData()))) reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((std::intptr_t)(modAttackSound));
+            else reinterpret_cast<::FUN_00521610_shell *>(this)->FUN_00521610(modAttackSound);
+            break;
+        }
+        case 0x32534d57: // WMS2
+        {
+            TESSound* modDistantAttackSound = 0;
+            file->GetChunkData((unsigned int*)&modDistantAttackSound);
+            reinterpret_cast<::MiddleHighProcess *>(this)->AttachFaceGenerationNode((::BSFaceGenNiNode *)(modDistantAttackSound));
+            break;
+        }
+        case 0x4d414e56: // VNAM
+        {
+            unsigned int soundLevel;
+            file->GetChunkData(&soundLevel);
+            if(soundLevel > 3) m_eSoundLevel = SOUND_LEVEL_SOUND_LEVEL_NORMAL;
+            else m_eSoundLevel = (SOUND_LEVEL)soundLevel;
+            break;
+        }
+        }
+        if(!file->NextChunk()) break;
+    }
+    if(!GetDamageForActor(false,true,0) && ((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) reinterpret_cast<::FUN_00521580_shell *>(this)->FUN_00521580(1);
+    if(data.eType >= 14) {
+        ::FUN_005b5e40();
+        data.eType = 0;
+    }
+    return true;
+}
+// @fnv 0x00521730
+void Weapon::Save()
+{
+    std::uintptr_t savedProj;
+    std::uintptr_t savedVats;
+    std::uintptr_t savedCrit;
+
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>(&(fullName))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>(&(model))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_00489240_Class *>(&(model))->FUN_00489240(0x44444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>(&(icon))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_0047a240_shell *>(&(messageIcon))->FUN_0047a240(0x4f43494d);
+    reinterpret_cast<::S_0048cca0 *>(&(script))->FUN_0048cca0();
+    reinterpret_cast<::FUN_0047bd70_shell *>(&(enchant))->FUN_0047bd70();
+    reinterpret_cast<::Shell474af0 *>(&(value))->FUN_00474af0();
+    reinterpret_cast<::FUN_00477f20_shell *>(&(weight))->FUN_00477f20();
+    reinterpret_cast<::S0047b8a0 *>(&(health))->FUN_0047b8a0();
+    reinterpret_cast<::FUN_00479350_shell *>(&(damage))->FUN_00479350();
+    reinterpret_cast<::FUN_00474d60_shell *>(&(ammo))->FUN_00474d60();
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>(&(clip))->LogFormIDs();
+    reinterpret_cast<::FUN_004891d0_cls *>(&(shellModel))->WriteToBuffer((char *)(0x32444f4d), (void *)(0x54324f4d));
+    if (reinterpret_cast<::FUN_004ad010_shell *>(this)->IsFlag4Set()) {
+        reinterpret_cast<::FUN_004891d0_cls *>(&(scopeModel))->WriteToBuffer((char *)(0x33444f4d), (void *)(0x54334f4d));
+        if (m_pWeaponEffectShader) {
+            UInt32 a = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pWeaponEffectShader))->FUN_0084e3a0()));
+            ::FUN_00485910(0x44534645, a);
+        }
+    }
+    reinterpret_cast<::FUN_004891d0_cls *>(&(worldModel))->WriteToBuffer((char *)(0x34444f4d), (void *)(0x54344f4d));
+    reinterpret_cast<::FUN_0048a520_shell *>(&(mod1))->ProcessAndFreeData(0x3144574d, 0x3154574d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>(&(mod2))->ProcessAndFreeData(0x3244574d, 0x3254574d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>(&(mod3))->ProcessAndFreeData(0x3444574d, 0x3454574d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>(&(mod12))->ProcessAndFreeData(0x3344574d, 0x3354574d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>(&(mod13))->ProcessAndFreeData(0x3544574d, 0x3554574d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>(&(mod23))->ProcessAndFreeData(0x3644574d, 0x3654574d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>(&(mod123))->ProcessAndFreeData(0x3744574d, 0x3754574d, 0x53444f4d);
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(embeddedNode))->FUN_004048e0())))
+        ::FUN_004856f0((void *)(0x4d414e4e), (void *)(((const char *)(::FUN_00559450((int *)&(embeddedNode))))), (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(embeddedNode))->FUN_004048e0())) + 1));
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(vatsAttackName))->FUN_004048e0())))
+        ::FUN_004856f0((void *)(0x4d4e4156), (void *)(((const char *)(::FUN_00559450((int *)&(vatsAttackName))))), (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(vatsAttackName))->FUN_004048e0())) + 1));
+    if (pImpact) { UInt32 b = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pImpact))->FUN_0084e3a0())); ::FUN_00485910(0x4d414e49, b); }
+    if (p1st) { UInt32 c = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p1st))->FUN_0084e3a0())); ::FUN_00485910(0x4d414e57, c); }
+    if (p1st1) { UInt32 d = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p1st1))->FUN_0084e3a0())); ::FUN_00485910(0x314d4e57, d); }
+    if (p1st2) { UInt32 e = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p1st2))->FUN_0084e3a0())); ::FUN_00485910(0x324d4e57, e); }
+    if (p1st3) { UInt32 f = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p1st3))->FUN_0084e3a0())); ::FUN_00485910(0x344d4e57, f); }
+    if (p1st12) { UInt32 g = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p1st12))->FUN_0084e3a0())); ::FUN_00485910(0x334d4e57, g); }
+    if (p1st23) { UInt32 h = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p1st23))->FUN_0084e3a0())); ::FUN_00485910(0x364d4e57, h); }
+    if (p1st13) { UInt32 i = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p1st13))->FUN_0084e3a0())); ::FUN_00485910(0x354d4e57, i); }
+    if (p1st123) { UInt32 j = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p1st123))->FUN_0084e3a0())); ::FUN_00485910(0x374d4e57, j); }
+    if (pMod1) { UInt32 k = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pMod1))->FUN_0084e3a0())); ::FUN_00485910(0x31494d57, k); }
+    if (pMod2) { UInt32 l = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pMod2))->FUN_0084e3a0())); ::FUN_00485910(0x32494d57, l); }
+    if (pMod3) { UInt32 m = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pMod3))->FUN_0084e3a0())); ::FUN_00485910(0x33494d57, m); }
+    if (m_pWeaponSound1) { UInt32 n = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pWeaponSound1))->FUN_0084e3a0())); ::FUN_00485910(0x4d414e53, n); }
+    if (m_pWeaponSound2) { UInt32 o = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pWeaponSound2))->FUN_0084e3a0())); ::FUN_00485910(0x4d414e53, o); }
+    if (m_pWeaponSound3) { UInt32 p = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pWeaponSound3))->FUN_0084e3a0())); ::FUN_00485910(0x4d414e58, p); }
+    if (m_pWeaponSound4) { UInt32 q = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pWeaponSound4))->FUN_0084e3a0())); ::FUN_00485910(0x374d414e, q); }
+    if (pAttackFail) { UInt32 r = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pAttackFail))->FUN_0084e3a0())); ::FUN_00485910(0x4d414e54, r); }
+    if (pMeleeBlock) { UInt32 s = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pMeleeBlock))->FUN_0084e3a0())); ::FUN_00485910(0x364d414e, s); }
+    if (m_pIdleForm) { UInt32 t = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pIdleForm))->FUN_0084e3a0())); ::FUN_00485910(0x4d414e55, t); }
+    if (pEquip) { UInt32 u = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pEquip))->FUN_0084e3a0())); ::FUN_00485910(0x394d414e, u); }
+    if (pUnEquip) { UInt32 v = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pUnEquip))->FUN_0084e3a0())); ::FUN_00485910(0x384d414e, v); }
+    if (pSilenced) { UInt32 w = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSilenced))->FUN_0084e3a0())); ::FUN_00485910(0x31534d57, w); }
+    if (pSilenced2) { UInt32 x = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSilenced2))->FUN_0084e3a0())); ::FUN_00485910(0x31534d57, x); }
+    if (pSilenced2D) { UInt32 y = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSilenced2D))->FUN_0084e3a0())); ::FUN_00485910(0x32534d57, y); }
+
+    reinterpret_cast<::FUN_00485e00_shell *>(this)->FUN_00485e00();
+
+    savedCrit = (std::uintptr_t)data.pProjectile;
+    data.pProjectile = (TESForm*)(std::uintptr_t)(data.pProjectile ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((data.pProjectile))->FUN_0084e3a0())) : 0);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::ResetAccess *>(&(data))->FUN_00520ff0();
+    ::AppendChunk(0x4d414e44, &data, 0xcc);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::ResetAccess *>(&(data))->FUN_00520ff0();
+
+    savedProj = (std::uintptr_t)crit.pEffect;
+    crit.pEffect = (TESForm*)(std::uintptr_t)(crit.pEffect ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((crit.pEffect))->FUN_0084e3a0())) : 0);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00535aa0_Class *>(&(crit))->FUN_00535aa0();
+    ::AppendChunk(0x54445243, &crit, 0x10);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00535aa0_Class *>(&(crit))->FUN_00535aa0();
+
+    savedVats = (std::uintptr_t)vats.pEffect;
+    vats.pEffect = (TESForm*)(std::uintptr_t)(vats.pEffect ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((vats.pEffect))->FUN_0084e3a0())) : 0);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_0067ff10::FUN_0067ff10_Class *>(&(vats))->FUN_0067ff10();
+    ::AppendChunk(0x53544156, &vats, 0x14);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_0067ff10::FUN_0067ff10_Class *>(&(vats))->FUN_0067ff10();
+
+    ::FUN_00485910(0x4d414e56, soundLevel);
+
+    data.pProjectile = (TESForm*)savedCrit;
+    crit.pEffect = (TESForm*)savedProj;
+    vats.pEffect = (TESForm*)savedVats;
+    reinterpret_cast<::Holder *>(this)->FUN_00485680();
+}
 // Calls SwapField on most of the object's int fields, skipping field00, field0C, field20, field24, field28, fieldA4 and fieldAC.
 // @fnv 0x00520ff0
 void ResetAccess::FUN_00520ff0() {
-    SwapField(&field04, ConversionTag());
-    SwapField(&field08, ConversionTag());
-    SwapField(&field10, ConversionTag());
-    SwapField(&field14, ConversionTag());
-    SwapField(&field18, ConversionTag());
-    SwapField(&field1C, ConversionTag());
-    SwapField(&field2C, ConversionTag());
-    SwapField(&field30, ConversionTag());
-    SwapField(&field34, ConversionTag());
-    SwapField(&field38, ConversionTag());
-    SwapField(&field3C, ConversionTag());
-    SwapField(&field40, ConversionTag());
-    SwapField(&field44, ConversionTag());
-    SwapField(&field48, ConversionTag());
-    SwapField(&field4C, ConversionTag());
-    SwapField(&field50, ConversionTag());
-    SwapField(&field54, ConversionTag());
-    SwapField(&field58, ConversionTag());
-    SwapField(&field5C, ConversionTag());
-    SwapField(&field60, ConversionTag());
-    SwapField(&field64, ConversionTag());
-    SwapField(&field68, ConversionTag());
-    SwapField(&field6C, ConversionTag());
-    SwapField(&field70, ConversionTag());
-    SwapField(&field74, ConversionTag());
-    SwapField(&field78, ConversionTag());
-    SwapField(&field7C, ConversionTag());
-    SwapField(&field80, ConversionTag());
-    SwapField(&field84, ConversionTag());
-    SwapField(&field88, ConversionTag());
-    SwapField(&field8C, ConversionTag());
-    SwapField(&field90, ConversionTag());
-    SwapField(&field94, ConversionTag());
-    SwapField(&field98, ConversionTag());
-    SwapField(&field9C, ConversionTag());
-    SwapField(&fieldA0, ConversionTag());
-    SwapField(&fieldA8, ConversionTag());
-    SwapField(&fieldC8, ConversionTag());
-    SwapField(&fieldB0, ConversionTag());
-    SwapField(&fieldB4, ConversionTag());
-    SwapField(&fieldB8, ConversionTag());
-    SwapField(&fieldBC, ConversionTag());
-    SwapField(&fieldC0, ConversionTag());
-    SwapField(&fieldC4, ConversionTag());
+    ::FUN_00401080(&field04);
+    ::FUN_00401080(&field08);
+    ::FUN_00401080(&field10);
+    ::FUN_00401080(&field14);
+    ::FUN_00401080(&field18);
+    ::FUN_00401080(&field1C);
+    ::FUN_00401080(&field2C);
+    ::FUN_00401080(&field30);
+    ::FUN_00401080(&field34);
+    ::FUN_00401080(&field38);
+    ::FUN_00401080(&field3C);
+    ::FUN_00401080(&field40);
+    ::FUN_00401080(&field44);
+    ::FUN_00401080(&field48);
+    ::FUN_00401080(&field4C);
+    ::FUN_00401080(&field50);
+    ::FUN_00401080(&field54);
+    ::FUN_00401080(&field58);
+    ::FUN_00401080(&field5C);
+    ::FUN_00401080(&field60);
+    ::FUN_00401080(&field64);
+    ::FUN_00401080(&field68);
+    ::FUN_00401080(&field6C);
+    ::FUN_00401080(&field70);
+    ::FUN_00401080(&field74);
+    ::FUN_00401080(&field78);
+    ::FUN_00401080(&field7C);
+    ::FUN_00401080(&field80);
+    ::FUN_00401080(&field84);
+    ::FUN_00401080(&field88);
+    ::FUN_00401080(&field8C);
+    ::FUN_00401080(&field90);
+    ::FUN_00401080(&field94);
+    ::FUN_00401080(&field98);
+    ::FUN_00401080(&field9C);
+    ::FUN_00401080(&fieldA0);
+    ::FUN_00401080(&fieldA8);
+    ::FUN_00401080(&fieldC8);
+    ::FUN_00401080(&fieldB0);
+    ::FUN_00401080(&fieldB4);
+    ::FUN_00401080(&fieldB8);
+    ::FUN_00401080(&fieldBC);
+    ::FUN_00401080(&fieldC0);
+    ::FUN_00401080(&fieldC4);
 }
 
 struct WeaponCompareAccess : TESObjectWEAP {
     bool IsDifferentFrom(TESForm*);
-    bool FUN_00485270(TESForm*);
-    void* FUN_008d8ac0();
-    void* FUN_008d8b00();
-    void* GetModSlotStat(unsigned char);
-    void* FUN_004bd570(unsigned char);
-    void* GetOffsetF4();
-    int GetValueByFlag(bool);
-    int GetPointerByFlag(bool);
-    int FUN_00522560(bool);
-    int GetField228();
-    int GetField22C();
-    int GetField230();
-    int FUN_00522500();
-    int GetField238();
-    int GetField23C();
-    int GetField244();
-    int FUN_005224a0();
 };
 struct WeaponStringCompare {
-    int CompareString(const BSStringT<char>*, bool);
 };
-int __cdecl memcmp(const void*, const void*, unsigned int);
 // Compares this weapon against another TESObjectWEAP across many fields and accessors, returning true on the first difference or when the form is not a weapon.
 // @fnv 0x00522590
 bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {
     WeaponCompareAccess* other = (WeaponCompareAccess*)dynamic_cast<TESObjectWEAP*>(form);
     if (!other) return true;
-    if (FUN_00485270(other)) return true;
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(other)) return true;
     if (m_kModel.CompareWithBase(&other->m_kModel)) return true;
     if (m_kModel3rdPerson.CompareWithBase(&other->m_kModel3rdPerson)) return true;
     if (m_kWeaponModTextureSwap1.CompareWithBase(&other->m_kWeaponModTextureSwap1)) return true;
@@ -2451,42 +2569,44 @@ bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {
     if (m_kWeaponModTextureSwap6.CompareWithBase(&other->m_kWeaponModTextureSwap6)) return true;
     if (m_kWeaponModTextureSwap7.CompareWithBase(&other->m_kWeaponModTextureSwap7)) return true;
     if (m_kModel1stPerson.CompareWithBase(&other->m_kModel1stPerson)) return true;
-    if (GetScopeEffect() != other->GetScopeEffect()) return true;
-    if (FUN_008d8ac0() != other->FUN_008d8ac0()) return true;
-    if (FUN_008d8b00() != other->FUN_008d8b00()) return true;
-    if (GetModSlotStat(1) != other->GetModSlotStat(1)) return true;
-    if (GetModSlotStat(2) != other->GetModSlotStat(2)) return true;
-    if (GetModSlotStat(3) != other->GetModSlotStat(3)) return true;
-    if (GetModSlotStat(4) != other->GetModSlotStat(4)) return true;
-    if (GetModSlotStat(5) != other->GetModSlotStat(5)) return true;
-    if (GetModSlotStat(6) != other->GetModSlotStat(6)) return true;
-    if (GetModSlotStat(7) != other->GetModSlotStat(7)) return true;
-    if (FUN_004bd570(1) != other->FUN_004bd570(1)) return true;
-    if (FUN_004bd570(2) != other->FUN_004bd570(2)) return true;
-    if (FUN_004bd570(4) != other->FUN_004bd570(4)) return true;
-    if (((WeaponStringCompare*)&m_kEmbeddedWeaponNodeName)->CompareString(&other->m_kEmbeddedWeaponNodeName, true)) return true;
-    if (((WeaponStringCompare*)&VATSAttackName)->CompareString(&other->VATSAttackName, true)) return true;
-    if (memcmp(&data, other->GetOffsetF4(), 0xcc)) return true;
+    if (((::TESEffectShader *)(std::uintptr_t)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount())) != ((::TESEffectShader *)(std::uintptr_t)(reinterpret_cast<::TESDataHandler *>((other))->GetCompiledFileCount()))) return true;
+    if (((void *)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFaceGenHeadNode())) != ((void *)(reinterpret_cast<::MiddleHighProcess *>((other))->GetFaceGenHeadNode()))) return true;
+    if (((void *)(reinterpret_cast<::MiddleHighProcess *>(this)->GetAnimationObject())) != ((void *)(reinterpret_cast<::MiddleHighProcess *>((other))->GetAnimationObject()))) return true;
+    if (((void *)(reinterpret_cast<::FUN_004ab500_shell *>(this)->GetModSlotStat(1))) != ((void *)(reinterpret_cast<::FUN_004ab500_shell *>((other))->GetModSlotStat(1)))) return true;
+    if (((void *)(reinterpret_cast<::FUN_004ab500_shell *>(this)->GetModSlotStat(2))) != ((void *)(reinterpret_cast<::FUN_004ab500_shell *>((other))->GetModSlotStat(2)))) return true;
+    if (((void *)(reinterpret_cast<::FUN_004ab500_shell *>(this)->GetModSlotStat(3))) != ((void *)(reinterpret_cast<::FUN_004ab500_shell *>((other))->GetModSlotStat(3)))) return true;
+    if (((void *)(reinterpret_cast<::FUN_004ab500_shell *>(this)->GetModSlotStat(4))) != ((void *)(reinterpret_cast<::FUN_004ab500_shell *>((other))->GetModSlotStat(4)))) return true;
+    if (((void *)(reinterpret_cast<::FUN_004ab500_shell *>(this)->GetModSlotStat(5))) != ((void *)(reinterpret_cast<::FUN_004ab500_shell *>((other))->GetModSlotStat(5)))) return true;
+    if (((void *)(reinterpret_cast<::FUN_004ab500_shell *>(this)->GetModSlotStat(6))) != ((void *)(reinterpret_cast<::FUN_004ab500_shell *>((other))->GetModSlotStat(6)))) return true;
+    if (((void *)(reinterpret_cast<::FUN_004ab500_shell *>(this)->GetModSlotStat(7))) != ((void *)(reinterpret_cast<::FUN_004ab500_shell *>((other))->GetModSlotStat(7)))) return true;
+    if (((void *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>(this)->FUN_004bd570(1))) != ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>((other))->FUN_004bd570(1)))) return true;
+    if (((void *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>(this)->FUN_004bd570(2))) != ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>((other))->FUN_004bd570(2)))) return true;
+    if (((void *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>(this)->FUN_004bd570(4))) != ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_004bd570_this *>((other))->FUN_004bd570(4)))) return true;
+    if (reinterpret_cast<::FUN_00501c90_shell *>((((WeaponStringCompare*)&m_kEmbeddedWeaponNodeName)))->CompareString(&other->m_kEmbeddedWeaponNodeName, true)) return true;
+    if (reinterpret_cast<::FUN_00501c90_shell *>((((WeaponStringCompare*)&VATSAttackName)))->CompareString(&other->VATSAttackName, true)) return true;
+    if (memcmp(&data, reinterpret_cast<::FUN_006e4fb0_shell *>((other))->GetOffsetF4(), 0xcc)) return true;
     if (memcmp(&m_kCriticalData, &other->m_kCriticalData, 0x10)) return true;
     if (memcmp(&m_kVATSData, &other->m_kVATSData, 0x14)) return true;
-    if (GetAttackSound(false) != other->GetAttackSound(false)) return true;
-    if (GetValueByFlag(false) != other->GetValueByFlag(false)) return true;
-    if (GetPointerByFlag(false) != other->GetPointerByFlag(false)) return true;
-    if (GetField228() != other->GetField228()) return true;
-    if (GetField22C() != other->GetField22C()) return true;
-    if (GetField230() != other->GetField230()) return true;
-    if (FUN_00522500() != other->FUN_00522500()) return true;
-    if (GetField238() != other->GetField238()) return true;
-    if (GetField23C() != other->GetField23C()) return true;
-    if (GetModDistantAttackSound() != other->GetModDistantAttackSound()) return true;
-    if (GetField244() != other->GetField244()) return true;
-    if (FUN_005224a0() != other->FUN_005224a0()) return true;
-    if (m_eSoundLevel != other->FUN_00522560(false)) return true;
+    if (reinterpret_cast<::FUN_005215a0_shell *>(this)->FUN_005215a0(false) != reinterpret_cast<::FUN_005215a0_shell *>((other))->FUN_005215a0(false)) return true;
+    if (reinterpret_cast<::FUN_00522440_shell *>(this)->GetValueByFlag(false) != reinterpret_cast<::FUN_00522440_shell *>((other))->GetValueByFlag(false)) return true;
+    if (((int)(std::intptr_t)(reinterpret_cast<::S_00522470 *>(this)->GetPointerByFlag(false))) != ((std::intptr_t)(reinterpret_cast<::S_00522470 *>((other))->GetPointerByFlag(false)))) return true;
+    if (reinterpret_cast<::FUN_008bffa0_shell *>(this)->GetField228() != reinterpret_cast<::FUN_008bffa0_shell *>((other))->GetField228()) return true;
+    if (((int)(reinterpret_cast<::FUN_005224c0_Class *>(this)->GetField22C())) != ((int)(reinterpret_cast<::FUN_005224c0_Class *>((other))->GetField22C()))) return true;
+    if (((int)(reinterpret_cast<::FUN_005224e0_class *>(this)->GetField230())) != ((int)(reinterpret_cast<::FUN_005224e0_class *>((other))->GetField230()))) return true;
+    if (((int)(reinterpret_cast<::FUN_00522500_shell *>(this)->GetField234())) != ((int)(reinterpret_cast<::FUN_00522500_shell *>((other))->GetField234()))) return true;
+    if (reinterpret_cast<::FUN_00522520_shell *>(this)->GetField238() != reinterpret_cast<::FUN_00522520_shell *>((other))->GetField238()) return true;
+    if (reinterpret_cast<::FUN_00522540_shell *>(this)->GetField23C() != reinterpret_cast<::FUN_00522540_shell *>((other))->GetField23C()) return true;
+    if (((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>(this)->RefreshActorRuntimeData())) != ((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((other))->RefreshActorRuntimeData()))) return true;
+    if (((int)(reinterpret_cast<::FUN_008d8a60_Class *>(this)->GetField244())) != ((int)(reinterpret_cast<::FUN_008d8a60_Class *>((other))->GetField244()))) return true;
+    if (((int)(std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) != ((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>((other))->GetFacialAnimationNode()))) return true;
+    if (m_eSoundLevel != reinterpret_cast<::FUN_00522560_shell *>((other))->FUN_00522560(false)) return true;
     return false;
 }
 
-struct NiPoint3 { float x; float y; float z; };
-struct WeapNode { NiPoint3* GetWorldPos(); };
+struct NiPoint3 { float x; float y; float z; public:
+    float ComputeMagnitude() const;
+};
+struct WeapNode {  };
 struct WeapProcess {
     virtual void v000();
     virtual void v004();
@@ -2724,23 +2844,18 @@ public:
     virtual void v204();
     virtual void v208();
     virtual WeapNode* Get3D();
-    NiPoint3* GetPos();
 };
 class Actor : public TESObjectREFR {
 public:
-    WeapProcess* GetCurrentProcess() const;
-    float GetHeight() const;
 };
+struct Biped;
 class PlayerCharacter : public Actor {
 public:
-    bool FUN_004eaf60();
-    void* GetBipedAnim(bool);
-    void* GetPlayerNode();
+public:
+    ::Biped *FUN_00950b00(bool);
 };
-extern PlayerCharacter* g_thePlayer;
 struct WeapAimShell : public TESObjectWEAP {
     int FUN_00446390();
-    WeapNode* FUN_00525700(void* root);
     NiPoint3 FUN_005257a0(TESObjectREFR* ref);
 };
 
@@ -2749,50 +2864,43 @@ struct WeapAimShell : public TESObjectWEAP {
 NiPoint3 WeapAimShell::FUN_005257a0(TESObjectREFR* ref)
 {
     Actor* actor2 = ref->IsActor() ? (Actor*)ref : 0;
-    WeapProcess* process = actor2 ? actor2->GetCurrentProcess() : 0;
-    bool isPlayer_2 = actor2 == g_thePlayer;
-    NiPoint3 pos5 = *ref->GetPos();
+    WeapProcess* process = actor2 ? ((::WeapProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(actor2))->GetBaseTexture())) : 0;
+    bool isPlayer_2 = actor2 == ::_g_thePlayer;
+    NiPoint3 pos5 = *((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((ref))->GetAddTopicList()));
     if (actor2)
-        pos5.z += actor2->GetHeight();
+        pos5.z += reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)(actor2))->GetActorHeight();
     WeapNode* node9 = 0;
     if (actor2 && process && (FUN_00446390() == 10 || FUN_00446390() == 11 || FUN_00446390() == 12 || FUN_00446390() == 13)) {
-        void* biped = isPlayer_2 ? g_thePlayer->GetBipedAnim(g_thePlayer->FUN_004eaf60()) : actor2->GetBipedRoot();
+        void* biped = isPlayer_2 ? ((void *)(::_g_thePlayer->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60()))) : actor2->GetBipedRoot();
         WeapNode* weapNode = process->GetWeaponNode(biped);
         if (weapNode)
-            pos5 = *weapNode->GetWorldPos();
+            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(weapNode))));
     } else {
         if (process)
             node9 = ref->Get3D();
         else
-            node9 = FUN_00525700(isPlayer_2 ? g_thePlayer->GetPlayerNode() : ref->GetNiNode());
+            node9 = ((::WeapNode *)(reinterpret_cast<::UnkClass25700 *>(this)->FUN_00525700((::NiAVObject *)(void *)(isPlayer_2 ? ((void *)(std::uintptr_t)(::FUN_00950be0((bool *)(::_g_thePlayer)))) : ref->GetNiNode()))));
         if (node9)
-            pos5 = *node9->GetWorldPos();
+            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(node9))));
     }
     return pos5;
 }
 
 struct CombatSettingF
 {
-	float* Float();
 };
-extern CombatSettingF DAT_011cf3f0;
-extern CombatSettingF DAT_011cea74;
 
 struct CombatExplosion
 {
-	float GetRadius();
-	float GetForce();
 };
 
 struct CombatProjectile
 {
-	CombatExplosion* GetExplosion();
 };
 
 struct CombatWeapon
 {
 	int GetWeaponType();
-	CombatProjectile* GetProjectileData(Actor* pkActor);
 	int FUN_00522c80();
 };
 
@@ -2814,10 +2922,10 @@ int CombatWeapon::FUN_00522c80()
 	case 9:
 	case 13:
 		{
-			CombatProjectile* pkProjectile = GetProjectileData(0);
-			if (pkProjectile && pkProjectile->GetExplosion()
-				&& pkProjectile->GetExplosion()->GetRadius() > *DAT_011cf3f0.Float()
-				&& pkProjectile->GetExplosion()->GetForce() > *DAT_011cea74.Float())
+			CombatProjectile* pkProjectile = ((::CombatProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
+			if (pkProjectile && ((::CombatExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkProjectile))))
+				&& reinterpret_cast<::PathingRequest *>((((::CombatExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkProjectile))))))->GetTargetRadius() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatSettingF *>(&::originalRuntimeFloatSetting353))))))
+				&& reinterpret_cast<::Standin77900 *>((((::CombatExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkProjectile))))))->FUN_00477900() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatSettingF *>(&::originalRuntimeFloatSetting354)))))))
 			{
 				return 0;
 			}
@@ -2829,18 +2937,17 @@ int CombatWeapon::FUN_00522c80()
 	case 12:
 		return 4;
 	default:
-		Warning("COMBAT: Unknown weapon type %i encountered in function TESObjectWEAP::GetCombatWeaponType().", GetWeaponType());
+		::FUN_005b5e40();
 		return 2;
 	}
 }
 
-struct TESObjectCELL;
-struct NiFixedString;
-struct BSFaceGenAnimationData;
+class TESObjectCELL;
+class NiFixedString;
+class BSFaceGenAnimationData;
 BSFaceGenAnimationData* __cdecl FUN_00524c90();
-NiAVObject* __fastcall FUN_00524cf0(TESObjectCELL*);
+NiAVObject* FUN_00524cf0(TESObjectCELL*);
 NiFixedString* __cdecl FUN_00524cc0();
-float __cdecl FUN_00404010(float, float);
 
 struct FirePoint {
  float x,y,z;
@@ -2849,7 +2956,6 @@ struct FirePoint {
  FirePoint operator+(const FirePoint&) const;
  FirePoint operator-(const FirePoint&) const;
  FirePoint& operator*=(float);
- float Length() const;
 };
 struct FireNode; struct FireProcess; struct FireExtra; struct FirePackage; struct FireRef;
 struct FireNode {
@@ -2912,28 +3018,11 @@ struct FireNode {
  virtual void unused0e0();
  virtual void unused0e4();
  virtual void detach(FireNode*);
- FirePoint* FUN_0045bb80();
- FirePoint* FUN_00461130();
- FireNode* FUN_0043b4a0(int);
- FireNode* FUN_0045bc00(int);
- void FUN_00450f90(bool);
- FireNode* FUN_009611e0();
- void SetName(void*);
- void FUN_0043fa80(void*);
- void FUN_00a5a040();
- void Update(struct FireUpdate&);
- void FUN_00a59400(float*,float*,float*);
 };
 struct FireExtra {
- bool HasEffect(int);
- bool FUN_004bd8d0(int,float*);
- int FUN_00726070();
  TESForm* CurrentObject();
 };
 struct FirePackage {
- int GetPackType();
- FireRef* FUN_00676140(FireRef*);
- struct FireUse* FUN_006758f0();
 };
 struct FireRef {
  virtual void unused000();
@@ -3307,19 +3396,7 @@ struct FireRef {
  int field198;
  int field19c;
  int field1a0;
- FireProcess* GetCurrentAIProcess();
- float GetLooking();
- bool FUN_004eaf60();
- void* GetBipedAnim(bool);
- void FUN_00524d70();
- FireNode* FUN_00950be0();
- bool FUN_008bbc10();
- bool FUN_00524d10();
- float GetCachedSpeed(int);
- void* FUN_008d6f30();
- FirePackage* GetCurrentPackage();
- char GetByteAtOffset1F8(); void SetByteAtOffset1F8(char);
- void FUN_00571b50();
+  
 };
 struct FireProcess {
  virtual void unused000();
@@ -3659,198 +3736,158 @@ struct FireFormCheck {
  virtual bool bound();
 };
 struct FireAmmo : TESAmmo {
- TESForm* GetFieldBC(); float FUN_006d6d90(); void* FUN_00923000();
+   
 };
-struct FireAnim { void BlendOut(int,bool); };
-extern FireRef* _g_thePlayer;
-unsigned int DialogueRandom();
-void ApplyPerkModifiers(int,FireRef*,...);
+struct FireAnim {  };
 struct AmmoComponentAccess : BGSAmmoForm { TESAmmo* GetAmmoHelper(); };
 struct FireWeapon : TESObjectWEAP {
- TESAmmo* GetCurrentAmmo(Actor* who);
 
  void FUN_00523150(FireRef*);
  int GetWeaponType() const;
- FireNode* FUN_00525700(FireNode*);
- bool FUN_004ad030();
- struct FireString* FUN_00504e60();
- float FUN_00524b80(bool); float FUN_00524be0(bool);
- bool FUN_004c0bf0();
- struct FireRefData* GetOrFallback(FireRef*);
- bool GetIsAutomaticWeapon();
+  
  void FUN_00524db0(FireRef*);
- bool FUN_0046e8c0();
- float GetFloatAt144(); float FUN_00821680(); float FUN_00567470();
- float GetEffectValue(int,unsigned char);
+   
 };
-struct FireString { int GetModelLength(); };
 struct FireVats {
- int FUN_0044ddc0(); struct FireShot* FUN_009c71c0();
- int FUN_00441110();
- void FUN_009c8b90(struct FireRefData*); void SetValue(struct FireRefData*);
+  
+  
 };
-extern FireVats DAT_011f2250;
 FirePoint* FireRefPosition(FireRef*);
-struct FirePositionRef { FirePoint* FUN_00436aa0(); const FirePoint& GetAngleOnReference() const; };
-extern FirePoint DAT_011a9484;
+struct FirePositionRef {   };
 struct FireFace {
- struct FireTransform* FUN_00461130();
 };
 struct FireTransform { FirePoint FUN_00524c40(const FirePoint&); };
 
-struct FireSetting { float* Float(); unsigned char* Bool(); };
-extern FireSetting g_011c94a0, g_011c94b0, g_011ce23c;
+struct FireSetting {  unsigned char* Bool(); };
 struct FireSmart {
  FireNode* ptr;
  FireSmart(FireNode*); ~FireSmart();
  operator FireNode*() const;
  FireSmart& operator=(FireNode*);
 };
-struct FireColor { float r,g,b,a; FireColor(float,float,float,float); };
-struct FireMatrix { float xx,xy,xz,yx,yy,yz,zx,zy,zz; FireMatrix(); void FUN_00524ac0(float); };
+struct FireMatrix { float xx,xy,xz,yx,yy,yz,zx,zy,zz; FireMatrix();  };
 struct FireUpdate { float time; bool a,b; int flags; FireUpdate(float,bool,bool); };
 void* FUN_00524cb0();
-FireNode* FUN_00c584a0(float,float,float,int,int,FireColor*);
-void AttachLightingPropertyRecursive(FireNode*);
-void FUN_00b57e30(FireNode*,int,int);
-void PlayWeaponSound(FireWeapon*,FireRef*,FireNode*,bool);
 
-struct FireTarget { bool CallHelperFoo(FirePoint*,FirePoint*); };
+struct FireTarget {  };
 struct FireList {
  virtual void ReportDiagnostic(); virtual void unused4(); virtual int type();
- FireRef* FUN_00726070();
 };
 struct FireRefData {
- float GetFloatAtOffset68(); void SetWhich(int);
+  
 };
-extern FireSetting originalRuntimeFloatSetting375, originalRuntimeFloatSetting393;
-float FUN_004b1550(FirePoint*);
-float FUN_004b54c0(float);
 
 
-FireNode* FUN_00c55d50(FirePoint*,FirePoint*,float,float,float,float,FireColor*,int);
 FirePoint ComputeTrajectory(FireRef*,FireRef*,int,FireRefData*,float,bool);
 FirePoint GetTargetLocationWithOffset(FireRef*,bool);
 void FUN_004169a0(float,float&,float&);
-struct FireControls { void FUN_00a255b0(float,float,int,int,int,int,int); };
-struct FireOS { FireControls* FUN_00877720(); };
-extern FireOS* g_osGlobals;
-bool FUN_00702360();
-float ComputeAmmoEffectValue(int,void*,float);
-struct FireAmmoFlag { bool FUN_00474a80(); };
+struct FireControls {  };
+struct FireOS {  };
+struct FireAmmoFlag {  };
 
 
 struct WeaponAmmoView { int field000; int field004; int field008; int field00c; int field010; int field014; int field018; int field01c; int field020; int field024; int field028; int field02c; int field030; int field034; int field038; int field03c; int field040; int field044; int field048; int field04c; int field050; int field054; int field058; int field05c; int field060; int field064; int field068; int field06c; int field070; int field074; int field078; int field07c; int field080; int field084; int field088; int field08c; int field090; int field094; int field098; int field09c; int field0a0; FireAmmoFlag ammoForm; };
 struct FireShot { int id; int field04; unsigned char ammo, special,field0a,field0b; FireRef* target; };
-struct FireUse { bool FUN_00424940(); unsigned char GetByteAt0D(); };
-extern FireRef* DAT_011f21f0;
-extern FireRef* DAT_011f21e8;
-extern FireRef* DAT_011f21ec;
+struct FireUse {   };
 extern float DAT_011c9508;
-bool FUN_0066dde0(int);
-float RandomFloat(float,float);
-float FUN_004e44b0(float);
 float FireCos(float);
-FireRefData* CreateProjectile(FireRefData*,FireRef*,FireTarget*,FireWeapon*,FirePoint,float,float,FireNode*,FireRef*,bool,bool,float,float,int);
-extern FireSetting originalRuntimeFloatSetting538,originalRuntimeFloatSetting539;
-float FUN_00646260(FireRef*);
 
 // Fires the weapon for the given reference: resolves ammo and muzzle, computes spread and aim, spawns projectiles per shot, and updates ammo counts and recoil.
 // @fnv 0x00523150
 void FireWeapon::FUN_00523150(FireRef* reference) {
  if (reference) {
   FireRef* actor19 = reference->isActor() ? reference : 0;
-  if (actor19 == _g_thePlayer) {
-   FireAmmo* ammo3 = (FireAmmo*)GetCurrentAmmo((Actor*)_g_thePlayer);
+  if (actor19 == (*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))) {
+   FireAmmo* ammo3 = (FireAmmo*)((::TESAmmo *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(::Actor *)((Actor*)(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))));
    if (ammo3) {
     TESForm* removed32 = 0;
-    TESForm* effect7 = ammo3->GetFieldBC();
-    float chance1 = ammo3->FUN_006d6d90();
-    ApplyPerkModifiers(57,_g_thePlayer,this,&chance1);
+    TESForm* effect7 = ((::TESForm *)(std::uintptr_t)(::GetFieldBC((::FUN_0097ae90_Class *)(ammo3))));
+    float chance1 = reinterpret_cast<::FUN_006d6d90_shell *>((ammo3))->FUN_006d6d90();
+    ::ApplyPerkModifiers(57,(::Actor *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))),this,&chance1);
     float roll4 = (float)(DialogueRandom()%100);
     if (effect7 && roll4 <= chance1) {
      if (((FireFormCheck*)effect7)->bound()) removed32 = effect7;
      if (removed32) {
       TESFullName* fullName1 = dynamic_cast<TESFullName*>(effect7);
-      _g_thePlayer->remove(removed32,0,true);
+      (*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))->remove(removed32,0,true);
      }
     }
    }
   }
   if (actor19 && actor19->field1a0) return;
-  bool player12 = actor19 == _g_thePlayer;
+  bool player12 = actor19 == (*reinterpret_cast<::FireRef * *>(&::_g_thePlayer));
   struct FireShot* shot16 = 0;
-  FireProcess* process39 = actor19 ? actor19->GetCurrentAIProcess() : 0;
+  FireProcess* process39 = actor19 ? ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor19))->GetBaseTexture())) : 0;
   const int unusedResult10 = 0;
   FireExtra* extra13 = process39 ? process39->extra() : 0;
-  FirePoint position6 = actor19 ? *((FirePositionRef*)reference)->FUN_00436aa0() + DAT_011a9484 * 96.0f : *((FirePositionRef*)reference)->FUN_00436aa0();
-  float pitch37 = actor19 ? actor19->GetLooking() : ((FirePositionRef*)reference)->GetAngleOnReference().x;
-  float yaw21 = actor19 ? actor19->heading(0) : ((FirePositionRef*)reference)->GetAngleOnReference().z;
+  FirePoint position6 = actor19 ? *((::FirePoint *)(reinterpret_cast<::TESTopicInfo *>((((FirePositionRef*)reference)))->GetAddTopicList())) + (*reinterpret_cast<::FirePoint *>((void *)&::DAT_011a9484)) * 96.0f : *((::FirePoint *)(reinterpret_cast<::TESTopicInfo *>((((FirePositionRef*)reference)))->GetAddTopicList()));
+  float pitch37 = actor19 ? reinterpret_cast<::MobileObject *>((actor19))->GetLooking() : (*(const ::FirePoint *)(reinterpret_cast<::TESRecipe *>((void *)(((FirePositionRef*)reference)))->GetData())).x;
+  float yaw21 = actor19 ? actor19->heading(0) : (*(const ::FirePoint *)(reinterpret_cast<::TESRecipe *>((void *)(((FirePositionRef*)reference)))->GetData())).z;
   FireNode* muzzle11 = 0;
   if (process39 && (GetWeaponType()==10 || GetWeaponType()==11 || GetWeaponType()==12 || GetWeaponType()==13)) {
    float unusedPad[18];
-   if (player12 && process39 && process39->weapons() && process39->weapons()->FUN_00726070()>1) {
-    muzzle11 = process39->muzzle(_g_thePlayer->GetBipedAnim(_g_thePlayer->FUN_004eaf60()));
-    if (muzzle11 && muzzle11->node() && muzzle11->node()->FUN_0045bc00(0)) muzzle11->node()->FUN_0043b4a0(0)->FUN_00450f90(true);
+   if (player12 && process39 && process39->weapons() && ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))>1) {
+    muzzle11 = process39->muzzle(((void *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_004eaf60()))));
+    if (muzzle11 && muzzle11->node() && ((::FireNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((muzzle11->node()))->FUN_0045bc00(0)))) reinterpret_cast<::TaskQueueInterface *>((((::FireNode *)(reinterpret_cast<::NiNode *>((muzzle11->node()))->GetAt(0)))))->QueueActorDisarm(true);
    }
    muzzle11 = process39->muzzle(actor19->biped());
-   if (muzzle11) position6 = *muzzle11->FUN_0045bb80();
-   if (player12) _g_thePlayer->FUN_00524d70();
+   if (muzzle11) position6 = *((::FirePoint *)(::FUN_0045bb80((std::intptr_t)(muzzle11))));
+   if (player12) ::fnv_00524d70::FUN_00524d70((char *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))));
   } else {
    if (process39) muzzle11 = reference->muzzle();
-   else muzzle11 = FUN_00525700(player12 ? _g_thePlayer->FUN_00950be0() : reference->root());
+   else muzzle11 = ((::FireNode *)(reinterpret_cast<::UnkClass25700 *>(this)->FUN_00525700((::NiAVObject *)(::FireNode *)(player12 ? ((::FireNode *)(std::uintptr_t)(::FUN_00950be0((bool *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)))))) : reference->root()))));
    if (muzzle11) {
-    position6 = *muzzle11->FUN_0045bb80();
-    if (DAT_011f2250.FUN_0044ddc0()!=4 && actor19==_g_thePlayer && _g_thePlayer->FUN_008bbc10() && FUN_00504e60()->GetModelLength()) {
+    position6 = *((::FirePoint *)(::FUN_0045bb80((std::intptr_t)(muzzle11))));
+    if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))!=4 && actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_008bbc10() && ((::TESActorBase *)(reinterpret_cast<::FUN_00504e60_shell *>(this)->FUN_00504e60()))->GetSex()) {
      bool useFace2 = false;
-     if (FUN_004ad030()) {
-      FireProcess* faceProcess = _g_thePlayer->GetCurrentAIProcess();
-      if (faceProcess && faceProcess->extra() && faceProcess->extra()->HasEffect(14)) useFace2 = true;
+     if (reinterpret_cast<::FUN_004ad030_shell *>(this)->GetFlag()) {
+      FireProcess* faceProcess = ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetBaseTexture()));
+      if (faceProcess && faceProcess->extra() && reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((faceProcess->extra()))->HasEffect(14)) useFace2 = true;
      } else useFace2 = true;
      FireFace* face31 = (FireFace*)FUN_00524c90();
      if (useFace2 && face31) {
       static FirePoint offset(0.0f,-5.0f,0.0f);
-      position6 = face31->FUN_00461130()->FUN_00524c40(offset);
+      position6 = ((::FireTransform *)(::FUN_00461130((std::intptr_t)(face31))))->FUN_00524c40(offset);
      }
     }
-    if (reference && reference==_g_thePlayer && !_g_thePlayer->FUN_00524d10()) {
-     yaw21 = _g_thePlayer->heading(0);
-     pitch37 = _g_thePlayer->GetLooking();
+    if (reference && reference==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && !::FUN_00524d10((bool *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))) {
+     yaw21 = (*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))->heading(0);
+     pitch37 = reinterpret_cast<::MobileObject *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetLooking();
     } else {
      float roll4;
-     ((FireNode*)muzzle11->FUN_00461130())->FUN_00a59400(&yaw21,&pitch37,&roll4);
+     reinterpret_cast<::RotationMatrix *>((((FireNode*)((::FirePoint *)(::FUN_00461130((std::intptr_t)(muzzle11)))))))->FUN_00a59400((*(float *)(&yaw21)),(*(float *)(&pitch37)),(*(float *)(&roll4)));
     }
-    if (*g_011c94a0.Bool()) {
+    if (*(*reinterpret_cast<::FireSetting *>(&::g_011c94a0)).Bool()) {
      FireNode* root = muzzle11->node();
-     if (!root) root = muzzle11->FUN_009611e0()->node();
+     if (!root) root = ((::FireNode *)(reinterpret_cast<::FUN_009611e0_shell *>((muzzle11))->FUN_009611e0()))->node();
      if (root) {
       FireSmart marker(root->find(FUN_00524cb0()));
       if (!(FireNode*)marker) {
-       FireColor color(1,0,0,1);
-       marker = FUN_00c584a0(1,1,4096.0f,10,10,&color);
-       ((FireNode*)marker)->SetName(FUN_00524cb0());
+       ::ImageSpaceEffectParam color(1,0,0,1);
+       marker = ((::FireNode *)(::fnv_00c584a0::FUN_00c584a0(1,1,4096.0f,10,10,(::fnv_00c584a0::MeshColor *)(::ImageSpaceEffectParam *)(&color))));
+       ::AssignFixedString((char *)(((FireNode*)marker)), (std::intptr_t)(FUN_00524cb0()), {});
        FireMatrix rotation;
-       rotation.FUN_00524ac0(1.57079637f);
-       ((FireNode*)marker)->FUN_0043fa80(&rotation);
-       AttachLightingPropertyRecursive(marker);
-       FUN_00b57e30(marker,0,0);
+       reinterpret_cast<::FUN_00524ac0_shell *>(&(rotation))->FUN_00524ac0(1.57079637f);
+       reinterpret_cast<::FUN_0043fa80_s *>((((FireNode*)marker)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
+       ::fnv_004b6e90::AttachLightingPropertyRecursive((::NiAVObject *)(::FireNode *)(marker));
+       ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::FireNode *)(marker),0,0);
        root->attach(marker,true);
-       ((FireNode*)marker)->FUN_00a5a040();
+       reinterpret_cast<::FUN_00a5a040_Class *>((((FireNode*)marker)))->FUN_00a5a040();
        FireUpdate update(0,false,false);
-       ((FireNode*)marker)->Update(update);
+       reinterpret_cast<::FUN_00a59c60_cls *>((((FireNode*)marker)))->FUN_00a59c60((std::intptr_t)&(update));
       }
      }
     }
-    PlayWeaponSound(this,reference,muzzle11,player12);
+    ::PlayWeaponSound((::Weap *)(::FireWeapon *)(this),(::VObj1d0 *)(reference),(::ListObj *)(muzzle11),player12);
    }
   }
 
-  float accuracy5 = actor19 ? actor19->GetCachedSpeed(1) : *g_011ce23c.Float();
+  float accuracy5 = actor19 ? reinterpret_cast<::CalcActor *>((actor19))->GetCachedSpeed(1) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::g_011ce23c))))));
   bool modSpread31 = false;
-  if (actor19 && actor19->GetCurrentAIProcess() && extra13 && extra13->HasEffect(3)) modSpread31 = true;
-  float spread50 = (FUN_00524b80(modSpread31) + FUN_00524be0(modSpread31)*accuracy5) * 0.01745329238474369;
-  if (actor19 && actor19->GetCurrentAIProcess()) {
-   spread50 = ComputeAmmoEffectValue(3,GetCurrentAmmo((Actor*)actor19) ? ((FireAmmo*)GetCurrentAmmo((Actor*)actor19))->FUN_00923000() : 0,spread50);
+  if (actor19 && ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor19))->GetBaseTexture())) && extra13 && reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((extra13))->HasEffect(3)) modSpread31 = true;
+  float spread50 = (reinterpret_cast<::FUN_00524b80_This *>(this)->FUN_00524b80(modSpread31) + reinterpret_cast<::FUN_00524be0_shell *>(this)->FUN_00524be0(modSpread31)*accuracy5) * 0.01745329238474369;
+  if (actor19 && ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor19))->GetBaseTexture()))) {
+   spread50 = ::ComputeAmmoEffectValue(3,(::AmmoEffectList *)(void *)(((::TESAmmo *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(::Actor *)((Actor*)actor19)))) ? reinterpret_cast<::TESAmmoInitCalls *>((((FireAmmo*)((::TESAmmo *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(::Actor *)((Actor*)actor19)))))))->FUN_00923000() : 0),spread50);
   }
   float processSpread1 = 0;
   FireTarget* target20 = 0;
@@ -3858,92 +3895,92 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
    FirePoint targetPosition;
    target20 = actor19->target();
    if (target20) {
-    if (!target20->CallHelperFoo(&targetPosition,&position6)) {
-     if (FUN_004c0bf0()) actor19->anim()->BlendOut(4,false);
+    if (!reinterpret_cast<::Holder009807f0 *>((target20))->CallHelperFoo((std::intptr_t)(&targetPosition),(std::intptr_t)(&position6))) {
+     if (::FUN_004c0bf0((::TESObjectWEAP *)this)) reinterpret_cast<::fnv_004994f0::FUN_004994f0_shell *>((actor19->anim()))->FUN_004994f0(4,false);
      return;
     }
     FirePoint direction = targetPosition-position6;
-    yaw21 = FUN_004b1550(&direction);
-    pitch37 = -FUN_004b54c0(direction.z/direction.Length());
-    if (*g_011c94b0.Bool()) {
-     FireNode* cellNode = (FireNode*)FUN_00524cf0((TESObjectCELL*)actor19->FUN_008d6f30());
+    yaw21 = ::GetAngleFromVector((*(const ::NiPoint3 *)(&direction)));
+    pitch37 = -FUN_004b54c0(direction.z/reinterpret_cast<::NiPoint3 *>((void *)&(direction))->ComputeMagnitude());
+    if (*(*reinterpret_cast<::FireSetting *>(&::g_011c94b0)).Bool()) {
+     FireNode* cellNode = (FireNode*)FUN_00524cf0((TESObjectCELL*)((void *)(reinterpret_cast<::LowProcess *>((actor19))->GetTarget())));
      if (cellNode) {
       FireSmart cellMarker31(cellNode->find((void*)FUN_00524cc0()));
-      if ((FireNode*)cellMarker31) ((FireNode*)cellMarker31)->FUN_009611e0()->detach(cellMarker31);
-      FireColor cellColor14(0,1,0,1);
-      cellMarker31 = FUN_00c55d50(&position6,&targetPosition,0.5f,0.5f,0.5f,0.5f,&cellColor14,0);
-      ((FireNode*)cellMarker31)->SetName((void*)FUN_00524cc0());
+      if ((FireNode*)cellMarker31) ((::FireNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((FireNode*)cellMarker31)))->FUN_009611e0()))->detach(cellMarker31);
+      ::ImageSpaceEffectParam cellColor14(0,1,0,1);
+      cellMarker31 = ((::FireNode *)(::FUN_00c55d50((::Point3 *)(::FirePoint *)(&position6),(::Point3 *)(::FirePoint *)(&targetPosition),0.5f,0.5f,0.5f,0.5f,(::FilterData *)(::ImageSpaceEffectParam *)(&cellColor14),(::FilterData *)(0))));
+      ::AssignFixedString((char *)(((FireNode*)cellMarker31)), (std::intptr_t)((void*)FUN_00524cc0()), {});
       cellNode->attach(cellMarker31,true);
-      ((FireNode*)cellMarker31)->FUN_00a5a040();
+      reinterpret_cast<::FUN_00a5a040_Class *>((((FireNode*)cellMarker31)))->FUN_00a5a040();
       FireUpdate cellUpdate73(0,false,false);
-      ((FireNode*)cellMarker31)->Update(cellUpdate73);
+      reinterpret_cast<::FUN_00a59c60_cls *>((((FireNode*)cellMarker31)))->FUN_00a59c60((std::intptr_t)&(cellUpdate73));
      }
     }
-   } else if (process39 && process39->package() && process39->package()->GetPackType()==16) {
+   } else if (process39 && process39->package() && reinterpret_cast<struct ::FUN_0041ca90 *>((process39->package()))->get()==16) {
     FireList* data = process39->data();
     if (data) {
      FireList* list = data;
-     FireRef* packageTarget = list->FUN_00726070();
+     FireRef* packageTarget = ((::FireRef *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
      if (!packageTarget) return;
      bool lob = false;
-     FireRefData* projectile = GetOrFallback(0);
+     FireRefData* projectile = ((::FireRefData *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
      if (projectile) {
-      float speed = projectile->GetFloatAtOffset68()*(lob ? *originalRuntimeFloatSetting375.Float() : 1.0f);
+      float speed = ::GetFloatAtOffset68((const char *)(projectile))*(lob ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting375)))))) : 1.0f);
       targetPosition = ComputeTrajectory(actor19,packageTarget,0,projectile,speed,lob);
      } else targetPosition = GetTargetLocationWithOffset(packageTarget,true);
      FirePoint direction = targetPosition-position6;
-     if (process39->package()->FUN_00676140(actor19)==packageTarget) {
+     if (((::FireRef *)(reinterpret_cast<::fnv_00676140::FUN_00676140_shell *>((process39->package()))->FUN_00676140((::MobileObject *)(actor19))))==packageTarget) {
       direction.z=0;
       FUN_004169a0(actor19->heading(0),direction.x,direction.y);
-      direction *= 512.0f;
+      reinterpret_cast<::MyPoint439180 *>((void *)&(const ::FirePoint &)(direction))->FUN_00439180(512.0f);
       targetPosition=position6+direction;
      }
-     yaw21=FUN_004b1550(&direction);
-     pitch37=-FUN_004b54c0(direction.z/direction.Length());
+     yaw21=::GetAngleFromVector((*(const ::NiPoint3 *)(&direction)));
+     pitch37=-FUN_004b54c0(direction.z/reinterpret_cast<::NiPoint3 *>((void *)&(direction))->ComputeMagnitude());
     }
    }
-   float aim = actor19->GetCachedSpeed(2);
-   spread50 += aim * *originalRuntimeFloatSetting393.Float() * 0.01745329238474369;
-   processSpread1 = actor19->GetCurrentAIProcess()->spread();
+   float aim = reinterpret_cast<::CalcActor *>((actor19))->GetCachedSpeed(2);
+   spread50 += aim * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting393)))))) * 0.01745329238474369;
+   processSpread1 = ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor19))->GetBaseTexture()))->spread();
    spread50 += processSpread1;
   }
-  if ((reference==_g_thePlayer && process39 && process39->weapons()) || ((WeaponAmmoView*)this)->ammoForm.FUN_00474a80()) {
+  if ((reference==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && process39 && process39->weapons()) || reinterpret_cast<::FUN_00474a80_Class *>(&(((WeaponAmmoView*)this)->ammoForm))->FUN_00474a80()) {
    if (!FUN_00702360()) {
-    FireControls* controls = g_osGlobals->FUN_00877720();
-    if (GetFloatAt144()>0.0) controls->FUN_00a255b0(FUN_00567470(),FUN_00821680(),(int)(GetFloatAt144()*1000.0),0,0,0,0);
-    if (GetFloatAt144()>0.0) controls->FUN_00a255b0(0.5f,1.0f,330,0,0,0,0);
+    FireControls* controls = ((::FireControls *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::FireOS * *>(&::g_osGlobals))))->FUN_00877720()));
+    if (reinterpret_cast<::FUN_008133b0_class *>(this)->GetFloatAt144()>0.0) reinterpret_cast<::Controller *>((controls))->FUN_00a255b0(::FUN_00567470((char *)this),reinterpret_cast<::FUN_00821680_Class *>(this)->FUN_00821680(),(int)(reinterpret_cast<::FUN_008133b0_class *>(this)->GetFloatAt144()*1000.0),0,0,0,0);
+    if (reinterpret_cast<::FUN_008133b0_class *>(this)->GetFloatAt144()>0.0) reinterpret_cast<::Controller *>((controls))->FUN_00a255b0(0.5f,1.0f,330,0,0,0,0);
    }
   }
 
 
   char shots14 = process39 ? process39->shots() : 1;
   bool split2 = false;
-  if (extra13) split2 = extra13->HasEffect(12);
-  if (split2) spread50 *= GetEffectValue(12,1);
+  if (extra13) split2 = reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((extra13))->HasEffect(12);
+  if (split2) spread50 *= reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue(12,1);
   int projectileCount11 = GetDamageForActor(false,false,(Actor*)actor19) * shots14;
   int usedAmmo26=unusedResult10;
   FireSmart lastNode23(0);
-  if (DAT_011f2250.FUN_0044ddc0()==4 && actor19==DAT_011f21f0) shot16=DAT_011f2250.FUN_009c71c0();
+  if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))==4 && actor19==(*reinterpret_cast<::FireRef * *>(&::DAT_011f21f0))) shot16=((::FireShot *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->FUN_009c71c0()));
   bool aimed26=false;
   unsigned char specialFlag19=0;
-  FirePackage* package3 = actor19 ? actor19->GetCurrentPackage() : 0;
+  FirePackage* package3 = actor19 ? ((::FirePackage *)(reinterpret_cast<::FUN_009344a0_shell *>((actor19))->FUN_009344a0())) : 0;
   if (package3) {
-   FireUse* use=package3->FUN_006758f0();
-   if (use) { aimed26=use->FUN_00424940(); specialFlag19=use->GetByteAt0D(); }
+   FireUse* use=((::FireUse *)(reinterpret_cast<::TESPackageShell *>((package3))->FUN_006758f0()));
+   if (use) { aimed26=((bool)(reinterpret_cast<::FUN_00424940_shell *>((use))->FUN_00424940())); specialFlag19=reinterpret_cast<::FUN_00524cd0_shell *>((use))->GetByteAt0D(); }
   }
   bool specialAmmo35=false;
   if (shot16 && shot16->special && FUN_0066dde0(shot16->id)) specialAmmo35=true;
   if (actor19 && process39) process39->shotsCount(projectileCount11);
   bool vatTarget22=false;
   FireRef* aimTarget25=0;
-  if (shot16 && actor19 && (actor19==DAT_011f21e8 || actor19==DAT_011f21ec)) {
+  if (shot16 && actor19 && (actor19==(*reinterpret_cast<::FireRef * *>(&::DAT_011f21e8)) || actor19==(*reinterpret_cast<::FireRef * *>(&::DAT_011f21ec)))) {
    vatTarget22=true; aimed26=true; aimTarget25=shot16->target;
   }
   if (aimed26 && !vatTarget22) {
    FireList* data=process39->data();
    if (data && data->type()==16) {
     FireList* list=data;
-    aimTarget25=list->FUN_00726070();
+    aimTarget25=((::FireRef *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
    }
   }
   while (shots14) {
@@ -3966,11 +4003,11 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
     }
     FireRef* shooter2=0;
     if (reference->isActor()) shooter2=reference;
-    spawned19=CreateProjectile(GetOrFallback(shooter2),reference,target20,this,position6,shotYaw16,shotPitch5,lastNode23,aimTarget25,aimed26,(bool)(specialFlag19 || useSpecial62),yawOffset5,pitchOffset13,0);
+    spawned19=((::FireRefData *)(::CreateProjectile((::P062Ammo *)(::FireRefData *)(((::FireRefData *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((std::intptr_t)(shooter2))))),(::P062Object *)(reference),(::P062Object *)(target20),(::P062Object *)(::FireWeapon *)(this),(*(::NiPoint3 *)&(const ::FirePoint &)(position6)),shotYaw16,shotPitch5,lastNode23,(std::intptr_t)(aimTarget25),aimed26,(bool)(specialFlag19 || useSpecial62),yawOffset5,pitchOffset13,(void *)(0))));
     if (shot16 && (shot16->ammo || shot16->special) && FUN_0066dde0(shot16->id) && !useSpecial62) {
-     if (!GetIsAutomaticWeapon() || (!DAT_011f2250.FUN_00441110() && GetIsAutomaticWeapon())) DAT_011f2250.FUN_009c8b90(spawned19);
+     if (!reinterpret_cast<::FUN_00524b40_class *>(this)->FUN_00524b40() || (!((int)(reinterpret_cast<::BGSTerrainManager *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetMinLevel())) && reinterpret_cast<::FUN_00524b40_class *>(this)->FUN_00524b40())) reinterpret_cast<::FUN_009c8b90_cls *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->FUN_009c8b90((::FUN_009c8b90_arg *)(spawned19));
     }
-    if (!firstProjectile43) spawned19->SetWhich(0);
+    if (!firstProjectile43) reinterpret_cast<::FUN_008126e0_shell *>((spawned19))->SetWhich(0);
     else firstProjectile43=false;
     --count3;
    }
@@ -3978,28 +4015,28 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
    if (shot16 && (shot16->ammo || shot16->special) && FUN_0066dde0(shot16->id)) {
     if (useSpecial62 && shot16->special) --shot16->special;
     else {
-     int ammoPerShot=GetAmmoPerShot();
+     int ammoPerShot=reinterpret_cast<::FUN_00524b60_shell *>(this)->GetByteAt102();
      if (ammoPerShot<1) ammoPerShot=1;
      shot16->ammo-=ammoPerShot;
     }
-    float ratio=*originalRuntimeFloatSetting538.Float()/FUN_00404010(*originalRuntimeFloatSetting538.Float(),*originalRuntimeFloatSetting539.Float());
+    float ratio=*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting538))))))/FUN_00404010(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting538)))))),*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting539)))))));
     DAT_011c9508+=ratio;
     if (DAT_011c9508>=ratio) DAT_011c9508-=1.0;
-    if (!useSpecial62 && !shot16->ammo) DAT_011f2250.SetValue(spawned19);
+    if (!useSpecial62 && !shot16->ammo) reinterpret_cast<::S_009c8c40 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->SetValue((std::intptr_t)(spawned19));
    }
    --shots14;
   }
   if (actor19) {
    int savedAmmo=0;
-   if (actor19==_g_thePlayer) {
-    FireProcess* playerProcess=_g_thePlayer->GetCurrentAIProcess();
+   if (actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))) {
+    FireProcess* playerProcess=((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetBaseTexture()));
     if (playerProcess && playerProcess->extra()) {
      float chance1=0;
-     if (playerProcess->extra()->FUN_004bd8d0(5,&chance1)) {
-      _g_thePlayer->SetByteAtOffset1F8(_g_thePlayer->GetByteAtOffset1F8()+usedAmmo26);
+     if (reinterpret_cast<::FUN_004bd8d0_shell *>((playerProcess->extra()))->FUN_004bd8d0(5,&chance1)) {
+      reinterpret_cast<::FUN_00524d30_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->SetByteAtOffset1F8(reinterpret_cast<::FUN_00524d50_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetByteAtOffset1F8()+usedAmmo26);
       const int threshold=4;
-      if (_g_thePlayer->GetByteAtOffset1F8()>=threshold) {
-       _g_thePlayer->SetByteAtOffset1F8(_g_thePlayer->GetByteAtOffset1F8()-threshold);
+      if (reinterpret_cast<::FUN_00524d50_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetByteAtOffset1F8()>=threshold) {
+       reinterpret_cast<::FUN_00524d30_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->SetByteAtOffset1F8(reinterpret_cast<::FUN_00524d50_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetByteAtOffset1F8()-threshold);
        savedAmmo=1;
       }
      }
@@ -4008,22 +4045,22 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
    actor19->count(usedAmmo26-savedAmmo);
   }
   if ((process39 && GetWeaponType()==10) || GetWeaponType()==11 || GetWeaponType()==12 || GetWeaponType()==13) {
-   if (!process39->weapons() || process39->weapons()->FUN_00726070()<=0) actor19->FUN_00571b50();
+   if (!process39->weapons() || ((std::intptr_t)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))<=0) reinterpret_cast<::BipedAnim *>((actor19))->AttachFaceGenNode();
    else if (muzzle11) {
-    FireNode* child=muzzle11->node()->FUN_0045bc00(0);
-    if (child) child->FUN_00450f90(true);
+    FireNode* child=((::FireNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((muzzle11->node()))->FUN_0045bc00(0)));
+    if (child) reinterpret_cast<::TaskQueueInterface *>((child))->QueueActorDisarm(true);
    }
   }
   lastNode23=0;
   switch (GetWeaponType()) {
    case 3: case 4: case 5: case 6: case 7: case 8: case 9:
-    if (actor19 && actor19->state() && process39 && process39->extra() && !FUN_0046e8c0()) {
-     float recoil=FUN_00646260(actor19);
-     actor19->kick(actor19->GetCurrentAIProcess()->extra(),recoil,0);
+    if (actor19 && actor19->state() && process39 && process39->extra() && !reinterpret_cast<::FUN_0046e8c0_class *>(this)->FUN_0046e8c0()) {
+     float recoil=::FUN_00646260((::Actor *)(actor19));
+     actor19->kick(((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor19))->GetBaseTexture()))->extra(),recoil,0);
     }
     break;
   }
-  if (GetIsAutomaticWeapon()) FUN_00524db0(reference);
+  if (reinterpret_cast<::FUN_00524b40_class *>(this)->FUN_00524b40()) FUN_00524db0(reference);
 
  }
 }
@@ -4031,36 +4068,21 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
 // @fnv 0x004169a0
 void __cdecl FUN_004169a0(float fRadians, float& fSin, float& fCos)
 {
-    float s, c;
-    __asm {
-        fld fRadians
-        fsincos
-        fstp c
-        fstp s
-    }
-    fSin = s;
-    fCos = c;
+    fnv_SinCos(fRadians, fSin, fCos);
 }
 
 namespace fnv_00524db0 {
 struct P12 {
     float x, y, z;
-    void FUN_006815c0();
-    void FUN_00439ef0(P12*, P12*);
-    double FUN_00457990();
-    P12* FUN_00416870(float, float, float);
-    void FUN_0063c8a0(P12*);
-    void FUN_00439180(float);
 };
 struct Mat36 { float m00, m01, m02, m10, m11, m12, m20, m21, m22; };
 struct Sub461130 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void FUN_00439f50(int, P12*);
     P12* FUN_004b4500(P12*, P12*);
 };
-struct GetterBase { P12* FUN_0045bb80(); };
-struct NodeObj : GetterBase { Sub461130* FUN_00461130(); };
-struct BSFaceGenAnimationData : GetterBase {};
+struct GetterBase {  };
+struct NodeObj : GetterBase {  };
+class BSFaceGenAnimationData : public GetterBase {};
 struct SubA {
     virtual void Unk_00();
     virtual void Unk_01();
@@ -4188,42 +4210,17 @@ struct Param {
     virtual void Unk_72();
     virtual void Unk_73();
     virtual void* Unk_74();
-    int FUN_009306d0();
-    void* FUN_008d6f30();
-    void* FUN_00950be0();
-    bool FUN_004eaf60();
 };
-extern Param* DAT_011dea3c;
-struct SettingObj { float* FUN_00403e20(); };
-extern SettingObj DAT_011cf57c;
-extern SettingObj DAT_011cf4b0;
-extern SettingObj DAT_011cf498;
-extern SettingObj DAT_011ce0e4;
-extern SettingObj DAT_011cf1d4;
-extern SettingObj DAT_011ce7c0;
-struct Obj2250 { bool FUN_00525430(); };
-extern Obj2250 DAT_011f2250;
-extern float DAT_0101e704;
-extern float DAT_010162c0;
-extern P12 DAT_011a946c;
+struct SettingObj {  };
+struct Obj2250 {  };
 extern char DAT_0102cb00;
 void* __cdecl FUN_00aa13e0(unsigned int);
 struct XObj {
-    static void* __cdecl operator new(unsigned int size) { return FUN_00aa13e0(size); } static void operator delete(void*, unsigned int);
+    
     void* pEffect; void* pSource; void* pTransform; unsigned int flags; float intensity; float x; float y; float z; unsigned int lifetime;
     XObj(void*, float, int, Param*, P12*, Mat36*, P12*, P12*, float, int, int);
-    void FUN_007e6580(int);
 };
-BSFaceGenAnimationData* __cdecl FUN_00524c90();
-bool __cdecl FUN_00525420();
-NodeObj* __cdecl FUN_004aae30(void*, const char*);
-bool __cdecl FUN_004b61d0(P12, BSFaceGenAnimationData*, float);
-float __cdecl FUN_00476b70(float, float);
-void __cdecl FUN_00458620(P12*, int);
-float __cdecl FUN_0040ebd0(float, float);
-void __cdecl FUN_00525340(P12*);
 struct ThisObj {
-    SubA* FUN_004600d0();
     void FUN_00524db0(Param* param);
 };
 
@@ -4233,8 +4230,8 @@ void ThisObj::FUN_00524db0(Param* param)
 {
     if (param != 0) {
     if (param->Unk_40()) {
-    if (this->FUN_004600d0()->FUN_0048cee0() > 0) {
-    if (!FUN_00525420()) {
+    if (((::fnv_00524db0::SubA *)(reinterpret_cast<::FUN_004600d0_shell *>((this))->FUN_004600d0()))->FUN_0048cee0() > 0) {
+    if (!((bool)(::FUN_00525420()))) {
     P12 bufC3;
     P12 tempBCz;
     XObj* qB7;
@@ -4257,43 +4254,40 @@ void ThisObj::FUN_00524db0(Param* param)
     Param* paramHome8;
     void* pR;
     paramHome8 = param;
-    pR = (paramHome8 == DAT_011dea3c) ? DAT_011dea3c->FUN_00950be0() : paramHome8->Unk_74();
-    node3 = FUN_004aae30(pR, (const char*)&DAT_0102cb00);
+    pR = (paramHome8 == (*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer))) ? ((void *)(std::uintptr_t)(::FUN_00950be0((bool *)((*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer)))))) : paramHome8->Unk_74();
+    node3 = ((::fnv_00524db0::NodeObj *)(::FUN_004aae30((::NiAVObject *)(pR), (::NiFixedString *)((const char*)&DAT_0102cb00))));
     if (node3 != 0) {
     flag7 = true;
-    if (!FUN_004b61d0(*node3->FUN_0045bb80(), FUN_00524c90(), DAT_0101e704))
+    if (!::FUN_004b61d0((*(::NiPoint3 *)&(const ::fnv_00524db0::P12 &)(*((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3)))))), (::NiCamera *)(::fnv_00524db0::BSFaceGenAnimationData *)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90()))), ::DAT_0101e704))
         flag7 = false;
-    node3->FUN_0045bb80()->FUN_00439ef0(&aVec24, FUN_00524c90()->FUN_0045bb80());
-    if (aVec24.FUN_00457990() > *DAT_011cf57c.FUN_00403e20())
+    reinterpret_cast<::FUN_00439ef0_class *>((((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3))))))->FUN_00439ef0((::NiPoint3 *)(::fnv_00524db0::P12 *)(&aVec24), (*(const ::NiPoint3 *)(((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90())))))))));
+    if (((double)(reinterpret_cast<::NiPoint3 *>(&(aVec24))->ComputeMagnitude())) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting640)))))))
         flag7 = false;
     if (flag7) {
-    dword4 = this->FUN_004600d0()->vfn_14();
-    point1 = *node3->FUN_0045bb80();
-    matTmp = *(Mat36*)node3->FUN_00461130();
-    obj34.FUN_006815c0();
-    node3->FUN_00461130()->FUN_00439f50(2, &obj34);
-    f7c5 = -*DAT_011cf4b0.FUN_00403e20();
-    f9 = *DAT_011cf4b0.FUN_00403e20();
-    obj34.FUN_0063c8a0(tempBCz.FUN_00416870(FUN_00476b70(f7c5, f9), FUN_00476b70(f7c5, f9), FUN_00476b70(f7c5, f9)));
-    obj34.FUN_00439180(*DAT_011cf498.FUN_00403e20());
-    if (paramHome8->FUN_009306d0()) {
-        ob88.FUN_006815c0();
-        FUN_00458620(&ob88, paramHome8->FUN_009306d0() + 0x4f0);
-        obj34.FUN_0063c8a0(&ob88);
+    dword4 = ((::fnv_00524db0::SubA *)(reinterpret_cast<::FUN_004600d0_shell *>((this))->FUN_004600d0()))->vfn_14();
+    point1 = *((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3))));
+    matTmp = *(Mat36*)((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))));
+    reinterpret_cast<::FUN_00439f50_class *>((((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))))->FUN_00439f50(2, (::NiPoint3 *)(::fnv_00524db0::P12 *)(&obj34));
+    f7c5 = -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
+    f9 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
+    reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(((::fnv_00524db0::P12 *)(reinterpret_cast<::FUN_00416870_t *>(&(tempBCz))->FUN_00416870(::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9)))));
+    reinterpret_cast<::MyPoint439180 *>(&(obj34))->FUN_00439180(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting636)))))));
+    if (((std::intptr_t)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((paramHome8))->FUN_009306d0()))) {
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&ob88)), (*(const ::hkVector4 *)(std::uintptr_t)(((std::intptr_t)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((paramHome8))->FUN_009306d0())) + 0x4f0)));
+        reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(&ob88);
     }
-    obj14.FUN_006815c0();
-    vecA0 = DAT_011a946c;
-    _fa8 = -*DAT_011ce0e4.FUN_00403e20();
-    f8c2 = *DAT_011ce0e4.FUN_00403e20();
-    vecA0.FUN_00439180(1.0f + FUN_00476b70(_fa8, f8c2));
-    FUN_00525340(&vecA0);
-    temp6.FUN_00416870(*DAT_011cf1d4.FUN_00403e20() * vecA0.x, 0.0f, *DAT_011cf1d4.FUN_00403e20() * vecA0.z);
-    obj14 = *node3->FUN_00461130()->FUN_004b4500(&bufC3, &temp6);
-    if (paramHome8 == DAT_011dea3c && !DAT_011dea3c->FUN_004eaf60() && !DAT_011f2250.FUN_00525430()) {
-        qA7 = new XObj(param->FUN_008d6f30(), FUN_0040ebd0(*DAT_011ce7c0.FUN_00403e20(), DAT_010162c0), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
-        qA7->FUN_007e6580(1);
+    vecA0 = (*reinterpret_cast<::fnv_00524db0::P12 *>(&::DAT_011a946c));
+    _fa8 = -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
+    f8c2 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
+    reinterpret_cast<::MyPoint439180 *>(&(vecA0))->FUN_00439180(1.0f + ::RandomFloat(_fa8, f8c2));
+    ::FUN_00525340((float *)(::fnv_00524db0::P12 *)(&vecA0));
+    reinterpret_cast<::FUN_00416870_t *>(&(temp6))->FUN_00416870(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.x, 0.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.z);
+    obj14 = *((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))->FUN_004b4500(&bufC3, &temp6);
+    if (paramHome8 == (*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer))))->FUN_004eaf60() && !reinterpret_cast<::FUN_00525430_Class *>(&((*reinterpret_cast<::fnv_00524db0::Obj2250 *>(&::g_011f2250))))->FUN_00525430()) {
+        qA7 = new XObj(((void *)(reinterpret_cast<::LowProcess *>((param))->GetTarget())), ::FUN_0040ebd0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting637)))))), ::DAT_010162c0), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
+        reinterpret_cast<::Twin_007e6580 *>((qA7))->SetIsForegroundEffect(1);
     } else {
-        qB7 = new XObj(param->FUN_008d6f30(), *DAT_011ce7c0.FUN_00403e20(), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
+        qB7 = new XObj(((void *)(reinterpret_cast<::LowProcess *>((param))->GetTarget())), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting637)))))), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
     }
     }
     }
@@ -4303,3 +4297,98 @@ void ThisObj::FUN_00524db0(Param* param)
     }
 }
 }  // namespace fnv_00524db0
+
+// sub ecx, 0x3c ; jmp target  --  MSVC virtual adjustor thunk.
+// The thunk converts the pointer to the second base sub-object back into a
+// pointer to the complete object before jumping to the implementation.
+struct PrimaryBase_00525c00
+{
+    virtual void FUN_00525c00();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase_00525c00
+{
+    virtual void FUN_00525c00();
+};
+
+struct Derived_00525c00 : PrimaryBase_00525c00, SecondaryBase_00525c00
+{
+    Derived_00525c00();
+// @fnv 0x00525c00
+    virtual void FUN_00525c00();
+};
+
+Derived_00525c00::Derived_00525c00()
+{}
+
+static float NI_HALF_PI;
+
+float FUN_00a811f0(float y, float x);
+
+inline float NiASin(float fValue)
+{
+    if (-1.0f < fValue)
+    {
+        if (fValue < 1.0f)
+            return float(asin(fValue));
+        else
+            return NI_HALF_PI;
+    }
+    else
+    {
+        return -NI_HALF_PI;
+    }
+}
+
+struct RotationMatrix_o2
+{
+    float m00, m01, m02;
+    float m10, m11, m12;
+    float m20, m21, m22;
+    bool FUN_00a59400(float& x, float& y, float& z);
+};
+
+// @fnv 0x00a59400
+bool RotationMatrix_o2::FUN_00a59400(float& x, float& y, float& z)
+{
+    y = -NiASin(m21);
+    if (y < NI_HALF_PI)
+    {
+        if (y > -NI_HALF_PI)
+        {
+            x = -FUN_00a811f0(-m01, m11);
+            z = -FUN_00a811f0(-m20, m22);
+            return true;
+        }
+        else
+        {
+            float fRmY = FUN_00a811f0(m02, m00);
+            z = 0.0f;
+            x = fRmY - z;
+            return false;
+        }
+    }
+    else
+    {
+        float fRpY = FUN_00a811f0(m02, m00);
+        z = 0.0f;
+        x = z - fRpY;
+        return false;
+    }
+}
+
+#include "generated/data/fallout_shared/tesobjectweap.inc"

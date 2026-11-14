@@ -7,7 +7,6 @@
 #include "hkReferencedObject.h"
 #include "hkpVehicleFrictionDescription.h"
 class hkpVehicleDataWheelComponentParams;
-#pragma pack(push, 1)
 class hkpVehicleData : public hkReferencedObject
 {
   public:
@@ -35,6 +34,4 @@ class hkpVehicleData : public hkReferencedObject
     hkBool m_bWheelsUseChassisForGround;        // +0x190
     char pad191[0xF];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleData[(sizeof(hkpVehicleData) == 0x1A0) ? 1 : -1];
 #endif

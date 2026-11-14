@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpVehicleDriverInput.h"
-#pragma pack(push, 1)
 class hkpVehicleDefaultAnalogDriverInput : public hkpVehicleDriverInput
 {
   public:
@@ -15,7 +14,4 @@ class hkpVehicleDefaultAnalogDriverInput : public hkpVehicleDriverInput
     hkBool m_bAutoReverse;  // +0x14
     char pad15[0x3];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpVehicleDefaultAnalogDriverInput[(sizeof(hkpVehicleDefaultAnalogDriverInput) == 0x18) ? 1 : -1];
 #endif

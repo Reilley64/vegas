@@ -2,25 +2,23 @@
 // src/havok/common/base/system/io/writer/array/hkarraystreamwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/writer/array/hkarraystreamwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00d06000.h"
 #include "havok/hkArrayStreamWriter.h"
 
 struct FUN_00d467c0
 {
-    void write(const char* a, unsigned int b);
 };
 struct FUN_00d468a0_obj
 {
     unsigned int pad[2];
     FUN_00d467c0* p;
-    unsigned int WriteToStream(unsigned int arg, unsigned int b);
+    unsigned int WriteToStream(uintptr_t arg, unsigned int b);
 };
-// @fnv 0x00d468a0
-unsigned int FUN_00d468a0_obj::WriteToStream(unsigned int apData, unsigned int auiSize)
-{
-    p->write((const char*)apData, auiSize);
-    return auiSize;
-}
-
 struct FUN_00d469c0
 {
     int m0;
@@ -42,7 +40,6 @@ FUN_00d469c0::FUN_00d469c0(int v)
 
 struct FUN_00d46b20_inner
 {
-    void Run();
 };
 
 struct FUN_00d46b20_cls
@@ -52,12 +49,6 @@ struct FUN_00d46b20_cls
     FUN_00d46b20_inner* m_08;
     void FUN_00d46b20();
 };
-
-// @fnv 0x00d46b20
-void FUN_00d46b20_cls::FUN_00d46b20()
-{
-    m_08->Run();
-}
 
 struct FUN_00d46c80_cls
 {
@@ -117,7 +108,6 @@ struct FNVWriter
     unsigned char allowRestricted;
 };
 extern int DAT_010cc460;
-extern unsigned int __cdecl FUN_00d06f80(void*, unsigned int);
 struct FUN_00d46770_cls
 {
     int unk00;
@@ -136,7 +126,7 @@ void FUN_00d46770_cls::WriteBufferToWriter(FNVWriter* writer, int unused)
         if ((flags & 0x80000000u) == 0 || writer->allowRestricted)
         {
             void* data = b->data;
-            unsigned int limit = FUN_00d06f80(data, flags & 0x3fffffff);
+            unsigned int limit = ((unsigned int)(::fnv_00d06f80::FUN_00d06f80((const char *)(data), flags & 0x3fffffff)));
             writer->method14(3, &DAT_010cc460, b->data, b->used, limit);
         }
     }
@@ -154,10 +144,10 @@ class hkMemoryAllocatorD469
 
 struct hkMemoryRouterD469
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD469* m_pStreamAllocator;
     hkMemoryAllocatorD469& heap()
     {
@@ -165,7 +155,6 @@ struct hkMemoryRouterD469
     }
 };
 namespace hkRouterD469 {
-extern "C" hkMemoryRouterD469& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayD469
@@ -177,7 +166,7 @@ template <class T> class hkArrayD469
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorD469& kAlloc = hkRouterD469::FUN_00c85750().heap();
+        hkMemoryAllocatorD469& kAlloc = (*static_cast<hkMemoryRouterD469*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -188,7 +177,7 @@ template <class T> class hkArrayD469
 
 inline void hkDeallocateChunkD469(void* p, int iNumBytes)
 {
-    hkRouterD469::FUN_00c85750().heap().ReleaseBlock(p, iNumBytes);
+    (*static_cast<hkMemoryRouterD469*>(::FUN_00c85750())).heap().ReleaseBlock(p, iNumBytes);
 }
 
 class hkBlockPoolD469
@@ -200,6 +189,11 @@ class hkBlockPoolD469
 
     void FreeAllChunks();
 };
+// @fnv 0x00d46b20
+void FUN_00d46b20_cls::FUN_00d46b20()
+{
+    reinterpret_cast<::hkBlockPoolD469 *>((m_08))->FreeAllChunks();
+}
 
 // @fnv 0x00d469e0
 void hkBlockPoolD469::FreeAllChunks()
@@ -212,7 +206,6 @@ void hkBlockPoolD469::FreeAllChunks()
 
 struct FUN_00d469e0_Obj
 {
-    void FreeAllChunks();
 };
 struct FUN_00d46be0_Inner
 {
@@ -220,7 +213,7 @@ struct FUN_00d46be0_Inner
     virtual void s1();
     virtual void s2();
     virtual void s3();
-    virtual void s4(int a, int b);
+    virtual void s4(intptr_t a, int b);
 };
 struct FUN_00d46be0_Res
 {
@@ -230,7 +223,6 @@ struct FUN_00d46be0_Res
     int unk0C;
     FUN_00d46be0_Inner* inner;
 };
-void* __cdecl FUN_00c85750();
 struct FUN_00d46be0_Cls
 {
     int m00;
@@ -243,14 +235,14 @@ struct FUN_00d46be0_Cls
 // @fnv 0x00d46be0
 void FUN_00d46be0_Cls::FUN_00d46be0()
 {
-    reinterpret_cast<FUN_00d469e0_Obj*>(this)->FreeAllChunks();
+    reinterpret_cast<::hkBlockPoolD469 *>((reinterpret_cast<FUN_00d469e0_Obj*>(this)))->FreeAllChunks();
     FUN_00d46be0_Res* res = reinterpret_cast<FUN_00d46be0_Res*>(FUN_00c85750());
     FUN_00d46be0_Inner* pInner = res->inner;
     int v = m10;
     m0c = 0;
     if (v & 0x80000000)
         goto done;
-    pInner->s4(reinterpret_cast<int>(m08), (v & 0x3fffffff) * 4);
+    pInner->s4(reinterpret_cast<intptr_t>(m08), (v & 0x3fffffff) * 4);
 done:
     m08 = 0;
     m10 = 0x80000000;
@@ -266,10 +258,10 @@ class hkMemoryAllocatorD46C
 
 struct hkMemoryRouterD46C
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD46C* m_pStreamAllocator;
     hkMemoryAllocatorD46C& heap()
     {
@@ -277,7 +269,6 @@ struct hkMemoryRouterD46C
     }
 };
 namespace hkRouterD46C {
-extern "C" hkMemoryRouterD46C& __cdecl FUN_00c85750();
 }
 
 class FUN_00d46be0_class
@@ -289,21 +280,18 @@ class FUN_00d46be0_class
     int m_0c;
     int m_10;
 
-    void FUN_00d46be0() throw();
     ~FUN_00d46be0_class() throw()
     {
-        FUN_00d46be0();
+        reinterpret_cast<::FUN_00d46be0_Cls *>(this)->FUN_00d46be0();
     }
     static void operator delete(void* p) throw()
     {
-        hkRouterD46C::FUN_00c85750().heap().ReleaseBlock(p, sizeof(FUN_00d46be0_class));
+        (*static_cast<hkMemoryRouterD46C*>(::FUN_00c85750())).heap().ReleaseBlock(p, sizeof(FUN_00d46be0_class));
     }
 };
 
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 class hkReferencedObjectD46C
@@ -316,7 +304,7 @@ class hkReferencedObjectD46C
 
     static void operator delete(void* p) throw()
     {
-        hkRouterD46C::FUN_00c85750().heap().ReleaseBlock(p,
+        (*static_cast<hkMemoryRouterD46C*>(::FUN_00c85750())).heap().ReleaseBlock(p,
                                                          static_cast<hkReferencedObjectD46C*>(p)->m_usMemSizeAndFlags);
     }
 };
@@ -376,13 +364,12 @@ struct FnvCpu_FUN_00d46cc0_CpuAllocator
 };
 struct FnvCpu_FUN_00d46cc0_CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00d46cc0_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d46cc0_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00d46cc0_CpuObject
 {
     unsigned int unk00;
@@ -393,17 +380,17 @@ struct FnvCpu_FUN_00d46cc0_CpuObject
 // @fnv 0x00d46cc0
 FnvCpu_FUN_00d46cc0_CpuObject* FnvCpu_FUN_00d46cc0_CpuObject::Destroy(unsigned int flags)
 {
-    FUN_00d46c30();
+    reinterpret_cast<::FUN_00d46c30 *>(this)->FUN_00d46c30::~FUN_00d46c30();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d46cc0_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00d46cc0_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d46cc0_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
 }
 }  // namespace fnv_00d46cc0
 
-void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+void __cdecl FUN_00cb1260(void* dst, const void* src, intptr_t nbytes);
 
 class hkBlockStreamD466
 {
@@ -462,7 +449,6 @@ class hkBufferD467
     int unk08;
     int m_iCapacity;
 
-    void Read(void* dst, int n, int offset) throw();
 };
 
 class hkStreamD467
@@ -488,7 +474,7 @@ int hkStreamD467::FUN_00d46710(void* apBuffer, int aiCount)
     {
         int avail = (m_buffer->m_iCapacity - 1) * m_buffer->m_iFirstIndex + m_buffer->m_last - m_offset;
         int k = aiCount < avail ? aiCount : avail;
-        m_buffer->Read(apBuffer, k, m_offset);
+        reinterpret_cast<::hkBlockStreamD466 *>((m_buffer))->Read(apBuffer, k, m_offset);
         m_offset += aiCount;
         return k;
     }
@@ -500,9 +486,9 @@ class hkMemoryAllocatorD468;
 
 struct hkMemoryRouterD468
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorD468* m_pTemp;
     hkMemoryAllocatorD468* m_pStreamAllocator;
     hkMemoryAllocatorD468& heap()
@@ -511,7 +497,6 @@ struct hkMemoryRouterD468
     }
 };
 
-extern "C" hkMemoryRouterD468& __cdecl FUN_00c85750() throw();
 void __cdecl FUN_00c908c0(hkMemoryAllocatorD468& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
@@ -538,11 +523,11 @@ template <class T> class hkArrayD468
     }
     __forceinline void reserve(int n)
     {
-        reserve(FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterD468*>(::FUN_00c85750())).heap(), n);
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterD468*>(::FUN_00c85750())).heap(), n);
         m_iElementCount = n;
     }
 };
@@ -573,7 +558,7 @@ class hkMemoryAllocatorD46B;
 
 struct hkMemoryRouterD46B
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorD46B* m_pStreamAllocator;
     hkMemoryAllocatorD46B& heap()
     {
@@ -582,10 +567,8 @@ struct hkMemoryRouterD46B
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterD46B& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorD46B& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-extern "C" void* __cdecl fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiSize) throw();
+void __cdecl FUN_00c908c0(hkMemoryAllocatorD46B& kAlloc, void* apvArray, intptr_t aiNumElements, int iSizeElem) throw();
 
 class hkArrayD46B
 {
@@ -614,7 +597,7 @@ class hkArrayD46B
     }
     __forceinline void SetSizeAndGrow(int n, const char& fill)
     {
-        reserve(fnvc_adapt::FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterD46B*>(::FUN_00c85750())).heap(), n);
         char* pDst = m_data + m_iElementCount;
         int iEntryIndex = n - m_iElementCount;
         if (iEntryIndex <= 0)
@@ -622,7 +605,7 @@ class hkArrayD46B
             m_iElementCount = n;
             return;
         }
-        fnv_zlib_memset(pDst, fill, iEntryIndex);
+        std::memset(pDst, fill, iEntryIndex);
         m_iElementCount = n;
     }
     void popBack()
@@ -680,10 +663,10 @@ struct Alloc_d467
 
 struct Router_d467
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Alloc_d467* m_pStreamAllocator;
 
     Alloc_d467& heap()
@@ -708,9 +691,15 @@ class Stream_d467
 
     void FUN_00d467c0(const char* pcData, int iSize);
 };
+// @fnv 0x00d468a0
+unsigned int FUN_00d468a0_obj::WriteToStream(uintptr_t apData, unsigned int auiSize)
+{
+    reinterpret_cast<::Stream_d467 *>((p))->FUN_00d467c0((const char*)apData, auiSize);
+    return auiSize;
+}
 
 void __cdecl ResizeAudioStream(void*, void*, int);
-void __cdecl FUN_00cb1260(void* dst, const void* src, int count);
+void __cdecl FUN_00cb1260(void* dst, const void* src, intptr_t count);
 
 // Copies iSize bytes from pcData into the stream's block array, allocating new blocks from the heap when the current block is full.
 // @fnv 0x00d467c0
@@ -765,8 +754,8 @@ void Stream_d467::FUN_00d467c0(const char* pcData, int iSize)
     }
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocatorD469* heap, void* array, int numElements, int sizeOfElement);
-void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+void __cdecl FUN_00c908c0(hkMemoryAllocatorD469* heap, void* array, intptr_t numElements, int sizeOfElement);
+void __cdecl FUN_00cb1260(void* dst, const void* src, intptr_t nbytes);
 
 template <class T> struct hkArray_d469
 {
@@ -787,7 +776,7 @@ template <class T> struct hkArray_d469
     }
     void reserve(int n)
     {
-        hkMemoryAllocatorD469& heap = hkRouterD469::FUN_00c85750().heap();
+        hkMemoryAllocatorD469& heap = (*static_cast<hkMemoryRouterD469*>(::FUN_00c85750())).heap();
         int cap = getCapacity();
         if (cap < n)
         {
@@ -838,24 +827,22 @@ struct V46a50Alloc
 };
 struct V46a50Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     V46a50Alloc* m_alloc;
     V46a50Alloc& heap()
     {
         return *m_alloc;
     }
 };
-V46a50Router* __cdecl FUN_00c85750();
 
 struct V46a50Elem
 {
 };
 struct V46a50Owner
 {
-    void doElem(V46a50Elem* e, int n);
     void FUN_00d46a50(struct V46a50List* l);
 };
 struct V46a50List
@@ -865,7 +852,6 @@ struct V46a50List
     V46a50Elem** m_data;
     int m_iElementCount;
     int m_capFlags;
-    void FreeAllChunks();
 };
 
 // Processes each stored element with doElem and heap v08, then releases the array buffer and resets the list.
@@ -876,23 +862,25 @@ void V46a50Owner::FUN_00d46a50(V46a50List* apList)
     for (int i = 0; i < n - 1; i++)
     {
         V46a50Elem* e = apList->m_data[i];
-        doElem(e, apList->m0);
+        reinterpret_cast<::Stream_d467 *>(this)->FUN_00d467c0((const char *)(e), apList->m0);
         int k = apList->m0;
-        FUN_00c85750()->heap().v08(e, k);
+        static_cast<V46a50Router*>(::FUN_00c85750())->heap().v08(e, k);
     }
     if (n != 0)
     {
         V46a50Elem* e = apList->m_data[n - 1];
-        doElem(e, apList->m4);
+        reinterpret_cast<::Stream_d467 *>(this)->FUN_00d467c0((const char *)(e), apList->m4);
         int k = apList->m0;
-        FUN_00c85750()->heap().v08(e, k);
+        static_cast<V46a50Router*>(::FUN_00c85750())->heap().v08(e, k);
     }
-    V46a50Alloc& a = FUN_00c85750()->heap();
+    V46a50Alloc& a = static_cast<V46a50Router*>(::FUN_00c85750())->heap();
     apList->m_iElementCount = 0;
     if ((apList->m_capFlags & 0x80000000) == 0)
         a.ReturnMemory(apList->m_data, (apList->m_capFlags & 0x3fffffff) * sizeof(V46a50Elem*));
     apList->m_data = 0;
     apList->m_capFlags = 0x80000000;
-    apList->FreeAllChunks();
+    reinterpret_cast<::hkBlockPoolD469 *>((apList))->FreeAllChunks();
 }
 }  // namespace fnv_00d46a50
+
+#include "generated/data/havok/common/base/system/io/writer/array/hkarraystreamwriter.inc"

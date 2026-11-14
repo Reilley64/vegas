@@ -1,5 +1,85 @@
 // fallout/interface/menuconsole.cpp: ConsoleManager, ListHead, ConsoleDisplay, DumpConsole (13 functions)
 
+#include "fnv/av_object_fields.h"
+#include <cstdio>
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/A0F8Self.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ConsoleText.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00473180_shell.h"
+#include "fnv/decl/FUN_00501c10_cls.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005abe50_shell.h"
+#include "fnv/decl/FUN_005bd580_cls.h"
+#include "fnv/decl/FUN_006317a0_struct.h"
+#include "fnv/decl/FUN_007023a0_shell.h"
+#include "fnv/decl/FUN_0070ecf0_shell.h"
+#include "fnv/decl/FUN_0071d010_Class.h"
+#include "fnv/decl/FUN_0071dca0_cls.h"
+#include "fnv/decl/FUN_0071dec0.h"
+#include "fnv/decl/FUN_0071e0f0_cls.h"
+#include "fnv/decl/FUN_00720f90_shell.h"
+#include "fnv/decl/FUN_007b52d0_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a087d0_shell.h"
+#include "fnv/decl/LoadBook.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/Mgr20.h"
+#include "fnv/decl/S71df20.h"
+#include "fnv/decl/ScriptCompileAndRun.h"
+#include "fnv/decl/SearchText.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/fnv_00457070__FUN_00457070_shell.h"
+#include "fnv/decl/fnv_005bd5c0__FUN_005bd5c0_shell.h"
+#include "fnv/decl/fnv_00714fd0__FUN_00714fd0_shell.h"
+#include "fnv/decl/fnv_0071d380__FUN_0071d380_t.h"
+#include "fnv/decl/fnv_00720e00__FakeMgr.h"
+#include "fnv/decl/fnv_00720e60__FUN_00720e60_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a0de80__FUN_00a0de80_cls.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00456000.h"
+#include "fnv/symbols_00469000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005cb000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_0071d000.h"
+#include "fnv/symbols_007cb000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a0d000.h"
+#include "fnv/symbols_00a10000.h"
+#include "fnv/symbols_00a1c000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
 #include "menuconsole_idle.h"
 #include "menuconsole_decls.h"
 
@@ -25,10 +105,427 @@ ConsoleManager* ConsoleManager::Instance(bool bCreate)
         return pInstance;
 }
 
+
+class GlobalObject_0048f200
+{
+  public:
+    char pad[12];
+    GlobalObject_0048f200();
+    ~GlobalObject_0048f200();
+};
+
+struct DummyFont
+{
+};
+
+struct DummyFontManager
+{
+};
+
+
+struct GlobalObject_0048f200_d0071b020 : GlobalObject_0048f200
+{
+    ~GlobalObject_0048f200_d0071b020();
+};
+struct FUN_0071af10
+{
+    int f00;
+    GlobalObject_0048f200_d0071b020 f04;
+    GlobalObject_0048f200_d0071b020 f10;
+    int f1c;
+    int f20;
+    int f24;
+    int f28;
+    int f2c;
+    int f30;
+    int f34;
+    char f38;
+    char f39;
+    char f3a;
+    char f3b;
+    int f3c;
+    char pad40[0x7d0];
+    char f810[0x104];
+
+    FUN_0071af10();
+};
+
+// @fnv 0x0071af10
+FUN_0071af10::FUN_0071af10()
+{
+    f39 = 0;
+    f00 = 0;
+    f24 = 0;
+    f38 = 0;
+    f1c = 0;
+    f2c = (int)reinterpret_cast<::FUN_005bd580_cls *>((((::DummyFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::DummyFontManager *)(::FontManager::Instance()))))->FUN_005bd5c0(((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i - 1)))))->FUN_005bd580() + 3;
+    f30 = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d44))))))->i;
+    f34 = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d08))))))->i;
+    f3a = 0;
+    f3c = 0;
+    ::FUN_00403d30(f810, 0, 0x104);
+}
+
+struct FUN_0071d750_shell
+{
+    char pad00[0xf0];
+    int unkf0;
+
+    void ClearField();
+};
+
+// @fnv 0x0071d750
+void FUN_0071d750_shell::ClearField()
+{
+    this->unkf0 = 0;
+}
+
+struct ListNode
+{
+    ListNode* next;
+};
+struct ListHead
+{
+    ListNode* head;
+    ListNode* tail;
+    int count;
+    void Clear();
+};
+// @fnv 0x0071e070
+void ListHead::Clear()
+{
+    ListNode* pkNode = head;
+    while (pkNode != 0)
+    {
+        ListNode* pkTemp = pkNode;
+        pkNode = pkNode->next;
+        reinterpret_cast<::FUN_0071e0f0_cls *>(this)->FUN_0071e0f0((const char *)(pkTemp));
+    }
+    count = 0;
+    head = 0;
+    tail = 0;
+}
+
+struct FUN_0071b020_shell
+{
+    void FUN_0071b020();
+};
+
+// @fnv 0x0071b020
+void FUN_0071b020_shell::FUN_0071b020()
+{
+    reinterpret_cast<::FUN_0071dec0 *>(this)->FUN_0071dec0::~FUN_0071dec0();
+}
+
+void FUN_00703310(int);
+struct ArrSI
+{
+};
+struct FUN_0071d770_shell : public ConsoleManager
+{
+    void FUN_0071d770();
+};
+namespace fnv_0071d620 {
+struct Interface
+{
+};
+
+struct ArrSI
+{
+};
+
+struct FUN_00a0de80_shell
+{
+};
+
+struct FUN_0071d750_shell
+{
+};
+
+extern const char $SG3295[];
+
+
+struct FUN_0071d620_shell : public InterfaceManager
+{
+    unsigned char layoutPadding[0x30];
+    int m_iConsoleX;
+    int m_iConsoleY;
+    char cVisible;
+
+    void FUN_0071d620(char acState);
+};
+
+// @fnv 0x0071d620
+void FUN_0071d620_shell::FUN_0071d620(char acState)
+{
+    char cold_state;
+    cold_state = cVisible;
+    cVisible = acState;
+
+    if ((acState > 0) != (cold_state > 0))
+    {
+        if (acState > 0)
+        {
+            ::FUN_0040fbe0();
+
+            if (reinterpret_cast<::FUN_007023a0_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0())
+            {
+                reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
+                                                 ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
+
+                reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>(this)->ClampIndexByDelta(((unsigned int)(reinterpret_cast<::ConsoleManager *>(this)->m_kOutputLines.m_kItemCount.m_uiCount)));
+            }
+            else
+            {
+                reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0($SG3295, (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f, 0, (::A0F8Color *)(0));
+            }
+
+            reinterpret_cast<ConsoleManager*>(this)->ResetOutputState();
+        }
+        else
+        {
+            ::FUN_0040fbe0();
+            reinterpret_cast<::fnv_00a0de80::FUN_00a0de80_cls *>((reinterpret_cast<FUN_00a0de80_shell*>(((::DebugText *)(::FUN_00a0d9e0(true))))))->FUN_00a0de80();
+            reinterpret_cast<::FUN_0071d750_shell *>((reinterpret_cast<FUN_0071d750_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->ClearField();
+        }
+    }
+}
+}  // namespace fnv_0071d620
+
+// Destructor: free the owned decal data; the two lists are destroyed afterwards.
+
+class B040DecalData
+{
+  public:
+    ~B040DecalData();
+    int unk00;
+};
+
+class B040List
+{
+  public:
+    ~B040List();
+    int unk00;
+    int unk04;
+    int unk08;
+};
+
+class FUN_0071b040
+{
+  public:
+    ~FUN_0071b040();
+
+    B040DecalData* m_pkDecalData;
+    B040List m_kFirst;
+    B040List m_kSecond;
+};
+
+// Destructor that deletes m_pkDecalData if it is non-null.
+// @fnv 0x0071b040
+FUN_0071b040::~FUN_0071b040()
+{
+    if (m_pkDecalData)
+        delete m_pkDecalData;
+}
+
+struct ConsoleLine
+{
+};
+struct ConsoleLines
+{
+    void* head;
+    void* tail;
+    int count;
+};
+struct ConsoleTextRenderer
+{
+};
+struct ConsoleDisplay
+{
+    void* compiler;
+    ConsoleLines strings, inputs;
+    int m_iCommandHistoryPosition, m_iScrollPosition, m_iOutputLineCount, menuMode, iConsoleLineSpacing, m_iConsoleX,
+        m_iConsoleY;
+    void DrawConsoleLines();
+};
+// @fnv 0x0071d770
+void FUN_0071d770_shell::FUN_0071d770()
+{
+    if (cVisible > 0)
+    {
+        reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
+                                         ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
+        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((((InterfaceManager*)this)))->ClampIndexByDelta(((unsigned int)(m_kOutputLines.m_kItemCount.m_uiCount)));
+        reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
+        FUN_00703310(0);
+    }
+}
+// Draws the visible console string lines, padding with blank lines when the first visible index is negative, then advancing through the list.
+// @fnv 0x0071d410
+void ConsoleDisplay::DrawConsoleLines()
+{
+    void* node = ((void *)(::FUN_00559450((int *)&(strings))));
+    int lineY = m_iConsoleY - ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i * iConsoleLineSpacing;
+    int lastLine = m_iOutputLineCount;
+    int lineIndex = lastLine - ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i;
+    while (lineIndex < 0)
+    {
+        reinterpret_cast<::A0F8Self *>((((::ConsoleTextRenderer *)(::FUN_00a0d9e0(1)))))->FUN_00a0f8b0(0, (float)m_iConsoleX, (float)lineY, 1, -1, ::DAT_01012054, 0, (::A0F8Color *)(0));
+        ++lineIndex;
+        lineY += iConsoleLineSpacing;
+    }
+    for (int skipped = 0; skipped < lineIndex; ++skipped)
+        node = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(strings))->DereferenceIfNotNull((int **)(node))));
+    while (lineIndex < lastLine)
+    {
+        reinterpret_cast<::A0F8Self *>((((::ConsoleTextRenderer *)(::FUN_00a0d9e0(1)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)(((::ConsoleLine *)(reinterpret_cast<::FUN_006317a0_struct *>(&(strings))->AddEight((intptr_t)(node)))))))), (float)m_iConsoleX, (float)lineY, 1, -1,
+                                      ::DAT_01012054, ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
+        node = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(strings))->DereferenceIfNotNull((int **)(node))));
+        ++lineIndex;
+        lineY += iConsoleLineSpacing;
+    }
+}
+
+void ToggleGlobalFlag();
+
+class FUN_0071d580_probe
+{
+  public:
+};
+
+class FUN_0071d580_cls
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    signed char m_38;
+
+    bool FUN_0071d580();
+};
+
+// @fnv 0x0071d580
+bool FUN_0071d580_cls::FUN_0071d580()
+{
+    ToggleGlobalFlag();
+    if (m_38 == 0)
+    {
+        reinterpret_cast<::fnv_0071d620::FUN_0071d620_shell *>(this)->FUN_0071d620(1);
+        return true;
+    }
+    else
+    {
+        if (m_38 == 1 && reinterpret_cast<::FUN_0070ecf0_shell *>((((FUN_0071d580_probe*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->IsFlag4Set())
+        {
+            if (reinterpret_cast<::InterfaceManager *>((((FUN_0071d580_probe*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetMenuStackEntry(0) == 3 &&
+                reinterpret_cast<::InterfaceManager *>((((FUN_0071d580_probe*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetMenuStackEntry(1) == 0)
+            {
+                reinterpret_cast<::fnv_0071d620::FUN_0071d620_shell *>(this)->FUN_0071d620(2);
+            }
+            else
+            {
+                reinterpret_cast<::fnv_0071d620::FUN_0071d620_shell *>(this)->FUN_0071d620(0);
+            }
+        }
+        else
+        {
+            reinterpret_cast<::fnv_0071d620::FUN_0071d620_shell *>(this)->FUN_0071d620(0);
+        }
+    }
+    return false;
+}
+
+struct DumpName
+{
+    const char* FUN_0043b1b0();
+};
+struct DumpTexture
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual DumpName* v9c();
+    char pad[0x28];
+    DumpTexture* m_pkNext;
+};
+struct DumpRTTI
+{
+};
+struct DumpSetting
+{
+    bool* FUN_00408d60();
+};
+struct DumpFullName
+{
+};
+struct DumpWorld
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    DumpFullName name;
+};
+struct DumpCell
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    DumpFullName name;
+};
+struct DumpTES
+{
+};
+struct DumpConsole
+{
+    void DumpLoadedTextures();
+};
 // @fnv 0x0071b210
 bool ConsoleManager::Idle(int aiKeyCode)
 {
-    if (cVisible <= 0 || !FUN_004b7210()->FUN_007023a0())
+    if (cVisible <= 0 || !reinterpret_cast<::FUN_007023a0_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0())
         return false;
 
     struct InputState
@@ -42,8 +539,8 @@ bool ConsoleManager::Idle(int aiKeyCode)
         char text[2048];
         int cursor;
         char rawText[2048];
-        DebugText::Instance(true)->FUN_00a103e0(rawText, (float)m_iConsoleX, (float)m_iConsoleY, 1);
-        FUN_005cbd90(text, rawText, 2046);
+        reinterpret_cast<::SearchText *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a103e0(rawText, (float)m_iConsoleX, (float)m_iConsoleY, 1);
+        ::FUN_005cbd90(text, (void *)(rawText), (void *)(2046));
         state.length = 0;
         while (text[state.length])
             state.length++;
@@ -90,27 +587,27 @@ bool ConsoleManager::Idle(int aiKeyCode)
             if (text[0])
             {
                 DAT_011d8ce4 = true;
-                InterfaceManager* manager = FUN_004b7210();
-                reinterpret_cast<InterfaceManager*>(this)->SetNamedMenuOption(
-                    reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kOutputLines)->GetSize());
-                FUN_0071d030(this, text);
+                InterfaceManager* manager = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
+                reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(
+                    ((unsigned int)(m_kOutputLines.m_kItemCount.m_uiCount)));
+                ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), text);
                 BSStringT<char> line(text);
-                m_kCommandHistory.AssignString(line);
+                reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
                 m_iCommandHistoryPosition = 0;
-                DebugText::Instance(true)->Print("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
-                                                 DAT_011d8d38.Int()->i);
+                ((::DebugText *)(::FUN_00a0d9e0(true)))->Print("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
+                                                 ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i);
                 if (!FUN_0071cff0(text, "dof", 3))
                 {
                     float distance = 0.0f;
                     sscanf(text, "dof %f", &distance);
                     NiFrustum frustum =
                         reinterpret_cast<NiCamera*>(
-                            reinterpret_cast<BSFaceGenNiNode*>(reinterpret_cast<SkyObject*>(manager)->GetRoot())
+                            reinterpret_cast<BSFaceGenNiNode*>(((::NiNode *)(reinterpret_cast<::StrOwner *>((reinterpret_cast<SkyObject*>(manager)))->FUN_007fa950())))
                                 ->GetAnimationData())
                             ->GetViewFrustum();
                     frustum.m_fFarPlane = distance;
                     reinterpret_cast<NiCamera*>(
-                        reinterpret_cast<BSFaceGenNiNode*>(reinterpret_cast<SkyObject*>(manager)->GetRoot())
+                        reinterpret_cast<BSFaceGenNiNode*>(((::NiNode *)(reinterpret_cast<::StrOwner *>((reinterpret_cast<SkyObject*>(manager)))->FUN_007fa950())))
                             ->GetAnimationData())
                         ->UpdateViewFrustum(frustum);
                 }
@@ -124,52 +621,52 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     size.x = 0;
                     size.y = 0;
                     sscanf(text, "usz %i %i", &size.x, &size.y);
-                    FUN_007030c0(size.x, size.y);
+                    ::fnv_007030c0::FUN_007030c0(size.x, size.y);
                 }
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"clr") ||
-                         !_mbscmp((const unsigned char*)text, (const unsigned char*)"cls"))
+                         !::FUN_00469880((void *)((const unsigned char*)text), (void *)((const unsigned char*)"cls")))
                 {
-                    m_kOutputLines.RemoveAll();
+                    reinterpret_cast<::ListHead *>(&(m_kOutputLines))->Clear();
                     m_iOutputLineCount = 0;
-                    ResetOutputState();
+                    reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
                 }
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"tag"))
                 {
-                    TESObjectREFR* reference = manager->FUN_007031c0();
+                    TESObjectREFR* reference = ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(manager))));
                     if (reference)
                     {
                         BSStringT<char> label;
-                        label.PrintfString("\"%s\" (%08x)", reference->GetFullName(), reference->GetFormID());
-                        void* node = DynamicCastByRTTI(&DAT_011f4428, reference->GetNiNode_v());
+                        ::FUN_00406f60((::FUN_00406f90_this *)&(label), "\"%s\" (%08x)", reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0())));
+                        void* node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(reference->GetNiNode_v()))));
                         if (!node)
-                            node = DynamicCastByRTTI(&DAT_011f4428, reference->GetNiNode_v()->GetParent());
-                        DebugText::FUN_00a10c00(node, label.String(), 0, -1.0f);
+                            node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reference->GetNiNode_v()))->m_pkParent))))));
+                        ::FUN_00a10c00((::NiObject *)(node), ((const char *)(::FUN_00559450((int *)&(label)))), 0, -1.0f);
                     }
                 }
                 else if (!FUN_0071cff0(text, "reload strings", 14))
                 {
-                    delete manager->FUN_004fd400();
-                    Menu::ReadMenuDefinition("Data\\Menus\\globals.xml", 0);
-                    Tile* tile = manager->FUN_00586150()->ReadFile("Data\\Menus\\globals.xml");
-                    tile->SetParent(0, 0);
+                    delete ((::Tile *)(reinterpret_cast<::MagicProjectile *>((manager))->FUN_004fd400()));
+                    ::fnv_00a1ca20::RemoveMenuEntries("Data\\Menus\\globals.xml", 0);
+                    Tile* tile = reinterpret_cast<::fnv_00a01b00::TileLoader *>((manager->FUN_00586150()))->FUN_00a01b00((void *)("Data\\Menus\\globals.xml"));
+                    reinterpret_cast<::FUN_00a087d0_shell *>((tile))->FUN_00a087d0(0, 0);
                     manager->FUN_00500a20(tile);
                 }
                 else if (!FUN_0071cff0(text, "reload HUDReticle", 17))
-                    DebugText::ClearDebugText();
+                    ::FUN_00a1c800();
                 else if (!FUN_0071cff0(text, "reload HUDSafeZone", 18))
                 {
-                    DebugText::ClearDebugText();
-                    FUN_007038e0(3);
+                    ::FUN_00a1c800();
+                    ::fnv_007038e0::FUN_007038e0(3);
                 }
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"reload mainmenu"))
                 {
-                    DebugText::ClearDebugText();
-                    delete FindMenuById(FUN_0070ede0());
-                    StartMenu::Create(false, false);
+                    ::FUN_00a1c800();
+                    delete ((::Menu *)(::FUN_00a09030(FUN_0070ede0())));
+                    ::InitStartMenu(false, false);
                 }
                 else if (!FUN_0071cff0(text, "reload ", 7))
                 {
-                    DebugText::ClearDebugText();
+                    ::FUN_00a1c800();
                     char menuName[1024];
                     sscanf(text, "reload %s", menuName);
                     if (menuName[0] != '&')
@@ -186,45 +683,44 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         }
                         menuName[0] = '&';
                     }
-                    MenuSystem::Instance(true)->TileReloadContext(Tile::GetTraitID(menuName));
+                    reinterpret_cast<::Mgr20 *>((MenuSystem::Instance(true)))->FUN_00720aa0(::FUN_00a01860(menuName));
                 }
                 else if (!FUN_0071cff0(text, "delete ", 7))
                 {
                     char menuName[1024];
                     sscanf(text, "delete %s", menuName);
-                    MenuSystem::Instance(true)->DeleteMenu(Tile::GetTraitID(menuName));
+                    reinterpret_cast<::fnv_00720e00::FakeMgr *>((MenuSystem::Instance(true)))->DestroyMenuByClass(::FUN_00a01860(menuName));
                 }
                 else if (!FUN_0071cfd0(text, "front", 5))
-                    FUN_0071d030(this, "Frontmost: %s",
-                                 reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(
-                                                             MenuSystem::Instance(true)->GetFrontmostMenu())
-                                                             ->GetNext())
+                    ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), "Frontmost: %s",
+                                 reinterpret_cast<Tile*>(((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(
+                                                             reinterpret_cast<::fnv_00720e60::FUN_00720e60_shell *>((MenuSystem::Instance(true)))->FindTopMenu())))->FUN_00726070())))
                                      ->FUN_00700300());
                 else if (!FUN_0071cfd0(text, "stack", 5))
                 {
                     int i = 0;
                     while (manager->GetMenuStackEntry(i++))
-                        FUN_0071d030(this, "%i: %i", i, manager->GetMenuStackEntry(i));
+                        ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), "%i: %i", i, manager->GetMenuStackEntry(i));
                 }
                 else if (!FUN_0071cfd0(text, "visible", 7))
                 {
                     int menu = 0;
                     sscanf(text, "visible %i", &menu);
-                    FUN_0071d030(this, "Is Visible: %i", MenuSystem::Instance(true)->IsMenuClassVisible(menu));
+                    ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), "Is Visible: %i", reinterpret_cast<::FUN_00720f90_shell *>((MenuSystem::Instance(true)))->FUN_00720f90(menu));
                 }
                 else if (!FUN_0071cfd0(text, "exit menus", 10))
                 {
                     int menu = manager->GetTopEnterStackEntry();
                     while (menu)
                     {
-                        manager->AddMenuStackEntry(menu, false);
+                        reinterpret_cast<::fnv_00714fd0::FUN_00714fd0_shell *>((manager))->RemoveFromStack(menu, false);
                         menu = manager->GetTopEnterStackEntry();
                     }
                 }
                 else if (!FUN_0071cfd0(text, "emergency texture release", 25))
                 {
-                    FUN_00703920();
-                    FUN_0071d030(this, "First change release of hidden textures activated.");
+                    ::fnv_00703920::FUN_00703920();
+                    ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), "First change release of hidden textures activated.");
                 }
                 else if (!FUN_0071cfd0(text, "set trait", 9))
                 {
@@ -239,31 +735,31 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         char traitName[128];
                         char tileName[128];
                         sscanf(text, "set trait %s %s %f", tileName, traitName, &edit.value);
-                        edit.tile = FindNamedTile(0, tileName);
-                        edit.trait = Tile::GetTraitID(traitName);
+                        edit.tile = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(0), tileName)));
+                        edit.trait = ::FUN_00a01860(traitName);
                         if (edit.tile && edit.trait > 0)
                         {
-                            FUN_0071d030(this, "Trait set.");
-                            edit.tile->Set(edit.trait, edit.value, true);
+                            ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), "Trait set.");
+                            reinterpret_cast<::FUN_00a012d0_t *>((edit.tile))->FUN_00a012d0(edit.trait, edit.value, true);
                         }
                         else if (edit.tile)
-                            Print("Unknown trait '%s'", traitName);
+                            reinterpret_cast<::ConsoleText *>(this)->FUN_0071d0a0("Unknown trait '%s'", (char *)(traitName));
                         else
-                            Print("Can't find tile '%s'", tileName);
+                            reinterpret_cast<::ConsoleText *>(this)->FUN_0071d0a0("Can't find tile '%s'", (char *)(tileName));
                     }
                 }
                 else if (!FUN_0071cfd0(text, "depth", 5))
                 {
-                    FUN_0071d030(this, "Max Depth: %i", (int)Tile::GetInterfaceScale());
-                    FUN_0071d030(this, "Cursor Depth: %i",
+                    ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), "Max Depth: %i", (int)Tile::GetInterfaceScale());
+                    ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), "Cursor Depth: %i",
                                  (int)reinterpret_cast<TileListBoxCalls*>(
-                                     reinterpret_cast<TESResponse*>(FUN_004b7210())->GetNext())
+                                     ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60())))
                                      ->GetFloat(4013));
                 }
                 else if (!FUN_0071cfd0(text, "new fonts", 9))
-                    FontManager::GetFontManager(true)->SetByteAtOffset20();
+                    reinterpret_cast<::FUN_0071d010_Class *>((::FontManager::Instance()))->SetByteAtOffset20({});
                 else if (!FUN_0071cfd0(text, "old fonts", 9))
-                    FontManager::GetFontManager(false)->SetByteAtOffset20();
+                    reinterpret_cast<::FUN_0071d010_Class *>((::FontManager::Instance()))->SetByteAtOffset20({});
                 else if (!FUN_0071cfd0(text, "iso", 3))
                 {
                     bool first = false;
@@ -272,38 +768,38 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         first = true;
                     if (text[4] == '1')
                         second = true;
-                    FUN_00702c80(first, second);
+                    ::fnv_00702c80::FUN_00702c80(first, second);
                 }
                 else if (!FUN_0071cfd0(text, "restore menus", 13))
                     UpdateMenuTileVisibility();
                 else if (!FUN_0071cfd0(text, "use workbook", 12))
                 {
-                    TileMenu* tileMenu = dynamic_cast<TileMenu*>(reinterpret_cast<Tile*>(FindMenuById(1026)));
+                    TileMenu* tileMenu = dynamic_cast<TileMenu*>(reinterpret_cast<Tile*>(((::Menu *)(::FUN_00a09030(1026)))));
                     if (tileMenu)
                     {
                         BookMenu* book = dynamic_cast<BookMenu*>(
-                            reinterpret_cast<Menu*>(reinterpret_cast<TESTopicInfo*>(tileMenu)->GetSpeaker()));
+                            reinterpret_cast<Menu*>(((::TESActorBase *)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<TESTopicInfo*>(tileMenu)))->GetEntryPoint()))));
                         if (book)
-                            book->ReadBook();
+                            reinterpret_cast<::LoadBook *>((book))->LoadBookFile();
                     }
                     else
-                        FUN_0071d030(this, "You must open a book (or scroll) before using the workbook.");
+                        ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), "You must open a book (or scroll) before using the workbook.");
                 }
                 else if (!FUN_0071cfd0(text, "dump textures", 13))
-                    DumpTextureList();
+                    reinterpret_cast<::DumpConsole *>(this)->DumpLoadedTextures();
                 else if (!FUN_0071cfd0(text, "bat", 3))
                 {
                     char filename[128];
                     filename[0] = ""[0];
-                    fnv_zlib_memset(filename + 1, 0, 127);
+                    std::memset(filename + 1, 0, 127);
                     sscanf(text, "bat %s", filename);
                     if (!strlen(filename))
-                        DebugLog("You must enter a filename.");
+                        ::FUN_00703c00("You must enter a filename.", {});
                     else
                     {
                         char primaryName[260];
                         primaryName[0] = ""[0];
-                        fnv_zlib_memset(primaryName + 1, 0, 259);
+                        std::memset(primaryName + 1, 0, 259);
                         {
                             struct BatchFileState
                             {
@@ -313,10 +809,10 @@ bool ConsoleManager::Idle(int aiKeyCode)
                             {
                                 char alternateName[260];
                                 alternateName[0] = ""[0];
-                                fnv_zlib_memset(alternateName + 1, 0, 259);
+                                std::memset(alternateName + 1, 0, 259);
                                 strcat_s(primaryName, 260, filename);
                                 batch.file = new BSFile(primaryName, NiFile::READ_ONLY, 16384, false);
-                                batch.filenameLength = BSStringLength(filename);
+                                batch.filenameLength = ::FUN_0044a670(filename);
                                 if (!batch.file || !batch.file->vfn_20(false, false))
                                 {
                                     if (batch.filenameLength <= 4 ||
@@ -331,11 +827,10 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                 }
                                 if (!batch.file || !batch.file->vfn_20(false, false))
                                 {
-                                    if (BSStringLength(alternateName))
-                                        DebugLog("Neither file '%s' or '%s' could be opened.", primaryName,
-                                                 alternateName);
+                                    if (::FUN_0044a670(alternateName))
+                                        ::FUN_00703c00("Neither file '%s' or '%s' could be opened.", primaryName);
                                     else
-                                        DebugLog("The file '%s' could not be opened.", primaryName);
+                                        ::FUN_00703c00("The file '%s' could not be opened.", primaryName);
                                 }
                                 else
                                 {
@@ -347,12 +842,12 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                                 batchLine[i] = ' ';
                                         if (strlen(batchLine) > 1)
                                         {
-                                            DebugLog("> %s", batchLine);
+                                            ::FUN_00703c00("> %s", batchLine);
                                             Script script;
                                             script.NotifySaveLoadGameOfFormChange();
-                                            script.SetText(batchLine);
-                                            script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_CONSOLE,
-                                                                     FUN_004b7210()->FUN_007031c0());
+                                            reinterpret_cast<::FUN_005abe50_shell *>(&(script))->FUN_005abe50((char *)(batchLine));
+                                            reinterpret_cast<::ScriptCompileAndRun *>(&(script))->FUN_005ac400(m_pScriptCompiler, COMPILER_NAME_CONSOLE,
+                                                                     ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
                                         }
                                     }
                                 }
@@ -366,38 +861,38 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 {
                     if (!m_bRecordingBatch)
                     {
-                        DebugLog("Batch Recording Started.");
-                        DebugLog("Use rbat {filename} to save batch file or rbat with no filename to cancel.");
+                        ::FUN_00703c00("Batch Recording Started.", {});
+                        ::FUN_00703c00("Use rbat {filename} to save batch file or rbat with no filename to cancel.", {});
                         m_bRecordingBatch = true;
                         m_iBatchCommandCount = 0;
                         for (int i = 0; i < 20; i++)
-                            __insecure_strcpy(m_aacCommandHistory[i], "");
+                            ::FUN_004046f0(m_aacCommandHistory[i], "");
                     }
                     else
                     {
                         char filename[128];
                         filename[0] = ""[0];
-                        fnv_zlib_memset(filename + 1, 0, 127);
+                        std::memset(filename + 1, 0, 127);
                         sscanf(text, "rbat %s", filename);
                         if (!strlen(filename))
-                            DebugLog("No filename specified; recording cancelled.");
+                            ::FUN_00703c00("No filename specified; recording cancelled.", {});
                         else if (m_iBatchCommandCount <= 0)
-                            DebugLog("No commands recorded; recording cancelled.");
+                            ::FUN_00703c00("No commands recorded; recording cancelled.", {});
                         else
                         {
                             BSFile* file = new BSFile(filename, NiFile::WRITE_ONLY, 4096, true);
                             if (!file || !file->vfn_20(false, false))
-                                DebugLog("The file '%s' could not be opened.", filename);
+                                ::FUN_00703c00("The file '%s' could not be opened.", filename);
                             else
                             {
                                 for (int i = 0; i < m_iBatchCommandCount; i++)
                                 {
                                     char batchLine[100];
-                                    sprintf_s(batchLine, 100, "%s\r\n", m_aacCommandHistory[i]);
-                                    file->FUN_00473180(batchLine, BSStringLength(batchLine));
+                                    ::FUN_00406d00(batchLine, 100, "%s\r\n", m_aacCommandHistory[i]);
+                                    reinterpret_cast<::FUN_00473180_shell *>((file))->FUN_00473180((void *)(batchLine), ::FUN_0044a670(batchLine));
                                 }
                                 file->Close();
-                                DebugLog("Batch file '%s' created.", filename);
+                                ::FUN_00703c00("Batch file '%s' created.", filename);
                             }
                             if (file)
                                 delete file;
@@ -412,19 +907,19 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     {
                         if (m_iBatchCommandCount < 20)
                         {
-                            __insecure_strcpy(m_aacCommandHistory[m_iBatchCommandCount++], text);
-                            DebugLog("Recorded.");
+                            ::FUN_004046f0(m_aacCommandHistory[m_iBatchCommandCount++], text);
+                            ::FUN_00703c00("Recorded.", {});
                         }
                         else
-                            DebugLog("Recording full; command ignored. Use rbat to cancel or rbat {filename} to save.");
+                            ::FUN_00703c00("Recording full; command ignored. Use rbat to cancel or rbat {filename} to save.", {});
                     }
                     for (int i = 0; i < strlen(text); i++)
                         if (text[i] == '\n')
                             text[i] = ' ';
                     Script script;
                     script.NotifySaveLoadGameOfFormChange();
-                    script.SetText(text);
-                    script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_CONSOLE, FUN_004b7210()->FUN_007031c0());
+                    reinterpret_cast<::FUN_005abe50_shell *>(&(script))->FUN_005abe50((char *)(text));
+                    reinterpret_cast<::ScriptCompileAndRun *>(&(script))->FUN_005ac400(m_pScriptCompiler, COMPILER_NAME_CONSOLE, ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
                 }
             }
         }
@@ -466,41 +961,40 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     }
                     else if (state.key == (int)0x80000009)
                     {
-                        reinterpret_cast<InterfaceManager*>(this)->SetNamedMenuOption(-DAT_011d8cfc.Int()->i + 1);
-                        ResetOutputState();
+                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(-((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i + 1);
+                        reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
                     }
                     else if (state.key == (int)0x8000000a)
                     {
-                        reinterpret_cast<InterfaceManager*>(this)->SetNamedMenuOption(DAT_011d8cfc.Int()->i - 1);
-                        ResetOutputState();
+                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i - 1);
+                        reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
                     }
                     else if (state.key == (int)0x8000000a)
                     {
-                        reinterpret_cast<InterfaceManager*>(this)->SetNamedMenuOption(DAT_011d8cfc.Int()->i - 1);
-                        ResetOutputState();
+                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i - 1);
+                        reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
                     }
                     else if (state.key == (int)0x80000003)
                     {
-                        if (reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)->GetSize())
+                        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
                         {
                             m_iCommandHistoryPosition++;
                             m_iCommandHistoryPosition = MinInt(
                                 m_iCommandHistoryPosition,
-                                reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)->GetSize() -
+                                ((unsigned int)(m_kCommandHistory.m_kItemCount.m_uiCount)) -
                                     1);
                             void* position =
-                                reinterpret_cast<
+                                ((void *)(::FUN_00559450((int *)(reinterpret_cast<
                                     const NiTListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
-                                    &m_kCommandHistory)
-                                    ->GetHeadPos();
+                                    &m_kCommandHistory)))));
                             for (int i = 0; i < m_iCommandHistoryPosition; i++)
-                                position = m_kCommandHistory.DereferenceIfNotNull(position);
-                            sprintf(text, "%s", m_kCommandHistory.AddEight(position).String());
+                                position = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(m_kCommandHistory))->DereferenceIfNotNull((int **)(position))));
+                            sprintf(text, "%s", ((const char *)(::FUN_00559450((int *)&(m_kCommandHistory.AddEight(position))))));
                         }
                     }
                     else if (state.key == (int)0x80000004)
                     {
-                        if (reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)->GetSize())
+                        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
                         {
                             m_iCommandHistoryPosition--;
                             m_iCommandHistoryPosition = FUN_00647b70(m_iCommandHistoryPosition, 0);
@@ -510,17 +1004,16 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                 if (m_iCommandHistoryPosition)
                                 {
                                     position =
-                                        reinterpret_cast<const NiTListBase<NiTPointerAllocator<unsigned int>,
-                                                                           NiPointer<NiProperty> >*>(&m_kCommandHistory)
-                                            ->GetHeadPos();
+                                        ((void *)(::FUN_00559450((int *)(reinterpret_cast<const NiTListBase<NiTPointerAllocator<unsigned int>,
+                                                                           NiPointer<NiProperty> >*>(&m_kCommandHistory)))));
                                     for (int i = 0; i < m_iCommandHistoryPosition; i++)
-                                        position = m_kCommandHistory.DereferenceIfNotNull(position);
+                                        position = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(m_kCommandHistory))->DereferenceIfNotNull((int **)(position))));
                                 }
                                 if (position)
-                                    line = m_kCommandHistory.AddEight(position);
+                                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringT<char> &)(line))->CallAndReturnSelf((intptr_t)&(m_kCommandHistory.AddEight(position)));
                                 else
                                     line = "";
-                                sprintf(text, "%s", line.Length() ? line.String() : "");
+                                sprintf(text, "%s", ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(line))->FUN_004048e0())) ? ((const char *)(::FUN_00559450((int *)&(line)))) : "");
                             }
                         }
                     }
@@ -590,471 +1083,19 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 }
             }
             BSStringT<char> line(text);
-            if (!reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)->GetSize())
-                m_kCommandHistory.AssignString(line);
+            if (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
+                reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
             else
             {
                 m_kCommandHistory.PopFront();
-                m_kCommandHistory.AssignString(line);
+                reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
             }
-            DebugText::Instance(true)->Print(text, (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
-                                             DAT_011d8d38.Int()->i);
+            ((::DebugText *)(::FUN_00a0d9e0(true)))->Print(text, (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
+                                             ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i);
         }
     }
     return true;
 }
-
-void* __cdecl memset(void*, int, unsigned int);
-extern SettingT_GameSettingCollection_ g_011d8d44;
-extern SettingT_GameSettingCollection_ g_011d8d08;
-
-class GlobalObject_0048f200
-{
-  public:
-    char pad[12];
-    GlobalObject_0048f200();
-    ~GlobalObject_0048f200();
-};
-
-struct DummyFont
-{
-    float FUN_005bd580();
-};
-
-struct DummyFontManager
-{
-    DummyFont* FUN_005bd5c0(int);
-};
-
-DummyFontManager* __cdecl FUN_005bd5b0();
-
-struct GlobalObject_0048f200_d0071b020 : GlobalObject_0048f200
-{
-    ~GlobalObject_0048f200_d0071b020();
-};
-struct FUN_0071af10
-{
-    int f00;
-    GlobalObject_0048f200_d0071b020 f04;
-    GlobalObject_0048f200_d0071b020 f10;
-    int f1c;
-    int f20;
-    int f24;
-    int f28;
-    int f2c;
-    int f30;
-    int f34;
-    char f38;
-    char f39;
-    char f3a;
-    char f3b;
-    int f3c;
-    char pad40[0x7d0];
-    char f810[0x104];
-
-    FUN_0071af10();
-};
-
-// @fnv 0x0071af10
-FUN_0071af10::FUN_0071af10()
-{
-    f39 = 0;
-    f00 = 0;
-    f24 = 0;
-    f38 = 0;
-    f1c = 0;
-    f2c = (int)FUN_005bd5b0()->FUN_005bd5c0(DAT_011d8d38.Int()->i - 1)->FUN_005bd580() + 3;
-    f30 = g_011d8d44.Int()->i;
-    f34 = g_011d8d08.Int()->i;
-    f3a = 0;
-    f3c = 0;
-    memset(f810, 0, 0x104);
-}
-
-struct FUN_0071d750_shell
-{
-    void ClearField();
-};
-
-// @fnv 0x0071d750
-void FUN_0071d750_shell::ClearField()
-{
-    ((int*)this)[0x3c] = 0;
-}
-
-struct ListNode
-{
-    ListNode* next;
-};
-struct ListHead
-{
-    ListNode* head;
-    ListNode* tail;
-    int count;
-    void Clear();
-    void FUN_0071e0f0(ListNode*);
-};
-// @fnv 0x0071e070
-void ListHead::Clear()
-{
-    ListNode* pkNode = head;
-    while (pkNode != 0)
-    {
-        ListNode* pkTemp = pkNode;
-        pkNode = pkNode->next;
-        FUN_0071e0f0(pkTemp);
-    }
-    count = 0;
-    head = 0;
-    tail = 0;
-}
-
-struct FUN_0071b020_shell
-{
-    void __thiscall FUN_0071dec0();
-    void __thiscall FUN_0071b020();
-};
-
-// @fnv 0x0071b020
-void __thiscall FUN_0071b020_shell::FUN_0071b020()
-{
-    FUN_0071dec0();
-}
-
-void FUN_00703310(int);
-struct ArrSI
-{
-    unsigned int GetFlags();
-};
-struct FUN_0071d770_shell : public ConsoleManager
-{
-    void FUN_0071d770();
-};
-// @fnv 0x0071d770
-void FUN_0071d770_shell::FUN_0071d770()
-{
-    if (cVisible > 0)
-    {
-        DebugText::Instance(true)->Print("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
-                                         DAT_011d8d38.Int()->i, 0);
-        ((InterfaceManager*)this)->SetNamedMenuOption(((ArrSI*)((char*)this + 4))->GetFlags());
-        ResetOutputState();
-        FUN_00703310(0);
-    }
-}
-
-namespace fnv_0071d620 {
-struct Interface
-{
-    static void __cdecl PrintDebugMessage();
-};
-
-struct ArrSI
-{
-    unsigned int GetFlags();
-};
-
-struct FUN_00a0de80_shell
-{
-    void FUN_00a0de80();
-};
-
-struct FUN_0071d750_shell
-{
-    void ClearField();
-};
-
-extern const char $SG3295[];
-
-InterfaceManager* __cdecl _FUN_004b7210();
-
-struct FUN_0071d620_shell : public InterfaceManager
-{
-    unsigned char layoutPadding[0x30];
-    int m_iConsoleX;
-    int m_iConsoleY;
-    char cVisible;
-
-    void FUN_0071d620(char acState);
-};
-
-// @fnv 0x0071d620
-void FUN_0071d620_shell::FUN_0071d620(char acState)
-{
-    char cold_state;
-    cold_state = cVisible;
-    cVisible = acState;
-
-    if ((acState > 0) != (cold_state > 0))
-    {
-        if (acState > 0)
-        {
-            Interface::PrintDebugMessage();
-
-            if (_FUN_004b7210()->FUN_007023a0())
-            {
-                DebugText::Instance(true)->Print("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
-                                                 DAT_011d8d38.Int()->i, 0);
-
-                SetNamedMenuOption(reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 4)->GetFlags());
-            }
-            else
-            {
-                DebugText::Instance(true)->Print($SG3295, (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f, 0, 0);
-            }
-
-            reinterpret_cast<ConsoleManager*>(this)->ResetOutputState();
-        }
-        else
-        {
-            Interface::PrintDebugMessage();
-            reinterpret_cast<FUN_00a0de80_shell*>(DebugText::Instance(true))->FUN_00a0de80();
-            reinterpret_cast<FUN_0071d750_shell*>(_FUN_004b7210())->ClearField();
-        }
-    }
-}
-}  // namespace fnv_0071d620
-
-// Destructor: free the owned decal data; the two lists are destroyed afterwards.
-
-class B040DecalData
-{
-  public:
-    ~B040DecalData();
-    int unk00;
-};
-
-class B040List
-{
-  public:
-    ~B040List();
-    int unk00;
-    int unk04;
-    int unk08;
-};
-
-class FUN_0071b040
-{
-  public:
-    ~FUN_0071b040();
-
-    B040DecalData* m_pkDecalData;
-    B040List m_kFirst;
-    B040List m_kSecond;
-};
-
-// Destructor that deletes m_pkDecalData if it is non-null.
-// @fnv 0x0071b040
-FUN_0071b040::~FUN_0071b040()
-{
-    if (m_pkDecalData)
-        delete m_pkDecalData;
-}
-
-struct ConsoleLine
-{
-    const char* FUN_00559450();
-};
-struct ConsoleLines
-{
-    void* head;
-    void* tail;
-    int count;
-    void* FUN_00559450();
-    void* DereferenceIfNotNull(void* node);
-    ConsoleLine* AddEight(void* node);
-};
-struct ConsoleTextRenderer
-{
-    void FUN_00a0f8b0(const char* text, float x, float y, int color, int state, float opacity, int alignment,
-                      int style);
-};
-ConsoleTextRenderer* __cdecl FUN_00a0d9e0(int mode);
-extern float _DAT_01012054;
-struct ConsoleDisplay
-{
-    void* compiler;
-    ConsoleLines strings, inputs;
-    int m_iCommandHistoryPosition, m_iScrollPosition, m_iOutputLineCount, menuMode, iConsoleLineSpacing, m_iConsoleX,
-        m_iConsoleY;
-    void DrawConsoleLines();
-};
-// Draws the visible console string lines, padding with blank lines when the first visible index is negative, then advancing through the list.
-// @fnv 0x0071d410
-void ConsoleDisplay::DrawConsoleLines()
-{
-    void* node = strings.FUN_00559450();
-    int lineY = m_iConsoleY - DAT_011d8cfc.Int()->i * iConsoleLineSpacing;
-    int lastLine = m_iOutputLineCount;
-    int lineIndex = lastLine - DAT_011d8cfc.Int()->i;
-    while (lineIndex < 0)
-    {
-        FUN_00a0d9e0(1)->FUN_00a0f8b0(0, (float)m_iConsoleX, (float)lineY, 1, -1, _DAT_01012054, 0, 0);
-        ++lineIndex;
-        lineY += iConsoleLineSpacing;
-    }
-    for (int skipped = 0; skipped < lineIndex; ++skipped)
-        node = strings.DereferenceIfNotNull(node);
-    while (lineIndex < lastLine)
-    {
-        FUN_00a0d9e0(1)->FUN_00a0f8b0(strings.AddEight(node)->FUN_00559450(), (float)m_iConsoleX, (float)lineY, 1, -1,
-                                      _DAT_01012054, DAT_011d8d38.Int()->i, 0);
-        node = strings.DereferenceIfNotNull(node);
-        ++lineIndex;
-        lineY += iConsoleLineSpacing;
-    }
-}
-
-void ToggleGlobalFlag();
-
-class FUN_0071d580_probe
-{
-  public:
-    bool Probe_0070ecf0();
-    int Probe_00714f70(int);
-};
-
-class FUN_0071d580_cls
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    signed char m_38;
-
-    void Call_0071d620(int);
-    bool FUN_0071d580();
-};
-
-// @fnv 0x0071d580
-bool FUN_0071d580_cls::FUN_0071d580()
-{
-    ToggleGlobalFlag();
-    if (m_38 == 0)
-    {
-        Call_0071d620(1);
-        return true;
-    }
-    else
-    {
-        if (m_38 == 1 && ((FUN_0071d580_probe*)FUN_004b7210())->Probe_0070ecf0())
-        {
-            if (((FUN_0071d580_probe*)FUN_004b7210())->Probe_00714f70(0) == 3 &&
-                ((FUN_0071d580_probe*)FUN_004b7210())->Probe_00714f70(1) == 0)
-            {
-                Call_0071d620(2);
-            }
-            else
-            {
-                Call_0071d620(0);
-            }
-        }
-        else
-        {
-            Call_0071d620(0);
-        }
-    }
-    return false;
-}
-
-struct DumpName
-{
-    const char* FUN_0043b1b0();
-};
-struct DumpTexture
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5c();
-    virtual void v60();
-    virtual void v64();
-    virtual void v68();
-    virtual void v6c();
-    virtual void v70();
-    virtual void v74();
-    virtual void v78();
-    virtual void v7c();
-    virtual void v80();
-    virtual void v84();
-    virtual void v88();
-    virtual void v8c();
-    virtual void v90();
-    virtual void v94();
-    virtual void v98();
-    virtual DumpName* v9c();
-    unsigned int FUN_0059bb30();
-    DumpTexture* FUN_0055b980();
-};
-DumpTexture* FUN_00456510();
-struct DumpRTTI
-{
-};
-extern DumpRTTI DAT_011f444c;
-bool FUN_0043b300(const DumpRTTI*, DumpTexture*);
-struct DumpSetting
-{
-    bool* FUN_00408d60();
-};
-extern DumpSetting g_011dec98;
-struct DumpFullName
-{
-    const char* FUN_00408da0();
-};
-struct DumpWorld
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14;
-    DumpFullName name;
-};
-struct DumpCell
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14;
-    DumpFullName name;
-    DumpWorld* FUN_0054ddd0();
-};
-struct DumpTES
-{
-    DumpCell* FUN_00457070();
-    int FUN_0059bb30();
-    int FUN_0045cd60();
-};
-extern DumpTES* g_TES;
-struct DumpConsole
-{
-    bool HasMenusPath(DumpTexture*);
-    void DumpLoadedTextures();
-};
 // @fnv 0x0071d800
 void DumpConsole::DumpLoadedTextures()
 {
@@ -1067,15 +1108,15 @@ void DumpConsole::DumpLoadedTextures()
         unsigned int a7;
         BSFile* a8;
         DumpTexture* a9;
-        memset(a0, 0, sizeof(a0));
-        a1 = FUN_00456510();
+        ::FUN_00403d30(a0, 0, sizeof(a0));
+        a1 = ((::DumpTexture *)(::FUN_00456510()));
         while (a1)
         {
-            if (FUN_0043b300(&DAT_011f444c, a1))
+            if (::FUN_0043b300((const ::NiRTTI *)(const ::DumpRTTI *)(&(*reinterpret_cast<::DumpRTTI *>(&::g_011f444c))), (::NiAVObject *)(a1)))
             {
                 a9 = a1;
-                a7 = a9->FUN_0059bb30();
-                if (a7 && (*g_011dec98.FUN_00408d60() || !HasMenusPath(a9)))
+                a7 = reinterpret_cast<::ActorMover *>((a9))->GetCurrentMoveModeType();
+                if (a7 && (*(*reinterpret_cast<::DumpSetting *>(&::g_011dec98)).FUN_00408d60() || !reinterpret_cast<::FUN_0071dca0_cls *>(this)->HasMenusPath((::PathSource *)(a9))))
                 {
                     a5 = -1;
                     for (a4 = 0; a4 < 200 && a5 == -1; a4++)
@@ -1084,7 +1125,7 @@ void DumpConsole::DumpLoadedTextures()
                             a5 = a4;
                         else
                         {
-                            a3 = a0[a4]->FUN_0059bb30();
+                            a3 = reinterpret_cast<::ActorMover *>((a0[a4]))->GetCurrentMoveModeType();
                         }
                     }
                     if (a5 != -1)
@@ -1095,41 +1136,43 @@ void DumpConsole::DumpLoadedTextures()
                     }
                 }
             }
-            a1 = a1->FUN_0055b980();
+            a1 = ((::DumpTexture *)(a1->m_pkNext));
         }
         a8 = new BSFile("textures.txt", NiFile::WRITE_ONLY, 0x1000, true);
         if (!a8 || !a8->vfn_20(false, false))
         {
-            DebugLog("The file textures.txt could not be opened.");
+            ::FUN_00703c00("The file textures.txt could not be opened.", {});
             return;
         }
         a6 = 0;
         {
             char buffer[1024];
-            sprintf_s(
+            ::FUN_00406d00(
                 buffer, 1024,
                 "Texture dump for cell: %s grid: (%d, %d) worldspace: %s \n---------------------------------------\n",
-                g_TES->FUN_00457070() ? g_TES->FUN_00457070()->name.FUN_00408da0() : "{unknown}", g_TES->FUN_0059bb30(),
-                g_TES->FUN_0045cd60(),
-                g_TES->FUN_00457070() ? (g_TES->FUN_00457070()->FUN_0054ddd0()
-                                             ? g_TES->FUN_00457070()->FUN_0054ddd0()->name.FUN_00408da0()
+                ((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070())) ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))->name))->FUN_00408da0())) : "{unknown}", ((int)(reinterpret_cast<::ActorMover *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->GetCurrentMoveModeType())),
+                ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_0045cd60())),
+                ((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070())) ? (((::DumpWorld *)(reinterpret_cast<::TESObjectCELL *>((((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))))->GetParentWorldSpace()))
+                                             ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::DumpWorld *)(reinterpret_cast<::TESObjectCELL *>((((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))))->GetParentWorldSpace()))->name))->FUN_00408da0()))
                                              : "{unknown}")
                                       : "{unknown}");
-            a8->FUN_00473180(buffer, BSStringLength(buffer));
+            reinterpret_cast<::FUN_00473180_shell *>((a8))->FUN_00473180((void *)(buffer), ::FUN_0044a670(buffer));
             {
                 for (int k = 0; k < 200 && a0[k]; k++)
                 {
                     const char* a7;
                     unsigned int name;
-                    name = a0[k]->FUN_0059bb30();
+                    name = reinterpret_cast<::ActorMover *>((a0[k]))->GetCurrentMoveModeType();
                     a7 = a0[k]->v9c()->FUN_0043b1b0();
-                    a8->FUN_00473180(buffer, BSStringLength(buffer));
+                    reinterpret_cast<::FUN_00473180_shell *>((a8))->FUN_00473180((void *)(buffer), ::FUN_0044a670(buffer));
                 }
             }
-            sprintf_s(buffer, 1024, "---------------------------------------\nTotal memory: %dkb", a6);
-            a8->FUN_00473180(buffer, BSStringLength(buffer));
+            ::FUN_00406d00(buffer, 1024, "---------------------------------------\nTotal memory: %dkb", a6);
+            reinterpret_cast<::FUN_00473180_shell *>((a8))->FUN_00473180((void *)(buffer), ::FUN_0044a670(buffer));
             a8->Close();
-            DebugLog("200 largest loaded textures dumped to the file textures.txt.");
+            ::FUN_00703c00("200 largest loaded textures dumped to the file textures.txt.", {});
         }
     }
 }
+
+#include "generated/data/fallout/interface/menuconsole.inc"

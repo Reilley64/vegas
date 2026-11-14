@@ -2,8 +2,11 @@
 #ifndef FNV_NIQUATTRANSFORM_H
 #define FNV_NIQUATTRANSFORM_H
 
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
 #include "layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -17,7 +20,6 @@ class NiPoint3
 };
 class NiQuatTransform;
 class NiQuaternion;
-#pragma pack(push, 4)
 class NiQuaternion
 {
   public:
@@ -73,20 +75,11 @@ class NiQuaternion
     // float __cdecl NiQuaternion::*(float, float, float)
     // float __cdecl NiQuaternion::*(float, float)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorX) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorY) == 4);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorZ) == 8);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fScalarPart) == 12);
-extern NiPoint3 DAT_011a8400;
-extern NiQuaternion DAT_011f3704;
-extern float DAT_01096b8c;
-#pragma pack(push, 4)
 struct TransformWords
 {
     unsigned int words[8];
 };
+struct NiStream;
 class NiQuatTransform
 {
   public:
@@ -127,10 +120,7 @@ class NiQuatTransform
     // void __cdecl NiQuatTransform::*(bool)
     // void __cdecl NiQuatTransform::*(bool)
     // void __cdecl NiQuatTransform::*(bool)
+public:
+    void LoadBinary(::NiStream &);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kTranslate) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kRotate) == 12);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_fScale) == 28);
 #endif

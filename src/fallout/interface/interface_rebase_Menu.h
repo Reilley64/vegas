@@ -1,13 +1,13 @@
 // Source layout: Menu. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_MENU_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_MENU_H
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/symbols_00702000.h"
 #include "interface_rebase_layout_support.h"
 class Menu
 {
   public:
-    static bool IsMenuVisible(Interface::enumMenus);
-    Tile* CreateTileFromTemplate(Tile* parent, const char* name, Tile* existing);
-    void** m_ppVirtualMethodTable;                                        // +0x0
+    virtual ~Menu();
     TileMenu* pMenu;                                        // +0x4
     BSSimpleList<Tile__TileTemplate*> m_kTileTemplateList;  // +0x8
     Tile* m_pMenuTile;                                        // +0x10
@@ -19,15 +19,4 @@ class Menu
     int m_iMenuId;                       // +0x20
     Interface__FADE_STATE m_eFadeState;  // +0x24
 };
-FNV_STATIC_ASSERT(sizeof(Menu) == 0x28);
-FNV_STATIC_ASSERT(offsetof(Menu, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(Menu, pMenu) == 0x4);
-FNV_STATIC_ASSERT(offsetof(Menu, m_kTileTemplateList) == 0x8);
-FNV_STATIC_ASSERT(offsetof(Menu, m_pMenuTile) == 0x10);
-FNV_STATIC_ASSERT(offsetof(Menu, m_iModalMenuId) == 0x14);
-FNV_STATIC_ASSERT(offsetof(Menu, m_iSecondaryValue) == 0x18);
-FNV_STATIC_ASSERT(offsetof(Menu, m_bIsSpecial) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(Menu, m_bVisible) == 0x1D);
-FNV_STATIC_ASSERT(offsetof(Menu, m_iMenuId) == 0x20);
-FNV_STATIC_ASSERT(offsetof(Menu, m_eFadeState) == 0x24);
 #endif

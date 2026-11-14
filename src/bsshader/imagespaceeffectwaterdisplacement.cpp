@@ -1,7 +1,45 @@
+#include <cstdint>
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectwaterdisplacement.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectwaterdisplacement.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include <windows.h>
+#include "fnv/decl/BB97550Shader.h"
+#include "fnv/decl/BSRenderStateManager.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_004e7560_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a87900_class.h"
+#include "fnv/decl/FUN_00ba3770_struct.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00ba3940_cls.h"
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/H.h"
+#include "fnv/decl/H_00ba3840.h"
+#include "fnv/decl/H_00ba39a0.h"
+#include "fnv/decl/ImageSpaceManagerView.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiScreenElementsDataShell.h"
+#include "fnv/decl/OwnerStandIn.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00b97000.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01031000.h"
+#include "fnv/symbols_01054000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011ff000.h"
+#include "fnv/symbols_01200000.h"
 struct NiPoint2
 {
     float x;
@@ -10,7 +48,6 @@ struct NiPoint2
     {}
     NiPoint2(float _x, float _y) : x(_x), y(_y)
     {}
-    float Unitize();
 };
 
 struct NiPoint4
@@ -23,8 +60,6 @@ struct NiPoint4
 
 struct NiMemObject
 {
-    void* operator new(unsigned int size);
-    void operator delete(void* p, unsigned int size);
 };
 
 struct RenderTargetGroup
@@ -80,7 +115,6 @@ struct RenderTargetGroup
 struct BSRenderedTexture
 {
     RenderTargetGroup* GetGroup();
-    void* FUN_004bc320();
 };
 
 struct ImageSpaceTexture
@@ -96,12 +130,6 @@ struct ImageSpaceTexture
     {}
     ~ImageSpaceTexture();
 
-    BSRenderedTexture* FUN_00ba3770();
-    void* GetTexture();
-    void FUN_00ba3840(unsigned int);
-    void FUN_00ba37a0(void*);
-    void FUN_00ba3940(void*);
-    void FUN_00ba39a0();
 };
 
 struct Type_00b6b380 : public NiMemObject
@@ -125,17 +153,18 @@ struct Type_00b6b380 : public NiMemObject
     Type_00b6b380(void*, int, int, void*);
 };
 
+class NiAccumulator;
+class NiCamera;
 struct HolderForAccum
 {
     virtual void Dispose();
     virtual void Dispatch(void*, void*, void*, int);
-    void SetAccumulatorAt(unsigned int, void*, unsigned int);
+public:
+    void SetAccumulatorAt(unsigned int, ::NiAccumulator *, const ::NiCamera *);
 };
 
 struct Emitter
 {
-    void FUN_00b8a790(int index, float x, float y, float z, float w);
-    void SetFloat4At(int index, float x, float y, float z, float w);
 };
 
 struct NiScreenElementsData : public NiMemObject
@@ -171,10 +200,9 @@ struct NiScreenElementsData : public NiMemObject
     int unk6c;
 
     NiScreenElementsData(bool, bool, unsigned short, int, int, int, int, int, int);
-    bool FUN_00a87ae0(int, int, int);
     bool SetRectangle(int, float, float, float, float);
-    void FUN_00a87900();
-    bool FUN_00a88130(int, int, float, float, float, float);
+public:
+    bool SetRectangleBounds(int, unsigned short, float, float, float, float);
 };
 
 struct NiScreenElements : public NiMemObject
@@ -230,16 +258,12 @@ struct NiScreenElements : public NiMemObject
     int unkc0;
 
     NiScreenElements(NiScreenElementsData*);
-    void FUN_00a5a040();
-    void Update(const void*);
-    void SetName(const void*);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer() : m_pObject(0)
     {}
@@ -283,19 +307,18 @@ struct NiUpdateData
     {}
 };
 
-extern "C" char* __cdecl FUN_00a5b690(const char*);
-extern void* DAT_0109b220;
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
     __forceinline NiFixedString(const char* s)
     {
-        m_kHandle = FUN_00a5b690(s);
+        m_kHandle = ::NiGlobalStringTable::AddString(s);
     }
     __forceinline ~NiFixedString()
     {
-        if (m_kHandle != (const char*)DAT_0109b220)
+        if (m_kHandle != (const char*)(*reinterpret_cast<void * *>(&::DAT_0109b220)))
         {
             InterlockedDecrement((volatile long*)(m_kHandle - 8));
         }
@@ -315,7 +338,6 @@ struct Allocator
 
 struct ImageSpaceManager
 {
-    void FUN_00b97550(int, void*, void*, void*, int, int);
 };
 
 struct GameObject
@@ -356,14 +378,6 @@ struct GameObject
     void FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4);
 };
 
-extern float DAT_010313d4;
-extern float DAT_011f9410;
-extern float DAT_011ffff4;
-extern float DAT_010542a4;
-extern float DAT_01013ea4;
-extern unsigned char DAT_011fffec;
-extern unsigned char DAT_011fffed;
-extern unsigned char DAT_01200000;
 extern int DAT_011ffffc;
 extern int DAT_011ada08;
 extern int DAT_011ada0c;
@@ -371,197 +385,17 @@ extern int DAT_011ada18;
 extern int DAT_011ada1c;
 extern NiPoint2* DAT_011ada04;
 extern NiPoint2* DAT_011ada14;
-extern Allocator DAT_011ada00;
-extern Allocator DAT_011ada10;
-extern NiPoint4 DAT_01200004;
-extern NiPoint4 DAT_01200014;
-extern NiPoint2 DAT_01200024;
 extern NiPoint4 DAT_0120002c;
 extern NiPoint4 DAT_0120003c;
-extern void* DAT_011f9508;
-extern ImageSpaceManager* DAT_011f91ac;
 
 static HolderForAccum* GetNode(HolderForAccum* p)
 {
-    void* d = p ? (void*)((char*)p - 0x6c) : 0;
-    return d ? (HolderForAccum*)((char*)d + 0x6c) : 0;
-}
-
-// @fnv 0x00ba0900
-void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
-{
-    if (DAT_011fffed)
-    {
-        step = DAT_010313d4;
-        float nextTime = time + DAT_011f9410;
-        time = nextTime;
-        accumulated += nextTime;
-    }
-    else
-    {
-        step = DAT_010313d4;
-        float nextTime = time + DAT_011f9410;
-        time = nextTime;
-        accumulated += nextTime;
-    }
-
-    ImageSpaceTexture tex54;
-    ImageSpaceTexture tex64;
-    ImageSpaceTexture tex34;
-
-    tex64.FUN_00ba3840(8);
-
-    tex34.FUN_00ba37a0(new Type_00b6b380(tex64.FUN_00ba3770()->FUN_004bc320(), 0, 1,
-                                         GetAsset<1>()->FUN_00ba3770()->GetGroup()->GetView()));
-
-    ImageSpaceTexture tex44;
-
-    if (DAT_011fffec)
-    {
-        HolderForAccum* node = GetNode(nodes[0]);
-        Emitter* pEmitter = emitters[0];
-
-        node->SetAccumulatorAt(0, &tex34, 0);
-        node->SetAccumulatorAt(1, assets[1], 1);
-        node->Dispatch(arg1, arg2, pEmitter, 1);
-
-        tex44.FUN_00ba3940(assets[1]);
-        tex54.FUN_00ba3940(&tex34);
-        tex34.FUN_00ba3940(&tex44);
-        DAT_011fffec = 0;
-    }
-
-    if (DAT_011fffed)
-    {
-        HolderForAccum* node = GetNode(nodes[1]);
-        Emitter* pEmitter = emitters[1];
-
-        pEmitter->FUN_00b8a790(0, time, 0.0f, 0.0f, 0.0f);
-        pEmitter->FUN_00b8a790(1, DAT_011ffff4, 0.0f, 0.0f, 0.0f);
-        pEmitter->FUN_00b8a790(2, DAT_01200024.x, DAT_01200024.y, 0.0f, 0.0f);
-        pEmitter->FUN_00b8a790(4, DAT_01200004.x, DAT_01200004.y, DAT_01200004.z, DAT_01200004.w);
-        pEmitter->FUN_00b8a790(5, DAT_01200014.x, DAT_01200014.y, DAT_01200014.z, DAT_01200014.w);
-
-        node->SetAccumulatorAt(0, &tex34, 0);
-        node->SetAccumulatorAt(1, assets[1], 0);
-        node->Dispatch(arg1, arg2, pEmitter, 1);
-
-        if (DAT_011fffed)
-        {
-            DAT_011ffffc = 0;
-            HolderForAccum* handler = GetNode(nodes[2]);
-            Emitter* secondary = emitters[2];
-            handler->SetAccumulatorAt(0, &tex34, 0);
-
-            if ((unsigned int)DAT_011ada08 > 0)
-            {
-                if (!widget.m_pObject)
-                {
-                    NiPointer<NiScreenElementsData> spScreenData(
-                        new NiScreenElementsData(false, false, 1, 1, 1, 4, 1, 2, 1));
-                    widget = new NiScreenElements(spScreenData);
-
-                    NiScreenElementsData* localData0 = widget->m_spTransformData;
-                    localData0->FUN_00a87ae0(4, 0, 0);
-                    NiScreenElementsData* localData1 = widget->m_spTransformData;
-                    localData1->SetRectangle(0, 0.0f, DAT_01013ea4, 1.0f, DAT_010542a4);
-                    widget->m_spTransformData->FUN_00a87900();
-                    NiScreenElementsData* localData2 = widget->m_spTransformData;
-                    localData2->FUN_00a88130(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
-                    widget->FUN_00a5a040();
-
-                    NiUpdateData kData(0.0f);
-                    widget->Update(&kData);
-
-                    widget->SetName(NiFixedString("Partial Screen Trishape"));
-                }
-
-                for (int i = 0; i < DAT_011ada08; ++i)
-                {
-                    NiPoint2* endpoint = &DAT_011ada14[i];
-                    DAT_0120002c.x = DAT_011ada04[i].x - DAT_011ada14[i].x;
-                    DAT_0120003c.x = DAT_011ada04[i].y - endpoint->y;
-                    DAT_0120002c.z = DAT_011ada14[i].x;
-                    NiPoint2 tangent;
-                    tangent.x = -DAT_0120003c.x;
-                    tangent.y = DAT_0120002c.x;
-                    tangent.Unitize();
-                    DAT_0120002c.y = tangent.x;
-                    DAT_0120003c.y = tangent.y;
-                    DAT_0120003c.z = endpoint->y;
-                    secondary->SetFloat4At(0, DAT_0120002c.x, DAT_0120002c.y, DAT_0120002c.z, DAT_0120002c.w);
-                    secondary->SetFloat4At(1, DAT_0120003c.x, DAT_0120003c.y, DAT_0120003c.z, DAT_0120003c.w);
-                    handler->Dispatch(widget, arg2, secondary, 1);
-                    ++DAT_011ffffc;
-                }
-
-                if (DAT_011ada04)
-                {
-                    Allocator* a = &DAT_011ada00;
-                    a->Free(DAT_011ada04);
-                    DAT_011ada04 = 0;
-                    DAT_011ada0c = 0;
-                    DAT_011ada08 = 0;
-                }
-                if (DAT_011ada14)
-                {
-                    Allocator* a = &DAT_011ada10;
-                    a->Free(DAT_011ada14);
-                    DAT_011ada14 = 0;
-                    DAT_011ada1c = 0;
-                    DAT_011ada18 = 0;
-                }
-            }
-        }
-    }
-
-    DAT_01200000 = 0;
-    tex44.FUN_00ba3940(assets[1]);
-    tex54.FUN_00ba3940(&tex34);
-    tex34.FUN_00ba3940(&tex44);
-
-    int frames = 0;
-    while (time - previous > step)
-    {
-        previous = previous + step;
-        if (DAT_011fffed)
-        {
-            ++frames;
-            HolderForAccum* node = GetNode(nodes[4]);
-            Emitter* pEmitter = emitters[4];
-            pEmitter->FUN_00b8a790(0, time, 0.0f, 0.0f, 0.0f);
-            pEmitter->FUN_00b8a790(1, DAT_011ffff4, 0.0f, 0.0f, 0.0f);
-            pEmitter->FUN_00b8a790(2, DAT_01200024.x, DAT_01200024.y, 0.0f, 0.0f);
-            pEmitter->FUN_00b8a790(4, DAT_01200004.x, DAT_01200004.y, DAT_01200004.z, DAT_01200004.w);
-            pEmitter->FUN_00b8a790(5, DAT_01200014.x, DAT_01200014.y, DAT_01200014.z, DAT_01200014.w);
-            node->SetAccumulatorAt(0, &tex34, 0);
-            node->SetAccumulatorAt(1, &tex54, 1);
-            node->Dispatch(arg1, arg2, pEmitter, 1);
-            DAT_01200000 = 1;
-            tex44.FUN_00ba3940(&tex54);
-            tex54.FUN_00ba3940(&tex34);
-            tex34.FUN_00ba3940(&tex44);
-        }
-    }
-
-    if (frames % 2 == 0)
-    {
-        void* renderer = DAT_011f9508;
-        ImageSpaceManager* pManager = DAT_011f91ac;
-        pManager->FUN_00b97550(0x22, renderer, tex54.FUN_00ba3770(), tex34.FUN_00ba3770(), 0, 1);
-    }
-
-    if (tex64.GetTexture())
-    {
-        tex64.FUN_00ba39a0();
-    }
+    return p;
 }
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager _g_memoryManager;
 
 extern const float DAT_011add48[];
 
@@ -606,14 +440,184 @@ class ImageSpaceShaderParam
     int unk80;
     int unk84;
 
-    void* operator new(size_t size)
-    {
-        return _g_memoryManager.Allocate(size);
-    }
     ImageSpaceShaderParam();
-    void FUN_00b8ab10(int a1, int a2);
     void CopyParamData(int a1, const float* a2, unsigned int a3);
+public:
+    void SetShaderConstantVector4(int, float, float, float, float);
+public:
+    void FUN_00b8a7c0();
+public:
+    void AllocateShaderConstants(int, int);
 };
+// @fnv 0x00ba0900
+void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
+{
+    if ((*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_011fffed)))
+    {
+        step = DAT_010313d4;
+        float nextTime = time + DAT_011f9410;
+        time = nextTime;
+        accumulated += nextTime;
+    }
+    else
+    {
+        step = DAT_010313d4;
+        float nextTime = time + DAT_011f9410;
+        time = nextTime;
+        accumulated += nextTime;
+    }
+
+    ImageSpaceTexture tex54;
+    ImageSpaceTexture tex64;
+    ImageSpaceTexture tex34;
+
+    reinterpret_cast<::H_00ba3840 *>(&(tex64))->FUN_00ba3840(8);
+
+    reinterpret_cast<::OwnerStandIn *>(&(tex34))->FUN_00ba37a0((::RefBase *)(void *)(new Type_00b6b380(((void *)(reinterpret_cast<::FUN_004bc320_shell *>((((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex64))->FUN_00ba3770()))))->FUN_004bc320({}))), 0, 1,
+                                         ((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>((GetAsset<1>()))->FUN_00ba3770()))->GetGroup()->GetView())));
+
+    ImageSpaceTexture tex44;
+
+    if ((*reinterpret_cast<unsigned char *>(&::fnv_004e8510::DAT_011fffec)))
+    {
+        HolderForAccum* node = GetNode(nodes[0]);
+        Emitter* pEmitter = emitters[0];
+
+        node->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&tex34), (const ::NiCamera *)(0));
+        node->SetAccumulatorAt(1, (::NiAccumulator *)(assets[1]), (const ::NiCamera *)(1));
+        node->Dispatch(arg1, arg2, pEmitter, 1);
+
+        reinterpret_cast<::FUN_00ba3940_cls *>(&(tex44))->FUN_00ba3940((::FUN_00ba3940_cls *)(assets[1]));
+        reinterpret_cast<::FUN_00ba3940_cls *>(&(tex54))->FUN_00ba3940((::FUN_00ba3940_cls *)(void *)(&tex34));
+        reinterpret_cast<::FUN_00ba3940_cls *>(&(tex34))->FUN_00ba3940((::FUN_00ba3940_cls *)(void *)(&tex44));
+        (*reinterpret_cast<unsigned char *>(&::fnv_004e8510::DAT_011fffec)) = 0;
+    }
+
+    if ((*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_011fffed)))
+    {
+        HolderForAccum* node = GetNode(nodes[1]);
+        Emitter* pEmitter = emitters[1];
+
+        reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(0, time, 0.0f, 0.0f, 0.0f);
+        reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(1, DAT_011ffff4, 0.0f, 0.0f, 0.0f);
+        reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(2, (*reinterpret_cast<::NiPoint2 *>(&::fnv_004e8ec0::DAT_01200024)).x, (*reinterpret_cast<::NiPoint2 *>(&::fnv_004e8ec0::DAT_01200024)).y, 0.0f, 0.0f);
+        reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(4, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200004)).x, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200004)).y, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200004)).z, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200004)).w);
+        reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(5, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200014)).x, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200014)).y, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200014)).z, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200014)).w);
+
+        node->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&tex34), (const ::NiCamera *)(0));
+        node->SetAccumulatorAt(1, (::NiAccumulator *)(assets[1]), (const ::NiCamera *)(0));
+        node->Dispatch(arg1, arg2, pEmitter, 1);
+
+        if ((*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_011fffed)))
+        {
+            DAT_011ffffc = 0;
+            HolderForAccum* handler = GetNode(nodes[2]);
+            Emitter* secondary = emitters[2];
+            handler->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&tex34), (const ::NiCamera *)(0));
+
+            if ((unsigned int)DAT_011ada08 > 0)
+            {
+                if (!widget.m_pObject)
+                {
+                    NiPointer<NiScreenElementsData> spScreenData(
+                        new NiScreenElementsData(false, false, 1, 1, 1, 4, 1, 2, 1));
+                    widget = new NiScreenElements(spScreenData);
+
+                    NiScreenElementsData* localData0 = widget->m_spTransformData;
+                    reinterpret_cast<::NiScreenElementsDataShell *>((localData0))->FUN_00a87ae0(4, 0, (const unsigned short *)(0));
+                    NiScreenElementsData* localData1 = widget->m_spTransformData;
+                    localData1->SetRectangle(0, 0.0f, DAT_01013ea4, 1.0f, DAT_010542a4);
+                    reinterpret_cast<::FUN_00a87900_class *>((widget->m_spTransformData))->FUN_00a87900();
+                    NiScreenElementsData* localData2 = widget->m_spTransformData;
+                    localData2->SetRectangleBounds(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
+                    reinterpret_cast<::FUN_00a5a040_Class *>(((widget).operator->()))->FUN_00a5a040();
+
+                    NiUpdateData kData(0.0f);
+                    reinterpret_cast<::FUN_00a59c60_cls *>(((widget).operator->()))->FUN_00a59c60((std::intptr_t)(&kData));
+
+                    ::AssignFixedString((char *)((widget).operator->()), 0, (char **)&(const ::NiFixedString &)(NiFixedString("Partial Screen Trishape")));
+                }
+
+                for (int i = 0; i < DAT_011ada08; ++i)
+                {
+                    NiPoint2* endpoint = &DAT_011ada14[i];
+                    DAT_0120002c.x = DAT_011ada04[i].x - DAT_011ada14[i].x;
+                    DAT_0120003c.x = DAT_011ada04[i].y - endpoint->y;
+                    DAT_0120002c.z = DAT_011ada14[i].x;
+                    NiPoint2 tangent;
+                    tangent.x = -DAT_0120003c.x;
+                    tangent.y = DAT_0120002c.x;
+                    reinterpret_cast<::FUN_004e7560_shell *>(&(tangent))->NormalizeXY();
+                    DAT_0120002c.y = tangent.x;
+                    DAT_0120003c.y = tangent.y;
+                    DAT_0120003c.z = endpoint->y;
+                    reinterpret_cast<::H *>((secondary))->SetFloat4At(0, DAT_0120002c.x, DAT_0120002c.y, DAT_0120002c.z, DAT_0120002c.w);
+                    reinterpret_cast<::H *>((secondary))->SetFloat4At(1, DAT_0120003c.x, DAT_0120003c.y, DAT_0120003c.z, DAT_0120003c.w);
+                    handler->Dispatch(widget, arg2, secondary, 1);
+                    ++DAT_011ffffc;
+                }
+
+                if (DAT_011ada04)
+                {
+                    Allocator* a = &DAT_011ada00;
+                    a->Free(DAT_011ada04);
+                    DAT_011ada04 = 0;
+                    DAT_011ada0c = 0;
+                    DAT_011ada08 = 0;
+                }
+                if (DAT_011ada14)
+                {
+                    Allocator* a = &DAT_011ada10;
+                    a->Free(DAT_011ada14);
+                    DAT_011ada14 = 0;
+                    DAT_011ada1c = 0;
+                    DAT_011ada18 = 0;
+                }
+            }
+        }
+    }
+
+    (*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_01200000)) = 0;
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(tex44))->FUN_00ba3940((::FUN_00ba3940_cls *)(assets[1]));
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(tex54))->FUN_00ba3940((::FUN_00ba3940_cls *)(void *)(&tex34));
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(tex34))->FUN_00ba3940((::FUN_00ba3940_cls *)(void *)(&tex44));
+
+    int frames = 0;
+    while (time - previous > step)
+    {
+        previous = previous + step;
+        if ((*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_011fffed)))
+        {
+            ++frames;
+            HolderForAccum* node = GetNode(nodes[4]);
+            Emitter* pEmitter = emitters[4];
+            reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(0, time, 0.0f, 0.0f, 0.0f);
+            reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(1, DAT_011ffff4, 0.0f, 0.0f, 0.0f);
+            reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(2, (*reinterpret_cast<::NiPoint2 *>(&::fnv_004e8ec0::DAT_01200024)).x, (*reinterpret_cast<::NiPoint2 *>(&::fnv_004e8ec0::DAT_01200024)).y, 0.0f, 0.0f);
+            reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(4, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200004)).x, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200004)).y, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200004)).z, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200004)).w);
+            reinterpret_cast<::ImageSpaceShaderParam *>((pEmitter))->SetShaderConstantVector4(5, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200014)).x, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200014)).y, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200014)).z, (*reinterpret_cast<::NiPoint4 *>(&::DAT_01200014)).w);
+            node->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&tex34), (const ::NiCamera *)(0));
+            node->SetAccumulatorAt(1, (::NiAccumulator *)(void *)(&tex54), (const ::NiCamera *)(1));
+            node->Dispatch(arg1, arg2, pEmitter, 1);
+            (*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_01200000)) = 1;
+            reinterpret_cast<::FUN_00ba3940_cls *>(&(tex44))->FUN_00ba3940((::FUN_00ba3940_cls *)(void *)(&tex54));
+            reinterpret_cast<::FUN_00ba3940_cls *>(&(tex54))->FUN_00ba3940((::FUN_00ba3940_cls *)(void *)(&tex34));
+            reinterpret_cast<::FUN_00ba3940_cls *>(&(tex34))->FUN_00ba3940((::FUN_00ba3940_cls *)(void *)(&tex44));
+        }
+    }
+
+    if (frames % 2 == 0)
+    {
+        void* renderer = (*reinterpret_cast<void * *>(&::DAT_011f9508));
+        ImageSpaceManager* pManager = DAT_011f91ac;
+        reinterpret_cast<::BB97550Shader *>((pManager))->FUN_00b97550(0x22, (std::intptr_t)(renderer), (std::intptr_t)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex54))->FUN_00ba3770()))), (std::intptr_t)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex34))->FUN_00ba3770()))), 0, 1);
+    }
+
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(tex64))->FUN_00ba3780())))
+    {
+        reinterpret_cast<::H_00ba39a0 *>(&(tex64))->FUN_00ba39a0();
+    }
+}
 
 struct TextureManager
 {
@@ -698,8 +702,9 @@ template <class T> class NiTPrimitiveArray
     __declspec(noalias) void SetAt(unsigned int uiIndex, const T& element);
 };
 
-struct ImageSpaceEffect
+class ImageSpaceEffect
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -709,9 +714,6 @@ struct ImageSpaceEffect
     NiTPrimitiveArray<ImageSpaceShaderParam*> m_params;
 
     void SetTextureArraySize(int count);
-    void FUN_00ba3c70(int index, ImageSpaceTexture* tex, ImageSpaceShaderParam* param, int flag);
-    void SetEffectParamAt(int index, int a2, int a3);
-    void SetArrayEntry(int index, int a2, int a3, int a4, int a5);
 
     void InitFromEffectInitData(EffectInitData* initData, int unused);
 };
@@ -723,89 +725,83 @@ void ImageSpaceEffect::InitFromEffectInitData(EffectInitData* initData, int unus
     SetTextureArraySize(11);
 
     ImageSpaceShaderParam* param = new ImageSpaceShaderParam();
-    param->FUN_00b8ab10(0, 0x18);
+    param->AllocateShaderConstants(0, 0x18);
     param->unk55 = 0;
     param->CopyParamData(3, DAT_011add48, 0x40);
     ImageSpaceTexture* texture = initData->unk08->unk104;
-    FUN_00ba3c70(0, texture, param, 2);
-    m_params.SetAt(0, +param);
-    SetEffectParamAt(0, 1, 1);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(texture), (::ImageSpaceEffectParam *)(param), 2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(+param));
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 1);
 
-    m_params.SetAt(1, 0);
-    SetArrayEntry(1, 2, 3, 0, 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(1, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(0));
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(1, 2, 3, 0, 0);
     ImageSpaceTexture* texture1 = initData->unk08->unk40;
-    FUN_00ba3c70(1, texture1, 0, 2);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(texture1), (::ImageSpaceEffectParam *)(::ImageSpaceShaderParam *)(0), 2);
 
-    m_params.SetAt(2, 0);
-    SetArrayEntry(2, 2, 3, 0, 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(2, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(0));
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(2, 2, 3, 0, 0);
     ImageSpaceTexture* texture2 = initData->unk08->unk44;
-    FUN_00ba3c70(2, texture2, 0, 2);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(2, (::ImageSpaceEffect *)(texture2), (::ImageSpaceEffectParam *)(::ImageSpaceShaderParam *)(0), 2);
 
-    m_params.SetAt(3, 0);
-    SetArrayEntry(3, 2, 3, 0, 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(3, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(0));
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(3, 2, 3, 0, 0);
     ImageSpaceTexture* texture3 = initData->unk08->unk48;
-    FUN_00ba3c70(3, texture3, 0, 2);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(3, (::ImageSpaceEffect *)(texture3), (::ImageSpaceEffectParam *)(::ImageSpaceShaderParam *)(0), 2);
 
-    m_params.SetAt(4, 0);
-    SetArrayEntry(4, 2, 3, 0, 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(4, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(0));
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(4, 2, 3, 0, 0);
     ImageSpaceTexture* texture4 = initData->unk08->unk4C;
-    FUN_00ba3c70(4, texture4, 0, 2);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(4, (::ImageSpaceEffect *)(texture4), (::ImageSpaceEffectParam *)(::ImageSpaceShaderParam *)(0), 2);
 
-    m_params.SetAt(5, 0);
-    SetArrayEntry(5, 2, 3, 0, 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(5, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(0));
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(5, 2, 3, 0, 0);
     ImageSpaceTexture* texture5 = initData->unk08->unk50;
-    FUN_00ba3c70(5, texture5, 0, 2);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(5, (::ImageSpaceEffect *)(texture5), (::ImageSpaceEffectParam *)(::ImageSpaceShaderParam *)(0), 2);
 
-    m_params.SetAt(6, 0);
-    SetArrayEntry(6, 2, 3, 0, 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(6, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(0));
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(6, 2, 3, 0, 0);
     ImageSpaceTexture* texture6 = initData->unk08->unk54;
-    FUN_00ba3c70(6, texture6, 0, 2);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(6, (::ImageSpaceEffect *)(texture6), (::ImageSpaceEffectParam *)(::ImageSpaceShaderParam *)(0), 2);
 
-    m_params.SetAt(7, 0);
-    SetArrayEntry(7, 2, 3, 0, 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(7, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(0));
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(7, 2, 3, 0, 0);
     ImageSpaceTexture* texture7 = initData->unk08->unk58;
-    FUN_00ba3c70(7, texture7, 0, 2);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(7, (::ImageSpaceEffect *)(texture7), (::ImageSpaceEffectParam *)(::ImageSpaceShaderParam *)(0), 2);
 
     param = new ImageSpaceShaderParam();
-    param->FUN_00b8ab10(0, 0x18);
+    param->AllocateShaderConstants(0, 0x18);
     param->CopyParamData(3, DAT_011add48, 0x40);
     ImageSpaceTexture* texture8 = initData->unk08->unk104;
-    FUN_00ba3c70(8, texture8, param, 0);
-    m_params.SetAt(8, +param);
-    SetEffectParamAt(8, 2, 1);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(8, (::ImageSpaceEffect *)(texture8), (::ImageSpaceEffectParam *)(param), 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(8, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(+param));
+    ::SetEffectParamAt((char *)this, 0, 8, 2, 1);
 
     param = new ImageSpaceShaderParam();
-    param->FUN_00b8ab10(0, 0x18);
+    param->AllocateShaderConstants(0, 0x18);
     param->CopyParamData(3, DAT_011add48, 0x40);
     ImageSpaceTexture* texture9 = initData->unk08->unk104;
-    FUN_00ba3c70(9, texture9, param, 0);
-    m_params.SetAt(9, +param);
-    SetEffectParamAt(9, 2, 1);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(9, (::ImageSpaceEffect *)(texture9), (::ImageSpaceEffectParam *)(param), 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(9, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(+param));
+    ::SetEffectParamAt((char *)this, 0, 9, 2, 1);
 
     param = new ImageSpaceShaderParam();
-    param->FUN_00b8ab10(0, 0x18);
+    param->AllocateShaderConstants(0, 0x18);
     ImageSpaceTexture* texture10 = initData->unk08->unk88;
-    FUN_00ba3c70(10, texture10, param, 0);
-    m_params.SetAt(10, +param);
-    SetEffectParamAt(10, 1, 0);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(10, (::ImageSpaceEffect *)(texture10), (::ImageSpaceEffectParam *)(param), 0);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(10, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(+param));
+    ::SetEffectParamAt((char *)this, 0, 10, 1, 0);
 }
 
 namespace fnv_00ba04c0 {
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager DAT_011f6238;
 class MemObj
 {
   public:
-    static void* operator new(unsigned int size)
-    {
-        return DAT_011f6238.Allocate(size);
-    }
 };
-class ImageSpaceEffectParam : public MemObj
+struct ImageSpaceEffectParam : public MemObj
 {
 };
 class ImageSpaceShaderParam : public ImageSpaceEffectParam
@@ -849,125 +845,123 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     int m_80;
     int m_84;
     ImageSpaceShaderParam();
-    void FUN_00b8ab10(int a, int b);
-    void FUN_00b8a7c0();
 };
 struct Sub
 {
-    int f000;
-    int f004;
-    int f008;
-    int f00c;
-    int f010;
-    int f014;
-    int f018;
-    int f01c;
-    int f020;
-    int f024;
-    int f028;
-    int f02c;
-    int f030;
-    int f034;
-    int f038;
-    int f03c;
-    int f040;
-    int f044;
-    int f048;
-    int f04c;
-    int f050;
-    int f054;
-    int f058;
-    int f05c;
-    int f060;
-    int f064;
-    int f068;
-    int f06c;
-    int f070;
-    int f074;
-    int f078;
-    int f07c;
-    int f080;
-    int f084;
-    int f088;
-    int f08c;
-    int f090;
-    int f094;
-    int f098;
-    int f09c;
-    int f0a0;
-    int f0a4;
-    int f0a8;
-    int f0ac;
-    int f0b0;
-    int f0b4;
-    int f0b8;
-    int f0bc;
-    int f0c0;
-    int f0c4;
-    int f0c8;
-    int f0cc;
-    int f0d0;
-    int f0d4;
-    int f0d8;
-    int f0dc;
-    int f0e0;
-    int f0e4;
-    int f0e8;
-    int f0ec;
-    int f0f0;
-    int f0f4;
-    int f0f8;
-    int f0fc;
-    int f100;
-    int f104;
-    int f108;
-    int f10c;
-    int f110;
-    int f114;
-    int f118;
-    int f11c;
-    int f120;
-    int f124;
-    int f128;
-    int f12c;
-    int f130;
-    int f134;
-    int f138;
-    int f13c;
-    int f140;
-    int f144;
-    int f148;
-    int f14c;
-    int f150;
-    int f154;
-    int f158;
-    int f15c;
-    int f160;
-    int f164;
-    int f168;
-    int f16c;
-    int f170;
-    int f174;
-    int f178;
-    int f17c;
-    int f180;
-    int f184;
-    int f188;
-    int f18c;
-    int f190;
-    int f194;
-    int f198;
-    int f19c;
-    int f1a0;
-    int f1a4;
-    int f1a8;
-    int f1ac;
-    int f1b0;
-    int f1b4;
-    int f1b8;
-    int f1bc;
-    int f1c0;
-    int f1c4;
+    void* f000;
+    void* f004;
+    void* f008;
+    void* f00c;
+    void* f010;
+    void* f014;
+    void* f018;
+    void* f01c;
+    void* f020;
+    void* f024;
+    void* f028;
+    void* f02c;
+    void* f030;
+    void* f034;
+    void* f038;
+    void* f03c;
+    void* f040;
+    void* f044;
+    void* f048;
+    void* f04c;
+    void* f050;
+    void* f054;
+    void* f058;
+    void* f05c;
+    void* f060;
+    void* f064;
+    void* f068;
+    void* f06c;
+    void* f070;
+    void* f074;
+    void* f078;
+    void* f07c;
+    void* f080;
+    void* f084;
+    void* f088;
+    void* f08c;
+    void* f090;
+    void* f094;
+    void* f098;
+    void* f09c;
+    void* f0a0;
+    void* f0a4;
+    void* f0a8;
+    void* f0ac;
+    void* f0b0;
+    void* f0b4;
+    void* f0b8;
+    void* f0bc;
+    void* f0c0;
+    void* f0c4;
+    void* f0c8;
+    void* f0cc;
+    void* f0d0;
+    void* f0d4;
+    void* f0d8;
+    void* f0dc;
+    void* f0e0;
+    void* f0e4;
+    void* f0e8;
+    void* f0ec;
+    void* f0f0;
+    void* f0f4;
+    void* f0f8;
+    void* f0fc;
+    void* f100;
+    void* f104;
+    void* f108;
+    void* f10c;
+    void* f110;
+    void* f114;
+    void* f118;
+    void* f11c;
+    void* f120;
+    void* f124;
+    void* f128;
+    void* f12c;
+    void* f130;
+    void* f134;
+    void* f138;
+    void* f13c;
+    void* f140;
+    void* f144;
+    void* f148;
+    void* f14c;
+    void* f150;
+    void* f154;
+    void* f158;
+    void* f15c;
+    void* f160;
+    void* f164;
+    void* f168;
+    void* f16c;
+    void* f170;
+    void* f174;
+    void* f178;
+    void* f17c;
+    void* f180;
+    void* f184;
+    void* f188;
+    void* f18c;
+    void* f190;
+    void* f194;
+    void* f198;
+    void* f19c;
+    void* f1a0;
+    void* f1a4;
+    void* f1a8;
+    void* f1ac;
+    void* f1b0;
+    void* f1b4;
+    void* f1b8;
+    void* f1bc;
+    void* f1c0;
+    void* f1c4;
 };
 struct Src
 {
@@ -982,7 +976,6 @@ class Arr18
     int m_04;
     int m_08;
     int m_0c;
-    __declspec(noalias) void FUN_00ba3aa0(int idx, ImageSpaceEffectParam* const& p);
 };
 class Arr28
 {
@@ -991,7 +984,6 @@ class Arr28
     int m_04;
     int m_08;
     int m_0c;
-    void FUN_00a90180(int n);
 };
 class ImageSpaceEffect
 {
@@ -1004,123 +996,111 @@ class ImageSpaceEffect
     int m_14;
     Arr18 m_18;
     Arr28 m_28;
-    void SetTextureArraySize(int n);
-    void FUN_00ba3c70(int idx, int value, ImageSpaceShaderParam* param, int arg);
     void InitFromConfig(Src* config, int unused);
 };
 // Initializes nine ImageSpaceShaderParam entries with values from config->m_08 fields f1a4 through f1c4, setting texture array size to 9.
 // @fnv 0x00ba04c0
 void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
 {
-    SetTextureArraySize(9);
-    m_28.FUN_00a90180(2);
+    reinterpret_cast<::ImageSpaceEffect *>(this)->SetTextureArraySize(9);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_28))->FUN_00a90180(2);
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
-        param->FUN_00b8a7c0();
-        m_18.FUN_00ba3aa0(0, param);
-        int value = config->m_08->f1a4;
-        FUN_00ba3c70(0, value, param, 0);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
+        void* value = config->m_08->f1a4;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
-        param->FUN_00b8a7c0();
-        m_18.FUN_00ba3aa0(1, param);
-        int value = config->m_08->f1a8;
-        FUN_00ba3c70(1, value, param, 0);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(1, (::KeyPair **)&(param));
+        void* value = config->m_08->f1a8;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
 
-        m_18.FUN_00ba3aa0(2, param);
-        int value = config->m_08->f1ac;
-        FUN_00ba3c70(2, value, param, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(2, (::KeyPair **)&(param));
+        void* value = config->m_08->f1ac;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(2, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
 
-        m_18.FUN_00ba3aa0(3, param);
-        int value = config->m_08->f1b0;
-        FUN_00ba3c70(3, value, param, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(3, (::KeyPair **)&(param));
+        void* value = config->m_08->f1b0;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(3, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
 
-        m_18.FUN_00ba3aa0(4, param);
-        int value = config->m_08->f1b4;
-        FUN_00ba3c70(4, value, param, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(4, (::KeyPair **)&(param));
+        void* value = config->m_08->f1b4;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(4, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
 
-        m_18.FUN_00ba3aa0(5, param);
-        int value = config->m_08->f1b8;
-        FUN_00ba3c70(5, value, param, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(5, (::KeyPair **)&(param));
+        void* value = config->m_08->f1b8;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(5, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
-        param->FUN_00b8a7c0();
-        m_18.FUN_00ba3aa0(6, param);
-        int value = config->m_08->f1bc;
-        FUN_00ba3c70(6, value, param, 0);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(6, (::KeyPair **)&(param));
+        void* value = config->m_08->f1bc;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(6, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
-        param->FUN_00b8a7c0();
-        m_18.FUN_00ba3aa0(7, param);
-        int value = config->m_08->f1c0;
-        FUN_00ba3c70(7, value, param, 0);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(7, (::KeyPair **)&(param));
+        void* value = config->m_08->f1c0;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(7, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
         ImageSpaceShaderParam* param;
         param = new ImageSpaceShaderParam;
-        param->FUN_00b8ab10(2, 6);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(2, 6);
         param->m_55 = 0;
-        param->FUN_00b8a7c0();
-        m_18.FUN_00ba3aa0(8, param);
-        int value = config->m_08->f1c4;
-        FUN_00ba3c70(8, value, param, 0);
+        reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(8, (::KeyPair **)&(param));
+        void* value = config->m_08->f1c4;
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(8, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
 }
 }  // namespace fnv_00ba04c0
 
 #include <math.h>
 extern float DAT_012003d0;
-extern float DAT_012003d4;
-extern float DAT_012003d8;
-extern float DAT_012003dc;
-extern float DAT_011a9490;
-extern float DAT_011a9494;
-extern float DAT_011a9498;
-extern char DAT_012003cc;
-extern char DAT_011f94a9;
 extern int DAT_011ff9f0;
 
-void __cdecl FUN_00b97fa0(int a, int b);
-void __cdecl AddToTwoCounters(int a, int b, int c);
 
 // Image-space effects share this virtual render interface (slot 4).
 struct DrawOwner384
@@ -1141,7 +1121,6 @@ struct DrawOwner384
     int unk14;
     int unk18;
     void** m_data;
-    void SetEffectParams(int index);
 };
 
 // Begins a draw pass, iterates over m_parts to recursively draw, and ends the pass.
@@ -1151,7 +1130,7 @@ void DrawOwner384::Draw(void* apArg1, void* apArg2, void* a3, bool abFlag)
     Begin(a3);
     float t = (float)ceil(DAT_012003d0);
     int n = (int)t;
-    if (DAT_012003d4 != DAT_011a9490 || DAT_012003d8 != DAT_011a9494 || DAT_012003dc != DAT_011a9498)
+    if (DAT_012003d4 != (*reinterpret_cast<float *>(&::DAT_011a9490)) || DAT_012003d8 != DAT_011a9494 || DAT_012003dc != DAT_011a9498)
     {
         if (DAT_012003cc && DAT_011f94a9 && n < 2)
             n = 2;
@@ -1160,7 +1139,7 @@ void DrawOwner384::Draw(void* apArg1, void* apArg2, void* a3, bool abFlag)
     {
         if (i < 1 || i == n)
         {
-            SetEffectParams(i);
+            reinterpret_cast<::ImageSpaceManagerView *>(this)->SetEffectParams(i);
             Bind(a3);
             m_parts[i]->Draw(apArg1, apArg2, m_data[i], abFlag);
         }
@@ -1168,13 +1147,13 @@ void DrawOwner384::Draw(void* apArg1, void* apArg2, void* a3, bool abFlag)
     int iFinalIndex;
     if (DAT_012003d0 < 1.0f)
     {
-        SetEffectParams(10);
+        reinterpret_cast<::ImageSpaceManagerView *>(this)->SetEffectParams(10);
         Bind(a3);
         m_parts[10]->Draw(apArg1, apArg2, m_data[10], abFlag);
         if (DAT_012003d0 < 1.0f)
         {
             iFinalIndex = 9;
-            FUN_00b97fa0(1, 1);
+            ::BSRenderStateManager::SetDepthBufferEnabled(1, (::BSRENDERSTATE_LOCK)(1));
             AddToTwoCounters(6, 7, 0);
         }
         else
@@ -1186,13 +1165,15 @@ void DrawOwner384::Draw(void* apArg1, void* apArg2, void* a3, bool abFlag)
     {
         iFinalIndex = 8;
     }
-    SetEffectParams(iFinalIndex);
+    reinterpret_cast<::ImageSpaceManagerView *>(this)->SetEffectParams(iFinalIndex);
     Bind(a3);
     m_parts[iFinalIndex]->Draw(apArg1, apArg2, m_data[iFinalIndex], abFlag);
     if (DAT_012003d0 < 1.0f)
     {
         DAT_011ff9f0--;
-        FUN_00b97fa0(0, 0);
+        ::BSRenderStateManager::SetDepthBufferEnabled(0, (::BSRENDERSTATE_LOCK)(0));
     }
     End();
 }
+
+#include "generated/data/bsshader/imagespaceeffectwaterdisplacement.inc"

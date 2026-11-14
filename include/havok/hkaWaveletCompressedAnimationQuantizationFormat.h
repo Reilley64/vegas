@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKAWAVELETCOMPRESSEDANIMATIONQUANTIZATIONFORMAT_H
 #define FNV_HAVOK_HKAWAVELETCOMPRESSEDANIMATIONQUANTIZATIONFORMAT_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaWaveletCompressedAnimationQuantizationFormat
 {
   public:
@@ -15,7 +14,4 @@ class hkaWaveletCompressedAnimationQuantizationFormat
     hkUint32 m_uiScaleIndexOffset;     // +0xC
     hkUint32 m_uiBitWidthIndexOffset;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaWaveletCompressedAnimationQuantizationFormat
-    [(sizeof(hkaWaveletCompressedAnimationQuantizationFormat) == 0x14) ? 1 : -1];
 #endif

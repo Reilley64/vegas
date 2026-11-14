@@ -1,4 +1,8 @@
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_00944480_shell.h"
+#include "fnv/decl/FileMatchList.h"
 #include "bssimplelist_decls.h"
 
 // Reusable definitions from bscore/bssimplelist.inl. Explicit pointer-list
@@ -108,17 +112,17 @@ PerkEntryConditionSet* BGSCameraPath::GetConditions() { return reinterpret_cast<
 // @fnv 0x00891170
 BSSimpleList<BGSCameraShot*>* BGSCameraPath::GetShotList() { return reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(reinterpret_cast<char*>(this)+32); }
 // @fnv 0x005a7be0
-QuantityData::QuantityData() { SetQuantity(0); }
+QuantityData::QuantityData() { reinterpret_cast<::FUN_00537e90 *>(this)->SetQuantity(0); }
 // @fnv 0x00519550
-void TESObjectDOOR::ClearRandomTeleportList() { reinterpret_cast<BSSimpleList<ActorCause*>*>(reinterpret_cast<char*>(this)+136)->RemoveAll(); }
+void TESObjectDOOR::ClearRandomTeleportList() { reinterpret_cast<::FileMatchList *>((reinterpret_cast<BSSimpleList<ActorCause*>*>(reinterpret_cast<char*>(this)+136)))->RemoveAll(); }
 // @fnv 0x00944460
-unsigned int GetRandomNumberInRange(int min, int max) { return MersenneTwister::GetRandomGenerator()->IntInRange(min,max); }
+unsigned int GetRandomNumberInRange(int min, int max) { return ((unsigned int)(MersenneTwister::GetRandomGenerator()->IntInRange(min,max))); }
 // @fnv 0x005e7790
 void BGSHeadPart::AddExtraPart(BGSHeadPart* part) { reinterpret_cast<BSSimpleList<SpellItem*>*>(reinterpret_cast<char*>(this)+72)->AddHead(reinterpret_cast<SpellItem*&>(part)); }
 // @fnv 0x004b0680
 BSSimpleList<TESWeather::WeatherSound*>::BSSimpleList(TESWeather::WeatherSound* item, BSSimpleList* next) : m_item(item),m_pkNext(next) {}
 // @fnv 0x00501170
-void BGSTerminal::AddMenuItem(TerminalMenuItem* item) { if(item) reinterpret_cast<BSSimpleList<ScriptVariableInfo*>*>(reinterpret_cast<char*>(this)+152)->AddTail(reinterpret_cast<ScriptVariableInfo* const&>(item)); }
+void BGSTerminal::AddMenuItem(TerminalMenuItem* item) { if(item) reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<ScriptVariableInfo*>*>(reinterpret_cast<char*>(this)+152)))->FUN_00905820((void *)&(reinterpret_cast<ScriptVariableInfo* const&>(item))); }
 
 // @fnv 0x006130e0
 BSSimpleList<TESClass*>* TESDataHandler::GetTESClassList() { return reinterpret_cast<BSSimpleList<TESClass*>*>(reinterpret_cast<char*>(this)+128); }

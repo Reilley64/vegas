@@ -1,10 +1,25 @@
+#include "AutoMemContext.h"
 
 // src/fallout/ai/lipsyncbackgroundmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/lipsyncbackgroundmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_006ebde0_shell.h"
+#include "fnv/decl/FUN_00906050_Class.h"
+#include "fnv/decl/FUN_00906160.h"
+#include "fnv/decl/FUN_00906570_Class.h"
+#include "fnv/decl/FUN_00c3cff0_shell.h"
+#include "fnv/decl/QRequest.h"
+#include "fnv/decl/TaskProcessor.h"
+#include "fnv/decl/fnv_00c3cb70__IOTask.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_01202000.h"
 struct FUN_00c3d0e0_stub
 {
-    bool __thiscall FUN_00c3d0e0(char* apDescription, unsigned int aiBufferSize, const char* apTag);
 };
 
 struct LipTask
@@ -16,7 +31,7 @@ struct LipTask
 // @fnv 0x00905e00
 bool LipTask::FUN_00905e00(char* apDescription, unsigned int aiBufferSize)
 {
-    return reinterpret_cast<FUN_00c3d0e0_stub*>(this)->FUN_00c3d0e0(apDescription, aiBufferSize, "liptask");
+    return reinterpret_cast<::QRequest *>((reinterpret_cast<FUN_00c3d0e0_stub*>(this)))->FUN_00c3d0e0(apDescription, aiBufferSize, "liptask");
 }
 
 struct FUN_009060f0_shell
@@ -27,11 +42,11 @@ struct FUN_009060f0_shell
     virtual void v3();
     virtual void v4();
     virtual void v5(int arg);
-    void CallVirtual5(int arg);
+    void CallVirtual5(intptr_t arg);
 };
 
 // @fnv 0x009060f0
-void FUN_009060f0_shell::CallVirtual5(int arg)
+void FUN_009060f0_shell::CallVirtual5(intptr_t arg)
 {
     this->v5(arg);
 }
@@ -44,16 +59,15 @@ struct FUN_00906160_shell
     virtual void v3();
     virtual void v4();
     virtual void v5(int arg);
-    void __thiscall FUN_00906160(int a, int b, int c);
 };
 struct FUN_00905e30_shell : FUN_00906160_shell
 {
-    void* __thiscall FUN_00905e30();
+    void* FUN_00905e30();
 };
 // @fnv 0x00905e30
-void* __thiscall FUN_00905e30_shell::FUN_00905e30()
+void* FUN_00905e30_shell::FUN_00905e30()
 {
-    FUN_00906160(10, 37, 12);
+    new ((void *)this) ::FUN_00906160(10, 37, 12);
     return this;
 }
 
@@ -63,14 +77,13 @@ struct FUN_00905dc0_shell
     int _m30;
     char _pad1[4];
     FUN_009060f0_shell* _m38;
-    void FUN_00c3cb70(int, void*);
     void HandleStateChange(int, void*);
 };
 // Calls FUN_00c3cb70 with the previous state and task owner, then, unless the previous state is 5, calls CallVirtual5 on _m38 with _m30.
 // @fnv 0x00905dc0
 void FUN_00905dc0_shell::HandleStateChange(int aePreviousState, void* apTaskOwner)
 {
-    FUN_00c3cb70(aePreviousState, apTaskOwner);
+    reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aePreviousState, (::fnv_00c3cb70::RefObj *)(apTaskOwner));
     if (aePreviousState != 5)
     {
         _m38->CallVirtual5(_m30);
@@ -307,7 +320,6 @@ struct UnkObj
 };
 struct UnkHolder
 {
-    UnkObj* FUN_008d8520();
 };
 struct FUN_00905d20_cls
 {
@@ -333,16 +345,16 @@ struct FUN_00905d20_cls
 // @fnv 0x00905d20
 void FUN_00905d20_cls::FUN_00905d20()
 {
-    if (m_30->FUN_008d8520() != 0)
+    if (((::UnkObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((m_30))->GetBaseTexture())) != 0)
     {
-        m_30->FUN_008d8520()->v224(m_34);
-        m_30->FUN_008d8520()->v220(0);
+        ((::UnkObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((m_30))->GetBaseTexture()))->v224(m_34);
+        ((::UnkObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((m_30))->GetBaseTexture()))->v220(0);
         if (m_34 == 0)
         {
-            m_30->FUN_008d8520()->v221(1);
+            ((::UnkObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((m_30))->GetBaseTexture()))->v221(1);
         }
     }
-    m_38->CallVirtual5(reinterpret_cast<int>(m_30));
+    m_38->CallVirtual5(reinterpret_cast<intptr_t>(m_30));
 }
 
 // LockFreeMapIterator<NiPointer<LipTask> > - a 13 byte polymorphic iterator
@@ -354,7 +366,6 @@ struct It
     unsigned char unk0c;
     It();
     ~It();
-    bool FUN_006ebde0();
 };
 
 // GlobalObject_00528cb0 - a 4 byte smart pointer holder
@@ -363,14 +374,11 @@ struct G
     int unk00;
     G(int a);
     ~G();
-    int FUN_00559450(int a);
 };
 
 struct IOManager
 {
-    void FUN_0044ac40(int a);
 };
-extern IOManager* DAT_01202d98;
 
 // LockFreeMap<MobileObject*, NiPointer<LipTask> > - the base of the class below
 struct BaseMap
@@ -384,8 +392,6 @@ struct FUN_00905e50_Class : public BaseMap
 {
     FUN_00905e50_Class();
     ~FUN_00905e50_Class();
-    bool AdvanceRequest(It* a, int* b, G* c, int d);
-    void CallVirtual5(int a);
 };
 
 // Destructor iterates an It until done, and for each successful AdvanceRequest call invokes CallVirtual5 and FUN_0044ac40 on the result of FUN_00559450.
@@ -394,29 +400,24 @@ FUN_00905e50_Class::~FUN_00905e50_Class()
 {
     {
         It iter;
-        while (!iter.FUN_006ebde0())
+        while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(iter))->FUN_006ebde0())
         {
             int n = 0;
             G g2(0);
-            if (AdvanceRequest(&iter, &n, &g2, 1))
+            if (reinterpret_cast<::FUN_00906570_Class *>(this)->AdvanceRequest((::Request9065 *)(::It *)(&iter), (void **)(int *)(&n), &g2, 1))
             {
-                CallVirtual5(n);
-                DAT_01202d98->FUN_0044ac40(g2.FUN_00559450(0));
+                reinterpret_cast<::FUN_009060f0_shell *>(this)->CallVirtual5(n);
+                reinterpret_cast<::TaskProcessor *>((DAT_01202d98))->FUN_0044ac40((::QueuedTask *)(::FUN_00559450((int *)&(g2))), {});
             }
         }
     }
 }
 
 namespace fnv_00905f30 {
-struct S_00905f30_Mem
-{
-    S_00905f30_Mem(int ctx, bool b, const char* file, int line);
-    ~S_00905f30_Mem();
-    int unk00;
-};
+using S_00905f30_Mem = ::AutoMemContext;
 struct FUN_00905ba0
 {
-    FUN_00905ba0(int owner, int actor, const char* tag);
+    FUN_00905ba0(intptr_t owner, intptr_t actor, const char* tag);
     int unk00;
     int unk04;
     int unk08;
@@ -693,7 +694,6 @@ struct S_00905f30_Actor
     int unk5c;
     int unk60;
     int unk64;
-    S_00905f30_Proc* GetProc();
 };
 struct S_00905f30_Mgr
 {
@@ -717,7 +717,6 @@ struct S_00905f30_Mgr
     virtual void m17();
     virtual void Add(FUN_00905ba0* t);
 };
-extern S_00905f30_Mgr* DAT_01202d98;
 
 struct S_00905f30_Owner
 {
@@ -726,7 +725,6 @@ struct S_00905f30_Owner
     virtual void v2();
     virtual void v3();
     virtual bool Enqueue(S_00905f30_Actor* a, const S_00905f30_Ref& r, int f);
-    void FUN_00906050(S_00905f30_Actor* a);
     void StartLipSyncTask(S_00905f30_Actor* actor, const char* tag);
 };
 
@@ -736,26 +734,19 @@ void S_00905f30_Owner::StartLipSyncTask(S_00905f30_Actor* actor, const char* tag
 {
     S_00905f30_Mem ctx(0x35, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\LipSyncBackgroundManager.cpp",
                        0x61);
-    FUN_00906050(actor);
-    FUN_00905ba0* task = new FUN_00905ba0((int)this, (int)actor, tag);
+    reinterpret_cast<::FUN_00906050_Class *>(this)->FUN_00906050((intptr_t)(actor));
+    FUN_00905ba0* task = new FUN_00905ba0((intptr_t)this, (intptr_t)actor, tag);
     bool ok = Enqueue(actor, task, 0);
-    actor->GetProc()->SetTarget(0);
-    DAT_01202d98->Add(task);
+    ((::fnv_00905f30::S_00905f30_Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetTarget(0);
+    (*reinterpret_cast<::fnv_00905f30::S_00905f30_Mgr * *>(&::DAT_01202d98))->Add(task);
 }
 }  // namespace fnv_00905f30
 
-extern unsigned int DAT_011c16bc;
 extern char str_010885e8[];
 
 struct BGSTerrainManager;
 
-class AutoMemContext
-{
-  public:
-    int iPrevContext;
-    AutoMemContext(int aeContext, bool abPush, const char* apFile, int aiLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 struct FUN_00905c50_Class
 {
@@ -774,11 +765,9 @@ struct FUN_00905c50_Class
     UnkHolder* unk30;
     BGSTerrainManager* unk34;
 
-    int FUN_00c3cff0(int a1, int a2);
     void InitTerrainManager();
 };
 
-BGSTerrainManager* __cdecl ReadAnimationFromStream(void* apFile);
 
 // @fnv 0x00905c50
 void FUN_00905c50_Class::InitTerrainManager()
@@ -786,12 +775,14 @@ void FUN_00905c50_Class::InitTerrainManager()
     void* file;
     AutoMemContext memoryContext7(0x35, true, str_010885e8, 0x15);
 
-    file = (void*)FUN_00c3cff0(4, 0x10);
+    file = (void*)((intptr_t)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(4, 0x10)));
     if (file == 0)
     {
-        unk30->FUN_008d8520()->v220(0);
-        unk30->FUN_008d8520()->v221(1);
+        ((::UnkObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((unk30))->GetBaseTexture()))->v220(0);
+        ((::UnkObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((unk30))->GetBaseTexture()))->v221(1);
     }
 
-    unk34 = ReadAnimationFromStream(file);
+    unk34 = ((::BGSTerrainManager *)(::ReadAnimationFromStream((::Stream *)(file))));
 }
+
+#include "generated/data/fallout/ai/lipsyncbackgroundmanager.inc"

@@ -1,17 +1,19 @@
-// include/havok/hkpSingleShapeContainer.h - generated from the Havok 7.1 reflection data in the PC exe (gen_havok_headers.py, 2026-10-17).
-// Reflected members at their exact offsets; unreflected bytes are padding. Size 0x8.
+// Native retained single child; not a serialized object layout.
 #ifndef FNV_HAVOK_HKPSINGLESHAPECONTAINER_H
 #define FNV_HAVOK_HKPSINGLESHAPECONTAINER_H
 
 #include "hkBase.h"
 #include "hkpShapeContainer.h"
 class hkpShape;
-#pragma pack(push, 1)
 class hkpSingleShapeContainer : public hkpShapeContainer
 {
   public:
-    hkpShape* m_pContainedShape;  // +0x4
+    // Fresh construction requires a live, non-null child.
+    explicit hkpSingleShapeContainer(hkpShape*);
+    ~hkpSingleShapeContainer() override;
+    hkpSingleShapeContainer(const hkpSingleShapeContainer&) = delete;
+    hkpSingleShapeContainer& operator=(const hkpSingleShapeContainer&) = delete;
+    const hkpShape* getChild() const noexcept { return m_pContainedShape; }
+    hkpShape* m_pContainedShape;
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSingleShapeContainer[(sizeof(hkpSingleShapeContainer) == 0x8) ? 1 : -1];
 #endif

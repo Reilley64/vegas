@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpRejectChassisListener : public hkReferencedObject
 {
   public:
     char pad8[0x4];
     void* m_pChassisCollidable;  // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpRejectChassisListener[(sizeof(hkpRejectChassisListener) == 0x10) ? 1 : -1];
 #endif

@@ -2,8 +2,12 @@
 // src/staging/blk_00820000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
+namespace fnv_00831ff0 {
 struct PrimaryBase
 {
     virtual void __cdecl FUN_00831ff0();
@@ -23,6 +27,7 @@ struct Derived : PrimaryBase, SecondaryBase
 
 Derived::Derived()
 {}
+}  // namespace fnv_00831ff0
 
 // FUN_00832000: __cdecl adjustor thunk (sub [esp+4],4; jmp target).
 // Primary base is only the vptr (4 bytes); the secondary base sits at +4 inside Derived.

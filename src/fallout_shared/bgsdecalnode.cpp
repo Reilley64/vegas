@@ -2,6 +2,44 @@
 // src/fallout_shared/bgsdecalnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsdecalnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_result_slot.h"
+#include <atomic>
+#include <cstdint>
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004ee1e0.h"
+#include "fnv/decl/FUN_004ee4b0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/ListReader.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/ObsList.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00a5e780__NodeStandIn.h"
+#include "fnv/decl/fnv_00a5ed10__ChildNode.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00aa1000.h"
+
+namespace fnv_00a5e780 {
+// The detached child. Like NiPointer, its destructor releases the reference the call hands over.
+struct RefPtr
+{
+    struct RefObject
+    {
+        virtual ~RefObject();
+        virtual void DeleteThis();
+        unsigned int m_uiRefCount;
+    };
+    RefObject* m_pObject = nullptr;
+    ~RefPtr()
+    {
+        if (m_pObject && std::atomic_ref<unsigned int>(m_pObject->m_uiRefCount).fetch_sub(1) == 1)
+            m_pObject->DeleteThis();
+    }
+};
+}  // namespace fnv_00a5e780
 typedef struct GlobalObject_00a7b610
 {
     int data;
@@ -24,25 +62,24 @@ struct BGSDecalNode
 {
     BGSDecalNode();
     virtual ~BGSDecalNode();
-    void FUN_004ee1e0();
     void* DestroyDecalNode(unsigned int);
-    static void operator delete(void* p, unsigned int size);
 };
 
 // Calls FUN_004ee1e0 on this, frees the node with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x004ee0e0
 void* BGSDecalNode::DestroyDecalNode(unsigned int flags)
 {
-    this->FUN_004ee1e0();
+    reinterpret_cast<::FUN_004ee1e0 *>((this))->FUN_004ee1e0::~FUN_004ee1e0();
     if (flags & 1)
-        BGSDecalNode::operator delete(this, 0xb4);
+        ::FUN_00aa1460(this, 0xb4);
     return this;
 }
 
 namespace fnv_004ee4d0 {
-struct NiAVObject;
-struct NiNode
+class NiAVObject;
+class NiNode
 {
+  public:
     virtual void AttachChildInAvailableSlot(NiAVObject*, bool);
 };
 struct BGSDecalNode : NiNode
@@ -53,38 +90,28 @@ struct BGSDecalNode : NiNode
 // @fnv 0x004ee4d0
 void BGSDecalNode::FUN_004ee4d0(NiAVObject* apAVObj, bool abFirstAvailableSlot)
 {
-    NiNode::AttachChildInAvailableSlot(apAVObj, abFirstAvailableSlot);
+    reinterpret_cast<::fnv_00a5ed10::ChildNode *>(this)->FUN_00a5ed10((::fnv_00a5ed10::ChildObj *)(apAVObj), abFirstAvailableSlot);
 }
 }  // namespace fnv_004ee4d0
 
 struct GO
 {
     void* p;
-    GO(int a);
+    GO(std::intptr_t a);
     ~GO();
 };
 struct FUN_004ee5d0_shell
 {
-    void CallVirtualAndForward(int a, GO* g);
 };
 struct FUN_004ee560_shell
 {
-    void FUN_004ee560(int a);
+    void FUN_004ee560(std::intptr_t a);
 };
-// @fnv 0x004ee560
-void FUN_004ee560_shell::FUN_004ee560(int aiValue)
-{
-    GO g(0);
-    ((FUN_004ee5d0_shell*)this)->CallVirtualAndForward(aiValue, &g);
-}
-
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
-struct EffectSetting
+class EffectSetting
 {
-    void FUN_004ee4b0(float);
 };
 struct BSTempEffect
 {
@@ -130,27 +157,24 @@ struct BSTempEffect
 };
 struct FUN_004ee450_shell
 {
-    void FUN_00a5ed10(void* a, bool b);
     void FUN_004ee450(BSTempEffect* apAVObj, bool abFirstAvailableSlot);
 };
 // @fnv 0x004ee450
 void FUN_004ee450_shell::FUN_004ee450(BSTempEffect* apAVObj, bool abFlag)
 {
-    void* prop = ((PropHelper*)apAVObj->v38())->GetProperty(3);
+    void* prop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)apAVObj->v38())))->FUN_00a59d30(3)));
     if (prop != 0)
     {
-        ((EffectSetting*)prop)->FUN_004ee4b0(1.0f);
+        reinterpret_cast<::FUN_004ee4b0_shell *>((((EffectSetting*)prop)))->FUN_004ee4b0(1.0f);
     }
-    FUN_00a5ed10(apAVObj->v38(), abFlag);
+    reinterpret_cast<::fnv_00a5ed10::ChildNode *>(this)->FUN_00a5ed10((::fnv_00a5ed10::ChildObj *)(void *)(apAVObj->v38()), abFlag);
 }
 
 struct S1
 {
-    void RemoveEffect(void*);
 };
 struct S2
 {
-    void FUN_00a5e780(void*);
 };
 struct VirtParam
 {
@@ -198,38 +222,43 @@ struct TargetHost
 {
     void CallVirtualAndForward(VirtParam*, void*);
 };
-// Calls RemoveEffect with a, then calls FUN_00a5e780 with the result of a->v38(b).
-// @fnv 0x004ee5d0
-void TargetHost::CallVirtualAndForward(VirtParam* pVirtParam, void* b)
+class BSSimpleList
 {
-    ((S1*)this)->RemoveEffect(pVirtParam);
-    ((S2*)this)->FUN_00a5e780(pVirtParam->v38(b));
-}
-
-struct BSSimpleList
-{
-    void Remove(GO const&);
 };
 struct DecalNode
 {
     BSSimpleList* pList;
     void RemoveEffect(void* apEffect);
 };
+// @fnv 0x004ee560
+void FUN_004ee560_shell::FUN_004ee560(std::intptr_t aiValue)
+{
+    GO g(0);
+    reinterpret_cast<::TargetHost *>((((FUN_004ee5d0_shell*)this)))->CallVirtualAndForward((::VirtParam *)(aiValue), &g);
+}
+// Calls RemoveEffect with a, then calls FUN_00a5e780 with the result of a->v38(b).
+// @fnv 0x004ee5d0
+void TargetHost::CallVirtualAndForward(VirtParam* pVirtParam, void* b)
+{
+    reinterpret_cast<::DecalNode *>((((S1*)this)))->RemoveEffect(pVirtParam);
+    reinterpret_cast<::fnv_00a5e780::NodeStandIn *>((((S2*)this)))->FUN_00a5e780((::fnv_00a5e780::RefObj *)(void *)(pVirtParam->v38(b)), ::ResultSlot<::fnv_00a5e780::RefPtr>());
+}
 // Removes the given effect from the list stored at offset 0xac of this node.
 // @fnv 0x004ee4f0
 void DecalNode::RemoveEffect(void* apEffect)
 {
-    GO tmp((int)apEffect);
-    (*(BSSimpleList**)((char*)this + 0xac))->Remove(tmp);
+    GO tmp((std::intptr_t)apEffect);
+    reinterpret_cast<::ListReader *>(((*(BSSimpleList**)((char*)this + 0xac))))->FUN_00631620((const ::NodeValue &)(tmp));
 }
 
-struct NiFixedString
+class NiFixedString
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
-    void SetName(NiFixedString const& name);
+public:
+    int IsVisualObject();
 };
 
 struct GlobalObject_004ee810
@@ -257,9 +286,9 @@ void FUN_004ee390_shell::InitNameAndData()
     pGlobalForm = new GlobalObject_004ee810;
 
     if (flag)
-        SetName(FUN_004a2c60());
+        ::AssignFixedString((char *)this, (std::intptr_t)&(FUN_004a2c60()), {});
     else
-        SetName(FUN_004ee440());
+        ::AssignFixedString((char *)this, (std::intptr_t)&(FUN_004ee440()), {});
 }
 
 struct NiObject
@@ -274,8 +303,6 @@ struct A51BF0Base : public NiObject
 {
     char storage[0xb4];
 
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_004ee050 : public A51BF0Base
@@ -301,7 +328,6 @@ NiObject* FUN_004ee6f0_shell::FUN_004ee6f0(CloningProcess& arCloneData)
 struct Point3
 {
     float x, y, z;
-    void FUN_0043d410(float x, int y, int z);
 };
 struct DecalBase
 {
@@ -366,7 +392,6 @@ struct Callback
     virtual void v53();
     virtual void v54();
     virtual void v55(void* object, int enabled);
-    void FUN_00a59c60(Point3* offset);
 };
 struct FUN_004ee120;
 struct EffectsList
@@ -378,33 +403,27 @@ struct FUN_004ee120 : DecalBase
 {
     FUN_004ee120(Callback* callback, unsigned char flag);
     virtual ~FUN_004ee120();
-    void InitNameAndData();
 };
 // @fnv 0x004ee120
 FUN_004ee120::FUN_004ee120(Callback* callback, unsigned char flag) : DecalBase(0)
 {
     reinterpret_cast<unsigned char*>(this)[0xb0] = flag;
-    InitNameAndData();
+    reinterpret_cast<::FUN_004ee390_shell *>(this)->InitNameAndData();
     callback->v55(this, 1);
 
     Point3 vecOffset;
-    vecOffset.FUN_0043d410(0.0f, 0, 0);
-    callback->FUN_00a59c60(&vecOffset);
+    new ((void *)&(vecOffset)) ::NiUpdateData(0.0f, 0, 0);
+    reinterpret_cast<::FUN_00a59c60_cls *>((callback))->FUN_00a59c60((std::intptr_t)(&vecOffset));
     FUN_004ee120* pSelf = this;
     g_011c7d20.FUN_005ae3d0(&pSelf);
 }
 
 struct FUN_004ee610_view
 {
-    BSTempEffect* FUN_00559450();
-    void FUN_00a59e00(int aValue);
 };
 
 struct FUN_004ee610_node
 {
-    FUN_004ee610_view* FUN_006815c0();
-    bool FUN_004a4460();
-    FUN_004ee610_node* FUN_00726070();
 };
 
 struct FUN_004ee610_cls
@@ -412,26 +431,24 @@ struct FUN_004ee610_cls
     unsigned char unk00[0xac];
     FUN_004ee610_node* m_ac;
 
-    int FUN_004b2960();
-    void FUN_004ee610(int a1);
+    void FUN_004ee610(std::intptr_t a1);
 };
 
 // @fnv 0x004ee610
-void FUN_004ee610_cls::FUN_004ee610(int a1)
+void FUN_004ee610_cls::FUN_004ee610(std::intptr_t a1)
 {
-    if (FUN_004b2960())
+    if (reinterpret_cast<::NiAVObject *>(this)->IsVisualObject())
     {
         FUN_004ee610_node* node = m_ac;
-        while (node != 0 && !node->FUN_004a4460())
+        while (node != 0 && !reinterpret_cast<::ObsList *>((node))->FUN_004a4460())
         {
             {
-                GO local((int)node->FUN_006815c0()->FUN_00559450()->v38());
-                if (reinterpret_cast<FUN_004ee610_view*>(&local)->FUN_00559450())
+                GO local((std::intptr_t)((::BSTempEffect *)(::FUN_00559450((int *)(((::FUN_004ee610_view *)((void *)(node)))))))->v38());
+                if (((::BSTempEffect *)(::FUN_00559450((int *)(reinterpret_cast<FUN_004ee610_view*>(&local))))))
                 {
-                    reinterpret_cast<FUN_004ee610_view*>(reinterpret_cast<FUN_004ee610_view*>(&local)->FUN_00559450())
-                        ->FUN_00a59e00(a1);
+                    reinterpret_cast<::S_00a59e00 *>((reinterpret_cast<FUN_004ee610_view*>(((::BSTempEffect *)(::FUN_00559450((int *)(reinterpret_cast<FUN_004ee610_view*>(&local))))))))->FUN_00a59e00((::S_00a59e00_Arg *)(a1));
                 }
-                node = node->FUN_00726070();
+                node = ((::FUN_004ee610_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             }
         }
     }
@@ -538,15 +555,16 @@ class TrackedNode : public NodeBase
   public:
     TrackedNode();
 
-    void InitNameAndData();
 };
 
 // @fnv 0x004ee050
 TrackedNode::TrackedNode() : NodeBase(0)
 {
     m_pVtbl = DAT_01023734;
-    InitNameAndData();
+    reinterpret_cast<::FUN_004ee390_shell *>(this)->InitNameAndData();
     DAT_011c7d20.FUN_005ae3d0(this);
 }
 
 }
+
+#include "generated/data/fallout_shared/bgsdecalnode.inc"

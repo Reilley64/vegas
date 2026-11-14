@@ -1,14 +1,14 @@
 
 // bssystemutilities/console/bssysinfosystemutility_console.cpp: BSSysInfoSystemUtility (1 function)
+#include "runtime/crt.h"
+#include "fnv/symbols_011c3000.h"
 struct SystemLocaleState
 {
     void* vtable;
     const char* language;
 };
 
-extern SystemLocaleState gSystemLocaleState;
 extern unsigned int gCachedLanguage;
-extern "C" int __cdecl _strnicmp(const char* left, const char* right, unsigned int count);
 
 class BSSysInfoSystemUtility
 {
@@ -23,55 +23,55 @@ unsigned int BSSysInfoSystemUtility::GetRandomGenerator(void)
     if (gCachedLanguage == 0xffffffff)
     {
         const char* pEnglishName;
-        if (&gSystemLocaleState)
-            pEnglishName = gSystemLocaleState.language;
+        if (&(*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)))
+            pEnglishName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
         else
             pEnglishName = 0;
-        if (_strnicmp(pEnglishName, "ENGLISH", 7) == 0)
+        if (fnv::crt::strnicmp(pEnglishName, "ENGLISH", 7) == 0)
         {
             gCachedLanguage = 0;
         }
         else
         {
             const char* pFrenchName;
-            if (&gSystemLocaleState)
-                pFrenchName = gSystemLocaleState.language;
+            if (&(*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)))
+                pFrenchName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
             else
                 pFrenchName = 0;
-            if (_strnicmp(pFrenchName, "FRENCH", 6) == 0)
+            if (fnv::crt::strnicmp(pFrenchName, "FRENCH", 6) == 0)
             {
                 gCachedLanguage = 2;
             }
             else
             {
                 const char* pItalianName;
-                if (&gSystemLocaleState)
-                    pItalianName = gSystemLocaleState.language;
+                if (&(*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)))
+                    pItalianName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
                 else
                     pItalianName = 0;
-                if (_strnicmp(pItalianName, "ITALIAN", 7) == 0)
+                if (fnv::crt::strnicmp(pItalianName, "ITALIAN", 7) == 0)
                 {
                     gCachedLanguage = 4;
                 }
                 else
                 {
                     const char* pGermanName;
-                    if (&gSystemLocaleState)
-                        pGermanName = gSystemLocaleState.language;
+                    if (&(*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)))
+                        pGermanName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
                     else
                         pGermanName = 0;
-                    if (_strnicmp(pGermanName, "GERMAN", 6) == 0)
+                    if (fnv::crt::strnicmp(pGermanName, "GERMAN", 6) == 0)
                     {
                         gCachedLanguage = 1;
                     }
                     else
                     {
                         const char* pSpanishName;
-                        if (&gSystemLocaleState)
-                            pSpanishName = gSystemLocaleState.language;
+                        if (&(*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)))
+                            pSpanishName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
                         else
                             pSpanishName = 0;
-                        if (_strnicmp(pSpanishName, "SPANISH", 7) == 0)
+                        if (fnv::crt::strnicmp(pSpanishName, "SPANISH", 7) == 0)
                             gCachedLanguage = 3;
                     }
                 }
@@ -80,3 +80,5 @@ unsigned int BSSysInfoSystemUtility::GetRandomGenerator(void)
     }
     return gCachedLanguage;
 }
+
+#include "generated/data/bssystemutilities/console/bssysinfosystemutility_console.inc"

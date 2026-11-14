@@ -21,7 +21,7 @@ template <class T> class NiPointer
     NiPointer& operator=(T* pObject);
 };
 
-class Sky;
+struct Sky;
 
 class SkyObject
 {

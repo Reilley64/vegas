@@ -1,5 +1,15 @@
 // gamebryo2.2/corelibs/nimain/niproperty.cpp: NiProperty (3 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/NiObject_b.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niproperty_decls.h"
 
 // @fnv 0x00a5d7f0
@@ -20,8 +30,9 @@ struct NiUpdateData
 {
     float fTime;
 };
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual ~NiTimeController()
     {}
     virtual void v01()
@@ -125,8 +136,6 @@ struct StrArr
     unsigned short m_usSize;
     char _pad1[2];
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     unsigned short GetSize() const
     {
         return m_usSize;
@@ -142,19 +151,16 @@ struct StrArr
 };
 struct FUN_00a62a40_this
 {
-    void FUN_00a5ca80(StrArr*);
     void AppendString(StrArr*);
 };
-extern char const* const g_011f4408_arg1;
-char* __cdecl _FUN_00a7d330(char const*);
 // Appends the string returned by _FUN_00a7d330(g_011f4408_arg1) to pkStrings, growing the array if it is full.
 // @fnv 0x00a5d850
 void FUN_00a62a40_this::AppendString(StrArr* pkStrings)
 {
-    FUN_00a5ca80(pkStrings);
-    char* pcStr = _FUN_00a7d330(g_011f4408_arg1);
+    reinterpret_cast<::S *>(this)->FUN_00a5ca80((::StrArray *)(pkStrings));
+    char* pcStr = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4420)));
     unsigned int uiSize = pkStrings->GetSize();
     if (uiSize >= pkStrings->GetMaxSize())
-        pkStrings->SetSize(uiSize + pkStrings->GetGrowBy());
-    pkStrings->SetAt(uiSize, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->GetGrowBy());
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pcStr);
 }

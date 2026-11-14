@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpConvexPieceStreamData : public hkReferencedObject
 {
   public:
@@ -13,6 +12,4 @@ class hkpConvexPieceStreamData : public hkReferencedObject
     hkArray<hkUint32> m_kSecondUInt32Array;      // +0x14
     hkArray<hkUint32> m_kThirdUInt32Array;       // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConvexPieceStreamData[(sizeof(hkpConvexPieceStreamData) == 0x2C) ? 1 : -1];
 #endif

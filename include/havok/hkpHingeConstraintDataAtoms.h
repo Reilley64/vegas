@@ -3,7 +3,9 @@
 #ifndef FNV_HAVOK_HKPHINGECONSTRAINTDATAATOMS_H
 #define FNV_HAVOK_HKPHINGECONSTRAINTDATAATOMS_H
 #include "hkBase.h"
-#pragma pack(push, 1)
+#include "hkpSetLocalTransformsConstraintAtom.h"
+#include "hkp2dAngConstraintAtom.h"
+#include "hkpBallSocketConstraintAtom.h"
 class hkpHingeConstraintDataAtoms
 {
   public:
@@ -11,8 +13,9 @@ class hkpHingeConstraintDataAtoms
     {
         AXIS_AXLE = 0
     };
-    char pad0[0xA0];
+    hkpSetLocalTransformsConstraintAtom m_transforms;  // +0x0
+    hkp2dAngConstraintAtom m_2dAng;                    // +0x90
+    hkpBallSocketConstraintAtom m_ballSocket;          // +0x94
+    char pad9C[0x4];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpHingeConstraintDataAtoms[(sizeof(hkpHingeConstraintDataAtoms) == 0xA0) ? 1 : -1];
 #endif

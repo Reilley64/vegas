@@ -2,19 +2,47 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysmeshupdatemodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysmeshupdatemodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202530;
 
 // @fnv 0x00c21720
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/CloneSourceA5d6.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/Owner436.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/X.h"
+#include "fnv/decl/fnv_00a59ec0__S59ec0.h"
+#include "fnv/decl/fnv_00a5ed10__ChildArray.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_004b0000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c21720()
 {
-    return &g_01202530;
+    return &(*reinterpret_cast<void * *>(&::g_01202530));
 }
 
-class CloningProcess;
-class NiPSysModifier
+struct CloningProcess;
+struct CloningProcess;
+struct NiStream;
+struct NiPSysModifier
 {
   public:
-    virtual void ProcessClone(class CloningProcess&);
+    virtual void ProcessClone(struct CloningProcess&);
+public:
+    void LinkObject(::NiStream &);
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
 class NiAVObject
 {
@@ -45,7 +73,7 @@ class NiAVObject
     virtual void v23();
     virtual void v24();
     virtual void v25();
-    virtual void ProcessClone(class CloningProcess&);
+    virtual void ProcessClone(struct CloningProcess&);
 };
 class NiPSysMeshUpdateModifier : public NiPSysModifier
 {
@@ -54,11 +82,11 @@ class NiPSysMeshUpdateModifier : public NiPSysModifier
     class NiAVObject** m_ppkMeshes;
     unsigned short m_usPad;
     unsigned short m_usNumMeshes;
-    void FUN_00c20f30(class CloningProcess&);
+    void FUN_00c20f30(struct CloningProcess&);
 };
 // Calls the base modifier's ProcessClone, then clones each non-null mesh in m_ppkMeshes up to m_usNumMeshes.
 // @fnv 0x00c20f30
-void NiPSysMeshUpdateModifier::FUN_00c20f30(class CloningProcess& kCloning)
+void NiPSysMeshUpdateModifier::FUN_00c20f30(struct CloningProcess& kCloning)
 {
     NiPSysModifier::ProcessClone(kCloning);
     unsigned int ui;
@@ -76,8 +104,9 @@ struct NiStream
 {
     int _d;
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -103,7 +132,6 @@ struct NiAVObject
 };
 struct Holder31670
 {
-    bool FUN_00c31670(NiStream&);
 };
 struct NiPSysMeshUpdateModifier
 {
@@ -116,7 +144,7 @@ struct NiPSysMeshUpdateModifier
 // @fnv 0x00c20f80
 bool NiPSysMeshUpdateModifier::FUN_00c20f80(NiStream& kStream)
 {
-    if (!((Holder31670*)this)->FUN_00c31670(kStream))
+    if (!reinterpret_cast<::X *>((((Holder31670*)this)))->FUN_00c31670((::NiStream &)(kStream)))
         return false;
     unsigned int ui;
     NiAVObject* pkMesh;
@@ -130,13 +158,9 @@ bool NiPSysMeshUpdateModifier::FUN_00c20f80(NiStream& kStream)
 }
 }  // namespace fnv_00c20f80
 
-extern int DAT_0101fbcc;
-void __cdecl FUN_004b0220(void*);
 struct Holder31750
 {
-    void FUN_00c31750();
 };
-void __cdecl _delete(void*, unsigned int);
 struct Unk21730
 {
     char _0[0x18];
@@ -150,15 +174,14 @@ void* Unk21730::DestroyIfFlagged(unsigned int auiFlags)
 {
     void* tmp = b;
     a = &DAT_0101fbcc;
-    FUN_004b0220(tmp);
-    ((Holder31750*)this)->FUN_00c31750();
+    ::FUN_004b0220((intptr_t)(tmp));
+    reinterpret_cast<::PositionState *>((((Holder31750*)this)))->FUN_00c31750();
     if (auiFlags & 1)
-        _delete(this, 0x28);
+        ::FUN_00aa1460(this, 0x28);
     return this;
 }
 
 namespace fnv_00c21840 {
-char* __cdecl _FUN_00a7d330(void*);
 struct StrArr
 {
     char _pad0[8];
@@ -166,12 +189,9 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _pad1;
     unsigned short m_usGrow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct BaseMod
 {
-    void FUN_00c319e0(StrArr*);
 };
 struct NiPSysMeshUpdateModifier : BaseMod
 {
@@ -181,25 +201,25 @@ struct NiPSysMeshUpdateModifier : BaseMod
 // @fnv 0x00c21840
 void NiPSysMeshUpdateModifier::AppendString(StrArr* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
-    char* pcStr = _FUN_00a7d330(g_01202530);
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)(pkStrings));
+    char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202530))));
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMax)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiSize, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pcStr);
 }
 }  // namespace fnv_00c21840
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void v00();
     virtual void DeleteThis();
     volatile long refCount;
 };
-struct NiPointer
+class NiPointer
 {
+  public:
     NiRefObject* ptr;
     explicit NiPointer(NiRefObject* p) : ptr(p)
     {
@@ -255,7 +275,6 @@ class FUN_00c212b0_ref
 class FUN_00c212b0_src
 {
   public:
-    void* FUN_00a5d680();
 };
 
 class FUN_00c212b0_item
@@ -263,7 +282,6 @@ class FUN_00c212b0_item
   public:
     char unk00[8];
     unsigned short m_usElementCount;
-    void FUN_004b0310(unsigned int, void**);
 };
 
 class FUN_00c212b0_cls
@@ -287,13 +305,13 @@ void FUN_00c212b0_cls::FUN_00c212b0(unsigned int uiIndex, FUN_00c212b0_src* pSou
         {
             do
             {
-                FUN_00c212b0_ref* p = (FUN_00c212b0_ref*)pSource->FUN_00a5d680();
+                FUN_00c212b0_ref* p = (FUN_00c212b0_ref*)((void *)(reinterpret_cast<::CloneSourceA5d6 *>((pSource))->FUN_00a5d680()));
                 void* out = p;
                 if (p != 0)
                 {
                     InterlockedIncrement(&p->m_iRefCount);
                 }
-                item->FUN_004b0310(i, &out);
+                reinterpret_cast<::fnv_00a5ed10::ChildArray *>((item))->FUN_004b0310(i, (*(const ::fnv_00a5ed10::HeldChild *)(&out)));
                 if (p != 0)
                 {
                     if (InterlockedDecrement(&p->m_iRefCount) == 0)
@@ -307,14 +325,13 @@ void FUN_00c212b0_cls::FUN_00c212b0(unsigned int uiIndex, FUN_00c212b0_src* pSou
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 struct CloneHandle;
 struct MeshObject
 {
     virtual void OnBeginDestroy();
     virtual void Destroy();
     volatile long refCount;
-    CloneHandle __thiscall PopBack() throw();
+    CloneHandle PopBack() throw();
 };
 struct CloneHandle
 {
@@ -342,7 +359,7 @@ struct CloneHandle
             pointer = 0;
         }
     }
-    CloneHandle& __thiscall FUN_006e5cc0(const CloneHandle& other) throw();
+    CloneHandle& FUN_006e5cc0(const CloneHandle& other) throw();
 };
 struct MeshLookup
 {
@@ -374,17 +391,17 @@ struct MeshLookup
     unsigned int unk64;
     unsigned int unk68;
     unsigned int unk6c;
-    unsigned int unk70;
+    uintptr_t unk70;
     unsigned int unk74;
     unsigned int unk78;
-    unsigned int unk7c;
+    uintptr_t unk7c;
     unsigned int unk80;
     unsigned int unk84;
     unsigned int unk88;
     MeshObject** meshes;
     unsigned short unk90;
     unsigned short meshCount;
-    void __thiscall GetMeshHandle(unsigned int index, CloneHandle* result);
+    void GetMeshHandle(unsigned int index, CloneHandle* result);
 };
 // If index is within meshCount and meshes[index] is non-null, assigns a clone handle of that mesh to result; otherwise clears result.
 // @fnv 0x00c21340
@@ -406,8 +423,6 @@ void MeshLookup::GetMeshHandle(unsigned int index, CloneHandle* result)
 class C217F0Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     virtual ~C217F0Object();
 };
@@ -517,7 +532,6 @@ class BC21890ObjectArray : public BC21890ChildArray
 class BC21890AVObject
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
     BC21890AVObject() throw();
     virtual ~BC21890AVObject();
@@ -536,22 +550,11 @@ class BC21890Node : public BC21890AVObject
     {}
     virtual ~BC21890Node();
 
-    void CopyMemberData(BC21890Node* pkDest, BC21890CloningProcess& kCloning);
     BC21890Node* FUN_00c21890(BC21890CloningProcess& kCloning);
 
     BC21890ObjectArray m_kChildList;
 };
 
-// @fnv 0x00c21890
-BC21890Node* BC21890Node::FUN_00c21890(BC21890CloningProcess& kCloning)
-{
-    BC21890Node* pkClone = new BC21890Node;
-    CopyMemberData(pkClone, kCloning);
-    return pkClone;
-}
-
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedIncrement(volatile long* p);
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedDecrement(volatile long* p);
 
 class MyRefObject
 {
@@ -666,12 +669,11 @@ class MyMeshPtrArray
         }
         m_pBase[i] = e;
     }
-    __declspec(nothrow) void SetSize(unsigned int n) throw();
     unsigned int SetAtGrow(unsigned int i, const MyMeshObjPtr& e) throw()
     {
         if (i >= m_usMaxSize)
-            SetSize(i + m_usGrowBy);
-        SetAt(i, e);
+            reinterpret_cast<::NiTObjectArrayA47 *>(this)->FUN_0060bef0(i + m_usGrowBy);
+        reinterpret_cast<::fnv_00a5ed10::ChildArray *>(this)->FUN_004b0310(i, (const ::fnv_00a5ed10::HeldChild &)(e));
         return i;
     }
 };
@@ -696,7 +698,7 @@ void MyMeshUpdateMod::SetMeshAt(unsigned int uiIndex, MyMeshObj* pkMesh, MyMeshO
     if (uiIndex < m_kSceneObjects.GetSize())
     {
         MyMeshObjPtr spPrev = m_kSceneObjects.GetAt(uiIndex);
-        m_kSceneObjects.SetAt(uiIndex, pkMesh);
+        reinterpret_cast<::fnv_00a5ed10::ChildArray *>(&(m_kSceneObjects))->FUN_004b0310(uiIndex, (const ::fnv_00a5ed10::HeldChild &)((const ::NiPtr< ::MyMeshObj> &)(pkMesh)));
         spOld = spPrev;
     }
     else
@@ -722,7 +724,8 @@ struct StreamSlot
 {
     BinaryStream* stream;
 };
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     virtual void v00();
@@ -742,18 +745,19 @@ class NiStream
     {
         return reinterpret_cast<StreamSlot*>(reinterpret_cast<unsigned char*>(this) + 0x250)->stream;
     }
+public:
+    ::NiObject *GetLoadedObject();
 };
 class MeshUpdateStreamWriter : public NiPSysMeshUpdateModifier
 {
   public:
-    void FUN_00c31950(NiStream*);
     void WriteMeshUpdate(NiStream*);
 };
 // Writes the mesh count to the stream, then registers each mesh object with the stream.
 // @fnv 0x00c211c0
 void MeshUpdateStreamWriter::WriteMeshUpdate(NiStream* stream)
 {
-    FUN_00c31950(stream);
+    reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((*(::OutputStream *)(stream)));
     unsigned int meshCount = m_usNumMeshes;
     BinaryStream* binary = stream->GetBinaryStream();
     binary->offset += binary->WriteData(&meshCount, 4);
@@ -761,17 +765,11 @@ void MeshUpdateStreamWriter::WriteMeshUpdate(NiStream* stream)
         stream->RegisterObject(m_ppkMeshes[i]);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct ReferenceSource
 {
-    unsigned int FUN_00a63460();
-    NiRefObject* FUN_00a63430();
 };
 struct ReferenceArray
 {
-    void FUN_0060bef0(unsigned int count);
-    void FUN_004b0310(unsigned int index, NiRefObject** pointer);
 };
 struct ReferenceContainer
 {
@@ -782,24 +780,23 @@ struct ReferenceContainer
     int unk10;
     int unk14;
     ReferenceArray array;
-    void FUN_00c31650(ReferenceSource* source);
     void CopyReferencesFromSource(ReferenceSource* source);
 };
 // Resizes the array to the source's count, then copies each referenced object into the array while adjusting its reference count.
 // @fnv 0x00c214c0
 void ReferenceContainer::CopyReferencesFromSource(ReferenceSource* source)
 {
-    FUN_00c31650(source);
-    unsigned int count = source->FUN_00a63460();
+    reinterpret_cast<::NiPSysModifier *>(this)->LinkObject((*(::NiStream *)(source)));
+    unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>((source))->FUN_00a63460();
     ReferenceArray* array = &this->array;
-    array->FUN_0060bef0(count);
+    reinterpret_cast<::NiTObjectArrayA47 *>((array))->FUN_0060bef0(count);
     for (unsigned int index = 0; index < count; ++index)
     {
-        NiRefObject* object = source->FUN_00a63430();
+        NiRefObject* object = ((::NiRefObject *)(reinterpret_cast<::NiStream *>((source))->GetLoadedObject()));
         NiRefObject* handle = object;
         if (object != 0)
             InterlockedIncrement(&object->refCount);
-        array->FUN_004b0310(index, &handle);
+        reinterpret_cast<::fnv_00a5ed10::ChildArray *>((array))->FUN_004b0310(index, (*(const ::fnv_00a5ed10::HeldChild *)(&handle)));
         if (object != 0 && InterlockedDecrement(&object->refCount) == 0)
             object->DeleteThis();
     }
@@ -837,8 +834,7 @@ class NiObjectC212
 class NiPSysModifierC212 : public NiObjectC212
 {
   public:
-    int unk04, unk08, unk0C, unk10, unk14;
-    bool FUN_00c31830(NiObjectC212* pkObject);
+    intptr_t unk04, unk08, unk0C, unk10, unk14;
 };
 
 template <class T> class NiTPrimitiveArrayC212
@@ -873,7 +869,7 @@ class NiPSysMeshUpdateModifierC212 : public NiPSysModifierC212
 // @fnv 0x00c21230
 bool NiPSysMeshUpdateModifierC212::FUN_00c21230(NiObjectC212* pkObject)
 {
-    if (!FUN_00c31830(pkObject))
+    if (!reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830((::NiObject *)(pkObject)))
     {
         return false;
     }
@@ -917,7 +913,6 @@ struct MeshNiMatrix3
     float m20;
     float m21;
     float m22;
-    void MakeAxisAngleRotation(float fAngleDifference, float x, float y, float z);
 };
 struct MeshUpdateData
 {
@@ -1082,7 +1077,7 @@ struct MeshPSysData
 
 // For each active vertex, copies position and scale to its mesh, optionally sets rotation, then calls UpdateDownwardPass.
 // @fnv 0x00c21080
-void __stdcall FUN_00c21080(float fTime, MeshPSysData* pkData)
+void FUN_00c21080(float fTime, MeshPSysData* pkData)
 {
     float* pfRotationAngles = pkData->m_pfRotationAngles;
     MeshNiPoint3* pkRotationAxes = pkData->m_pkRotationAxes;
@@ -1094,7 +1089,7 @@ void __stdcall FUN_00c21080(float fTime, MeshPSysData* pkData)
         if (pfRotationAngles && pkRotationAxes)
         {
             MeshNiMatrix3 kRot;
-            kRot.MakeAxisAngleRotation(pfRotationAngles[i], pkRotationAxes[i].x, pkRotationAxes[i].y,
+            reinterpret_cast<::ThreeByThreeMatrix *>(&(kRot))->MakeAxisAngleRotation(pfRotationAngles[i], pkRotationAxes[i].x, pkRotationAxes[i].y,
                                        pkRotationAxes[i].z);
             pkMesh->m_kRotate = kRot;
         }
@@ -1111,8 +1106,8 @@ void __stdcall FUN_00c21080(float fTime, MeshPSysData* pkData)
     }
 }
 
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 class Mesh_c21
 {
@@ -1170,7 +1165,6 @@ class Mesh_c21
 class Src_c21
 {
   public:
-    Mesh_c21* FUN_00a5d680();
 };
 
 class Sink_c21
@@ -1248,11 +1242,9 @@ struct Entry_c21
     unsigned short m_1a;
 };
 
-void __cdecl StartControllersRecursive(Mesh_c21* pkMesh, float fTime);
 
 struct Lk2_c21
 {
-    __declspec(noalias) void GetMeshHandle(unsigned int index, CloneHandle* result);
 };
 class FUN_00c21400_cls
 {
@@ -1274,10 +1266,10 @@ void FUN_00c21400_cls::AttachMesh(MeshLookup* pkLookup, unsigned short usIndex)
     if (usMesh >= m_usElementCount)
         usMesh = m_usElementCount - 1;
     Mesh_c21* pkOut = 0;
-    ((Lk2_c21*)pkLookup)->GetMeshHandle(usMesh, (CloneHandle*)&pkOut);
+    reinterpret_cast<::MeshLookup *>((((Lk2_c21*)pkLookup)))->GetMeshHandle(usMesh, (CloneHandle*)&pkOut);
     if (!pkOut)
     {
-        Mesh_c21* pkClone = m_1c[usMesh]->FUN_00a5d680();
+        Mesh_c21* pkClone = ((::Mesh_c21 *)(reinterpret_cast<::CloneSourceA5d6 *>((m_1c[usMesh]))->FUN_00a5d680()));
         if (pkClone)
         {
             pkOut = pkClone;
@@ -1286,14 +1278,13 @@ void FUN_00c21400_cls::AttachMesh(MeshLookup* pkLookup, unsigned short usIndex)
     }
     Mesh_c21* pkMesh = pkOut;
     pkMesh->m_uiValue1 |= 1;
-    StartControllersRecursive(pkMesh, 0.0f);
+    ::StartControllersRecursive((::TCAV *)(pkMesh), 0.0f);
     ((Sink_c21*)pkLookup->unk7c)->Attach(usIndex, pkMesh);
     pkMesh->SetTarget(m_10 + 0x9c);
     if (DAT_00fdf1c4((void*)&pkMesh->m_lRefCount) == 0)
         pkMesh->Destroy();
 }
 
-extern "C" void _ReadWriteBarrier();
 class NiCloningProcess_c217;
 struct S_c21770_Slot
 {
@@ -1341,15 +1332,21 @@ class S_c21770_Mod
     virtual ~S_c21770_Mod() throw();
     int unk04, unk08, unk0C, unk10, unk14;
     MyMeshPtrArray m_kSceneObjects;
-    void FUN_00c31780(S_c21770_Mod* pkDest, NiCloningProcess_c217& kCloning) throw();
     void SetMeshAt(unsigned int uiIndex, MyMeshObj* pkMesh, OldSlot& spOld) throw();
     void CloneInto(S_c21770_Mod* pkDest, NiCloningProcess_c217& kCloning);
 };
+// @fnv 0x00c21890
+BC21890Node* BC21890Node::FUN_00c21890(BC21890CloningProcess& kCloning)
+{
+    BC21890Node* pkClone = new BC21890Node;
+    reinterpret_cast<::S_c21770_Mod *>(this)->CloneInto((::S_c21770_Mod *)(pkClone), (::NiCloningProcess_c217 &)(kCloning));
+    return pkClone;
+}
 // Calls FUN_00c31780 on pkDest, then clones each non-null entry of m_kSceneObjects via MakeClone and stores it in pkDest with SetMeshAt.
 // @fnv 0x00c21770
 void S_c21770_Mod::CloneInto(S_c21770_Mod* pkDest, NiCloningProcess_c217& kCloning)
 {
-    FUN_00c31780(pkDest, kCloning);
+    reinterpret_cast<::NiPSysModifier *>(this)->CopyMemberData((::NiPSysModifier *)(pkDest), (::CloningProcess &)(kCloning));
     for (unsigned int ui = 0; ui < m_kSceneObjects.GetSize(); ui++)
     {
         MyMeshObj* pkMesh = m_kSceneObjects.GetAt(ui).m_pObject;
@@ -1364,7 +1361,6 @@ void S_c21770_Mod::CloneInto(S_c21770_Mod* pkDest, NiCloningProcess_c217& kCloni
 
 struct C21550LinkBase
 {
-    void FUN_00a89af0(NiStream& stream);
 };
 
 struct C21550StreamView
@@ -1392,7 +1388,6 @@ struct C21550PoolData : MeshPSysData
     unsigned int unk84, unk88, unk8C;
     unsigned short unk90;
     unsigned short generationCount;
-    void ResizeChildren(unsigned int count);
 };
 
 struct C21550ParticleSystem : MeshSystem
@@ -1410,13 +1405,13 @@ class C21550PostLink : public NiPSysMeshUpdateModifierC212
 // @fnv 0x00c21550
 void C21550PostLink::FUN_00c21550(NiStream& stream)
 {
-    reinterpret_cast<C21550LinkBase*>(this)->FUN_00a89af0(stream);
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<C21550LinkBase*>(this)));
     C21550StreamView* streamView = reinterpret_cast<C21550StreamView*>(&stream);
     if (streamView->fileVersion <= 0x0A010000)
     {
         unsigned int count = m_kSceneObjects.m_usSize;
         C21550PoolData* data = reinterpret_cast<C21550ParticleSystem*>(unk10)->modelData;
-        data->ResizeChildren(count);
+        reinterpret_cast<::Owner436 *>((data))->ResizeChildren(count);
         return;
     }
     C21550PoolData* data = reinterpret_cast<C21550ParticleSystem*>(unk10)->modelData;

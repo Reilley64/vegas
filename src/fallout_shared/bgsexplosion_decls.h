@@ -2,12 +2,18 @@
 #ifndef FNV_BGSEXPLOSION_DECLS_H
 #define FNV_BGSEXPLOSION_DECLS_H
 
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/IntFieldContainer.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
 #include "TESForm.h"
 
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
 };
 
 class TESObjectLIGH : public TESForm
@@ -17,10 +23,9 @@ class TESObjectLIGH : public TESForm
 class TESFileChunkData16
 {
   public:
-    bool GetChunkData(unsigned short* data);
 };
 
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:
@@ -30,7 +35,6 @@ class CombatProcedure
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile* file, void* data, unsigned short size);
     char _pdbpad_1[47];
     char Data_pad2f_pad2f_pad2f[24];
     void* m_pDecalTextureSet;
@@ -42,13 +46,15 @@ class BGSImpactData
 class EndianConvertibleData
 {
   public:
-    void Endian();
 };
 class TESSound : public TESForm
 {
 };
+class BGSImpactData;
 class BGSImpactDataSet : public TESForm
 {
+public:
+    ::BGSImpactData *GetImpactDataForMaterial(int);
 };
 
 class EffectSetting
@@ -58,8 +64,6 @@ class EffectSetting
     TESSound* bgsexplosion_castSound;
     TESSound* bgsexplosion_boltSound;
     TESSound* GetCastSound();
-    void SetCastSound(TESSound* sound);
-    TESSound* GetBoltSound();
     void SetBoltSound(TESSound* sound);
 };
 
@@ -68,7 +72,6 @@ class MagicItem;
 class MagicCaster
 {
   public:
-    MagicItem* GetSelectedMagicItem();
 };
 
 class PlayerMover
@@ -77,5 +80,4 @@ class PlayerMover
     unsigned int GetActorStateFlags();
 };
 
-int Warning(const char* format, ...);
 #endif

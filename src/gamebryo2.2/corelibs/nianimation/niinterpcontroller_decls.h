@@ -1,3 +1,4 @@
+#include "fnv/symbols_01017000.h"
 struct NiBinaryStream
 {
     unsigned int vtable;
@@ -9,7 +10,7 @@ struct NiBinaryStream
         position += read(this, buffer, bytes, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char padding[0xd8];
@@ -41,4 +42,4 @@ struct NiInterpControllerTriple
     float f2;
     void ResetTriple();
 };
-extern double g_d100;  // 0x01017a40 (100.0)
+  // 0x01017a40 (100.0)

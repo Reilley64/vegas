@@ -2,6 +2,16 @@
 // src/havok/common/base/system/error/hkerror.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/error/hkerror.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "havok/ErrorDiagnostics.h"
+#include <cstddef>
+#include <new>
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_00c903a0_class.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkOstreamDBB7.h"
+#include "fnv/symbols_01268000.h"
 void __cdecl __debugbreak();
 struct CharBuffer
 {
@@ -15,13 +25,9 @@ struct FUN_00cb1600_class
 };
 struct FUN_00cc01c0_class
 {
-    FUN_00cc01c0_class* FUN_00cc01c0(const char* text);
-    FUN_00cc01c0_class* FUN_00cc0120(const void* value);
-    FUN_00cc01c0_class* WriteInt(int value);
 };
 struct FUN_00cc00e0_class
 {
-    void FUN_00cc00e0();
 };
 struct ErrorReporter
 {
@@ -30,34 +36,6 @@ struct ErrorReporter
     virtual void vfn_08();
     virtual int Report(int severity, unsigned int category, const char* text, const char* file, int line);
 };
-extern ErrorReporter* DAT_01268360;
-// Builds a reference-count error message from object and context, reports it via DAT_01268360, and breaks if reporting returns nonzero.
-// @fnv 0x00cb1660
-void __cdecl ReportReferenceCountError(const void* object, const char* context)
-{
-    CharBuffer message;
-    unsigned int storage[128];
-    ((FUN_00cb1600_class*)&message)->FUN_00cb1600((char*)storage, 0x200);
-    int referenceCount = *(const short*)((const char*)object + 6);
-    ((FUN_00cc01c0_class*)&message)
-        ->FUN_00cc01c0("Reference count error on object ")
-        ->FUN_00cc0120(object)
-        ->FUN_00cc01c0(" with ref count of ")
-        ->WriteInt(referenceCount)
-        ->FUN_00cc01c0(" in ")
-        ->FUN_00cc01c0(context)
-        ->FUN_00cc01c0(".\n")
-        ->FUN_00cc01c0(" * Are you calling delete instead of removeReference?\n")
-        ->FUN_00cc01c0(" * Have you called removeReference too many times?\n")
-        ->FUN_00cc01c0(
-            " * In a multithreaded environment, what is the hkReferencedObject lock mode you use (see setLockMode())?\n")
-        ->FUN_00cc01c0(" * Is this a valid object?\n")
-        ->FUN_00cc01c0(" * Do you have more than 32768 references? (unlikely)\n");
-    if (DAT_01268360->Report(3, 0x2c66f2d8, (char*)storage, ".\\System\\Error\\hkError.cpp", 0x21))
-        __debugbreak();
-    ((FUN_00cc00e0_class*)&message)->FUN_00cc00e0();
-}
-
 struct CB1600Bool
 {
     char m_cBooleanValue;
@@ -76,16 +54,11 @@ class CB1600ReferencedObject
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void removeReference();
 };
 
 class CB1600MemoryStreamWriter : public CB1600ReferencedObject
 {
   public:
-    static void* operator new(unsigned int, void* p) throw()
-    {
-        return p;
-    }
 
     CB1600MemoryStreamWriter(void* buf, int bufSize, CB1600Bool isString);
 
@@ -122,7 +95,7 @@ FUN_00cb1600::FUN_00cb1600(void* apBuffer, int aiBufferSize) : CB1600StreamBase(
         new (static_cast<char*>(apBuffer) + aiBufferSize - sizeof(CB1600MemoryStreamWriter))
             CB1600MemoryStreamWriter(apBuffer, aiBufferSize - sizeof(CB1600MemoryStreamWriter), true);
     m_pStreamWriter = writer;
-    writer->removeReference();
+    reinterpret_cast<::FUN_00c903a0_class *>((writer))->FUN_00c903a0();
 }
 
 struct S_00cb17b0_Allocator
@@ -133,17 +106,16 @@ struct S_00cb17b0_Allocator
 };
 struct S_00cb17b0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00cb17b0_Allocator* m_pStreamAllocator;
     S_00cb17b0_Allocator& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-S_00cb17b0_Router* FUN_00c85750();
 struct S_00cb17b0_RefObj
 {
     virtual ~S_00cb17b0_RefObj();
@@ -152,7 +124,7 @@ struct S_00cb17b0_RefObj
     void operator delete(void* p)
     {
         S_00cb17b0_RefObj* b = static_cast<S_00cb17b0_RefObj*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        static_cast<S_00cb17b0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 struct FUN_00cb17b0 : S_00cb17b0_RefObj
@@ -164,36 +136,4 @@ struct FUN_00cb17b0 : S_00cb17b0_RefObj
 FUN_00cb17b0::FUN_00cb17b0()
 {}
 
-struct DiagBuffer
-{
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int m_08;
-    unsigned int m_buf[128];
-    void FUN_00cb1600(unsigned int* buf, unsigned int size) throw();
-    void FUN_00cc01c0(const char* s) throw();
-    void FUN_00cc00e0() throw();
-};
-
-struct DiagLogger
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual int Report(int level, unsigned int hash, const char* msg, const char* file, int line);
-};
-
-extern const char str_010c85ac[];
-
-// @fnv 0x00cb1750
-void FUN_00cb1750(const char* apMsg)
-{
-    DiagBuffer buf;
-    buf.FUN_00cb1600(buf.m_buf, 0x200);
-    buf.FUN_00cc01c0(apMsg);
-    if (((DiagLogger*)DAT_01268360)->Report(3, 0x2636fe25, (const char*)buf.m_buf, str_010c85ac, 0x28) != 0)
-    {
-        __debugbreak();
-    }
-    buf.FUN_00cc00e0();
-}
+#include "generated/data/havok/common/base/system/error/hkerror.inc"

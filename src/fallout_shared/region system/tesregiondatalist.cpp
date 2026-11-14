@@ -1,17 +1,14 @@
 // fallout_shared/region system/tesregiondatalist.cpp: RegionDataList (4 functions)
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/GList.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_004f2000.h"
 class TESRegionData;
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    unsigned int ItemsInList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    void RemoveHead();
-};
+#include "fnv/bs_simple_list.h"
 
 class TESRegionData
 {
@@ -34,7 +31,7 @@ void RegionDataList::Clear()
     TESRegionData* pkRegionData = 0;
     while (ItemsInList() != 0)
     {
-        pkRegionData = GetItem();
+        pkRegionData = ((::TESRegionData *)((void *)this));
         RemoveHead();
         if (m_bDataFlag)
             delete pkRegionData;
@@ -43,14 +40,10 @@ void RegionDataList::Clear()
 
 struct SeqObj
 {
-    BSSimpleList<TESRegionData*>* GetName();
 };
 struct NodeTmp
 {
-    TESRegionData*& _ref_006815c0();
-    BSSimpleList<TESRegionData*>* _ref_00726070();
 };
-void __cdecl FUN_004f24e0(TESRegionData*, unsigned char, unsigned char);
 struct Dummy
 {
     void FUN_004f2480(unsigned char, unsigned char);
@@ -59,12 +52,12 @@ struct Dummy
 // @fnv 0x004f2480
 void Dummy::FUN_004f2480(unsigned char aucArg1, unsigned char aucArg2)
 {
-    BSSimpleList<TESRegionData*>* pcurrent = ((SeqObj*)this)->GetName();
+    BSSimpleList<TESRegionData*>* pcurrent = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj*)this)))->GetLinkToList()));
     while (pcurrent)
     {
-        if (((NodeTmp*)pcurrent)->_ref_006815c0())
-            FUN_004f24e0(((NodeTmp*)pcurrent)->_ref_006815c0(), aucArg1, aucArg2);
-        pcurrent = ((NodeTmp*)pcurrent)->_ref_00726070();
+        if (((::TESRegionData *)((void *)(((NodeTmp*)pcurrent)))))
+            ::FUN_004f24e0((::TESSound *)(((::TESRegionData *)((void *)(((NodeTmp*)pcurrent))))), aucArg1, aucArg2);
+        pcurrent = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((((NodeTmp*)pcurrent)))->FUN_00726070()));
     }
 }
 
@@ -94,7 +87,6 @@ struct ProbeBase
 class FUN_004f33c0_cls
 {
   public:
-    int FUN_004f35b0(unsigned int aValue);
     void FUN_005ae3d0(ProbeBase** appProbe);
 
     bool FUN_004f33c0(ProbeBase* apProbe);
@@ -103,7 +95,7 @@ class FUN_004f33c0_cls
 // @fnv 0x004f33c0
 bool FUN_004f33c0_cls::FUN_004f33c0(ProbeBase* apProbe)
 {
-    if (apProbe == 0 || FUN_004f35b0(apProbe->v10()))
+    if (apProbe == 0 || ((std::intptr_t)(reinterpret_cast<::GList *>(this)->FUN_004f35b0(apProbe->v10()))))
     {
         return false;
     }

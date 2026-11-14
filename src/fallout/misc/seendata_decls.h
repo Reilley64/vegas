@@ -3,14 +3,15 @@
 #define FNV_SEENDATA_DECLS_H
 
 
-class BGSLoadFormBuffer
+#include <cstring>
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+struct BGSLoadFormBuffer
 {
   public:
-    void ReadTypedData(void* data, unsigned int size);
-    int ReadElementCount();
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -18,6 +19,8 @@ class NiPoint3
     float z;
 
     NiPoint3(float x, float y, float z);
+public:
+    float ComputeMagnitude() const;
 };
 
 class SeenData
@@ -46,9 +49,5 @@ class IntSeenData : public SeenData
 extern void* DAT_01083fc4;
 extern unsigned int DAT_011a31ec;
 extern float DAT_011a31e8;
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
-
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* pointer);
 
 #endif

@@ -3,12 +3,21 @@
 #define FNV_BSSOUNDHANDLE_WORKER_DECLS_H
 
 
+#include "fnv/decl/BADC7D0Cache.h"
+#include "fnv/decl/Cache_adc910.h"
+#include "fnv/decl/FUN_00adb850_cls.h"
+#include "fnv/decl/FUN_00adc560_cls.h"
+#include "fnv/decl/SystemColor.h"
+#include "fnv/decl/fnv_00adb4e0__BSAudioMgrB4E0.h"
+#include "fnv/decl/fnv_00adbfd0__FUN_00adbfd0_cls.h"
+#include "fnv/symbols_00775000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011f6000.h"
 typedef void(__cdecl* BSSoundCompletionCallback)(void*, bool);
 
-class BSAudio;
-extern BSAudio* DAT_011f6d98;
+struct BSAudio;
 
-class BSAudio
+struct BSAudio
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -16,7 +25,7 @@ class BSAudio
 
     __forceinline static BSAudio* GetRandomGenerator()
     {
-        return DAT_011f6d98;
+        return ::DAT_011f6d98;
     }
     __forceinline bool IsAudioEnabled() const
     {
@@ -28,15 +37,9 @@ class BSAudioManager
 {
   public:
     static BSAudioManager& GetRandomGenerator();
-    void FUN_00adbfd0(unsigned int, BSSoundCompletionCallback, void*);
-    bool IsPlaying(unsigned int);
-    bool FUN_00adb4e0(unsigned int, unsigned int, int);
-    void SetPlaybackTime(unsigned int, unsigned int, unsigned int);
-    bool SetPlaybackFrequency(unsigned int, float);
-    bool IsSoundPlaying(unsigned int);
 };
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -56,9 +59,11 @@ class SoundPlaybackHandle
     bool StopWithFade(unsigned int);
     bool SetPlaybackFrequency(float);
     bool IsValid() const;
+public:
+    bool Release();
 };
 
-class NiColor;
+struct NiColor;
 
 class SystemColorManager
 {
@@ -66,7 +71,6 @@ class SystemColorManager
     class SystemColor
     {
       public:
-        void FUN_007193b0(NiColor&);
     };
 
     SystemColor* Find(int);
@@ -89,8 +93,6 @@ class HUDMainMenu
     char m_kTargetDisplayData[12];
     TESObjectREFR* m_pCrosshairReference;
 
-    static HUDMainMenu* g_pHudMainMenuInstance;
-    static bool UpdateTargetReference(TESObjectREFR*, bool, bool);
     static void RefreshTargetDisplay();
     int m_iHudValueFirstBeforeMode;
     int m_iHudValueSecondBeforeMode;

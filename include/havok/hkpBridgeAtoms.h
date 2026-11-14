@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkpBridgeConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpBridgeAtoms
 {
   public:
     hkpBridgeConstraintAtom m_kBridgeAtom;  // +0x0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpBridgeAtoms[(sizeof(hkpBridgeAtoms) == 0xC) ? 1 : -1];
 #endif

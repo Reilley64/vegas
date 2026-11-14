@@ -2,47 +2,56 @@
 // src/gamebryo2.2/corelibs/nimain/nispotlight.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nispotlight.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a72010_owner.h"
+#include "fnv/decl/FUN_00a7d960_cls.h"
+#include "fnv/decl/FUN_00a94c00_shell.h"
+#include "fnv/decl/NiPointLightSave.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a7d7a0__NiPointLight.h"
+#include "fnv/decl/fnv_00a7d8d0__NiPointLightSave.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a9b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011f5ec4;
 
 // @fnv 0x00a94d50
 GlobalObjectO2_00a7b610* __cdecl FUN_00a94d50()
 {
-    return &g_011f5ec4;
+    return &::g_011f5ec4;
 }
 
 struct NiSpotLight;
 
-extern "C" void __cdecl _FUN_00a72010();
-extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 struct NiSpotLightShell
 {
-    NiSpotLightShell* __thiscall FUN_00a94d60(unsigned int flags);
+    NiSpotLightShell* FUN_00a94d60(unsigned int flags);
 };
 
 // Calls _FUN_00a72010, then if flags has bit 1 set calls __Dummy_00b6fef0 on this with size 0x114, and returns this.
 // @fnv 0x00a94d60
-NiSpotLightShell* __thiscall NiSpotLightShell::FUN_00a94d60(unsigned int flags)
+NiSpotLightShell* NiSpotLightShell::FUN_00a94d60(unsigned int flags)
 {
-    _FUN_00a72010();
+    static_cast<::FUN_00a72010_owner *>(nullptr)->FUN_00a72010();
     if (flags & 1)
-        __Dummy_00b6fef0(this, 0x114);
+        ::FUN_00aa1460(this, 0x114);
     return this;
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
-    void* __thiscall FUN_00a94ce0();
+    void* FUN_00a94ce0();
 };
 
 // @fnv 0x00a94e20
 void* __cdecl FUN_00a94e20()
 {
-    void* p = BSFadeNode::operator new(0x114);
+    void* p = ::operator new(0x114);
     if (p)
         return ((BSFadeNode*)p)->FUN_00a94ce0();
     return 0;
@@ -53,7 +62,7 @@ struct NiObject
 };
 struct NiPointLight
 {
-    bool __thiscall FUN_00a7d730(NiObject*);
+    bool FUN_00a7d730(NiObject*);
 };
 
 struct NiSpotLight
@@ -62,12 +71,12 @@ struct NiSpotLight
     float m_f0108;
     float m_f010c;
     float m_f0110;
-    bool __thiscall IsEqual(NiObject*);
+    bool IsEqual(NiObject*);
 };
 
 // Calls the base NiPointLight comparison, then checks that the spot light's three float fields match the other object's.
 // @fnv 0x00a94c80
-bool __thiscall NiSpotLight::IsEqual(NiObject* pObject)
+bool NiSpotLight::IsEqual(NiObject* pObject)
 {
     NiSpotLight* pOther = (NiSpotLight*)pObject;
     if (((NiPointLight*)this)->FUN_00a7d730(pObject))
@@ -83,17 +92,16 @@ struct NiUpdateData
 };
 struct C_00a7d7a0
 {
-    void __thiscall FUN_00a7d7a0(NiUpdateData&);
 };
 struct S_00a94d90
 {
-    void __thiscall FUN_00a94d90(NiUpdateData&);
+    void FUN_00a94d90(NiUpdateData&);
 };
 // Calls the base update, copies three floats from offsets 0x68/0x74/0x80 to 0xFC/0x100/0x104, and increments the counter at 0xA8.
 // @fnv 0x00a94d90
-void __thiscall S_00a94d90::FUN_00a94d90(NiUpdateData& UpdateData)
+void S_00a94d90::FUN_00a94d90(NiUpdateData& UpdateData)
 {
-    ((C_00a7d7a0*)this)->FUN_00a7d7a0(UpdateData);
+    reinterpret_cast<::fnv_00a7d7a0::NiPointLight *>((((C_00a7d7a0*)this)))->FUN_00a7d7a0((::fnv_00a7d7a0::NiUpdateData &)(UpdateData));
     *(volatile float*)((char*)this + 0xFC) = *(volatile float*)((char*)this + 0x68);
     *(volatile float*)((char*)this + 0x100) = *(volatile float*)((char*)this + 0x74);
     *(volatile float*)((char*)this + 0x104) = *(volatile float*)((char*)this + 0x80);
@@ -108,26 +116,21 @@ struct StrArr
     char m_pAuxiliaryObject[2];
     unsigned short m_uiIncrement;
 
-    void __thiscall SetSize(unsigned int size);
-    void __thiscall SetAt(unsigned int index, char*& value);
 };
 
 struct NiPoint3
 {
-    char* __thiscall FUN_00a59af0(char const* name);
+    char* FUN_00a59af0(char const* name);
 };
 
 struct NiPointLightViewerStrings
 {
-    void __thiscall FUN_00a7d960(StrArr* strings);
 };
 
-char* __cdecl _FUN_00a7d330(void* object);
-char* __cdecl FUN_00a7d550(char const* name, float value);
 
 struct FUN_00a94f70_shell : NiSpotLightShell
 {
-    void __thiscall AppendViewerStrings(StrArr* strings);
+    void AppendViewerStrings(StrArr* strings);
 };
 
 // Appends the spot light's base viewer strings plus m_kWorldDir, m_fOuterSpotAngle, m_fInnerSpotAngle and m_fSpotExponent entries to the string array.
@@ -137,42 +140,42 @@ void FUN_00a94f70_shell::AppendViewerStrings(StrArr* strings)
     char* value;
     unsigned int index;
 
-    reinterpret_cast<NiPointLightViewerStrings*>(this)->FUN_00a7d960(strings);
+    reinterpret_cast<::FUN_00a7d960_cls *>((reinterpret_cast<NiPointLightViewerStrings*>(this)))->FUN_00a7d960((::S_00a7d960_arg *)(strings));
 
-    value = _FUN_00a7d330(*reinterpret_cast<void**>(&g_011f5ec4));
+    value = ::FUN_00a7d330((const char *)(*reinterpret_cast<void**>(&::g_011f5ec4)));
 
     index = strings->m_uiSize;
     if (index >= strings->m_uiCapacity)
-        strings->SetSize(index + strings->m_uiIncrement);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_uiIncrement);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0xfc)->FUN_00a59af0("m_kWorldDir");
 
     index = strings->m_uiSize;
     if (index >= strings->m_uiCapacity)
-        strings->SetSize(index + strings->m_uiIncrement);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_uiIncrement);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d550("m_fOuterSpotAngle", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x108));
 
     index = strings->m_uiSize;
     if (index >= strings->m_uiCapacity)
-        strings->SetSize(index + strings->m_uiIncrement);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_uiIncrement);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d550("m_fInnerSpotAngle", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x10c));
 
     index = strings->m_uiSize;
     if (index >= strings->m_uiCapacity)
-        strings->SetSize(index + strings->m_uiIncrement);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_uiIncrement);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d550("m_fSpotExponent", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x110));
 
     index = strings->m_uiSize;
     if (index >= strings->m_uiCapacity)
-        strings->SetSize(index + strings->m_uiIncrement);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_uiIncrement);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 
 struct S_00a94ce0_Base
@@ -354,8 +357,7 @@ struct FUN_00a94e40_cls
     float m_f0108;
     float m_f010c;
     float m_f0110;
-    void __thiscall SaveToStream(FUN_00a94e40_arg* a);
-    void __thiscall FUN_00a94e40(FUN_00a94e40_arg* a);
+    void FUN_00a94e40(FUN_00a94e40_arg* a);
 };
 
 struct StreamCb
@@ -518,9 +520,9 @@ struct FUN_00a94e40_arg
 };
 
 // @fnv 0x00a94e40
-void __thiscall FUN_00a94e40_cls::FUN_00a94e40(FUN_00a94e40_arg* apArg)
+void FUN_00a94e40_cls::FUN_00a94e40(FUN_00a94e40_arg* apArg)
 {
-    SaveToStream(apArg);
+    reinterpret_cast<::NiPointLightSave *>(this)->SaveToStream((::NiStream *)(apArg));
     StreamCb* s = apArg->m_024c;
     {
         unsigned int n = 4;
@@ -564,7 +566,6 @@ struct NiStreamArg
 };
 struct LightBaseSerialization
 {
-    void SavePointLight(NiStreamArg* stream);
 };
 struct LightSerialization
 {
@@ -574,7 +575,7 @@ struct LightSerialization
 // @fnv 0x00a94ee0
 void LightSerialization::WriteSpotLightData(NiStreamArg* stream)
 {
-    ((LightBaseSerialization*)this)->SavePointLight(stream);
+    reinterpret_cast<::fnv_00a7d8d0::NiPointLightSave *>((((LightBaseSerialization*)this)))->SavePointLight((::fnv_00a7d8d0::NiStream *)(stream));
     NiSpotLight* spot = (NiSpotLight*)this;
     unsigned int bytes;
     BinaryWriter* output = stream->writer();
@@ -590,12 +591,10 @@ class BA94DD0CloningProcess;
 class BA94DD0FadeNode
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
     BA94DD0FadeNode() throw();
     virtual ~BA94DD0FadeNode();
 
-    void CopyMemberData(BA94DD0FadeNode* pkDest, BA94DD0CloningProcess& kCloning);
     BA94DD0FadeNode* Clone(BA94DD0CloningProcess& kCloning);
 
     int unk004;
@@ -672,24 +671,22 @@ class BA94DD0FadeNode
 BA94DD0FadeNode* BA94DD0FadeNode::Clone(BA94DD0CloningProcess& kCloning)
 {
     BA94DD0FadeNode* pkClone = new BA94DD0FadeNode;
-    CopyMemberData(pkClone, kCloning);
+    reinterpret_cast<::FUN_00a94c00_shell *>(this)->FUN_00a94c00((::NiDirectionalLight *)(pkClone), (::CloningProcess &)(kCloning));
     return pkClone;
 }
 
-class NiStream;
+struct NiStream;
 
-extern "C" void __cdecl FUN_00a9b360(void* thisPtr, NiStream& stream);
 
 // @fnv 0x00a94c60
 void __cdecl FUN_00a94c60(void* thisPtr, NiStream& stream)
 {
-    FUN_00a9b360(thisPtr, stream);
+    ::FUN_00a9b360();
 }
 
-extern "C" void __cdecl _FUN_00a75c10();
 
 // @fnv 0x00a94c70
 void __cdecl FUN_00a94c70()
 {
-    _FUN_00a75c10();
+    ::FUN_00a75c10();
 }

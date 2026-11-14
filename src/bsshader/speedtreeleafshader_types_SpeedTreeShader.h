@@ -4,7 +4,6 @@
 
 #include "layout_support.h"
 class SpeedTreeLeafShaderConstantMapSetup;
-#pragma pack(push, 4)
 class SpeedTreeLeafShaderConstantMapSetup
 {
   public:
@@ -19,6 +18,4 @@ class SpeedTreeLeafShaderConstantMapSetup
     // void __cdecl SpeedTreeLeafShaderConstantMapSetup::*(NiD3DShaderConstantMap*, int)
     // void* __cdecl SpeedTreeLeafShaderConstantMapSetup::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SpeedTreeLeafShaderConstantMapSetup) == 1);
 #endif

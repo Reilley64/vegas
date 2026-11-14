@@ -1,5 +1,12 @@
 // gamebryo2.2/corelibs/nianimation/nirotkey.cpp: TimedRotationKey (5 functions)
 
+#include "NiAnimationKeyTables.h"
+#include "fnv/decl/FUN_00a3e680_shell.h"
+#include "fnv/decl/NiKeyBasedInterpolator.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01097000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nirotkey_decls.h"
 
 #define KEY_TIME(keys, index, size)                                                                                    \
@@ -21,7 +28,7 @@ NiQuaternion __cdecl TimedRotationKey::InterpolatePosition(float fTime, TimedRot
     }
     if (eType == AnimationKey::EULERKEY)
     {
-        DAT_011f3cc0[eType](fTime, pkKeys, 0, &kEulerResult);
+        NiAnimationKeyTables::Get<NiRotKeyInterpFn>(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(2, 0) + eType)(fTime, pkKeys, 0, &kEulerResult);
         return kEulerResult;
     }
     {
@@ -51,24 +58,21 @@ NiQuaternion __cdecl TimedRotationKey::InterpolatePosition(float fTime, TimedRot
         const TimedRotationKey* pkLower = KEY_AT(pkKeys, uiLowerIndex, ucKeySize);
         const TimedRotationKey* pkUpper = KEY_AT(pkKeys, uiUpperIndex, ucKeySize);
         float fInterpFactor = (fTime - fLowerTime) / (fNextTime - fLowerTime);
-        DAT_011f3cc0[eType](fInterpFactor, pkLower, pkUpper, &kResult);
+        NiAnimationKeyTables::Get<NiRotKeyInterpFn>(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(2, 0) + eType)(fInterpFactor, pkLower, pkUpper, &kResult);
         ruiLastIndex = uiLowerIndex;
         return kResult;
     }
 }
 
 // 22-byte covered span: ctor thunk (11 B) + 5 B int3 padding + 6 B static-address accessor.
-void FUN_00a3ca30();
 
 // Compares the four floats of pThis with those of q and returns 1 only if all four are exactly equal.
 // @fnv 0x00a92660
-int __fastcall FUN_00a92660(const float* pThis, int, const float* q)
+int FUN_00a92660(const float* pThis, int, const float* q)
 {
     return pThis[0] == q[0] && pThis[1] == q[1] && pThis[2] == q[2] && pThis[3] == q[3];
 }
 
-void __cdecl FUN_00a57010();
-extern void* _DAT_01097054;
 
 struct FUN_00a3ca30_shell
 {
@@ -79,16 +83,15 @@ struct FUN_00a3ca30_shell
 // @fnv 0x00a3ca30
 void FUN_00a3ca30_shell::FUN_00a3ca30()
 {
-    m = &_DAT_01097054;
-    FUN_00a57010();
+    m = &::DAT_01097054;
+    static_cast<::NiKeyBasedInterpolator *>(nullptr)->FUN_00a57010();
 }
 
-extern void* _DAT_011f3740;
 
 // @fnv 0x00a3ca40
 void* __cdecl FUN_00a3ca40()
 {
-    return &_DAT_011f3740;
+    return &(*reinterpret_cast<void * *>(&::g_011f3740));
 }
 
 struct FUN_00a3e9a0_src
@@ -112,12 +115,9 @@ class FUN_00a3e9a0_cls
     float* m_20;
     float m_24;
 
-    float FUN_00a3e680(unsigned int a, unsigned int b, float c);
     float GetAccumulatedValue();
 };
 
-void __cdecl FUN_00aa10f0(float* p);
-void* __cdecl FUN_00aa1070(unsigned int n);
 
 // If m_24 is negative, allocates a float array sized from m_18->m_08, fills running sums via FUN_00a3e680, stores the last value in m_24, and returns m_24.
 // @fnv 0x00a3e9a0
@@ -127,7 +127,7 @@ float FUN_00a3e9a0_cls::GetAccumulatedValue()
     {
         unsigned int count = m_18 ? m_18->m_08 : 0;
         unsigned int bytes = count * 4;
-        FUN_00aa10f0(m_20);
+        ::FUN_00aa10f0(m_20);
         m_20 = (float*)FUN_00aa1070(bytes);
         m_20[0] = 0.0f;
         unsigned int uiIndex = 0;
@@ -136,7 +136,7 @@ float FUN_00a3e9a0_cls::GetAccumulatedValue()
         {
             do
             {
-                volatile float t = FUN_00a3e680(uiIndex, uiIndex + 1, 1.0f);
+                volatile float t = reinterpret_cast<::FUN_00a3e680_shell *>(this)->FUN_00a3e680(uiIndex, uiIndex + 1, 1.0f);
                 float* p = m_20;
                 p[uiIndex + 1] = p[uiIndex] + t;
                 uiIndex = uiIndex + 1;
@@ -146,3 +146,5 @@ float FUN_00a3e9a0_cls::GetAccumulatedValue()
     }
     return m_24;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nirotkey.inc"

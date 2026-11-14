@@ -2,6 +2,16 @@
 // src/fallout/misc/saveload/bgsloadgamebuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgsloadgamebuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/DetectionViewData.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_0081db90_shell.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_0084e000.h"
+#include "fnv/symbols_011d6000.h"
+#include "fnv/symbols_011dd000.h"
 struct BGSLoadFormBuffer
 {
     bool ReadFormIdentifier(void*);
@@ -19,7 +29,7 @@ struct FUN_00835f80_shell
 };
 
 // @fnv 0x00835f80
-void __thiscall FUN_00835f80_shell::FUN_00835f80(BGSLoadFormBuffer* apBuffer)
+void FUN_00835f80_shell::FUN_00835f80(BGSLoadFormBuffer* apBuffer)
 {
     apBuffer->ReadFormIdentifier(this);
     apBuffer->ReadTypedData(&this->_1c, 1);
@@ -28,13 +38,13 @@ void __thiscall FUN_00835f80_shell::FUN_00835f80(BGSLoadFormBuffer* apBuffer)
     apBuffer->ReadTypedData(&this->_1f, 1);
 }
 
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -72,7 +82,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864720_shell : public BGSLoadGameBuffer
 {
     unsigned char FUN_00864720();
@@ -92,13 +101,13 @@ unsigned char FUN_00864720_shell::FUN_00864720()
 }
 
 namespace fnv_008647f0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -136,7 +145,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_008647f0_shell : public BGSLoadGameBuffer
 {
     void FUN_008647f0(char*, unsigned int, unsigned int);
@@ -153,13 +161,13 @@ void FUN_008647f0_shell::FUN_008647f0(char* apBuffer, unsigned int aiSize, unsig
 }  // namespace fnv_008647f0
 
 namespace fnv_00864980 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -197,7 +205,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864980_shell : public BGSLoadGameBuffer
 {
     void FUN_00864980(NiQuaternion*, unsigned int);
@@ -211,15 +218,15 @@ void FUN_00864980_shell::FUN_00864980(NiQuaternion* apData, unsigned int aiSize)
 }  // namespace fnv_00864980
 
 namespace fnv_009f38b0 {
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -240,7 +247,6 @@ struct SandboxProcedureData
     int m_iActivityState;
     int m_iProcedureData;
 };
-typedef char _sizecheck_SandBoxChoiceListItem[sizeof(SandboxProcedureData) == 16 ? 1 : -1];
 struct BGSLoadGameBuffer
 {
     virtual unsigned char GetVersion();
@@ -277,7 +283,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_009f38b0_shell : public SandboxProcedureData
 {
     void FUN_009f38b0(BGSLoadFormBuffer*);
@@ -292,16 +297,18 @@ struct BGSLoadFormBuffer
 // @fnv 0x009f38b0
 void FUN_009f38b0_shell::FUN_009f38b0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    apLoadGameBuffer->ReadTypedData(&eProcedure, 4);
-    apLoadGameBuffer->ReadTypedData(&m_iActivityState, 4);
-    apLoadGameBuffer->ReadTypedData(&m_iProcedureData, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&eProcedure), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iActivityState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iProcedureData), 4);
     apLoadGameBuffer->ReadFormIdentifier(&pTarget);
 }
 }  // namespace fnv_009f38b0
 
+struct BGSLoadGameBuffer;
 struct SaveGameLoader
 {
-    static bool __cdecl LoadFormRange(unsigned int, BGSLoadGameBuffer*, unsigned char);
+public:
+    static bool LoadFormRange(unsigned int, ::BGSLoadGameBuffer *, bool);
 };
 
 struct LGB : public BGSLoadGameBuffer
@@ -316,18 +323,18 @@ void FUN_0084c2a0(unsigned int start, unsigned int end, unsigned char flag)
     LGB lgb;
     for (unsigned int uiIndex = start; uiIndex < end; uiIndex++)
     {
-        SaveGameLoader::LoadFormRange(uiIndex, &lgb, flag);
+        ::SaveGameLoader::LoadFormRange(uiIndex, &lgb, flag);
     }
 }
 
 namespace fnv_00864820 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -365,14 +372,12 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864820_shell : public BGSLoadGameBuffer
 {
     void LoadRawData(void*, unsigned int);
 };
 
 extern "C" void* __cdecl __memcpy(void*, void*, unsigned int);
-void __cdecl _fnv_call_845cc0(const char*);
 
 // Copies aiSize bytes from the load buffer into apData, advances the offset, and checks that the next byte is the '|' spacer.
 // @fnv 0x00864820
@@ -382,17 +387,16 @@ void FUN_00864820_shell::LoadRawData(void* apData, unsigned int aiSize)
     {
         return;
     }
-    __memcpy(apData, pBuffer + m_uiReadOffset, aiSize);
+    ::__memcpy(apData, pBuffer + m_uiReadOffset, aiSize);
     m_uiReadOffset += aiSize;
     if (pBuffer[m_uiReadOffset] != '|')
     {
-        _fnv_call_845cc0("SAVELOAD: Invalid spacer hit while loading data from the buffer");
+        ::FUN_00845cc0("SAVELOAD: Invalid spacer hit while loading data from the buffer");
     }
     m_uiReadOffset += 1;
 }
 }  // namespace fnv_00864820
 
-extern "C" void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct FUN_00857bd0
 {
     void Init(unsigned int);
@@ -432,13 +436,13 @@ FUN_008646b0::FUN_008646b0()
 }
 
 namespace fnv_008646f0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -476,7 +480,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_008646f0_shell : public BGSLoadGameBuffer
 {
     void FUN_008646f0();
@@ -490,34 +493,23 @@ void FUN_008646f0_shell::FUN_008646f0()
     char* p;
     *(char**)this = (char*)&DAT_01082048;
     p = (char*)pBuffer;
-    operator delete(p);
+    ::FUN_00401030(p);
 }
 }  // namespace fnv_008646f0
 
 struct S_00864540
 {
-    int ReadFromFile(int, int);
 };
-void ReadFileIntoBuffer(SaveLoadFile*, unsigned int*, unsigned int);
 struct FUN_00864740_shell
 {
     char* pBuffer;
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
-    int __thiscall ReadAndVerifySize(SaveLoadFile* apFile);
+    int ReadAndVerifySize(SaveLoadFile* apFile);
 };
-// @fnv 0x00864740
-int __thiscall FUN_00864740_shell::ReadAndVerifySize(SaveLoadFile* apFile)
+class SaveLoadFile
 {
-    ReadFileIntoBuffer(apFile, &m_uiReadOffset, 4);
-    int result = ((S_00864540*)this)->ReadFromFile((int)apFile, m_uiReadOffset);
-    if (result != m_uiReadOffset)
-        return -1;
-    return result;
-}
-
-struct SaveLoadFile
-{
+  public:
     unsigned int Read(void*, unsigned int);
 };
 struct FUN_00864790_shell
@@ -527,12 +519,21 @@ struct FUN_00864790_shell
     unsigned int size;
     int ReadFromFile(SaveLoadFile* file, unsigned int n);
 };
+// @fnv 0x00864740
+int FUN_00864740_shell::ReadAndVerifySize(SaveLoadFile* apFile)
+{
+    ::ReadFileIntoBuffer(apFile, &m_uiReadOffset, 4);
+    int result = reinterpret_cast<::FUN_00864790_shell *>((((S_00864540*)this)))->ReadFromFile((::SaveLoadFile *)(apFile), m_uiReadOffset);
+    if (result != m_uiReadOffset)
+        return -1;
+    return result;
+}
 // Allocates a buffer of n bytes, reads n bytes from file into it, and returns the byte count or -1 on a short read.
 // @fnv 0x00864790
 int FUN_00864790_shell::ReadFromFile(SaveLoadFile* file, unsigned int uiSize)
 {
     size = uiSize;
-    char* buf = (char*)operator new(size);
+    char* buf = (char*)::FUN_00401000(size);
     buffer = buf;
     unsigned int read = file->Read(buffer, size);
     if (read != size)
@@ -541,13 +542,13 @@ int FUN_00864790_shell::ReadFromFile(SaveLoadFile* file, unsigned int uiSize)
 }
 
 namespace fnv_008648a0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -585,7 +586,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct PackedFormID
 {
     unsigned int GetNumericID();
@@ -595,7 +595,6 @@ struct PackedFormID
     unsigned char m_ucIDByte1;
     unsigned char m_ucIDByte2;
 };
-typedef char _sizecheck_BGSNumericIDIndex[sizeof(PackedFormID) == 3 ? 1 : -1];
 struct FUN_008648a0_shell : public BGSLoadGameBuffer
 {
     bool FUN_008648a0(unsigned int*);
@@ -603,37 +602,35 @@ struct FUN_008648a0_shell : public BGSLoadGameBuffer
 
 struct Dummy84eaf0
 {
-    void ClearNumericIDIndex();
 };
-unsigned int __fastcall FUN_00853500(void*);
+unsigned int FUN_00853500(void*);
 struct FUN_00864820_wrap
 {
-    void LoadRawData(void*, unsigned int);
 };
 struct FUN_008648a0_t : public BGSLoadGameBuffer
 {
-    unsigned int FUN_008648a0();
+    uintptr_t FUN_008648a0();
 };
 // @fnv 0x008648a0
-unsigned int FUN_008648a0_t::FUN_008648a0()
+uintptr_t FUN_008648a0_t::FUN_008648a0()
 {
     unsigned int iformID;
     PackedFormID formIDIndex;
-    ((Dummy84eaf0*)&formIDIndex)->ClearNumericIDIndex();
-    ((FUN_00864820_wrap*)this)->LoadRawData(&formIDIndex, 3);
+    ::ClearNumericIDIndex((::BGSNumericIDIndex3 *)(((Dummy84eaf0*)&formIDIndex)));
+    reinterpret_cast<::fnv_00864820::FUN_00864820_shell *>((((FUN_00864820_wrap*)this)))->LoadRawData(&formIDIndex, 3);
     iformID = FUN_00853500(&formIDIndex);
     return iformID;
 }
 }  // namespace fnv_008648a0
 
 namespace fnv_008648e0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -671,7 +668,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct PackedFormID
 {
     unsigned int GetNumericID();
@@ -681,7 +677,6 @@ struct PackedFormID
     unsigned char m_ucIDByte1;
     unsigned char m_ucIDByte2;
 };
-typedef char _sizecheck_BGSNumericIDIndex[sizeof(PackedFormID) == 3 ? 1 : -1];
 struct FUN_008648e0_shell : public BGSLoadGameBuffer
 {
     bool FUN_008648e0(unsigned int*);
@@ -689,20 +684,18 @@ struct FUN_008648e0_shell : public BGSLoadGameBuffer
 
 struct Dummy84eaf0
 {
-    void ClearNumericIDIndex();
 };
-unsigned int __fastcall FUN_00853500(void*);
-bool __fastcall FUN_00864940(void*);
+unsigned int FUN_00853500(void*);
+bool FUN_00864940(void*);
 struct FUN_00864820_t
 {
-    void LoadRawData(void*, unsigned int);
 };
 // @fnv 0x008648e0
 bool FUN_008648e0_shell::FUN_008648e0(unsigned int* aiFormID)
 {
     PackedFormID formIDIndex;
-    ((Dummy84eaf0*)&formIDIndex)->ClearNumericIDIndex();
-    ((FUN_00864820_t*)this)->LoadRawData(&formIDIndex, 3);
+    ::ClearNumericIDIndex((::BGSNumericIDIndex3 *)(((Dummy84eaf0*)&formIDIndex)));
+    reinterpret_cast<::fnv_00864820::FUN_00864820_shell *>((((FUN_00864820_t*)this)))->LoadRawData(&formIDIndex, 3);
     *aiFormID = FUN_00853500(&formIDIndex);
     return !FUN_00864940(&formIDIndex) && *aiFormID == 0;
 }
@@ -711,26 +704,30 @@ bool FUN_008648e0_shell::FUN_008648e0(unsigned int* aiFormID)
 struct FUN_00864940_shell
 {
     unsigned char FUN_00864940();
+    char pad00[0x1];
+    char unk01;
+    char unk02;
+    char pad03[0x1];
 };
 
 // Returns 1 if the first three bytes at this are all zero, otherwise 0.
 // @fnv 0x00864940
 unsigned char FUN_00864940_shell::FUN_00864940()
 {
-    return (!(unsigned char)*reinterpret_cast<char*>(this) && !(unsigned char)reinterpret_cast<char*>(this)[1] &&
-            !(unsigned char)reinterpret_cast<char*>(this)[2])
+    return (!(unsigned char)*reinterpret_cast<char*>(this) && !(unsigned char)this->unk01 &&
+            !(unsigned char)this->unk02)
                ? 1
                : 0;
 }
 
 namespace fnv_008649a0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -768,7 +765,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_008649a0_shell : public BGSLoadGameBuffer
 {
     char* FUN_008649a0(char*);
@@ -776,22 +772,21 @@ struct FUN_008649a0_shell : public BGSLoadGameBuffer
 
 struct FUN_00864820_shell
 {
-    void LoadRawData(void*, unsigned int);
 };
 
 // @fnv 0x008649a0
 char* FUN_008649a0_shell::FUN_008649a0(char* apString)
 {
     unsigned short slength = 0;
-    reinterpret_cast<FUN_00864820_shell*>(this)->LoadRawData(&slength, 2);
+    reinterpret_cast<::fnv_00864820::FUN_00864820_shell *>((reinterpret_cast<FUN_00864820_shell*>(this)))->LoadRawData(&slength, 2);
     if (slength)
     {
         if (!apString)
         {
-            char* p = static_cast<char*>(operator new(slength + 1));
+            char* p = static_cast<char*>(::FUN_00401000(slength + 1));
             apString = p;
         }
-        reinterpret_cast<FUN_00864820_shell*>(this)->LoadRawData(apString, slength);
+        reinterpret_cast<::fnv_00864820::FUN_00864820_shell *>((reinterpret_cast<FUN_00864820_shell*>(this)))->LoadRawData(apString, slength);
         apString[slength] = 0;
     }
     else if (apString)
@@ -811,29 +806,22 @@ struct BGSLoadFormBuffer
 
 struct FUN_0043aaa0_shell
 {
-    char pad1[4];
-    char pad2[4];
-    char pad3[4];
-    char pad4[4];
-    char pad5[4];
-    char pad6[4];
-    char pad7[4];
-    char pad8[4];
-    char pad9[4];
-    char pad10[4];
-    char pad11[4];
-    char pad12[4];
-    char pad13[4];
+    unsigned int unk00;
+    unsigned char unk04[12];
+    unsigned char unk10[12];
+    unsigned char unk1c;
+    char pad1d[0x3];
+    char pad20[0x14];
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
 // @fnv 0x0043aaa0
 void FUN_0043aaa0_shell::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    buffer->ReadTypedData((char*)this + 4, 0xc);
-    buffer->ReadTypedData((char*)this + 0x10, 0xc);
-    buffer->ReadTypedData((char*)this + 0x1c, 1);
-    buffer->ReadFormIdentifier(this);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this->unk04), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this->unk10), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->unk1c), 1);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0(&this->unk00);
 }
 }  // namespace fnv_0043aaa0
 
@@ -870,7 +858,6 @@ struct PackedFormID
     unsigned char m_ucIDByte1;
     unsigned char m_ucIDByte2;
 };
-typedef char _sizecheck_BGSNumericIDIndex[sizeof(PackedFormID) == 3 ? 1 : -1];
 struct FUN_00853500_shell : public PackedFormID
 {
     unsigned int FUN_00853500();
@@ -878,7 +865,6 @@ struct FUN_00853500_shell : public PackedFormID
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct FUN_00846d20_shell
 {
@@ -895,10 +881,9 @@ unsigned int FUN_00853500_shell::FUN_00853500()
         uiValue |= 0xff000000;
         return uiValue;
     }
-    return ((FUN_00846d20_shell*)((ArrSI*)g_BGSSaveLoadGame)->GetFlags())->FUN_00846d20(uiValue);
+    return ((FUN_00846d20_shell*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)g_BGSSaveLoadGame)))->GetName())))->FUN_00846d20(uiValue);
 }
 
-void* __cdecl operator new(unsigned int);
 
 int DAT_011d60cc;
 
@@ -907,7 +892,6 @@ struct FUN_0066deb0
     char _pad[0x1c];
 
     FUN_0066deb0();
-    void FUN_0066e440(BGSLoadGameBuffer*);
 };
 
 // @fnv 0x0066e750
@@ -916,19 +900,18 @@ void FUN_0066e750(BGSLoadGameBuffer* apLoadGameBuffer)
     unsigned int iloop;
     unsigned int isaveGameCount;
 
-    ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadTypedData(&DAT_011d60cc, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&DAT_011d60cc), 4);
     iloop = apLoadGameBuffer->ReadElementCount();
 
     for (isaveGameCount = 0; isaveGameCount < iloop; ++isaveGameCount)
     {
         FUN_0066deb0* pactorCause = new FUN_0066deb0();
-        pactorCause->FUN_0066e440(apLoadGameBuffer);
+        reinterpret_cast<::DetectionViewData *>((pactorCause))->FUN_0066e440(apLoadGameBuffer);
     }
 }
 
-struct NiQuaternion
+class NiQuaternion
 {
-    void ToRotationMatrix(ThreeByThreeMatrix&);
 };
 
 struct BaseS
@@ -948,16 +931,14 @@ void FUN_00864a20_shell::FUN_00864a20(ThreeByThreeMatrix& matrix, unsigned int u
     BaseS quatData;
     {
         BGSLoadFormBuffer* pBuffer = this;
-        pBuffer->ReadTypedData(&quatData, 0x10);
-        reinterpret_cast<NiQuaternion&>(quatData).ToRotationMatrix(matrix);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&quatData), 0x10);
+        reinterpret_cast<::FUN_004f0180_Class *>(&(reinterpret_cast<NiQuaternion&>(quatData)))->FUN_004f0180((::M3_ *)&(matrix));
     }
 }
 
-void __cdecl operator delete(void* pointer);
 
 struct FUN_0081db60_shell
 {
-    void FUN_0081db90();
     FUN_0081db60_shell* FUN_0081db60(unsigned int deletingFlags);
 };
 
@@ -965,22 +946,22 @@ struct FUN_0081db60_shell
 // @fnv 0x0081db60
 FUN_0081db60_shell* FUN_0081db60_shell::FUN_0081db60(unsigned int deletingFlags)
 {
-    FUN_0081db90();
+    reinterpret_cast<::FUN_0081db90_shell *>(this)->FUN_0081db90();
     if (deletingFlags & 1)
     {
-        ::operator delete(this);
+        ::FUN_00401030(this);
     }
     return this;
 }
 
 namespace fnv_00864a60 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -1018,7 +999,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864a60_shell : public BGSLoadGameBuffer
 {
     int FUN_00864a60();
@@ -1039,18 +1019,18 @@ int FUN_00864a60_cls::FUN_00864a60()
     {
     case 0: {
         unsigned char value = 0;
-        ReadTypedData((void*)&value, 1);
+        reinterpret_cast<::fnv_00864820::FUN_00864820_shell *>(this)->LoadRawData((void*)&value, 1);
         return (int)value >> 2;
     }
     case 1: {
         unsigned short value = 0;
-        ReadTypedData((void*)&value, 2);
+        reinterpret_cast<::fnv_00864820::FUN_00864820_shell *>(this)->LoadRawData((void*)&value, 2);
         return (int)value >> 2;
         break;
     }
     case 2: {
         unsigned int value = 0;
-        ReadTypedData((void*)&value, 4);
+        reinterpret_cast<::fnv_00864820::FUN_00864820_shell *>(this)->LoadRawData((void*)&value, 4);
         return (int)(value >> 2);
     }
     }

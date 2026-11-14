@@ -2,11 +2,15 @@
 #ifndef FNV_BGSPLACEABLEWATER_H
 #define FNV_BGSPLACEABLEWATER_H
 
+#include "fnv/decl/FUN_00535aa0_Class.h"
+#include "fnv/decl/HungerStageData.h"
+#include "fnv/water/placeable_water.h"
+#include "fnv/decl/S_00462230.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
 #include "layout_support.h"
-class BGSPlaceableWater;
+struct BGSPlaceableWater;
 class PlaceableWaterData;
 class BSFileEntry;
 class ShortPoint3;
@@ -14,8 +18,7 @@ class TESBoundObject__BOUND_DATA;
 class TESModel;
 class TESFormList;
 class FileEntryList;
-class TESWaterForm;
-#pragma pack(push, 4)
+struct TESWaterForm;
 class TESObject : public TESForm
 {
   public:
@@ -44,12 +47,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
-#pragma pack(push, 4)
 class ShortPoint3
 {
   public:
@@ -89,23 +86,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
-#pragma pack(push, 4)
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
@@ -127,10 +113,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -147,11 +129,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -185,32 +162,7 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
-class PlaceableWaterData
-{
-  public:
-    unsigned long ulFlags;         // +0x0, 4 bytes
-    TESWaterForm* m_pOwningWater;  // +0x4, 4 bytes
-    void FUN_004019f0();
-    void Reinitialize();
-    void Reset();
-    void FUN_00535aa0();
-    void FUN_00462230();
-    // void __cdecl PlaceableWaterData::*()
-    // void __cdecl PlaceableWaterData::*()
-    // void __cdecl PlaceableWaterData::*()
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PlaceableWaterData) == 8);
-FNV_STATIC_ASSERT(offsetof(PlaceableWaterData, ulFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(PlaceableWaterData, m_pOwningWater) == 4);
-#pragma pack(push, 4)
-class BGSPlaceableWater : public TESBoundObject, public TESModel
+struct BGSPlaceableWater : public TESBoundObject, public TESModel
 {
   public:
     // base TESBoundObject at +0x0, size 48
@@ -220,17 +172,7 @@ class BGSPlaceableWater : public TESBoundObject, public TESModel
     void ResetFormData();
     virtual void InitItem(void);
     virtual bool Load(TESFile* file);
-    PlaceableWaterData* FUN_00624700();
-    void FUN_004fc360(bool);
-    void FUN_004fc380(bool);
-    void FUN_004fc3a0(bool);
-    void FUN_004fc3c0(bool);
-    void FUN_004fc3e0(bool);
-    void SetFlag800(bool);
-    void FUN_004fc420(bool);
-    void FUN_004fc450(bool);
-    void FUN_004fc470(bool);
-    void FUN_004fc490(bool);
+    bool HasFlags(unsigned int);
     // BGSPlaceableWater
     // void __cdecl BGSPlaceableWater::*()
     // PlaceableWaterData* __cdecl BGSPlaceableWater::*()
@@ -289,7 +231,4 @@ class BGSPlaceableWater : public TESBoundObject, public TESModel
     // BGSPlaceableWater& __cdecl BGSPlaceableWater::*(const BGSPlaceableWater&)
     // void __cdecl BGSPlaceableWater::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPlaceableWater) == 80);
-FNV_STATIC_ASSERT(offsetof(BGSPlaceableWater, Data) == 72);
 #endif

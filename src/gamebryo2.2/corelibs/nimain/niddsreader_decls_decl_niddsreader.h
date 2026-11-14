@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niddsreader_decls_decl_niddsreader.h: declares NiPixelFormat, NiImageReader, NiBMPReader
 #ifndef NIDDSREADER_DECLS_H
 #define NIDDSREADER_DECLS_H
+#include "fnv/symbols_011aa000.h"
 class NiPixelFormat
 {
   public:
@@ -13,8 +14,7 @@ class NiPixelFormat
     unsigned short pad;
     unsigned int data[16];
 };
-extern const NiPixelFormat DAT_011aa2e8;
-extern void(__stdcall* DAT_00fdf054)(void*);
+extern void(* DAT_00fdf054)(void*);
 class NiImageReader
 {
   public:

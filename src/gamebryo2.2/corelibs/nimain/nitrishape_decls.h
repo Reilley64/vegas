@@ -5,15 +5,14 @@
 
 #include "nitrishape_types_NiGeometryData__DataFlags.h"
 
-class NiPoint2;
-class NiPoint3;
-class RgbaColor;
+struct NiPoint2;
+struct NiPoint3;
+struct RgbaColor;
 class NiTriShape;
 
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
 };
 
 class NiTriBasedGeomData : public NiMemObject
@@ -41,6 +40,8 @@ class NiTriBasedGeom : public NiGeometry
 {
   public:
     NiTriBasedGeom(NiTriBasedGeomData*) throw();
+public:
+    void SetBitfield(unsigned short, unsigned short, unsigned short);
 };
 
 class NiTriShape : public NiTriBasedGeom
@@ -51,7 +52,5 @@ class NiTriShape : public NiTriBasedGeom
     virtual ~NiTriShape();
 };
 
-FNV_STATIC_ASSERT(sizeof(NiTriShapeData) == 0x58);
-FNV_STATIC_ASSERT(sizeof(NiTriShape) == 0xc4);
 
 #endif

@@ -1,6 +1,7 @@
 // bsshader/bsorderednode_decls.h: declares NiBinaryStream, NiStream, NiNode, NiSphere, BSOrderedNode
 #ifndef BSORDEREDNODE_DECLS_H
 #define BSORDEREDNODE_DECLS_H
+#include "fnv/decl/fnv_00a5dd40__FUN_00a5dd40_shell.h"
 class NiBinaryStream
 {
   public:
@@ -15,7 +16,7 @@ class NiBinaryStream
         return result;
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     void* vtable;
@@ -27,13 +28,15 @@ class NiNode
 {
   public:
     char data[0xac];
-    void LoadBinary(NiStream&);
 };
+struct NiStream;
 class NiSphere
 {
   public:
     char data[16];
     void LoadBinary(NiStream&);
+public:
+    void SaveBinary(::NiStream &);
 };
 class BSOrderedNode : public NiNode
 {

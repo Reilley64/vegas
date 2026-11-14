@@ -2,12 +2,28 @@
 // src/gamebryo2.2/corelibs/nianimation/nilightdimmercontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nilightdimmercontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" char __stdcall FUN_00a57c10(void* a);
 
 // @fnv 0x00a4cf50
-char __stdcall FUN_00a4cf50(void* pThis)
+#include <cstdint>
+#include <new>
+#include "fnv/decl/FUN_00a57640_shell.h"
+#include "fnv/decl/FUN_00a6d290.h"
+#include "fnv/decl/NiAlphaController.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/StandIn.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a57c70__FUN_00a57c70.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+char FUN_00a4cf50(void* pThis)
 {
-    return FUN_00a57c10(pThis) != 0;
+    return ((char)(reinterpret_cast<::StandIn *>((pThis))->FUN_00a57c10({}, {}))) != 0;
 }
 
 struct NiLight
@@ -32,31 +48,25 @@ void NiLightDimmerController::GetLightDimmer(float& fValue)
 
 struct GlobalObjectO2_00a7b610;
 
-extern GlobalObjectO2_00a7b610 g_011f3fa0;
 
 // @fnv 0x00a4cf90
 GlobalObjectO2_00a7b610* __cdecl FUN_00a4cf90()
 {
-    return &g_011f3fa0;
+    return &::g_011f3fa0;
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiFloatInterpController
 {
     NiFloatInterpController();
 };
 extern int DAT_01098ccc;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // @fnv 0x00a4d0d0
 void* FUN_00a4d0d0()
 {
-    void* p = BSFadeNode::operator new(0x38);
+    void* p = ::operator new(0x38);
     if (p)
     {
         new (p) NiFloatInterpController();
@@ -66,11 +76,12 @@ void* FUN_00a4d0d0()
     return 0;
 }
 
-template <typename T> struct NiTMallocInterface
+template <typename T> class NiTMallocInterface
 {
 };
-template <typename T, typename A> struct NiTPrimitiveArray
+template <typename T, typename A> class NiTPrimitiveArray
 {
+  public:
     char _pad[8];
     unsigned short m_pRayCursor;
     unsigned short m_iElementCount;
@@ -79,51 +90,45 @@ template <typename T, typename A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00a576c0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
-char* __cdecl FUN_00a7d330(const char*);
 // @fnv 0x00a4d100
-void __stdcall FUN_00a4d100(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void FUN_00a4d100(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
-    FUN_00a576c0(pkStrings);
-    char* pszStr = FUN_00a7d330(*(const char**)&g_011f3fa0);
+    ::FUN_00a576c0(pkStrings);
+    char* pszStr = FUN_00a7d330(*(const char**)&::g_011f3fa0);
     unsigned int uIdx = pkStrings->m_iElementCount;
     if (uIdx >= pkStrings->m_pRayCursor)
-        pkStrings->SetSize(uIdx + pkStrings->m_grow);
-    pkStrings->SetAt(uIdx, pszStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uIdx + pkStrings->m_grow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uIdx, pszStr);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FloatInterpOwner
 {
-    void FUN_00a57620(void* obj, int arg);
-    void* CreateFloatInterpController(int arg);
+    void* CreateFloatInterpController(intptr_t arg);
 };
 
 // @fnv 0x00a4d080
-void* FloatInterpOwner::CreateFloatInterpController(int arg)
+void* FloatInterpOwner::CreateFloatInterpController(intptr_t arg)
 {
     NiFloatInterpController* obj = (NiFloatInterpController*)FUN_00aa13e0(0x38);
     if (obj != 0)
     {
-        obj->NiFloatInterpController::NiFloatInterpController();
-        *(int*)obj = (int)&DAT_01098ccc;
+        reinterpret_cast<::FUN_00a57640_shell *>((obj))->FUN_00a57640();
+        *(intptr_t*)obj = (intptr_t)&DAT_01098ccc;
     }
     else
     {
         obj = 0;
     }
-    FUN_00a57620(obj, arg);
+    reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(obj), (*(::CloningProcess *)(arg)));
     return obj;
 }
 
-class NiRTTI;
-extern NiRTTI DAT_011f4a28;
-extern const float DAT_01096324;
+struct NiRTTI;
 
 struct DynCastHelper
 {
-    DynCastHelper* DynamicCast(const GlobalObjectO2_00a7b610* pkRTTI);
 };
 
 class NiLightW
@@ -216,7 +221,6 @@ class NiLightDimmerControllerW
     {
         return ((m_uiObjectFlags >> 5) & 1) != 0;
     }
-    bool FUN_00a36250(float fTime);
     void UpdateDimmer(const float& fTime);
 };
 
@@ -227,7 +231,7 @@ void NiLightDimmerControllerW::UpdateDimmer(const float& fTime)
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(fTime) && (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(fTime) && (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
     }
@@ -240,19 +244,18 @@ void NiLightDimmerControllerW::UpdateDimmer(const float& fTime)
             if (m_pkTarget)
             {
                 NiLightW* pkLight =
-                    (NiLightW*)((DynCastHelper*)m_pkTarget)->DynamicCast((const GlobalObjectO2_00a7b610*)&DAT_011f4a28);
+                    (NiLightW*)((::DynCastHelper *)(reinterpret_cast<::NiObject *>((((DynCastHelper*)m_pkTarget)))->DynamicCast((const ::NiRTTI *)(const ::GlobalObjectO2_00a7b610 *)((const GlobalObjectO2_00a7b610*)&(*reinterpret_cast<::NiRTTI *>(&::g_011f4a28))))));
                 pkLight->SetDimmer(fValue);
             }
         }
     }
 }
 
-extern void FUN_00a57c70();
 
 // @fnv 0x00a4cf40
 void FUN_00a4cf40()
 {
-    FUN_00a57c70();
+    static_cast<::fnv_00a57c70::FUN_00a57c70 *>(nullptr)->LoadBinary(*(::fnv_00a57c70::NiStream *)nullptr);
 }
 
 #include <windows.h>
@@ -284,7 +287,6 @@ struct FUN_00a4d030_cls
     int unk30;
     a4d030_Counted* m_pCounted;
 
-    void BaseCleanup();
     FUN_00a4d030_cls* FUN_00a4d030(unsigned char acFlags);
 };
 
@@ -292,7 +294,7 @@ struct FUN_00a4d030_cls
 // @fnv 0x00a4d030
 FUN_00a4d030_cls* FUN_00a4d030_cls::FUN_00a4d030(unsigned char acFlags)
 {
-    *(volatile int*)&m_vptr = (int)&DAT_01098ccc;
+    *(volatile intptr_t*)&m_vptr = (intptr_t)&DAT_01098ccc;
     a4d030_Counted* pCounted = *(a4d030_Counted* volatile*)&m_pCounted;
     if (pCounted != 0)
     {
@@ -301,7 +303,7 @@ FUN_00a4d030_cls* FUN_00a4d030_cls::FUN_00a4d030(unsigned char acFlags)
             pCounted->Release();
         }
     }
-    BaseCleanup();
+    reinterpret_cast<struct ::FUN_00a6d290 *>(this)->FUN_00a6d290::~FUN_00a6d290();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x38);

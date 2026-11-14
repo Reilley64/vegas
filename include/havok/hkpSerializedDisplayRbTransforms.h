@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkpSerializedDisplayRbTransformsDisplayTransformPair;
-#pragma pack(push, 1)
 class hkpSerializedDisplayRbTransforms : public hkReferencedObject
 {
   public:
     hkArray<hkpSerializedDisplayRbTransformsDisplayTransformPair> m_kTransforms;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSerializedDisplayRbTransforms[(sizeof(hkpSerializedDisplayRbTransforms) == 0x14) ? 1 : -1];
 #endif

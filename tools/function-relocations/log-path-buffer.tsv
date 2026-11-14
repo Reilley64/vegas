@@ -1,0 +1,18 @@
+# The functions that read or write the user folder buffer at 0x01202fa0
+# (VEGAS-109): WinMain's four log-path builders, the function at 0x004dc110
+# that returns the buffer, and the two functions that build the Controls INI
+# path. Format: README.md.
+# The buffer was defined as an 8-byte pointer under this name: two builders
+# and the INI reader passed its null value to strcpy_s, and the others read
+# 260 bytes from the 8-byte object:
+forbid	?DAT_01202fa0@@3PEADEA
+# The buffer, 260 bytes up to the next address the recipe binds:
+past	?DAT_01202fa0@@3PADA	260
+# batch, unit, function, the buffer:
+function	builders	src/fallout/misc/log_paths.cpp	?FUN_00c3bb90@@YAXPEBD@Z	?DAT_01202fa0@@3PADA
+function	builders	src/fallout/misc/log_paths.cpp	?FUN_00c3bbe0@fnv_00c3bbe0@@YAXPEBD@Z	?DAT_01202fa0@@3PADA
+function	builders	src/fallout/misc/log_paths.cpp	?FUN_00c3bc30@@YAXPEBD@Z	?DAT_01202fa0@@3PADA
+function	builders	src/fallout/misc/log_paths.cpp	?FUN_00c3bc80@fnv_00c3bc80@@YAXPEBD@Z	?DAT_01202fa0@@3PADA
+function	owner	src/fallout/misc/user_folder.cpp	?FUN_004dc110@@YAPEADXZ	?DAT_01202fa0@@3PADA
+function	controls	src/staging/blk_00a20000_od.cpp	?LoadControlsFromIni@ControlsIniLoader@@QEAAXXZ	?DAT_01202fa0@@3PADA
+function	controls	src/staging/blk_00a20000_od.cpp	?FUN_00a22e10@S_00a22e10_Cls@fnv_00a22e10@@QEAAXXZ	?DAT_01202fa0@@3PADA

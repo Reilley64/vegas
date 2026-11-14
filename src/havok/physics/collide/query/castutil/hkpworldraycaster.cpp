@@ -2,23 +2,10 @@
 // src/havok/physics/collide/query/castutil/hkpworldraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/castutil/hkpworldraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int32 m128_u32[4];
-} __m128;
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
 
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-extern "C" __m128 _mm_unpacklo_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_unpackhi_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_movelh_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_movehl_ps(__m128 _A, __m128 _B);
 
 class hkBool
 {
@@ -39,7 +26,7 @@ class hkBool
 class hkRotation;
 class hkTransform;
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;
@@ -197,11 +184,11 @@ float hkpWorldRayCaster::CastRay(const hkpTypedBroadPhaseHandle* broadPhaseHandl
     if (shape)
     {
         const WorldRayCastInput& input = m_pRayCastInput[castIndex];
-        if (m_iFilter->IsCollisionEnabled(input, *col))
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_iFilter->IsCollisionEnabled(input, *col)))->FUN_005609f0())
         {
             const hkTransform& trans = col->getTransform();
-            m_kShapeRayInput.m_vFrom.SetTransformedPosition(trans, m_pRayCastInput->m_vFrom);
-            m_kShapeRayInput.m_vTo.SetTransformedPosition(trans, input.m_vTo);
+            reinterpret_cast<::FUN_00c7f690_cls *>(&(m_kShapeRayInput.m_vFrom))->FUN_00c7f690((const ::S_00c7f690_M *)&(trans), (const ::S_00c7f690_V *)&(m_pRayCastInput->m_vFrom));
+            reinterpret_cast<::FUN_00c7f690_cls *>(&(m_kShapeRayInput.m_vTo))->FUN_00c7f690((const ::S_00c7f690_M *)&(trans), (const ::S_00c7f690_V *)&(input.m_vTo));
             m_kShapeRayInput.m_uiFilterInfo = input.m_uiFilterInfo;
             shape->castRayWithCollector(m_kShapeRayInput, *col, *collector);
         }

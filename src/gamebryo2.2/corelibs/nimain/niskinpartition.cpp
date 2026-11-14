@@ -1,6 +1,42 @@
 // gamebryo2.2/corelibs/nimain/niskinpartition.cpp: NiAccumulator, Partition, Holder, MyCls and more (36 functions)
 
+#include <cstdint>
+#include <new>
+#include <cstdlib>
+#include <cstring>
+#include "fnv/skin_bone_set.h"
+#include "fnv/list_node.h"
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00a311e0_s.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a68820_cls.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGeometryDataCmp.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/SkinDataBounds.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a81000.h"
+#include "fnv/symbols_00a82000.h"
+#include "fnv/symbols_00a83000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0109e000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 #include "niskinpartition_decls.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
 // @fnv 0x00d47a40
 void NiAccumulator::SetSortingCamera(const NiCamera* camera)
 {
@@ -25,113 +61,72 @@ const void* __cdecl FUN_00a820d0()
 }
 
 // @fnv 0x00a82600
-void __stdcall FUN_00a82600(int pTarget, int b, float c)
+void FUN_00a82600(intptr_t pTarget, int b, float c)
 {
     *(float*)(pTarget + 8) = c;
     *(int*)(pTarget + 4) = b;
 }
 
-struct Holder
-{
-    unsigned short* m_pusData;
-    unsigned int m_u4;
-    unsigned int m_uiCount;
-    bool ContainsSortedSubset(const Holder* pkOther);
-};
-// @fnv 0x00a82190
-bool Holder::ContainsSortedSubset(const Holder* pkOther)
-{
-    unsigned int uiSrc = 0;
-    for (unsigned int uiDst = 0; uiDst < pkOther->m_uiCount; ++uiDst)
-    {
-        while (uiSrc < m_uiCount && m_pusData[uiSrc] < pkOther->m_pusData[uiDst])
-            ++uiSrc;
-        if (uiSrc == m_uiCount)
-            return false;
-        if (m_pusData[uiSrc] != pkOther->m_pusData[uiDst])
-            return false;
-        ++uiSrc;
-    }
-    return true;
-}
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 struct NiRenderer
 {
     static NiRenderer* ms_pRenderer;
 };
-extern int DAT_0109e47c;
 struct P03MM
 {
-    void __thiscall _DeallocateAlias(void* p);
 };
-extern P03MM g_memoryManager;
 struct S : NiRefObject
 {
     int f4;
     int f8;
     void* fC;
-    void __thiscall FUN_00a824d0();
+    void FUN_00a824d0();
 };
 // @fnv 0x00a824d0
-void __thiscall S::FUN_00a824d0()
+void S::FUN_00a824d0()
 {
     *(void**)this = (void*)&DAT_0109e47c;
     if (NiRenderer::ms_pRenderer)
-        ((void(__thiscall*)(NiRenderer*, void*))(*(void***)NiRenderer::ms_pRenderer)[64])(NiRenderer::ms_pRenderer,
+        ((void(*)(NiRenderer*, void*))(*(void***)NiRenderer::ms_pRenderer)[64])(NiRenderer::ms_pRenderer,
                                                                                           this);
     void* p = fC;
     if (p)
     {
         void* a = (char*)p - 4;
         if (*(int*)a != 0)
-            (*(void(__thiscall**)(void*, int)) * (void**)p)(p, 3);
+            (*(void(**)(void*, int)) * (void**)p)(p, 3);
         else
-            g_memoryManager._DeallocateAlias(a);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(a);
     }
-    ((NiRefObject*)this)->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
 struct NiTAbstractPoolAllocator_unsigned_int
 {
     struct LinkedListEntry* ms_pFreeList;
-    struct RecursiveSpinLock* ms_kPoolState;
+    class RecursiveSpinLock* ms_kPoolState;
 };
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
-    void __thiscall Lock(const char*);
 };
-extern RecursiveSpinLock g_011c5f80;
-extern unsigned int DAT_011c5f84;
-extern NiTAbstractPoolAllocator_unsigned_int NiTAbstractPoolAllocator_unsigned_int_instance;
 // @fnv 0x00a82620
-void __stdcall PoolFreeUIntNode(void* apNode)
+void PoolFreeUIntNode(void* apNode)
 {
-    *(float*)((char*)apNode + 8) = 0.0f;
-    g_011c5f80.Lock(0);
-    *(int*)((char*)apNode + 4) = 0;
-    *(void***)apNode = *(void***)&NiTAbstractPoolAllocator_unsigned_int_instance.ms_pFreeList;
-    --DAT_011c5f84;
-    *(void***)&NiTAbstractPoolAllocator_unsigned_int_instance.ms_pFreeList = (void**)apNode;
-    if (!DAT_011c5f84)
-        *(unsigned int*)&g_011c5f80 = 0;
+    fnv::list::RecycleStorage(apNode);
 }
 
 namespace fnv_00a82670 {
 struct NiTMapBaseStub
 {
-    void RemoveAll();
 };
-void _NiFreeAlias(void*);
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
-extern int DAT_0109e50c;
 struct S0082670
 {
     void* Destroy(unsigned int);
@@ -141,16 +136,14 @@ struct S0082670
 void* S0082670::Destroy(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_0109e50c;
-    ((NiTMapBaseStub*)this)->RemoveAll();
-    _NiFreeAlias(*(void**)((char*)this + 8));
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
+    ::FUN_00aa10f0(*(void**)((char*)this + 8));
     if (auiFlags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a82670::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00a82670
 
-void* __cdecl NiMalloc(unsigned int);
-void __cdecl NiFreeAlias(void*);
 
 struct FUN_00a82710_shell
 {
@@ -168,13 +161,13 @@ void FUN_00a82710_shell::FUN_00a82710(unsigned int n)
         void* p;
         if (n > 0)
         {
-            p = NiMalloc(n * 2);
+            p = ::FUN_00aa1070(n * 2);
             for (unsigned int i = 0; i < m_uiItemCount; ++i)
                 ((unsigned short*)p)[i] = ((unsigned short*)m_p)[i];
         }
         else
             p = 0;
-        NiFreeAlias(m_p);
+        ::FUN_00aa10f0(m_p);
         m_p = p;
         m_iElementCount = n;
     }
@@ -182,49 +175,30 @@ void FUN_00a82710_shell::FUN_00a82710(unsigned int n)
 
 struct FUN_00a82890_shell
 {
-    char __thiscall ContainsAllValues(void*);
-    char __thiscall FUN_00a82890(const unsigned short* a, const void* b);
+    char FUN_00a82890(const unsigned short* a, const void* b);
 };
 
-// Calls ContainsAllValues on three offsets into b taken from a, returning 0 if any call fails and 1 otherwise.
-// @fnv 0x00a82890
-char __thiscall FUN_00a82890_shell::FUN_00a82890(const unsigned short* a, const void* apBase)
-{
-    for (unsigned int i = 0; i < 3; ++i)
-        if (!ContainsAllValues((char*)apBase + a[i] * 12))
-            return 0;
-    return 1;
-}
-
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00a82c70_holder
 {
-    void FUN_00a824d0();
     void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_00a824d0, then deletes this with size 0x10 when bit 0 of a is set, and returns this.
 // @fnv 0x00a82c70
 void* FUN_00a82c70_holder::DestroyIfFlagged(unsigned int auiFlags)
 {
-    FUN_00a824d0();
+    reinterpret_cast<::S *>(this)->FUN_00a824d0();
     if (auiFlags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
 namespace fnv_00a82cf0 {
 struct NiTMapBaseStub
 {
-    void RemoveAll();
 };
-extern int DAT_0109e50c;
-extern int DAT_0109e52c;
-void __cdecl _NiFreeAlias(void*);
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct S_00a82cf0
 {
     void* FUN_00a82cf0(unsigned int);
@@ -234,12 +208,12 @@ struct S_00a82cf0
 void* S_00a82cf0::FUN_00a82cf0(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_0109e52c;
-    ((NiTMapBaseStub*)this)->RemoveAll();
-    *(void**)this = (void*)&DAT_0109e50c;
-    ((NiTMapBaseStub*)this)->RemoveAll();
-    _NiFreeAlias(*(void**)((char*)this + 8));
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
+    *(void**)this = (void*)&::fnv_00a82670::DAT_0109e50c;
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
+    ::FUN_00aa10f0(*(void**)((char*)this + 8));
     if (auiFlags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a82cf0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00a82cf0
@@ -249,7 +223,6 @@ struct C082d30
     unsigned short* f0;
     unsigned int f4;
     unsigned int f8;
-    void FUN_00a82710(unsigned int);
     void AppendMatchingIndices(int, int*, unsigned int);
 };
 // Scans the first c entries of b and appends the index of each entry equal to a to f0, growing the buffer via FUN_00a82710 when full.
@@ -267,7 +240,7 @@ void C082d30::AppendMatchingIndices(int aiValue, int* paiValues, unsigned int c)
                     n = f4 * 2;
                 else
                     n = 1;
-                FUN_00a82710(n);
+                reinterpret_cast<::FUN_00a82710_shell *>(this)->FUN_00a82710(n);
             }
             f0[f8++] = (unsigned short)i;
         }
@@ -286,28 +259,25 @@ struct MyCls
     Dummy13 _0c;
     int _40;
     int _44;
-    void _Call_a5d3a0();
     void FUN_00a853c0(int);
-    MyCls* InitFromData(int, int, const Dummy13&, int);
+    MyCls* InitFromData(int, int, const Dummy13&, intptr_t);
 };
 extern int DAT_0109e574;
 int __cdecl FUN_00a853c0();
 // Initialises the object: sets the vtable, clears _08, copies a3 into _0c, stores a2 and a1, then calls FUN_00a853c0(a4) and returns this.
 // @fnv 0x00a854c0
-MyCls* MyCls::InitFromData(int a1, int a2, const Dummy13& aData, int a4)
+MyCls* MyCls::InitFromData(int a1, int a2, const Dummy13& aData, intptr_t a4)
 {
-    _Call_a5d3a0();
+    new ((void *)this) struct ::FUN_00a5d3a0();
     vf = (void*)&DAT_0109e574;
     _08 = 0;
     _0c = aData;
     _40 = a2;
     _44 = a1;
-    FUN_00a853c0(a4);
+    reinterpret_cast<::SkinDataBounds *>(this)->FUN_00a853c0((::Point3 *)(a4));
     return this;
 }
 
-void* __cdecl _NiMalloc(unsigned int);
-void __cdecl _NiFree(void*);
 
 struct FUN_00a826b0_shell
 {
@@ -325,7 +295,7 @@ void FUN_00a826b0_shell::FUN_00a826b0(unsigned int n)
     void* p;
     if (n > 0)
     {
-        p = _NiMalloc(n * 8);
+        p = ::FUN_00aa1070(n * 8);
         unsigned int i = 0;
         if (m_uiBufferCapacity > 0)
         {
@@ -343,7 +313,7 @@ void FUN_00a826b0_shell::FUN_00a826b0(unsigned int n)
     {
         p = 0;
     }
-    _NiFree(m_p);
+    ::FUN_00aa10f0(m_p);
     m_p = p;
     m_uiItemCount = n;
 }
@@ -361,7 +331,6 @@ struct FUN_00a81ff0_elem
     int m_20;
     int m_24;
     int m_28;
-    bool FUN_00a81c90(const FUN_00a81ff0_elem* other);
 };
 
 struct FUN_00a81ff0_cls
@@ -370,33 +339,8 @@ struct FUN_00a81ff0_cls
     int m_04;
     unsigned int m_uiItemCount;
     FUN_00a81ff0_elem* m_pElements;
-    bool IsSameAs(const FUN_00a81ff0_cls* other);
     bool Equals(const FUN_00a81ff0_cls* other);
 };
-
-// @fnv 0x00a81ff0
-bool FUN_00a81ff0_cls::Equals(const FUN_00a81ff0_cls* other)
-{
-    if (!IsSameAs(other))
-        return false;
-    unsigned int count = m_uiItemCount;
-    if (count != other->m_uiItemCount)
-        return false;
-    unsigned int i = 0;
-    if (count > 0)
-    {
-        FUN_00a81ff0_elem* a = m_pElements;
-        int iOffset = (int)other->m_pElements - (int)m_pElements;
-        do
-        {
-            if (!a->FUN_00a81c90((FUN_00a81ff0_elem*)((int)a + iOffset)))
-                return false;
-            i++;
-            a++;
-        } while (i < count);
-    }
-    return true;
-}
 
 struct S_00a82050_Node
 {
@@ -416,13 +360,13 @@ struct S_00a82050_Class : S_00a82050_Base
     S_00a82050_Node** ppNodes;
     unsigned int uCount;
 
-    virtual int __thiscall GetIndex(int);
-    virtual bool __thiscall Compare(int, int);
-    virtual void __thiscall Initialize(S_00a82050_Node*, int, float);
+    virtual int GetIndex(intptr_t);
+    virtual bool Compare(intptr_t, int);
+    virtual void Initialize(S_00a82050_Node*, intptr_t, float);
     virtual void Unknown();
-    virtual S_00a82050_Node* __thiscall GetNode();
+    virtual S_00a82050_Node* GetNode();
 
-    void __thiscall FUN_00a82050(int, float);
+    void FUN_00a82050(intptr_t, float);
 };
 
 S_00a82050_Base::~S_00a82050_Base()
@@ -430,7 +374,7 @@ S_00a82050_Base::~S_00a82050_Base()
 
 // Looks up the node matching iArg in the bucket at GetIndex(iArg) and sets its fValue to fArg, or inserts a new node at the bucket head and increments uCount.
 // @fnv 0x00a82050
-void __thiscall S_00a82050_Class::FUN_00a82050(int aiKey, float afValue)
+void S_00a82050_Class::FUN_00a82050(intptr_t aiKey, float afValue)
 {
     int iIndex;
     S_00a82050_Node* pNode;
@@ -478,10 +422,7 @@ void __thiscall S_00a82050_Class::FUN_00a82050(int aiKey, float afValue)
 // The helper and the comparison routine are declared but never defined, so the
 // checker binds both call targets from the original's own bytes.
 
-extern "C" void* __cdecl FNV_search_821f0(const void* key, const void* base, unsigned int count, unsigned int size,
-                                          int(__cdecl* cmp)(const void*, const void*));
 
-extern "C" int __cdecl FNV_cmp_us_821f0(const void* a, const void* b);
 
 // One record of the list that is handed in: the 16-bit key sits at +0 and the
 // record is eight bytes wide.
@@ -505,12 +446,21 @@ struct FNV_This_821f0
     unsigned short* m_pusData;
     unsigned int unk04;
     unsigned int m_uCount;
-    char __thiscall ContainsAllValues(FNV_Arg_821f0* pArg);
+    char ContainsAllValues(FNV_Arg_821f0* pArg);
 };
+// Calls ContainsAllValues on three offsets into b taken from a, returning 0 if any call fails and 1 otherwise.
+// @fnv 0x00a82890
+char FUN_00a82890_shell::FUN_00a82890(const unsigned short* a, const void* apBase)
+{
+    for (unsigned int i = 0; i < 3; ++i)
+        if (!reinterpret_cast<::FNV_This_821f0 *>(this)->ContainsAllValues((::FNV_Arg_821f0 *)(void *)((char*)apBase + a[i] * 12)))
+            return 0;
+    return 1;
+}
 
 // Returns 0 if any usVal in pArg's array is not found in m_pusData via binary search, otherwise 1.
 // @fnv 0x00a821f0
-char __thiscall FNV_This_821f0::ContainsAllValues(FNV_Arg_821f0* pArg)
+char FNV_This_821f0::ContainsAllValues(FNV_Arg_821f0* pArg)
 {
     // The scratch slot that is handed to the search helper is address-taken, so
     // MSVC puts it in the dead incoming-argument slot of this frameless member
@@ -528,14 +478,13 @@ char __thiscall FNV_This_821f0::ContainsAllValues(FNV_Arg_821f0* pArg)
             // the store of the scratch slot below the whole argument-push
             // chain, i.e. right in front of the call.
             unsigned int uiSearchCount = m_uCount;
-            if (FNV_search_821f0(&key, m_pusData, uiSearchCount, 2, FNV_cmp_us_821f0) == 0)
+            if (std::bsearch(&key, m_pusData, uiSearchCount, 2, ((int (&)(const void *, const void *))::FUN_00a81b80)) == 0)
                 return 0;
         }
     }
     return 1;
 }
 
-void* __cdecl NiMalloc(unsigned int);
 
 struct TriIndexList
 {
@@ -605,7 +554,7 @@ unsigned short* PartitionEx::BuildVertexRemapTable(const TriIndexList& kTriangle
     unsigned short* pusOldToNew;
     unsigned int uiVertices;
     uiVertices = pkData->m_usVertices;
-    pusOldToNew = (unsigned short*)NiMalloc(uiVertices * sizeof(unsigned short));
+    pusOldToNew = (unsigned short*)::FUN_00aa1070(uiVertices * sizeof(unsigned short));
     for (unsigned int i = 0; i < uiVertices; i++)
         pusOldToNew[i] = 0xffff;
 
@@ -624,7 +573,7 @@ unsigned short* PartitionEx::BuildVertexRemapTable(const TriIndexList& kTriangle
         }
     }
 
-    m_pusSourceVertexIndices = (unsigned short*)NiMalloc(lNew * sizeof(unsigned short));
+    m_pusSourceVertexIndices = (unsigned short*)::FUN_00aa1070(lNew * sizeof(unsigned short));
     m_usVertices = (unsigned short)lNew;
     for (unsigned int i = 0; i < uiVertices; i++)
     {
@@ -658,11 +607,10 @@ struct WeightedMap
     virtual bool KeysEqual(void* left, void* right);
     unsigned int unk04;
     WeightedMapNode** buckets;
-    void FUN_00a82050(void* key, float weight);
 };
 // For each of three group indices, inserts each entry's key and weight into the map only if the key is absent or its stored weight is lower.
 // @fnv 0x00a82530
-void __stdcall MergeGroupWeights(WeightedMap* map, const unsigned short* groupIndices, EntryGroup* __restrict groups)
+void MergeGroupWeights(WeightedMap* map, const unsigned short* groupIndices, EntryGroup* __restrict groups)
 {
     for (unsigned int groupIndex = 0; groupIndex < 3; ++groupIndex)
     {
@@ -683,7 +631,7 @@ void __stdcall MergeGroupWeights(WeightedMap* map, const unsigned short* groupIn
                 }
                 node = node->next;
             }
-            map->FUN_00a82050(key, group->entries[itemIndex].weight);
+            reinterpret_cast<::S_00a82050_Class *>((map))->FUN_00a82050((intptr_t)(key), group->entries[itemIndex].weight);
         nextItem:;
         }
     }
@@ -767,6 +715,29 @@ struct PartitionCompare : NiSkinPartition::Partition
 {
     bool FUN_00a81c90(const PartitionCompare* other);
 };
+// @fnv 0x00a81ff0
+bool FUN_00a81ff0_cls::Equals(const FUN_00a81ff0_cls* other)
+{
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(other)))
+        return false;
+    unsigned int count = m_uiItemCount;
+    if (count != other->m_uiItemCount)
+        return false;
+    unsigned int i = 0;
+    if (count > 0)
+    {
+        FUN_00a81ff0_elem* a = m_pElements;
+        intptr_t iOffset = (intptr_t)other->m_pElements - (intptr_t)m_pElements;
+        do
+        {
+            if (!reinterpret_cast<::PartitionCompare *>((a))->FUN_00a81c90((const ::PartitionCompare *)(const ::FUN_00a81ff0_elem *)((FUN_00a81ff0_elem*)((intptr_t)a + iOffset))))
+                return false;
+            i++;
+            a++;
+        } while (i < count);
+    }
+    return true;
+}
 // @fnv 0x00a81c90
 bool PartitionCompare::FUN_00a81c90(const PartitionCompare* other)
 {
@@ -853,7 +824,6 @@ unsigned int CA82250MergeIterator::GetNext()
 
 // Build this partition's triangle list: fetch each source triangle and remap its vertex indices.
 
-void* NiMalloc(unsigned int uiSize);
 
 struct A2400TriangleSet
 {
@@ -930,7 +900,7 @@ class A2400Partition
 // @fnv 0x00a82400
 void A2400Partition::BuildTriangleList(A2400TriangleSet* pkSet, A2400Source* pkSource, unsigned short* pusRemap)
 {
-    m_pusTriList = (unsigned short*)NiMalloc(m_usTriangles * 3 * sizeof(unsigned short));
+    m_pusTriList = (unsigned short*)::FUN_00aa1070(m_usTriangles * 3 * sizeof(unsigned short));
     for (unsigned int i = 0; i < m_usTriangles; i++)
     {
         unsigned short ausIndex[3];
@@ -952,7 +922,6 @@ inline bool Degenerate(const unsigned short* indices)
         return true;
     return false;
 }
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int) throw();
 
 struct SkinGeom
 {
@@ -1041,8 +1010,8 @@ struct SkinMap
 {
     virtual ~SkinMap() throw()
     {
-        FUN_00438af0();
-        NiFreeAlias(buckets);
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+        ::FUN_00aa10f0(buckets);
     }
     virtual __declspec(nothrow) unsigned int Hash(int key) throw();
     virtual __declspec(nothrow) bool Equal(int left, int right) throw();
@@ -1051,12 +1020,9 @@ struct SkinMap
     unsigned int count;
     SkinMap() throw() : size(37), count(0)
     {
-        buckets = (SkinMapNode**)NiMalloc(size * sizeof(SkinMapNode*));
-        fnv_zlib_memset(buckets, 0, size * sizeof(SkinMapNode*));
+        buckets = (SkinMapNode**)::FUN_00aa1070(size * sizeof(SkinMapNode*));
+        std::memset(buckets, 0, size * sizeof(SkinMapNode*));
     }
-    __declspec(nothrow) void FUN_00438af0() throw();
-    __declspec(nothrow) void InsertOrUpdate(int key, int value) throw();
-    __declspec(nothrow) bool FUN_00a53c30(int key, int& value) throw();
     __declspec(nothrow) int Lookup(int key) throw()
     {
         SkinMapNode* node = buckets[Hash(key)];
@@ -1075,7 +1041,7 @@ struct SkinPointerMap : SkinMap
     {}
     ~SkinPointerMap() throw()
     {
-        FUN_00438af0();
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     }
 };
 struct SkinBuilder
@@ -1083,8 +1049,6 @@ struct SkinBuilder
     int unk00;
     int unk04;
     unsigned int count;
-    __declspec(nothrow) void BuildBoneLODControllerSets(SkinGeom*, void*, SkinItems*, int*) throw();
-    __declspec(nothrow) void FUN_00a839d0(unsigned int, SkinItems*) throw();
     bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 // Builds a per-triangle set index mapping from group IDs or weights, compacts unused sets, and returns false if a triangle's vertices span three distinct groups.
@@ -1093,17 +1057,17 @@ bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned
                                           SkinItems* sets, int** mapping, int* groupIDs) throw()
 {
     unsigned int triangles = geom->triangleCount;
-    BuildBoneLODControllerSets(geom, weights, sets, groupIDs);
-    FUN_00a839d0(input, sets);
-    *mapping = (int*)NiMalloc(triangles * sizeof(int));
+    ::BuildBoneLODControllerSets((::ScriptProgram *)(geom), (::BoneWeights *)(weights), (::BoneArray< ::BoneLODControllerArray *> *)(sets), (unsigned int *)(groupIDs));
+    ::FUN_00a839d0((unsigned char)(input), (::MergeItems *)(sets));
+    *mapping = (int*)::FUN_00aa1070(triangles * sizeof(int));
     unsigned int setCount = sets->count;
-    unsigned char* pUsedFlags = (unsigned char*)NiMalloc(setCount);
+    unsigned char* pUsedFlags = (unsigned char*)::FUN_00aa1070(setCount);
     unsigned short indices[3];
     if (groupIDs)
     {
         SkinPointerMap map;
         for (unsigned int k = 0; k < sets->count; k++)
-            map.InsertOrUpdate(sets->items[k]->key, k);
+            reinterpret_cast<::HashTableBase *>(&(map))->InsertOrUpdate(sets->items[k]->key, k);
         for (unsigned int tri = 0; tri < triangles; tri++)
         {
             int found = -1;
@@ -1111,7 +1075,7 @@ bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned
             if (groupIDs[indices[0]] == groupIDs[indices[1]] && groupIDs[indices[1]] == groupIDs[indices[2]] &&
                 groupIDs[indices[0]] == groupIDs[indices[2]])
             {
-                map.FUN_00a53c30(groupIDs[indices[0]], found);
+                found = map.Lookup(groupIDs[indices[0]]);
                 if (found != -1)
                     (*mapping)[tri] = found;
             }
@@ -1167,7 +1131,7 @@ bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned
         }
     }
     count = sets->count;
-    NiFreeAlias(pUsedFlags);
+    ::FUN_00aa10f0(pUsedFlags);
     return true;
 }
 
@@ -1208,8 +1172,8 @@ template <class T> class SkinTArray
     unsigned int SetAtGrow(unsigned int uiIndex, const T& element)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
     unsigned int Add(const T& element)
@@ -1227,16 +1191,12 @@ struct SkinRTTI
         return m_pcName;
     }
 };
-extern SkinRTTI g_kSkinPartitionRTTI;
 
-char* __cdecl SkinGetViewerString(const char* pcName);
-int __cdecl SkinSprintf(char* pcDest, unsigned int uiDestSize, const char* pcFormat, ...);
 
 class SkinObjectBase
 {
   public:
     virtual ~SkinObjectBase();
-    void GetViewerStrings(SkinViewerStrings* pkStrings);
 };
 
 class SkinPartitionOwner : public SkinObjectBase
@@ -1254,14 +1214,14 @@ class SkinPartitionOwner : public SkinObjectBase
 // @fnv 0x00a846e0
 void SkinPartitionOwner::FUN_00a846e0(SkinViewerStrings* pkStrings)
 {
-    SkinObjectBase::GetViewerStrings(pkStrings);
-    pkStrings->Add(SkinGetViewerString(g_kSkinPartitionRTTI.GetName()));
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(pkStrings));
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<::SkinRTTI *>((void *)&::g_011f5b1c)).GetName()));
 
     for (unsigned int i = 0; i < m_uiPartitionCount; i++)
     {
         char acTemp[32];
-        SkinSprintf(acTemp, 32, "Partition %d = %d bones", i, m_pPartitions[i].m_usBoneCount);
-        pkStrings->Add(SkinGetViewerString(acTemp));
+        ::FUN_00406d00(acTemp, 32, "Partition %d = %d bones", i, m_pPartitions[i].m_usBoneCount);
+        pkStrings->Add(::FUN_00a7d330(acTemp));
     }
 }
 
@@ -1391,14 +1351,10 @@ struct Skp_00a828d0_src
 
 struct Skp_00a828d0_cls : NiSkinPartition::Partition
 {
-    unsigned short* SplitTriangles(GeomData* pkData, void* pkSet);
-    void ExpandTriangles(void* pkSet, void* pkSource, unsigned short* pusRemap);
     void PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSrc, void* pkSet, Skp_00a828d0_grp* pkGroups,
                           bool bWeights, bool bZeroPalette, unsigned char ucBonesPerVertex, unsigned int uiBones);
 };
 
-void* __cdecl AllocBlock(unsigned int uiSize);
-void __cdecl FreeBlock(void* p);
 
 // Fills bone palette, vertex weights and bone indices from pkSrc and pkGroups, splitting and expanding triangles via SplitTriangles and ExpandTriangles.
 // @fnv 0x00a828d0
@@ -1411,13 +1367,13 @@ void Skp_00a828d0_cls::PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSr
         n = (int)ucBonesPerVertex;
     m_usBoneCount = (unsigned short)n;
     m_usTriangles = pkData->m_usVertices;
-    m_pusBonePalette = (unsigned short*)AllocBlock((unsigned short)n * 2);
+    m_pusBonePalette = (unsigned short*)::FUN_00aa1070((unsigned short)n * 2);
     for (unsigned int i = 0; i < m_usBoneCount; ++i)
         m_pusBonePalette[i] = (i < pkSrc->count) ? pkSrc->data[i] : 0;
 
-    unsigned short* remap = SplitTriangles(pkData, pkSet);
-    ExpandTriangles(pkData, pkSet, remap);
-    FreeBlock(remap);
+    unsigned short* remap = reinterpret_cast<::PartitionEx *>(this)->BuildVertexRemapTable((*(const ::TriIndexList *)(pkData)), (const ::GeomData *)(pkSet));
+    reinterpret_cast<::A2400Partition *>(this)->BuildTriangleList((::A2400TriangleSet *)(pkData), (::A2400Source *)(pkSet), remap);
+    ::FUN_00aa10f0(remap);
 
     unsigned int j;
     unsigned int s;
@@ -1425,17 +1381,17 @@ void Skp_00a828d0_cls::PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSr
     {
         m_usWeightsPerVertex = ucBonesPerVertex;
         unsigned int cnt = (unsigned int)m_usWeightsPerVertex * m_usVertices;
-        m_pfVertexWeights = (float*)AllocBlock(cnt * 4);
-        m_pucBoneIndices = (unsigned char*)AllocBlock(cnt);
-        unsigned int* table = (unsigned int*)AllocBlock(uiBones * 4);
+        m_pfVertexWeights = (float*)::FUN_00aa1070(cnt * 4);
+        m_pucBoneIndices = (unsigned char*)::FUN_00aa1070(cnt);
+        unsigned int* table = (unsigned int*)::FUN_00aa1070(uiBones * 4);
         pkSet = table;
         for (unsigned int i = 0; i < pkSrc->count; ++i)
             table[m_pusBonePalette[i]] = i;
 
         float* outW = m_pfVertexWeights;
         unsigned char* outP = m_pucBoneIndices;
-        float* tmpW = (float*)AllocBlock(m_usWeightsPerVertex * 4);
-        unsigned char* tmpP = (unsigned char*)AllocBlock(m_usWeightsPerVertex);
+        float* tmpW = (float*)::FUN_00aa1070(m_usWeightsPerVertex * 4);
+        unsigned char* tmpP = (unsigned char*)::FUN_00aa1070(m_usWeightsPerVertex);
         for (s = 0; s < m_usVertices; ++s)
         {
             Skp_00a828d0_grp* g = &pkGroups[m_pusSourceVertexIndices[s]];
@@ -1469,15 +1425,15 @@ void Skp_00a828d0_cls::PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSr
                 tmpW[idx] = -3.4028234663852886e+38f;
             }
         }
-        FreeBlock(tmpW);
-        FreeBlock(tmpP);
-        FreeBlock(pkSet);
+        ::FUN_00aa10f0(tmpW);
+        ::FUN_00aa10f0(tmpP);
+        ::FUN_00aa10f0(pkSet);
     }
     else
     {
         m_usWeightsPerVertex = m_usBoneCount;
         unsigned int cnt = (unsigned int)m_usBoneCount * m_usVertices;
-        m_pfVertexWeights = (float*)AllocBlock(cnt * 4);
+        m_pfVertexWeights = (float*)::FUN_00aa1070(cnt * 4);
         float* outW = m_pfVertexWeights;
         for (s = 0; s < m_usVertices; ++s)
         {
@@ -1502,7 +1458,7 @@ void Skp_00a828d0_cls::PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSr
         }
         if (bZeroPalette)
         {
-            m_pucBoneIndices = (unsigned char*)AllocBlock(cnt);
+            m_pucBoneIndices = (unsigned char*)::FUN_00aa1070(cnt);
             unsigned char* outP = m_pucBoneIndices;
             for (s = 0; s < m_usVertices; ++s)
             {
@@ -1513,7 +1469,6 @@ void Skp_00a828d0_cls::PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSr
     }
 }
 
-void* __cdecl NiMalloc(unsigned int);
 
 struct NiBinaryStream;
 
@@ -1708,7 +1663,7 @@ void PartitionLoader::FUN_00a82d90(NiStream& kStream)
     ReadBinaryValue(kStream, &m_usStrips);
     ReadBinaryValue(kStream, &m_usWeightsPerVertex);
 
-    m_pusBonePalette = (unsigned short*)NiMalloc(sizeof(unsigned short) * m_usBoneCount);
+    m_pusBonePalette = (unsigned short*)::FUN_00aa1070(sizeof(unsigned short) * m_usBoneCount);
     ReadBinaryValue(kStream, m_pusBonePalette, m_usBoneCount);
 
     bool bHasVertexMap;
@@ -1722,7 +1677,7 @@ void PartitionLoader::FUN_00a82d90(NiStream& kStream)
     }
     if (bHasVertexMap)
     {
-        m_pusSourceVertexIndices = (unsigned short*)NiMalloc(sizeof(unsigned short) * m_usVertices);
+        m_pusSourceVertexIndices = (unsigned short*)::FUN_00aa1070(sizeof(unsigned short) * m_usVertices);
         ReadBinaryValue(kStream, m_pusSourceVertexIndices, m_usVertices);
     }
 
@@ -1738,7 +1693,7 @@ void PartitionLoader::FUN_00a82d90(NiStream& kStream)
     }
     if (bHasWeights)
     {
-        m_pfVertexWeights = (float*)NiMalloc(sizeof(float) * bHasTriList);
+        m_pfVertexWeights = (float*)::FUN_00aa1070(sizeof(float) * bHasTriList);
         ReadBinaryValue(kStream, m_pfVertexWeights, bHasTriList);
     }
 
@@ -1749,7 +1704,7 @@ void PartitionLoader::FUN_00a82d90(NiStream& kStream)
     }
     else
     {
-        m_pusStripLengths = (unsigned short*)NiMalloc(sizeof(unsigned short) * m_usStrips);
+        m_pusStripLengths = (unsigned short*)::FUN_00aa1070(sizeof(unsigned short) * m_usStrips);
         ReadBinaryValue(kStream, m_pusStripLengths, m_usStrips);
         uiTriListLength = GetStripIndexCount();
     }
@@ -1765,7 +1720,7 @@ void PartitionLoader::FUN_00a82d90(NiStream& kStream)
     }
     if (uiNumWeights)
     {
-        m_pusTriList = (unsigned short*)NiMalloc(sizeof(unsigned short) * uiTriListLength);
+        m_pusTriList = (unsigned short*)::FUN_00aa1070(sizeof(unsigned short) * uiTriListLength);
         ReadBinaryValue(kStream, m_pusTriList, uiTriListLength);
     }
 
@@ -1773,7 +1728,7 @@ void PartitionLoader::FUN_00a82d90(NiStream& kStream)
     ReadBinaryValue(kStream, &bHasBonePalette);
     if (bHasBonePalette)
     {
-        m_pucBoneIndices = (unsigned char*)NiMalloc(sizeof(unsigned char) * bHasTriList);
+        m_pucBoneIndices = (unsigned char*)::FUN_00aa1070(sizeof(unsigned char) * bHasTriList);
         ReadBinaryValue(kStream, m_pucBoneIndices, bHasTriList);
     }
 }
@@ -1822,13 +1777,11 @@ template <class T> inline void ReadBinaryValue(NiStreamA83C& kStream, T& value)
 class FUN_00a89af0_helper
 {
   public:
-    void FUN_00a89af0(NiStreamA83C& kStream);
 };
 
 class ElemA83C
 {
   public:
-    void WriteToStream(NiStreamA83C& kStream);
     int unk00[11];
 };
 
@@ -1846,10 +1799,10 @@ class SaverA83C : public FUN_00a89af0_helper
 // @fnv 0x00a83ce0
 void SaverA83C::FUN_00a83ce0(NiStreamA83C& kStream)
 {
-    FUN_00a89af0(kStream);
+    ::FUN_00a89af0((intptr_t)this);
     ReadBinaryValue(kStream, m_uiCount);
     for (unsigned int i = 0; i < m_uiCount; i++)
-        m_pkElems[i].WriteToStream(kStream);
+        reinterpret_cast<::PartitionSave *>(&(m_pkElems[i]))->WriteToStream((::NiStreamFake &)(kStream));
 }
 
 struct NormalizedWeight
@@ -1941,17 +1894,9 @@ struct ScriptProgram
     unsigned short triangles;
 };
 
-void* __cdecl NiMalloc(unsigned int);
-void __cdecl NiFreeAlias(void*);
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
-    void Deallocate(void*);
 };
-extern MemoryManager _g_memoryManager;
-int __cdecl FUN_00a81b80(const unsigned short*, const unsigned short*);
-void __cdecl FUN_00ec6f20(void*, unsigned int, unsigned int,
-                          int(__cdecl*)(const unsigned short*, const unsigned short*));
 template <class T> struct BoneArray
 {
     T* data;
@@ -1966,13 +1911,13 @@ template <class T> struct BoneArray
         T* fresh;
         if (size > 0)
         {
-            fresh = (T*)NiMalloc(size * sizeof(T));
+            fresh = (T*)::FUN_00aa1070(size * sizeof(T));
             for (unsigned int n = 0; n < count; ++n)
                 fresh[n] = data[n];
         }
         else
             fresh = 0;
-        NiFreeAlias(data);
+        ::FUN_00aa10f0(data);
         data = fresh;
         capacity = size;
     }
@@ -1995,19 +1940,11 @@ struct BoneLODControllerArray : BoneArray<unsigned short>
     unsigned int key;
     bool Contains(const BoneLODControllerArray* other) const
     {
-        return ((Holder*)this)->ContainsSortedSubset((const Holder*)other);
-    }
-    static void* operator new(unsigned int size) throw()
-    {
-        return _g_memoryManager.Allocate(size);
-    }
-    static void operator delete(void* ptr)
-    {
-        _g_memoryManager.Deallocate(ptr);
+        return fnv::ContainsSortedSkinBones({data, count}, {other->data, other->count});
     }
     ~BoneLODControllerArray()
     {
-        NiFreeAlias(data);
+        ::FUN_00aa10f0(data);
     }
 };
 struct BoneWeight
@@ -2023,11 +1960,10 @@ struct BoneWeights
 };
 struct NiStreamLinkIDSet
 {
-    void Realloc(unsigned int);
 };
 // Builds and deduplicates BoneLODControllerArray sets from mesh triangles and vertex bone weights, optionally remapping vertex indices.
 // @fnv 0x00a83d40
-void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weights,
+void BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weights,
                                           BoneArray<BoneLODControllerArray*>* sets, unsigned int* remap)
 {
     unsigned int triangleCount = mesh->triangles;
@@ -2056,7 +1992,7 @@ void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weig
                                     set->Add(bone);
                             }
                         }
-                        FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                        std::qsort(set->data, set->count, 2, (int (*)(const void *, const void *))(FUN_00a81b80));
                     }
                 }
                 if (!found)
@@ -2072,7 +2008,7 @@ void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weig
                                 set->Add(bone);
                         }
                     }
-                    FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                    std::qsort(set->data, set->count, 2, (int (*)(const void *, const void *))(FUN_00a81b80));
                     sets->Add(set);
                 }
             }
@@ -2096,12 +2032,12 @@ void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weig
                         if (set->Find(bone) == -1)
                         {
                             if (set->count == set->capacity)
-                                ((C082d30*)set)->FUN_00a82710(set->capacity > 0 ? 2 * set->capacity : 1);
+                                reinterpret_cast<::FUN_00a82710_shell *>((((C082d30*)set)))->FUN_00a82710(set->capacity > 0 ? 2 * set->capacity : 1);
                             set->data[set->count++] = bone;
                         }
                     }
                 }
-                FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                std::qsort(set->data, set->count, 2, (int (*)(const void *, const void *))(FUN_00a81b80));
                 unsigned int index = 0;
                 while (index < sets->count)
                 {
@@ -2123,7 +2059,7 @@ void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weig
                 if (index == sets->count)
                 {
                     if (sets->count == sets->capacity)
-                        ((NiStreamLinkIDSet*)sets)->Realloc(sets->capacity > 0 ? 2 * sets->capacity : 1);
+                        reinterpret_cast<::FUN_00a311e0_s *>((((NiStreamLinkIDSet*)sets)))->FUN_00a311e0(sets->capacity > 0 ? 2 * sets->capacity : 1);
                     sets->data[sets->count++] = set;
                 }
             }
@@ -2164,7 +2100,6 @@ class CA82770MergeIterator
     {
         return m_ausCurrent[0] == 0xffff && m_ausCurrent[1] == 0xffff;
     }
-    __declspec(noalias) unsigned int GetNext();
 };
 
 // Iterates through the merged sequence of this and pkOther index arrays and returns the total number of elements visited.
@@ -2175,7 +2110,7 @@ unsigned int CA82770IndexArray::GetMergeCount(CA82770IndexArray* pkOther)
     unsigned int ItemUpdateArray = 0;
     while (!kIter.AtEnd())
     {
-        kIter.GetNext();
+        reinterpret_cast<::CA82250MergeIterator *>(&(kIter))->GetNext();
         ItemUpdateArray++;
     }
     return ItemUpdateArray;
@@ -2214,13 +2149,13 @@ void ListMerge::Merge(const ListMerge* pkOther)
     kIter.m_ausValues[1] = pkOther->m_pusData[0];
 
     unsigned int uiTotal = m_uiCount + pkOther->m_uiCount;
-    unsigned short* pusNew = (unsigned short*)NiMalloc(uiTotal * 2);
+    unsigned short* pusNew = (unsigned short*)::FUN_00aa1070(uiTotal * 2);
     unsigned int ItemUpdateArray = 0;
     while (kIter.m_ausValues[0] != 0xffff || kIter.m_ausValues[1] != 0xffff)
     {
-        pusNew[ItemUpdateArray++] = kIter.Next();
+        pusNew[ItemUpdateArray++] = ((unsigned short)(reinterpret_cast<::CA82250MergeIterator *>(&(kIter))->GetNext()));
     }
-    NiFreeAlias(m_pusData);
+    ::FUN_00aa10f0(m_pusData);
     m_u4 = uiTotal;
     m_pusData = pusNew;
     m_uiCount = ItemUpdateArray;
@@ -2228,24 +2163,17 @@ void ListMerge::Merge(const ListMerge* pkOther)
 
 namespace SkinWeights {
 
-extern "C" __declspec(nothrow) void* __cdecl NiMalloc(unsigned int);
-extern "C" __declspec(nothrow) void __cdecl NiFreeAlias(void*);
-__declspec(nothrow) void* FUN_00ec61c0(void*, int, unsigned int) throw();
-extern const float DAT_01016970;
 
 struct Weight
 {
     unsigned int bone;
     float weight;
 };
-int CompareFloatDescending(const void*, const void*);
-__declspec(nothrow) void FUN_00ec6f20(void*, unsigned int, unsigned int, int (*)(const void*, const void*)) throw();
 
 struct Group
 {
     Weight* entries;
     unsigned int capacity, count;
-    __declspec(nothrow) void NormalizeWeights() throw();
 
     __forceinline void OrderedRemove(unsigned int i)
     {
@@ -2292,7 +2220,7 @@ struct IndexList
             unsigned int* newData;
             if (size > 0)
             {
-                newData = (unsigned int*)NiMalloc(4 * size);
+                newData = (unsigned int*)::FUN_00aa1070(4 * size);
                 for (unsigned int n = 0; n < count; ++n)
                     newData[n] = data[n];
             }
@@ -2300,7 +2228,7 @@ struct IndexList
             {
                 newData = 0;
             }
-            NiFreeAlias(data);
+            ::FUN_00aa10f0(data);
             data = newData;
             capacityRef = size;
         }
@@ -2324,10 +2252,9 @@ struct WeightMap;
 struct MapVTable
 {
     void* destroy;
-    unsigned int(__thiscall* hash)(WeightMap*, unsigned int);
+    unsigned int(* hash)(WeightMap*, unsigned int);
     void* equal;
 };
-extern MapVTable DAT_0109e50c, DAT_0109e52c;
 
 struct WeightMap
 {
@@ -2338,22 +2265,21 @@ struct WeightMap
 
     __forceinline void Initialize()
     {
-        table = &DAT_0109e50c;
+        table = &(*reinterpret_cast<::SkinWeights::MapVTable *>(&::fnv_00a82670::DAT_0109e50c));
         bucketsCount = 37;
         count = 0;
-        buckets = (Node**)NiMalloc(37 * 4);
-        FUN_00ec61c0(buckets, 0, bucketsCount * 4);
-        table = &DAT_0109e52c;
+        buckets = (Node**)::FUN_00aa1070(37 * sizeof(*buckets));
+        std::memset(buckets, 0, bucketsCount * sizeof(*buckets));
+        table = &(*reinterpret_cast<::SkinWeights::MapVTable *>(&::fnv_00a82cf0::DAT_0109e52c));
     }
 
-    __declspec(nothrow) void FUN_00b601a0() throw();
     __forceinline void Cleanup()
     {
-        table = &DAT_0109e52c;
-        FUN_00b601a0();
-        table = &DAT_0109e50c;
-        FUN_00b601a0();
-        NiFreeAlias(buckets);
+        table = &(*reinterpret_cast<::SkinWeights::MapVTable *>(&::fnv_00a82cf0::DAT_0109e52c));
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
+        table = &(*reinterpret_cast<::SkinWeights::MapVTable *>(&::fnv_00a82670::DAT_0109e50c));
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
+        ::FUN_00aa10f0(buckets);
     }
 
     __forceinline Node* Begin()
@@ -2457,13 +2383,10 @@ struct Geometry
     int unk3c;
     unsigned short triangles, unk42;
 
-    __declspec(nothrow) void BuildIndexMappings(unsigned short**, unsigned short**, bool) throw();
-    __declspec(nothrow) int CompareVertices(unsigned int, unsigned int, bool) throw();
 };
 
 struct Processor
 {
-    __declspec(nothrow) void MergeGroupWeights(WeightMap*, const unsigned short*, Group*) throw();
     bool ReduceGroupWeights(Geometry*, unsigned char, unsigned char, Group*);
 };
 
@@ -2487,7 +2410,7 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
     IndexList linkedVertices;
     unsigned short* order;
     unsigned short* reverse;
-    geometry->BuildIndexMappings(&order, &reverse, true);
+    reinterpret_cast<::FUN_00a68820_cls *>((geometry))->BuildIndexMappings(&order, &reverse, true);
 
     for (triangle = 0; triangle < state.triangles; triangle++)
     {
@@ -2495,14 +2418,14 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
         geometry->GetTriangle(triangle, indices[0], indices[1], indices[2]);
         if (indices[0] != indices[1] && indices[1] != indices[2] && indices[2] != indices[0])
         {
-            MergeGroupWeights(&map, indices, groups);
+            ::MergeGroupWeights((::WeightedMap *)(&map), (const unsigned short *)(indices), (::EntryGroup *)(groups));
             unsigned int count = map.count;
             if (count > maxTriangle)
             {
                 for (;;)
                 {
                     Node* position = map.Begin();
-                    float least = DAT_01016970;
+                    float least = ::DAT_01016970;
                     unsigned int remove = 0;
                     do
                     {
@@ -2524,14 +2447,14 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
                         unsigned int before, center, other;
                         before = center = reverse[vertex];
 
-                        while (before > 0 && !geometry->CompareVertices(other = order[before - 1], vertex, true))
+                        while (before > 0 && !reinterpret_cast<::NiGeometryDataCmp *>((geometry))->CompareVertices(other = order[before - 1], vertex, true))
                         {
                             if (groups[other].SameBones(*group))
                                 linkedVertices.Add(other, linkedVertices.capacity);
                             --before;
                         }
                         while (center < vertices - 1 &&
-                               !geometry->CompareVertices(other = order[center + 1], vertex, true))
+                               !reinterpret_cast<::NiGeometryDataCmp *>((geometry))->CompareVertices(other = order[center + 1], vertex, true))
                         {
                             if (groups[other].SameBones(*group))
                                 linkedVertices.Add(other, linkedVertices.capacity);
@@ -2546,24 +2469,24 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
                             {
                                 if (group->count == 0)
                                 {
-                                    NiFreeAlias(order);
-                                    NiFreeAlias(reverse);
-                                    NiFreeAlias(linkedVertices.data);
+                                    ::FUN_00aa10f0(order);
+                                    ::FUN_00aa10f0(reverse);
+                                    ::FUN_00aa10f0(linkedVertices.data);
                                     map.Cleanup();
                                     return false;
                                 }
-                                group->NormalizeWeights();
+                                reinterpret_cast<::NormalizedWeights *>((group))->NormalizeWeights();
                             }
                         }
                         linkedVertices.count = 0;
                     }
                     if (--count == maxTriangle)
                         break;
-                    map.FUN_00b601a0();
-                    MergeGroupWeights(&map, indices, groups);
+                    reinterpret_cast<::S_00b601a0_Map *>(&(map))->FUN_00b601a0();
+                    ::MergeGroupWeights((::WeightedMap *)(&map), (const unsigned short *)(indices), (::EntryGroup *)(groups));
                 }
             }
-            map.FUN_00b601a0();
+            reinterpret_cast<::S_00b601a0_Map *>(&(map))->FUN_00b601a0();
         }
     }
 
@@ -2572,16 +2495,401 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
         Group* group = &groups[corner];
         if (group->count > maxVertex)
         {
-            FUN_00ec6f20(group->entries, group->count, 8, CompareFloatDescending);
+            std::qsort(group->entries, group->count, 8, ((int (&)(const void *, const void *))::CompareFloatDescending));
             group->count = maxVertex;
-            group->NormalizeWeights();
+            reinterpret_cast<::NormalizedWeights *>((group))->NormalizeWeights();
         }
     }
-    NiFreeAlias(order);
-    NiFreeAlias(reverse);
-    NiFreeAlias(linkedVertices.data);
+    ::FUN_00aa10f0(order);
+    ::FUN_00aa10f0(reverse);
+    ::FUN_00aa10f0(linkedVertices.data);
     map.Cleanup();
     return true;
 }
 
 }  // namespace SkinWeights
+
+const void* __cdecl FUN_00a820d0();
+void FUN_00a82600(int a, int b, float c);
+void PoolFreeUIntNode(void* a);
+// Candidate reconstruction of ContainsAllValues (0x00a821f0, 83 bytes).
+//
+// What the original does (read from the image):
+//   * ebx = the stack argument (a pointer to a block of 8-byte records),
+//     ebp = ebx->unk08 (the number of records), esi = the record index,
+//     edi = this.
+//   * For every record it takes the 16-bit field at offset 0 of the record,
+//     stores it into a 32-bit scratch slot that lives in the (by then dead)
+//     incoming-argument slot, and hands the address of that slot to a CRT
+//     binary-search helper together with this->unk00 (the array that is
+//     searched), this->unk08 (its element count), the element size 2 and the
+//     game's 16-bit comparison routine at 0x00a81b80.
+//   * A record that is NOT found makes the function return 0; if every record
+//     is found it returns 1.
+//
+// The helper and the comparison routine are declared but never defined, so the
+// checker binds both call targets from the original's own bytes.
+extern "C" void* __cdecl FNV_search_821f0(const void* key, const void* base, unsigned int count, unsigned int size,
+                                          int(__cdecl* cmp)(const void*, const void*));
+int __cdecl FindMatchingItem(ItemSet* set, const unsigned short* a2, const void* a3, unsigned char* flags,
+                             unsigned char key);
+extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int) throw();
+
+struct MergeSet
+{
+    unsigned short* m_pusData;
+    unsigned int m_u4;
+    unsigned int m_uiCount;
+    int key;
+
+
+
+    ~MergeSet()
+    {
+        ::FUN_00aa10f0(m_pusData);
+    }
+
+};
+
+struct MergeItems
+{
+    MergeSet** items;
+    unsigned int capacity, count;
+
+    void SetAt(unsigned int i, MergeSet* p)
+    {
+        if (i < count)
+            items[i] = p;
+    }
+};
+
+// @fnv 0x00a839d0
+void FUN_00a839d0(unsigned char threshold, MergeItems* items)
+{
+    // One equivalence id per bounded skin set; 50 entries inferred from the frame.
+    int cls[50];
+    struct Pair
+    {
+        unsigned int first, second;
+    } sel;
+    long best;
+    unsigned int i, j, k, ids;
+restart:
+    sel.first = 0;
+    sel.second = 0;
+    best = -1;
+    for (i = 0; i < items->count; ++i)
+    {
+        MergeSet* a = items->items[i];
+        for (j = i + 1; j < items->count; ++j)
+        {
+            MergeSet* b = items->items[j];
+            unsigned int size = reinterpret_cast<::CA82770IndexArray *>((a))->GetMergeCount((::CA82770IndexArray *)(b));
+            if (size > threshold)
+                continue;
+            int otherCount = (int)b->m_uiCount, thisCount = (int)a->m_uiCount;
+            int score = thisCount - (int)size + otherCount;
+            if (thisCount == otherCount)
+                score = -1;
+            if (score > best)
+            {
+                sel.first = i;
+                sel.second = j;
+                best = score;
+            }
+        }
+    }
+    if (best < 0)
+        goto group;
+    reinterpret_cast<::ListMerge *>((items->items[sel.first]))->Merge((const ::ListMerge *)(items->items[sel.second]));
+    if (items->items[sel.first]->key != items->items[sel.second]->key)
+    {
+        reinterpret_cast<::ListMerge *>((items->items[sel.second]))->Merge((const ::ListMerge *)(items->items[sel.first]));
+        goto restart;
+    }
+    delete items->items[sel.second];
+    --items->count;
+    items->items[sel.second] = items->items[items->count];
+    {
+        MergeSet* a = items->items[sel.first];
+        for (k = 0; k < items->count;)
+        {
+            MergeSet* e = items->items[k];
+            if (e != a && fnv::ContainsSortedSkinBones({a->m_pusData, a->m_uiCount}, {e->m_pusData, e->m_uiCount}))
+            {
+                delete e;
+                --items->count;
+                items->items[k] = items->items[items->count];
+            }
+            else
+                ++k;
+        }
+    }
+    goto restart;
+group:
+    unsigned int count = items->count;
+    ids = 0;
+    for (k = 0; k < items->count; ++k)
+    {
+        if (k == 0)
+        {
+            cls[0] = ids++;
+            continue;
+        }
+        for (j = 0; j < k; ++j)
+        {
+            MergeSet* x = items->items[k];
+            MergeSet* y = items->items[j];
+            if (fnv::ContainsSortedSkinBones({x->m_pusData, x->m_uiCount}, {y->m_pusData, y->m_uiCount}) &&
+                fnv::ContainsSortedSkinBones({y->m_pusData, y->m_uiCount}, {x->m_pusData, x->m_uiCount}))
+            {
+                cls[k] = cls[j];
+                break;
+            }
+        }
+        if (j == k)
+            cls[k] = ids++;
+    }
+    for (i = 0; i < count; ++i)
+        for (j = 0; j < i; ++j)
+            if (cls[i] > cls[j])
+            {
+                int t = cls[i];
+                cls[i] = cls[j];
+                cls[j] = t;
+                MergeSet* p = items->items[i];
+                items->SetAt(i, items->items[j]);
+                items->SetAt(j, p);
+            }
+}
+
+void __cdecl FreeBlock(void* p);
+
+struct LBBinaryStream
+{
+    void* pVtable;
+    unsigned int m_uiStreamFlags;
+    unsigned int(__cdecl* m_pfnRead)(LBBinaryStream* apThis, void* apvBuffer, unsigned int auiBytes,
+                                     unsigned int* apuiComponentSizes, unsigned int auiNumComponents);
+
+    unsigned int BinaryRead(void* apvBuffer, unsigned int auiTotalBytes, unsigned int* apuiComponentSizes,
+                            unsigned int auiNumComponents)
+    {
+        unsigned int uiBytesRead = m_pfnRead(this, apvBuffer, auiTotalBytes, apuiComponentSizes, auiNumComponents);
+        m_uiStreamFlags += uiBytesRead;
+        return uiBytesRead;
+    }
+};
+
+template <class T> inline unsigned int LBBinaryStreamLoad(LBBinaryStream& arStream, T* apValue, unsigned int auiNumEls)
+{
+    unsigned int uiComponentSize = sizeof(T);
+    return arStream.BinaryRead(apValue, auiNumEls * sizeof(T), &uiComponentSize, 1);
+}
+
+struct LBStream
+{
+    virtual void v00();
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    LBBinaryStream* m_pUnderlyingStream;
+};
+
+template <class T> inline void LBStreamLoadBinary(LBStream& arStream, T& arValue)
+{
+    LBBinaryStreamLoad(*arStream.m_pUnderlyingStream, &arValue, 1);
+}
+
+struct LBMemoryManager
+{
+};
+
+
+
+struct LBObject
+{
+    virtual ~LBObject();
+    int unk04;
+
+};
+
+struct LBPartition
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+
+    LBPartition() throw();
+    ~LBPartition();
+};
+
+struct LBSkinPartition : LBObject
+{
+    unsigned int m_uiPartitionCount;
+    LBPartition* m_pPartitions;
+
+    void FUN_00a83c30(LBStream& arStream);
+};
+
+// @fnv 0x00a83c30
+void LBSkinPartition::FUN_00a83c30(LBStream& arStream)
+{
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(arStream));
+    LBStreamLoadBinary(arStream, m_uiPartitionCount);
+    m_pPartitions = new LBPartition[m_uiPartitionCount];
+    for (unsigned int i = 0; i < m_uiPartitionCount; i++)
+        reinterpret_cast<::PartitionLoader *>(&(m_pPartitions[i]))->FUN_00a82d90((::NiStream &)(arStream));
+}
+#include "generated/data/gamebryo2.2/corelibs/nimain/niskinpartition.inc"

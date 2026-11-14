@@ -1,14 +1,21 @@
 #ifndef FNV_ASTARSEARCH_H
 #define FNV_ASTARSEARCH_H
 
+#include <cstdint>
+#include "fnv/decl/A83A0ScrapHeap.h"
+#include "fnv/decl/HX.h"
+#include "fnv/decl/FUN_006a83f0_cls.h"
+#include "fnv/decl/FUN_006a8490_class.h"
+#include "fnv/decl/FUN_006b9420_Class.h"
+#include "fnv/decl/FUN_006b9540_class.h"
+#include "fnv/decl/SlotOwnerCls.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
 #include "astarsearch_decls.h"
 
-// @fnv 0x00b00a00
-inline BSWin32TaskletManager& GetTaskletManager()
-{
-    static BSWin32TaskletManager s_TaskletManager(6);
-    return s_TaskletManager;
-}
+// Defined once, in astarsearch_h_unit.cpp.
+BSWin32TaskletManager& GetTaskletManager();
 
 template <>
 // @fnv 0x006a7e00
@@ -24,7 +31,7 @@ CREATE_ASTARNODE_RESULT AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdg
             if ((*ppBucket)->m_fPathingCostCur > m_fPathingCostCur)
             {
                 pNodeOut = *ppBucket;
-                AStarBucketQueue.UnlinkNode(pNodeOut);
+                reinterpret_cast<::FUN_006a8490_class *>(&(AStarBucketQueue))->UnlinkNode((::FUN_006a8490_node *)(pNodeOut));
                 pNodeOut->m_fPathingCostCur = m_fPathingCostCur;
                 return CREATE_ASTARNODE_RESULT_ASTAR_MUST_SET_LINKDATA;
             }
@@ -43,7 +50,7 @@ CREATE_ASTARNODE_RESULT AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdg
                     if (pCur->m_fPathingCostCur > m_fPathingCostCur)
                     {
                         pNodeOut = pCur;
-                        AStarBucketQueue.UnlinkNode(pNodeOut);
+                        reinterpret_cast<::FUN_006a8490_class *>(&(AStarBucketQueue))->UnlinkNode((::FUN_006a8490_node *)(pNodeOut));
                         pNodeOut->m_fPathingCostCur = m_fPathingCostCur;
                         return CREATE_ASTARNODE_RESULT_ASTAR_MUST_SET_LINKDATA;
                     }
@@ -55,7 +62,7 @@ CREATE_ASTARNODE_RESULT AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdg
             }
         }
     }
-    pNodeOut = m_kNodeAllocator.CreateNode();
+    pNodeOut = ((::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *)(reinterpret_cast<::A83A0ScrapHeap *>(&(m_kNodeAllocator))->CreateNode()));
     pNodeOut->iKey = uiKey;
     pNodeOut->m_fPathingCostCur = m_fPathingCostCur;
     pNodeOut->m_pNextHashNode = *ppBucket;
@@ -77,7 +84,7 @@ CREATE_ASTARNODE_RESULT AStarSearch<AStarNodeData*, AStarNodeLink*>::CreateOrUpd
             if ((*ppBucket)->m_fPathingCostCur > m_fPathingCostCur)
             {
                 pNodeOut = *ppBucket;
-                AStarBucketQueue.UnlinkFromNeighbors(pNodeOut);
+                reinterpret_cast<::FUN_006b9540_class *>(&(AStarBucketQueue))->UnlinkFromNeighbors((std::intptr_t)(pNodeOut));
                 pNodeOut->m_fPathingCostCur = m_fPathingCostCur;
                 return CREATE_ASTARNODE_RESULT_ASTAR_MUST_SET_LINKDATA;
             }
@@ -96,7 +103,7 @@ CREATE_ASTARNODE_RESULT AStarSearch<AStarNodeData*, AStarNodeLink*>::CreateOrUpd
                     if (pCur->m_fPathingCostCur > m_fPathingCostCur)
                     {
                         pNodeOut = pCur;
-                        AStarBucketQueue.UnlinkFromNeighbors(pNodeOut);
+                        reinterpret_cast<::FUN_006b9540_class *>(&(AStarBucketQueue))->UnlinkFromNeighbors((std::intptr_t)(pNodeOut));
                         pNodeOut->m_fPathingCostCur = m_fPathingCostCur;
                         return CREATE_ASTARNODE_RESULT_ASTAR_MUST_SET_LINKDATA;
                     }
@@ -108,7 +115,7 @@ CREATE_ASTARNODE_RESULT AStarSearch<AStarNodeData*, AStarNodeLink*>::CreateOrUpd
             }
         }
     }
-    pNodeOut = m_kNodeAllocator.FUN_006b9420();
+    pNodeOut = ((::AStarNode< ::AStarNodeData *, ::AStarNodeLink *> *)(reinterpret_cast<::FUN_006b9420_Class *>(&(m_kNodeAllocator))->FUN_006b9420()));
     pNodeOut->iKey = uiKey;
     pNodeOut->m_fPathingCostCur = m_fPathingCostCur;
     pNodeOut->m_pNextHashNode = *ppBucket;
@@ -127,7 +134,7 @@ AStarNode<BoundingVolumeNode, TLink>* AStarSearch<BoundingVolumeNode, TLink>::Fi
     case CREATE_ASTARNODE_RESULT_ASTAR_CREATED_NEW_NODE:
         pNode->m_fCost = m_fCost;
         pNode->ObjectResolver = ObjectResolver;
-        AStarBucketQueue.InsertSortedNode(pNode);
+        reinterpret_cast<::FUN_006a83f0_cls *>(&(AStarBucketQueue))->InsertSortedNode((::SortNode *)(pNode));
         m_pLastCreatedNode = pNode;
         return pNode;
     case CREATE_ASTARNODE_RESULT_ASTAR_MUST_SET_LINKDATA:
@@ -149,7 +156,7 @@ AStarNode<BoundingVolumeNode, TLink>* AStarSearch<BoundingVolumeNode, TLink>::Co
     AStarNode<BoundingVolumeNode, TLink>* i;
     unsigned int pSavedLastNode;
     i = m_pCurrentNode;
-    m_pCurrentNode = AStarBucketQueue.Pop();
+    m_pCurrentNode = ((::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *)(reinterpret_cast<::SlotOwnerCls *>(&(AStarBucketQueue))->PopSlotNode()));
     if (m_pCurrentNode == NULL)
         return NULL;
     m_pFirstNode = m_pCurrentNode;
@@ -161,17 +168,17 @@ AStarNode<BoundingVolumeNode, TLink>* AStarSearch<BoundingVolumeNode, TLink>::Co
             m_pFirstNode = m_pCurrentNode;
             return m_pCurrentNode;
         }
-        ConnectionArray.Clear(0);
+        reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(ConnectionArray))->Clear(0);
         CollectConnections(m_pCurrentNode, &ConnectionArray);
-        for (pSavedLastNode = 0; pSavedLastNode < ConnectionArray.GetSize(); pSavedLastNode++)
+        for (pSavedLastNode = 0; pSavedLastNode < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(ConnectionArray))->GetName())); pSavedLastNode++)
         {
             pCurNode = ConnectionArray[pSavedLastNode];
-            AStarBucketQueue.UnlinkNode(pCurNode);
+            reinterpret_cast<::FUN_006a8490_class *>(&(AStarBucketQueue))->UnlinkNode((::FUN_006a8490_node *)(pCurNode));
             if (m_pCurrentNode->m_pParentNode == pCurNode)
                 return NULL;
             pCurNode->m_pParentNode = m_pCurrentNode;
-            AStarBucketQueue.InsertSortedNode(pCurNode);
-            if (pCurNode->GetFitness() < m_pFirstNode->GetFitness())
+            reinterpret_cast<::FUN_006a83f0_cls *>(&(AStarBucketQueue))->InsertSortedNode((::SortNode *)(pCurNode));
+            if (((double)(reinterpret_cast<::TimeoutTimer *>((pCurNode))->FUN_006b9130())) < ((double)(reinterpret_cast<::TimeoutTimer *>((m_pFirstNode))->FUN_006b9130())))
                 m_pFirstNode = pCurNode;
         }
         if (m_bUseBestNode)
@@ -183,7 +190,7 @@ AStarNode<BoundingVolumeNode, TLink>* AStarSearch<BoundingVolumeNode, TLink>::Co
             }
         }
         i = m_pCurrentNode;
-        m_pCurrentNode = AStarBucketQueue.Pop();
+        m_pCurrentNode = ((::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *)(reinterpret_cast<::SlotOwnerCls *>(&(AStarBucketQueue))->PopSlotNode()));
     }
     m_pCurrentNode = i;
     return NULL;
@@ -191,7 +198,7 @@ AStarNode<BoundingVolumeNode, TLink>* AStarSearch<BoundingVolumeNode, TLink>::Co
 
 template <class BoundingVolumeNode, class TLink>
 // @fnv 0x006a7d60
-bool AStarSearch<BoundingVolumeNode, TLink>::Search(unsigned int uiParam1, unsigned int uiParam2, bool bUseBestNode)
+bool AStarSearch<BoundingVolumeNode, TLink>::Search(std::uintptr_t uiParam1, std::uintptr_t uiParam2, bool bUseBestNode)
 {
     AStarNode<BoundingVolumeNode, TLink>* pNode;
     bool bSuccess;
@@ -214,7 +221,7 @@ bool AStarSearch<BoundingVolumeNode, TLink>::Search(unsigned int uiParam1, unsig
         pOutNode = NULL;
     }
     if (pOutNode)
-        FUN_006a8290(pOutNode, uiParam1, uiParam2);
+        reinterpret_cast<::HX *>(this)->FUN_006a8290((::PNode *)(pOutNode), (::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(uiParam1), (::BSSimpleArray< ::EdgeExtraInfo, 1024> *)(uiParam2));
     return bSuccess;
 }
 
@@ -222,7 +229,7 @@ template AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* ASta
     NavMeshTriangleReference, NavMeshTriangleEdgeReference>::FindOrCreateSearchNode(unsigned int,
                                                                                     const NavMeshTriangleReference&,
                                                                                     float);
-template bool AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdgeReference>::Search(unsigned int, unsigned int,
+template bool AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdgeReference>::Search(std::uintptr_t, std::uintptr_t,
                                                                                           bool);
 
 template AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* AStarSearch<

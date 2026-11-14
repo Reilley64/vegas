@@ -2,26 +2,41 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysgravitymodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysgravitymodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c22a80_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiPSysModifier.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01202000.h"
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
-extern NiMemObject g_01202548;
 
 // @fnv 0x00c22af0
 NiMemObject* __cdecl FUN_00c22af0()
 {
-    return &g_01202548;
+    return &(*reinterpret_cast<::NiMemObject *>(&::g_01202548));
 }
 
-extern "C" void* g_01202790;
 
 // @fnv 0x00c2e540
 void* __cdecl FUN_00c2e540()
 {
-    return &g_01202790;
+    return &(*reinterpret_cast<void * *>(&::g_01202790));
 }
 
 namespace fnv_00c22b00 {
@@ -29,7 +44,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -40,7 +54,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
 struct NiPoint3
 {
@@ -49,7 +62,6 @@ struct NiPoint3
 struct NiPSysModifier
 {
     char _pad[0x1c];
-    void CopyMemberData(NiPSysModifier*, CloningProcess&);
 };
 struct NiPSysGravityModifier : NiPSysModifier
 {
@@ -60,8 +72,6 @@ struct NiPSysGravityModifier : NiPSysModifier
     float m_fTurbulenceAmount;
     float m_fScale;
     bool m_bFieldFlag;
-    void* operator new(unsigned int);
-    NiPSysGravityModifier* InitDefaults();
     NiPSysGravityModifier* FUN_00c22b00(CloningProcess&);
 };
 // Allocates and constructs a copy of this gravity modifier, copies its fields, runs the base clone step with process, and returns the clone.
@@ -70,10 +80,10 @@ NiPSysGravityModifier* NiPSysGravityModifier::FUN_00c22b00(CloningProcess& proce
 {
     NiPSysGravityModifier* clone = static_cast<NiPSysGravityModifier*>(operator new(0x40));
     if (clone)
-        clone = clone->InitDefaults();
+        clone = ((::fnv_00c22b00::NiPSysGravityModifier *)(reinterpret_cast<::FUN_00c22a80_cls *>((clone))->InitDefaults()));
     else
         clone = 0;
-    CopyMemberData(clone, process);
+    reinterpret_cast<::NiPSysModifier *>(this)->CopyMemberData((::NiPSysModifier *)(clone), (::CloningProcess &)(process));
     clone->m_kGravityDirection = m_kGravityDirection;
     clone->m_fDistanceDecay = m_fDistanceDecay;
     clone->m_fValue = m_fValue;
@@ -86,23 +96,21 @@ NiPSysGravityModifier* NiPSysGravityModifier::FUN_00c22b00(CloningProcess& proce
 }  // namespace fnv_00c22b00
 
 namespace fnv_00c2e520 {
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct NiStream
 {
-    NiObject* GetLoadedObject(void);
 };
 
 struct NiPSysModifier
@@ -119,8 +127,8 @@ struct NiPSysBombModifier : NiPSysModifier
 
 void NiPSysBombModifier::LinkObject(NiStream& stream)
 {
-    NiPSysModifier::LinkObject(stream);
-    m_pPointer = stream.GetLoadedObject();
+    reinterpret_cast<::NiPSysModifier *>(this)->LinkObject((::NiStream &)(stream));
+    m_pPointer = ((::fnv_00c2e520::NiObject *)(reinterpret_cast<::NiStream *>(&(stream))->GetLoadedObject()));
 }
 
 struct FUN_00c2e520_shell : NiPSysBombModifier
@@ -312,7 +320,6 @@ struct S_00c236b0_Stream
     int unk248;
     S_00c236b0_BinaryStream* m_pUnderlyingStream;  // +24C
 
-    void FUN_00a645b0();
 };
 
 template <class T> inline void S_00c236b0_StreamLoadBinary(S_00c236b0_Stream& kStream, T& value)
@@ -325,7 +332,6 @@ struct S_00c236b0_Member1C
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00a59be0(S_00c236b0_Stream& kStream);
 };
 
 struct S_00c236b0_Base
@@ -337,7 +343,7 @@ struct S_00c236b0_Base
     int unk10;
     int unk14;
     int unk18;
-    void FUN_00c318b0(S_00c236b0_Stream& kStream);  // LoadBinary
+      // LoadBinary
 };
 
 struct S_00c236b0_Obj : S_00c236b0_Base
@@ -357,9 +363,9 @@ struct S_00c236b0_Obj : S_00c236b0_Base
 // @fnv 0x00c236b0
 void S_00c236b0_Obj::LoadFromStream(S_00c236b0_Stream& kStream)
 {
-    FUN_00c318b0(kStream);
-    kStream.FUN_00a645b0();
-    m_1C.FUN_00a59be0(kStream);
+    reinterpret_cast<::NiPSysModifier *>(this)->LoadBinary((::NiStream &)(kStream));
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
+    reinterpret_cast<::NiColor *>(&(m_1C))->LoadBinary((::NiStream &)(kStream));
     S_00c236b0_StreamLoadBinary(kStream, m_28);
     S_00c236b0_StreamLoadBinary(kStream, m_2C);
     int iValue;
@@ -388,22 +394,20 @@ struct FNVStreamArchive
 };
 struct FNVSubproperty
 {
-    void FUN_00a69780(FNVStreamArchive*);
 };
 struct FNVSerializer
 {
-    void FUN_00c31950(FNVStreamArchive*);
     void WriteToStream(FNVStreamArchive*);
 };
 // Writes a header, a subproperty, and five 4-byte values plus one 1-byte value from this object to the stream writer.
 // @fnv 0x00c237c0
 void FNVSerializer::WriteToStream(FNVStreamArchive* stream)
 {
-    FUN_00c31950(stream);
-    typedef void(__thiscall * HeaderWriter)(FNVStreamArchive*, unsigned int);
+    reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((*(::OutputStream *)(stream)));
+    typedef void(* HeaderWriter)(FNVStreamArchive*, unsigned int);
     HeaderWriter pHeaderWriter = reinterpret_cast<HeaderWriter>((*reinterpret_cast<void***>(stream))[12]);
     pHeaderWriter(stream, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x18));
-    reinterpret_cast<FNVSubproperty*>(reinterpret_cast<char*>(this) + 0x1c)->FUN_00a69780(stream);
+    reinterpret_cast<::NiColor *>((reinterpret_cast<FNVSubproperty*>(reinterpret_cast<char*>(this) + 0x1c)))->SaveBinary((*(::NiStream *)(stream)));
     FNVStreamWriter* __restrict writer;
     unsigned int length;
     length = 4;
@@ -441,14 +445,12 @@ struct NiViewerStringsArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void FUN_0096ad30(unsigned int uiMaxSize);
-    void FUN_0096ae90(unsigned int uiIndex, char* const& element);
     unsigned int Add(char* const& element)
     {
         unsigned int usIndex = m_usSize;
         if (usIndex >= m_usMaxSize)
-            FUN_0096ad30(usIndex + m_usGrowBy);
-        FUN_0096ae90(usIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(usIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(usIndex, (char *&)(element));
         return usIndex;
     }
 };
@@ -457,17 +459,11 @@ struct NiRTTIStandIn
 {
     const char* m_pcName;
 };
-extern NiRTTIStandIn g_kGravityModifierRTTI_01202548;
 
-char* __cdecl FUN_00a7d330(const char* pcName);
-char* __cdecl FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
-char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
-char* __cdecl FUN_00a7d370(const char* pcPrefix, bool bValue);
 
 struct NiPoint3StandIn
 {
     float x, y, z;
-    char* FUN_00a59af0(const char* pcPrefix) const;
 };
 
 struct NiAVObjectStandIn
@@ -489,7 +485,6 @@ struct NiPSysGravityModifierImpl
     float m_fTurbulenceScale;
     bool m_bFieldFlag;
 
-    void FUN_00c319e0(NiViewerStringsArray* pkStrings);
     void AddViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
@@ -497,19 +492,19 @@ struct NiPSysGravityModifierImpl
 // @fnv 0x00c238c0
 void NiPSysGravityModifierImpl::AddViewerStrings(NiViewerStringsArray* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_kGravityModifierRTTI_01202548.m_pcName));
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)(pkStrings));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::NiRTTIStandIn *>(&::g_01202548)).m_pcName)));
     const char* pcGravityObjName;
     if (m_pkGravityObject)
         pcGravityObjName = m_pkGravityObject->m_kName;
     else
         pcGravityObjName = "None";
-    pkStrings->Add(FUN_00a7d5e0("Gravity Object", pcGravityObjName));
-    pkStrings->Add(m_kGravityDirection.FUN_00a59af0("Gravity Axis"));
-    pkStrings->Add(FUN_00a7d550("Decay", m_fDistanceDecay));
-    pkStrings->Add(FUN_00a7d550("Strength", m_fValue));
-    pkStrings->Add(FUN_00a7d550("Turbulence", m_fTurbulenceAmount));
-    pkStrings->Add(FUN_00a7d550("TurbulenceScale", m_fTurbulenceScale));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("Gravity Object", pcGravityObjName)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kGravityDirection))->FUN_00a59af0("Gravity Axis")));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("Decay", m_fDistanceDecay)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("Strength", m_fValue)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("Turbulence", m_fTurbulenceAmount)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("TurbulenceScale", m_fTurbulenceScale)));
     const char* pcForceTypeName;
     if (m_eForceType == 0)
         pcForceTypeName = "FORCE_PLANAR";
@@ -517,8 +512,8 @@ void NiPSysGravityModifierImpl::AddViewerStrings(NiViewerStringsArray* pkStrings
         pcForceTypeName = "FORCE_SPHERICAL";
     else
         pcForceTypeName = "Unknown";
-    pkStrings->Add(FUN_00a7d5e0("Force Type", pcForceTypeName));
-    pkStrings->Add(FUN_00a7d370("WorldAligned", m_bFieldFlag));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("Force Type", pcForceTypeName)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d370("WorldAligned", m_bFieldFlag)));
 }
 
 struct Node18
@@ -573,8 +568,6 @@ struct FUN_00c235f0_cls
     float m_38;
     char m_3c;
 
-    bool FUN_00c31830(FUN_00c235f0_cls* o);
-    bool FUN_00439090(void* p);
     bool IsEqual(FUN_00c235f0_cls* o);
 };
 
@@ -582,13 +575,13 @@ struct FUN_00c235f0_cls
 // @fnv 0x00c235f0
 bool FUN_00c235f0_cls::IsEqual(FUN_00c235f0_cls* apOther)
 {
-    if (FUN_00c31830(apOther))
+    if (reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830((::NiObject *)(apOther)))
     {
         if ((m_18 && !apOther->m_18) || (!m_18 && apOther->m_18))
             return false;
         if (m_18 && apOther->m_18 && !m_18->v5c(apOther->m_18))
             return false;
-        if (((FUN_00c235f0_cls*)&apOther->m_1c)->FUN_00439090(&m_1c))
+        if (reinterpret_cast<::NiPlane *>((((FUN_00c235f0_cls*)&apOther->m_1c)))->operator==((*(const ::NiPlane *)(&m_1c))))
             return false;
         if (apOther->m_28 != m_28)
             return false;
@@ -714,7 +707,7 @@ inline VectorC22 operator*(float scale, const VectorC22& point)
     return VectorC22(point.x * scale, point.y * scale, point.z * scale);
 }
 
-__declspec(noinline) void __fastcall FUN_004a0c10(VectorC22* point)
+__declspec(noinline) void FUN_004a0c10(VectorC22* point)
 {
     float length = point->Length();
     if (length > 9.999999974752427e-07)
@@ -730,7 +723,7 @@ __declspec(noinline) void __fastcall FUN_004a0c10(VectorC22* point)
     }
 }
 
-__declspec(noinline) float __fastcall FUN_00457910(VectorC22* point)
+__declspec(noinline) float FUN_00457910(VectorC22* point)
 {
     float length = point->Length();
     if (length > 9.999999974752427e-07)
@@ -779,7 +772,6 @@ struct TransformC22
 
     float scale;
 
-    TransformC22* FUN_004b4880(TransformC22* destination);
 
     void FUN_0062c250(const TransformC22* lhs, const TransformC22* rhs);
 };
@@ -928,7 +920,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
     TransformC22 ptr;
 
-    pForm.FUN_004b4880(&ptr);
+    reinterpret_cast<::NiTransform *>(&(pForm))->CalculateInverse((*(::NiTransform *)(&ptr)));
 
     ptr.FUN_0062c250(&pForm, &x);
 
@@ -941,7 +933,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
     else
         vForceDirection = pForm.rotation.FUN_004b4500(&location);
 
-    FUN_004a0c10(&vForceDirection);
+    reinterpret_cast<::FUN_004a0c10_s *>((&vForceDirection))->FUN_004a0c10();
 
     unsigned short j;
     j = emitter->GetActiveCount();
@@ -1102,7 +1094,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 vForceDirection.Z() = pForm.translation.Z() - y->Z();
 
-                FUN_004a0c10(&vForceDirection);
+                reinterpret_cast<::FUN_004a0c10_s *>((&vForceDirection))->FUN_004a0c10();
 
                 float s = (elapsed - pParticle->activeTime) * fSourceStrength;
                 pParticle->GetPosition() += vForceDirection * s;
@@ -1126,7 +1118,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 vForceDirection.Z() = pForm.translation.Z() - y->Z();
 
-                FUN_004a0c10(&vForceDirection);
+                reinterpret_cast<::FUN_004a0c10_s *>((&vForceDirection))->FUN_004a0c10();
 
                 VectorC22 vOffset;
 
@@ -1160,7 +1152,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 vForceDirection.Z() = pForm.translation.Z() - y->z;
 
-                float fDecay = DecayExp((float)(-GetDecay() * FUN_00457910(&vForceDirection)));
+                float fDecay = DecayExp((float)(-GetDecay() * reinterpret_cast<::NiPoint3 *>((&vForceDirection))->GetLengthSquared()));
 
                 float s = fDecay * fSourceStrength * (elapsed - pParticle->GetActiveTime());
                 pParticle->GetPosition() += vForceDirection * s;
@@ -1194,7 +1186,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
                 VectorC22 z = pForm.translation - *y;
 
                 float fDecay;
-                fDecay = DecayExp((float)(-GetDecay() * FUN_00457910(&z)));
+                fDecay = DecayExp((float)(-GetDecay() * reinterpret_cast<::NiPoint3 *>((&z))->GetLengthSquared()));
 
                 pParticle->ApplyMotion(kIter * fDecay + vOffset, elapsed);
             }

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKADELTACOMPRESSEDANIMATIONQUANTIZATIONFORMAT_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaDeltaCompressedAnimationQuantizationFormat
 {
   public:
@@ -16,7 +15,4 @@ class hkaDeltaCompressedAnimationQuantizationFormat
     hkUint32 m_uiScaleIndexOffset;     // +0xC
     hkUint32 m_uiBitWidthIndexOffset;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaDeltaCompressedAnimationQuantizationFormat
-    [(sizeof(hkaDeltaCompressedAnimationQuantizationFormat) == 0x14) ? 1 : -1];
 #endif

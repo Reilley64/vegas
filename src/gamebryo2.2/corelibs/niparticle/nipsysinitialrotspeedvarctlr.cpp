@@ -2,15 +2,23 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysinitialrotspeedvarctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysinitialrotspeedvarctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_012026d8;
 
 // @fnv 0x00c29e90
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include "fnv/decl/CtlrStandin.h"
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c29e90()
 {
-    return &g_012026d8;
+    return &(*reinterpret_cast<void * *>(&::g_012026d8));
 }
 
-void __cdecl FUN_00c31260(void);
 extern int DAT_010c0e44;
 
 struct FUN_00c32d80
@@ -21,13 +29,10 @@ struct FUN_00c32d80
 // @fnv 0x00c32d80
 FUN_00c32d80::FUN_00c32d80()
 {
-    FUN_00c31260();
-    *(int*)this = (int)&DAT_010c0e44;
+    static_cast<::CtlrStandin *>(nullptr)->FUN_00c31260();
+    *(intptr_t*)this = (intptr_t)&DAT_010c0e44;
 }
 
-extern "C" void* g_012026d8;
-void __stdcall FUN_00c32f60(void* p);
-void* __cdecl FUN_00a7d330(void* p);
 
 struct FUN_00c29f00_Array
 {
@@ -37,24 +42,22 @@ struct FUN_00c29f00_Array
     unsigned short unk0A;
     unsigned short unk0C;
     unsigned short unk0E;
-    void FUN_0096ad30(unsigned int size);
-    void FUN_0096ae90(unsigned int index, void** item);
 };
 
 // Grows the array if its count has reached capacity, then stores the item obtained from g_012026d8 at the current count.
 // @fnv 0x00c29f00
-void __stdcall FUN_00c29f00(FUN_00c29f00_Array* arr)
+void FUN_00c29f00(FUN_00c29f00_Array* arr)
 {
-    FUN_00c32f60(arr);
-    void* item = FUN_00a7d330(g_012026d8);
+    ::FUN_00c32f60((::StrArr *)(arr));
+    void* item = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012026d8))))));
     unsigned int count = arr->unk0A;
     if (count >= arr->unk08)
-        arr->FUN_0096ad30(count + arr->unk0E);
-    arr->FUN_0096ae90(count, &item);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(count + arr->unk0E);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(count, (*(char * *)(&item)));
 }
 
 extern "C" char DAT_010becbc;
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedCtlr
 {
@@ -62,39 +65,34 @@ struct SpawnedCtlr
     virtual void v00();
 };
 
-struct SpawnedHost
+struct SpawnedHost_00c29eb0
 {
-    void FUN_00c32de0(SpawnedCtlr* obj, void* a1);
     SpawnedCtlr* CreateSpawnedCtlr(void* a1);
 };
 
 // Allocates a 0x40-byte SpawnedCtlr, initialises it and its vtable, passes it to FUN_00c32de0 with a1, and returns it.
 // @fnv 0x00c29eb0
-SpawnedCtlr* SpawnedHost::CreateSpawnedCtlr(void* a1)
+SpawnedCtlr* SpawnedHost_00c29eb0::CreateSpawnedCtlr(void* a1)
 {
     SpawnedCtlr* obj = (SpawnedCtlr*)FUN_00aa13e0(0x40);
     if (obj != 0)
     {
-        obj->FUN_00c32d80();
+        new ((void *)(obj)) ::FUN_00c32d80();
         *(void* volatile*)obj = &DAT_010becbc;
     }
     else
     {
         obj = 0;
     }
-    this->FUN_00c32de0(obj, a1);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>((this))->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(obj), (*(::CloningProcess *)(a1)));
     return obj;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedFloat
 {
     unsigned int unk00[6];
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedFloat(float value) throw();
 };

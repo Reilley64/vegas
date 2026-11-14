@@ -2,114 +2,236 @@
 // src/staging/blk_00820000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include <windows.h>
+#include <objbase.h>
+#include <new>
+#include "fnv/decl/B83C270Conversation.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BasePinStub.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/C6760Ref.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0045cec0_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_005215a0_shell.h"
+#include "fnv/decl/FUN_00522440_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_00759450_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_009fdc10.h"
+#include "fnv/decl/FUN_00ad78e0_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89b0_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8ad0_s.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8be0_shell.h"
+#include "fnv/decl/FUN_00ad8c20_h.h"
+#include "fnv/decl/FUN_00ad8c70_Class.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/FUN_00ad9030_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/ParticleEmitter.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/Radio652.h"
+#include "fnv/decl/RefC7.h"
+#include "fnv/decl/S2f760.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/S_00522470.h"
+#include "fnv/decl/S_0082f1f0_Lock.h"
+#include "fnv/decl/S_8c4f10_Cls.h"
+#include "fnv/decl/SoundPlaybackManager.h"
+#include "fnv/decl/StandIn.h"
+#include "fnv/decl/TESGrass.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00454b10__TESObjectCELL.h"
+#include "fnv/decl/fnv_004bda70__FUN_004bda70_shell.h"
+#include "fnv/decl/fnv_005de0f0__FUN_005de0f0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00ad8100__FUN_00ad8100_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/fnv_00ad8e20__FUN_00ad8e20_h.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00481000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00511000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e3000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_0082d000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00837000.h"
+#include "fnv/symbols_00839000.h"
+#include "fnv/symbols_00890000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_0107c000.h"
+#include "fnv/symbols_0107d000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_004615d0_shell.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/symbols_00831000.h"
+#include "fnv/symbols_0083a000.h"
+#include "../../include/layout_support_decl_blk_00820000_od.h"
 
 struct FUN_00821620_Class
 {
-    void __thiscall FUN_00821620(float value);
+    char pad[0x130];
+    float unk130;
+    void FUN_00821620(float value);
 };
 
 // @fnv 0x00821620
-void __thiscall FUN_00821620_Class::FUN_00821620(float value)
+void FUN_00821620_Class::FUN_00821620(float value)
 {
-    *(float*)((char*)this + 0x130) = value;
+    unk130 = value;
 }
 
 struct FUN_00821680_Class
 {
+    char pad[0x140];
+    float unk140;
     float FUN_00821680() const;
 };
 
 // @fnv 0x00821680
 float FUN_00821680_Class::FUN_00821680() const
 {
-    return *(const float*)((const char*)this + 0x140);
+    return unk140;
 }
 
 struct FUN_008216a0_class
 {
+    char pad[0x148];
+    float unk148;
     float GetValue() const;
 };
 
 // @fnv 0x008216a0
 float FUN_008216a0_class::GetValue() const
 {
-    return *(const float*)((const char*)this + 0x148);
+    return unk148;
 }
 
 struct FUN_00824080_Class
 {
+    char pad[0x18];
+    unsigned int unk18;
     bool IsFlag200Set();
 };
 
 // @fnv 0x00824080
 bool FUN_00824080_Class::IsFlag200Set()
 {
-    return (reinterpret_cast<const unsigned int*>(this)[6] & 0x200) != 0;
+    return (unk18 & 0x200) != 0;
 }
 
 struct FUN_00827200_class
 {
-    void __thiscall _ref_006815c0();
-    void __thiscall FUN_00cb26e0(int);
-    FUN_00827200_class* __thiscall FUN_00827200(int a);
+    void FUN_00cb26e0(int);
+    FUN_00827200_class* FUN_00827200(int a);
 };
-// Calls _ref_006815c0, then FUN_00cb26e0 with a, and returns this.
-// @fnv 0x00827200
-FUN_00827200_class* __thiscall FUN_00827200_class::FUN_00827200(int a)
-{
-    _ref_006815c0();
-    FUN_00cb26e0(a);
-    return this;
-}
-
 struct FUN_0082d660_class
 {
+    char pad[0x44];
+    char unk44;
     char GetByteAtOffset44();
 };
 
 // @fnv 0x0082d660
 char FUN_0082d660_class::GetByteAtOffset44()
 {
-    return *(char*)((char*)this + 0x44);
+    return unk44;
 }
 
 struct FUN_0082d6a0_Class
 {
+    char pad[0x50];
+    unsigned short unk50[1];
     unsigned short GetShortAt(int index);
 };
 
 // @fnv 0x0082d6a0
 unsigned short FUN_0082d6a0_Class::GetShortAt(int index)
 {
-    return *(unsigned short*)((char*)this + 0x50 + index * 2);
+    return unk50[index];
 }
 
 struct FUN_0082d6c0_class
 {
-    unsigned short __thiscall GetShortAtOffset5A();
+    char pad[0x5a];
+    unsigned short unk5a;
+    unsigned short GetShortAtOffset5A();
 };
 
 // @fnv 0x0082d6c0
-unsigned short __thiscall FUN_0082d6c0_class::GetShortAtOffset5A()
+unsigned short FUN_0082d6c0_class::GetShortAtOffset5A()
 {
-    return *(unsigned short*)((char*)this + 0x5a);
+    return unk5a;
 }
 
-// @fnv 0x0082d700
-int __fastcall FUN_0082d700(void* self)
+struct FUN_0082d700_Object
 {
-    return *(unsigned short*)((char*)self + 0x4e) & 0xff;
+    char pad[0x4e];
+    unsigned short unk4e;
+};
+// @fnv 0x0082d700
+int FUN_0082d700(void* self)
+{
+    return static_cast<FUN_0082d700_Object*>(self)->unk4e & 0xff;
 }
 
 struct FUN_0082d720_Class
 {
-    unsigned int __thiscall FUN_0082d720();
+    char pad[0x5c];
+    unsigned int unk5c;
+    unsigned int FUN_0082d720();
 };
 // @fnv 0x0082d720
-unsigned int __thiscall FUN_0082d720_Class::FUN_0082d720()
+unsigned int FUN_0082d720_Class::FUN_0082d720()
 {
-    return ((const unsigned int*)this)[0x5c / 4] & 0xff;
+    return unk5c & 0xff;
 }
 
 extern int DAT_0107ca44;
@@ -120,16 +242,6 @@ struct FUN_0082ee80_class
     void InitArray(int);
     FUN_0082ee80_class* InitializeWithGlobal(int a);
 };
-// Calls InitArray with the argument, stores the address of DAT_0107ca44 in m_p, and returns this.
-// @fnv 0x0082ee80
-FUN_0082ee80_class* FUN_0082ee80_class::InitializeWithGlobal(int a)
-{
-    InitArray(a);
-    m_p = &DAT_0107ca44;
-    return this;
-}
-
-extern "C" void* DAT_0107cb6c;
 
 struct FUN_0082f140_class
 {
@@ -137,42 +249,43 @@ struct FUN_0082f140_class
 };
 
 // @fnv 0x0082f140
-void __thiscall FUN_0082f140_class::FUN_0082f140()
+void FUN_0082f140_class::FUN_0082f140()
 {
     *reinterpret_cast<void**>(this) = &DAT_0107cb6c;
 }
 
-void __fastcall FUN_0082f1b0(void*);
 
 struct FUN_0082f190_class
 {
+    char pad[0x10c];
+    char unk10c;
     void FUN_0082f190();
 };
 
 // @fnv 0x0082f190
 void FUN_0082f190_class::FUN_0082f190()
 {
-    FUN_0082f1b0(reinterpret_cast<char*>(this) + 0x10c);
+    ::fnv_0082f1b0::FUN_0082f1b0(&unk10c);
 }
 
 struct RecursiveLock
 {
-    void Leave();
 };
 
 struct CBSAStream
 {
+    char pad[0x10c];
+    RecursiveLock unk10c;
     void FUN_0082f1d0();
 };
 
 // @fnv 0x0082f1d0
 void CBSAStream::FUN_0082f1d0()
 {
-    reinterpret_cast<RecursiveLock*>(reinterpret_cast<char*>(this) + 0x10c)->Leave();
+    reinterpret_cast<::S_0082f1f0_Lock *>(((&unk10c)))->FUN_0082f1f0();
 }
 
 namespace fnv_0082f240 {
-extern int DAT_0107cb6c;
 
 struct FUN_0082f240_class
 {
@@ -183,104 +296,97 @@ struct FUN_0082f240_class
 // @fnv 0x0082f240
 FUN_0082f240_class::FUN_0082f240_class()
 {
-    vtbl = &DAT_0107cb6c;
+    vtbl = &(*reinterpret_cast<int *>(&::DAT_0107cb6c));
 }
 }  // namespace fnv_0082f240
 
-void __fastcall FUN_0082f1b0(void*);
 
 struct FUN_0082f520Class
 {
     void* p;
-    void* __thiscall FUN_0082f520(void* v);
+    void* FUN_0082f520(void* v);
 };
 
 // Stores v into p, calls FUN_0082f1b0 on p, and returns this.
 // @fnv 0x0082f520
-void* __thiscall FUN_0082f520Class::FUN_0082f520(void* pValue)
+void* FUN_0082f520Class::FUN_0082f520(void* pValue)
 {
     p = pValue;
-    FUN_0082f1b0(p);
+    ::fnv_0082f1b0::FUN_0082f1b0(p);
     return this;
 }
 
 namespace fnv_0082f550 {
 struct RecursiveLock
 {
-    void Leave();
 };
 
 // @fnv 0x0082f550
-void __fastcall LeaveObject(void* p)
+void LeaveObject(void* p)
 {
-    ((RecursiveLock**)(int*)p)[0]->Leave();
+    reinterpret_cast<::S_0082f1f0_Lock *>((((RecursiveLock**)(int*)p)[0]))->FUN_0082f1f0();
 }
 }  // namespace fnv_0082f550
 
 struct FUN_00831e00_class
 {
-    int __thiscall IsFlagSet();
+    char pad[0x8];
+    int unk08;
+    int IsFlagSet();
 };
 
 // @fnv 0x00831e00
-int __thiscall FUN_00831e00_class::IsFlagSet()
+int FUN_00831e00_class::IsFlagSet()
 {
-    return (*(int*)((char*)this + 8) & 1) != 0;
+    return (unk08 & 1) != 0;
 }
 
-extern "C" void __stdcall ReceiveConnection(int, int, int);
 
 struct FUN_00831f40_Class
 {
-    void FUN_00831f40(int a, int b);
+    char pad[0x104];
+    char unk104;
+    void FUN_00831f40(void* a, void* b);
 };
 
 // @fnv 0x00831f40
-void FUN_00831f40_Class::FUN_00831f40(int aiArg1, int aiArg2)
+void FUN_00831f40_Class::FUN_00831f40(void* aiArg1, void* aiArg2)
 {
-    ReceiveConnection((int)this + 0x104, aiArg1, aiArg2);
+    reinterpret_cast<::BasePinStub *>(((intptr_t)&unk104))->ReceiveConnection(aiArg1, aiArg2);
 }
 
 struct FUN_008321c0_Class
 {
     int m_kPointA;
-    int m_kPointB;
+    char m_kPointB;
     int m_iThirdValue;
     int m_iFourthElementInteger;
-    void FUN_00836030();
     void FUN_008321c0();
 };
-// @fnv 0x008321c0
-void FUN_008321c0_Class::FUN_008321c0()
-{
-    ((FUN_008321c0_Class*)((char*)this + 4))->FUN_00836030();
-}
-
 struct BGSLoadFormBuffer
 {
-    bool ReadFormIdentifier(void*);
 };
 struct FUN_00836240
 {
-    void LoadGame(BGSLoadFormBuffer*);
 };
 struct FUN_00836630
 {
+    char pad[0x4];
+    FUN_00836240 unk04;
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
 // @fnv 0x00836630
 void FUN_00836630::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    buffer->ReadFormIdentifier(this);
-    reinterpret_cast<FUN_00836240*>(reinterpret_cast<char*>(this) + 4)->LoadGame(buffer);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(this));
+    reinterpret_cast<::Radio652 *>(((&unk04)))->FUN_00836240((::Buffer652 *)(buffer));
 }
 
-extern int DAT_011a1888[];
-extern int DAT_011dd87c[];
+extern const char* DAT_011a1888[];
 
 // Returns the entry at index from DAT_011dd87c if non-zero, otherwise the entry at index from DAT_011a1888.
 // @fnv 0x008374b0
-int __cdecl FUN_008374b0(int index)
+const char* __cdecl FUN_008374b0(int index)
 {
     if (DAT_011dd87c[index])
         return DAT_011dd87c[index];
@@ -288,23 +394,20 @@ int __cdecl FUN_008374b0(int index)
 }
 
 namespace fnv_008374e0 {
-extern int DAT_011dd87c;
 
 // @fnv 0x008374e0
 void __cdecl SetGlobalPointerAtOffset(int aiOffset, const char* apValue)
 {
-    *(int*)(&DAT_011dd87c + aiOffset) = (int)apValue;
+    ::DAT_011dd87c[aiOffset] = apValue;
 }
 }  // namespace fnv_008374e0
 
-extern "C" void __cdecl FalloutAudio_FUN_00839ab0();
-extern unsigned char DAT_011dd85c;
 
 // @fnv 0x00837500
 void FUN_00837500()
 {
     DAT_011dd85c = 0;
-    FalloutAudio_FUN_00839ab0();
+    ::fnv_00839ab0::InitFootstepImpacts();
 }
 
 extern "C" void* DAT_0107d9c4;
@@ -327,35 +430,37 @@ void* FUN_0083b5e0_class::FUN_0083b5e0(int a)
 
 struct S7010
 {
-    unsigned int Length();
 };
 struct FUN_0083dea0_class
 {
+    char pad[0x34];
+    S7010 unk34;
     unsigned int FUN_0083dea0();
 };
 // @fnv 0x0083dea0
 unsigned int FUN_0083dea0_class::FUN_0083dea0()
 {
-    return 0 < ((S7010*)((char*)this + 0x34))->Length();
+    return 0 < ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(((&unk34)))->FUN_004048e0()));
 }
 
 namespace fnv_0083e0a0 {
 struct S7010
 {
-    unsigned int Length();
 };
 struct FUN_0083e0a0_Class
 {
+    char pad[0x18];
+    S7010 unk18;
     unsigned int GetLength();
 };
 // @fnv 0x0083e0a0
 unsigned int FUN_0083e0a0_Class::GetLength()
 {
-    return ((S7010*)((char*)this + 0x18))->Length();
+    return ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(((&unk18)))->FUN_004048e0()));
 }
 }  // namespace fnv_0083e0a0
 
-extern "C" void* __cdecl _NiFreeAlias(void*);
+extern "C" void __cdecl _NiFreeAlias(void*);
 extern void* DAT_0107ca64;
 
 struct FUN_0082efb0
@@ -368,25 +473,26 @@ struct FUN_0082efb0
 void FUN_0082efb0::FUN_0082efb0_init()
 {
     *(void**)((char*)this + 0) = (void*)&DAT_0107ca64;
-    ((NiTPointerMap<int, int>*)this)->RemoveAll();
-    _NiFreeAlias(*(void**)(this + 8));
+    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
+    ::FUN_00aa10f0(*(void**)(this + 8));
 }
 
 namespace fnv_0083b710 {
 extern "C" void __cdecl _NiFreeAlias(void*);
-extern void* DAT_0107d9e4;
 
 struct FUN_0083b710_cls : public NiTPointerMap<int, int>
 {
+    char pad[0x8];
+    int unk08;
     void FUN_0083b710();
 };
 
 // @fnv 0x0083b710
 void FUN_0083b710_cls::FUN_0083b710()
 {
-    *reinterpret_cast<void**>(this) = &DAT_0107d9e4;
-    RemoveAll();
-    _NiFreeAlias(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[2]));
+    *reinterpret_cast<void**>(this) = &::fnv_0083b640::DAT_0107d9e4;
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+    _NiFreeAlias(reinterpret_cast<void*>(unk08));
 }
 }  // namespace fnv_0083b710
 
@@ -412,92 +518,90 @@ FUN_008224b0_Class::~FUN_008224b0_Class()
 struct GO
 {
     ~GO();
-    GO* __thiscall FUN_008228f0(unsigned int flags);
+    GO* FUN_008228f0(unsigned int flags);
 };
 // Runs the destructor and, if flags has bit 0 set, frees the object; returns the pointer.
 // @fnv 0x008228f0
-GO* __thiscall GO::FUN_008228f0(unsigned int flags)
+GO* GO::FUN_008228f0(unsigned int flags)
 {
-    GO::~GO();
+    reinterpret_cast<::FUN_0045cec0_Class *>(this)->FUN_0045cec0();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_0082eee0_class
 {
-    void* __thiscall InitArray(int size);
+    char pad[0x4];
+    int unk04;
+    void* unk08;
+    int unk0c;
+    void* InitArray(int size);
 };
+// Calls InitArray with the argument, stores the address of DAT_0107ca44 in m_p, and returns this.
+// @fnv 0x0082ee80
+FUN_0082ee80_class* FUN_0082ee80_class::InitializeWithGlobal(int a)
+{
+    reinterpret_cast<::FUN_0082eee0_class *>(this)->InitArray(a);
+    m_p = &DAT_0107ca44;
+    return this;
+}
 // @fnv 0x0082eee0
-void* __thiscall FUN_0082eee0_class::InitArray(int aiCount)
+void* FUN_0082eee0_class::InitArray(int aiCount)
 {
     *(void***)this = &DAT_0107ca64;
-    ((int*)this)[1] = aiCount;
-    ((int*)this)[3] = 0;
-    unsigned int len = ((int*)this)[1] << 2;
-    ((int*)this)[2] = (int)_NiMalloc(len);
-    memset(*(void**)((int*)this + 2), 0, ((int*)this)[1] << 2);
+    unk04 = aiCount;
+    unk0c = 0;
+    unsigned int len = unk04 << 2;
+    this->unk08 = ::FUN_00aa1070(len);
+    ::FUN_00403d30(this->unk08, 0, unk04 << 2);
     return this;
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_00831f80_class
 {
-    void __thiscall FUN_00831fb0();
-    void* __thiscall FUN_00831f80(unsigned int flags);
+    void* FUN_00831f80(unsigned int flags);
 };
-// Calls FUN_00831fb0, then frees this with Deallocate if flags has bit 0 set, and returns this.
-// @fnv 0x00831f80
-void* __thiscall FUN_00831f80_class::FUN_00831f80(unsigned int flags)
-{
-    FUN_00831fb0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 extern int DAT_0107cd54;
 extern int DAT_0107cd6c;
 extern int DAT_0107cdac;
-extern "C" void __fastcall FUN_009fdc10(void*);
 struct FUN_00831fb0_class
 {
     void* vtbl;
     int a;
     int b;
-    int c;
-    int d;
-    void __thiscall FUN_00831fb0();
+    const void* c;
+    const void* d;
+    void FUN_00831fb0();
 };
+// Calls FUN_00831fb0, then frees this with Deallocate if flags has bit 0 set, and returns this.
+// @fnv 0x00831f80
+void* FUN_00831f80_class::FUN_00831f80(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00831fb0_class *>(this)->FUN_00831fb0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Sets the object's vtbl and two fields to the given globals, then calls FUN_009fdc10 on this.
 // @fnv 0x00831fb0
-void __thiscall FUN_00831fb0_class::FUN_00831fb0()
+void FUN_00831fb0_class::FUN_00831fb0()
 {
     vtbl = &DAT_0107cdac;
-    c = (int)&DAT_0107cd6c;
-    d = (int)&DAT_0107cd54;
-    FUN_009fdc10(this);
+    c = &DAT_0107cd6c;
+    d = &DAT_0107cd54;
+    reinterpret_cast<class ::FUN_009fdc10 *>((this))->FUN_009fdc10::~FUN_009fdc10();
 }
 
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void* id, int a);
 };
 struct FUN_00836600_class
 {
-    void __thiscall FUN_00836600(BGSLoadFormBuffer* buffer);
-    void __thiscall FUN_00836110(BGSLoadFormBuffer* buffer);
+    int unk00;
+    char unk04;
+    void FUN_00836600(BGSLoadFormBuffer* buffer);
 };
-// @fnv 0x00836600
-void __thiscall FUN_00836600_class::FUN_00836600(BGSLoadFormBuffer* buffer)
-{
-    reinterpret_cast<BGSSaveFormBuffer*>(buffer)->SerializeFormData(
-        reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0]), 0);
-    reinterpret_cast<FUN_00836600_class*>(reinterpret_cast<char*>(this) + 4)->FUN_00836110(buffer);
-}
-
 struct FUN_00837280_Class
 {
     char FUN_00837280();
@@ -509,44 +613,39 @@ char FUN_00837280_Class::FUN_00837280()
 }
 
 namespace fnv_0083b640 {
-extern "C" void* _NiMalloc(unsigned int size);
-void* memset(void* dest, int c, unsigned int count);
-extern "C" void* DAT_0107d9e4;
 struct FUN_0083b640_class
 {
     void* m_vt;
     int m_uiItemCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_0083b640_class* __thiscall InitBuffer(int a);
+    FUN_0083b640_class* InitBuffer(int a);
 };
 // Sets the vtable, stores a count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x0083b640
-FUN_0083b640_class* __thiscall FUN_0083b640_class::InitBuffer(int aiCount)
+FUN_0083b640_class* FUN_0083b640_class::InitBuffer(int aiCount)
 {
     m_vt = &DAT_0107d9e4;
     m_uiItemCount = aiCount;
     m_auiShapeKeys = 0;
     unsigned int size = m_uiItemCount * 4;
-    m_data = _NiMalloc(size);
-    memset(m_data, 0, m_uiItemCount * 4);
+    m_data = ::FUN_00aa1070(size);
+    ::FUN_00403d30(m_data, 0, m_uiItemCount * 4);
     return this;
 }
 }  // namespace fnv_0083b640
 
-void __cdecl Deallocate(void*);
 struct FUN_0083b740_Class
 {
-    void* __thiscall FUN_0083b740(unsigned int flags);
-    void __thiscall FUN_0083b710();
+    void* FUN_0083b740(unsigned int flags);
 };
 // Calls FUN_0083b710, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0083b740
-void* __thiscall FUN_0083b740_Class::FUN_0083b740(unsigned int flags)
+void* FUN_0083b740_Class::FUN_0083b740(unsigned int flags)
 {
-    FUN_0083b710();
+    reinterpret_cast<::fnv_0083b710::FUN_0083b710_cls *>(this)->FUN_0083b710();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -557,6 +656,12 @@ struct SoundPlaybackHandle
     int z;
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
+public:
+    ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);
+public:
+    bool IsValid() const;
+public:
+    bool Release();
 };
 struct FUN_0083b770
 {
@@ -585,42 +690,36 @@ struct FUN_0083b7d0
 FUN_0083b7d0::~FUN_0083b7d0()
 {}
 
-void __cdecl Deallocate(void*);
 struct FUN_0083c750_class
 {
-    void __thiscall FUN_0083c750();
-    void* __thiscall FUN_0083c720(unsigned int flags);
+    void FUN_0083c750();
+    void* FUN_0083c720(unsigned int flags);
 };
-// Calls FUN_0083c750, frees this with Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x0083c720
-void* __thiscall FUN_0083c750_class::FUN_0083c720(unsigned int flags)
+class TESForm
 {
-    FUN_0083c750();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
-struct TESForm
-{
+  public:
     virtual ~TESForm();
+    public:
+    ::ENUM_FORM_ID GetFormType() const;
 };
-struct TESObjectREFR : TESForm
+class TESObjectREFR : public TESForm
 {
+  public:
     virtual ~TESObjectREFR();
 };
-TESForm* __cdecl ref_004839c0(TESForm* p);
 struct FUN_0083d0d0_Class
 {
-    void RefreshObjectRef(int a);
+    char pad[0x18];
+    TESObjectREFR* unk18;
+    void RefreshObjectRef(intptr_t a);
 };
 // Re-casts the TESForm pointer at offset 0x18 to TESObjectREFR via ref_004839c0, storing the result or null if the pointer was null.
 // @fnv 0x0083d0d0
-void FUN_0083d0d0_Class::RefreshObjectRef(int a)
+void FUN_0083d0d0_Class::RefreshObjectRef(intptr_t a)
 {
-    *(TESObjectREFR**)((char*)this + 0x18) =
-        *(TESObjectREFR**)((char*)this + 0x18)
-            ? (TESObjectREFR*)dynamic_cast<TESObjectREFR*>(ref_004839c0(*(TESForm**)((char*)this + 0x18)))
+    unk18 =
+        unk18
+            ? (TESObjectREFR*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(TESForm**)&unk18)))
             : 0;
 }
 
@@ -637,17 +736,19 @@ struct G2
 };
 struct FUN_00824290_class
 {
-    void __thiscall AddWeatherEntry(int a, int b, int c);
+    char pad[0x8];
+    char unk08;
+    void AddWeatherEntry(intptr_t a, intptr_t b, intptr_t c);
 };
 // Allocates a WeatherEntry storing the three arguments and adds it to the head of the list at this+8.
 // @fnv 0x00824290
-void __thiscall FUN_00824290_class::AddWeatherEntry(int aiFirst, int aiSecond, int aiThird)
+void FUN_00824290_class::AddWeatherEntry(intptr_t aiFirst, intptr_t aiSecond, intptr_t aiThird)
 {
     WeatherEntry* pEntry = new WeatherEntry;
     pEntry->a = aiFirst;
     pEntry->b = aiSecond;
     pEntry->c = aiThird;
-    ((G2*)((char*)this + 8))->AddHead(&pEntry);
+    ((G2*)&unk08)->AddHead(&pEntry);
 }
 
 struct SoundDataDummy
@@ -656,9 +757,10 @@ struct SoundDataDummy
     int a;
     int b;
 };
-struct TESSound
+class TESSound
 {
-    SoundDataDummy CopyBig();
+public:
+    unsigned char GetField45();
 };
 // If self is non-null and its sound data has a non-zero a or b, writes a and b to outA and outB and returns true; otherwise returns false.
 // @fnv 0x0082d740
@@ -667,10 +769,10 @@ bool FUN_0082d740(TESSound* self, int* outA, int* outB)
     if (!self)
         return false;
     TESSound* p = self;
-    if (p->CopyBig().a || p->CopyBig().b)
+    if ((*(::SoundDataDummy *)(reinterpret_cast<::Holder *>((p))->CopyBig({}))).a || (*(::SoundDataDummy *)(reinterpret_cast<::Holder *>((p))->CopyBig({}))).b)
     {
-        *outA = p->CopyBig().a;
-        *outB = p->CopyBig().b;
+        *outA = (*(::SoundDataDummy *)(reinterpret_cast<::Holder *>((p))->CopyBig({}))).a;
+        *outB = (*(::SoundDataDummy *)(reinterpret_cast<::Holder *>((p))->CopyBig({}))).b;
         return true;
     }
     return false;
@@ -678,22 +780,18 @@ bool FUN_0082d740(TESSound* self, int* outA, int* outB)
 
 struct BSAudio
 {
-    static BSAudio* __cdecl GetSingleton();
-    unsigned int GetSynchTime();
+    uintptr_t GetSynchTime();
 };
-struct EffectSetting
+class EffectSetting
 {
-    void* GetBoltSound();
 };
-struct TESObject
+class TESObject
 {
-    unsigned int GetNext();
 };
 struct SndX
 {
     int a, b, c;
     void Stop();
-    void PausePlayback();
 };
 struct SndItem
 {
@@ -702,13 +800,11 @@ struct SndItem
     SndX second;
     bool active;
 };
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 struct ContNode
 {
-    SndItem** ref_006815c0();
 };
-bool __fastcall FUN_008256d0(ContNode*);
-ContNode* __fastcall FUN_00726070(ContNode*);
+bool FUN_008256d0(ContNode*);
 struct Q
 {
     ~Q();
@@ -725,56 +821,23 @@ struct S_00836470
     void UpdateSoundItems(int);
 };
 
-// @fnv 0x00836470
-void S_00836470::UpdateSoundItems(int)
+class TESTopic : public TESForm
 {
-    if (BSAudio::GetSingleton()->GetSynchTime() < m_uiCommandId || m_uiItemCount <= 0)
-    {
-        m_uiCommandId = 0;
-        m_uiItemCount = 1;
-        delete m_p;
-        m_p = 0;
-    }
-    else
-    {
-        m_uiCommandId = BSAudio::GetSingleton()->GetSynchTime() - m_uiCommandId;
-    }
-    ContNode* node = &m_kNode;
-    while (node && !FUN_008256d0(node) && *node->ref_006815c0())
-    {
-        if (!(*node->ref_006815c0())->obj || !(*node->ref_006815c0())->obj->GetNext() ||
-            (FNV_GetFormType((TESForm*)(*node->ref_006815c0())->obj->GetNext()) == 0x15 &&
-             !((EffectSetting*)(*node->ref_006815c0())->obj->GetNext())->GetBoltSound()))
-        {
-            (*node->ref_006815c0())->first.Stop();
-            (*node->ref_006815c0())->first.PausePlayback();
-            (*node->ref_006815c0())->second.Stop();
-            (*node->ref_006815c0())->second.PausePlayback();
-            (*node->ref_006815c0())->active = false;
-        }
-        node = FUN_00726070(node);
-    }
-}
-
-void* __cdecl operator new(unsigned int);
-struct TESTopic : TESForm
-{
+  public:
     virtual ~TESTopic();
 };
-struct TESTopicInfo : TESForm
+class TESTopicInfo : public TESForm
 {
+  public:
     virtual ~TESTopicInfo();
 };
-struct TESQuest : TESForm
+class TESQuest : public TESForm
 {
+  public:
     virtual ~TESQuest();
 };
-TESForm* __cdecl GetFormByID(unsigned int formID);
 struct BGSLoadGameBuffer
 {
-    unsigned int ReadFormIdentifier();
-    int ReadElementCount();
-    void ReadTypedData(void* data, unsigned int size);
 };
 struct FUN_0083d1e0
 {
@@ -790,7 +853,6 @@ struct FUN_0083d1e0
     unsigned int unk24;
     unsigned int unk28;
     FUN_0083d1e0();
-    void FUN_0083d740(BGSLoadFormBuffer* buffer);
 };
 struct DialogueResponseList
 {
@@ -807,33 +869,8 @@ struct DialogueItem_shell
     TESQuest* quest;
     unsigned int speaker;
     FUN_0083d1e0* GetResponseByIndex(short id);
-    void FUN_0083c8a0(FUN_0083d1e0* response);
     void LoadDialogueItem(BGSLoadFormBuffer* buffer);
 };
-// Reads a response count and its responses, an optional current response id, topic info, topic, quest and speaker from the load buffer.
-// @fnv 0x0083cf40
-void DialogueItem_shell::LoadDialogueItem(BGSLoadFormBuffer* buffer)
-{
-    short currentID;
-    {
-        unsigned int count = ((BGSLoadGameBuffer*)buffer)->ReadElementCount();
-        for (unsigned int i = 0; i < count; ++i)
-        {
-            FUN_0083d1e0* response = new FUN_0083d1e0;
-            response->FUN_0083d740(buffer);
-            responses.AddTail(response);
-        }
-    }
-    currentID = -1;
-    ((BGSLoadGameBuffer*)buffer)->ReadTypedData(&currentID, 2);
-    if (currentID != -1)
-        FUN_0083c8a0(GetResponseByIndex(currentID));
-    topicInfo = dynamic_cast<TESTopicInfo*>(GetFormByID(((BGSLoadGameBuffer*)buffer)->ReadFormIdentifier()));
-    topic = dynamic_cast<TESTopic*>(GetFormByID(((BGSLoadGameBuffer*)buffer)->ReadFormIdentifier()));
-    quest = dynamic_cast<TESQuest*>(GetFormByID(((BGSLoadGameBuffer*)buffer)->ReadFormIdentifier()));
-    buffer->ReadFormIdentifier(&speaker);
-}
-
 struct ListX
 {
     ~ListX();
@@ -846,6 +883,11 @@ struct FUN_00836030_class
     ListX c;
     ~FUN_00836030_class();
 };
+// @fnv 0x008321c0
+void FUN_008321c0_Class::FUN_008321c0()
+{
+    reinterpret_cast<::FUN_00836030_class *>((&m_kPointB))->FUN_00836030_class::~FUN_00836030_class();
+}
 // @fnv 0x00836030
 FUN_00836030_class::~FUN_00836030_class()
 {
@@ -947,11 +989,12 @@ FUN_00825a10::FUN_00825a10() : BE((unsigned char)0x32), m_caster()
 }
 
 extern int DAT_0107bf1c;
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
-struct ActiveEffect
+class MagicCaster;
+class MagicItem;
+class EffectItem;
+class ActiveEffect
 {
+  public:
     void* vtbl;
     ActiveEffect(MagicCaster* caster, MagicItem* item, EffectItem* effect);
 };
@@ -998,7 +1041,7 @@ FUN_0082b370* CreateFUN0082b370(int a, int b, int c)
 struct FUN_0082cf80
 {
     unsigned char m_data[0x48];
-    __fastcall FUN_0082cf80(int, int, int);
+    FUN_0082cf80(int, int, int);
 };
 
 // Allocates a FUN_0082cf80 object by calling its constructor with the three arguments and returns the pointer.
@@ -1010,29 +1053,21 @@ void* __cdecl CreateFUN0082cf80(int a, int b, int c)
 
 struct FUN_0082d6e0_Class
 {
+    char pad[0x4e];
+    unsigned short unk4e;
     unsigned char GetHighByteOfField4E();
 };
 // @fnv 0x0082d6e0
 unsigned char FUN_0082d6e0_Class::GetHighByteOfField4E()
 {
-    return (unsigned char)((*(unsigned short*)((char*)this + 0x4e) & 0xff00) >> 8);
+    return (unsigned char)((unk4e & 0xff00) >> 8);
 }
 
 struct GlobalObject_0082ee80
 {
     ~GlobalObject_0082ee80();
-    GlobalObject_0082ee80* __thiscall FUN_0082eeb0(unsigned int flags);
+    GlobalObject_0082ee80* FUN_0082eeb0(unsigned int flags);
 };
-// Runs the destructor, frees the object with Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x0082eeb0
-GlobalObject_0082ee80* __thiscall GlobalObject_0082ee80::FUN_0082eeb0(unsigned int flags)
-{
-    this->GlobalObject_0082ee80::~GlobalObject_0082ee80();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 struct FUN_0082efb0_Ext : FUN_0082efb0
 {
     FUN_0082efb0* FUN_0082efe0(unsigned int flags);
@@ -1043,39 +1078,28 @@ FUN_0082efb0* FUN_0082efb0_Ext::FUN_0082efe0(unsigned int flags)
 {
     FUN_0082efb0_init();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_0082f160_class : public FUN_0082f140_class
 {
-    void* __thiscall FUN_0082f160(unsigned int flags);
+    void* FUN_0082f160(unsigned int flags);
 };
 
 // @fnv 0x0082f160
-void* __thiscall FUN_0082f160_class::FUN_0082f160(unsigned int flags)
+void* FUN_0082f160_class::FUN_0082f160(unsigned int flags)
 {
     FUN_0082f140();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_0082f260_class
 {
-    void __thiscall FUN_0082f260();
-    void* __thiscall FUN_0082f210(unsigned int flags);
+    void* FUN_0082f210(unsigned int flags);
 };
-// @fnv 0x0082f210
-void* FUN_0082f260_class::FUN_0082f210(unsigned int flags)
-{
-    FUN_0082f260();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 struct FUN_00831de0_Class
 {
     char m_00[0x14];
@@ -1089,13 +1113,25 @@ int FUN_00831de0_Class::ForwardToMember()
     return m_14.IsFlagSet();
 }
 
-typedef void(__stdcall* FUN_00831eb0_callback)(void*, int, int);
+typedef void(* FUN_00831eb0_callback)(void*, int, int);
+
+struct ContListMember
+{
+    char unk00;
+};
+struct ContListHead
+{
+    char pad[0xc];
+};
+struct ContListOwner : ContListHead, ContListMember
+{
+};
 
 // @fnv 0x00831eb0
-void __stdcall FUN_00831eb0(void* object, int aiArg1, int aiArg2)
+void FUN_00831eb0(void* object, int aiArg1, int aiArg2)
 {
     BSSimpleList<ContNode>* next =
-        reinterpret_cast<BSSimpleList<ContNode>*>(reinterpret_cast<char*>(object) - 0x0C)->GetNext();
+        ((::BSSimpleList< ::ContNode> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<ContNode>*>(static_cast<ContListOwner*>(static_cast<ContListMember*>(object)))))->FUN_00726070()));
 
     reinterpret_cast<FUN_00831eb0_callback>(*reinterpret_cast<void**>(*reinterpret_cast<void**>(next)))(next, aiArg1,
                                                                                                         aiArg2);
@@ -1104,14 +1140,14 @@ void __stdcall FUN_00831eb0(void* object, int aiArg1, int aiArg2)
 struct FUN_00831ee0_class
 {
     virtual void FUN_00831ee0_virtual0();
-    virtual void __stdcall FUN_00831ee0_virtual1();
+    virtual void FUN_00831ee0_virtual1();
 };
 
 // Retrieves the ContNode at p-0xc via FUN_00726070 and calls its first virtual method.
 // @fnv 0x00831ee0
-void __stdcall FUN_00831ee0(void* p)
+void FUN_00831ee0(void* p)
 {
-    FUN_00831ee0_class* node = (FUN_00831ee0_class*)FUN_00726070((ContNode*)((char*)p - 0xc));
+    FUN_00831ee0_class* node = (FUN_00831ee0_class*)((::ContNode *)(reinterpret_cast<::Callees *>((ContNode*)static_cast<ContListOwner*>(static_cast<ContListMember*>(p)))->FUN_00726070()));
 
     node->FUN_00831ee0_virtual1();
 }
@@ -1122,86 +1158,105 @@ struct BSSimpleListEx
 };
 struct FUN_00837480 : BSSimpleListEx
 {
-    void* __thiscall DeleteThis(unsigned int flags);
+    void* DeleteThis(unsigned int flags);
 };
 // Destroys the BSSimpleListEx base and, when flags has bit 0 set, deallocates this object; returns this.
 // @fnv 0x00837480
-void* __thiscall FUN_00837480::DeleteThis(unsigned int flags)
+void* FUN_00837480::DeleteThis(unsigned int flags)
 {
-    this->BSSimpleListEx::~BSSimpleListEx();
+    ::FUN_008373f0((void *)(this));
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct GlobalObject_0083b5e0
 {
     ~GlobalObject_0083b5e0();
-    void* __thiscall FUN_0083b610(unsigned int flags);
+    void* FUN_0083b610(unsigned int flags);
 };
-
-// Runs the destructor, then frees the object with Deallocate when flags has bit 0 set, and returns the object pointer.
-// @fnv 0x0083b610
-void* GlobalObject_0083b5e0::FUN_0083b610(unsigned int flags)
-{
-    this->GlobalObject_0083b5e0::~GlobalObject_0083b5e0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 
 struct BSStr
 {
-    bool Set(char const* value, unsigned int length);
 };
 
 struct BGSLoadGameBufferHelper
 {
-    char* __thiscall LoadString(char* destination);
 };
 
-struct TESIdleForm : TESForm
+class TESIdleForm : public TESForm
 {
+  public:
     virtual ~TESIdleForm()
     {}
 };
 
-TESForm* __cdecl _ref_004839c0(unsigned int formID);
 
 struct FUN_0083d740_Class
 {
-    void __thiscall FUN_0083d740(BGSLoadGameBuffer* buffer);
+    char pad[8];
+    unsigned int unk08;
+    unsigned int unk0c;
+    BSStr unk10;
+    char pad11[7];
+    TESIdleForm* unk18;
+    TESIdleForm* unk1c;
+    TESSound* unk20;
+    unsigned char unk24;
+    void FUN_0083d740(BGSLoadGameBuffer* buffer);
 };
+// Reads a response count and its responses, an optional current response id, topic info, topic, quest and speaker from the load buffer.
+// @fnv 0x0083cf40
+void DialogueItem_shell::LoadDialogueItem(BGSLoadFormBuffer* buffer)
+{
+    short currentID;
+    {
+        unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((((BGSLoadGameBuffer*)buffer)))->FUN_00864a60();
+        for (unsigned int i = 0; i < count; ++i)
+        {
+            FUN_0083d1e0* response = new FUN_0083d1e0;
+            reinterpret_cast<::FUN_0083d740_Class *>((response))->FUN_0083d740((::BGSLoadGameBuffer *)(buffer));
+            reinterpret_cast<::Callees *>(&(responses))->FUN_00905820((void *)&(response));
+        }
+    }
+    currentID = -1;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadGameBuffer*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&currentID), 2);
+    if (currentID != -1)
+        reinterpret_cast<::StandIn *>(this)->FUN_0083c8a0((::DialogueResponse *)(::FUN_0083d1e0 *)(GetResponseByIndex(currentID)));
+    topicInfo = dynamic_cast<TESTopicInfo*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((BGSLoadGameBuffer*)buffer)))->FUN_008648a0()));
+    topic = dynamic_cast<TESTopic*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((BGSLoadGameBuffer*)buffer)))->FUN_008648a0()));
+    quest = dynamic_cast<TESQuest*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((BGSLoadGameBuffer*)buffer)))->FUN_008648a0()));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&speaker));
+}
 
 // @fnv 0x0083d740
-void __thiscall FUN_0083d740_Class::FUN_0083d740(BGSLoadGameBuffer* buffer)
+void FUN_0083d740_Class::FUN_0083d740(BGSLoadGameBuffer* buffer)
 {
     char text[1000];
 
-    reinterpret_cast<BGSLoadGameBufferHelper*>(buffer)->LoadString(text);
-    reinterpret_cast<BSStr*>(this)->Set(text, 0);
+    reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((reinterpret_cast<BGSLoadGameBufferHelper*>(buffer)))->FUN_008649a0(text);
+    reinterpret_cast<::TextString *>((reinterpret_cast<BSStr*>(this)))->FUN_004037f0(text, 0);
 
-    reinterpret_cast<BGSLoadGameBufferHelper*>(buffer)->LoadString(text);
-    reinterpret_cast<BSStr*>(reinterpret_cast<char*>(this) + 0x10)->Set(text, 0);
+    reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((reinterpret_cast<BGSLoadGameBufferHelper*>(buffer)))->FUN_008649a0(text);
+    reinterpret_cast<::TextString *>((&unk10))->FUN_004037f0(text, 0);
 
-    buffer->ReadTypedData(reinterpret_cast<char*>(this) + 8, 4);
-    buffer->ReadTypedData(reinterpret_cast<char*>(this) + 0xc, 4);
-    buffer->ReadTypedData(reinterpret_cast<char*>(this) + 0x24, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)&unk08, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)&unk0c, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)&unk24, 1);
 
-    *reinterpret_cast<TESIdleForm**>(reinterpret_cast<char*>(this) + 0x18) =
-        dynamic_cast<TESIdleForm*>(_ref_004839c0(buffer->ReadFormIdentifier()));
+    unk18 =
+        dynamic_cast<TESIdleForm*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
 
-    *reinterpret_cast<TESIdleForm**>(reinterpret_cast<char*>(this) + 0x1c) =
-        dynamic_cast<TESIdleForm*>(_ref_004839c0(buffer->ReadFormIdentifier()));
+    unk1c =
+        dynamic_cast<TESIdleForm*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
 
-    *reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0x20) =
-        dynamic_cast<TESSound*>(_ref_004839c0(buffer->ReadFormIdentifier()));
+    unk20 =
+        dynamic_cast<TESSound*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
 }
 
 namespace fnv_0083da50 {
 struct BSStr
 {
-    bool Set(char const*, unsigned int);
     unsigned char m_data[9];
 
     BSStr();
@@ -1268,7 +1323,7 @@ FUN_0083da50::FUN_0083da50() : StrMem(), m_sl()
     m_14 = 0;
     m_28 = 0;
     m_18 = 0;
-    m_bsstr.Set($SG3295, 0);
+    reinterpret_cast<::TextString *>(&(m_bsstr))->FUN_004037f0($SG3295, 0);
     m_9 = 0;
     m_kPointA = 0;
 }
@@ -1276,53 +1331,62 @@ FUN_0083da50::FUN_0083da50() : StrMem(), m_sl()
 
 struct Str6a70
 {
-    Str6a70& __thiscall operator=(char const*);
+    Str6a70& operator=(char const*);
 };
 
 struct BGSLoadGameBufferLoadStringHelper
 {
-    char* __thiscall LoadString(char*);
 };
 
 struct BGSLoadFormBufferHelper
 {
-    unsigned int __thiscall ReadFormIdentifier();
-    void __thiscall ReadTypedData(void*, unsigned int);
 };
 
-TESForm* __cdecl _ref_004839c0(unsigned int formID);
 extern void* _DAT_01183028;
 
 struct FUN_0083fbe0_Class
 {
-    void __thiscall FUN_0083fbe0(BGSLoadGameBuffer* buffer);
+    char pad[8];
+    unsigned char unk08;
+    unsigned char unk09;
+    unsigned char unk0a;
+    char pad0b[9];
+    TESQuest* unk14;
+    TESTopicInfo* unk18;
+    TESTopic* unk1c;
+    char pad20[4];
+    unsigned char unk24;
+    unsigned char unk25;
+    char pad26[2];
+    TESTopic* unk28;
+    void FUN_0083fbe0(BGSLoadGameBuffer* buffer);
 };
 
 // @fnv 0x0083fbe0
-void __thiscall FUN_0083fbe0_Class::FUN_0083fbe0(BGSLoadGameBuffer* buffer)
+void FUN_0083fbe0_Class::FUN_0083fbe0(BGSLoadGameBuffer* buffer)
 {
     char string[500];
 
-    reinterpret_cast<BGSLoadGameBufferLoadStringHelper*>(buffer)->LoadString(string);
+    reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((reinterpret_cast<BGSLoadGameBufferLoadStringHelper*>(buffer)))->FUN_008649a0(string);
     reinterpret_cast<Str6a70*>(this)->operator=(string);
 
-    reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadTypedData(reinterpret_cast<char*>(this) + 0x08, 1);
-    reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadTypedData(reinterpret_cast<char*>(this) + 0x24, 1);
-    reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadTypedData(reinterpret_cast<char*>(this) + 0x25, 1);
-    reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadTypedData(reinterpret_cast<char*>(this) + 0x09, 1);
-    reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadTypedData(reinterpret_cast<char*>(this) + 0x0A, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)&unk08, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)&unk24, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)&unk25, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)&unk09, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)&unk0a, 1);
 
-    *reinterpret_cast<TESQuest**>(reinterpret_cast<char*>(this) + 0x14) = dynamic_cast<TESQuest*>(
-        _ref_004839c0(reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadFormIdentifier()));
+    unk14 = dynamic_cast<TESQuest*>(
+        ::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_008648a0()));
 
-    *reinterpret_cast<TESTopic**>(reinterpret_cast<char*>(this) + 0x28) = dynamic_cast<TESTopic*>(
-        _ref_004839c0(reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadFormIdentifier()));
+    unk28 = dynamic_cast<TESTopic*>(
+        ::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_008648a0()));
 
-    *reinterpret_cast<TESTopic**>(reinterpret_cast<char*>(this) + 0x1C) = dynamic_cast<TESTopic*>(
-        _ref_004839c0(reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadFormIdentifier()));
+    unk1c = dynamic_cast<TESTopic*>(
+        ::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_008648a0()));
 
-    *reinterpret_cast<TESTopicInfo**>(reinterpret_cast<char*>(this) + 0x18) = dynamic_cast<TESTopicInfo*>(
-        _ref_004839c0(reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)->ReadFormIdentifier()));
+    unk18 = dynamic_cast<TESTopicInfo*>(
+        ::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((reinterpret_cast<BGSLoadFormBufferHelper*>(buffer)))->FUN_008648a0()));
 }
 
 // FUN_00822440 - 0x00822440, 99 bytes.
@@ -1414,10 +1478,8 @@ struct SecondaryBase_b5774
 
 struct GlobalMgr_b5774
 {
-    bool FUN_004226e0();
 };
 
-extern GlobalMgr_b5774* DAT_011c3f2c;
 
 struct Holder_b5774
 {
@@ -1429,22 +1491,7 @@ class FUN_00825b60 : public PrimaryBase_b5774, public SecondaryBase_b5774
   public:
     Holder_b5774* m_20;
     virtual ~FUN_00825b60();
-    void Cleanup();
 };
-
-// If the global manager check fails, releases m_20 when non-null and calls Cleanup.
-// @fnv 0x00825b60
-FUN_00825b60::~FUN_00825b60()
-{
-    if (!DAT_011c3f2c->FUN_004226e0())
-    {
-        if (m_20 != 0)
-        {
-            m_20->Release();
-        }
-        Cleanup();
-    }
-}
 
 struct S_00825ea0_A
 {
@@ -1497,32 +1544,27 @@ struct SoundDataEx
 
 struct TESSoundEx : TESSound
 {
-    const char* GetSoundPath();
-    SoundDataEx GetSoundData();
 };
 
 struct DataHandler
 {
     TESSoundEx* LookupSound(unsigned int formID);
 };
-extern DataHandler* g_dataHandler;
 
-int strcpy_s(char* dest, unsigned int size, const char* src);
-unsigned int __cdecl SoundFlagsToAudioFlags(unsigned int flags);
 
 // @fnv 0x0082d150
 bool GetSoundPathAndFlags(unsigned int formID, char* path, unsigned int* flags, TESSoundEx** outSound)
 {
-    TESSoundEx* sound = g_dataHandler->LookupSound(formID);
-    if (sound && sound->GetSoundPath() && path)
+    TESSoundEx* sound = (*reinterpret_cast<::DataHandler * *>(&::g_dataHandler))->LookupSound(formID);
+    if (sound && ::FUN_00511840((char *)(sound)) && path)
     {
-        strcpy_s(path, 0x104, sound->GetSoundPath());
+        ::TaskQueueInterface::CopyStringToBuffer(path, 0x104, ::FUN_00511840((char *)(sound)));
     }
     else
     {
         return false;
     }
-    if (sound->GetSoundData().flags & 0x40)
+    if ((*(::SoundDataEx *)(reinterpret_cast<::Holder *>((sound))->CopyBig({}))).flags & 0x40)
     {
         *flags |= 1;
         *flags &= ~2;
@@ -1532,15 +1574,15 @@ bool GetSoundPathAndFlags(unsigned int formID, char* path, unsigned int* flags, 
         *flags |= 2;
         *flags &= ~1;
     }
-    if (sound->GetSoundData().flags & 1)
+    if ((*(::SoundDataEx *)(reinterpret_cast<::Holder *>((sound))->CopyBig({}))).flags & 1)
     {
         *flags |= 0x40;
     }
-    if (sound->GetSoundData().flags & 0x800)
+    if ((*(::SoundDataEx *)(reinterpret_cast<::Holder *>((sound))->CopyBig({}))).flags & 0x800)
     {
         *flags |= 0x8000000;
     }
-    *flags |= SoundFlagsToAudioFlags(sound->GetSoundData().flags);
+    *flags |= ((unsigned int)(::GetFlagMask((*(::SoundDataEx *)(reinterpret_cast<::Holder *>((sound))->CopyBig({}))).flags)));
     *outSound = sound;
     return true;
 }
@@ -1555,19 +1597,26 @@ struct FUN_0082ef50 : public Base_82efb0
     void RemoveAll();
     virtual ~FUN_0082ef50();
 };
+// Runs the destructor, frees the object with Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x0082eeb0
+GlobalObject_0082ee80* GlobalObject_0082ee80::FUN_0082eeb0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0082ef50 *>((this))->FUN_0082ef50::~FUN_0082ef50();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0082ef50
 FUN_0082ef50::~FUN_0082ef50()
 {
-    RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
-extern "C" void __cdecl FUN_00406d30(char*, unsigned int, const char*);
 extern "C" void* __cdecl FUN_00afdf20(const char*, int, int, int);
 struct FNVHandle
 {
     virtual ~FNVHandle();
-    bool FUN_008905f0();
 };
 struct FUN_0082f240
 {
@@ -1602,9 +1651,9 @@ struct FUN_0082f010 : FUN_0082f240
 FUN_0082f010::FUN_0082f010(const char* pathName)
 {
     counter = 0;
-    FUN_00406d30(path, 0x104, pathName);
+    ::TaskQueueInterface::CopyStringToBuffer(path, 0x104, pathName);
     handle = (FNVHandle*)FUN_00afdf20(path, 0, 0x4000, 8);
-    if (!handle || !handle->FUN_008905f0())
+    if (!handle || !::FUN_008905f0((bool *)(handle)))
     {
         if (handle)
         {
@@ -1614,7 +1663,6 @@ FUN_0082f010::FUN_0082f010(const char* pathName)
     }
 }
 
-extern int DAT_010a2480;
 struct ProbeTarget
 {
     virtual void v00();
@@ -1623,7 +1671,6 @@ struct ProbeTarget
     virtual void v0C();
     virtual void v10();
     virtual void v14(int a, int b);
-    bool FUN_008905f0();
 };
 class FUN_0082f310_cls
 {
@@ -1711,7 +1758,7 @@ class FUN_0082f310_cls
 // @fnv 0x0082f310
 int FUN_0082f310_cls::FUN_0082f310(__int64 value)
 {
-    if (value < 0 || value > this->m_128 || this->m_108 == 0 || this->m_108->FUN_008905f0() == 0)
+    if (value < 0 || value > this->m_128 || this->m_108 == 0 || ::FUN_008905f0((bool *)(this->m_108)) == 0)
     {
         return 1;
     }
@@ -1732,8 +1779,6 @@ struct StreamLock
 
 struct StreamFile
 {
-    bool IsValid();
-    unsigned int Read(void* buffer, unsigned int size);
 };
 
 struct ArchiveStream
@@ -1821,14 +1866,14 @@ struct ArchiveStream
 int ArchiveStream::FUN_0082f3c0(void* buffer, unsigned int count, int unused, unsigned int* bytesRead)
 {
     StreamLock guard(&lock);
-    if (!file || !file->IsValid())
+    if (!file || !::FUN_008905f0((bool *)(file)))
         return 1;
     unsigned int uiToAdvance;
     if (pos + count > size)
         uiToAdvance = (unsigned int)(size - pos);
     else
         uiToAdvance = count;
-    *bytesRead = file->Read(buffer, count);
+    *bytesRead = reinterpret_cast<::FUN_00462d80_shell *>((file))->ReadBytes(buffer, count);
     pos += uiToAdvance;
     return 0;
 }
@@ -1838,9 +1883,7 @@ int ArchiveStream::FUN_0082f3c0(void* buffer, unsigned int count, int unused, un
 // signals the object at +0x34, waits for the worker thread to leave, closes its
 // handle, then runs the base class destructor.
 
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 
-void __cdecl FUN_0040fca0(int milliseconds);
 
 struct FUN_00aa63c0
 {
@@ -1865,7 +1908,6 @@ struct FUN_0082f6c0 : FUN_00aa63c0
     int unk38;
     unsigned int unk3C;
 
-    void CopyAndSleep(void* arg);
     virtual ~FUN_0082f6c0();
 };
 
@@ -1874,15 +1916,13 @@ struct FUN_0082f6c0 : FUN_00aa63c0
 FUN_0082f6c0::~FUN_0082f6c0()
 {
     unk3C &= 0xFFFFFFFE;
-    CopyAndSleep(&unk34);
+    reinterpret_cast<::S2f760 *>(this)->CopyAndSleep(&unk34);
     while (unk3C & 2)
-        FUN_0040fca0(10);
+        ::FUN_0040fca0(10);
     CloseHandle(unk30);
 }
 
-extern unsigned int DAT_011dd1f4;
 
-void __cdecl FUN_00401030(unsigned int p);
 
 struct FUN_0082f9c0_obj
 {
@@ -1892,20 +1932,20 @@ struct FUN_0082f9c0_obj
 // @fnv 0x0082f9c0
 void __cdecl FUN_0082f9c0()
 {
-    unsigned int a = DAT_011dd1f4;
-    unsigned int b_2 = a;
-    unsigned int c7 = b_2;
+    char* a = *reinterpret_cast<char**>(&DAT_011dd1f4);
+    char* b_2 = a;
+    char* c7 = b_2;
     unsigned int r_2;
     unsigned int s;
     if (c7 != 0)
     {
-        if (*(unsigned int*)(c7 - 4) != 0)
+        if (*(std::size_t*)(c7 - sizeof(std::size_t)) != 0)
         {
             r_2 = (unsigned int)((FUN_0082f9c0_obj*)b_2)->unk00(3);
         }
         else
         {
-            FUN_00401030(c7 - 4);
+            ::FUN_00401030((void *)(c7 - sizeof(std::size_t)));
             r_2 = 0;
         }
         s = r_2;
@@ -1919,7 +1959,7 @@ void __cdecl FUN_0082f9c0()
 
 // FUN_00831f70: stdcall stub taking one stack argument and returning 0.
 // @fnv 0x00831f70
-int __stdcall FUN_00831f70(int unused)
+int FUN_00831f70(int unused)
 {
     return 0;
 }
@@ -1929,23 +1969,56 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3();
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct Vec3
 {
     float x, y, z;
     NiPoint3 operator-(const NiPoint3& rhs) const;
+public:
+    Vec3();
 };
+// Calls _ref_006815c0, then FUN_00cb26e0 with a, and returns this.
+// @fnv 0x00827200
+FUN_00827200_class* FUN_00827200_class::FUN_00827200(int a)
+{
+    FUN_00cb26e0(a);
+    return this;
+}
+// @fnv 0x00836470
+void S_00836470::UpdateSoundItems(int)
+{
+    if (::FUN_00453a70()->GetSynchTime() < m_uiCommandId || m_uiItemCount <= 0)
+    {
+        m_uiCommandId = 0;
+        m_uiItemCount = 1;
+        delete m_p;
+        m_p = 0;
+    }
+    else
+    {
+        m_uiCommandId = ::FUN_00453a70()->GetSynchTime() - m_uiCommandId;
+    }
+    ContNode* node = &m_kNode;
+    while (node && !FUN_008256d0(node) && *((::SndItem **)(((::Vec3 *)(void *)(node)))))
+    {
+        if (!(*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj || !((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430())) ||
+            (FNV_GetFormType((TESForm*)((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430()))) == 0x15 &&
+             !((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430())))))))))
+        {
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->first))->FUN_00ad88f0();
+            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->first))->Release();
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->second))->FUN_00ad88f0();
+            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->second))->Release();
+            (*((::SndItem **)(((::Vec3 *)(void *)(node)))))->active = false;
+        }
+        node = ((::ContNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+    }
+}
 struct AudioPlaybackHandle;
 struct SndXShell
 {
-    void __thiscall FUN_00ad89e0(float v);
-    void __thiscall FUN_00ad88f0();
-    void __thiscall FUN_00418900(const AudioPlaybackHandle& src);
-    void __thiscall FUN_00ad8f20(void* obj);
-    void __thiscall FUN_00ad9030(unsigned int v);
-    bool __thiscall FUN_00ad8b60(float x, float y, float z);
-    bool __thiscall FUN_00ad8830(bool v);
-    void __thiscall FUN_00ad8be0(float a, float b);
 };
 struct Entry
 {
@@ -1954,7 +2027,6 @@ struct Entry
     void* f18;
     unsigned int f1c;
     float f20;
-    bool __thiscall FUN_00ad8ce0();
 };
 struct GlobalObject_0041a250
 {
@@ -1969,20 +2041,13 @@ struct AudioPlaybackHandle
 };
 struct BSAudioShell
 {
-    NiPoint3 __thiscall FUN_00ad78e0();
-    AudioPlaybackHandle __thiscall FUN_00ad7480(const char* name);
+    AudioPlaybackHandle FUN_00ad7480(const char* name);
 };
 struct TESSoundShell
 {
-    char __thiscall GetByteAtOffset44();
-    unsigned char __thiscall GetField45();
-    const char* __thiscall FUN_00511840(int a, void* b);
 };
 struct Weap
 {
-    TESSound* __thiscall FUN_005215a0(bool v);
-    void* __thiscall GetPointerByFlag(bool v);
-    TESSound* __thiscall GetValueByFlag(bool v);
 };
 struct VObj1d0
 {
@@ -2192,38 +2257,20 @@ struct VObj148
 };
 struct ProcResult
 {
-    bool __thiscall HasEffect(int v);
 };
 struct Cell
 {
-    bool __thiscall FUN_00425fd0();
-    bool __thiscall FUN_00454b10();
 };
 struct Player
 {
-    Cell* __thiscall FUN_008d6f30();
-    VObj148* __thiscall FUN_008d8520();
 };
 struct ListObj
 {
-    Vec3* __thiscall FUN_0045bb80();
 };
 struct SettingObj
 {
-    float* __thiscall FUN_00403e20();
 };
 bool __cdecl FUN_00839da0();
-bool __fastcall FUN_00524d10(void* p);
-void* __cdecl FUN_00453a70();
-unsigned int __cdecl FUN_00457fe0();
-bool __cdecl FUN_0082eca0(void* snd, Vec3 pos, float v);
-extern Player* DAT_011dea3c;
-extern Vec3 DAT_011f426c;
-extern const float DAT_01016970;
-extern SettingObj DAT_011dd008;
-extern SettingObj DAT_011dd034;
-extern SettingObj DAT_011dd0ac;
-extern SettingObj DAT_011dcff4;
 extern Entry DAT_011dd9e8[20];
 // @fnv 0x0083ac30
 void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListObj, bool a3)
@@ -2233,13 +2280,13 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
     GlobalObject_0041a250 bobj24;
     GlobalObject_0041a250 iobj48;
     Vec3 jvec;
-    jvec = DAT_011f426c;
+    jvec = (*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO));
     bool ib15 = false;
     int iflags = 0;
-    bool kb52 = !FUN_00524d10(DAT_011dea3c);
+    bool kb52 = !::FUN_00524d10((bool *)((*reinterpret_cast<::Player * *>(&::_g_thePlayer))));
     bool b83d = false;
     NiPoint3 cpt;
-    float ef60 = DAT_01016970;
+    float ef60 = ::DAT_01016970;
     Entry* aentry140 = 0;
     Entry* mentry3c = 0;
     Entry* tentry64 = 0;
@@ -2253,30 +2300,30 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
     unsigned char qb75 = 0;
     unsigned char cg59 = 0;
     unsigned char sb0d = 0;
-    if (DAT_011dea3c->FUN_008d6f30() != 0)
+    if (((::Cell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetTarget())) != 0)
     {
-        if (DAT_011dea3c->FUN_008d6f30()->FUN_00425fd0())
+        if (reinterpret_cast<::TESObjectCELL *>((((::Cell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetTarget()))))->IsCellInterior())
         {
-            if (!DAT_011dea3c->FUN_008d6f30()->FUN_00454b10())
+            if (!((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((((::Cell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetTarget()))))->GetFakeExterior())))
             {
-                cf38 = *DAT_011dd008.FUN_00403e20();
-                if68 = *DAT_011dd034.FUN_00403e20();
-                yf50 = *DAT_011dd0ac.FUN_00403e20();
-                cf4c = *DAT_011dcff4.FUN_00403e20();
+                cf38 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd008))))));
+                if68 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd034))))));
+                yf50 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd0ac))))));
+                cf4c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011dcff4))))));
             }
         }
     }
     if (a3)
     {
         iflags = iflags | 0x200000;
-        if (DAT_011dea3c->FUN_008d8520() != 0)
+        if (((::VObj148 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetBaseTexture())) != 0)
         {
-            if (DAT_011dea3c->FUN_008d8520()->VCall148() != 0)
+            if (((::VObj148 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetBaseTexture()))->VCall148() != 0)
             {
-                ProcResult* res84 = (ProcResult*)DAT_011dea3c->FUN_008d8520()->VCall148();
+                ProcResult* res84 = (ProcResult*)((::VObj148 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetBaseTexture()))->VCall148();
                 if (res84 != 0)
                 {
-                    if (res84->HasEffect(11) || res84->HasEffect(16))
+                    if (reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((res84))->HasEffect(11) || reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((res84))->HasEffect(16))
                     {
                         b83d = true;
                     }
@@ -2288,7 +2335,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
     {
         if (a3)
         {
-            if (apWeapon->GetPointerByFlag(false) != 0)
+            if (reinterpret_cast<::S_00522470 *>((apWeapon))->GetPointerByFlag(false) != 0)
                 ib15 = true;
         }
         if (ib15)
@@ -2305,34 +2352,34 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
         }
         if (!a3 && apListObj != 0)
         {
-            jvec = *apListObj->FUN_0045bb80();
+            jvec = *((::Vec3 *)(::FUN_0045bb80((std::intptr_t)(apListObj))));
         }
         else if (apSource->VCall1d0() != 0)
         {
-            jvec = *((ListObj*)apSource->VCall1d0())->FUN_0045bb80();
+            jvec = *((::Vec3 *)(::FUN_0045bb80((std::intptr_t)(((ListObj*)apSource->VCall1d0())))));
         }
-        if (apWeapon->FUN_005215a0(b83d) != 0)
+        if (reinterpret_cast<::FUN_005215a0_shell *>((apWeapon))->FUN_005215a0(b83d) != 0)
         {
             TESSound* sndA = 0;
             TESSound* sndB = 0;
             if (ib15)
             {
-                sndA = (TESSound*)apWeapon->GetPointerByFlag(b83d);
+                sndA = (TESSound*)reinterpret_cast<::S_00522470 *>((apWeapon))->GetPointerByFlag(b83d);
             }
             else
             {
-                sndA = apWeapon->FUN_005215a0(b83d);
-                sndB = apWeapon->GetValueByFlag(b83d);
+                sndA = reinterpret_cast<::FUN_005215a0_shell *>((apWeapon))->FUN_005215a0(b83d);
+                sndB = ((::TESSound *)(std::uintptr_t)(reinterpret_cast<::FUN_00522440_shell *>((apWeapon))->GetValueByFlag(b83d)));
             }
-            bool a86 = FUN_0082eca0(sndA, jvec, yf50);
-            bool b85 = FUN_0082eca0(sndB, jvec, cf4c);
+            bool a86 = ::SoundPlaybackManager::CanPlaySoundAt((::TESSound *)(sndA), (*(::NiPoint3 *)&(const ::Vec3 &)(jvec)), yf50);
+            bool b85 = ::SoundPlaybackManager::CanPlaySoundAt((::TESSound *)(sndB), (*(::NiPoint3 *)&(const ::Vec3 &)(jvec)), cf4c);
             if (!a86 && !b85)
                 return;
             if (!a86)
                 sndA = 0;
             if (!b85)
                 sndB = 0;
-            cpt = jvec - ((BSAudioShell*)FUN_00453a70())->FUN_00ad78e0();
+            cpt = jvec - reinterpret_cast<::FUN_00ad78e0_cls *>((((BSAudioShell*)((void *)(::FUN_00453a70())))))->FUN_00ad78e0();
             ef60 = cpt.x * cpt.x + cpt.y * cpt.y + cpt.z * cpt.z;
             int ai;
             for (ai = 0; ai < 20; ai++)
@@ -2351,7 +2398,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                 {
                     mentry3c = &DAT_011dd9e8[ai];
                 }
-                if (!a3 || DAT_011dd9e8[ai].f18 == DAT_011dea3c)
+                if (!a3 || DAT_011dd9e8[ai].f18 == (*reinterpret_cast<::Player * *>(&::_g_thePlayer)))
                     continue;
                 if (tentry64 == 0)
                 {
@@ -2363,82 +2410,80 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                 }
             }
             if (mentry3c != 0)
-                ab51 = mentry3c->FUN_00ad8ce0();
+                ab51 = reinterpret_cast<::SoundPlaybackHandle *>((mentry3c))->IsValid();
             if (mentry3c != 0 && !ab51)
             {
                 aentry140 = mentry3c;
                 mentry3c->f18 = apSource;
-                mentry3c->f1c = FUN_00457fe0();
+                mentry3c->f1c = ((unsigned int)(::FUN_00457fe0()));
                 mentry3c->f20 = ef60;
             }
             else if (sentry58 != 0)
             {
                 aentry140 = sentry58;
-                sentry58->f1c = FUN_00457fe0();
+                sentry58->f1c = ((unsigned int)(::FUN_00457fe0()));
                 sentry58->f20 = ef60;
             }
             else if (tentry64 != 0)
             {
                 aentry140 = tentry64;
                 tentry64->f18 = apSource;
-                tentry64->f1c = FUN_00457fe0();
+                tentry64->f1c = ((unsigned int)(::FUN_00457fe0()));
                 tentry64->f20 = ef60;
             }
             if (aentry140 != 0)
             {
                 if (sndA != 0)
                 {
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad89e0(0.0f);
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad88f0();
-                    ((SndXShell*)&aentry140->ch0)
-                        ->FUN_00418900(((BSAudioShell*)FUN_00453a70())
-                                           ->FUN_00ad7480(((TESSoundShell*)sndA)->FUN_00511840(iflags, sndA)));
-                    gb31 = (unsigned char)((TESSoundShell*)sndA)->GetByteAtOffset44();
-                    cg59 = ((TESSoundShell*)sndA)->GetField45();
+                    reinterpret_cast<::FUN_00ad89e0_shell *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad89e0(0.0f);
+                    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad88f0();
+                    reinterpret_cast<::SoundPlaybackHandle *>((((SndXShell*)&aentry140->ch0)))->operator=((const ::SoundPlaybackHandle &)((const ::AudioPlaybackHandle &)(((BSAudioShell*)((void *)(::FUN_00453a70())))
+                                           ->FUN_00ad7480(::FUN_00511840((char *)(((TESSoundShell*)sndA)))))));
+                    gb31 = (unsigned char)reinterpret_cast<::FUN_0082d660_class *>((((TESSoundShell*)sndA)))->GetByteAtOffset44();
+                    cg59 = reinterpret_cast<::TESSound *>((((TESSoundShell*)sndA)))->GetField45();
                 }
                 if (sndB != 0)
                 {
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad89e0(0.0f);
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad88f0();
-                    ((SndXShell*)&aentry140->ch1)
-                        ->FUN_00418900(((BSAudioShell*)FUN_00453a70())
-                                           ->FUN_00ad7480(((TESSoundShell*)sndB)->FUN_00511840(iflags, sndB)));
-                    qb75 = (unsigned char)((TESSoundShell*)sndB)->GetByteAtOffset44();
-                    sb0d = ((TESSoundShell*)sndB)->GetField45();
+                    reinterpret_cast<::FUN_00ad89e0_shell *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad89e0(0.0f);
+                    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad88f0();
+                    reinterpret_cast<::SoundPlaybackHandle *>((((SndXShell*)&aentry140->ch1)))->operator=((const ::SoundPlaybackHandle &)((const ::AudioPlaybackHandle &)(((BSAudioShell*)((void *)(::FUN_00453a70())))
+                                           ->FUN_00ad7480(::FUN_00511840((char *)(((TESSoundShell*)sndB)))))));
+                    qb75 = (unsigned char)reinterpret_cast<::FUN_0082d660_class *>((((TESSoundShell*)sndB)))->GetByteAtOffset44();
+                    sb0d = reinterpret_cast<::TESSound *>((((TESSoundShell*)sndB)))->GetField45();
                 }
                 if (!a3 && apListObj != 0)
                 {
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad8f20(apListObj);
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad8f20(apListObj);
+                    reinterpret_cast<::FUN_00ad8f20_shell *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad8f20((::NiAVObject *)(apListObj));
+                    reinterpret_cast<::FUN_00ad8f20_shell *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad8f20((::NiAVObject *)(apListObj));
                 }
                 else if (apSource->VCall1d0() != 0)
                 {
                     if (!(a3 && kb52))
                     {
-                        ((SndXShell*)&aentry140->ch0)->FUN_00ad8f20(apSource->VCall1d0());
-                        ((SndXShell*)&aentry140->ch1)->FUN_00ad8f20(apSource->VCall1d0());
+                        reinterpret_cast<::FUN_00ad8f20_shell *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad8f20((::NiAVObject *)(void *)(apSource->VCall1d0()));
+                        reinterpret_cast<::FUN_00ad8f20_shell *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad8f20((::NiAVObject *)(void *)(apSource->VCall1d0()));
                     }
                 }
                 if (sndA != 0)
                 {
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad9030(1);
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad8b60(jvec.x, jvec.y, jvec.z);
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad89e0(cf38);
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad8830(false);
+                    reinterpret_cast<::FUN_00ad9030_shell *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad9030(1);
+                    reinterpret_cast<::FUN_00ad8b60_h *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad8b60(jvec.x, jvec.y, jvec.z);
+                    reinterpret_cast<::FUN_00ad89e0_shell *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad89e0(cf38);
+                    reinterpret_cast<::FUN_00ad8830_shell *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad8830(false);
                 }
                 if (sndB != 0)
                 {
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad9030(1);
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad8b60(jvec.x, jvec.y, jvec.z);
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad89e0(if68);
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad8830(false);
+                    reinterpret_cast<::FUN_00ad9030_shell *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad9030(1);
+                    reinterpret_cast<::FUN_00ad8b60_h *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad8b60(jvec.x, jvec.y, jvec.z);
+                    reinterpret_cast<::FUN_00ad89e0_shell *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad89e0(if68);
+                    reinterpret_cast<::FUN_00ad8830_shell *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad8830(false);
                 }
                 if (!ib15)
                 {
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad8be0((float)gb31 * 5.0, (float)cg59 * yf50 * 100.0);
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad8be0((float)gb31 * 5.0, (float)cg59 * yf50 * 100.0);
-                    ((SndXShell*)&aentry140->ch0)->FUN_00ad8b60(jvec.x, jvec.y, jvec.z);
-                    ((SndXShell*)&aentry140->ch1)->FUN_00ad8b60(jvec.x, jvec.y, jvec.z);
+                    reinterpret_cast<::FUN_00ad8be0_shell *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad8be0((float)gb31 * 5.0, (float)cg59 * yf50 * 100.0);
+                    reinterpret_cast<::FUN_00ad8be0_shell *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad8be0((float)gb31 * 5.0, (float)cg59 * yf50 * 100.0);
+                    reinterpret_cast<::FUN_00ad8b60_h *>((((SndXShell*)&aentry140->ch0)))->FUN_00ad8b60(jvec.x, jvec.y, jvec.z);
+                    reinterpret_cast<::FUN_00ad8b60_h *>((((SndXShell*)&aentry140->ch1)))->FUN_00ad8b60(jvec.x, jvec.y, jvec.z);
                 }
             }
         }
@@ -2462,35 +2507,36 @@ class FUN_0083b6b0 : public B3B6B0MapBase
   public:
     virtual ~FUN_0083b6b0();
 };
+// Runs the destructor, then frees the object with Deallocate when flags has bit 0 set, and returns the object pointer.
+// @fnv 0x0083b610
+void* GlobalObject_0083b5e0::FUN_0083b610(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0083b6b0 *>((this))->FUN_0083b6b0::~FUN_0083b6b0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0083b6b0
 FUN_0083b6b0::~FUN_0083b6b0()
 {
-    RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
 namespace fnv_0083d130 {
 struct S_0083d130_Str
 {
-    const char* __thiscall FUN_00559450();
 };
 struct S_0083d130_Obj
 {
-    S_0083d130_Str* ref_006815c0();
-    S_0083d130_Str* __thiscall FUN_00460140();
 };
 struct S_0083d130_Node
 {
-    S_0083d130_Obj** ref_006815c0();
 };
 struct S_0083d130_Mgr
 {
-    void __thiscall FUN_00ad8100(const char* s, unsigned int a, int b);
 };
-unsigned int __cdecl FUN_0044a670(const char* s);
-S_0083d130_Mgr* __cdecl FUN_00453a70();
-bool __fastcall FUN_008256d0(S_0083d130_Node*);
-S_0083d130_Node* __fastcall FUN_00726070(S_0083d130_Node*);
+bool FUN_008256d0(S_0083d130_Node*);
 
 struct S_0083d130_Class : S_0083d130_Node
 {
@@ -2503,29 +2549,29 @@ void S_0083d130_Class::ProcessNodeChain()
     S_0083d130_Node* node = this;
     while (node && !FUN_008256d0(node))
     {
-        if ((*node->ref_006815c0())->ref_006815c0()->FUN_00559450())
+        if (((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(((::Vec3 *)(void *)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node))))))))))))))
         {
-            if (FUN_0044a670((*node->ref_006815c0())->ref_006815c0()->FUN_00559450()) > 1)
+            if (::FUN_0044a670(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(((::Vec3 *)(void *)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node)))))))))))))) > 1)
             {
-                FUN_00453a70()->FUN_00ad8100((*node->ref_006815c0())->FUN_00460140()->FUN_00559450(), 0x20100001, 0);
+                reinterpret_cast<::fnv_00ad8100::FUN_00ad8100_shell *>((((::fnv_0083d130::S_0083d130_Mgr *)(::FUN_00453a70()))))->FUN_00ad8100((char *)(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(::FUN_00460140((intptr_t)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node)))))))))))))), 0x20100001, (void *)(0));
             }
         }
-        node = FUN_00726070(node);
+        node = ((::fnv_0083d130::S_0083d130_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
 }  // namespace fnv_0083d130
 
 struct FUN_0083da30_cls
 {
-    int m_00;
+    char* m_00;
 
-    int ApplyMaskedOffset(int aValue);
+    char* ApplyMaskedOffset(int aValue);
 };
 
 // @fnv 0x0083da30
-int FUN_0083da30_cls::ApplyMaskedOffset(int aValue)
+char* FUN_0083da30_cls::ApplyMaskedOffset(int aValue)
 {
-    return (((m_00 != 0) ? -1 : 0) & aValue) + (unsigned int)m_00;
+    return m_00 ? m_00 + aValue : 0;
 }
 
 struct EffectTime
@@ -2534,24 +2580,17 @@ struct EffectTime
     float time38;
     unsigned int unk3C, unk40, unk44;
     float time48;
-    void AdvanceParticleTimes(float);
 };
 struct EffectHandle
 {
-    EffectTime* FUN_00559450();
 };
 struct SpellTimes
 {
-    float FUN_009a7c40();
-    float FUN_00759450();
 };
 struct EffectCollection
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
-    unsigned int FUN_0044ddc0();
-    EffectHandle* FUN_006a7ad0(unsigned int);
 };
-float FUN_00404010(float, float);
 struct FUN_008216c0_shell
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
@@ -2568,20 +2607,20 @@ struct FUN_008216c0_shell
 void FUN_008216c0_shell::UpdateEffectTimes()
 {
     float value = 0.0f;
-    if (active.FUN_00559450())
-        value = FUN_00404010(active.FUN_00559450()->time38, active.FUN_00559450()->time48);
+    if (((::EffectTime *)(::FUN_00559450((int *)&(active)))))
+        value = FUN_00404010(((::EffectTime *)(::FUN_00559450((int *)&(active))))->time38, ((::EffectTime *)(::FUN_00559450((int *)&(active))))->time48);
     if (reset)
     {
         value = 0.0f;
-        active.FUN_00559450()->time38 = 0.0f;
-        active.FUN_00559450()->time48 = 0.0f;
+        ((::EffectTime *)(::FUN_00559450((int *)&(active))))->time38 = 0.0f;
+        ((::EffectTime *)(::FUN_00559450((int *)&(active))))->time48 = 0.0f;
     }
-    if (value < spell->FUN_009a7c40())
-        time = spell->FUN_00759450() * (value / spell->FUN_009a7c40());
+    if (value < reinterpret_cast<::PathingRequest *>((spell))->GetActorRadius())
+        time = reinterpret_cast<::FUN_00759450_shell *>((spell))->FUN_00759450() * (value / reinterpret_cast<::PathingRequest *>((spell))->GetActorRadius());
     else
-        time = spell->FUN_00759450();
-    for (unsigned int i = 0; i < effects.FUN_0044ddc0(); ++i)
-        effects.FUN_006a7ad0(i)->FUN_00559450()->AdvanceParticleTimes(time);
+        time = reinterpret_cast<::FUN_00759450_shell *>((spell))->FUN_00759450();
+    for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(effects))->GetName())); ++i)
+        reinterpret_cast<::ParticleEmitter *>((((::EffectTime *)(::FUN_00559450((int *)&SimpleArrayItem<void*>(&(effects), i))))))->AdvanceParticleTimes(time);
 }
 
 // Minimal declarations for the process list and its polymorphic entries.
@@ -2730,7 +2769,6 @@ class MobileObject
 class Actor : public MobileObject
 {
   public:
-    void FUN_008c4f10(BCaster_S* caster);
 };
 class MagicProjectile : public MobileObject
 {
@@ -2798,51 +2836,58 @@ class MagicProjectile : public MobileObject
 };
 struct MobileObjectProcessArray
 {
-    unsigned int FUN_005be5c0(int group);
-    unsigned int FUN_005de0f0(int group);
-    MobileObject* FUN_00968670(unsigned int index);
 };
 struct ProcessRegistry
 {
-    MobileObjectProcessArray* FUN_00717e50();
 };
-extern ProcessRegistry DAT_011e0e80;
-extern Actor* g_thePlayer;
 struct CasterUpdate : BE, BCaster_S
 {
     void UpdateCasters();
 };
+// If the global manager check fails, releases m_20 when non-null and calls Cleanup.
+// @fnv 0x00825b60
+FUN_00825b60::~FUN_00825b60()
+{
+    if (!reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::GlobalMgr_b5774 * *>(&::g_dataHandler))))->FUN_004226e0())
+    {
+        if (m_20 != 0)
+        {
+            reinterpret_cast<::C6760Ref *>((m_20))->FUN_00576760();
+        }
+        reinterpret_cast<::CasterUpdate *>(this)->UpdateCasters();
+    }
+}
 
 // Iterates the process list's groups 0 and 1, calling FUN_008c4f10 on actors and UpdateCaster on magic projectiles, then updates the player.
 // @fnv 0x00825c20
 void CasterUpdate::UpdateCasters()
 {
-    MobileObjectProcessArray* pProcessList = DAT_011e0e80.FUN_00717e50();
-    for (unsigned int i = 0; i < pProcessList->FUN_005be5c0(0); ++i)
+    MobileObjectProcessArray* pProcessList = ((::MobileObjectProcessArray *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessRegistry *>(&::g_011e0e80))))->GetCurrentProcessData()));
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_005be5c0_shell *>((pProcessList))->FUN_005be5c0(0); ++i)
     {
         MagicProjectile* object;
-        MobileObject* pMobileObject = pProcessList->FUN_00968670(i);
+        MobileObject* pMobileObject = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((pProcessList))->FUN_00968670(i)));
         Actor* actor = pMobileObject && pMobileObject->IsActor() ? static_cast<Actor*>(pMobileObject) : 0;
         object =
             pMobileObject && pMobileObject->IsMagicProjectile() ? dynamic_cast<MagicProjectile*>(pMobileObject) : 0;
         if (actor)
-            actor->FUN_008c4f10(this);
+            reinterpret_cast<::S_8c4f10_Cls *>((actor))->FUN_008c4f10((std::intptr_t)(this));
         else if (object)
             object->UpdateCaster(this);
     }
-    for (unsigned int j = pProcessList->FUN_005de0f0(1); j < pProcessList->FUN_005be5c0(1); ++j)
+    for (unsigned int j = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((pProcessList))->FUN_005de0f0(1); j < reinterpret_cast<::FUN_005be5c0_shell *>((pProcessList))->FUN_005be5c0(1); ++j)
     {
-        MobileObject* pMobileObject2 = pProcessList->FUN_00968670(j);
+        MobileObject* pMobileObject2 = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((pProcessList))->FUN_00968670(j)));
         Actor* actor2 = pMobileObject2 && pMobileObject2->IsActor() ? static_cast<Actor*>(pMobileObject2) : 0;
         MagicProjectile* pMagicProjectile2 =
             pMobileObject2 && pMobileObject2->IsMagicProjectile() ? dynamic_cast<MagicProjectile*>(pMobileObject2) : 0;
         if (actor2)
-            actor2->FUN_008c4f10(this);
+            reinterpret_cast<::S_8c4f10_Cls *>((actor2))->FUN_008c4f10((std::intptr_t)(this));
         else if (pMagicProjectile2)
             pMagicProjectile2->UpdateCaster(this);
     }
-    if (g_thePlayer)
-        g_thePlayer->FUN_008c4f10(this);
+    if ((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
+        reinterpret_cast<::S_8c4f10_Cls *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008c4f10((std::intptr_t)(this));
 }
 
 namespace fnv_0082cf80 {
@@ -2871,7 +2916,6 @@ FUN_0082cf80::FUN_0082cf80(C82CF80MagicCaster* pkCaster, C82CF80MagicItem* pkIte
 {}
 }  // namespace fnv_0082cf80
 
-unsigned int __cdecl GetFlagMask(unsigned int auiFlags);
 
 struct SoundFormData
 {
@@ -2891,27 +2935,10 @@ struct SoundFormData
 
 struct SoundForm
 {
-    unsigned short FUN_0082d680();
-    unsigned char GetByteAtOffset44();
-    unsigned char GetField45();
-    unsigned char GetHighByteOfField4E();
-    unsigned char FUN_0082d700();
-    unsigned short GetShortAt(int aiIndex);
-    unsigned short GetShortAtOffset5A();
-    unsigned char FUN_0082d720();
-    SoundFormData GetData();
 };
 
 struct GameSound
 {
-    bool SetStaticAttenuation(unsigned short ausValue);
-    void FUN_00ad8e20(unsigned char aucA, unsigned char aucB);
-    void FUN_00ad8be0(float afMin, float afMax);
-    void FUN_00ad8c20(unsigned short aus0, unsigned short aus1, unsigned short aus2, unsigned short aus3,
-                      unsigned short aus4);
-    void FUN_00ad8c70(unsigned short ausValue);
-    void FUN_00ad9030(unsigned int auiValue);
-    bool FUN_00ad8ad0(unsigned char aucValue);
 };
 
 // @fnv 0x0082d400
@@ -2927,35 +2954,35 @@ unsigned int __cdecl ApplySoundFormToGameSound(GameSound* apSound, void* apForm,
 
     uiFlags = 0;
     SoundAssetTmp = (SoundForm*)apForm;
-    apSound->SetStaticAttenuation(SoundAssetTmp->FUN_0082d680());
-    uiMin = SoundAssetTmp->GetByteAtOffset44();
-    uiMax2 = SoundAssetTmp->GetField45();
+    reinterpret_cast<::FUN_00ad89b0_shell *>((apSound))->SetStaticAttenuation(reinterpret_cast<::TESGrass *>((SoundAssetTmp))->GetUnitsFromSurface());
+    uiMin = ((unsigned char)(reinterpret_cast<::FUN_0082d660_class *>((SoundAssetTmp))->GetByteAtOffset44()));
+    uiMax2 = reinterpret_cast<::TESSound *>((SoundAssetTmp))->GetField45();
     if (!uiMin)
         uiMin = 0xe;
     if (!uiMax2)
         uiMax2 = 0x3c;
-    if (SoundAssetTmp->GetHighByteOfField4E() || SoundAssetTmp->FUN_0082d700())
-        apSound->FUN_00ad8e20(SoundAssetTmp->GetHighByteOfField4E(), SoundAssetTmp->FUN_0082d700());
-    apSound->FUN_00ad8be0(uiMin * 5.0, uiMax2 * 100.0);
-    apSound->FUN_00ad8c20(SoundAssetTmp->GetShortAt(0), SoundAssetTmp->GetShortAt(1), SoundAssetTmp->GetShortAt(2), SoundAssetTmp->GetShortAt(3),
-                          SoundAssetTmp->GetShortAt(4));
-    apSound->FUN_00ad8c70(SoundAssetTmp->GetShortAtOffset5A());
-    apSound->FUN_00ad9030(SoundAssetTmp->FUN_0082d720());
-    if (SoundAssetTmp->GetData().uiFlags & 1)
+    if (reinterpret_cast<::FUN_0082d6e0_Class *>((SoundAssetTmp))->GetHighByteOfField4E() || ((unsigned char)(::FUN_0082d700((void *)(SoundAssetTmp)))))
+        reinterpret_cast<::fnv_00ad8e20::FUN_00ad8e20_h *>((apSound))->FUN_00ad8e20(reinterpret_cast<::FUN_0082d6e0_Class *>((SoundAssetTmp))->GetHighByteOfField4E(), ((unsigned char)(::FUN_0082d700((void *)(SoundAssetTmp)))));
+    reinterpret_cast<::FUN_00ad8be0_shell *>((apSound))->FUN_00ad8be0(uiMin * 5.0, uiMax2 * 100.0);
+    reinterpret_cast<::FUN_00ad8c20_h *>((apSound))->FUN_00ad8c20(reinterpret_cast<::FUN_0082d6a0_Class *>((SoundAssetTmp))->GetShortAt(0), reinterpret_cast<::FUN_0082d6a0_Class *>((SoundAssetTmp))->GetShortAt(1), reinterpret_cast<::FUN_0082d6a0_Class *>((SoundAssetTmp))->GetShortAt(2), reinterpret_cast<::FUN_0082d6a0_Class *>((SoundAssetTmp))->GetShortAt(3),
+                          reinterpret_cast<::FUN_0082d6a0_Class *>((SoundAssetTmp))->GetShortAt(4));
+    reinterpret_cast<::FUN_00ad8c70_Class *>((apSound))->FUN_00ad8c70(reinterpret_cast<::FUN_0082d6c0_class *>((SoundAssetTmp))->GetShortAtOffset5A());
+    reinterpret_cast<::FUN_00ad9030_shell *>((apSound))->FUN_00ad9030(((unsigned char)(reinterpret_cast<::FUN_0082d720_Class *>((SoundAssetTmp))->FUN_0082d720())));
+    if ((*(::SoundFormData *)(reinterpret_cast<::Holder *>((SoundAssetTmp))->CopyBig({}))).uiFlags & 1)
     {
         uiFlags |= 0x40;
-        apSound->FUN_00ad8ad0(SoundAssetTmp->GetData().ucStaticAtten);
+        reinterpret_cast<::FUN_00ad8ad0_s *>((apSound))->FUN_00ad8ad0((*(::SoundFormData *)(reinterpret_cast<::Holder *>((SoundAssetTmp))->CopyBig({}))).ucStaticAtten);
     }
-    if (SoundAssetTmp->GetData().uiFlags & 0x800)
+    if ((*(::SoundFormData *)(reinterpret_cast<::Holder *>((SoundAssetTmp))->CopyBig({}))).uiFlags & 0x800)
         uiFlags |= 0x8000000;
     if (apFlags)
     {
-        if (SoundAssetTmp->GetData().uiFlags & 0x1000)
+        if ((*(::SoundFormData *)(reinterpret_cast<::Holder *>((SoundAssetTmp))->CopyBig({}))).uiFlags & 0x1000)
             *apFlags |= 1;
-        if (SoundAssetTmp->GetData().uiFlags & 0x2000)
+        if ((*(::SoundFormData *)(reinterpret_cast<::Holder *>((SoundAssetTmp))->CopyBig({}))).uiFlags & 0x2000)
             *apFlags |= 2;
     }
-    uiFlags |= GetFlagMask(SoundAssetTmp->GetData().uiFlags);
+    uiFlags |= ((unsigned int)(::GetFlagMask((*(::SoundFormData *)(reinterpret_cast<::Holder *>((SoundAssetTmp))->CopyBig({}))).uiFlags)));
     return uiFlags;
 }
 
@@ -2971,7 +2998,6 @@ class Thread82F
     virtual void vfn18();
     virtual unsigned int GetPosition();
 
-    bool IsRunning();
 };
 
 class Stream82F
@@ -3060,7 +3086,7 @@ class Stream82F
 // @fnv 0x0082f570
 unsigned __int64 Stream82F::GetStreamPosition(unsigned __int64* puiPosition)
 {
-    if (!m_pBackgroundLoadThread || !m_pBackgroundLoadThread->IsRunning())
+    if (!m_pBackgroundLoadThread || !::FUN_008905f0((bool *)(m_pBackgroundLoadThread)))
     {
         *puiPosition = 0;
         return 0;
@@ -3078,65 +3104,61 @@ struct AudGuid
     unsigned long d3;
 };
 
-extern "C" __declspec(dllimport) long __stdcall CoInitializeEx(void* reserved, unsigned long flags);
-extern "C" __declspec(dllimport) long __stdcall CoCreateInstance(const AudGuid& clsid, void* outer, unsigned long ctx,
-                                                                 const AudGuid& iid, void** out);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* handle, unsigned long ms);
 
 struct IAudUnk
 {
-    virtual long __stdcall QueryInterface(const AudGuid& iid, void** out);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const AudGuid& iid, void** out);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 struct IAudGraph : IAudUnk
 {
-    virtual long __stdcall AddFilter(IAudUnk* filter, const wchar_t* name);
+    virtual long AddFilter(IAudUnk* filter, const wchar_t* name);
 };
 struct IAudBuilder : IAudUnk
 {
-    virtual long __stdcall v0C();
-    virtual long __stdcall v10();
-    virtual long __stdcall v14();
-    virtual long __stdcall v18();
-    virtual long __stdcall v1C();
-    virtual long __stdcall v20();
-    virtual long __stdcall v24();
-    virtual long __stdcall v28();
-    virtual long __stdcall v2C();
-    virtual long __stdcall Render(IAudUnk* pin);
+    virtual long v0C();
+    virtual long v10();
+    virtual long v14();
+    virtual long v18();
+    virtual long v1C();
+    virtual long v20();
+    virtual long v24();
+    virtual long v28();
+    virtual long v2C();
+    virtual long Render(IAudUnk* pin);
 };
 struct IAudDispatch : IAudUnk
 {
-    virtual long __stdcall d0C();
-    virtual long __stdcall d10();
-    virtual long __stdcall d14();
-    virtual long __stdcall d18();
+    virtual long d0C();
+    virtual long d10();
+    virtual long d14();
+    virtual long d18();
 };
 struct IAudBasicAudio : IAudDispatch
 {
-    virtual long __stdcall put_Volume(long volume);
+    virtual long put_Volume(long volume);
 };
 struct IAudControl : IAudDispatch
 {
-    virtual long __stdcall Run();
-    virtual long __stdcall Pause();
-    virtual long __stdcall Stop();
+    virtual long Run();
+    virtual long Pause();
+    virtual long Stop();
 };
 struct IAudPosition : IAudDispatch
 {
-    virtual long __stdcall get_Duration(double* len);
-    virtual long __stdcall put_CurrentPosition(double t);
-    virtual long __stdcall get_CurrentPosition(double* t);
+    virtual long get_Duration(double* len);
+    virtual long put_CurrentPosition(double t);
+    virtual long get_CurrentPosition(double* t);
 };
 struct IAudEvent : IAudDispatch
 {
-    virtual long __stdcall e1C();
-    virtual long __stdcall GetEvent(long* code, long* p1, long* p2, long timeout);
-    virtual long __stdcall e24();
-    virtual long __stdcall e28();
-    virtual long __stdcall e2C();
-    virtual long __stdcall FreeEventParams(long code, long p1, long p2);
+    virtual long e1C();
+    virtual long GetEvent(long* code, long* p1, long* p2, long timeout);
+    virtual long e24();
+    virtual long e28();
+    virtual long e2C();
+    virtual long FreeEventParams(long code, long p1, long p2);
 };
 
 struct AudMediaType
@@ -3389,29 +3411,15 @@ struct AudFilter : AudFilterBase, IAudUnk
 
 struct AudSetting
 {
-    int* Get();
 };
 struct AudTimer
 {
     unsigned int GetTime();
-    bool IsPaused();
     void Reset();
 };
-AudTimer* __cdecl AudGetTimer();
-unsigned int __cdecl AudMin(unsigned int a, unsigned int b);
-void __cdecl AudLock();
-void __cdecl AudUnlock();
-void __cdecl AudStrCpy(char* dst, unsigned int size, const char* src);
-void __cdecl AudPrint(const char* fmt, ...);
-int __cdecl AudStrStr(char* s, const char* sub);
-float __cdecl AudTargetVolume(int type, float value);
-float __cdecl AudToDecibel(float value);
 
-extern AudSetting DAT_011dcfd4;
 extern int DAT_011dd370;
-extern double DAT_01032980;
 extern void* DAT_011dd3b0;
-extern unsigned char DAT_011dd312;
 extern AudGuid DAT_0107cae8;
 extern AudGuid DAT_0107caf8;
 extern AudGuid DAT_0107cb18;
@@ -3425,34 +3433,12 @@ extern AudGuid DAT_0107cab8;
 extern float DAT_011dd300;
 extern float DAT_011dd304;
 extern float DAT_011dd308;
-extern float DAT_011dd30c;
 extern char DAT_011dd310;
-extern int DAT_011dd314;
-extern unsigned int DAT_011dd318;
-extern unsigned int DAT_011dd31c;
-extern unsigned int DAT_011dd320;
-extern unsigned int DAT_011dd324;
-extern unsigned int DAT_011dd328;
-extern unsigned int DAT_011dd32c;
-extern unsigned int DAT_011dd330;
-extern int DAT_011dd334;
-extern char DAT_011dd0f0[];
 
 extern float DAT_011dd338;
 extern float DAT_011dd33c;
 extern float DAT_011dd340;
-extern float DAT_011dd344;
 extern char DAT_011dd311;
-extern int DAT_011dd348;
-extern unsigned int DAT_011dd34c;
-extern unsigned int DAT_011dd350;
-extern unsigned int DAT_011dd354;
-extern unsigned int DAT_011dd358;
-extern unsigned int DAT_011dd35c;
-extern unsigned int DAT_011dd360;
-extern unsigned int DAT_011dd364;
-extern int DAT_011dd368;
-extern char DAT_011dd1f8[];
 
 // @fnv 0x00830b30
 int __cdecl RunAudioChannel(int* param)
@@ -3500,48 +3486,48 @@ int __cdecl RunAudioChannel(int* param)
     fadeTimeNow = 0;
     fadeEnd2 = 0;
 
-    syncLimitTmp = AudMin(500, *DAT_011dcfd4.Get() + 500);
-    AudLock();
+    syncLimitTmp = ((unsigned int)(::FUN_00647b70(500, *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::AudSetting *>(&::g_011dcfd4)))))) + 500)));
+    ::FUN_00830470();
     DAT_011dd370 = DAT_011dd370 + 1;
     if ((channel == 0 && (id2 != DAT_011dd334 || (DAT_011dd310 & 1))) ||
         (channel == 1 && (id2 != DAT_011dd368 || (DAT_011dd311 & 1))))
     {
         ok4 = false;
     }
-    now = AudGetTimer()->GetTime();
+    now = ((::AudTimer *)(::FUN_00453a70()))->GetTime();
     if (channel == 0)
     {
         DAT_011dd300 = volumeA;
         DAT_011dd330 = now;
         DAT_011dd31c = position;
-        DAT_011dd320 = duration3;
-        DAT_011dd324 = totalLength2;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd320)) = duration3;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd324)) = totalLength2;
         baseVolumeM = DAT_011dd304;
         targetParam3 = DAT_011dd30c;
         flags = DAT_011dd310;
         curveType = DAT_011dd314;
-        startTime = DAT_011dd318;
+        startTime = (*reinterpret_cast<unsigned int *>(&::DAT_011dd318));
         fadeTimeNow = DAT_011dd328;
         fadeEnd2 = DAT_011dd32c;
-        AudStrCpy(path8, 0x104, DAT_011dd0f0);
+        ::TaskQueueInterface::CopyStringToBuffer(path8, 0x104, DAT_011dd0f0);
     }
     else
     {
         DAT_011dd338 = volumeA;
         DAT_011dd364 = now;
-        DAT_011dd350 = position;
-        DAT_011dd354 = duration3;
-        DAT_011dd358 = totalLength2;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd350)) = position;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd354)) = duration3;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd358)) = totalLength2;
         baseVolumeM = DAT_011dd33c;
         targetParam3 = DAT_011dd344;
         flags = DAT_011dd311;
         curveType = DAT_011dd348;
-        startTime = DAT_011dd34c;
+        startTime = (*reinterpret_cast<unsigned int *>(&::DAT_011dd34c));
         fadeTimeNow = DAT_011dd35c;
         fadeEnd2 = DAT_011dd360;
-        AudStrCpy(path8, 0x104, DAT_011dd1f8);
+        ::TaskQueueInterface::CopyStringToBuffer(path8, 0x104, DAT_011dd1f8);
     }
-    AudUnlock();
+    ::fnv_00830490::FUN_00830490();
 
     graphS = 0;
     builder3 = 0;
@@ -3556,7 +3542,7 @@ int __cdecl RunAudioChannel(int* param)
     reader4 = new AudReader(path8);
     if (!reader4->IsOpen())
     {
-        AudPrint("FalloutAudioMedia: file not found");
+        ::FUN_005b5e40();
         ok4 = false;
     }
     else
@@ -3564,21 +3550,21 @@ int __cdecl RunAudioChannel(int* param)
         long hr = 0;
         AudMediaType mt;
         mt.majortype = DAT_0107cae8;
-        if (AudStrStr(path8, ".mp3") != 0)
+        if (((intptr_t)(::FUN_004812f0(path8, ".mp3"))) != 0)
         {
             mt.subtype = DAT_0107caf8;
         }
         else
         {
             ok4 = false;
-            AudPrint("FalloutAudioMedia: file format wrong %s", path8);
+            ::FUN_005b5e40();
         }
         if (ok4)
         {
             filter6 = new AudFilter(reader4, &mt, &hr);
             filter6->AddRef();
             CoInitializeEx(0, 0);
-            hr = CoCreateInstance(DAT_0107cb18, 0, 1, DAT_01093c0c, (void**)&graphS);
+            hr = CoCreateInstance(*reinterpret_cast<const CLSID*>(&DAT_0107cb18), 0, 1, *reinterpret_cast<const IID*>(&DAT_01093c0c), (void**)&graphS);
             if (hr < 0)
                 ok4 = false;
             hr = graphS->AddFilter(filter6, 0);
@@ -3623,8 +3609,8 @@ int __cdecl RunAudioChannel(int* param)
         long p22;
         long codeC;
         WaitForSingleObject(DAT_011dd3b0, 100);
-        AudLock();
-        now = AudGetTimer()->GetTime();
+        ::FUN_00830470();
+        now = ((::AudTimer *)(::FUN_00453a70()))->GetTime();
         if (graphS != 0 && seeking != 0)
         {
             seeking->get_CurrentPosition(&seconds);
@@ -3648,13 +3634,13 @@ int __cdecl RunAudioChannel(int* param)
             DAT_011dd300 = volumeA;
             DAT_011dd330 = now;
             DAT_011dd31c = position;
-            DAT_011dd320 = duration3;
-            DAT_011dd324 = totalLength2;
+            (*reinterpret_cast<unsigned int *>(&::DAT_011dd320)) = duration3;
+            (*reinterpret_cast<unsigned int *>(&::DAT_011dd324)) = totalLength2;
             baseVolumeM = DAT_011dd304;
             targetParam3 = DAT_011dd30c;
             flags = DAT_011dd310;
             curveType = DAT_011dd314;
-            startTime = DAT_011dd318;
+            startTime = (*reinterpret_cast<unsigned int *>(&::DAT_011dd318));
             fadeTimeNow = DAT_011dd328;
             fadeEnd2 = DAT_011dd32c;
         }
@@ -3662,20 +3648,20 @@ int __cdecl RunAudioChannel(int* param)
         {
             DAT_011dd338 = volumeA;
             DAT_011dd364 = now;
-            DAT_011dd350 = position;
-            DAT_011dd354 = duration3;
-            DAT_011dd358 = totalLength2;
+            (*reinterpret_cast<unsigned int *>(&::DAT_011dd350)) = position;
+            (*reinterpret_cast<unsigned int *>(&::DAT_011dd354)) = duration3;
+            (*reinterpret_cast<unsigned int *>(&::DAT_011dd358)) = totalLength2;
             baseVolumeM = DAT_011dd33c;
             targetParam3 = DAT_011dd344;
             flags = DAT_011dd311;
             curveType = DAT_011dd348;
-            startTime = DAT_011dd34c;
+            startTime = (*reinterpret_cast<unsigned int *>(&::DAT_011dd34c));
             fadeTimeNow = DAT_011dd35c;
             fadeEnd2 = DAT_011dd360;
         }
-        AudUnlock();
+        ::fnv_00830490::FUN_00830490();
 
-        target = (flags & 8) ? 0.0f : AudTargetVolume(curveType, targetParam3);
+        target = (flags & 8) ? 0.0f : ::ComputeAttenuatedVolume(curveType, targetParam3);
         if ((flags & 0x10) && now < fadeEnd2)
         {
             float fade = fadeTimeNow > 0 ? ((double)fadeEnd2 - (double)now) / (double)fadeTimeNow : 0.0;
@@ -3706,7 +3692,7 @@ int __cdecl RunAudioChannel(int* param)
         }
         if (audio3 != 0)
         {
-            audio3->put_Volume(volumeA < DAT_01032980 ? -10000 : (int)(AudToDecibel(volumeA) * 2000.0));
+            audio3->put_Volume(volumeA < DAT_01032980 ? -10000 : (int)(::FUN_0082ffd0(volumeA) * 2000.0));
         }
         if (startTime != 0)
         {
@@ -3720,7 +3706,7 @@ int __cdecl RunAudioChannel(int* param)
             {
                 current3 = 0;
             }
-            unsigned int nowTime = AudGetTimer()->GetTime();
+            unsigned int nowTime = ((::AudTimer *)(::FUN_00453a70()))->GetTime();
             unsigned int expected = nowTime - startTime;
             while (expected > duration3)
             {
@@ -3729,7 +3715,7 @@ int __cdecl RunAudioChannel(int* param)
             if (nowTime < startTime)
             {
                 expected = 0;
-                AudPrint("FalloutAudioMedia Synch Error: correct position is negative %i %i", nowTime, startTime);
+                ::FUN_005b5e40();
             }
             int drift = 0;
             if (current3 > expected)
@@ -3744,7 +3730,7 @@ int __cdecl RunAudioChannel(int* param)
             {
                 if (drift < 80000 || current3 == 0)
                 {
-                    AudPrint("FalloutAudioMedia Synch: %i = abs(-/+ %i +/- %i)", drift, expected, current3);
+                    ::FUN_005b5e40();
                     expected = expected + 50;
                     if (graphS != 0 && seeking != 0)
                     {
@@ -3764,7 +3750,7 @@ int __cdecl RunAudioChannel(int* param)
                 controlTmp->Stop();
             }
         }
-        else if ((flags & 4) || DAT_011dd312 || AudGetTimer()->IsPaused())
+        else if ((flags & 4) || DAT_011dd312 || ((bool)(reinterpret_cast<::FUN_00831de0_Class *>((((::AudTimer *)(::FUN_00453a70()))))->ForwardToMember())))
         {
             if (builder3 != 0 && controlTmp != 0)
             {
@@ -3817,16 +3803,16 @@ int __cdecl RunAudioChannel(int* param)
         {
             ok4 = false;
         }
-        AudLock();
+        ::FUN_00830470();
         if ((channel == 0 && (id2 != DAT_011dd334 || (DAT_011dd310 & 1))) ||
             (channel == 1 && (id2 != DAT_011dd368 || (DAT_011dd311 & 1))))
         {
             ok4 = false;
         }
-        AudUnlock();
+        ::fnv_00830490::FUN_00830490();
     }
 
-    AudLock();
+    ::FUN_00830470();
     if (channel == 0 && id2 == DAT_011dd334)
     {
         DAT_011dd300 = 0.0f;
@@ -3834,12 +3820,12 @@ int __cdecl RunAudioChannel(int* param)
         DAT_011dd308 = 0.0f;
         DAT_011dd30c = 0.0f;
         DAT_011dd310 = 0;
-        AudStrCpy(DAT_011dd0f0, 0x104, "NONE");
+        ::TaskQueueInterface::CopyStringToBuffer(DAT_011dd0f0, 0x104, "NONE");
         DAT_011dd314 = 0;
-        DAT_011dd318 = 0;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd318)) = 0;
         DAT_011dd31c = 0;
-        DAT_011dd320 = 0;
-        DAT_011dd324 = 0;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd320)) = 0;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd324)) = 0;
         DAT_011dd328 = 0;
         DAT_011dd32c = 0;
         DAT_011dd330 = 0;
@@ -3852,19 +3838,19 @@ int __cdecl RunAudioChannel(int* param)
         DAT_011dd340 = 0.0f;
         DAT_011dd344 = 0.0f;
         DAT_011dd311 = 0;
-        AudStrCpy(DAT_011dd1f8, 0x104, "NONE");
+        ::TaskQueueInterface::CopyStringToBuffer(DAT_011dd1f8, 0x104, "NONE");
         DAT_011dd348 = 0;
-        DAT_011dd34c = 0;
-        DAT_011dd350 = 0;
-        DAT_011dd354 = 0;
-        DAT_011dd358 = 0;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd34c)) = 0;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd350)) = 0;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd354)) = 0;
+        (*reinterpret_cast<unsigned int *>(&::DAT_011dd358)) = 0;
         DAT_011dd35c = 0;
         DAT_011dd360 = 0;
         DAT_011dd364 = 0;
         DAT_011dd368 = 0;
     }
     DAT_011dd370 = DAT_011dd370 - 1;
-    AudUnlock();
+    ::fnv_00830490::FUN_00830490();
 
     if (events != 0)
     {
@@ -3912,20 +3898,18 @@ struct FUN_00831f10_Target
 {
     virtual void unk00();
     virtual void unk04();
-    virtual void __stdcall unk08();
+    virtual void unk08();
 };
 // @fnv 0x00831f10
-void __stdcall CallVirtualOnContainedNode(char* a1)
+void CallVirtualOnContainedNode(char* a1)
 {
-    FUN_00831f10_Target* target = (FUN_00831f10_Target*)FUN_00726070((ContNode*)(a1 - 0xc));
+    FUN_00831f10_Target* target = (FUN_00831f10_Target*)((::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)(a1 - 0xc)))->FUN_00726070()));
     target->unk08();
 }
 
 struct SaveFormBufferEx : BGSSaveFormBuffer
 {
-    void SaveData(void* data, unsigned int size, int flags);
     unsigned int GetPosition();
-    void PatchCount(int count, unsigned int position);
 };
 
 struct SoundForm;
@@ -3937,13 +3921,10 @@ struct SoundEntry
 
 struct SoundListNode
 {
-    SoundEntry** Data();
-    SoundListNode* Next();
 };
 
 struct SoundQueue
 {
-    void SaveGame(SaveFormBufferEx* buffer);
 };
 
 struct SoundTimer
@@ -3958,37 +3939,44 @@ struct SoundTimer
     SoundListNode m_kNode;
     void FUN_00836110(SaveFormBufferEx* buffer);
 };
+// @fnv 0x00836600
+void FUN_00836600_class::FUN_00836600(BGSLoadFormBuffer* buffer)
+{
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((reinterpret_cast<BGSSaveFormBuffer*>(buffer)))->FUN_00865df0(
+        (::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(unk00)), 0);
+    reinterpret_cast<::SoundTimer *>((&unk04))->FUN_00836110((::SaveFormBufferEx *)(buffer));
+}
 
 // Writes elapsed time, timer fields, and queued sound forms to the buffer, patches the count, then saves the queue if present.
 // @fnv 0x00836110
 void SoundTimer::FUN_00836110(SaveFormBufferEx* buffer)
 {
-    int elapsed_2 = BSAudio::GetSingleton()->GetSynchTime() - m_uiStartTime;
+    int elapsed_2 = ::FUN_00453a70()->GetSynchTime() - m_uiStartTime;
     if (m_fAnimationDuration <= 0)
         elapsed_2 = 0;
-    buffer->SaveData(&elapsed_2, 4, 0);
-    buffer->SaveData(&m_fAnimationDuration, 4, 0);
-    buffer->SaveData(&m_flag10, 1, 0);
-    buffer->SaveData(&m_flag11, 1, 0);
-    buffer->SaveData(&unk14, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&elapsed_2, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fAnimationDuration, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_flag10, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_flag11, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk14, 4, 0);
     int count = 0;
-    unsigned int position = buffer->GetPosition();
+    unsigned int position = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
     SoundListNode* node3 = &m_kNode;
     while (node3)
     {
-        SoundEntry* entry = *node3->Data();
+        SoundEntry* entry = *((::SoundEntry **)(((::Vec3 *)(void *)(node3))));
         if (entry)
         {
-            buffer->SerializeFormData(entry->form, 0);
+            reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(entry->form), 0);
             count++;
         }
-        node3 = node3->Next();
+        node3 = ((::SoundListNode *)(reinterpret_cast<::Callees *>((node3))->FUN_00726070()));
     }
-    buffer->PatchCount(count, position);
+    reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count, position);
     bool hasQueue7 = (bool)(m_queue != 0);
-    buffer->SaveData(&hasQueue7, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&hasQueue7, 1, 0);
     if (hasQueue7)
-        m_queue->SaveGame(buffer);
+        reinterpret_cast<::B83C270Conversation *>((m_queue))->FUN_0083c270((::B83C270Buffer *)(buffer));
 }
 
 extern int DAT_0107cdac;
@@ -4013,6 +4001,8 @@ struct SpawnedBase
 
 struct FUN_00831e20 : SpawnedBase
 {
+    char pad[0x1a0 - 0x14];
+    char unk1a0;
     FUN_00831e20(int a, int b, int c);
 };
 
@@ -4022,7 +4012,7 @@ FUN_00831e20::FUN_00831e20(int aiArg1, int aiArg2, int aiArg3) : SpawnedBase(0, 
     unk00 = &DAT_0107cdac;
     unk0C = &DAT_0107cd6c;
     unk10 = &DAT_0107cd54;
-    reinterpret_cast<FUN_009f9d10_cls*>(reinterpret_cast<char*>(this) + 0x1a0)->CallAndReturnThis(aiArg2);
+    ((FUN_009f9d10_cls*)&unk1a0)->CallAndReturnThis(aiArg2);
 }
 
 struct NiPoint3_8229
@@ -4054,7 +4044,6 @@ class FUN_00822920 : public FUN_0081dd00
   public:
     FUN_00822920(int iParam1, int iParam2, int iParam3, int iParam4, NiPoint3_8229 kPoint1, NiPoint3_8229 kPoint2);
     virtual ~FUN_00822920();
-    void FUN_00930c70();
 };
 
 // @fnv 0x00822920
@@ -4062,7 +4051,7 @@ FUN_00822920::FUN_00822920(int iParam1, int iParam2, int iParam3, int iParam4, N
                            NiPoint3_8229 kPoint2)
     : FUN_0081dd00(iParam1, iParam2, iParam3, iParam4, kPoint1, kPoint2)
 {
-    FUN_00930c70();
+    reinterpret_cast<::RefC7 *>(this)->FUN_00930c70();
 }
 
 class List8321E0
@@ -4174,6 +4163,14 @@ struct FUN_0082f260_cls : FUN_0082f260_base
     FUN_0082f260_mem m_10c;
     virtual ~FUN_0082f260_cls();
 };
+// @fnv 0x0082f210
+void* FUN_0082f260_class::FUN_0082f210(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0082f260_cls *>(this)->FUN_0082f260_cls::~FUN_0082f260_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor: if m_108 is non-null, calls its virtual v00(1).
 // @fnv 0x0082f260
@@ -4227,6 +4224,15 @@ struct FUN_0083c750 : BSS
     BSS m_uiX;
     ~FUN_0083c750();
 };
+// Calls FUN_0083c750, frees this with Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x0083c720
+void* FUN_0083c750_class::FUN_0083c720(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0083c750 *>(this)->FUN_0083c750::~FUN_0083c750();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor with an empty body; the m_uiX member and the BSS base are destroyed implicitly.
 // @fnv 0x0083c750
 FUN_0083c750::~FUN_0083c750()
@@ -4238,7 +4244,7 @@ namespace fnv_0082f1b0 {
 // Wrapper around the Win32 critical-section API: locks the section owned by
 // the object passed in the fastcall register (ecx).
 // @fnv 0x0082f1b0
-void __fastcall FUN_0082f1b0(void* apCriticalSection)
+void FUN_0082f1b0(void* apCriticalSection)
 {
     EnterCriticalSection((LPCRITICAL_SECTION)apCriticalSection);
 }
@@ -4263,3 +4269,65 @@ FUN_0082b370::FUN_0082b370(int a, int b, int c)
     *(void***)this = DAT_0107c53c;
     _pad[0x48] = 0;
 }
+
+void FUN_00837500();
+
+enum ENUM_FORM_ID;
+
+bool FUN_0082d740(TESSound* self, int* outA, int* outB);
+
+FUN_0082b370* CreateFUN0082b370(int a, int b, int c);
+
+void* __cdecl CreateFUN0082cf80(int a, int b, int c);
+
+int strcpy_s(char* dest, unsigned int size, const char* src);
+
+int FUN_00831f70(int unused);
+
+// These declarations name the existing BSStringT ABI accessors omitted from
+// the supplied class declaration; they add no storage or replacement bodies.
+struct StringAccess530
+{
+};
+
+struct BraceString530 : BSStringT<char>
+{
+    BSStringT<char> FUN_0083d8b0();
+};
+
+// @fnv 0x0083d8b0
+BSStringT<char> BraceString530::FUN_0083d8b0()
+{
+    unsigned int output6 = 0;  // next output character
+    int depth_ = 0;            // nesting depth
+    unsigned int index4;       // input character index
+    BSStringT<char> result;
+    reinterpret_cast<::TextString *>(&(result))->FUN_004037f0(((const char *)(::FUN_00559450((int *)this))), 0);
+    for (index4 = 0; index4 < ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StringAccess530*)this)))->FUN_004048e0())); ++index4)
+    {
+        if (((const char *)(::FUN_00559450((int *)this)))[index4] == '{')
+        {
+            ++depth_;
+        }
+        else if (((const char *)(::FUN_00559450((int *)this)))[index4] == '}')
+        {
+            depth_ = depth_ == 0 ? 0 : depth_ - 1;
+        }
+        if (depth_ == 0)
+        {
+            if (((const char *)(::FUN_00559450((int *)this)))[index4] != '}')
+            {
+                *((char *)(reinterpret_cast<::FUN_0083da30_cls *>((((StringAccess530*)&result)))->ApplyMaskedOffset(output6))) = ((const char *)(::FUN_00559450((int *)this)))[index4];
+                ++output6;
+            }
+        }
+    }
+    if (output6 < ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StringAccess530*)&result)))->FUN_004048e0())))
+    {
+        *((char *)(reinterpret_cast<::FUN_0083da30_cls *>((((StringAccess530*)&result)))->ApplyMaskedOffset(output6))) = 0;
+    }
+    result.SetLength(output6);
+    return result;
+}
+
+#include "generated/data/staging/blk_00820000_od.inc"

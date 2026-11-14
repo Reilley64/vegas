@@ -3,12 +3,18 @@
 #define FNV_XGAMESETTING_DECLS_H
 
 
+#include <malloc.h>
+#include "fnv/decl/FUN_004f8940_class.h"
+#include "fnv/decl/FUN_004f8960_shell.h"
+#include "fnv/decl/FUN_004f8a30_shell2.h"
+#include "fnv/decl/FUN_004f8a60_class.h"
+#include "fnv/decl/SettingS.h"
+#include "fnv/symbols_00464000.h"
 #include "TESFile.h"
 #include "SETTING_VALUE.h"
 
 // The canonical Setting layout, with declarations for the two unresolved
 // helpers used by the game-setting reader. No shared header is modified.
-#pragma pack(push, 4)
 class Setting
 {
   public:
@@ -20,7 +26,6 @@ class Setting
     virtual ~Setting();
     virtual bool IsPrefSetting();
     unsigned int FUN_004f8940();
-    Setting& FUN_00c33170(const char* value);
 };
 
 template <class T> class SettingCollectionMap
@@ -40,7 +45,7 @@ template <class T> class SettingCollectionMap
     TESFile* pFile;
 };
 
-class GameSettingCollection : public SettingCollectionMap<Setting>
+struct GameSettingCollection : public SettingCollectionMap<Setting>
 {
   public:
     virtual bool ReadSetting(Setting& setting);
@@ -49,18 +54,7 @@ class GameSettingCollection : public SettingCollectionMap<Setting>
     virtual bool ReadSetting(TESFile* file, const char* key);
 
     // Actor::IsFleeing(bool) candidate is incompatible with this call site.
-    TESFile* FUN_004f8960();
-    Setting* FUN_004f8a30(const char* key);
-    void SetField108(TESFile* file);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(Setting) == 0xC);
-FNV_STATIC_ASSERT(offsetof(Setting, uValue) == 0x4);
-FNV_STATIC_ASSERT(offsetof(Setting, pKey) == 0x8);
-FNV_STATIC_ASSERT(offsetof(GameSettingCollection, pFile) == 0x108);
-
-extern "C" void* __cdecl _alloca(unsigned int size);
-const char* PrepareScriptMessage(const char* text, bool alternate);
 
 #endif

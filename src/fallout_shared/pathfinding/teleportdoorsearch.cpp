@@ -1,5 +1,21 @@
 // fallout_shared/pathfinding/teleportdoorsearch.cpp: TeleportDoorSearch, DoorSearchInit (6 functions)
 
+#include "fnv_result_slot.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00586400_shell.h"
+#include "fnv/decl/FUN_006f4340_Class.h"
+#include "fnv/decl/FUN_006f4430_Class.h"
+#include "fnv/decl/PathSearch.h"
+#include "fnv/decl/S_006f3d00_Obj.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0054db50__FUN_0054db50_cls.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/symbols_00401000.h"
 #include "teleportdoorsearch_decls.h"
 // @fnv 0x006f3b00
 bool TeleportDoorSearch::HasReachedGoal(const AStarNode<ParentSpaceNode, TeleportLink>* node)
@@ -7,7 +23,7 @@ bool TeleportDoorSearch::HasReachedGoal(const AStarNode<ParentSpaceNode, Telepor
     if (restriction == 3)
     {
         TESWorldSpace* w = node->world;
-        PointerPairData* data = w ? w->GetWorldSpaceData() : 0;
+        PointerPairData* data = w ? reinterpret_cast<::FUN_00586400_shell *>((w))->FUN_00586400() : 0;
         return node->exterior && data && data->a && data->b;
     }
     else
@@ -21,110 +37,6 @@ bool TeleportDoorSearch::HasReachedGoal(const AStarNode<ParentSpaceNode, Telepor
         return true;
     }
 }
-// @fnv 0x006f36d0
-bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, TeleportLink>* node,
-                                            BSSimpleArray<AStarNode<ParentSpaceNode, TeleportLink>*, 1024>* output)
-{
-    reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&doors)->Clear(false);
-    if (node->exterior)
-        node->world->FUN_00588270(doors);
-    else
-        node->cell->AppendCellReferences(doors);
-    if (disposition == 1 || disposition == 3 || lockData)
-    {
-        // Local names and declaration order preserve MSVC9 stack-slot allocation.
-        // a03 index, a06 lock penalty, a00 door, a08 result node.
-        // a04 position, a02 locked, a01 cost, a07 destination cell, a05 unlock result.
-        // b01 destination space, b02 lock, b00 distance.
-        float a06;
-        TESObjectREFR* a00;
-        AStarNode<ParentSpaceNode, TeleportLink>* a08;
-        NiPoint3 a04;
-        bool a02;
-        float a01;
-        TESObjectCELL* a07;
-        bool a05;
-        unsigned int a03;
-        for (a03 = 0; a03 < reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&doors)->GetSize(); ++a03)
-        {
-            a00 = reinterpret_cast<TESObjectREFR*>(reinterpret_cast<NiFormArray*>(&doors)->FUN_00877a30(a03));
-            if (a00->GetDisabled())
-                continue;
-            void* b01 =
-                reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320()
-                    ? reinterpret_cast<void*>(reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320())
-                    : reinterpret_cast<void*>(a00->GetExtraRadioData()->FUN_0043a2b0());
-            switch (restriction)
-            {
-            case 2:
-                if (reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320())
-                    continue;
-                break;
-            case 1:
-                if (reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320() &&
-                    reinterpret_cast<TESWorldSpace*>(
-                        reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320()) != startWorld)
-                    continue;
-                break;
-            }
-            DoorAccessData b02(a00);
-            a05 = b02.CanUnlockDoor(lockData, a00, a02);
-            a06 = 0.0f;
-            if (!a05 || a02)
-            {
-                switch (disposition)
-                {
-                case 1:
-                case 3:
-                    break;
-                case 2:
-                    a06 = 409600.0f;
-                    break;
-                case 0:
-                    continue;
-                }
-            }
-            if (reinterpret_cast<TESObjectDOOR*>(a00->GetObjectReference())->IsTeleportDoor() && disposition != 3)
-                a06 = 409600.0f;
-            a04 = *a00->GetPos();
-            float b00;
-            if (reinterpret_cast<ActorMover*>(const_cast<AStarNode<ParentSpaceNode, TeleportLink>*>(node))
-                    ->GetCurrentMoveModeType())
-                b00 = (node->pos - a04).Length();
-            else
-                b00 = (location.FUN_005c3420() - a04).Length();
-            if (maxCost != 0.0 && node->cost + b00 > maxCost)
-                continue;
-            a01 = node->cost + b00 + a06;
-            a07 = a00->GetExtraRadioData()->FUN_0043a2b0();
-            switch (InsertOrUpdateNode(b01, a01, a08))
-            {
-            case 0:
-                if (reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320())
-                {
-                    a08->exterior = true;
-                    a08->cell = 0;
-                    a08->world = reinterpret_cast<TESWorldSpace*>(
-                        reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320());
-                }
-                else
-                {
-                    a08->exterior = false;
-                    a08->world = 0;
-                    a08->cell = a00->GetExtraRadioData()->FUN_0043a2b0();
-                }
-                a08->fitness = 1.0f;
-            case 1:
-                a08->door = a00;
-                a08->pos = *reinterpret_cast<NiPoint3*>(
-                    reinterpret_cast<QuestDialogueInfo*>(a00->GetExtraRadioData())->GetInfoArray());
-                reinterpret_cast<BSSimpleArray<TESIdleForm*, 1024>*>(output)->Add(reinterpret_cast<TESIdleForm*&>(a08));
-            }
-        }
-    }
-    return true;
-}
-
 struct _Base_006f3c80
 {
     virtual void vfunc();
@@ -162,7 +74,6 @@ struct FUN_006f3460
     virtual ~FUN_006f3460();
 };
 
-extern void _Deallocate(void* p);
 
 struct FUN_006f3430_shell : FUN_006f3460
 {
@@ -173,9 +84,9 @@ struct FUN_006f3430_shell : FUN_006f3460
 // @fnv 0x006f3430
 void* FUN_006f3430_shell::DestroyAndDeallocate(unsigned int flags)
 {
-    FUN_006f3460::~FUN_006f3460();
+    reinterpret_cast<::FUN_006f3460 *>(this)->::FUN_006f3460::~FUN_006f3460();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_006f3430
@@ -193,11 +104,9 @@ struct AStarNodeTD
 };
 struct FUN_006f4340_shell
 {
-    AStarNodeTD* FUN_006f4340();
 };
 struct FUN_006f4430_shell
 {
-    void UnlinkFromList(AStarNodeTD*);
 };
 struct FUN_006f3e30_shell
 {
@@ -207,13 +116,116 @@ struct FUN_006f3e30_shell
     FUN_00996840_shell kMap;
     char pad18[0x1ff4 - 0x15];
     FUN_006f4430_shell kQueue;
-    int InsertOrUpdateNode(unsigned int aiKey, float afCost, AStarNodeTD** aRetNode);
+    int InsertOrUpdateNode(std::uintptr_t aiKey, float afCost, AStarNodeTD** aRetNode);
 };
+// @fnv 0x006f36d0
+bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, TeleportLink>* node,
+                                            BSSimpleArray<AStarNode<ParentSpaceNode, TeleportLink>*, 1024>* output)
+{
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&doors)))->Clear(false);
+    if (node->exterior)
+        node->world->FUN_00588270(doors);
+    else
+        reinterpret_cast<::fnv_0054db50::FUN_0054db50_cls *>((node->cell))->FUN_0054db50((::fnv_0054db50::ListArg *)&(doors));
+    if (disposition == 1 || disposition == 3 || lockData)
+    {
+        // Local names and declaration order preserve MSVC9 stack-slot allocation.
+        // a03 index, a06 lock penalty, a00 door, a08 result node.
+        // a04 position, a02 locked, a01 cost, a07 destination cell, a05 unlock result.
+        // b01 destination space, b02 lock, b00 distance.
+        float a06;
+        TESObjectREFR* a00;
+        AStarNode<ParentSpaceNode, TeleportLink>* a08;
+        NiPoint3 a04;
+        bool a02;
+        float a01;
+        TESObjectCELL* a07;
+        bool a05;
+        unsigned int a03;
+        for (a03 = 0; a03 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&doors)))->GetName())); ++a03)
+        {
+            a00 = reinterpret_cast<TESObjectREFR*>(reinterpret_cast<NiFormArray*>(&doors)->FUN_00877a30(a03));
+            if (a00->GetDisabled())
+                continue;
+            void* b01 =
+                ((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))
+                    ? reinterpret_cast<void*>(((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                    : reinterpret_cast<void*>(((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((a00->GetExtraRadioData()))->FUN_0043a2b0())));
+            switch (restriction)
+            {
+            case 2:
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                    continue;
+                break;
+            case 1:
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())) &&
+                    reinterpret_cast<TESWorldSpace*>(
+                        ((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))) != startWorld)
+                    continue;
+                break;
+            }
+            DoorAccessData b02(a00);
+            a05 = b02.CanUnlockDoor(lockData, a00, a02);
+            a06 = 0.0f;
+            if (!a05 || a02)
+            {
+                switch (disposition)
+                {
+                case 1:
+                case 3:
+                    break;
+                case 2:
+                    a06 = 409600.0f;
+                    break;
+                case 0:
+                    continue;
+                }
+            }
+            if (reinterpret_cast<TESObjectDOOR*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((a00))->FUN_007af430())))->IsTeleportDoor() && disposition != 3)
+                a06 = 409600.0f;
+            a04 = *a00->GetPos();
+            float b00;
+            if (reinterpret_cast<ActorMover*>(const_cast<AStarNode<ParentSpaceNode, TeleportLink>*>(node))
+                    ->GetCurrentMoveModeType())
+                b00 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((node->pos - a04)))->ComputeMagnitude();
+            else
+                b00 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>()) - a04)))->ComputeMagnitude();
+            if (maxCost != 0.0 && node->cost + b00 > maxCost)
+                continue;
+            a01 = node->cost + b00 + a06;
+            a07 = ((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((a00->GetExtraRadioData()))->FUN_0043a2b0()));
+            switch (reinterpret_cast<::FUN_006f3e30_shell *>(this)->InsertOrUpdateNode((std::uintptr_t)(b01), a01, (::AStarNodeTD **)&(a08)))
+            {
+            case 0:
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                {
+                    a08->exterior = true;
+                    a08->cell = 0;
+                    a08->world = reinterpret_cast<TESWorldSpace*>(
+                        ((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())));
+                }
+                else
+                {
+                    a08->exterior = false;
+                    a08->world = 0;
+                    a08->cell = ((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((a00->GetExtraRadioData()))->FUN_0043a2b0()));
+                }
+                a08->fitness = 1.0f;
+            case 1:
+                a08->door = a00;
+                a08->pos = *reinterpret_cast<NiPoint3*>(
+                    ((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<QuestDialogueInfo*>(a00->GetExtraRadioData())))->GetCurrentProcessData())));
+                reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArray<TESIdleForm*, 1024>*>(output)))->FUN_007cb2e0((unsigned int *)&(reinterpret_cast<TESIdleForm*&>(a08)));
+            }
+        }
+    }
+    return true;
+}
 
 // @fnv 0x006f3e30
-int FUN_006f3e30_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, AStarNodeTD** aRetNode)
+int FUN_006f3e30_shell::InsertOrUpdateNode(std::uintptr_t aiKey, float afCost, AStarNodeTD** aRetNode)
 {
-    AStarNodeTD** pBucketHead = (AStarNodeTD**)((char*)this + 0x14) + kMap.FUN_00996840(aiKey);
+    AStarNodeTD** pBucketHead = (AStarNodeTD**)&this->kMap + kMap.FUN_00996840(aiKey);
     if (*pBucketHead)
     {
         if ((*pBucketHead)->uiKey == aiKey)
@@ -221,7 +233,7 @@ int FUN_006f3e30_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, ASt
             if ((*pBucketHead)->m_fPathingCostCur > afCost)
             {
                 *aRetNode = *pBucketHead;
-                kQueue.UnlinkFromList(*aRetNode);
+                reinterpret_cast<::FUN_006f4430_Class *>(&(kQueue))->UnlinkFromList((int *)(*aRetNode));
                 (*aRetNode)->m_fPathingCostCur = afCost;
                 return 1;
             }
@@ -243,7 +255,7 @@ int FUN_006f3e30_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, ASt
                     if (pcurrent->m_fPathingCostCur > afCost)
                     {
                         *aRetNode = pcurrent;
-                        kQueue.UnlinkFromList(*aRetNode);
+                        reinterpret_cast<::FUN_006f4430_Class *>(&(kQueue))->UnlinkFromList((int *)(*aRetNode));
                         (*aRetNode)->m_fPathingCostCur = afCost;
                         return 1;
                     }
@@ -257,7 +269,7 @@ int FUN_006f3e30_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, ASt
             }
         }
     }
-    *aRetNode = kPool.FUN_006f4340();
+    *aRetNode = ((::AStarNodeTD *)(reinterpret_cast<::FUN_006f4340_Class *>(&(kPool))->FUN_006f4340()));
     (*aRetNode)->uiKey = aiKey;
     (*aRetNode)->m_fPathingCostCur = afCost;
     (*aRetNode)->pNext = *pBucketHead;
@@ -267,12 +279,9 @@ int FUN_006f3e30_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, ASt
 
 struct SearchLocation : PathingLocation
 {
-    void* FUN_00441110();
-    void* FUN_006dd4f0();
 };
 struct LocationCopy
 {
-    void FUN_006dcce0(SearchLocation*);
 };
 struct SearchState
 {
@@ -2370,26 +2379,24 @@ struct DoorSearchInit
     void* lockData;
     int unk20a4, unk20a8, unk20ac, unk20b0;
     int disposition;
-    void FUN_006f3d00(void*, SearchState*, float);
-    bool FindPath(SearchResult*, ResultSub*, bool);
     bool InitDoorSearch(SearchLocation*, SearchLocation*, SearchResult*, int, float, void*, int);
 };
 // @fnv 0x006f34e0
 bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal, SearchResult* result, int mode,
                                     float cost, void* locks, int disp)
 {
-    ((LocationCopy*)&location)->FUN_006dcce0(start);
+    reinterpret_cast<::PathingLocation *>((((LocationCopy*)&location)))->operator=((*(const ::PathingLocation *)(start)));
     void* a;
-    if (start->FUN_00441110())
+    if (((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel())))
     {
-        startState.world = start->FUN_00441110();
+        startState.world = ((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel()));
         startState.exterior = true;
         startState.cell = 0;
         a = startState.world;
     }
-    else if (start->FUN_006dd4f0())
+    else if (((void *)(reinterpret_cast<::PathingLocation *>((start))->GetContainingCell())))
     {
-        startState.cell = start->FUN_006dd4f0();
+        startState.cell = ((void *)(reinterpret_cast<::PathingLocation *>((start))->GetContainingCell()));
         startState.exterior = false;
         startState.world = 0;
         a = startState.cell;
@@ -2403,24 +2410,24 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
     disposition = disp;
     if (restriction != 3)
     {
-        if (goal->FUN_00441110())
+        if (((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel())))
         {
-            goalState.world = goal->FUN_00441110();
+            goalState.world = ((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel()));
             goalState.exterior = true;
             goalState.cell = 0;
         }
-        else if (goal->FUN_006dd4f0())
+        else if (((void *)(reinterpret_cast<::PathingLocation *>((goal))->GetContainingCell())))
         {
-            goalState.cell = goal->FUN_006dd4f0();
+            goalState.cell = ((void *)(reinterpret_cast<::PathingLocation *>((goal))->GetContainingCell()));
             goalState.exterior = false;
             goalState.world = 0;
         }
     }
     lockData = locks;
-    result->start = start->FUN_005c3420();
-    result->finish = goal->FUN_005c3420();
-    FUN_006f3d00(a, &startState, 1.0f);
-    if (!FindPath(result, &result->sub, true))
+    result->start = reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
+    result->finish = reinterpret_cast<::TaskQueueInterface *>((void *)(goal))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
+    reinterpret_cast<::S_006f3d00_Obj *>(this)->FUN_006f3d00((std::intptr_t)(a), (::S_006f3d00_Vec3 *)(::SearchState *)(&startState), 1.0f);
+    if (!reinterpret_cast<::PathSearch *>(this)->FindPath((std::intptr_t)(result), (std::intptr_t)(&result->sub), true))
         return false;
     return true;
 }

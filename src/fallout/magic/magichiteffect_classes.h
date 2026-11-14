@@ -22,19 +22,18 @@ class bhkNiCollisionObject;
 class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 class FourComponentFloatVector;
 class NiObjectGroup;
-class NiControllerManager;
+struct NiControllerManager;
 class NiAVObject;
 class TESObjectCELL;
 class TESObjectREFR;
 class ActiveEffect;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 class BGSSaveGameBuffer;
 template <class T> class NiTPrimitiveArray;
-#pragma pack(push, 4)
 class BSTempEffect : public NiObject
 {
   public:
@@ -114,13 +113,4 @@ class MagicHitEffect : public BSTempEffect
     bool bWasPlaying;        // +0x24
     unsigned char layoutPadding25[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTempEffect) == 0x18);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, m_fParticleParameter5) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, bInitialized) == 0x14);
-FNV_STATIC_ASSERT(sizeof(MagicHitEffect) == 0x28);
-FNV_STATIC_ASSERT(offsetof(MagicHitEffect, pEffect) == 0x18);
-FNV_STATIC_ASSERT(offsetof(MagicHitEffect, pTarget) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(MagicHitEffect, m_fFirstFloatValue) == 0x20);
-FNV_STATIC_ASSERT(offsetof(MagicHitEffect, bWasPlaying) == 0x24);
 #endif

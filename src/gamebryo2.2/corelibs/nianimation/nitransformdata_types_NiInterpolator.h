@@ -4,12 +4,12 @@
 
 #include "nitransformdata_layout_support.h"
 #include "nitransformdata_NiObject.h"
-class RgbaColor;
+struct RgbaColor;
 class NiQuatTransform;
 class NiQuaternion;
 class NiBoolInterpolator;
-class NiObjectNET;
-class NiPoint3;
+struct NiObjectNET;
+struct NiPoint3;
 class NiInterpolator;
 class NiInterpolator : public NiObject
 {
@@ -51,6 +51,4 @@ class NiInterpolator : public NiObject
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
 #endif

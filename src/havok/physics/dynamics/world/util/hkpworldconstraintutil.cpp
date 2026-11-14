@@ -2,6 +2,19 @@
 // src/havok/physics/dynamics/world/util/hkpworldconstraintutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldconstraintutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d27f50_Obj.h"
+#include "fnv/decl/Stats.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpModifierConstraintAtomD220.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_010cb000.h"
 struct S_00d27820_Node;
 struct S_00d27820_Buf
 {
@@ -14,7 +27,7 @@ struct S_00d27820_Rec
     int unk0c, unk10;
     unsigned short px, py, pz;
     unsigned char idx;
-    int cnt;
+    char* cnt;
     unsigned short sz;
     unsigned short slot;
     int unk24, unk28, unk2c;
@@ -68,9 +81,7 @@ struct S_00d27820_P
     int unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c;
     S_00d27820_Rec* unk30;
-    void FUN_00c905b0();
 };
-void __cdecl FUN_00cb1270(int a, int b, char* c);
 
 // Removes the record p->unk30 from its node lists, shifts the following records down, adjusts buffer sizes and counts, and calls FUN_00c905b0.
 // @fnv 0x00d27820
@@ -106,9 +117,9 @@ void DetachRecord(S_00d27820_P* p)
     if (pRec->cnt)
     {
         delta = -(int)pRec->sz;
-        int iTotal = pRec->sz + pRec->cnt;
+        char* pTail = pRec->cnt + pRec->sz;
         S_00d27820_Buf* pBuf = &d->buf;
-        FUN_00cb1270(pRec->cnt, iTotal, pBuf->data + (pBuf->size - iTotal));
+        ::FUN_00cb1270(pRec->cnt, pTail, (int)(pBuf->data + pBuf->size - pTail));
         pBuf->size -= pRec->sz;
         pRec->cnt = 0;
     }
@@ -123,7 +134,7 @@ void DetachRecord(S_00d27820_P* p)
         pIter++;
     }
     d->unkb0--;
-    p->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
 }
 
 typedef unsigned char hkUint8;
@@ -167,7 +178,6 @@ struct hkpModifierConstraintAtom : hkpConstraintAtom
     hkUint16 m_iChildSize;
     hkpConstraintAtom* m_pChildAtom;
 
-    int FUN_00d22090(GenericConstraintAtomScheme& infoOut, hkUint8& usedFlagsOut);
 };
 
 struct hkpConstraintData
@@ -260,7 +270,7 @@ struct ConstraintRuntimeInfo
     hkUint16 m_iSchemaByteSize;
 };
 
-struct hkpConstraintInstance;
+class hkpConstraintInstance;
 
 struct hkpConstraintOwner
 {
@@ -276,11 +286,11 @@ struct hkpConstraintOwner
     int m_iMaxSchemaSize;
     int m_iSchemaByteSize;
 
-    void AccumulateStats(hkpConstraintInstance* constraint, GenericConstraintAtomScheme& delta);
 };
 
-struct hkpConstraintInstance
+class hkpConstraintInstance
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -296,9 +306,7 @@ struct hkpConstraintInstance
     ConstraintRuntimeInfo* m_pConstraintInternal;
 };
 
-extern const hkUint16 DAT_010cb7a8[];
 
-hkpModifierConstraintAtom* __cdecl FUN_00d277f0(hkpConstraintInstance* instance);
 
 // Splices newModifier into the modifier atom chain of instance, updating child pointers and accumulating solver stats on the owner.
 // @fnv 0x00d27960
@@ -307,7 +315,7 @@ void __cdecl FUN_00d27960(hkpConstraintInstance* instance, hkpConstraintOwner& c
 {
     constraintOwner.checkAccessRw();
 
-    hkpModifierConstraintAtom* lastModifier = FUN_00d277f0(instance);
+    hkpModifierConstraintAtom* lastModifier = ((::hkpModifierConstraintAtom *)(::FUN_00d277f0((::FUN_00d277f0_arg *)(instance))));
     ConstraintRuntimeInfo* pConstraintInternal = instance->m_pConstraintInternal;
 
     if (newModifier->m_type == 0x1a && lastModifier)
@@ -348,12 +356,12 @@ void __cdecl FUN_00d27960(hkpConstraintInstance* instance, hkpConstraintOwner& c
         GenericConstraintAtomScheme info;
         info.clear();
         hkUint8 usedFlags = 0;
-        int callbackRequest = newModifier->FUN_00d22090(info, usedFlags);
-        constraintOwner.AccumulateStats(instance, info);
+        int callbackRequest = reinterpret_cast<::hkpModifierConstraintAtomD220 *>((newModifier))->FUN_00d22090((::hkpConstraintInfoD220 &)(info), usedFlags);
+        reinterpret_cast<::Stats *>(&(constraintOwner))->AccumulateStats((::Holder *)(instance), (const int *)&(info));
 
         usedFlags &=
             (instance->m_pEntityA->m_ucResponseModifierFlags | instance->m_pEntityB->m_ucResponseModifierFlags);
-        hkUint16 extra = DAT_010cb7a8[usedFlags & 7];
+        hkUint16 extra = (*reinterpret_cast<const unsigned short (*)[]>(&::DAT_010cb7a8))[usedFlags & 7];
         constraintOwner.m_iSchemaByteSize -= extra;
         instance->m_pConstraintInternal->m_iSchemaByteSize = instance->m_pConstraintInternal->m_iSchemaByteSize - extra;
         if (instance->m_pConstraintInternal)
@@ -426,7 +434,6 @@ struct InternalArray
     ConstraintInternal* data;
     unsigned short size;
     unsigned short capacity;
-    void FUN_00d27f50(int, ConstraintInternal*);
 };
 struct ConstraintPointer
 {
@@ -451,7 +458,6 @@ struct ByteArray
 struct Island
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, count;
-    void AccumulateStats(Constraint*, ConstraintInfo*);
 };
 struct Entity
 {
@@ -529,25 +535,13 @@ struct Constraint
     unsigned int unk20, unk24, unk28, unk2c;
     ConstraintInternal* internal;
     unsigned int uid;
-    void FUN_00c90510();
 };
-void FUN_00cb5570(void*, Entity*, Entity*);
-unsigned char FUN_00d22120(Atom*, ConstraintInfo*, unsigned char*);
-extern unsigned short DAT_010cb7a8[];
-struct MemoryRouter
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-    void* heap;
-};
-MemoryRouter* FUN_00c85750();
-void FUN_00c908c0(void*, ByteArray*, int, int);
-void ResizeAudioStream(void*, ConstraintArray*, int);
-void FUN_00cb1270(void*, const void*, int);
+
 // Initializes a ConstraintInternal entry, inserts it into the master entity's constraint array, allocates runtime memory, and registers the constraint as a slave.
 // @fnv 0x00d27ac0
 ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
 {
-    constraint->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((constraint))->FUN_00c90510();
     ConstraintInfo info;
     constraint->data->GetConstraintInfo(&info);
     ConstraintInternal entry;
@@ -567,7 +561,7 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
     entry.priority = constraint->priority;
     if (entry.bodies[0]->motionType != 5 && entry.bodies[1]->motionType != 5 &&
         entry.bodies[0]->island != entry.bodies[1]->island)
-        FUN_00cb5570(entry.bodies[0]->world, entry.bodies[0], entry.bodies[1]);
+        ::FUN_00cb5570((::ObjA *)(entry.bodies[0]->world), (::ObjB *)(entry.bodies[0]), (::ObjB *)(entry.bodies[1]));
     entry.masterIndex = entry.bodies[0]->motionType == 5;
     Entity* master = entry.bodies[entry.masterIndex];
     constraint->island = master->island;
@@ -587,18 +581,18 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
         entry.flags = 2;
     unsigned char flags = 0;
     if (constraint->atoms)
-        entry.flags |= FUN_00d22120(constraint->atoms, &info, &flags);
+        entry.flags |= ((unsigned char)(::FUN_00d22120(constraint->atoms, &info, &flags)));
     if (atomType == 22)
     {
         unsigned char combined = constraint->bodies[1]->responseFlags | constraint->bodies[0]->responseFlags;
         combined -= combined & flags;
-        info.runtimeBytes += DAT_010cb7a8[combined & 7];
+        info.runtimeBytes += (*reinterpret_cast<unsigned short (*)[]>(&::DAT_010cb7a8))[combined & 7];
     }
     entry.unk16 = 0;
     entry.unk18 = 0;
     entry.unk14 = 0;
     constraint->internal = &entry;
-    constraint->island->AccumulateStats(constraint, &info);
+    reinterpret_cast<::Stats *>((constraint->island))->AccumulateStats((::Holder *)(constraint), (const int *)(::fnv_00d27ac0::ConstraintInfo *)(&info));
     InternalArray& array = master->constraints;
     unsigned short count = array.size;
     int index = 0;
@@ -616,14 +610,14 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
         if (incomingUid > currentUid)
             continue;
         Entity* other =
-            (Entity*)((unsigned int)current.bodies[0] ^ (unsigned int)current.bodies[1] ^ (unsigned int)master);
+            (Entity*)((uintptr_t)current.bodies[0] ^ (uintptr_t)current.bodies[1] ^ (uintptr_t)master);
         Entity* incoming =
-            (Entity*)((unsigned int)entry.bodies[0] ^ (unsigned int)entry.bodies[1] ^ (unsigned int)master);
+            (Entity*)((uintptr_t)entry.bodies[0] ^ (uintptr_t)entry.bodies[1] ^ (uintptr_t)master);
         if (incoming->uid < other->uid)
             break;
     }
     int firstChanged = count < (array.capacity & 0x3fff) ? index : 0;
-    array.FUN_00d27f50(index, &entry);
+    reinterpret_cast<::FUN_00d27f50_Obj *>(&(array))->FUN_00d27f50(index, &entry);
     for (int i = firstChanged; i < (int)array.size; ++i)
     {
         ConstraintInternal* changed = &array.data[i];
@@ -642,9 +636,9 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
         int oldSize = storage.size;
         char* oldData = storage.data;
         int newSize = oldSize + runtimeSize;
-        MemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if ((int)(storage.capacity & 0x3fffffff) < newSize)
-            FUN_00c908c0(router->heap, &storage, newSize, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(router->m_heap), (::SpawnedArray *)(::fnv_00d27ac0::ByteArray *)(&storage), newSize, 1);
         storage.size = oldSize + runtimeInfo.size;
         char* position = storage.data;
         int displacement = storage.data - oldData;
@@ -659,7 +653,7 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
             }
         }
         int tailSize = (int)storage.size - (int)(position + internal->runtimeSize - master->runtime.data);
-        FUN_00cb1270(position + internal->runtimeSize, position, tailSize);
+        ::FUN_00cb1270((char *)(void *)(position + internal->runtimeSize), (const char *)(position), tailSize);
         displacement += internal->runtimeSize;
         internal->runtime = position;
         for (++i; i < (int)array.size; ++i)
@@ -676,12 +670,14 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
     Entity* slave = internal->bodies[1 - internal->masterIndex];
     internal->slaveIndex = (unsigned short)slave->slaves.size;
     ConstraintArray& slaves = slave->slaves;
-    MemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
     if (slaves.size == (int)(slaves.capacity & 0x3fffffff))
-        ResizeAudioStream(router->heap, &slaves, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(::fnv_00d27ac0::ConstraintArray *)(&slaves), 4);
     ConstraintPointer* insertion = slaves.data + slaves.size;
     insertion->value = constraint;
     ++slaves.size;
     return insertion;
 }
 }  // namespace fnv_00d27ac0
+
+#include "generated/data/havok/physics/dynamics/world/util/hkpworldconstraintutil.inc"

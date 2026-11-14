@@ -1,13 +1,15 @@
 // src/fallout_shared/tessoundfile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tessoundfile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct BaseFormComponent
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/symbols_00404000.h"
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct FNStub
 {
-    const char* GetFullName();
 };
 struct TESSoundFile : public BaseFormComponent
 {
@@ -25,14 +27,14 @@ void TESSoundFile::FUN_0048cf00(BaseFormComponent* apCopyFC)
     TESSoundFile* pcopy = dynamic_cast<TESSoundFile*>(apCopyFC);
     if (!pcopy)
         return;
-    SetName(((FNStub*)pcopy)->GetFullName());
+    SetName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pcopy)))->FUN_00408da0())));
 }
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength();
 };
-int _stricmp(const char*, const char*);
 struct FUN_0048cf50_shell : public TESSoundFile
 {
     bool FUN_0048cf50(BaseFormComponent* apCompareFC);
@@ -50,8 +52,8 @@ bool FUN_0048cf50_shell::FUN_0048cf50(BaseFormComponent* apCompareFC)
             return true;
         else
         {
-            if (_stricmp(reinterpret_cast<FNStub*>(this)->GetFullName(),
-                         reinterpret_cast<FNStub*>(pcompare)->GetFullName()))
+            if (::FUN_00404dc0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(this)))->FUN_00408da0())),
+                         ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(pcompare)))->FUN_00408da0()))))
                 return true;
         }
     }

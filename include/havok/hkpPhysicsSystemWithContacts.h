@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkpPhysicsSystem.h"
 class hkpSerializedAgentNnEntry;
-#pragma pack(push, 1)
 class hkpPhysicsSystemWithContacts : public hkpPhysicsSystem
 {
   public:
     hkArray<hkpSerializedAgentNnEntry*> m_kSerializedAgentEntries;  // +0x44
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPhysicsSystemWithContacts[(sizeof(hkpPhysicsSystemWithContacts) == 0x50) ? 1 : -1];
 #endif

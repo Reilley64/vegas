@@ -12,6 +12,7 @@
 #define FNV_FONT_H
 
 
+#include "fnv/decl/FileMatchList.h"
 #include "layout_support.h"
 
 class Font
@@ -34,7 +35,7 @@ class Font
 // @fnv 0x007593e0
         ~TextMeasurement()
         {
-            m_kLineWidths.RemoveAll();
+            reinterpret_cast<::FileMatchList *>(&(m_kLineWidths))->RemoveAll();
         }
 
         BSStringT<char>* GetNewText();

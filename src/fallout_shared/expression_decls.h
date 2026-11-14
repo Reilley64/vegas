@@ -2,14 +2,13 @@
 #ifndef EXPRESSION_DECLS_H
 #define EXPRESSION_DECLS_H
 
+#include "fnv/symbols_00594000.h"
 class ExpressionCharStackInit
 {
   public:
-    void FUN_00594b60();
 };
 class ExpressionOperandStackInit
 {
   public:
-    void InitStack();
 };
 #endif

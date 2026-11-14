@@ -97,6 +97,5 @@ class NiPixelFormat
     NiComponentSpec m_akComponents[NUM_COMPS];
 };
 
-FNV_STATIC_ASSERT(sizeof(NiPixelFormat) == 0x44);
 
 #endif

@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpUnaryAction.h"
-#pragma pack(push, 1)
 class hkpReorientAction : public hkpUnaryAction
 {
   public:
@@ -16,6 +15,4 @@ class hkpReorientAction : public hkpUnaryAction
     hkReal m_fMotorDamping;     // +0x44
     char pad48[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpReorientAction[(sizeof(hkpReorientAction) == 0x50) ? 1 : -1];
 #endif

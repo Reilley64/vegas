@@ -3,8 +3,11 @@
 #define FNV_ASTRA_COMBATTHREATMAP_H
 
 #include <stddef.h>
+#include "fnv/decl/Fn9a4f40.h"
+#include "fnv/decl/ThreatMapInit.h"
+#include "fnv/symbols_0108d000.h"
 class TESForm;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 template <class T> class NiPointer
 {
   public:
@@ -18,7 +21,6 @@ class CombatThreatRecord : public NiPointer<TESForm>
 {
   public:
     ~CombatThreatRecord();
-    void LoadGame(BGSLoadGameBuffer*);
 };
 template <class K, class V> class NiTMapItem;
 template <class T> class DFALL;
@@ -45,12 +47,13 @@ class ReadWriteLock
     volatile unsigned int m_uiLockState;
     unsigned int m_uiWriterThreadId;
 };
-extern float DAT_0108d9b0;
-class CombatTargetTimestamp
+struct CombatTargetTimestamp
 {
   public:
     float value;
     CombatTargetTimestamp(float);
+public:
+    float FUN_006a7f50() const;
 };
 class FUN_00906f60
 {
@@ -82,7 +85,6 @@ class CombatThreatMap : public FUN_00993960
     unsigned int mode;
     NiPointer<NiAVObject> object;
     CombatThreatMap();
-    void InitThreatObjects();
     void ApplyLoadBuffer(BGSLoadGameBuffer*);
 };
 #endif

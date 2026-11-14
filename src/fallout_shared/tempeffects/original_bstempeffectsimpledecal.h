@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tempeffects/original_bstempeffectsimpledecal.h: declares NiPoint3, QueuedFile, AutoMemContext, BSTempEffectSimpleDecal
 #ifndef FNV_ORIGINAL_BSTEMPEFFECTSIMPLEDECAL_H
 #define FNV_ORIGINAL_BSTEMPEFFECTSIMPLEDECAL_H
@@ -70,7 +71,7 @@ enum MEM_CONTEXT
     MEM_CONTEXT_MEM_CONTEXT_TES_ACTOR = 50
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0
@@ -78,6 +79,12 @@ class NiPoint3
     float z;  // +0x8
     NiPoint3(float xPos, float yPos, float zPos);
     NiPoint3 Cross(const NiPoint3& point) const;
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 // Shared engine pointer template. Assignment and conversion stay out of line;
@@ -106,13 +113,7 @@ class QueuedFile
     unsigned char taskStorage[0x24];
 };
 
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;  // +0x0
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class BSTempEffectSimpleDecal
 {

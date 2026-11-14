@@ -2,16 +2,30 @@
 // src/gamebryo2.2/corelibs/nimain/niparticles.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niparticles.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_011f5f14_arg1;
 
 // @fnv 0x00a9b1b0
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include "fnv/decl/FUN_00a80580_cls.h"
+#include "fnv/decl/FUN_00a80610_shell.h"
+#include "fnv/decl/NiGeometry.h"
+#include "fnv/decl/NiLines.h"
+#include "fnv/decl/ParticleViewData.h"
+#include "fnv/decl/ViewerGeometry.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_011f5000.h"
 char const* const* __cdecl FUN_00a9b1b0()
 {
-    return &g_011f5f14_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5f64));
 }
 
-struct NiGeometryData
+class NiGeometryData
 {
+  public:
     enum Consistency
     {
     };
@@ -32,7 +46,6 @@ void NiParticles::FUN_00a9b230(bool bTool)
 
 struct DtorObj
 {
-    void FUN_00a80580();
 };
 void __cdecl _delete(void*, unsigned int);
 struct S00a9b1c0
@@ -43,7 +56,7 @@ struct S00a9b1c0
 // @fnv 0x00a9b1c0
 void* S00a9b1c0::FUN_00a9b1c0(unsigned int auiFlags)
 {
-    ((DtorObj*)this)->FUN_00a80580();
+    reinterpret_cast<::FUN_00a80580_cls *>((((DtorObj*)this)))->FUN_00a80580();
     if (auiFlags & 1)
         _delete(this, 0xC4);
     return this;
@@ -59,7 +72,6 @@ struct NiRenderer
 };
 struct FUN_00a80610_This
 {
-    void FUN_00a80610(void*);
 };
 struct FUN_00a9b1f0_shell
 {
@@ -69,10 +81,10 @@ struct FUN_00a9b1f0_shell
 void FUN_00a9b1f0_shell::SetupRenderer(NiRenderer* apkRenderer)
 {
     NiRenderer* pkRenderer = apkRenderer;
-    ((FUN_00a80610_This*)this)->FUN_00a80610(pkRenderer);
+    reinterpret_cast<::FUN_00a80610_shell *>((((FUN_00a80610_This*)this)))->FUN_00a80610((::NiRenderer *)(pkRenderer));
     if ((pkRenderer->m_iRendererState == 1 || pkRenderer->m_iRendererState == 2) && pkRenderer->m_bRendererFlagA == 1)
     {
-        ((void(__thiscall*)(NiRenderer*, void*))(*(void***)pkRenderer)[111])(pkRenderer, this);
+        ((void(*)(NiRenderer*, void*))(*(void***)pkRenderer)[111])(pkRenderer, this);
     }
 }
 
@@ -83,55 +95,48 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _c;
     unsigned short m_usGrow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a80e70(StrArr*);
-char* _FUN_00a7d330(const char*);
 // Grows the StrArr if it is full, then appends the string returned by _FUN_00a7d330(g_011f5f14_arg1) at the current size.
 // @fnv 0x00a9b2e0
-void __stdcall FUN_00a9b2e0(StrArr* apStrArr)
+void FUN_00a9b2e0(StrArr* apStrArr)
 {
-    FUN_00a80e70(apStrArr);
-    char* psz = _FUN_00a7d330(g_011f5f14_arg1);
+    reinterpret_cast<::ViewerGeometry *>((apStrArr))->FUN_00a80e70({});
+    char* psz = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f5f64)));
     unsigned int uiSize = apStrArr->m_usSize;
     unsigned int uiMax = apStrArr->m_usMax;
     if (uiSize >= uiMax)
-        apStrArr->SetSize(apStrArr->m_usGrow + uiSize);
-    apStrArr->SetAt(uiSize, psz);
+        reinterpret_cast<::ViewerStrings *>((apStrArr))->SetSize(apStrArr->m_usGrow + uiSize);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apStrArr))->SetAt(uiSize, psz);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
-extern int DAT_010a11d4;
+
 
 struct FUN_00a9b250_obj
 {
     void* m_pVTable;
     char unk04[0xc0];
 
-    void FUN_00a80540();
 };
 
 struct FUN_00a9b250_cls
 {
-    void FUN_00a80400(FUN_00a9b250_obj* p, unsigned int arg);
-    FUN_00a9b250_obj* CreateAndInitObject(unsigned int arg);
+    FUN_00a9b250_obj* CreateAndInitObject(uintptr_t arg);
 };
 
 // @fnv 0x00a9b250
-FUN_00a9b250_obj* FUN_00a9b250_cls::CreateAndInitObject(unsigned int arg)
+FUN_00a9b250_obj* FUN_00a9b250_cls::CreateAndInitObject(uintptr_t arg)
 {
     FUN_00a9b250_obj* p = (FUN_00a9b250_obj*)FUN_00aa13e0(0xc4);
     if (p != 0)
     {
-        p->FUN_00a80540();
+        new ((void *)(p)) ::NiGeometry();
         p->m_pVTable = (void*)&DAT_010a11d4;
     }
     else
     {
         p = 0;
     }
-    FUN_00a80400(p, arg);
+    reinterpret_cast<::NiLines *>(this)->CopyMemberData((::NiLines *)(p), (*(::CloningProcess *)(arg)));
     return p;
 }
 
@@ -152,7 +157,6 @@ struct ObjHdr
 
 struct HolderB8
 {
-    void FUN_00a96910(unsigned int);
 };
 
 struct ArgRec
@@ -160,7 +164,7 @@ struct ArgRec
     int unk00;
     int unk04;
     int unk08;
-    unsigned int m_0C;
+    uintptr_t m_0C;
 };
 
 struct FUN_00a9b2a0_cls
@@ -212,7 +216,6 @@ struct FUN_00a9b2a0_cls
     int unkB0;
     int unkB4;
     HolderB8* m_B8;
-    void FUN_00a7fd90(ArgRec*);
     void ProcessArgIfFlagged(ArgRec* pArg);
 };
 
@@ -223,7 +226,7 @@ void FUN_00a9b2a0_cls::ProcessArgIfFlagged(ArgRec* pArg)
     ObjHdr* pObjHdr = m_9C;
     if (pObjHdr != 0 && (pObjHdr->m_18b & 1) != 0 && (pObjHdr->m_18w & 0x1E0) != 0)
     {
-        m_B8->FUN_00a96910(pArg->m_0C);
+        reinterpret_cast<::ParticleViewData *>((m_B8))->FUN_00a96910((::ParticleViewFrame *)(pArg->m_0C));
     }
-    FUN_00a7fd90(pArg);
+    reinterpret_cast<::NiGeometry *>(this)->OnVisible((*(::NiCullingProcess *)(pArg)));
 }

@@ -14,7 +14,10 @@
 // +0x30, m_pAccumulationData at +0x50 and m_bHasAccumulation at +0x54; the byte compared here
 // at +0xE is the inherited NiBlendInterpolator::m_ucInterpCount.
 
-class NiPoint3
+#include "fnv/decl/S00496440.h"
+#include "fnv/decl/S_004963e0.h"
+#include "fnv/decl/fnv_00496420__FUN_00496420_shell.h"
+struct NiPoint3
 {
 public:
     static const NiPoint3 ZERO;
@@ -40,9 +43,6 @@ class NiQuatTransform
 public:
     NiQuatTransform();
 
-    void GetTransformScale(const NiPoint3& kTranslate);
-    void SetLocalRotation(const NiQuaternion& kRotate);
-    void SetScale(float fScale);
 
 protected:
     NiPoint3 m_kTranslate;      // +0x0
@@ -63,7 +63,7 @@ protected:
     unsigned int m_uiRefCount;
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 
@@ -124,9 +124,9 @@ void NiBlendAccumTransformInterpolator::ResetAccumulation()
     }
     else
     {
-        m_kAccumulatedTransform.GetTransformScale(NiPoint3::ZERO);
-        m_kAccumulatedTransform.SetLocalRotation(NiQuaternion::IDENTITY);
-        m_kAccumulatedTransform.SetScale(1.0f);
+        reinterpret_cast<::S00496440 *>(&(m_kAccumulatedTransform))->FUN_004963b0((const ::S00496440 &)(NiPoint3::ZERO));
+        reinterpret_cast<::S_004963e0 *>(&(m_kAccumulatedTransform))->SetFromFourInts((::FourInts *)&(NiQuaternion::IDENTITY));
+        reinterpret_cast<::fnv_00496420::FUN_00496420_shell *>(&(m_kAccumulatedTransform))->FUN_00496420(1.0f);
     }
     m_bHasAccumulation = true;
 }

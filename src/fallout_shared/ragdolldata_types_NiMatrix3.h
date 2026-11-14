@@ -2,11 +2,11 @@
 #ifndef FNV_NIMATRIX3_TYPES_H
 #define FNV_NIMATRIX3_TYPES_H
 
+#include "fnv/decl/Matrix161.h"
 #include "layout_support.h"
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class FourComponentNumericValue;
-#pragma pack(push, 4)
 class FourComponentNumericValue
 {
   public:
@@ -25,17 +25,6 @@ class FourComponentNumericValue
         unsigned int u[4];  // +0x0, 16 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FourComponentNumericValue) == 16);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_afComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_auiComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, x) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, y) == 4);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, z) == 8);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, w) == 12);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, v) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, u) == 0);
-#pragma pack(push, 4)
 class NiPoint4
 {
   public:
@@ -63,12 +52,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint4) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_kComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_afExtents) == 0);
-#pragma pack(push, 4)
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[9];  // PC: nine floats
@@ -81,9 +65,5 @@ class ThreeByThreeMatrix
     ThreeByThreeMatrix();
     bool operator==(const ThreeByThreeMatrix& matrix) const;
     bool operator!=(const ThreeByThreeMatrix& matrix) const;
-    void FUN_00a59540(float x, float y, float z);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 36);
-FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
 #endif

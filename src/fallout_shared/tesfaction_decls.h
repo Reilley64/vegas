@@ -2,13 +2,17 @@
 #define TESFACTION_DECLS_H
 
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_0048ca90.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 class ReactionInfo
 {
   public:
     char data[12];
-    void Endian();
 };
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 #include "tesfaction_types_TESFaction.h"
 #include "tesfaction_types_BGSLoadFormBuffer.h"
 #include "tesfaction_types_RANK_DATA.h"
@@ -27,8 +31,6 @@ class TESReactionFormBufferAccess : public TESReactionForm
 {
   public:
     void InitItem(TESForm*);
-    void InitLoadGame(BGSLoadFormBuffer*);
-    void FUN_0048ca90(BGSLoadFormBuffer*);
 };
 
 struct TESFactionReactionView
@@ -38,34 +40,28 @@ struct TESFactionReactionView
     TESReactionFormBufferAccess reaction;
 };
 
-FNV_STATIC_ASSERT(offsetof(TESFactionReactionView, reaction) == 0x24);
 
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 
 class TESDataHandlerAccess
 {
   public:
-    TESReputation* GetReputation(unsigned int);
 };
 
 void* __cdecl Allocate(unsigned int);
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESReactionFormLoader
 {
   public:
-    BSSimpleList<ReactionInfo*>* GetReactionList();
 };
 class TESFactionRecordLoader
 {
   public:
-    void ReadTypedData(TESFile*, void*, unsigned short);
 };
 #endif

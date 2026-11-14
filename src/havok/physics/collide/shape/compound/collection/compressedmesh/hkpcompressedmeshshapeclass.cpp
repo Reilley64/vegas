@@ -1,25 +1,10 @@
 // src/havok/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshapeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshapeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfd380_cls
 {
@@ -47,71 +32,50 @@ struct FUN_00dfd380_cls
 // @fnv 0x00dfd380
 void FUN_00dfd380_cls::FUN_00dfd380()
 {
-    AudioHolder* pHolder = FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryAllocator* pAllocator = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
     if ((uCapA & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pDataA, (uCapA & 0x3fffffffu) * 2);
+        pAllocator->bufFree(m_pDataA, (uCapA & 0x3fffffffu) * 2);
     }
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
-    AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
+    hkMemoryAllocator* pAllocator2 = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
     if ((uCapB & 0x80000000u) == 0)
     {
-        pAllocator2->FreeArray(m_pDataB, (uCapB & 0x3fffffffu) * 2);
+        pAllocator2->bufFree(m_pDataB, (uCapB & 0x3fffffffu) * 2);
     }
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
-    AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
+    hkMemoryAllocator* pAllocator3 = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
     if ((uCapC & 0x80000000u) == 0)
     {
-        pAllocator3->FreeArray(m_pDataC, (uCapC & 0x3fffffffu) * 2);
+        pAllocator3->bufFree(m_pDataC, (uCapC & 0x3fffffffu) * 2);
     }
     m_pDataC = 0;
     m_uCapC = 0x80000000u;
 
-    AudioHolder* pHolder4 = FUN_00c85750();
-    AudioAllocator* pAllocator4 = pHolder4->m_pAllocator;
+    hkMemoryAllocator* pAllocator4 = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapD = m_uCapD;
     m_iCountD = 0;
     if ((uCapD & 0x80000000u) == 0)
     {
-        pAllocator4->FreeArray(m_pDataD, (uCapD & 0x3fffffffu) * 2);
+        pAllocator4->bufFree(m_pDataD, (uCapD & 0x3fffffffu) * 2);
     }
     m_pDataD = 0;
     m_uCapD = 0x80000000u;
 }
 
 namespace fnv_00dfd440 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfd440_cls
 {
@@ -136,35 +100,32 @@ struct FUN_00dfd440_cls
 // @fnv 0x00dfd440
 void FUN_00dfd440_cls::FUN_00dfd440()
 {
-    AudioHolder* pHolder = FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryAllocator* pAllocator = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
     if ((uCapA & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pDataA, (uCapA & 0x3fffffffu) * 2);
+        pAllocator->bufFree(m_pDataA, (uCapA & 0x3fffffffu) * 2);
     }
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
-    AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
+    hkMemoryAllocator* pAllocator2 = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
     if ((uCapB & 0x80000000u) == 0)
     {
-        pAllocator2->FreeArray(m_pDataB, (uCapB & 0x3fffffffu));
+        pAllocator2->bufFree(m_pDataB, (uCapB & 0x3fffffffu));
     }
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
-    AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
+    hkMemoryAllocator* pAllocator3 = &hkMemoryRouter::getInstance().heap();
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
     if ((uCapC & 0x80000000u) == 0)
     {
-        pAllocator3->FreeArray(m_pDataC, (uCapC & 0x3fffffffu) * 2);
+        pAllocator3->bufFree(m_pDataC, (uCapC & 0x3fffffffu) * 2);
     }
     m_pDataC = 0;
     m_uCapC = 0x80000000u;

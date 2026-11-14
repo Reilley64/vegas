@@ -1,6 +1,189 @@
+#include "AutoMemContext.h"
+#include "fnv/list_node.h"
 // fallout_shared/facegen/bsfacegenmanager.cpp: BSFaceGenManager, FGModelCache, BSFaceGenModelMap_t, TESRace and more (111 functions)
 
+#include <cstdint>
+#include <new>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSFaceGenModel.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderPPLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DecalStub.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FR2MatrixVTCData.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00449610.h"
+#include "fnv/decl/FUN_0044a970_Cls.h"
+#include "fnv/decl/FUN_0044ac20_class.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_004538e0_Class.h"
+#include "fnv/decl/FUN_00456650_shell.h"
+#include "fnv/decl/FUN_0049ec60.h"
+#include "fnv/decl/FUN_004adde0_shell.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00534570_shell.h"
+#include "fnv/decl/FUN_005ca4f0_shell.h"
+#include "fnv/decl/FUN_00601800_shell.h"
+#include "fnv/decl/FUN_0060b860_Cls.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_0063f790_shell.h"
+#include "fnv/decl/FUN_0064dbd0_Class.h"
+#include "fnv/decl/FUN_0064dda0_cls.h"
+#include "fnv/decl/FUN_0064de50_class.h"
+#include "fnv/decl/FUN_0064fe10_cls.h"
+#include "fnv/decl/FUN_00657880_class.h"
+#include "fnv/decl/FUN_00657be0_class.h"
+#include "fnv/decl/FUN_00657cd0_cls.h"
+#include "fnv/decl/FUN_00657d50_cls.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00658aa0_class.h"
+#include "fnv/decl/FUN_00659c70_shell.h"
+#include "fnv/decl/FUN_0065a910_shell.h"
+#include "fnv/decl/FUN_0065a970_shell.h"
+#include "fnv/decl/FUN_0065c090_shell.h"
+#include "fnv/decl/FUN_0065c110_t.h"
+#include "fnv/decl/FUN_0065cc50_Class.h"
+#include "fnv/decl/FUN_0065cea0_class.h"
+#include "fnv/decl/FUN_0065dfd0_class.h"
+#include "fnv/decl/FUN_00662460_shell.h"
+#include "fnv/decl/FUN_00662820_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0094db80_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a673d0_shell.h"
+#include "fnv/decl/FanControlsV7.h"
+#include "fnv/decl/Flag512Receiver.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/Map62d0.h"
+#include "fnv/decl/MeshLoader.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/Mgr_e74120.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/QueueModelHolder.h"
+#include "fnv/decl/RaceAppearance__Race.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/S9fb0.h"
+#include "fnv/decl/S_0060b980.h"
+#include "fnv/decl/S_0064dac0.h"
+#include "fnv/decl/S_006503b0_Owner.h"
+#include "fnv/decl/S_0082f1f0_Lock.h"
+#include "fnv/decl/TESModelTextureSwap.h"
+#include "fnv/decl/TESNPC.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/Unk060b8a0.h"
+#include "fnv/decl/V_006578b0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/VecStandIn.h"
+#include "fnv/decl/_Dummy_0044a170.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/decl/fnv_004436c0__FUN_004436c0_Class.h"
+#include "fnv/decl/fnv_00448080__Owner448.h"
+#include "fnv/decl/fnv_00540570__FUN_00540570_Owner.h"
+#include "fnv/decl/fnv_006505d0__FUN_006505d0_class.h"
+#include "fnv/decl/fnv_0065bf80__FUN_0065bf80_shell.h"
+#include "fnv/decl/fnv_0065c400__FUN_0065c400_t.h"
+#include "fnv/decl/fnv_0065f550__FUN_0065f550_Class.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0098ddd0__FUN_0098ddd0_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00aac170__Sub_00aabdb0.h"
+#include "fnv/decl/s44b130__Lock.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_00449000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00604000.h"
+#include "fnv/symbols_00605000.h"
+#include "fnv/symbols_00607000.h"
+#include "fnv/symbols_00615000.h"
+#include "fnv/symbols_00650000.h"
+#include "fnv/symbols_00651000.h"
+#include "fnv/symbols_00652000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00655000.h"
+#include "fnv/symbols_00656000.h"
+#include "fnv/symbols_00657000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aaa000.h"
+#include "fnv/symbols_00aaf000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 #include "bsfacegenmanager_decls.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/ni_point3_startup_table.h"
+#include "fnv/image_space_effect_param.h"
+#include <vector>
+#include <string.h>
+
+// Layout views of the forms whose models and textures the face gen code reads: TESHair and
+// BGSHeadPart keep their TESModel after TESForm and TESFullName, TESEyes keeps its TESTexture there.
+struct HairFormView
+{
+    char formAndName[0x24];
+    char model[0x18];
+    char texture[0xc];
+};
+struct EyesFormView
+{
+    char formAndName[0x24];
+    char texture[0xc];
+};
+// An entry of the face gen model map: the cached model and the tick of its last use.
+struct FaceGenModelEntryView
+{
+    unsigned int refCount;
+    const char* key;
+    void* model;
+    unsigned int lastUseTick;
+};
 // @fnv 0x006521e0
 FaceGenCoordinates* BSFaceGenManager::GetFaceGenCoordinates()
 {
@@ -53,20 +236,20 @@ void BSFaceGenManager::InitializeFaceGenCoordinates(FaceGenCoordinates* coords)
 {
     if (!coords)
         return;
-    reinterpret_cast<FaceGenCoordArray*>(coords)[0].resize(50, true);
-    reinterpret_cast<FaceGenCoordArray*>(coords)[1].resize(30, true);
-    reinterpret_cast<FaceGenCoordArray*>(coords)[2].resize(50, true);
+    reinterpret_cast<::FR2MatrixVTCData *>(&(reinterpret_cast<FaceGenCoordArray*>(coords)[0]))->SetDimensions(50, true);
+    reinterpret_cast<::FR2MatrixVTCData *>(&(reinterpret_cast<FaceGenCoordArray*>(coords)[1]))->SetDimensions(30, true);
+    reinterpret_cast<::FR2MatrixVTCData *>(&(reinterpret_cast<FaceGenCoordArray*>(coords)[2]))->SetDimensions(50, true);
 }
 
 // Copies DAT_0104aad0 into dest, then appends DAT_0119b734[part] for part 0 or 1 (else index 0), and returns dest.
 // @fnv 0x00657820
 char* BSFaceGenManager::BuildFaceGenPartPath(char* dest, int part)
 {
-    __insecure_strcpy(dest, DAT_0104aad0);
+    ::FUN_004046f0(dest, DAT_0104aad0);
     if (part > -1 && part < 2)
-        FUN_00ec6380(dest, DAT_0119b734[part]);
+        ::std::strcat(dest, DAT_0119b734[part]);
     else
-        FUN_00ec6380(dest, DAT_0119b734[0]);
+        ::std::strcat(dest, DAT_0119b734[0]);
     return dest;
 }
 
@@ -99,9 +282,9 @@ template <class _Elem, class _Traits, class _Ax> class basic_string
 }
 
 // @fnv 0x0044a560
-char* __fastcall FUN_0044a560(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* pThis)
+char* FUN_0044a560(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* pThis)
 {
-    return pThis->_Myptr();
+    return reinterpret_cast<::FUN_0044a970_Cls *>((pThis))->FUN_0044a970();
 }
 
 struct Struct_004b0680
@@ -112,41 +295,45 @@ struct FUN_0060b370_shell
 {
     char pad[0x1c];
     unsigned int cols;
-    float* FUN_006578b0(unsigned int, unsigned int) const;
     Struct_004b0680 FUN_0060b370(int i);
 };
 // Returns a Struct_004b0680 wrapping the element pointer at row i, computed as the base of column 0 plus i times cols.
 // @fnv 0x0060b370
 Struct_004b0680 FUN_0060b370_shell::FUN_0060b370(int aiRow)
 {
-    return Struct_004b0680(FUN_006578b0(0, cols) + aiRow * cols);
+    return Struct_004b0680(((float *)(reinterpret_cast<::V_006578b0 *>((void *)this)->FUN_006578b0(0))) + aiRow * cols);
 }
 
 extern int DAT_01065678;
 
 struct Dummy658aa0
 {
-    void __thiscall Initialize(int a, int b);
+};
+struct FaceGenModelCacheView
+{
+    const void* pVtable;
+    char kMap[0x14];
+    unsigned int auiLimits[2];
+    unsigned char unk20;
 };
 
 // @fnv 0x0064fd80
-void* __fastcall FUN_0064fd80(void* pThis)
+void* FUN_0064fd80(void* pThis)
 {
-    *(int**)pThis = &DAT_01065678;
-    ((Dummy658aa0*)((char*)pThis + 4))->Initialize(0x25, 1);
+    FaceGenModelCacheView* pcache = static_cast<FaceGenModelCacheView*>(pThis);
+    pcache->pVtable = &DAT_01065678;
+    reinterpret_cast<::FUN_00658aa0_class *>(&pcache->kMap)->Initialize(0x25, 1);
     for (unsigned int cnt = 0; cnt < 2; ++cnt)
     {
-        ((unsigned int*)((char*)pThis + 0x18))[cnt] = 0x10000000;
+        pcache->auiLimits[cnt] = 0x10000000;
     }
-    *((unsigned char*)pThis + 0x20) = 0;
+    pcache->unk20 = 0;
     return pThis;
 }
 
-void __fastcall FUN_00659b50(void*);
 
 struct NiMemObject
 {
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 struct FUN_00650170_thiscall
@@ -154,17 +341,7 @@ struct FUN_00650170_thiscall
     void* DestroyIfFlagged(unsigned int flags);
 };
 
-// Calls FUN_00659b50 on this, then deletes this via NiMemObject::operator delete when flags has bit 1 set, and returns this.
-// @fnv 0x00650170
-void* FUN_00650170_thiscall::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_00659b50(this);
-    if (flags & 1)
-        NiMemObject::operator delete(this, 0x10);
-    return this;
-}
-
-struct NiNode;
+class NiNode;
 struct EBase
 {
     int a;
@@ -176,6 +353,15 @@ struct FUN_006501a0_shell : EBase
     NiPointer<NiNode> sp;
     ~FUN_006501a0_shell();
 };
+// Calls FUN_00659b50 on this, then deletes this via NiMemObject::operator delete when flags has bit 1 set, and returns this.
+// @fnv 0x00650170
+void* FUN_00650170_thiscall::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006501a0_shell *>((this))->FUN_006501a0_shell::~FUN_006501a0_shell();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x10);
+    return this;
+}
 // @fnv 0x006501a0
 FUN_006501a0_shell::~FUN_006501a0_shell()
 {}
@@ -187,7 +373,7 @@ template <typename T> struct BSStringT
 
 // Returns the string held by the BSStringT pointer stored at pThis+0xC, or null if that pointer is null.
 // @fnv 0x00650600
-const char* __fastcall FUN_00650600(char* pThis)
+const char* FUN_00650600(char* pThis)
 {
     return *reinterpret_cast<BSStringT<char>**>(pThis + 0xC)
                ? static_cast<const char*>(**reinterpret_cast<BSStringT<char>**>(pThis + 0xC))
@@ -198,12 +384,12 @@ struct FUN_006508e0_shell
 {
     char pad[0x18];
     int arr[4];
-    void FUN_00650ba0(int);
-    void SetArrayValue(int i, int v);
+    void FUN_00650ba0(void*);
+    void SetArrayValue(int i, std::intptr_t v);
 };
 // Stores v into arr[i] and then calls FUN_00650ba0(0).
 // @fnv 0x006508e0
-void FUN_006508e0_shell::SetArrayValue(int aiIndex, int aiValue)
+void FUN_006508e0_shell::SetArrayValue(int aiIndex, std::intptr_t aiValue)
 {
     arr[aiIndex] = aiValue;
     FUN_00650ba0(0);
@@ -240,28 +426,26 @@ FUN_00651520::FUN_00651520()
 {}
 
 namespace fnv_00651630 {
-template <class T> class FaceGenMatrix
+template <class T> struct FaceGenMatrix
 {
   public:
     FaceGenMatrix();
 };
 
 // @fnv 0x00651630
-void* __fastcall FUN_00651630(FaceGenMatrix<float>* pThis)
+void* FUN_00651630(FaceGenMatrix<float>* pThis)
 {
-    pThis->FaceGenMatrix<float>::FaceGenMatrix();
+    new ((void *)(pThis)) ::FUN_00449610();
     return pThis;
 }
 }  // namespace fnv_00651630
 
-void __stdcall FUN_ehvec_ctor(void*, unsigned int, int, void*, void*);
 void FUN_ctor();
-void FUN_dtor();
 
 // @fnv 0x00651670
-void* __fastcall FUN_00651670(void* p)
+void* FUN_00651670(void* p)
 {
-    FUN_ehvec_ctor(p, 0x20, 2, &FUN_ctor, &FUN_dtor);
+    fnv::crt::vector_constructor(p, 0x20, 2, (void (*)(void *))(&FUN_ctor), (void (*)(void *))(&((void (&)())::FUN_00449680)));
     return p;
 }
 
@@ -272,16 +456,16 @@ struct FUN_006516c0_class
     void SetNoConvert(bool abTF);
 };
 
-// Actually, instructions say: "Define it as a free function named exactly FUN_006516c0. If it is a __thiscall method (this pointer in ecx, callee pops stack arguments with ret N) write a free function with __fastcall whose first parameter is the this pointer and whose second parameter is an unused int (for edx), then the real arguments."
-// Wait: in MSVC /Od, a __fastcall function with (void* this_ptr, int edx, bool abTF) will spill BOTH ecx and edx to the stack! `push ecx; push ecx; mov [ebp-8], edx; mov [ebp-4], ecx;`
-// Let's check how only `ecx` is spilled: if edx is NOT named or not a parameter? No, __fastcall always has 2 register params if there are >=2 integer params, EXCEPT if the first parameter is 64-bit, or if there is only 1 register parameter (i.e. the second param is passed on stack, e.g., a struct by value of size 1, 2, or 4!).
+// Actually, instructions say: "Define it as a free function named exactly FUN_006516c0. If it is a method (this pointer in ecx, callee pops stack arguments with ret N) write a free function with whose first parameter is the this pointer and whose second parameter is an unused int (for edx), then the real arguments."
+// Wait: in MSVC /Od, a function with (void* this_ptr, int edx, bool abTF) will spill BOTH ecx and edx to the stack! `push ecx; push ecx; mov [ebp-8], edx; mov [ebp-4], ecx;`
+// Let's check how only `ecx` is spilled: if edx is NOT named or not a parameter? No, always has 2 register params if there are >=2 integer params, EXCEPT if the first parameter is 64-bit, or if there is only 1 register parameter (i.e. the second param is passed on stack, e.g., a struct by value of size 1, 2, or 4!).
 struct _stack_bool
 {
     bool v;
 };
 
 // @fnv 0x006516c0
-void __fastcall FUN_006516c0(char* pThis, _stack_bool abTF)
+void FUN_006516c0(char* pThis, _stack_bool abTF)
 {
     *reinterpret_cast<bool*>(pThis + 0x70) = abTF.v;
 }
@@ -319,12 +503,11 @@ FUN_006516e0::FUN_006516e0()
 
 void __cdecl FUN_00657960();
 void __cdecl FUN_006579d0();
-void __stdcall compiler_eh_vector_destructor_iterator(void*, unsigned int, int, void(__cdecl*)(), void(__cdecl*)());
 
 // @fnv 0x006517e0
-void* __fastcall DestroyVectorElements(void* pThis)
+void* DestroyVectorElements(void* pThis)
 {
-    compiler_eh_vector_destructor_iterator(pThis, 0x18, 4, FUN_00657960, FUN_006579d0);
+    fnv::crt::vector_constructor(pThis, 0x18, 4, (void (*)(void *))(FUN_00657960), (void (*)(void *))(FUN_006579d0));
     return pThis;
 }
 
@@ -333,28 +516,17 @@ enum MEM_CONTEXT
 };
 
 struct Sol;
-struct AutoMemContext
-{
-    int pad;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct Sol
 {
     char pad[0x10];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Sol();
-    unsigned int FUN_00650600();
-    void FUN_0065a760(void* a);
-    bool FUN_00659c70(char*, char*, char*, char*, int, bool);
 };
 struct SolPtr
 {
     Sol* p;
     SolPtr(Sol*);
     ~SolPtr();
-    Sol* Get() const;
     SolPtr& operator=(Sol*);
 };
 class BSFaceGenModelMap
@@ -362,18 +534,12 @@ class BSFaceGenModelMap
   public:
     char pad[0x24];
     BSFaceGenModelMap();
-    bool FUN_00650200(void* a, SolPtr* r);
-    void SetArrayValue(int a, char* b);
-    void FUN_0064ffd0(void* a, Sol* b);
 };
 struct GO45CFE0
 {
-    char* FUN_004503f0();
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-BSFaceGenManager* __fastcall FUN_00650ea0(void*);
+BSFaceGenManager* FUN_00650ea0(void*);
 
 struct BSFaceGenManager_006519f0
 {
@@ -397,7 +563,6 @@ void FUN_006519f0()
     DAT_011d59e8 = reinterpret_cast<BSFaceGenManager*>(new BSFaceGenManager_006519f0());
 }
 
-void __fastcall FUN_006503b0(void*);
 
 // If DAT_011d59e8 and the pointer at offset 0x1194 are non-null, calls FUN_006503b0 on that pointer.
 // @fnv 0x00651e30
@@ -407,53 +572,47 @@ void FUN_00651e30()
     {
         return;
     }
-    if (!*(void**)((char*)DAT_011d59e8 + 0x1194))
+    if (!*(void**)&DAT_011d59e8->cache)
     {
         return;
     }
-    FUN_006503b0(*(void**)((char*)DAT_011d59e8 + 0x1194));
+    reinterpret_cast<::S_006503b0_Owner *>((*(void**)&DAT_011d59e8->cache))->FUN_006503b0();
 }
 
-void __fastcall ClearModelTextures(void*);
+void ClearModelTextures(void*);
 
 // If DAT_011d59e8 is set and its field at offset 0x1194 is non-null, calls ClearModelTextures on that field.
 // @fnv 0x00651f40
 void FUN_00651f40()
 {
-    if (DAT_011d59e8 != 0 && *(void**)((char*)DAT_011d59e8 + 0x1194) != 0)
-        ClearModelTextures(*(void**)((char*)DAT_011d59e8 + 0x1194));
+    if (DAT_011d59e8 != 0 && *(void**)&DAT_011d59e8->cache != 0)
+        ClearModelTextures(*(void**)&DAT_011d59e8->cache);
 }
 
 struct GlobalObject_0044fae0
 {
-    void FUN_004538e0(int);
 };
-extern GlobalObject_0044fae0 g_011d5a9c;
-extern int DAT_011d59dc;
 // @fnv 0x00652140
 void FUN_00652140()
 {
-    g_011d5a9c.FUN_004538e0(0);
+    reinterpret_cast<::FUN_004538e0_Class *>(&(::g_011d5a9c))->FUN_004538e0(0);
     DAT_011d59dc = DAT_011d59dc + 1;
 }
 
 namespace fnv_00652160 {
 struct GlobalObject_0044fae0
 {
-    bool FUN_0044b130();
 };
 
-extern GlobalObject_0044fae0 g_011d5a9c;
-extern int DAT_011d59dc;
 
 // Calls FUN_0044b130 on g_011d5a9c; if it returns true, increments DAT_011d59dc, and returns that result.
 // @fnv 0x00652160
 bool FUN_00652160()
 {
-    bool bresult = g_011d5a9c.FUN_0044b130();
+    bool bresult = reinterpret_cast<::s44b130::Lock *>(&((*reinterpret_cast<::fnv_00652160::GlobalObject_0044fae0 *>(&::g_011d5a9c))))->FUN_0044b130();
     if (bresult == true)
     {
-        DAT_011d59dc += 1;
+        ::DAT_011d59dc += 1;
     }
     return bresult;
 }
@@ -466,43 +625,37 @@ class RecursiveLock
     void Leave(void);
 };
 
-extern RecursiveLock g_011d5a9c;
-extern int DAT_011d59dc;
 
 // @fnv 0x00652190
 void __cdecl FUN_00652190(void)
 {
-    g_011d5a9c.Leave();
-    DAT_011d59dc--;
+    reinterpret_cast<::S_0082f1f0_Lock *>(&((*reinterpret_cast<::fnv_00652190::RecursiveLock *>(&::g_011d5a9c))))->FUN_0082f1f0();
+    ::DAT_011d59dc--;
 }
 }  // namespace fnv_00652190
 
 struct Sub_00aabdb0
 {
-    float FUN_00aabdb0(int, int, int, int);
 };
 
 // @fnv 0x00652440
-float __cdecl FUN_00652440(int apCoord, int aeFanAttribute, int aeFanType)
+float __cdecl FUN_00652440(std::intptr_t apCoord, int aeFanAttribute, int aeFanType)
 {
-    return ((Sub_00aabdb0*)((char*)BSFaceGenManager::GetFaceGenManager() + 0x118))
-        ->FUN_00aabdb0(0, aeFanAttribute, aeFanType, apCoord);
+    return reinterpret_cast<::FanControlsV7 *>((((Sub_00aabdb0*)&BSFaceGenManager::GetFaceGenManager()->rest[176])))->FUN_00aabdb0(0, aeFanAttribute, aeFanType, (const ::ImagePairV7 *)(apCoord));
 }
 
 namespace fnv_006529a0 {
 class Calendar
 {
   public:
-    unsigned int GetDaysPassed(void);
 };
 
 class BGSTerrainManager
 {
   public:
-    unsigned int GetMinLevel(void);
 };
 
-template <typename T> class FaceGenMatrix
+template <typename T> struct FaceGenMatrix
 {
   public:
     void SetDimensions(unsigned int, unsigned int);
@@ -520,12 +673,11 @@ void __cdecl FUN_006529a0(FaceGenCoordArray (*apCopyFromCoord)[2], FaceGenCoordA
     {
         for (int esymm = 0; esymm < 2; ++esymm)
         {
-            if (((Calendar*)&apCopyFromCoord[etype][esymm])->GetDaysPassed() &&
-                ((BGSTerrainManager*)&apCopyFromCoord[etype][esymm])->GetMinLevel())
+            if (((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)&apCopyFromCoord[etype][esymm])))->FUN_009611e0())) &&
+                reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)&apCopyFromCoord[etype][esymm])))->GetMinLevel())
             {
-                ((FaceGenMatrix<float>*)&apCopyToCoord[etype][esymm])
-                    ->SetDimensions(((Calendar*)&apCopyFromCoord[etype][esymm])->GetDaysPassed(),
-                                    ((BGSTerrainManager*)&apCopyFromCoord[etype][esymm])->GetMinLevel());
+                reinterpret_cast<::FR2MatrixVTCData *>((((FaceGenMatrix<float>*)&apCopyToCoord[etype][esymm])))->SetDimensions(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)&apCopyFromCoord[etype][esymm])))->FUN_009611e0())),
+                                    reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)&apCopyFromCoord[etype][esymm])))->GetMinLevel());
                 if ((abGeometryOnly && etype == 0) || (abTextureOnly && etype == 1) ||
                     (abGeometryOnly == abTextureOnly))
                 {
@@ -535,7 +687,7 @@ void __cdecl FUN_006529a0(FaceGenCoordArray (*apCopyFromCoord)[2], FaceGenCoordA
             }
             else
             {
-                ((FaceGenMatrix<float>*)&apCopyToCoord[etype][esymm])->SetDimensions(0, 0);
+                reinterpret_cast<::FR2MatrixVTCData *>((((FaceGenMatrix<float>*)&apCopyToCoord[etype][esymm])))->SetDimensions(0, 0);
             }
         }
     }
@@ -544,7 +696,6 @@ void __cdecl FUN_006529a0(FaceGenCoordArray (*apCopyFromCoord)[2], FaceGenCoordA
 
 class NiNode;
 
-extern int g_011d5bb8;
 NiNode* __cdecl GetNodeFromGeometry(void*);
 void* __cdecl DynamicCastByRTTI(void*, NiNode*);
 
@@ -556,14 +707,13 @@ void* __cdecl FUN_00653230(void* apGeom)
     {
         return 0;
     }
-    return DynamicCastByRTTI(&g_011d5bb8, pGeometryNode);
+    return DynamicCastByRTTI(&(*reinterpret_cast<int *>(&::g_011d5bb8)), pGeometryNode);
 }
 
-struct NiNode;
+class NiNode;
 
 NiNode* __cdecl GetNodeFromGeometry(void*);
 void* __cdecl DynamicCastByRTTI(void*, NiNode*);
-extern int g_011d5ba8;
 
 // @fnv 0x00653300
 void* __cdecl FUN_00653300(void* apGeom)
@@ -573,7 +723,7 @@ void* __cdecl FUN_00653300(void* apGeom)
     {
         return 0;
     }
-    return DynamicCastByRTTI(&g_011d5ba8, pGeometryNode);
+    return DynamicCastByRTTI(&(*reinterpret_cast<int *>(&::g_011d5ba8)), pGeometryNode);
 }
 
 class NiFixedString;
@@ -594,7 +744,6 @@ NiExtraData* __cdecl GetExtraDataIfPresent(NiAVObject* apGeom)
 }
 
 namespace fnv_00653470 {
-extern double _gModifierZero;
 template <class T> struct BSStringT
 {
     operator const T*() const;
@@ -606,40 +755,35 @@ struct GeometryVertexBuffer : BSStringT<char>
     int c;
     GeometryVertexBuffer();
 };
-struct NiGeometryData
+class NiGeometryData
 {
-    bool IsGeometryDataStreamable(bool);
-    void FUN_00a67410(GeometryVertexBuffer&);
-    void FUN_00a673d0();
 };
-struct NiGeometry
+class NiGeometry
 {
-    NiGeometryData* FUN_005495f0();
 };
 struct Morph653
 {
-    void FUN_00662460(NiGeometry*, int, float);
 };
 Morph653* __cdecl FUN_00653300(NiGeometry*);
 void __cdecl FUN_00653340(NiGeometry*, GeometryVertexBuffer*);
 // @fnv 0x00653470
 void FUN_00653470(NiGeometry* apGeom, float afModifierValue)
 {
-    if (!apGeom || afModifierValue < _gModifierZero)
+    if (!apGeom || afModifierValue < ::_DAT_01012060)
         return;
     Morph653* pMorph = FUN_00653300(apGeom);
     if (!pMorph)
         return;
-    if (apGeom->FUN_005495f0()->IsGeometryDataStreamable(true))
+    if (reinterpret_cast<::NiGeometryData *>((((::fnv_00653470::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(apGeom))))))->IsGeometryDataStreamable(true))
     {
         GeometryVertexBuffer iter;
-        apGeom->FUN_005495f0()->FUN_00a67410(iter);
+        reinterpret_cast<::S00a67410 *>((((::fnv_00653470::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(apGeom))))))->FUN_00a67410((::BSFaceGenMorphData *)&(iter));
         FUN_00653340(apGeom, &iter);
         if ((const char*)iter)
         {
-            pMorph->FUN_00662460(apGeom, 0, afModifierValue);
+            reinterpret_cast<::FUN_00662460_shell *>((pMorph))->FUN_00662460((std::intptr_t)(apGeom), 0, afModifierValue);
         }
-        apGeom->FUN_005495f0()->FUN_00a673d0();
+        reinterpret_cast<::FUN_00a673d0_shell *>((((::fnv_00653470::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(apGeom))))))->FUN_00a673d0();
     }
 }
 }  // namespace fnv_00653470
@@ -669,13 +813,12 @@ int __cdecl FUN_00653cf0(int aiValue)
     }
 }
 
-extern double _gModifierZero;
 
 // @fnv 0x00653d70
 void __cdecl SplitSignedDifference(float afValueA, float afValueB, float* param_3, float* param_4)
 {
     float diff = afValueA * -1.0 + afValueB;
-    if (diff >= _gModifierZero)
+    if (diff >= ::_DAT_01012060)
     {
         *param_3 = 0.0f;
         *param_4 = diff;
@@ -698,15 +841,17 @@ struct GO633 : NP
 };
 struct S654
 {
+    char pad[0x24];
+    NP unk24;
     NP FUN_0057c5d0(GO633&);
-    void ForwardToSubobject(int v);
+    void ForwardToSubobject(std::intptr_t v);
 };
-// Constructs a GO633 from v and passes it to FUN_0057c5d0 on the S654 subobject at offset 0x24.
+// Constructs a GO633 from v and assigns it to the pointer unk24 through FUN_0057c5d0.
 // @fnv 0x00654640
-void S654::ForwardToSubobject(int aiValue)
+void S654::ForwardToSubobject(std::intptr_t aiValue)
 {
     GO633 a(aiValue);
-    ((S654*)((char*)this + 0x24))->FUN_0057c5d0(a);
+    reinterpret_cast<S654*>(&unk24)->FUN_0057c5d0(a);
 }
 
 template <typename T> class BSSimpleList;
@@ -715,7 +860,6 @@ class RegionObjectEntry;
 class BGSQuestObjective
 {
   public:
-    BSSimpleList<RegionObjectEntry*>* GetTargetList();
 };
 
 struct FUN_00656d80_this
@@ -726,11 +870,11 @@ struct FUN_00656d80_this
 
 // Returns the target list of the stored BGSQuestObjective, or null if no objective is set.
 // @fnv 0x00656d80
-BSSimpleList<RegionObjectEntry*>* __fastcall GetObjectiveTargetList(FUN_00656d80_this* pThis)
+BSSimpleList<RegionObjectEntry*>* GetObjectiveTargetList(FUN_00656d80_this* pThis)
 {
     if (pThis->pObj)
     {
-        return pThis->pObj->GetTargetList();
+        return ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((pThis->pObj))->GetActiveEffectList()));
     }
     else
     {
@@ -760,10 +904,11 @@ void FUN_00656fd0_shell::CopyV3(V3* out)
 }
 
 namespace fnv_00657010 {
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiProperty;
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -772,21 +917,18 @@ struct NiAVObject
     virtual void v5();
     virtual void v6();
     virtual NiTriBasedGeom* vGeom();
-    NiProperty* GetProperty(unsigned int);
 };
-struct NiGeometryData
+class NiGeometryData
 {
-    void SetCompressFlags(unsigned int);
+  public:
     void SetDataConsistency(int);
 };
-struct NiGeometry : NiAVObject
+class NiGeometry : public NiAVObject
 {
-    NiGeometryData* FUN_005495f0();
 };
 struct NiSkinInstance;
-struct NiTriBasedGeom : NiGeometry
+class NiTriBasedGeom : public NiGeometry
 {
-    NiSkinInstance* FUN_0043fad0();
 };
 struct BSShader
 {
@@ -864,7 +1006,6 @@ struct BSShader
 };
 struct AlchemyItem
 {
-    BSShader* FUN_004030b0();
 };
 struct NiRenderer
 {
@@ -928,9 +1069,7 @@ struct NiRenderer
     virtual void r57();
     virtual void r58();
     virtual void vDraw(NiAVObject*, int, int, int);
-    void FUN_00e74120();
 };
-NiRenderer* __cdecl FUN_0043c4b0();
 // @fnv 0x00657010
 void SetGeometryCompressFlags(NiAVObject* apObj, unsigned int aiShaderIndex, unsigned int aiCompressFlags)
 {
@@ -939,18 +1078,18 @@ void SetGeometryCompressFlags(NiAVObject* apObj, unsigned int aiShaderIndex, uns
         NiTriBasedGeom* pgeom = apObj->vGeom();
         if (pgeom)
         {
-            if (pgeom->FUN_005495f0())
+            if (((::fnv_00657010::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(pgeom)))))
             {
-                pgeom->FUN_005495f0()->SetCompressFlags(aiCompressFlags);
-                pgeom->FUN_005495f0()->SetDataConsistency(0);
-                if (!pgeom->FUN_0043fad0())
+                reinterpret_cast<::NiGeometryData *>((((::fnv_00657010::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(pgeom))))))->SetCompressFlags(aiCompressFlags);
+                ((::fnv_00657010::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(pgeom))))->SetDataConsistency(0);
+                if (!((::fnv_00657010::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(pgeom)))))
                 {
-                    BSShader* pshader = ((AlchemyItem*)pgeom)->FUN_004030b0();
+                    BSShader* pshader = ((::fnv_00657010::BSShader *)(reinterpret_cast<::AlchemyItem *>((((AlchemyItem*)pgeom)))->FUN_004030b0()));
                     if (pshader)
                     {
-                        NiRenderer* r = FUN_0043c4b0();
-                        r->vDraw(pgeom, 0, 0, pshader->vProp(pgeom, pgeom->GetProperty(3)));
-                        FUN_0043c4b0()->FUN_00e74120();
+                        NiRenderer* r = ((::fnv_00657010::NiRenderer *)(::FUN_0043c4b0()));
+                        r->vDraw(pgeom, 0, 0, pshader->vProp(pgeom, ((::fnv_00657010::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pgeom))->FUN_00a59d30(3)))));
+                        reinterpret_cast<::Mgr_e74120 *>((((::fnv_00657010::NiRenderer *)(::FUN_0043c4b0()))))->FUN_00e74120();
                     }
                 }
             }
@@ -974,7 +1113,7 @@ struct _vec_60
 };
 
 // @fnv 0x00657a30
-unsigned int __fastcall FUN_00657a30(const _vec_60* apVec)
+unsigned int FUN_00657a30(const _vec_60* apVec)
 {
     return apVec->last - apVec->first;
 }
@@ -983,20 +1122,18 @@ struct OpaqueDataBlock
 {
     char pad[0x3c];
 };
-unsigned int FUN_00ec7c56();
 struct FUN_00657a50_shell
 {
     char pad[0xc];
     OpaqueDataBlock* first;
-    unsigned int FUN_00657a30();
     OpaqueDataBlock* FUN_00657a50(unsigned int i);
 };
 // Returns a pointer to the element at index i after bounds-checking it against the count from FUN_00657a30.
 // @fnv 0x00657a50
 OpaqueDataBlock* FUN_00657a50_shell::FUN_00657a50(unsigned int uiIndex)
 {
-    if (!(uiIndex < FUN_00657a30()))
-        FUN_00ec7c56();
+    if (!(uiIndex < ::FUN_00657a30((const ::_vec_60 *)this)))
+        std::abort();
     do
     {
     } while (0);
@@ -1020,10 +1157,6 @@ struct VIterD : public VIter
 };
 struct FloatVec
 {
-    unsigned int FUN_00662820() const;
-    unsigned int FUN_0060b860() const;
-    float* FUN_0060b8a0(float*, unsigned int, const float&);
-    VIterD CallWithSelf();
     VIter FUN_00657c50(VIter, const float&);
     void PushBack(const float& _Val);
     char pad[0x10];
@@ -1033,25 +1166,24 @@ struct FloatVec
 // @fnv 0x006578e0
 void FloatVec::PushBack(const float& afValue)
 {
-    if (FUN_00662820() < FUN_0060b860())
-        _Mylast = FUN_0060b8a0(_Mylast, 1, afValue);
+    if (((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)this)->FUN_00662820())) < ((unsigned int)(reinterpret_cast<::FUN_0060b860_Cls *>((void *)this)->FUN_0060b860())))
+        _Mylast = ((float *)(reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((std::intptr_t)(_Mylast), 1, (std::intptr_t)&(afValue))));
     else
-        FUN_00657c50(CallWithSelf(), afValue);
+        FUN_00657c50((*(::VIterD *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf({}))), afValue);
 }
 
 namespace fnv_00655fa0 {
 struct TESEyes;
 struct TESHair;
-struct TESModel;
+class TESModel;
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
-    char m_kFaceGenCoordinates[96];
+    char m_kFaceGenCoordinates[0x80];
     TESHair* m_pHair;
     int iHairColor;
     float m_fHairLength;
@@ -1069,9 +1201,9 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-typedef char _sizecheck_FaceGenNpcData[sizeof(FaceGenData) == 204 ? 1 : -1];
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();
@@ -1084,7 +1216,6 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct NiUpdateData
 {
     float fTime;
@@ -1095,12 +1226,10 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 
-struct NiAVObject;
+class NiAVObject;
 struct BGSTerrainManager
 {
-    unsigned int GetMinLevel();
 };
 struct BSFadeNode
 {
@@ -1122,15 +1251,9 @@ struct GO
     ~GO();
     void* m_pObject;
 };
-struct AutoMemContextLocal
-{
-    AutoMemContextLocal(int, bool, const char*, int);
-    ~AutoMemContextLocal();
-    int iPrevious;
-};
+using AutoMemContextLocal = ::AutoMemContext;
 struct StrMem
 {
-    bool Set(const char*, unsigned int);
 };
 struct Str6a70
 {
@@ -1140,9 +1263,8 @@ struct BSStringAppend
 {
     BSStringAppend& operator+=(const char*);
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct NiFixedStringConv
 {
@@ -1150,46 +1272,31 @@ struct NiFixedStringConv
 };
 struct NiAVObjectHelper
 {
-    NiFixedString& GetName();
-    void UpdateSceneObject();
 };
 struct NiUpdateDataInit
 {
     void Init(float, bool, bool);
 };
-struct RgbaColor
-{
-    float r, g, b, a;
-    RgbaColor(float, float, float, float);
-};
 struct NiNodeHelper
 {
-    NiAVObject* GetAt(unsigned int);
-    int FUN_00453470();
-    void Update(const NiUpdateData&);
 };
 struct FaceGenCoordinates;
 struct BSFaceGenModel
 {
-    static NiAVObject* GetFaceGenModelNode(NiAVObject*);
-    bool ApplyTextureCoordinate(FaceGenCoordinates*, GO&, unsigned int);
 };
 struct BSShaderManager
 {
-    static void BuildTexturePath(char*, const char*, const char*, bool);
-    static void UpdateObjectTypeRecurse(NiAVObject*, bool, bool);
 };
 struct TES
 {
-    void CreateTextureImage(const char*, GO&, bool, bool);
 };
-struct TESTexture
+class TESTexture
 {
+  public:
     static const char* NormalizeTextureFilePath(BSS&, const char*);
 };
 struct FNStub
 {
-    const char* GetFullName();
 };
 struct Arr
 {
@@ -1197,15 +1304,12 @@ struct Arr
 };
 struct GlobalObject_004aff00
 {
-    unsigned int GetSize();
 };
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
 struct CellLightingTemplate
 {
-    float FUN_009a9350();
 };
 struct NP_0081c630
 {
@@ -1217,31 +1321,13 @@ struct Helper62d0
 };
 struct LightPropHelper
 {
-    int GetFltValue(int);
     void FUN_00441130(int, bool);
-    void FUN_00654700(float);
 };
 struct TextureFormatHelper
 {
-    int _ref_00726070();
 };
-extern TES* g_TES;
-extern const char DAT_01019f08[];
-float FUN_00406ce0(float);
 float FUN_00652440(FaceGenData*, int, int);
-void FUN_00652140();
-void FUN_00652190();
 int FUN_00653880(BSS*, int, unsigned char, const char*);
-int FUN_006151d0();
-void* FUN_004af8a0();
-void* FUN_00656db0();
-void* __fastcall GetObjectiveTargetList(void*);
-void SetGeometryCompressFlags(NiAVObject*, unsigned int, unsigned int);
-bool FUN_009a3830(const NiFixedString&, const BSFadeNode&);
-int _sprintf_s(char*, unsigned int, const char*, ...);
-int strcpy_s(char*, unsigned int, const char*);
-unsigned int _strlen(const char*);
-int __strnicmp(const char*, const char*, unsigned int);
 struct NodeCalls
 {
     virtual void v000();
@@ -1363,6 +1449,8 @@ struct LightPropCalls
     virtual void v0f8();
     virtual void SetTexture2(int, void*);
     virtual void SetTexture(int, void*);
+    char pad04[0x84 - 4];
+    ::ImageSpaceEffectParam kTintColor;
 };
 struct ModelCalls
 {
@@ -1403,145 +1491,142 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
     void* pshaderprop;
     NiUpdateData UpdateData;
 
-    FUN_00652140();
+    ::FUN_00652140();
     if (apNode == 0 || arNpcData == 0)
     {
-        FUN_00652190();
+        ::fnv_00652190::FUN_00652190();
         return;
     }
-    cage = (char)FUN_00406ce0(FUN_00652440(arNpcData, 0, 0));
-    strcpy_s(tmp, 0x104, "Textures\\");
+    cage = (char)::FUN_00406ce0(FUN_00652440(arNpcData, 0, 0));
+    ::TaskQueueInterface::CopyStringToBuffer(tmp, 0x104, "Textures\\");
     for (unsigned int ipart = 0; ipart < 8; ipart++)
     {
-        ((StrMem*)&fileDetail)->Set("", 0);
+        reinterpret_cast<::TextString *>((((StrMem*)&fileDetail)))->FUN_004037f0("", 0);
         if (ipart == 6 || ipart == 7)
             continue;
         if (ipart == 0 || ipart == 1)
             ishaderindex = 0xe;
         else
             ishaderindex = 1;
-        if (*((Arr*)((char*)arNpcData + 0x94))->GetAt(ipart) == 0 ||
-            *((Arr*)((char*)arNpcData + 0xa4))->GetAt(ipart) == 0)
+        if (*((Arr*)&arNpcData->m_kTexturePaths[0])->GetAt(ipart) == 0 ||
+            *((Arr*)&arNpcData->m_kFaceGenTextures[0])->GetAt(ipart) == 0)
             continue;
         pobj = ((NodeCalls*)apNode)
-                   ->GetObjectByName(BSFadeNode((const char*)*((Arr*)((char*)arNpcData + 0xb4))->GetAt(ipart)));
+                   ->GetObjectByName(BSFadeNode(*reinterpret_cast<const char**>(((Arr*)&arNpcData->bFaceGenTexturing)->GetAt(ipart))));
         if (pobj == 0)
             continue;
         pgeom = ((ObjCalls*)pobj)->GetGeometry();
         if (pgeom == 0)
             continue;
-        pmodelFG = BSFaceGenModel::GetFaceGenModelNode(pgeom);
+        pmodelFG = ((::fnv_00655fa0::NiAVObject *)(::BSFaceGenModel::GetFaceGenModelNode((::NiAVObject *)(pgeom))));
         if (pmodelFG == 0)
             continue;
-        BSShaderManager::UpdateObjectTypeRecurse(pobj, false, false);
-        pshaderprop = ((PropHelper*)pobj)->GetProperty(3);
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(pobj), false, false);
+        pshaderprop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pobj)))->FUN_00a59d30(3)));
         if ((pshaderpropLighting =
                  (LightPropCalls*)((pshaderprop == 0 ? 0
-                                                     : ((int)((BGSTerrainManager*)pshaderprop)->GetMinLevel() >= 8 &&
-                                                        (int)((BGSTerrainManager*)pshaderprop)->GetMinLevel() <= 12))
+                                                     : ((int)reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)pshaderprop)))->GetMinLevel() >= 8 &&
+                                                        (int)reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)pshaderprop)))->GetMinLevel() <= 12))
                                        ? pshaderprop
                                        : 0)) == 0)
             continue;
-        if (((GlobalObject_004aff00*)((char*)arNpcData + 0xc4))->GetSize() && *((bool*)arNpcData + 0xd4))
-            *(Helper62d0*)&sptexBaseMod = *(void* const*)((Arr*)((char*)arNpcData + 0xc4))->GetAt(ipart);
+        if (reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)&arNpcData->Accessories[0])))->GetShortAtOffsetA() && arNpcData->bFaceGenTexturing)
+            *(Helper62d0*)&sptexBaseMod = *(void* const*)((Arr*)&arNpcData->Accessories[0])->GetAt(ipart);
         if (ipart == 0 && cage >= 0 &&
-            FUN_00653880(&fileDetail, *(int*)((char*)arNpcData + 0x90), (unsigned char)cage,
-                         ((FNStub*)*((Arr*)((char*)arNpcData + 0xa4))->GetAt(ipart))->GetFullName()))
+            FUN_00653880(&fileDetail, arNpcData->m_eSex, (unsigned char)cage,
+                         ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((*reinterpret_cast<FNStub**>(((Arr*)&arNpcData->m_kFaceGenTextures[0])->GetAt(ipart)))))->FUN_00408da0()))))
         {
-            if (((GlobalObject_004aff00*)((char*)arNpcData + 0xc4))->GetSize() == 0 ||
-                *(Flt*)((Arr*)((char*)arNpcData + 0xc4))->GetAt(ipart) == 0)
-                ((BSFaceGenModel*)pmodelFG)
-                    ->ApplyTextureCoordinate((FaceGenCoordinates*)arNpcData, sptexBaseMod, FUN_006151d0());
-            g_TES->CreateTextureImage((const char*)(unsigned int)*(Flt*)&fileDetail, sptexDetailMod, true, true);
-            TESTexture::NormalizeTextureFilePath(fileNormal, (const char*)(unsigned int)*(Flt*)&fileDetail);
+            if (reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)&arNpcData->Accessories[0])))->GetShortAtOffsetA() == 0 ||
+                *(Flt*)((Arr*)&arNpcData->Accessories[0])->GetAt(ipart) == 0)
+                reinterpret_cast<::BSFaceGenModel *>((((BSFaceGenModel*)pmodelFG)))->ApplyTextureCoordinate((::FaceGenCoordinates *)(::fnv_00655fa0::FaceGenCoordinates *)((FaceGenCoordinates*)arNpcData), (::NiPointer< ::NiTexture> &)(sptexBaseMod), ::FUN_006151d0());
+            reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655fa0::TES * *>(&::g_TES))))->FUN_004568c0((const char*)(void*)*(Flt*)&fileDetail, (::TexPtr< ::NiSourceTexture> &)(sptexDetailMod), true, true);
+            TESTexture::NormalizeTextureFilePath(fileNormal, (const char*)(void*)*(Flt*)&fileDetail);
         }
         else
         {
-            if (((GlobalObject_004aff00*)((char*)arNpcData + 0xc4))->GetSize() == 0 ||
-                *(Flt*)((Arr*)((char*)arNpcData + 0xc4))->GetAt(ipart) == 0)
-                ((BSFaceGenModel*)pmodelFG)
-                    ->ApplyTextureCoordinate((FaceGenCoordinates*)arNpcData, sptexBaseMod, FUN_006151d0());
+            if (reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)&arNpcData->Accessories[0])))->GetShortAtOffsetA() == 0 ||
+                *(Flt*)((Arr*)&arNpcData->Accessories[0])->GetAt(ipart) == 0)
+                reinterpret_cast<::BSFaceGenModel *>((((BSFaceGenModel*)pmodelFG)))->ApplyTextureCoordinate((::FaceGenCoordinates *)(::fnv_00655fa0::FaceGenCoordinates *)((FaceGenCoordinates*)arNpcData), (::NiPointer< ::NiTexture> &)(sptexBaseMod), ::FUN_006151d0());
             BSS tempstr;
-            ((ModelCalls*)*((Arr*)((char*)arNpcData + 0xa4))->GetAt(ipart))->GetNormalName(&tempstr);
-            if ((unsigned int)*(Flt*)&tempstr)
+            (*reinterpret_cast<ModelCalls**>(((Arr*)&arNpcData->m_kFaceGenTextures[0])->GetAt(ipart)))->GetNormalName(&tempstr);
+            if ((void*)*(Flt*)&tempstr)
             {
                 *(Str6a70*)&fileNormal = "Textures\\";
-                *(BSStringAppend*)&fileNormal += (const char*)(unsigned int)*(Flt*)&tempstr;
+                *(BSStringAppend*)&fileNormal += (const char*)(void*)*(Flt*)&tempstr;
             }
         }
-        if ((unsigned int)*(Flt*)&fileNormal)
-            g_TES->CreateTextureImage((const char*)(unsigned int)*(Flt*)&fileNormal, sptexNormal, true, true);
-        if ((unsigned int)*(Flt*)&sptexNormal)
+        if ((void*)*(Flt*)&fileNormal)
+            reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655fa0::TES * *>(&::g_TES))))->FUN_004568c0((const char*)(void*)*(Flt*)&fileNormal, (::TexPtr< ::NiSourceTexture> &)(sptexNormal), true, true);
+        if ((void*)*(Flt*)&sptexNormal)
         {
-            pshaderpropLighting->SetTexture(0, (void*)(unsigned int)*(Flt*)&sptexNormal);
-            int eFormat = ((TextureFormatHelper*)GetObjectiveTargetList((void*)(unsigned int)*(Flt*)&sptexNormal))
-                              ->_ref_00726070();
+            pshaderpropLighting->SetTexture(0, (void*)(void*)*(Flt*)&sptexNormal);
+            std::intptr_t eFormat = ((std::intptr_t)(reinterpret_cast<::Callees *>((((TextureFormatHelper*)((void *)(::GetObjectiveTargetList((::FUN_00656d80_this *)(void *)((void*)(void*)*(Flt*)&sptexNormal)))))))->FUN_00726070()));
             bspecular = (eFormat == 5 || eFormat == 6 || eFormat == 1);
             ((LightPropHelper*)pshaderpropLighting)->FUN_00441130(0, bspecular);
         }
-        else if (((LightPropHelper*)pshaderpropLighting)->GetFltValue(0) == 0)
+        else if (((int)(reinterpret_cast<::fnv_00540570::FUN_00540570_Owner *>((((LightPropHelper*)pshaderpropLighting)))->GetFltValue(0))) == 0)
         {
-            pshaderpropLighting->SetTexture(0, FUN_00656db0());
+            pshaderpropLighting->SetTexture(0, ((void *)(::fnv_00656db0::FUN_00656db0())));
         }
-        if (*((bool*)arNpcData + 0xd4) && ishaderindex == 0xe)
+        if (arNpcData->bFaceGenTexturing && ishaderindex == 0xe)
         {
-            pshaderpropLighting->SetTexture2(1, (void*)(unsigned int)*(Flt*)&sptexBaseMod);
+            pshaderpropLighting->SetTexture2(1, (void*)(void*)*(Flt*)&sptexBaseMod);
             pshaderpropLighting->SetTexture(
-                1, (unsigned int)*(Flt*)&sptexDetailMod ? (void*)(unsigned int)*(Flt*)&sptexDetailMod : FUN_004af8a0());
+                1, (void*)*(Flt*)&sptexDetailMod ? (void*)(void*)*(Flt*)&sptexDetailMod : ((void *)(::FUN_004af8a0())));
             ((LightPropHelper*)pshaderpropLighting)->FUN_00441130(0xa, true);
-            void* pmatprop = ((PropHelper*)pobj)->GetProperty(2);
-            if (pmatprop && ((CellLightingTemplate*)pmatprop)->FUN_009a9350() < 1.0)
-                ((LightPropHelper*)pmatprop)->FUN_00654700(4.0f);
-            if ((unsigned int)*(Flt*)&fileNormal)
+            void* pmatprop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pobj)))->FUN_00a59d30(2)));
+            if (pmatprop && reinterpret_cast<::BGSImpactData *>((((CellLightingTemplate*)pmatprop)))->FUN_009a9350() < 1.0)
+                reinterpret_cast<::DecalStub *>((((LightPropHelper*)pmatprop)))->FUN_00654700(4.0f);
+            if ((void*)*(Flt*)&fileNormal)
             {
                 char pfilename[260];
                 char ptexfilename[260];
-                _sprintf_s(ptexfilename, 0x104, DAT_01019f08, (const char*)(unsigned int)*(Flt*)&fileNormal);
-                BSShaderManager::BuildTexturePath(pfilename, ptexfilename, "_sk", true);
+                ::FUN_00406d00(ptexfilename, 0x104, ::DAT_01019f08, (const char*)(void*)*(Flt*)&fileNormal);
+                ::BSShaderManager::BuildTexturePath(pfilename, ptexfilename, "_sk", true);
                 if (pfilename[0])
                 {
                     GO spTempSourceTexture(0);
-                    g_TES->CreateTextureImage(pfilename, spTempSourceTexture, true, true);
-                    pshaderpropLighting->SetTexture3(2, 0, (void*)(unsigned int)*(Flt*)&spTempSourceTexture);
+                    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655fa0::TES * *>(&::g_TES))))->FUN_004568c0(pfilename, (::TexPtr< ::NiSourceTexture> &)(spTempSourceTexture), true, true);
+                    pshaderpropLighting->SetTexture3(2, 0, (void*)(void*)*(Flt*)&spTempSourceTexture);
                 }
             }
         }
         *(Helper62d0*)&sptexBaseMod = reinterpret_cast<void* const&>(((NP_0081c630*)&sptexDetailMod)->operator=(0));
         ((NP_0081c630*)&sptexNormal)->operator=(0);
         unsigned int icompress = 1;
-        SetGeometryCompressFlags(pobj, ishaderindex, icompress);
+        ::fnv_00657010::SetGeometryCompressFlags((::fnv_00657010::NiAVObject *)(pobj), ishaderindex, icompress);
         pshaderpropLighting->Refresh();
     }
-    for (unsigned int i = 0; i < (unsigned int)((NiNodeHelper*)apNode)->FUN_00453470(); i++)
+    for (unsigned int i = 0; i < (unsigned int)reinterpret_cast<::FUN_00453470_shell *>((((NiNodeHelper*)apNode)))->FUN_00453470(); i++)
     {
-        NiAVObject* pchild = ((NiNodeHelper*)apNode)->GetAt(i);
+        NiAVObject* pchild = ((::fnv_00655fa0::NiAVObject *)(reinterpret_cast<::NiNode *>((((NiNodeHelper*)apNode)))->GetAt(i)));
         if (pchild)
         {
             unsigned int icompress = 1;
-            if (FUN_009a3830(((NiAVObjectHelper*)pchild)->GetName(), leftEye) ||
-                FUN_009a3830(((NiAVObjectHelper*)pchild)->GetName(), rightEye))
+            if (::FUN_009a3830((const int *)&((*(::fnv_00655fa0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObjectHelper*)pchild)))->GetLinkToList()))), (const int *)&(leftEye)) ||
+                ::FUN_009a3830((const int *)&((*(::fnv_00655fa0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObjectHelper*)pchild)))->GetLinkToList()))), (const int *)&(rightEye)))
             {
                 icompress = 0;
-                BSShaderManager::UpdateObjectTypeRecurse(pchild, false, false);
+                ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(pchild), false, false);
             }
-            else if (__strnicmp(*(NiFixedStringConv*)&((NiAVObjectHelper*)pchild)->GetName(),
-                                *(NiFixedStringConv*)&hair, _strlen(*(NiFixedStringConv*)&hair)) == 0 ||
-                     FUN_009a3830(((NiAVObjectHelper*)pchild)->GetName(), headAccessory))
+            else if (fnv::crt::strnicmp(*(NiFixedStringConv*)&(*(::fnv_00655fa0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObjectHelper*)pchild)))->GetLinkToList())),
+                                *(NiFixedStringConv*)&hair, ::std::strlen(*(NiFixedStringConv*)&hair)) == 0 ||
+                     ::FUN_009a3830((const int *)&((*(::fnv_00655fa0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObjectHelper*)pchild)))->GetLinkToList()))), (const int *)&(headAccessory)))
             {
-                BSShaderManager::UpdateObjectTypeRecurse(pchild, false, false);
-                void* pgeomdata = ((PropHelper*)pchild)->GetProperty(3);
+                ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(pchild), false, false);
+                void* pgeomdata = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pchild)))->FUN_00a59d30(3)));
                 LightPropCalls* pchildgeom;
                 if ((pchildgeom =
                          (LightPropCalls*)((pgeomdata == 0 ? 0
-                                                           : (int)((BGSTerrainManager*)pgeomdata)->GetMinLevel() == 8)
+                                                           : (int)reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)pgeomdata)))->GetMinLevel() == 8)
                                                ? pgeomdata
                                                : 0)) != 0)
                 {
-                    unsigned int uiColor = *(unsigned int*)((char*)arNpcData + 0x84);
-                    *(RgbaColor*)((char*)pchildgeom + 0x84) =
-                        RgbaColor((float)((unsigned char)(uiColor & 0xff) / 255.0),
-                                  (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
-                                  (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
+                    unsigned int uiColor = (unsigned int)arNpcData->iHairColor;
+                    pchildgeom->kTintColor =
+                        ::ImageSpaceEffectParam((float)((unsigned char)(uiColor & 0xff) / 255.0),
+                                                (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
+                                                (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
                     pchildgeom->Refresh();
                 }
                 else
@@ -1550,31 +1635,31 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
                     if ((eNBTmethod =
                              (LightPropCalls*)((pgeomdata == 0
                                                     ? 0
-                                                    : (int)((BGSTerrainManager*)pgeomdata)->GetMinLevel() == 12)
+                                                    : (int)reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)pgeomdata)))->GetMinLevel() == 12)
                                                    ? pgeomdata
                                                    : 0)) != 0)
                     {
-                        unsigned int uiColor = *(unsigned int*)((char*)arNpcData + 0x84);
-                        *(RgbaColor*)((char*)eNBTmethod + 0x84) =
-                            RgbaColor((float)((unsigned char)(uiColor & 0xff) / 255.0),
-                                      (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
-                                      (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
+                        unsigned int uiColor = (unsigned int)arNpcData->iHairColor;
+                        eNBTmethod->kTintColor =
+                            ::ImageSpaceEffectParam((float)((unsigned char)(uiColor & 0xff) / 255.0),
+                                                    (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
+                                                    (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
                         eNBTmethod->Refresh();
                     }
                 }
             }
-            SetGeometryCompressFlags(pchild, ishaderindex, icompress);
+            ::fnv_00657010::SetGeometryCompressFlags((::fnv_00657010::NiAVObject *)(pchild), ishaderindex, icompress);
         }
     }
-    ((NiAVObjectHelper*)apNode)->UpdateSceneObject();
-    ((NiUpdateDataInit*)&UpdateData)->Init(0.0f, false, false);
-    ((NiNodeHelper*)apNode)->Update(UpdateData);
-    FUN_00652190();
+    reinterpret_cast<::FUN_00a5a040_Class *>((((NiAVObjectHelper*)apNode)))->FUN_00a5a040();
+    new ((void *)(((NiUpdateDataInit*)&UpdateData))) ::NiUpdateData(0.0f, false, false);
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeHelper*)apNode)))->FUN_00a59c60((std::intptr_t)&(UpdateData));
+    ::fnv_00652190::FUN_00652190();
 }
 }  // namespace fnv_00655fa0
 
-struct QueuedFile;
-struct TESModel;
+class QueuedFile;
+class TESModel;
 struct TESRace;
 struct TESHair;
 struct TESEyes;
@@ -1590,36 +1675,29 @@ struct StrMem
 };
 struct FNStub
 {
-    const char* GetFullName();
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct Arr
 {
     unsigned int* GetAt(int);
     char data[16];
 };
-struct TESTexture
+class TESTexture
 {
+  public:
     static void ConvertTexturePath(const char*, char*);
 };
 struct ModelLoader
 {
-    void QueueModelFilePath(const char*, int, QueuedFile*);
-    void ProcessModelRequest(TESModel*, int, QueuedFile*, int, bool, bool, bool);
-    void LoadMesh(TESModel*, int, QueuedFile*, unsigned int);
-    void LoadTaskFromPath(TESModel*, int, QueuedFile*, unsigned int);
 };
-extern ModelLoader* g_modelLoader;
 struct FUN_004ac110_shell
 {
     TESRace* FUN_004ac110();
 };
 struct FUN_006141f0_shell
 {
-    void BuildAppearance(TESActorBase*, void*, SEX, bool);
 };
 struct FUN_00604310_shell
 {
@@ -1633,22 +1711,12 @@ struct HPList
 {
     char data[8];
 };
-BGSHeadPart** __fastcall _ref_006815c0(HPList*);
-HPList* __fastcall _ref_00726070(HPList*);
 float __cdecl FUN_00652440(void*, int, int);
-float __cdecl FUN_00406ce0(float);
-int __cdecl strcpy_s(char*, unsigned int, const char*);
-int __cdecl strcat_s(char*, unsigned int, const char*);
 void __cdecl AppendNormalMapSuffix(const char*, char*);
 int __cdecl FUN_00653880(void*, int, char, const char*);
 
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 struct FaceGenData
 {
     FaceGenData();
@@ -1680,36 +1748,35 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
     lc1::AutoMemContext tempMemContext(
         0x37, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\FaceGen\\BSFaceGenManager.cpp", 0xe38);
     lc1::FaceGenData faceGenData;
-    ((FUN_006141f0_shell*)((FUN_004ac110_shell*)apNPC)->FUN_004ac110())
-        ->BuildAppearance(apNPC, &faceGenData, apNPC->GetSex(), true);
+    reinterpret_cast<::RaceAppearance::Race *>((((FUN_006141f0_shell*)((FUN_004ac110_shell*)apNPC)->FUN_004ac110())))->BuildAppearance((::RaceAppearance::NPC *)(apNPC), (::RaceAppearance::Output *)(void *)(&faceGenData), (*(int *)&(const ::SEX &)(apNPC->GetSex())), true);
     if (!&faceGenData)
         return;
     char cage = (char)FUN_00406ce0(FUN_00652440(&faceGenData, 0, 0));
     if (faceGenData.pEyes)
     {
         char pTexturePath[260];
-        strcpy_s(pTexturePath, 260, "Textures\\");
-        strcat_s(pTexturePath, 260, ((FNStub*)((char*)faceGenData.pEyes + 0x24))->GetFullName());
-        g_modelLoader->QueueModelFilePath(pTexturePath, aePriority, apParent);
+        ::TaskQueueInterface::CopyStringToBuffer(pTexturePath, 260, "Textures\\");
+        strcat_s(pTexturePath, 260, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)(reinterpret_cast<EyesFormView*>(faceGenData.pEyes)->texture))))->FUN_00408da0())));
+        reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pTexturePath, (void *)(std::uintptr_t)(aePriority), apParent);
     }
     else
     {
-        g_modelLoader->QueueModelFilePath("Textures\\Characters\\Eyes\\EyeDefault.dds", aePriority, apParent);
+        reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture("Textures\\Characters\\Eyes\\EyeDefault.dds", (void *)(std::uintptr_t)(aePriority), apParent);
     }
     if (faceGenData.m_pHair)
     {
-        g_modelLoader->ProcessModelRequest(faceGenData.m_pHair ? (TESModel*)((char*)faceGenData.m_pHair + 0x24) : 0,
-                                           aePriority, apParent, 0, false, false, true);
+        reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(faceGenData.m_pHair ? (TESModel*)(reinterpret_cast<HairFormView*>(faceGenData.m_pHair)->model) : 0),
+                                           aePriority, (std::uintptr_t)(apParent), 0, false, false, true);
         char pTexturePath[260];
-        strcpy_s(pTexturePath, 260, "Textures\\");
-        strcat_s(pTexturePath, 260, ((FNStub*)((char*)faceGenData.m_pHair + 0x3c))->GetFullName());
-        g_modelLoader->QueueModelFilePath(pTexturePath, aePriority, apParent);
-        g_modelLoader->LoadMesh(faceGenData.m_pHair ? (TESModel*)((char*)faceGenData.m_pHair + 0x24) : 0, aePriority,
+        ::TaskQueueInterface::CopyStringToBuffer(pTexturePath, 260, "Textures\\");
+        strcat_s(pTexturePath, 260, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)(reinterpret_cast<HairFormView*>(faceGenData.m_pHair)->texture))))->FUN_00408da0())));
+        reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pTexturePath, (void *)(std::uintptr_t)(aePriority), apParent);
+        reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(::TESModel *)(faceGenData.m_pHair ? (TESModel*)(reinterpret_cast<HairFormView*>(faceGenData.m_pHair)->model) : 0), aePriority,
                                 apParent, 9);
     }
     char pheadModTexture[260];
     if (((FUN_00604310_shell*)apNPC)->FUN_00604310(0, pheadModTexture, 260))
-        g_modelLoader->QueueModelFilePath(pheadModTexture, aePriority, apParent);
+        reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pheadModTexture, (void *)(std::uintptr_t)(aePriority), apParent);
     unsigned int ipart = 0;
     for (ipart = 0; ipart < 8; ++ipart)
     {
@@ -1722,57 +1789,55 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
             ishaderindex = 14;
         StrMem fileDetail;
         char ptextureName[260];
-        strcpy_s(ptextureName, 260, "Textures\\");
-        strcat_s(ptextureName, 260, ((FNStub*)*faceGenData.pTexture.GetAt(ipart))->GetFullName());
-        g_modelLoader->QueueModelFilePath(ptextureName, aePriority, apParent);
+        ::TaskQueueInterface::CopyStringToBuffer(ptextureName, 260, "Textures\\");
+        strcat_s(ptextureName, 260, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((*reinterpret_cast<FNStub**>(faceGenData.pTexture.GetAt(ipart)))))->FUN_00408da0())));
+        reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(ptextureName, (void *)(std::uintptr_t)(aePriority), apParent);
         if (ipart == 0 && cage >= 0 &&
             FUN_00653880(&fileDetail, faceGenData.m_eSex, cage,
-                         ((FNStub*)*faceGenData.pTexture.GetAt(ipart))->GetFullName()))
+                         ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((*reinterpret_cast<FNStub**>(faceGenData.pTexture.GetAt(ipart)))))->FUN_00408da0()))))
         {
-            strcpy_s(ptextureName, 260, (const char*)(unsigned int)*(Flt*)&fileDetail);
-            g_modelLoader->QueueModelFilePath(ptextureName, aePriority, apParent);
+            ::TaskQueueInterface::CopyStringToBuffer(ptextureName, 260, (const char*)(void*)*(Flt*)&fileDetail);
+            reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(ptextureName, (void *)(std::uintptr_t)(aePriority), apParent);
         }
         char pnormalFileName[260];
         AppendNormalMapSuffix(ptextureName, pnormalFileName);
-        g_modelLoader->QueueModelFilePath(pnormalFileName, aePriority, apParent);
+        reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pnormalFileName, (void *)(std::uintptr_t)(aePriority), apParent);
         if (faceGenData.bFaceGenTexturing && ishaderindex == 14)
         {
             char pskinFileName[260];
             TESTexture::ConvertTexturePath(ptextureName, pskinFileName);
-            g_modelLoader->QueueModelFilePath(pskinFileName, aePriority, apParent);
+            reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pskinFileName, (void *)(std::uintptr_t)(aePriority), apParent);
         }
     }
     for (ipart = 0; ipart < 8; ++ipart)
     {
-        TESModel* pmodel = (TESModel*)*faceGenData.m_kModelObjectsItem.GetAt(ipart);
+        TESModel* pmodel = *reinterpret_cast<TESModel**>(faceGenData.m_kModelObjectsItem.GetAt(ipart));
         if (pmodel && ((FUN_0048cee0_shell*)pmodel)->FUN_0048cee0())
         {
-            g_modelLoader->ProcessModelRequest(pmodel, aePriority, apParent, 0, false, false, true);
-            g_modelLoader->LoadMesh(pmodel, aePriority, apParent, ipart);
-            g_modelLoader->LoadTaskFromPath(pmodel, aePriority, apParent, ipart);
+            reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(pmodel), aePriority, (std::uintptr_t)(apParent), 0, false, false, true);
+            reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(pmodel), aePriority, apParent, ipart);
+            reinterpret_cast<::fnv_00448080::Owner448 *>((::g_modelLoader))->LoadTaskFromPath((::fnv_00448080::Task448 *)(pmodel), aePriority, apParent, ipart);
         }
     }
     HPList* pheadPartList = &faceGenData.Accessories;
     while (pheadPartList)
     {
-        BGSHeadPart* pheadPart = *_ref_006815c0(pheadPartList);
-        if (pheadPart && ((FUN_0048cee0_shell*)((char*)pheadPart + 0x24))->FUN_0048cee0())
+        BGSHeadPart* pheadPart = *((::BGSHeadPart **)((void *)(pheadPartList)));
+        if (pheadPart && ((FUN_0048cee0_shell*)(reinterpret_cast<HairFormView*>(pheadPart)->model))->FUN_0048cee0())
         {
-            g_modelLoader->ProcessModelRequest(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0, aePriority,
-                                               apParent, 0, false, false, true);
-            g_modelLoader->LoadMesh(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0, aePriority, apParent, ipart);
-            g_modelLoader->LoadTaskFromPath(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0, aePriority, apParent,
+            reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(pheadPart ? (TESModel*)(reinterpret_cast<HairFormView*>(pheadPart)->model) : 0), aePriority,
+                                               (std::intptr_t)(apParent), 0, false, false, true);
+            reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(::TESModel *)(pheadPart ? (TESModel*)(reinterpret_cast<HairFormView*>(pheadPart)->model) : 0), aePriority, apParent, ipart);
+            reinterpret_cast<::fnv_00448080::Owner448 *>((::g_modelLoader))->LoadTaskFromPath((::fnv_00448080::Task448 *)(::TESModel *)(pheadPart ? (TESModel*)(reinterpret_cast<HairFormView*>(pheadPart)->model) : 0), aePriority, apParent,
                                             ipart);
         }
-        pheadPartList = _ref_00726070(pheadPartList);
+        pheadPartList = ((::HPList *)(reinterpret_cast<::Callees *>((pheadPartList))->FUN_00726070()));
     }
 }
 
 struct BSFaceGenModel;
 struct ModelHelper
 {
-    void EnsureMorphData();
-    bool LoadFaceGenTexture();
 };
 struct Helper62d0
 {
@@ -1788,17 +1853,14 @@ struct FGEntry
 struct GO
 {
     void* p;
-    GO(int);
+    GO(intptr_t);
     ~GO();
     operator FGEntry*() const;
 };
 struct FGModelMap
 {
-    bool GetAt(void*, GO&);
 };
-unsigned int __cdecl gm_GetTickCount();
 void FUN_00652140();
-void FUN_00652190();
 
 struct FGModelCache
 {
@@ -1806,7 +1868,7 @@ struct FGModelCache
     FGModelMap map;
     char pad2[0x1b];
     bool loaded;
-    void FUN_00650ba0(int);
+    void FUN_00650ba0(void*);
     bool FUN_00650200(void* key, Helper62d0* out);
 };
 
@@ -1816,24 +1878,23 @@ bool FGModelCache::FUN_00650200(void* key, Helper62d0* out)
     FUN_00652140();
     GO entry(0);
     bool res = false;
-    if (map.GetAt(key, entry))
+    if (reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((std::uintptr_t)(key), (void **)&(entry)))
     {
-        static_cast<FGEntry*>(entry)->tick = gm_GetTickCount();
+        static_cast<FGEntry*>(entry)->tick = ((unsigned int)(::FUN_00457fe0()));
         *out = static_cast<FGEntry*>(entry)->model;
-        FUN_00650ba0(reinterpret_cast<int>(static_cast<FGEntry*>(entry)));
-        static_cast<ModelHelper*>(*out)->EnsureMorphData();
-        static_cast<ModelHelper*>(*out)->LoadFaceGenTexture();
+        FUN_00650ba0(static_cast<FGEntry*>(entry));
+        reinterpret_cast<::fnv_0065bf80::FUN_0065bf80_shell *>((static_cast<ModelHelper*>(*out)))->EnsureMorphData();
+        reinterpret_cast<::BSFaceGenModel *>((static_cast<ModelHelper*>(*out)))->LoadFaceGenTexture();
         loaded = true;
         res = true;
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
     return res;
 }
 
 namespace fnv_00650930 {
 struct ModelHelper
 {
-    unsigned int GetEGMSize();
     unsigned int FUN_0065c490();
 };
 struct Helper62d0
@@ -1854,14 +1915,10 @@ struct GO
 };
 struct NavMeshVertexMap
 {
-    void* GetFirstPos();
 };
 struct Map62d0
 {
-    void FUN_00559120(void*&, unsigned int&, GO&);
 };
-void FUN_00652140();
-void FUN_00652190();
 
 struct FGMapOwner
 {
@@ -1878,22 +1935,22 @@ unsigned int FGMapOwner::GetModelValueSum(int aiMode)
     unsigned int id6 = 0;
     GO ptr(0);
     unsigned int result3 = 0;
-    FUN_00652140();
-    pos2 = map.GetFirstPos();
+    ::FUN_00652140();
+    pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(map))->GetFirstPos();
     while (pos2)
     {
-        reinterpret_cast<Map62d0*>(&map)->FUN_00559120(pos2, id6, ptr);
+        reinterpret_cast<::Map62d0 *>((reinterpret_cast<Map62d0*>(&map)))->FUN_00559120((::MapItem62d0 *&)(pos2), (void *&)(id6), (::Helper62d0 &)(ptr));
         switch (aiMode)
         {
         case 0:
-            result3 += static_cast<ModelHelper*>(static_cast<FGEntry*>(ptr)->model)->GetEGMSize();
+            result3 += reinterpret_cast<::FUN_0065c110_t *>((static_cast<ModelHelper*>(static_cast<FGEntry*>(ptr)->model)))->GetEGMSize();
             break;
         case 1:
             result3 += static_cast<ModelHelper*>(static_cast<FGEntry*>(ptr)->model)->FUN_0065c490();
             break;
         }
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
     return result3;
 }
 }  // namespace fnv_00650930
@@ -1903,36 +1960,20 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
+using ::AutoMemContext;
 struct OpaqueDataBlock
 {
     void* __vecDelDtor(unsigned int);
     char ctl[24];
     char label[28];
 };
-typedef char _sizecheck_FanLinCtlS[sizeof(OpaqueDataBlock) == 52 ? 1 : -1];
 struct FUN_00650ea0_shell : public BSFaceGenManager
 {
     void FUN_00650ea0(void*);
 };
 
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 }
 
 struct NarrowString
@@ -1973,12 +2014,8 @@ class NiPixelFormat
 class NiPixelData
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* pMem, unsigned int);
     NiPixelData(unsigned int uiWidth, unsigned int uiHeight, const NiPixelFormat& kFormat, unsigned int uiMipmapLevels,
                 unsigned int uiNumFaces);
-    unsigned char* FUN_0064dac0(unsigned int uiMipmapLevel, unsigned int uiFace);
-    void FUN_004f31b0();
     void FUN_006516c0(bool bValue);
     char data[0x74];
 };
@@ -1986,12 +2023,7 @@ class NiPixelData
 class FaceGenAlphaProperty
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* pMem, unsigned int);
     FaceGenAlphaProperty();
-    void SetFlag512(bool bValue);
-    void SetFlags(unsigned short usFlags);
-    void FUN_0094db80(unsigned char ucRef);
     char data[0x1c];
 };
 
@@ -2004,13 +2036,10 @@ struct TextureFormatPreferences
 
 struct FgMatrixDims
 {
-    unsigned int FUN_00441110() const;
-    unsigned int FUN_009611e0() const;
 };
 
 struct FaceGenCoordArr
 {
-    void resize(unsigned int uiSym, unsigned int uiAsym);
     char data[0x20];
 };
 
@@ -2026,8 +2055,6 @@ struct FaceGenSam
 
 struct FaceGenCtlVec
 {
-    unsigned int FUN_00657a30() const;
-    OpaqueDataBlock* FUN_00657a50(unsigned int uiIndex);
     char data[0x18];
 };
 
@@ -2045,13 +2072,6 @@ struct FaceGenModels
     char data[0x106c];
 };
 
-bool __cdecl FUN_00aaa7d0(const NarrowString& kFile, FaceGenSam* pSam, unsigned int* pTileTexture, unsigned int* pInfo,
-                          FaceGenCtls* pCtls, FaceGenModels* pModels);
-NiTexture* __cdecl FUN_00a5ff10(NiPixelData* pkPixelData, const char* pcName, const TextureFormatPreferences& kPrefs);
-int Warning(const char* pcFormat, ...);
-extern TextureFormatPreferences DAT_011a9598;
-extern const NiPixelFormat gNiPoint3StartupSrc;
-extern bool DAT_011d59e0;
 
 class FUN_00650ea0_BSFaceGenManager
 {
@@ -2080,11 +2100,11 @@ FUN_00650ea0_BSFaceGenManager::FUN_00650ea0_BSFaceGenManager()
     unsigned char* pbasepixels;
     OpaqueDataBlock* pctl = 0;
 
-    if (!FUN_00aaa7d0("FACEGEN\\SI.CTL", &m_kSam, &m_kSam.uiTex, m_auiInfo, &m_kCtls, &m_kModels))
+    if (!::fnv_00aaa7d0::FUN_00aaa7d0((const ::fnv_00aaa7d0::std::basic_string<char, ::fnv_00aaa7d0::std::char_traits<char>, ::fnv_00aaa7d0::std::allocator<char>> &)((const ::fnv_00650ea0::NarrowString &)("FACEGEN\\SI.CTL")), (unsigned int *)(::fnv_00650ea0::FaceGenSam *)(&m_kSam), &m_kSam.uiTex, (unsigned int (*)[2])(m_auiInfo), (::fnv_00aaa7d0::FractalReaderA *)(::fnv_00650ea0::FaceGenCtls *)(&m_kCtls), (::fnv_00aaa7d0::FractalReaderB *)(::fnv_00650ea0::FaceGenModels *)(&m_kModels)))
     {
-        if (!FUN_00aaa7d0("FACEGEN\\SI.CTL", &m_kSam, &m_kSam.uiTex, m_auiInfo, &m_kCtls, &m_kModels))
+        if (!::fnv_00aaa7d0::FUN_00aaa7d0((const ::fnv_00aaa7d0::std::basic_string<char, ::fnv_00aaa7d0::std::char_traits<char>, ::fnv_00aaa7d0::std::allocator<char>> &)((const ::fnv_00650ea0::NarrowString &)("FACEGEN\\SI.CTL")), (unsigned int *)(::fnv_00650ea0::FaceGenSam *)(&m_kSam), &m_kSam.uiTex, (unsigned int (*)[2])(m_auiInfo), (::fnv_00aaa7d0::FractalReaderA *)(::fnv_00650ea0::FaceGenCtls *)(&m_kCtls), (::fnv_00aaa7d0::FractalReaderB *)(::fnv_00650ea0::FaceGenModels *)(&m_kModels)))
         {
-            Warning("MODELS: Unable to load CTL file");
+            ::FUN_005b5e40();
         }
     }
 
@@ -2092,18 +2112,18 @@ FUN_00650ea0_BSFaceGenManager::FUN_00650ea0_BSFaceGenManager()
     {
         for (unsigned int j = 0; j < 2; ++j)
         {
-            if (m_kCtls.ctl[i][j].FUN_00657a30())
+            if (::FUN_00657a30((const ::_vec_60 *)&(m_kCtls.ctl[i][j])))
             {
-                pctl = m_kCtls.ctl[i][j].FUN_00657a50(0);
+                pctl = ((::fnv_00650ea0::OpaqueDataBlock *)(reinterpret_cast<::FUN_00657a50_shell *>(&(m_kCtls.ctl[i][j]))->FUN_00657a50(0)));
                 if (pctl)
                 {
-                    m_kSam.coords[i][j].resize(reinterpret_cast<const FgMatrixDims*>(pctl->ctl)->FUN_00441110(),
-                                               reinterpret_cast<const FgMatrixDims*>(pctl->ctl)->FUN_009611e0());
+                    reinterpret_cast<::FR2MatrixVTCData *>(&(m_kSam.coords[i][j]))->SetDimensions(reinterpret_cast<::BGSTerrainManager *>((void *)(reinterpret_cast<const FgMatrixDims*>(pctl->ctl)))->GetMinLevel(),
+                                               ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((void *)(reinterpret_cast<const FgMatrixDims*>(pctl->ctl)))->FUN_009611e0())));
                 }
             }
             else
             {
-                m_kSam.coords[i][j].resize(0, 0);
+                reinterpret_cast<::FR2MatrixVTCData *>(&(m_kSam.coords[i][j]))->SetDimensions(0, 0);
             }
         }
     }
@@ -2111,19 +2131,20 @@ FUN_00650ea0_BSFaceGenManager::FUN_00650ea0_BSFaceGenManager()
     m_pModelCache = 0;
 
     m_spAlpha = new FaceGenAlphaProperty;
-    m_spAlpha->SetFlag512(true);
-    m_spAlpha->SetFlags(4);
-    m_spAlpha->FUN_0094db80(100);
+    reinterpret_cast<::Flag512Receiver *>(((m_spAlpha).operator->()))->SetFlag512(true);
+    reinterpret_cast<::NiObjectNET *>(((m_spAlpha).operator->()))->SetFlags(4);
+    reinterpret_cast<::FUN_0094db80_shell *>(((m_spAlpha).operator->()))->FUN_0094db80(100);
 
-    pbasepixeldata = new NiPixelData(32, 32, gNiPoint3StartupSrc, 1, 1);
-    pbasepixels = pbasepixeldata->FUN_0064dac0(0, 0);
+    pbasepixeldata = new NiPixelData(32, 32, ::NiPoint3StartupTableAs<const ::fnv_00650ea0::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1);
+    pbasepixels = ((unsigned char *)(reinterpret_cast<::S_0064dac0 *>((pbasepixeldata))->FUN_0064dac0(0, 0)));
     memset(pbasepixels, 128, 4096);
-    pbasepixeldata->FUN_004f31b0();
+    reinterpret_cast<::NiGlobalStringTable *>((pbasepixeldata))->AddString();
     pbasepixeldata->FUN_006516c0(true);
-    m_spBaseTexture = FUN_00a5ff10(pbasepixeldata, NiFixedString("DefaultBaseModFaceGenTexture"), DAT_011a9598);
+    NiFixedString kBaseName("DefaultBaseModFaceGenTexture");
+    m_spBaseTexture = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pbasepixeldata), &kBaseName, (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::fnv_00650ea0::TextureFormatPreferences *>(&::DAT_011a9598))))));
 
-    pdetailpixeldata = new NiPixelData(32, 32, gNiPoint3StartupSrc, 1, 1);
-    pdecalpixels = pdetailpixeldata->FUN_0064dac0(0, 0);
+    pdetailpixeldata = new NiPixelData(32, 32, ::NiPoint3StartupTableAs<const ::fnv_00650ea0::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1);
+    pdecalpixels = ((unsigned char *)(reinterpret_cast<::S_0064dac0 *>((pdetailpixeldata))->FUN_0064dac0(0, 0)));
     for (int i = 0; i < 1024; ++i)
     {
         pdecalpixels[i * 4] = 62;
@@ -2131,11 +2152,12 @@ FUN_00650ea0_BSFaceGenManager::FUN_00650ea0_BSFaceGenManager()
         pdecalpixels[i * 4 + 2] = 62;
         pdecalpixels[i * 4 + 3] = 64;
     }
-    pdetailpixeldata->FUN_004f31b0();
+    reinterpret_cast<::NiGlobalStringTable *>((pdetailpixeldata))->AddString();
     pdetailpixeldata->FUN_006516c0(true);
-    m_spDetailTexture = FUN_00a5ff10(pdetailpixeldata, NiFixedString("DefaultDetailModFaceGenTexture"), DAT_011a9598);
+    NiFixedString kDetailName("DefaultDetailModFaceGenTexture");
+    m_spDetailTexture = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pdetailpixeldata), &kDetailName, (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::fnv_00650ea0::TextureFormatPreferences *>(&::DAT_011a9598))))));
 
-    DAT_011d59e0 = true;
+    (*reinterpret_cast<bool *>(&::DAT_011d59e0)) = true;
 }
 }  // namespace fnv_00650ea0
 
@@ -2201,15 +2223,12 @@ struct GO
 };
 struct BSFaceGenModelHelper
 {
-    void ClearTextureData();
 };
 struct NavMeshVertexMap
 {
-    void* GetFirstPos();
 };
 struct Map62d0
 {
-    void FUN_00559120(void*&, unsigned int&, GO&);
 };
 struct FGManagerView
 {
@@ -2217,39 +2236,32 @@ struct FGManagerView
     NavMeshVertexMap map;
     void ClearModelTextures();
 };
-void FUN_00652140();
-void FUN_00652190();
 
 // Calls FUN_00652140, iterates positions from map, clears texture data on each model found, then calls FUN_00652190.
 // @fnv 0x00651e70
 void FGManagerView::ClearModelTextures()
 {
-    FUN_00652140();
-    void* pos = map.GetFirstPos();
+    ::FUN_00652140();
+    void* pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(map))->GetFirstPos();
     while (pos)
     {
         unsigned int id = 0;
         GO ptr(0);
-        reinterpret_cast<Map62d0*>(&map)->FUN_00559120(pos, id, ptr);
+        reinterpret_cast<::Map62d0 *>((reinterpret_cast<Map62d0*>(&map)))->FUN_00559120((::MapItem62d0 *&)(pos), (void *&)(id), (::Helper62d0 &)(ptr));
         if (ptr)
         {
             BSFaceGenModel* model = static_cast<FGHolder*>(ptr)->model;
             if (model)
-                reinterpret_cast<BSFaceGenModelHelper*>(model)->ClearTextureData();
+                reinterpret_cast<::BSFaceGenModel *>((reinterpret_cast<BSFaceGenModelHelper*>(model)))->ClearTextureData();
         }
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
 }
 }  // namespace fnv_00651e70
 
 namespace fnv_00651f70 {
 namespace lc1 {
-struct AutoMemContext
-{
-    int ctxId;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 }
 struct FaceGenImpl
 {
@@ -2277,12 +2289,7 @@ bool FUN_00651f70(int aiArg)
 
 namespace fnv_00652040 {
 namespace lc1 {
-struct AutoMemContext
-{
-    int ctxId;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 }
 struct FaceGenImpl
 {
@@ -2296,7 +2303,7 @@ struct FaceGenMgrView
 
 // Checks that the FaceGen manager and its implementation exist, then forwards param_1 to the implementation's TouchCachedModel and returns its result.
 // @fnv 0x00652040
-bool FUN_00652040(int aiArg)
+bool FUN_00652040(intptr_t aiArg)
 {
     lc1::AutoMemContext ctx(
         0x39, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\FaceGen\\BSFaceGenManager.cpp", 0x45a);
@@ -2311,16 +2318,11 @@ bool FUN_00652040(int aiArg)
 namespace fnv_00653520 {
 struct StrMem
 {
-    bool Set(const char*, unsigned int);
     operator const char*() const;
 };
 struct TaskQueueInterface
 {
-    static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
 };
-char* __cdecl FUN_0040ab30(char*, int);
-int _sprintf_s(char*, unsigned int, const char*, ...);
-extern const char* DAT_0119b734[2];
 
 // @fnv 0x00653520
 const char* BuildEgmFilename(StrMem* aOutFilename, const char* apModel, int aeHairPart)
@@ -2331,8 +2333,8 @@ const char* BuildEgmFilename(StrMem* aOutFilename, const char* apModel, int aeHa
 
     if (!apModel)
         return 0;
-    TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
-    pextension = FUN_0040ab30(porigFilename, 0x2e);
+    ::TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
+    pextension = ::FUN_0040ab30(porigFilename, 0x2e);
     if (!pextension)
         return 0;
     *pextension = 0;
@@ -2340,25 +2342,21 @@ const char* BuildEgmFilename(StrMem* aOutFilename, const char* apModel, int aeHa
     {
     case 0:
     case 1:
-        _sprintf_s(pfinalFilename, 260, "%s%s.egm", porigFilename, DAT_0119b734[aeHairPart]);
+        ::FUN_00406d00(pfinalFilename, 260, "%s%s.egm", porigFilename, ::DAT_0119b734[aeHairPart]);
         break;
     default:
-        _sprintf_s(pfinalFilename, 260, "%s.egm", porigFilename);
+        ::FUN_00406d00(pfinalFilename, 260, "%s.egm", porigFilename);
         break;
     }
-    aOutFilename->Set(pfinalFilename, 0);
+    reinterpret_cast<::TextString *>((aOutFilename))->FUN_004037f0(pfinalFilename, 0);
     return *aOutFilename;
 }
 }  // namespace fnv_00653520
 
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
     operator const char*() const;
 };
-extern int sprintf_s(char*, unsigned int, const char*, ...);
-extern int strcpy_s(char*, unsigned int, const char*);
-extern char* __cdecl FUN_0040ab30(char*, int);
 
 // @fnv 0x006537d0
 const char* __cdecl GetModelEgtFilename(BSStr* aOutFilename, const char* apModel)
@@ -2368,13 +2366,13 @@ const char* __cdecl GetModelEgtFilename(BSStr* aOutFilename, const char* apModel
     char* pextension = 0;
     if (!apModel)
         return 0;
-    strcpy_s(porigFilename, 260, apModel);
+    ::TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
     pextension = FUN_0040ab30(porigFilename, '.');
     if (!pextension)
         return 0;
     *pextension = 0;
-    sprintf_s(pfinalFilename, 260, "%s.egt", porigFilename);
-    aOutFilename->Set(pfinalFilename, 0);
+    ::FUN_00406d00(pfinalFilename, 260, "%s.egt", porigFilename);
+    reinterpret_cast<::TextString *>((aOutFilename))->FUN_004037f0(pfinalFilename, 0);
     return *aOutFilename;
 }
 
@@ -2386,11 +2384,11 @@ struct NPX
     operator unsigned int() const;
 };
 
-// Returns the value stored at offset 0x1198 of DAT_011d59e8, or 0 when DAT_011d59e8 is null.
+// Returns the face gen manager's spUnk1198 pointer, or 0 when DAT_011d59e8 is null.
 // @fnv 0x00655270
-unsigned int __cdecl FUN_00655270()
+std::uintptr_t __cdecl FUN_00655270()
 {
-    return (unsigned int)(DAT_011d59e8 ? *(NPX*)((char*)DAT_011d59e8 + 0x1198) : NPX(0));
+    return (unsigned int)(DAT_011d59e8 ? *reinterpret_cast<NPX*>(&DAT_011d59e8->spUnk1198) : NPX(0));
 }
 
 namespace fnv_00655320 {
@@ -2398,7 +2396,7 @@ struct NiPoint3;
 struct NiStream;
 struct TESEyes;
 struct TESHair;
-struct TESModel;
+class TESModel;
 struct blob48
 {
     char b[48];
@@ -2411,11 +2409,10 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
-    char m_kFaceGenCoordinates[96];
+    char m_kFaceGenCoordinates[0x80];
     TESHair* m_pHair;
     int iHairColor;
     float m_fHairLength;
@@ -2433,17 +2430,7 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-typedef char _sizecheck_FaceGenNpcData[sizeof(FaceGenData) == 204 ? 1 : -1];
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
+using ::AutoMemContext;
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -2503,7 +2490,6 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 
 class BSFaceGenNiNode;
 class NiSourceTexture;
@@ -2519,31 +2505,28 @@ template <class T> class BSStringT
     unsigned short sLen;
     unsigned short sMaxLen;
 };
-template <> class NiPointer<NiSourceTexture>
+}  // namespace fnv_00655320
+template <> class NiPointer<fnv_00655320::NiSourceTexture>
 {
   public:
-    NiPointer(NiSourceTexture* apObject);
+    NiPointer(fnv_00655320::NiSourceTexture* apObject);
     ~NiPointer();
-    operator NiSourceTexture*() const;
-    NiPointer<NiSourceTexture>& operator=(NiSourceTexture* apObject);
-    NiSourceTexture* m_pObject;
+    operator fnv_00655320::NiSourceTexture*() const;
+    NiPointer<fnv_00655320::NiSourceTexture>& operator=(fnv_00655320::NiSourceTexture* apObject);
+    fnv_00655320::NiSourceTexture* m_pObject;
 };
-template <> class NiPointer<NiTriBasedGeom>
+template <> class NiPointer<fnv_00655320::NiTriBasedGeom>
 {
   public:
-    NiPointer(NiTriBasedGeom* apObject);
+    NiPointer(fnv_00655320::NiTriBasedGeom* apObject);
     ~NiPointer();
-    operator NiTriBasedGeom*() const;
-    NiPointer<NiTriBasedGeom>& operator=(NiTriBasedGeom* apObject);
-    NiTriBasedGeom* m_pObject;
+    operator fnv_00655320::NiTriBasedGeom*() const;
+    NiPointer<fnv_00655320::NiTriBasedGeom>& operator=(fnv_00655320::NiTriBasedGeom* apObject);
+    fnv_00655320::NiTriBasedGeom* m_pObject;
 };
+namespace fnv_00655320 {
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int aeContext, bool abCheck, const char* apFile, int aiLine);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 }
 struct B006815c0
 {
@@ -2552,19 +2535,17 @@ struct B006815c0
 };
 struct FNStub
 {
-    const char* GetFullName();
 };
 struct PropHelper
 {
-    void* GetProperty(unsigned int aiType);
 };
 struct NiTriBasedGeomSkinQuery
 {
-    void* FUN_0043fad0();
 };
 namespace fx {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     NiFixedString(const char* apString);
     ~NiFixedString();
     const char* m_kHandle;
@@ -2573,12 +2554,10 @@ struct NiFixedString
 class TES
 {
   public:
-    void CreateTextureImage(const char* apPath, NiPointer<NiSourceTexture>& arTexture, bool abA, bool abB);
 };
-extern TES* g_TES;
 class BSFaceGenModel;
 class BSFileEntry;
-class NiObject;
+struct NiObject;
 class NiSourceTexture;
 class NiTriBasedGeom;
 class NiShadeProperty;
@@ -2594,52 +2573,40 @@ enum ArchiveType
 struct FileNameHash
 {
     FileNameHash();
-    static void __cdecl CreateDirectoryAndFileHashes(const char* apPath, FileNameHash& arDir, FileNameHash& arFile);
     unsigned int iData[2];
 };
 struct ArchiveManager
 {
-    static BSFileEntry* __cdecl FindFileEntry(ArchiveType aeType, FileNameHash& arDir, FileNameHash& arFile,
-                                              const char* apPath);
 };
 struct FUN_0065a910_shell
 {
-    bool FUN_0065a910(void* apNpcData, void* apShape);
 };
 struct FUN_00440460_S
 {
-    void FUN_00440460(const V3* apPoint);
 };
 struct FUN_0043fa80_s
 {
-    void FUN_0043fa80(const ThreeByThreeMatrix& arRotate);
 };
 struct NiGeometryCullSI
 {
-    void FUN_00450f90(bool abCulled);
 };
 struct NiObjectNET
 {
-    void SetName(const fx::NiFixedString& arName);
 };
 struct NiAVObject_Attach
 {
-    void AttachProperty(NiObject* apProperty);
 };
 struct NiTriBasedGeomSkinSI
 {
-    void FUN_004adde0(void* apSkin);
 };
 struct NiPropertyTypeSI
 {
-    int FUN_00441110();
 };
 const char* __cdecl BuildEgmFilename(BSStringT<char>* apOut, const char* apModel, int aePart);
 const char* __cdecl BuildTriPathAndSet(BSStringT<char>* apOut, const char* apModel, int aePart);
 BSFaceGenModel* __cdecl GetOrCreateFaceGenModel(const char* apEGM, const char* apModel, const char* apTRI, int a4,
                                                 int a5, int aePart, int a7);
 void __cdecl FUN_00653470(NiTriBasedGeom* apShape, float afLength);
-NiObject* __cdecl FUN_00655270();
 class TESModelDispatch
 {
   public:
@@ -2790,21 +2757,21 @@ void BuildHairFaceGenNodes(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode** a
     NiPointer<NiSourceTexture> sptexBase(0);
     NiPointer<NiTriBasedGeom> spshape(0);
     B006815c0 matrot;
-    ((ThreeByThreeMatrix*)&matrot)->SetYRotation(-1.5707964f);
-    if (*(TESHair**)((char*)aNpcData + 0x80))
+    reinterpret_cast<::ThreeByThreeMatrix *>((((ThreeByThreeMatrix*)&matrot)))->SetYRotation(-1.5707964f);
+    if (aNpcData->m_pHair)
     {
         for (int ehairPart = 0; ehairPart < 2; ehairPart++)
         {
-            filename.PrintfString(
+            ::FUN_00406f60((::FUN_00406f90_this *)&(filename), 
                 "Meshes\\%s",
-                ((TESModelDispatch*)((char*)*(TESHair**)((char*)aNpcData + 0x80) + 0x24))->GetModelFilePath());
+                ((TESModelDispatch*)(reinterpret_cast<HairFormView*>(aNpcData->m_pHair)->model))->GetModelFilePath());
             const char* pegm = BuildEgmFilename(&fileEGM, filename, ehairPart);
             const char* ptri = BuildTriPathAndSet(&fileTRI, filename, ehairPart);
             BSFaceGenModel* pmodelFG = 0;
             FileNameHash dirHash;
             FileNameHash fileHash;
-            FileNameHash::CreateDirectoryAndFileHashes(pegm, dirHash, fileHash);
-            BSFileEntry* pEntry = ArchiveManager::FindFileEntry(ARCHIVE_TYPE_ALL, dirHash, fileHash, pegm);
+            ::HashPathComponents(pegm, (::FileNameHash *)&(dirHash), (::FileNameHash *)&(fileHash));
+            BSFileEntry* pEntry = ((::fnv_00655320::BSFileEntry *)(::fnv_00af6540::FindFileEntryInArchives((*(int *)&(const ::fnv_00655320::ArchiveType &)(ARCHIVE_TYPE_ALL)), (::fnv_00af6540::FileNameHash &)(dirHash), (::fnv_00af6540::FileNameHash &)(fileHash), pegm)));
             if (!pEntry)
             {
                 if (ehairPart == 0)
@@ -2820,40 +2787,39 @@ void BuildHairFaceGenNodes(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode** a
                 pmodelFG = GetOrCreateFaceGenModel(pegm, filename, ptri, 0, 1, ehairPart, 0);
             }
             if (pmodelFG)
-                ((FUN_0065a910_shell*)pmodelFG)->FUN_0065a910(aNpcData, &spshape);
+                reinterpret_cast<::FUN_0065a910_shell *>((((FUN_0065a910_shell*)pmodelFG)))->FUN_0065a910(aNpcData, &spshape);
             if (spshape)
             {
                 if (ehairPart == 1)
-                    ((NiGeometryCullSI*)(NiTriBasedGeom*)spshape)->FUN_00450f90(true);
+                    reinterpret_cast<::TaskQueueInterface *>((((NiGeometryCullSI*)(NiTriBasedGeom*)spshape)))->QueueActorDisarm(true);
                 char tempHairName[32];
-                ((NiObjectNET*)(NiTriBasedGeom*)spshape)
-                    ->SetName(fx::NiFixedString(BSFaceGenManager::BuildFaceGenPartPath(tempHairName, ehairPart)));
-                FUN_00653470(spshape, *(float*)((char*)aNpcData + 0x88));
-                filename.PrintfString("Textures\\%s",
-                                 ((FNStub*)((char*)*(TESHair**)((char*)aNpcData + 0x80) + 0x3c))->GetFullName());
-                g_TES->CreateTextureImage(filename, sptexBase, false, false);
+                ::AssignFixedString((char *)(((NiObjectNET*)(NiTriBasedGeom*)spshape)), (std::intptr_t)&(const ::fnv_00655320::fx::NiFixedString &)(fx::NiFixedString(BSFaceGenManager::BuildFaceGenPartPath(tempHairName, ehairPart))), {});
+                FUN_00653470(spshape, aNpcData->m_fHairLength);
+                ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Textures\\%s",
+                                 ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)(reinterpret_cast<HairFormView*>(aNpcData->m_pHair)->texture))))->FUN_00408da0())));
+                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655320::TES * *>(&::g_TES))))->FUN_004568c0(filename, (::TexPtr< ::NiSourceTexture> &)(sptexBase), false, false);
                 if (sptexBase)
                 {
                     ShaderPropertyTextureDispatch* pshaderprop;
-                    NiShadeProperty* pprop = (NiShadeProperty*)((PropHelper*)(NiTriBasedGeom*)spshape)->GetProperty(3);
+                    NiShadeProperty* pprop = (NiShadeProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(NiTriBasedGeom*)spshape)))->FUN_00a59d30(3)));
                     if ((pshaderprop =
                              (ShaderPropertyTextureDispatch*)((pprop == 0
                                                                    ? 0
-                                                                   : (((NiPropertyTypeSI*)pprop)->FUN_00441110() >= 8 &&
-                                                                      ((NiPropertyTypeSI*)pprop)->FUN_00441110() <= 12))
+                                                                   : (((int)(reinterpret_cast<::BGSTerrainManager *>((((NiPropertyTypeSI*)pprop)))->GetMinLevel())) >= 8 &&
+                                                                      ((int)(reinterpret_cast<::BGSTerrainManager *>((((NiPropertyTypeSI*)pprop)))->GetMinLevel())) <= 12))
                                                                   ? pprop
                                                                   : 0)) != 0)
                         pshaderprop->SetTexture(0, 0, sptexBase);
                 }
-                if (!((PropHelper*)(NiTriBasedGeom*)spshape)->GetProperty(0))
-                    ((NiAVObject_Attach*)(NiTriBasedGeom*)spshape)->AttachProperty(FUN_00655270());
-                if (((NiTriBasedGeomSkinQuery*)(NiTriBasedGeom*)spshape)->FUN_0043fad0())
+                if (!((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(NiTriBasedGeom*)spshape)))->FUN_00a59d30(0))))
+                    reinterpret_cast<::FUN_00439410_cls *>((((NiAVObject_Attach*)(NiTriBasedGeom*)spshape)))->FUN_00439410((::ArgObject *)(::fnv_00655320::NiObject *)(((::fnv_00655320::NiObject *)(::FUN_00655270()))));
+                if (((void *)(::fnv_0043fad0::FUN_0043fad0((const char *)(((NiTriBasedGeomSkinQuery*)(NiTriBasedGeom*)spshape))))))
                 {
                     if (abForceNoSkinning)
                     {
-                        ((NiTriBasedGeomSkinSI*)(NiTriBasedGeom*)spshape)->FUN_004adde0(0);
-                        ((FUN_00440460_S*)(NiTriBasedGeom*)spshape)->FUN_00440460(&_NiPoint3_ZERO);
-                        ((FUN_0043fa80_s*)(NiTriBasedGeom*)spshape)->FUN_0043fa80(*(ThreeByThreeMatrix*)&matrot);
+                        reinterpret_cast<::FUN_004adde0_shell *>((((NiTriBasedGeomSkinSI*)(NiTriBasedGeom*)spshape)))->FUN_004adde0((::NiNode *)(void *)(0));
+                        reinterpret_cast<::FUN_00440460_S *>((((FUN_00440460_S*)(NiTriBasedGeom*)spshape)))->FUN_00440460((const ::V3 *)(const ::fnv_00655320::V3 *)(&_NiPoint3_ZERO));
+                        reinterpret_cast<::FUN_0043fa80_s *>((((FUN_0043fa80_s*)(NiTriBasedGeom*)spshape)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(*(ThreeByThreeMatrix*)&matrot));
                         ((NiNodeAttachDispatch*)*apOutNodeBiped)->AttachChildInAvailableSlot(spshape, true);
                     }
                     else
@@ -2863,7 +2829,7 @@ void BuildHairFaceGenNodes(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode** a
                 }
                 else
                 {
-                    ((FUN_0043fa80_s*)(NiTriBasedGeom*)spshape)->FUN_0043fa80(*(ThreeByThreeMatrix*)&matrot);
+                    reinterpret_cast<::FUN_0043fa80_s *>((((FUN_0043fa80_s*)(NiTriBasedGeom*)spshape)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(*(ThreeByThreeMatrix*)&matrot));
                     ((NiNodeAttachDispatch*)*apOutNodeBiped)->AttachChildInAvailableSlot(spshape, true);
                 }
             }
@@ -2880,7 +2846,7 @@ struct NiPoint3;
 struct NiStream;
 struct TESEyes;
 struct TESHair;
-struct TESModel;
+class TESModel;
 struct blob48
 {
     char b[48];
@@ -2893,11 +2859,10 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
-    char m_kFaceGenCoordinates[96];
+    char m_kFaceGenCoordinates[0x80];
     TESHair* m_pHair;
     int iHairColor;
     float m_fHairLength;
@@ -2915,17 +2880,7 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-typedef char _sizecheck_FaceGenNpcData[sizeof(FaceGenData) == 204 ? 1 : -1];
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
+using ::AutoMemContext;
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -2985,15 +2940,9 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 
 namespace lc1 {
-struct AutoMemContext
-{
-    int m_eMemoryContext;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 }
 template <class T> class BSStringT
 {
@@ -3031,43 +2980,39 @@ class NiSkinInstance;
 class NiAVObject
 {
   public:
-    void SetName(const NiFixedString&);
-    void FUN_00440460(const NiPoint3&);
-    void SetLocalRotation(const PC::ThreeByThreeMatrix&);
 };
 class NiShadeProperty
 {
   public:
-    int FUN_00441110();
 };
 class NiTriBasedGeom : public NiAVObject
 {
   public:
-    NiShadeProperty* GetProperty(unsigned int);
-    NiSkinInstance* FUN_0043fad0();
-    void FUN_004adde0(NiSkinInstance*);
 };
-template <> class NiPointer<NiSourceTexture>
+}  // namespace fnv_006558b0
+template <> class NiPointer<fnv_006558b0::NiSourceTexture>
 {
   public:
-    NiSourceTexture* m_pObject;
-    NiPointer(NiSourceTexture*);
+    fnv_006558b0::NiSourceTexture* m_pObject;
+    NiPointer(fnv_006558b0::NiSourceTexture*);
     ~NiPointer();
-    NiPointer& operator=(NiSourceTexture*);
-    operator NiSourceTexture*() const;
+    NiPointer& operator=(fnv_006558b0::NiSourceTexture*);
+    operator fnv_006558b0::NiSourceTexture*() const;
 };
-template <> class NiPointer<NiTriBasedGeom>
+template <> class NiPointer<fnv_006558b0::NiTriBasedGeom>
 {
   public:
-    NiTriBasedGeom* m_pObject;
-    NiPointer(NiTriBasedGeom*);
+    fnv_006558b0::NiTriBasedGeom* m_pObject;
+    NiPointer(fnv_006558b0::NiTriBasedGeom*);
     ~NiPointer();
-    NiPointer& operator=(NiTriBasedGeom*);
-    operator NiTriBasedGeom*() const;
-    NiTriBasedGeom* operator->() const;
+    NiPointer& operator=(fnv_006558b0::NiTriBasedGeom*);
+    operator fnv_006558b0::NiTriBasedGeom*() const;
+    fnv_006558b0::NiTriBasedGeom* operator->() const;
 };
-struct TESModel
+namespace fnv_006558b0 {
+class TESModel
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -3079,10 +3024,10 @@ struct TESEyesFormBase
 {
     char pad[0x24];
 };
-struct TESTexture
+class TESTexture
 {
+  public:
     char pad[0xc];
-    const char* GetTextureResourceName();
 };
 struct TESEyes : public TESEyesFormBase, public TESTexture
 {
@@ -3215,14 +3160,11 @@ class BSFaceGenNiNode
 class BSFaceGenModel
 {
   public:
-    bool FUN_0065a910(FaceGenData*, NiPointer<NiTriBasedGeom>&);
 };
 class TES
 {
   public:
-    void CreateTextureImage(const char*, NiPointer<NiSourceTexture>&, bool, bool);
 };
-extern TES* g_TES;
 BSFaceGenModel* __cdecl GetOrCreateFaceGenModel(const char*, const char*, const char*, int, bool, int, int);
 const char* __cdecl BuildEgmFilename(BSStringT<char>&, const char*, int);
 const char* __cdecl BuildTriPathAndSet(BSStringT<char>&, const char*, int);
@@ -3243,42 +3185,42 @@ void __cdecl CreateEyeGeometry(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode
     NiPointer<NiTriBasedGeom> spshape(0);
     PC::ThreeByThreeMatrix matrot;
     BSFaceGenModel* pmodelFG = 0;
-    matrot.SetYRotation(-1.5707964f);
-    if (*(TESModel**)((char*)aNpcData + 0xd8))
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(matrot))->SetYRotation(-1.5707964f);
+    if (aNpcData->m_pHeadModel)
     {
-        filename.PrintfString("Meshes\\%s", (*(TESModel**)((char*)aNpcData + 0xd8))->GetModelFilePath());
+        ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Meshes\\%s", (aNpcData->m_pHeadModel)->GetModelFilePath());
         pmodelFG = GetOrCreateFaceGenModel(BuildEgmFilename(fileEGM, filename, -1), filename,
                                            BuildTriPathAndSet(fileTRI, filename, -1), 0, true, -1, 0);
         if (pmodelFG)
-            pmodelFG->FUN_0065a910(aNpcData, spshape);
+            reinterpret_cast<::FUN_0065a910_shell *>((pmodelFG))->FUN_0065a910(aNpcData, (void *)&(spshape));
         if (spshape)
         {
-            spshape->SetName(NiFixedString("FaceGenEyeLeft"));
-            if (*(TESEyes**)((char*)aNpcData + 0x8c))
+            ::AssignFixedString((char *)((spshape).operator->()), (std::intptr_t)&(const ::fnv_006558b0::NiFixedString &)(NiFixedString("FaceGenEyeLeft")), {});
+            if (aNpcData->pEyes)
             {
-                filename.PrintfString("Textures\\%s", (*(TESEyes**)((char*)aNpcData + 0x8c))->GetTextureResourceName());
-                g_TES->CreateTextureImage(filename, sptexBase, false, false);
+                ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Textures\\%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((aNpcData->pEyes)))->FUN_00408da0())));
+                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_006558b0::TES * *>(&::g_TES))))->FUN_004568c0(filename, (::TexPtr< ::NiSourceTexture> &)(sptexBase), false, false);
             }
             else
             {
-                g_TES->CreateTextureImage("Textures\\Characters\\Eyes\\EyeDefault.dds", sptexBase, false, false);
+                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_006558b0::TES * *>(&::g_TES))))->FUN_004568c0("Textures\\Characters\\Eyes\\EyeDefault.dds", (::TexPtr< ::NiSourceTexture> &)(sptexBase), false, false);
             }
             if (sptexBase)
             {
-                NiShadeProperty* pprop = spshape->GetProperty(3);
+                NiShadeProperty* pprop = ((::fnv_006558b0::NiShadeProperty *)(reinterpret_cast<::FUN_00a59d30_C *>(((spshape).operator->()))->FUN_00a59d30(3)));
                 BSShaderPPLightingProperty* pshaderprop;
-                if (pshaderprop = (pprop == 0 ? 0 : (pprop->FUN_00441110() >= 8 && pprop->FUN_00441110() <= 12))
+                if (pshaderprop = (pprop == 0 ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((pprop))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((pprop))->GetMinLevel())) <= 12))
                                       ? (BSShaderPPLightingProperty*)pprop
                                       : 0)
                     pshaderprop->SetTexture(0, 0, sptexBase);
             }
-            if (spshape->FUN_0043fad0())
+            if (((::fnv_006558b0::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)((spshape).operator->())))))
             {
                 if (abForceNoSkinning)
                 {
-                    spshape->FUN_004adde0(0);
-                    spshape->FUN_00440460(NiPoint3::ZERO);
-                    spshape->SetLocalRotation(matrot);
+                    reinterpret_cast<::FUN_004adde0_shell *>(((spshape).operator->()))->FUN_004adde0((::NiNode *)(::fnv_006558b0::NiSkinInstance *)(0));
+                    reinterpret_cast<::FUN_00440460_S *>(((spshape).operator->()))->FUN_00440460((const ::V3 *)&(NiPoint3::ZERO));
+                    reinterpret_cast<::FUN_0043fa80_s *>(((spshape).operator->()))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(matrot));
                     (*apOutNodeBiped)->AttachChildInAvailableSlot(spshape, true);
                 }
                 else
@@ -3288,7 +3230,7 @@ void __cdecl CreateEyeGeometry(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode
             }
             else
             {
-                spshape->SetLocalRotation(matrot);
+                reinterpret_cast<::FUN_0043fa80_s *>(((spshape).operator->()))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(matrot));
                 (*apOutNodeBiped)->AttachChildInAvailableSlot(spshape, true);
             }
         }
@@ -3296,41 +3238,41 @@ void __cdecl CreateEyeGeometry(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode
         spshape = 0;
         sptexBase = 0;
     }
-    if (*(TESModel**)((char*)aNpcData + 0xdc))
+    if (aNpcData->m_pFaceGenModel)
     {
-        filename.PrintfString("Meshes\\%s", (*(TESModel**)((char*)aNpcData + 0xdc))->GetModelFilePath());
+        ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Meshes\\%s", (aNpcData->m_pFaceGenModel)->GetModelFilePath());
         pmodelFG = GetOrCreateFaceGenModel(BuildEgmFilename(fileEGM, filename, -1), filename,
                                            BuildTriPathAndSet(fileTRI, filename, -1), 0, true, -1, 0);
         if (pmodelFG)
-            pmodelFG->FUN_0065a910(aNpcData, spshape);
+            reinterpret_cast<::FUN_0065a910_shell *>((pmodelFG))->FUN_0065a910(aNpcData, (void *)&(spshape));
         if (spshape)
         {
-            spshape->SetName(NiFixedString("FaceGenEyeRight"));
-            if (*(TESEyes**)((char*)aNpcData + 0x8c))
+            ::AssignFixedString((char *)((spshape).operator->()), (std::intptr_t)&(const ::fnv_006558b0::NiFixedString &)(NiFixedString("FaceGenEyeRight")), {});
+            if (aNpcData->pEyes)
             {
-                filename.PrintfString("Textures\\%s", (*(TESEyes**)((char*)aNpcData + 0x8c))->GetTextureResourceName());
-                g_TES->CreateTextureImage(filename, sptexBase, false, false);
+                ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Textures\\%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((aNpcData->pEyes)))->FUN_00408da0())));
+                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_006558b0::TES * *>(&::g_TES))))->FUN_004568c0(filename, (::TexPtr< ::NiSourceTexture> &)(sptexBase), false, false);
             }
             else
             {
-                g_TES->CreateTextureImage("Textures\\Characters\\Eyes\\EyeDefault.dds", sptexBase, false, false);
+                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_006558b0::TES * *>(&::g_TES))))->FUN_004568c0("Textures\\Characters\\Eyes\\EyeDefault.dds", (::TexPtr< ::NiSourceTexture> &)(sptexBase), false, false);
             }
             if (sptexBase)
             {
-                NiShadeProperty* pprop = spshape->GetProperty(3);
+                NiShadeProperty* pprop = ((::fnv_006558b0::NiShadeProperty *)(reinterpret_cast<::FUN_00a59d30_C *>(((spshape).operator->()))->FUN_00a59d30(3)));
                 BSShaderPPLightingProperty* pshaderprop;
-                if (pshaderprop = (pprop == 0 ? 0 : (pprop->FUN_00441110() >= 8 && pprop->FUN_00441110() <= 12))
+                if (pshaderprop = (pprop == 0 ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((pprop))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((pprop))->GetMinLevel())) <= 12))
                                       ? (BSShaderPPLightingProperty*)pprop
                                       : 0)
                     pshaderprop->SetTexture(0, 0, sptexBase);
             }
-            if (spshape->FUN_0043fad0())
+            if (((::fnv_006558b0::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)((spshape).operator->())))))
             {
                 if (abForceNoSkinning)
                 {
-                    spshape->FUN_004adde0(0);
-                    spshape->FUN_00440460(NiPoint3::ZERO);
-                    spshape->SetLocalRotation(matrot);
+                    reinterpret_cast<::FUN_004adde0_shell *>(((spshape).operator->()))->FUN_004adde0((::NiNode *)(::fnv_006558b0::NiSkinInstance *)(0));
+                    reinterpret_cast<::FUN_00440460_S *>(((spshape).operator->()))->FUN_00440460((const ::V3 *)&(NiPoint3::ZERO));
+                    reinterpret_cast<::FUN_0043fa80_s *>(((spshape).operator->()))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(matrot));
                     (*apOutNodeBiped)->AttachChildInAvailableSlot(spshape, true);
                 }
                 else
@@ -3340,7 +3282,7 @@ void __cdecl CreateEyeGeometry(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode
             }
             else
             {
-                spshape->SetLocalRotation(matrot);
+                reinterpret_cast<::FUN_0043fa80_s *>(((spshape).operator->()))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(matrot));
                 (*apOutNodeBiped)->AttachChildInAvailableSlot(spshape, true);
             }
         }
@@ -3361,7 +3303,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -3392,40 +3333,31 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FourComponentNumericValue
 {
     char u[16];
 };
-typedef char _sizecheck___vector4[sizeof(FourComponentNumericValue) == 16 ? 1 : -1];
 
-struct NiAVObject;
-struct NiExtraData;
-struct NiGeometryData;
-struct Flt
-{
-    operator unsigned int() const;
+class NiAVObject;
+class NiExtraData;
+class NiGeometryData;
+struct Flt {
+    operator void*() const;
 };
-struct NiGeometry
+class NiGeometry
 {
-    NiGeometryData* FUN_005495f0();
 };
 struct TriBasedGeomHelper
 {
-    unsigned short FUN_00456650();
 };
 struct ScrapMultiMapHelper
 {
     void SetPoint(NiPoint3 const&);
-    void AddToA();
 };
 struct GeomDataHelper
 {
-    void SetDirtyFlags(unsigned int);
 };
 NiExtraData* __cdecl GetExtraDataIfPresent(NiAVObject*);
-int __fastcall _ref_0084e3a0(NiExtraData*);
-int __fastcall FUN_0049ec60(NiAVObject*);
 
 // @fnv 0x00653340
 void FUN_00653340(NiAVObject* apGeom, NiPoint3* apPoint)
@@ -3433,18 +3365,18 @@ void FUN_00653340(NiAVObject* apGeom, NiPoint3* apPoint)
     NiExtraData* base = GetExtraDataIfPresent(apGeom);
     if (!base)
         return;
-    if (!reinterpret_cast<Flt*>(apPoint)->operator unsigned int())
+    if (!reinterpret_cast<Flt*>(apPoint)->operator void*())
         return;
     NiPoint3 iter = *apPoint;
     unsigned int aI = 0;
-    NiPoint3* pSource = reinterpret_cast<NiPoint3*>(_ref_0084e3a0(base));
-    for (; aI < reinterpret_cast<TriBasedGeomHelper*>(apGeom)->FUN_00456650(); ++aI, ++pSource)
+    NiPoint3* pSource = reinterpret_cast<NiPoint3*>(reinterpret_cast<::FUN_0084e3a0_Class *>((base))->FUN_0084e3a0());
+    for (; aI < reinterpret_cast<::FUN_00456650_shell *>((reinterpret_cast<TriBasedGeomHelper*>(apGeom)))->FUN_00456650(); ++aI, ++pSource)
     {
         reinterpret_cast<ScrapMultiMapHelper*>(&iter)->SetPoint(*pSource);
-        reinterpret_cast<ScrapMultiMapHelper*>(&iter)->AddToA();
+        reinterpret_cast<::FUN_00657be0_class *>((reinterpret_cast<ScrapMultiMapHelper*>(&iter)))->AddToA();
     }
-    if (FUN_0049ec60(apGeom))
-        reinterpret_cast<GeomDataHelper*>(reinterpret_cast<NiGeometry*>(apGeom)->FUN_005495f0())->SetDirtyFlags(1);
+    if (((int)(reinterpret_cast<::FUN_0049ec60 *>((apGeom))->GetNext())))
+        reinterpret_cast<::NiGeometryData *>((reinterpret_cast<GeomDataHelper*>(((::fnv_00653340::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(reinterpret_cast<NiGeometry*>(apGeom))))))))->SetDirtyFlags(1);
 }
 }  // namespace fnv_00653340
 
@@ -3472,9 +3404,8 @@ struct NP
 {
     NP& operator=(void*);
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct SpObst
 {
@@ -3485,8 +3416,6 @@ struct SpObst
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00650100 : BSFadeNode
 {
@@ -3498,35 +3427,33 @@ struct FUN_00650100 : BSFadeNode
 };
 struct MapH
 {
-    bool RemoveAt(unsigned int);
-    void InsertOrUpdate(unsigned int, SpObst);
+    void InsertOrUpdate(std::uintptr_t, SpObst);
 };
 struct FGModelCache
 {
-    void FUN_00650ba0(int);
+    const void* pVtable;
+    MapH kMap;
+    void FUN_00650ba0(void*);
     void FUN_0064ffd0(const char* apcKey, void* apModel);
 };
-void FUN_00652140();
-void FUN_00652190();
-unsigned int __cdecl gm_GetTickCount();
 
 // @fnv 0x0064ffd0
 void FGModelCache::FUN_0064ffd0(const char* apcKey, void* apModel)
 {
-    FUN_00652140();
+    ::FUN_00652140();
     GO spentry(0);
     if (!apModel)
     {
-        ((MapH*)((char*)this + 4))->RemoveAt((unsigned int)apcKey);
-        FUN_00652190();
+        reinterpret_cast<::NiTMap_S *>(&kMap)->RemoveKey((std::uintptr_t)apcKey);
+        ::fnv_00652190::FUN_00652190();
         return;
     }
     (NP&)spentry = new FUN_00650100();
-    *(NP*)((unsigned int)(Flt&)spentry + 8) = apModel;
-    *(unsigned int*)((unsigned int)(Flt&)spentry + 0xc) = gm_GetTickCount();
-    ((MapH*)((char*)this + 4))->InsertOrUpdate((unsigned int)apcKey, SpObst((unsigned int*)&spentry));
-    FUN_00650ba0((Flt&)spentry);
-    FUN_00652190();
+    *reinterpret_cast<NP*>(&static_cast<FaceGenModelEntryView*>((void*)(Flt&)spentry)->model) = apModel;
+    static_cast<FaceGenModelEntryView*>((void*)(Flt&)spentry)->lastUseTick = ((unsigned int)(::FUN_00457fe0()));
+    kMap.InsertOrUpdate((std::uintptr_t)apcKey, SpObst((unsigned int*)&spentry));
+    FUN_00650ba0((void*)(Flt&)spentry);
+    ::fnv_00652190::FUN_00652190();
 }
 }  // namespace fnv_0064ffd0
 
@@ -3537,26 +3464,20 @@ struct GO
     GO(int);
     ~GO();
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct FGModelMap
 {
-    bool GetAt(void*, GO&);
 };
 struct TaskQueueInterface
 {
-    static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int __cdecl strcat_s(char*, unsigned int, const char*);
-char* __cdecl FUN_0040ab30(char*, int);
-void FUN_00652140();
-void FUN_00652190();
-void __fastcall FUN_0065c400(unsigned int);
 
 struct BSFaceGenModelMap_t
 {
+    const void* pVtable;
+    FGModelMap kMap;
     bool FUN_00650780(const char* apKey);
 };
 
@@ -3568,48 +3489,45 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
         return false;
     bool bres = false;
     GO spentry(0);
-    FUN_00652140();
-    if (!((FGModelMap*)((char*)this + 4))->GetAt((void*)apKey, spentry))
+    ::FUN_00652140();
+    if (!reinterpret_cast<::Map62d0 *>(&kMap)->FUN_006c62d0((std::uintptr_t)((void*)apKey), (void **)&(spentry)))
     {
         char* pext;
         char ptemp[260];
-        TaskQueueInterface::CopyStringToBuffer(ptemp, 260, apKey);
-        pext = FUN_0040ab30(ptemp, '.');
+        ::TaskQueueInterface::CopyStringToBuffer(ptemp, 260, apKey);
+        pext = ::FUN_0040ab30(ptemp, '.');
         if (pext)
         {
             *pext = 0;
             strcat_s(ptemp, 260, ".egm");
-            ((FGModelMap*)((char*)this + 4))->GetAt(ptemp, spentry);
+            reinterpret_cast<::Map62d0 *>(&kMap)->FUN_006c62d0((std::uintptr_t)(ptemp), (void **)&(spentry));
         }
     }
     if ((Flt&)spentry)
     {
-        FUN_0065c400(*(Flt*)((unsigned int)(Flt&)spentry + 8));
+        reinterpret_cast<::fnv_0065c400::FUN_0065c400_t *>(static_cast<FaceGenModelEntryView*>(spentry.m_pObject)->model)->FUN_0065c400();
         bres = true;
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
     return bres;
 }
 }  // namespace fnv_00650780
 
 namespace fnv_00650ba0 {
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct Dummy_00650910
 {
-    int GetArrayElement(int);
 };
-void FUN_00652140();
-void FUN_00652190();
-unsigned int __fastcall GetEGMSize(unsigned int);
-unsigned int __fastcall FUN_0065c490(unsigned int);
+struct UnusedModel
+{
+    unsigned int FUN_0065c490();
+};
 
 struct BSFaceGenModelMap_t : Dummy_00650910
 {
     void FUN_00650ba0(void* aspNewEntry);
-    unsigned int GetModelValueSum(unsigned int);
     void FUN_00650cb0(unsigned int, void*);
 };
 
@@ -3621,7 +3539,7 @@ void BSFaceGenModelMap_t::FUN_00650ba0(void* aspNewEntry)
     unsigned int totalSizePrev;
     unsigned int totalSize;
     size = 0;
-    FUN_00652140();
+    ::FUN_00652140();
     for (cnt = 0; cnt < 2; cnt++)
     {
         if (aspNewEntry)
@@ -3629,12 +3547,12 @@ void BSFaceGenModelMap_t::FUN_00650ba0(void* aspNewEntry)
             switch (cnt)
             {
             case 0:
-                if (GetEGMSize(*(Flt*)((char*)aspNewEntry + 8)) > 0)
+                if (reinterpret_cast<::FUN_0065c110_t *>(static_cast<FaceGenModelEntryView*>(aspNewEntry)->model)->GetEGMSize() > 0)
                     continue;
                 size = 10;
                 break;
             case 1:
-                if (FUN_0065c490(*(Flt*)((char*)aspNewEntry + 8)) > 0)
+                if (((UnusedModel*)static_cast<FaceGenModelEntryView*>(aspNewEntry)->model)->FUN_0065c490() > 0)
                     continue;
                 size = 10;
                 break;
@@ -3642,17 +3560,17 @@ void BSFaceGenModelMap_t::FUN_00650ba0(void* aspNewEntry)
                 size = 0;
             }
         }
-        totalSize = totalSizePrev = GetModelValueSum(cnt);
-        while (totalSize + size > GetArrayElement(cnt))
+        totalSize = totalSizePrev = reinterpret_cast<::fnv_00650930::FGMapOwner *>(this)->GetModelValueSum(cnt);
+        while (totalSize + size > reinterpret_cast<::Dummy_00650910 *>(this)->GetArrayElement(cnt))
         {
             totalSizePrev = totalSize;
             FUN_00650cb0(cnt, aspNewEntry);
-            totalSize = GetModelValueSum(cnt);
+            totalSize = reinterpret_cast<::fnv_00650930::FGMapOwner *>(this)->GetModelValueSum(cnt);
             if (totalSize == totalSizePrev)
                 break;
         }
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
 }
 }  // namespace fnv_00650ba0
 
@@ -3739,7 +3657,7 @@ bool FUN_00652900(const FaceGenMatrix<float> (*apCoord1)[2], FaceGenMatrix<float
     {
         for (esymm = 0; esymm < 2; esymm++)
         {
-            if (apCoord1[etype][esymm].FUN_00657880(&apCoord2[etype][esymm]))
+            if (reinterpret_cast<::FUN_00657880_class *>((void *)&(apCoord1[etype][esymm]))->operator==((std::intptr_t)(&apCoord2[etype][esymm])))
                 return true;
         }
     }
@@ -3748,7 +3666,6 @@ bool FUN_00652900(const FaceGenMatrix<float> (*apCoord1)[2], FaceGenMatrix<float
 }  // namespace fnv_00652900
 
 namespace fnv_00653460 {
-extern "C" void* DAT_011d5b8c;
 
 // @fnv 0x00653460
 void* __cdecl FUN_00653460()
@@ -3761,35 +3678,30 @@ namespace fnv_00653620 {
 template <class T> struct BSStringT;
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct TaskQueueInterface
 {
-    static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
 };
-char* __cdecl FUN_0040ab30(char*, int);
-int _sprintf_s(char*, unsigned int, const char*, ...);
 
 // @fnv 0x00653620
-unsigned int GetModelNifFilename(BSStringT<char>& aOutFilename, const char* apModel)
+const char* GetModelNifFilename(BSStringT<char>& aOutFilename, const char* apModel)
 {
     char porigFilename[260];
     char ptemp[260];
     char* pextension = 0;
     if (!apModel)
         return 0;
-    TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
-    pextension = FUN_0040ab30(porigFilename, '.');
+    ::TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
+    pextension = ::FUN_0040ab30(porigFilename, '.');
     if (!pextension)
         return 0;
     *pextension = 0;
-    _sprintf_s(ptemp, 260, "%s.nif", porigFilename);
-    ((BSStr&)aOutFilename).Set(ptemp, 0);
-    return (Flt&)aOutFilename;
+    ::FUN_00406d00(ptemp, 260, "%s.nif", porigFilename);
+    reinterpret_cast<::TextString *>(&(((BSStr&)aOutFilename)))->FUN_004037f0(ptemp, 0);
+    return (const char*)(void*)(Flt&)aOutFilename;
 }
 }  // namespace fnv_00653620
 
@@ -3800,23 +3712,18 @@ template <class T> struct BSStringT
 };
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct TaskQueueInterface
 {
-    static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
 };
-char* __cdecl FUN_0040ab30(char*, int);
 struct FileNameHash
 {
     unsigned int uiLow;
     unsigned int uiHigh;
     FileNameHash();
-    static void __cdecl CreateDirectoryAndFileHashes(const char*, FileNameHash&, FileNameHash&);
 };
 struct BSFileEntry;
 enum ArchiveType
@@ -3826,11 +3733,10 @@ enum ArchiveType
 };
 struct ArchiveManager
 {
-    static BSFileEntry* __cdecl FindFileEntry(ArchiveType, FileNameHash&, FileNameHash&, const char*);
 };
 
 // @fnv 0x00653880
-unsigned int FUN_00653880(BSStringT<char>& aOutFilename, int aeSex, unsigned char acAge, const char* apModel)
+const char* FUN_00653880(BSStringT<char>& aOutFilename, int aeSex, unsigned char acAge, const char* apModel)
 {
     char porigFilename[260];
     int iage;
@@ -3840,31 +3746,31 @@ unsigned int FUN_00653880(BSStringT<char>& aOutFilename, int aeSex, unsigned cha
     cgender = 'M';
     if (!apModel || iage > 100 || aeSex >= 2)
         return 0;
-    TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
-    pextension = FUN_0040ab30(porigFilename, '.');
+    ::TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
+    pextension = ::FUN_0040ab30(porigFilename, '.');
     if (!pextension)
         return 0;
     *pextension = 0;
     if (aeSex == 1)
         cgender = 'F';
-    aOutFilename.PrintfString("Textures\\%s%c%d.ddx", porigFilename, cgender, iage);
+    ::FUN_00406f60((::FUN_00406f90_this *)&(aOutFilename), "Textures\\%s%c%d.ddx", porigFilename, cgender, iage);
     FileNameHash dirHash;
     FileNameHash fileHash;
-    FileNameHash::CreateDirectoryAndFileHashes((const char*)(unsigned int)(Flt&)aOutFilename, dirHash, fileHash);
-    BSFileEntry* pFile = ArchiveManager::FindFileEntry(ARCHIVE_TYPE_TEXTURES, dirHash, fileHash,
-                                                       (const char*)(unsigned int)(Flt&)aOutFilename);
+    ::HashPathComponents((const char*)(void*)(Flt&)aOutFilename, (::FileNameHash *)&(dirHash), (::FileNameHash *)&(fileHash));
+    BSFileEntry* pFile = ((::fnv_00653880::BSFileEntry *)(::fnv_00af6540::FindFileEntryInArchives((*(int *)&(const ::fnv_00653880::ArchiveType &)(ARCHIVE_TYPE_TEXTURES)), (::fnv_00af6540::FileNameHash &)(dirHash), (::fnv_00af6540::FileNameHash &)(fileHash),
+                                                       (const char*)(void*)(Flt&)aOutFilename)));
     if (pFile)
-        return (Flt&)aOutFilename;
+        return (const char*)(void*)(Flt&)aOutFilename;
     iage = iage / 10 * 10;
     do
     {
-        aOutFilename.PrintfString("Textures\\%s%c%d.dds", porigFilename, cgender, iage);
-        pFile = ArchiveManager::FindFileEntry(ARCHIVE_TYPE_TEXTURES, dirHash, fileHash,
-                                              (const char*)(unsigned int)(Flt&)aOutFilename);
+        ::FUN_00406f60((::FUN_00406f90_this *)&(aOutFilename), "Textures\\%s%c%d.dds", porigFilename, cgender, iage);
+        pFile = ((::fnv_00653880::BSFileEntry *)(::fnv_00af6540::FindFileEntryInArchives((*(int *)&(const ::fnv_00653880::ArchiveType &)(ARCHIVE_TYPE_TEXTURES)), (::fnv_00af6540::FileNameHash &)(dirHash), (::fnv_00af6540::FileNameHash &)(fileHash),
+                                              (const char*)(void*)(Flt&)aOutFilename)));
         if (pFile)
-            return (Flt&)aOutFilename;
+            return (const char*)(void*)(Flt&)aOutFilename;
     } while ((iage -= 10) >= 0);
-    ((BSStr&)aOutFilename).Set("", 0);
+    reinterpret_cast<::TextString *>(&(((BSStr&)aOutFilename)))->FUN_004037f0("", 0);
     return 0;
 }
 }  // namespace fnv_00653880
@@ -3873,65 +3779,54 @@ namespace fnv_00653c40 {
 template <class T> struct BSStringT;
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct TaskQueueInterface
 {
-    static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
 };
-char* __cdecl FUN_0040ab30(char*, int);
-int _sprintf_s(char*, unsigned int, const char*, ...);
 
 // @fnv 0x00653c40
-unsigned int BuildModelFilename(BSStringT<char>& aOutFilename, const char* apModel)
+const char* BuildModelFilename(BSStringT<char>& aOutFilename, const char* apModel)
 {
     char porigFilename[260];
     char ptemp[260];
     char* pextension = 0;
     if (!apModel)
         return 0;
-    TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
-    pextension = FUN_0040ab30(porigFilename, '_');
+    ::TaskQueueInterface::CopyStringToBuffer(porigFilename, 260, apModel);
+    pextension = ::FUN_0040ab30(porigFilename, '_');
     if (!pextension)
-        return (unsigned int)apModel;
+        return apModel;
     *pextension = 0;
-    _sprintf_s(ptemp, 260, "%s.nif", porigFilename);
-    ((BSStr&)aOutFilename).Set(ptemp, 0);
-    return (Flt&)aOutFilename;
+    ::FUN_00406d00(ptemp, 260, "%s.nif", porigFilename);
+    reinterpret_cast<::TextString *>(&(((BSStr&)aOutFilename)))->FUN_004037f0(ptemp, 0);
+    return (const char*)(void*)(Flt&)aOutFilename;
 }
 }  // namespace fnv_00653c40
 
-void __cdecl _FNV_Warning(const char* apFormat, ...);
 
 // @fnv 0x00aafb90
 void __cdecl ReportAssertionViolation(const char* apSource, int aiLine)
 {
-    _FNV_Warning("DEFAULT: FR2 ASSERT violation in %s line %i. Code may crash.", apSource, aiLine);
+    ::FUN_005b5e40();
 }
 
 namespace fnv_006536d0 {
-int _sprintf_s(char*, unsigned int, const char*, ...);
 struct TaskQueueInterface
 {
-    static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-struct Flt
-{
-    operator unsigned int() const;
+struct Flt {
+    operator void*() const;
 };
 struct StrMem : Flt
 {
-    bool Set(const char*, unsigned int);
 };
-char* __cdecl FUN_0040ab30(char*, int);
 
 // Strips the extension from path, builds a .tri path (with a suffix for index 0 or 1), stores it in str and returns its value.
 // @fnv 0x006536d0
-unsigned int __cdecl BuildTriPathAndSet(StrMem* str, const char* path, int index)
+const char* __cdecl BuildTriPathAndSet(StrMem* str, const char* path, int index)
 {
     char szBase[260];
     char szFull[260];
@@ -3939,8 +3834,8 @@ unsigned int __cdecl BuildTriPathAndSet(StrMem* str, const char* path, int index
 
     if (!path)
         return 0;
-    TaskQueueInterface::CopyStringToBuffer(szBase, 260, path);
-    pExt2 = FUN_0040ab30(szBase, 46);
+    ::TaskQueueInterface::CopyStringToBuffer(szBase, 260, path);
+    pExt2 = ::FUN_0040ab30(szBase, 46);
     if (!pExt2)
         return 0;
     *pExt2 = 0;
@@ -3948,14 +3843,14 @@ unsigned int __cdecl BuildTriPathAndSet(StrMem* str, const char* path, int index
     {
     case 0:
     case 1:
-        _sprintf_s(szFull, 260, "%s%s.tri", szBase, DAT_0119b734[index]);
+        ::FUN_00406d00(szFull, 260, "%s%s.tri", szBase, DAT_0119b734[index]);
         break;
     default:
-        _sprintf_s(szFull, 260, "%s.tri", szBase);
+        ::FUN_00406d00(szFull, 260, "%s.tri", szBase);
         break;
     }
-    str->Set(szFull, 0);
-    return *str;
+    reinterpret_cast<::TextString *>((str))->FUN_004037f0(szFull, 0);
+    return (const char*)(void*)*str;
 }
 }  // namespace fnv_006536d0
 
@@ -3964,20 +3859,18 @@ struct _vec_60
 {
     char data[0x60];
 };
-extern unsigned int __fastcall FUN_00657a30(const _vec_60*);
 
 // Indexes into the face gen manager's array at offset 0xb8 by a*0x30+b*0x18, calls FUN_00657a30 on that entry and returns the result minus one.
 // @fnv 0x006521b0
 unsigned int __cdecl FUN_006521b0(int a, int b)
 {
-    return FUN_00657a30((const _vec_60*)(((char*)BSFaceGenManager::GetFaceGenManager() + 0xb8) + a * 0x30 + b * 0x18)) -
+    return ::FUN_00657a30((const ::_vec_60 *)(const ::fnv_006521b0::_vec_60 *)((const _vec_60*)(((char*)&BSFaceGenManager::GetFaceGenManager()->rest[80]) + a * 0x30 + b * 0x18))) -
            1;
 }
 }  // namespace fnv_006521b0
 
-struct Tile
+class Tile
 {
-    void Set(int, const char*, bool);
 };
 
 struct FUN_007b3810Class
@@ -3991,7 +3884,7 @@ struct FUN_007b3810Class
 void FUN_007b3810Class::FUN_007b3810(const char* a1)
 {
     if (m_tile && a1)
-        m_tile->Set(0x1009, a1, true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_tile))->FUN_00a01350(0x1009, (char *)(a1), true);
 }
 
 namespace fnv_00651650 {
@@ -4012,18 +3905,16 @@ FUN_00651650::~FUN_00651650()
 
 struct FUN_00aac170_This
 {
-    int __thiscall FUN_00aac170(int, int, int, int);
 };
 // @fnv 0x006524e0
-void __cdecl FUN_006524e0(int aiArg4, int aiArg2, int aiArg3)
+void __cdecl FUN_006524e0(std::intptr_t aiArg4, int aiArg2, std::intptr_t aiArg3)
 {
-    ((FUN_00aac170_This*)((char*)BSFaceGenManager::GetFaceGenManager() + 0x118))
-        ->FUN_00aac170(0, aiArg2, aiArg3, aiArg4);
+    reinterpret_cast<::fnv_00aac170::Sub_00aabdb0 *>((((FUN_00aac170_This*)&BSFaceGenManager::GetFaceGenManager()->rest[176])))->FUN_00aac170(0, aiArg2, (const float *)(aiArg3), (::fnv_00aac170::OutputMatrix *)(aiArg4));
 }
 
 struct FUN_0065e000_class
 {
-    int FUN_0065da80(int, int);
+    std::intptr_t FUN_0065da80(int, std::intptr_t);
 };
 struct FUN_0065fd10_class
 {
@@ -4035,14 +3926,13 @@ struct FUN_0065fd10_class
 // @fnv 0x0065fd10
 FUN_0065e000_class* FUN_0065fd10_class::FUN_0065fd10(FUN_0065e000_class* a)
 {
-    a->FUN_0065da80(_f, (int)this);
+    a->FUN_0065da80(_f, (std::intptr_t)this);
     return a;
 }
 
 namespace fnv_0065fd40 {
 struct FUN_0065e000_class
 {
-    int FUN_0065da80(int, int);
 };
 struct FUN_0065fd40_class
 {
@@ -4054,17 +3944,17 @@ struct FUN_0065fd40_class
 // @fnv 0x0065fd40
 FUN_0065e000_class* FUN_0065fd40_class::FUN_0065fd40(FUN_0065e000_class* a)
 {
-    a->FUN_0065da80(f10, (int)this);
+    reinterpret_cast<::FUN_0065e000_class *>((a))->FUN_0065da80(f10, (std::intptr_t)this);
     return a;
 }
 }  // namespace fnv_0065fd40
 
-float __cdecl FUN_00652440(int, int, int);
-void __cdecl FUN_006524e0(int, int, int);
+float __cdecl FUN_00652440(std::intptr_t, int, int);
+void __cdecl FUN_006524e0(std::intptr_t, int, std::intptr_t);
 
 // Reads both fan attribute values for a coordinate and fan type, overrides the selected attribute with afValue, then applies the pair.
 // @fnv 0x00652470
-void FUN_00652470(int apCoord, int aeFanAttribute, int aeFanType, float afValue)
+void FUN_00652470(std::intptr_t apCoord, int aeFanAttribute, int aeFanType, float afValue)
 {
     int i;
     float values[2];
@@ -4075,7 +3965,7 @@ void FUN_00652470(int apCoord, int aeFanAttribute, int aeFanType, float afValue)
         else
             values[i] = FUN_00652440(apCoord, i, aeFanType);
     }
-    FUN_006524e0(apCoord, aeFanType, (int)values);
+    FUN_006524e0(apCoord, aeFanType, (std::intptr_t)values);
 }
 
 namespace fnv_00656db0 {
@@ -4084,25 +3974,22 @@ struct GO
     operator unsigned int() const;
 };
 
-extern GO DAT_011f9510;
 
 // @fnv 0x00656db0
-unsigned int FUN_00656db0()
+std::uintptr_t FUN_00656db0()
 {
-    return DAT_011f9510.operator unsigned int();
+    return (*reinterpret_cast<::fnv_00656db0::GO *>(&::DAT_011f9510)).operator unsigned int();
 }
 }  // namespace fnv_00656db0
 
-void __cdecl FUN_00401030(void*);
 struct Target
 {
-    void FUN_0064fe10();
     Target* FUN_0064fde0(unsigned int flags);
 };
 // @fnv 0x0064fde0
 Target* Target::FUN_0064fde0(unsigned int flags)
 {
-    FUN_0064fe10();
+    reinterpret_cast<::FUN_0064fe10_cls *>(this)->FUN_0064fe10_cls::~FUN_0064fe10_cls();
     if (flags & 1)
         FUN_00401030(this);
     return this;
@@ -4110,7 +3997,6 @@ Target* Target::FUN_0064fde0(unsigned int flags)
 
 struct FaceGenModel
 {
-    void Touch();
 };
 
 template <class T> struct ModelPtr
@@ -4131,8 +4017,6 @@ struct FaceGenCacheEntry
 
 struct FGModelKey
 {
-    const char* GetPrimaryName();
-    const char* GetSecondaryName();
 };
 
 struct FaceGenCacheEntryMap
@@ -4141,13 +4025,10 @@ struct FaceGenCacheEntryMap
     int unk04;
     int unk08;
     int unk0C;
-    bool GetAt(const char* apKey, ModelPtr<FaceGenCacheEntry>& arOut);
 };
 
 unsigned int BSStringLength(const char* apString);
-unsigned int __cdecl gm_GetTickCount();
 void FUN_00652140();
-void FUN_00652190();
 
 struct FaceGenModelCacheX
 {
@@ -4157,7 +4038,6 @@ struct FaceGenModelCacheX
     int unk18;
     int unk1C;
     bool bChanged;
-    void MoveToFront(FaceGenCacheEntry* apEntry);
     bool TouchCachedModel(FGModelKey* apKey);
 };
 
@@ -4166,32 +4046,28 @@ struct FaceGenModelCacheX
 bool FaceGenModelCacheX::TouchCachedModel(FGModelKey* apKey)
 {
     ModelPtr<FaceGenCacheEntry> spEntry(0);
-    if (!apKey || !apKey->GetPrimaryName() || !BSStringLength(apKey->GetPrimaryName()))
+    if (!apKey || !::FUN_00650600((char *)(apKey)) || !BSStringLength(::FUN_00650600((char *)(apKey))))
         return false;
     bool bResultTmp = false;
     FUN_00652140();
-    if (kMap.GetAt(apKey->GetPrimaryName(), spEntry) ||
-        (apKey->GetSecondaryName() && kMap.GetAt(apKey->GetSecondaryName(), spEntry)))
+    if (reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((std::uintptr_t)(::FUN_00650600((char *)(apKey))), (void **)&(spEntry)) ||
+        (((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((apKey))->GetFloatValue())) && reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((std::uintptr_t)(((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((apKey))->GetFloatValue()))), (void **)&(spEntry))))
     {
-        ((FaceGenCacheEntry*)spEntry)->uiTick = gm_GetTickCount();
-        MoveToFront(spEntry);
-        ((FaceGenModel*)((FaceGenCacheEntry*)spEntry)->m_pRenderedNodeEntry)->Touch();
+        ((FaceGenCacheEntry*)spEntry)->uiTick = ((unsigned int)(::FUN_00457fe0()));
+        reinterpret_cast<::fnv_00650ba0::BSFaceGenModelMap_t *>(this)->FUN_00650ba0(spEntry);
+        reinterpret_cast<::BSFaceGenModel *>((((FaceGenModel*)((FaceGenCacheEntry*)spEntry)->m_pRenderedNodeEntry)))->LoadFaceGenTexture();
         bChanged = true;
         bResultTmp = true;
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
     return bResultTmp;
 }
 
-bool FUN_00652160();
 void FUN_00652140();
-void FUN_00652190();
 
 struct FGCacheModel
 {
     int GetRefCount();
-    bool HasPendingData();
-    void ReleaseTextureData();
 };
 
 struct FGCacheModelPtr
@@ -4218,9 +4094,6 @@ struct FGCacheEntryPtr
 
 struct FGCacheMap
 {
-    void* GetFirstPos();
-    void GetNext(void*& arPos, unsigned int& arKey, FGCacheEntryPtr& arVal);
-    bool RemoveAt(unsigned int aKey);
 };
 
 struct FaceGenModelCache650
@@ -4249,39 +4122,35 @@ void FaceGenModelCache650::PurgeUnusedModels(bool abForce)
     bool bStillHasData;
     void* pPos3;
     if (!abForce)
-        bLocked = FUN_00652160();
+        bLocked = ::fnv_00652160::FUN_00652160();
     else
         FUN_00652140();
     if (bLocked)
     {
         bStillHasData = false;
-        pPos3 = kMap.GetFirstPos();
+        pPos3 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(kMap))->GetFirstPos();
         while (pPos3)
         {
-            kMap.GetNext(pPos3, uiKey4, spEntry);
-            if (((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry->GetRefCount() == 1)
+            reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_00559120((::MapItem62d0 *&)(pPos3), (void *&)(uiKey4), (::Helper62d0 &)(spEntry));
+            if (((int)(std::intptr_t)(reinterpret_cast<::Callees *>(((((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry).operator->()))->FUN_00726070())) == 1)
             {
-                kMap.RemoveAt(uiKey4);
+                reinterpret_cast<::NiTMap_S *>(&(kMap))->RemoveKey(uiKey4);
             }
             else if ((FGCacheEntry*)spEntry && (FGCacheModel*)((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry)
             {
-                if (!((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry->HasPendingData())
+                if (!reinterpret_cast<::FUN_0065c090_shell *>(((((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry).operator->()))->FUN_0065c090())
                     bStillHasData = true;
-                ((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry->ReleaseTextureData();
+                reinterpret_cast<::BSFaceGenModel *>(((((FGCacheEntry*)spEntry)->m_pRenderedNodeEntry).operator->()))->ClearTextureData();
             }
         }
         if (!bStillHasData)
             bHasData = false;
-        FUN_00652190();
+        ::fnv_00652190::FUN_00652190();
     }
 }
 
 struct FGModel650
 {
-    unsigned int IsUnusedA();
-    unsigned int IsUnusedB();
-    void ReleaseA();
-    void ReleaseB();
 };
 
 template <class T> class NiPtr650
@@ -4305,13 +4174,9 @@ struct FGEntry650
 
 struct FGMap650
 {
-    void* GetFirstPos();
-    void GetNext(void*& pos, void*& key, NiPtr650<FGEntry650>& val);
 };
 
 void FUN_00652140();
-void FUN_00652190();
-unsigned int __cdecl gm_GetTickCount();
 
 struct FGCache650
 {
@@ -4319,63 +4184,6 @@ struct FGCache650
     FGMap650 kMap;
     void FUN_00650cb0(int aeType, FGEntry650* apExclude);
 };
-
-// Scans the map for an entry whose model reports unused for the given type, picks the one with the oldest uiLastUsed, releases it, and returns nothing.
-// @fnv 0x00650cb0
-void FGCache650::FUN_00650cb0(int aeType, FGEntry650* apExclude)
-{
-    void* pKey = 0;
-    void* pBestKey9 = 0;
-    NiPtr650<FGEntry650> _spEntry(0);
-    NiPtr650<FGEntry650> spBest2(0);
-    unsigned int uiNow5 = gm_GetTickCount();
-    FUN_00652140();
-    unsigned int uiUnused8;
-    void* pPosVal = kMap.GetFirstPos();
-    while (pPosVal)
-    {
-        kMap.GetNext(pPosVal, pKey, _spEntry);
-        if (_spEntry == apExclude)
-            continue;
-        switch (aeType)
-        {
-        case 0:
-            uiUnused8 = ((FGModel650*)((FGEntry650*)_spEntry)->m_pRenderedNodeEntry)->IsUnusedA();
-            break;
-        case 1:
-            uiUnused8 = ((FGModel650*)((FGEntry650*)_spEntry)->m_pRenderedNodeEntry)->IsUnusedB();
-            break;
-        default:
-            uiUnused8 = 0;
-            break;
-        }
-        if (!uiUnused8)
-            continue;
-        if (!(FGEntry650*)spBest2)
-        {
-            spBest2 = _spEntry;
-            pBestKey9 = pKey;
-        }
-        else if (uiNow5 - ((FGEntry650*)_spEntry)->uiLastUsed > uiNow5 - ((FGEntry650*)spBest2)->uiLastUsed)
-        {
-            spBest2 = _spEntry;
-            pBestKey9 = pKey;
-        }
-    }
-    if ((FGEntry650*)spBest2)
-    {
-        switch (aeType)
-        {
-        case 0:
-            ((FGModel650*)((FGEntry650*)spBest2)->m_pRenderedNodeEntry)->ReleaseA();
-            break;
-        case 1:
-            ((FGModel650*)((FGEntry650*)spBest2)->m_pRenderedNodeEntry)->ReleaseB();
-            break;
-        }
-    }
-    FUN_00652190();
-}
 
 struct FUN_006515b0_Elem
 {
@@ -4454,7 +4262,6 @@ void __cdecl FUN_00651ab0()
     }
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_00651b00_class
 {
@@ -4469,7 +4276,7 @@ FUN_00651b00_class* FUN_00651b00_class::Destroy(unsigned int flags)
     FUN_006518e0();
     if (flags & 1)
     {
-        ::operator delete(this);
+        ::FUN_00401030(this);
     }
     return this;
 }
@@ -4549,20 +4356,15 @@ struct FG652_Mat
 struct FG652_Node
 {
     unsigned int FUN_0043b480();
-    FG652_Child* FUN_0043b4a0(unsigned int);
 };
 struct FG652_Applier
 {
-    void ApplyMorphs(FG652_Mat*, void*, int);
 };
-void* __cdecl GetGeomExtraData(void*);
 struct FG652_List
 {
-    struct FG652_Name* FUN_00726070();
 };
 struct FG652_Name
 {
-    void* FUN_005d9fb0();
 };
 struct FG652_NPC
 {
@@ -4634,14 +4436,11 @@ struct FG652_NPC
     int unk104;
     int unk108;
     FG652_List list;
-    void FUN_00603ad0(FG652_Mat*);
     void* FUN_005f0cc0();
-    void* FUN_00601800(int);
 };
 float __cdecl GetMorphCoordinateValue(FG652_Mat*, int, int, int);
 void __cdecl FUN_00652320(FG652_Mat*, int, int, int, float);
 void __cdecl FUN_00652e00(void*, void*, void*, void*);
-extern int DAT_011d59f0;
 extern bool DAT_011d59e1;
 
 struct FG652_Actor
@@ -4763,20 +4562,19 @@ struct FG652_Actor
     virtual void v72();
     virtual void v73();
     virtual FG652_Obj90* GetObj90();
-    FG652_NPC* FUN_007af430();
 };
 
 // @fnv 0x00652510
 void FUN_00652510(FG652_Actor* apActor)
 {
-    FG652_NPC* pNPC4 = apActor->FUN_007af430();
+    FG652_NPC* pNPC4 = ((::FG652_NPC *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apActor))->FUN_007af430()));
     FG652_Obj90* p9 = apActor->GetObj90();
     void* pVal5 = p9 ? p9->GetVal() : 0;
     FG652_Mat kA[4];
     FG652_Mat kB9[4];
     FG652_Mat kC3[4];
-    pNPC4->FUN_00603ad0(kA);
-    pNPC4->FUN_00603ad0(kB9);
+    reinterpret_cast<::TESNPC *>((pNPC4))->GetFaceGenCoords((FaceGenMatrix<float> (&)[2][2])(kA));
+    reinterpret_cast<::TESNPC *>((pNPC4))->GetFaceGenCoords((FaceGenMatrix<float> (&)[2][2])(kB9));
     float fAge8 = GetMorphCoordinateValue(kA, 0, 0, DAT_011d59f0);
     if (DAT_011d59e1)
     {
@@ -4798,31 +4596,25 @@ void FUN_00652510(FG652_Actor* apActor)
         unsigned int uiCount_2 = pNodeVal->FUN_0043b480();
         for (unsigned int jX = 0; jX < uiCount_2; jX++)
         {
-            FG652_Child* pChild4 = pNodeVal->FUN_0043b4a0(jX);
+            FG652_Child* pChild4 = ((::FG652_Child *)(reinterpret_cast<::NiNode *>((pNodeVal))->GetAt(jX)));
             void* aPGeom = pChild4 ? pChild4->GetGeom() : 0;
             if (!aPGeom)
                 continue;
-            FG652_ED* pED4 = (FG652_ED*)GetGeomExtraData(aPGeom);
+            FG652_ED* pED4 = (FG652_ED*)((void *)(::GetGeomExtraData((::NiTriBasedGeom *)(aPGeom))));
             FG652_Applier* pApp3 = pED4 ? pED4->GetApplier() : 0;
             if (!pApp3)
                 continue;
-            pApp3->ApplyMorphs(kC3, aPGeom, 0);
+            reinterpret_cast<::FUN_0065a970_shell *>((pApp3))->ApplyMorphs((::FaceGenCoordinate *)(kC3), (::NiTriBasedGeom *)(aPGeom), 0);
         }
         pNodeVal = apActor->GetNode1st(0);
     }
-    FUN_00652e00(pNPC4->list.FUN_00726070()->FUN_005d9fb0(), pNPC4->FUN_005f0cc0(), kB9, pNPC4->FUN_00601800(0));
+    FUN_00652e00(((void *)(reinterpret_cast<::S9fb0 *>((((::FG652_Name *)(reinterpret_cast<::Callees *>(&(pNPC4->list))->FUN_00726070()))))->FUN_005d9fb0({}))), pNPC4->FUN_005f0cc0(), kB9, reinterpret_cast<::FUN_00601800_shell *>((pNPC4))->FUN_00601800());
 }
 
 struct MatrixProxy
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    unsigned int FUN_009611e0();
-    unsigned int FUN_00441110();
-    void SetDimensions(unsigned int, unsigned int);
     void FUN_006581e0(MatrixProxy*);
-    void FUN_0044a0a0();
-    float* FUN_006578b0(unsigned int);
-    void PushBack(const float&);
 };
 // @fnv 0x00652e00
 void FUN_00652e00(MatrixProxy (*a)[2], MatrixProxy (*b)[2], MatrixProxy (*out)[2], bool copy)
@@ -4833,11 +4625,11 @@ void FUN_00652e00(MatrixProxy (*a)[2], MatrixProxy (*b)[2], MatrixProxy (*out)[2
     {
         for (int j = 0; j < 2; ++j)
         {
-            unsigned int cols = a[i][j].FUN_009611e0();
-            unsigned int rows = a[i][j].FUN_00441110();
+            unsigned int cols = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>(&(a[i][j]))->FUN_009611e0()));
+            unsigned int rows = reinterpret_cast<::BGSTerrainManager *>(&(a[i][j]))->GetMinLevel();
             if (cols && rows)
             {
-                out[i][j].SetDimensions(cols, rows);
+                reinterpret_cast<::FR2MatrixVTCData *>(&(out[i][j]))->SetDimensions(cols, rows);
                 if (i == 1 && copy)
                 {
                     out[i][j].FUN_006581e0(&a[i][j]);
@@ -4845,38 +4637,37 @@ void FUN_00652e00(MatrixProxy (*a)[2], MatrixProxy (*b)[2], MatrixProxy (*out)[2
                 else
                 {
                     unsigned int count = cols * rows;
-                    out[i][j].FUN_0044a0a0();
+                    reinterpret_cast<::VecStandIn *>(&(out[i][j]))->FUN_0044a0a0();
                     for (unsigned int k = 0; k < count; ++k)
                     {
-                        float bv = *a[i][j].FUN_006578b0(k);
-                        float av = *b[i][j].FUN_006578b0(k);
-                        out[i][j].PushBack(av - bv);
+                        float bv = *((float *)(reinterpret_cast<::V_006578b0 *>(&(a[i][j]))->FUN_006578b0(k)));
+                        float av = *((float *)(reinterpret_cast<::V_006578b0 *>(&(b[i][j]))->FUN_006578b0(k)));
+                        reinterpret_cast<::FloatVec *>(&(out[i][j]))->PushBack(av - bv);
                     }
                 }
             }
             else
             {
-                out[i][j].SetDimensions(0, 0);
+                reinterpret_cast<::FR2MatrixVTCData *>(&(out[i][j]))->SetDimensions(0, 0);
             }
         }
     }
 }
 
 namespace fnv_00653120 {
-struct NiNode;
+class NiNode;
 struct NiAVObjectLike
 {
     void** vtable;
 };
-extern "C" NiAVObjectLike* __cdecl GetGeomExtraData(void*);
 extern "C" NiNode* __cdecl GetHandleObject(void*);
-typedef NiAVObjectLike*(__thiscall* FUN_00653120_vfunc_type)(NiAVObjectLike*);
-typedef NiNode*(__thiscall* FUN_00653180_type)(void*);
+typedef NiAVObjectLike*(* FUN_00653120_vfunc_type)(NiAVObjectLike*);
+typedef NiNode*(* FUN_00653180_type)(void*);
 // Resolves apGeom to an object, calls its vtable slot at 0x94, and returns the resulting node or null.
 // @fnv 0x00653120
 NiNode* __cdecl GetNodeFromGeometry(void* apGeom)
 {
-    NiAVObjectLike* pNode = GetGeomExtraData(apGeom);
+    NiAVObjectLike* pNode = ((::fnv_00653120::NiAVObjectLike *)(::GetGeomExtraData((::NiTriBasedGeom *)(apGeom))));
     NiNode* pObject;
     if (pNode != 0 && ((FUN_00653120_vfunc_type)pNode->vtable[0x94 / 4])(pNode) != 0)
     {
@@ -4925,7 +4716,6 @@ class B6579D0Base
 class FUN_006579d0 : public B6579D0Base
 {
   public:
-    void Clear();
 
     ~FUN_006579d0();
 };
@@ -4933,7 +4723,7 @@ class FUN_006579d0 : public B6579D0Base
 // @fnv 0x006579d0
 FUN_006579d0::~FUN_006579d0()
 {
-    Clear();
+    reinterpret_cast<::FUN_00657d50_cls *>(this)->FUN_00657d50();
 }
 
 void __cdecl ReportAssertionViolation(const char* apSource, int aiLine);
@@ -4970,9 +4760,6 @@ struct FgMatrixVT
     FgMatrixVT(unsigned int r, unsigned int c);
     FgMatrixVT(const FgMatrixVT&);
     ~FgMatrixVT();
-    MatView View();
-    MatIter Begin() const;
-    MatIter End() const;
     FgMatrixVT FUN_00658500(const FgMatrixVT& other) const;
 };
 
@@ -4984,11 +4771,11 @@ FgMatrixVT FgMatrixVT::FUN_00658500(const FgMatrixVT& other) const
         ? (void)0
         : ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x16d);
     FgMatrixVT result(m_uiRowCount, m_uiColumnCount);
-    MatView out4 = result.View();
-    MatIter a2 = Begin();
-    MatIter b = other.Begin();
-    for (; a2 != End(); a2++, b++, out4++)
-        *out4 = *a2 + *b;
+    MatView out4 = (*(::MatView *)(reinterpret_cast<::_Dummy_0044a170 *>(&(result))->FUN_0044a170({})));
+    MatIter a2 = (*(::MatIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)this)->FUN_0065fd10({})));
+    MatIter b = (*(::MatIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)&(other))->FUN_0065fd10({})));
+    for (; reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::MatIter &)(a2))->FUN_0065dfd0((std::intptr_t)&(const ::MatIter &)((*(::MatIter *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>((void *)this)->FUN_0065fd40({}))))); a2++, b++, out4++)
+        *(float *)reinterpret_cast<::FUN_0064dbd0_Class *>(&out4)->FUN_0064dbd0() = *(const float *)reinterpret_cast<::FUN_0064dda0_cls *>(&a2)->FUN_0064dda0() + *(const float *)reinterpret_cast<::FUN_0064dda0_cls *>(&b)->FUN_0064dda0();
     return result;
 }
 
@@ -5027,7 +4814,6 @@ void FG_00659100_cls::FUN_00659190()
 
 struct SegThing
 {
-    int Value();
     int m_00;
 };
 
@@ -5044,8 +4830,6 @@ struct SegRange
     int m_08;
     int m_0c;
     int m_10;
-    unsigned int GetCount();
-    SegItem* GetItem(unsigned int j);
 };
 
 struct SegElem
@@ -5066,6 +4850,62 @@ struct FUN_0065c490_cls
     SegHolder* m_0c;
     unsigned int FUN_0065c490();
 };
+// Scans the map for an entry whose model reports unused for the given type, picks the one with the oldest uiLastUsed, releases it, and returns nothing.
+// @fnv 0x00650cb0
+void FGCache650::FUN_00650cb0(int aeType, FGEntry650* apExclude)
+{
+    void* pKey = 0;
+    void* pBestKey9 = 0;
+    NiPtr650<FGEntry650> _spEntry(0);
+    NiPtr650<FGEntry650> spBest2(0);
+    unsigned int uiNow5 = ((unsigned int)(::FUN_00457fe0()));
+    FUN_00652140();
+    unsigned int uiUnused8;
+    void* pPosVal = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(kMap))->GetFirstPos();
+    while (pPosVal)
+    {
+        reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_00559120((::MapItem62d0 *&)(pPosVal), pKey, (::Helper62d0 &)(_spEntry));
+        if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NiPtr650< ::FGEntry650> &)(_spEntry))->operator==((std::intptr_t)(apExclude)))
+            continue;
+        switch (aeType)
+        {
+        case 0:
+            uiUnused8 = reinterpret_cast<::FUN_0065c110_t *>((((FGModel650*)((FGEntry650*)_spEntry)->m_pRenderedNodeEntry)))->GetEGMSize();
+            break;
+        case 1:
+            uiUnused8 = reinterpret_cast<::FUN_0065c490_cls *>((((FGModel650*)((FGEntry650*)_spEntry)->m_pRenderedNodeEntry)))->FUN_0065c490();
+            break;
+        default:
+            uiUnused8 = 0;
+            break;
+        }
+        if (!uiUnused8)
+            continue;
+        if (!(FGEntry650*)spBest2)
+        {
+            spBest2 = _spEntry;
+            pBestKey9 = pKey;
+        }
+        else if (uiNow5 - ((FGEntry650*)_spEntry)->uiLastUsed > uiNow5 - ((FGEntry650*)spBest2)->uiLastUsed)
+        {
+            spBest2 = _spEntry;
+            pBestKey9 = pKey;
+        }
+    }
+    if ((FGEntry650*)spBest2)
+    {
+        switch (aeType)
+        {
+        case 0:
+            reinterpret_cast<::FUN_0065c090_shell *>((((FGModel650*)((FGEntry650*)spBest2)->m_pRenderedNodeEntry)))->FUN_0065c090();
+            break;
+        case 1:
+            reinterpret_cast<::BSFaceGenModel *>((((FGModel650*)((FGEntry650*)spBest2)->m_pRenderedNodeEntry)))->ClearTextureData();
+            break;
+        }
+    }
+    ::fnv_00652190::FUN_00652190();
+}
 
 // Sums a base 0x34 plus per-range counts times 0x58 and per-item values times 3 across two ranges, returning the total.
 // @fnv 0x0065c490
@@ -5078,17 +4918,16 @@ unsigned int FUN_0065c490_cls::FUN_0065c490()
         total = 0x34;
         for (i = 0; i < 2; i++)
         {
-            total += (*(SegRange*)((char*)(m_0c->m_08) + 4 + i * 0x18)).GetCount() * 0x58;
-            for (unsigned int j = 0; j < (*(SegRange*)((char*)(m_0c->m_08) + 4 + i * 0x18)).GetCount(); j++)
+            total += ((unsigned int)(reinterpret_cast<::FUN_0065cea0_class *>(&((*(SegRange*)((char*)(&m_0c->m_08->sub) + i * 0x18))))->FUN_0065cea0())) * 0x58;
+            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::FUN_0065cea0_class *>(&((*(SegRange*)((char*)(&m_0c->m_08->sub) + i * 0x18))))->FUN_0065cea0())); j++)
             {
-                total += (*(SegRange*)((char*)(m_0c->m_08) + 4 + i * 0x18)).GetItem(j)->t.Value() * 3;
+                total += reinterpret_cast<::FUN_0065cc50_Class *>(&(((::SegItem *)(reinterpret_cast<::Holder *>(&((*(SegRange*)((char*)(&m_0c->m_08->sub) + i * 0x18))))->FUN_0065cec0(j)))->t))->FUN_0065cc50() * 3;
             }
         }
     }
     return total;
 }
 
-void __stdcall FUN_0065ee50_Helper(void* p, unsigned int size, int count, void (*dtor)());
 
 struct FUN_006516a0_class
 {
@@ -5098,7 +4937,7 @@ struct FUN_006516a0_class
 // @fnv 0x006516a0
 void FUN_006516a0_class::FUN_006516a0()
 {
-    FUN_0065ee50_Helper(this, 0x20, 2, FUN_dtor);
+    fnv::crt::vector_destructor(this, 0x20, 2, (void (*)(void *))(((void (&)())::FUN_00449680)));
 }
 
 struct FaceGenCoordElement
@@ -5158,7 +4997,6 @@ struct FgMat652
     unsigned int m_uiColumnCount;
     ~FgMat652();
     FgMat652 Scaled(float afScale) const;
-    void Assign(const FgMat652& arOther);
 };
 struct FanCtl652
 {
@@ -5188,7 +5026,6 @@ struct FanVec652
     FanCtl652* last;
     FanCtl652* end;
     unsigned int size() const;
-    FanCtl652* at(unsigned int i);
 };
 struct FGMgr652
 {
@@ -5240,19 +5077,6 @@ struct FGMgr652
     int unkb4;
     FanVec652 fans[2][2];
 };
-FGMgr652* GetFaceGenMgr652();
-
-// @fnv 0x00652320
-void __cdecl FUN_00652320(FG652_Mat* apMat, int aeAttr, int aeType, int aiIndex, float afValue)
-{
-    if (apMat && (unsigned int)aiIndex < GetFaceGenMgr652()->fans[aeAttr][aeType].size())
-    {
-        float fOrig = GetMorphCoordinateValue(apMat, aeAttr, aeType, aiIndex);
-        float fChange = afValue - fOrig;
-        ((FgMat652(*)[2])apMat)[aeAttr][aeType].Assign(
-            GetFaceGenMgr652()->fans[aeAttr][aeType].at(aiIndex)->GetMatrix().Scaled(fChange));
-    }
-}
 
 struct FUN_00406f90_this;
 struct HashB8
@@ -5260,11 +5084,6 @@ struct HashB8
     int a;
     int b;
 };
-int __cdecl FUN_00406f60(FUN_00406f90_this* apThis, const char* apFmt, ...);
-void __cdecl HashPathComponents(const char* apStr, HPList* apHashA, HPList* apHashB);
-int __cdecl FindFileEntryInArchives(int aiZero, HPList* apHashA, HPList* apHashB, const char* apStr);
-char* __cdecl strchr(char* apStr, int aiChar);
-const char* __fastcall FUN_00559450(const BSStringT<char>* apStr);
 
 // @fnv 0x00653a10
 const char* __cdecl FUN_00653a10(BSStr* aStr, const char* apModel)
@@ -5276,36 +5095,37 @@ const char* __cdecl FUN_00653a10(BSStr* aStr, const char* apModel)
     char buf2[0x104];
     HPList hashA;
     HashB8 hashB;
-    int r6;
+    std::intptr_t r6;
 
     if (apModel == 0)
         return 0;
-    strcpy_s(buf5, 0x104, apModel);
+    ::TaskQueueInterface::CopyStringToBuffer(buf5, 0x104, apModel);
     us = strchr(buf5, '_');
     if (us != 0)
     {
-        aStr->Set(buf5, 0);
+        reinterpret_cast<::TextString *>((aStr))->FUN_004037f0(buf5, 0);
         return apModel;
     }
     dot = FUN_0040ab30(buf5, '.');
     if (dot == 0)
         return apModel;
     *dot = 0;
-    sprintf_s(buf2, 0x104, "%s_50.NIF", buf5);
-    aStr->Set(buf2, 0);
+    ::FUN_00406d00(buf2, 0x104, "%s_50.NIF", buf5);
+    reinterpret_cast<::TextString *>((aStr))->FUN_004037f0(buf2, 0);
     FUN_00406f60((FUN_00406f90_this*)&iter, "Meshes\\%s", (const char*)*aStr);
-    _ref_006815c0(&hashA);
-    _ref_006815c0((HPList*)&hashB);
-    HashPathComponents(FUN_00559450((const BSStringT<char>*)&iter), &hashA, (HPList*)&hashB);
-    r6 = FindFileEntryInArchives(0, &hashA, (HPList*)&hashB, FUN_00559450((const BSStringT<char>*)&iter));
+    (void *)(&hashA);
+    (void *)((HPList*)&hashB);
+    ::HashPathComponents(((const char *)(::FUN_00559450((int *)((const BSStringT<char>*)&iter)))), (::FileNameHash *)(::HPList *)(&hashA), (::FileNameHash *)(::HPList *)((HPList*)&hashB));
+    r6 = ((std::intptr_t)(::fnv_00af6540::FindFileEntryInArchives(0, (*(::fnv_00af6540::FileNameHash *)(&hashA)), (*(::fnv_00af6540::FileNameHash *)((HPList*)&hashB)), ((const char *)(::FUN_00559450((int *)((const BSStringT<char>*)&iter)))))));
     if (r6 == 0)
         return 0;
     return *aStr;
 }
 
 namespace fnv_00654720 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* text;
     NiFixedString(const char*);
     ~NiFixedString();
@@ -5318,7 +5138,6 @@ struct ThreeByThreeMatrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     ThreeByThreeMatrix();
-    void FUN_0043f850(float);
 };
 struct FileNameHash
 {
@@ -5388,10 +5207,7 @@ struct FG547Property
     virtual void v3a();
     virtual void v3b();
     virtual void Apply(int, int, void*);
-    int FUN_00441110();
-    void FUN_00b68d30();
     void FUN_00441130(int, int);
-    void AssignFixedString(const NiFixedString&);
 };
 struct FG547Node
 {
@@ -5451,14 +5267,6 @@ struct FG547Node
     virtual void v35();
     virtual void v36();
     virtual void Attach(FG547Node*, int);
-    void AssignFixedString(const NiFixedString&);
-    FG547Property* FUN_00a59d30(unsigned int);
-    void FUN_00a5b230(int);
-    void FUN_00439410(void*);
-    void* FUN_0043fad0();
-    void FUN_004adde0(void*);
-    void FUN_00440460(const NiPoint3&);
-    void FUN_0043fa80(const ThreeByThreeMatrix&);
 };
 struct FG547Model
 {
@@ -5469,7 +5277,6 @@ struct FG547Model
     virtual void v04();
     virtual const char* Path();
     int FUN_0048cee0();
-    void FUN_0048afe0(FG547Node*);
 };
 struct FG547Part
 {
@@ -5488,13 +5295,10 @@ struct FG547List
 {
     FG547Part* data;
     FG547List* next;
-    FG547Part** FUN_006815c0();
-    FG547List* FUN_00726070();
 };
 struct FG547Array
 {
     int unk00, unk04, unk08, unk0c;
-    unsigned int GetShortAtOffsetA();
     FG547Model** FUN_00877a30(unsigned int);
 };
 struct FG547Data
@@ -5550,7 +5354,6 @@ struct FG547Data
 };
 struct FG547Cache
 {
-    bool FUN_0065a910(FG547Data*, GO*);
 };
 struct FG547PointerOps
 {
@@ -5560,14 +5363,12 @@ struct FG547Setting
 {
     bool* FUN_00408d60();
 };
-extern FG547Setting DAT_011d5adc;
 struct FG547TextureLoader
 {
-    void FUN_004568c0(const char*, GO&, bool, bool);
 };
-extern FG547TextureLoader* DAT_011dea10;
-struct NiExtraData
+class NiExtraData
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -5587,8 +5388,6 @@ struct NiExtraData
     int unk40;
     int unk44;
     int unk48;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00a75650 : NiExtraData
 {
@@ -5618,22 +5417,13 @@ struct FG547NewProperty
     int unk48;
     void FUN_00a75650();
 };
-extern const char DAT_01065720[], DAT_01019710[], DAT_010657f8[], DAT_010657e4[], DAT_01200464[];
+extern const char DAT_01065720[], DAT_01019710[], DAT_010657f8[], DAT_010657e4[];
 extern const NiPoint3 DAT_011f426c;
-int FUN_00406f60(StrMem*, const char*, ...);
 void FUN_00653a10(StrMem*, const char*);
-void HashPathComponents(const char*, FileNameHash*, FileNameHash*);
-int FindFileEntryInArchives(int, FileNameHash*, FileNameHash*, const char*);
 const char* BuildEgmFilename(StrMem*, const char*, int);
 const char* BuildTriPathAndSet(StrMem*, const char*, int);
 FG547Cache* GetOrCreateFaceGenModel(const char*, const char*, const char*, const char*, int, int, int);
-unsigned int FUN_004af350();
-NiFixedString* FUN_006041c0();
 FG547Property* FUN_00653270(const char*, FG547Property*);
-bool FUN_00605d20();
-void MatchGeometryVertices(FG547Node*, FG547Node*, float, int, int);
-void BuildHairFaceGenNodes(FG547Node**, FG547Node**, FG547Data*, bool);
-void CreateEyeGeometry(FG547Node**, FG547Node**, FG547Data*, bool);
 
 // @fnv 0x00654720
 bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547Data* data, bool firstPerson)
@@ -5651,26 +5441,26 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
     StrMem modelPath;
     StrMem rotation;
     StrMem meshPath;
-    hair.FUN_0043f850(-1.5707963705062866f);
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(hair))->SetYRotation(-1.5707963705062866f);
     for (unsigned int part = 0; part < 8; ++part)
     {
-        if (!data->models.GetShortAtOffsetA() || !*data->models.FUN_00877a30(part) ||
+        if (!reinterpret_cast<::FUN_00658930_class *>(&(data->models))->GetShortAtOffsetA() || !*data->models.FUN_00877a30(part) ||
             !(*data->models.FUN_00877a30(part))->FUN_0048cee0())
             continue;
-        if (!data->textures.GetShortAtOffsetA() || !*data->textures.FUN_00877a30(part) ||
+        if (!reinterpret_cast<::FUN_00658930_class *>(&(data->textures))->GetShortAtOffsetA() || !*data->textures.FUN_00877a30(part) ||
             !(*data->textures.FUN_00877a30(part))->FUN_0048cee0())
             continue;
-        FUN_00406f60(&model, DAT_01019710, (*data->models.FUN_00877a30(part))->Path());
+        ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&model), DAT_01019710, (*data->models.FUN_00877a30(part))->Path());
         if (data->lod == 0 && part == 0)
         {
             FUN_00653a10(&meshPath, (const char*)*(BSStringT<char>*)&model);
-            int fallback = 0;
+            std::intptr_t fallback = 0;
             if ((const char*)*(BSStringT<char>*)&meshPath)
             {
                 FileNameHash hash1;
                 FileNameHash hash2;
-                HashPathComponents((const char*)*(BSStringT<char>*)&meshPath, &hash1, &hash2);
-                fallback = FindFileEntryInArchives(0, &hash1, &hash2, (const char*)*(BSStringT<char>*)&meshPath);
+                ::HashPathComponents((const char*)*(BSStringT<char>*)&meshPath, (::FileNameHash *)(::fnv_00654720::FileNameHash *)(&hash1), (::FileNameHash *)(::fnv_00654720::FileNameHash *)(&hash2));
+                fallback = ((std::intptr_t)(::fnv_00af6540::FindFileEntryInArchives(0, (*(::fnv_00af6540::FileNameHash *)(&hash1)), (*(::fnv_00af6540::FileNameHash *)(&hash2)), (const char*)*(BSStringT<char>*)&meshPath)));
             }
             if (fallback)
                 FUN_00653a10(&model, (const char*)*(BSStringT<char>*)&model);
@@ -5679,7 +5469,7 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
         switch (part)
         {
         case 0:
-            if (data->player || *DAT_011d5adc.FUN_00408d60())
+            if (data->player || *(*reinterpret_cast<::fnv_00654720::FG547Setting *>(&::g_011d5adc)).FUN_00408d60())
                 auxiliary = GetModelEgtFilename((BSStr*)&modelPath, (const char*)*(BSStringT<char>*)&model);
             unusedPath = GetOrCreateFaceGenModel(
                 BuildEgmFilename(&texture, (const char*)*(BSStringT<char>*)&model, -1),
@@ -5705,53 +5495,52 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
         }
         if (!unusedPath)
             continue;
-        if (!unusedPath->FUN_0065a910(data, &accessory) || !(FG547Node*)(FGEntry*)accessory)
+        if (!reinterpret_cast<::FUN_0065a910_shell *>((unusedPath))->FUN_0065a910(data, &accessory) || !(FG547Node*)(FGEntry*)accessory)
             continue;
-        ((FG547Node*)(FGEntry*)accessory)
-            ->AssignFixedString(NiFixedString((const char*)*data->names.FUN_00877a30(part)));
+        ::AssignFixedString((char *)(((FG547Node*)(FGEntry*)accessory)), (std::intptr_t)&(const ::fnv_00654720::NiFixedString &)(NiFixedString((const char*)*data->names.FUN_00877a30(part))), {});
         if (part == 0)
             cached = (FG547Node*)(FGEntry*)accessory;
         if (part == 1)
             fallbackPath = (FG547Node*)(FGEntry*)accessory;
-        FUN_00406f60(&model, DAT_010657f8, ((FNStub*)*data->textures.FUN_00877a30(part))->GetFullName());
-        DAT_011dea10->FUN_004568c0((const char*)*(BSStringT<char>*)&model, context, false, false);
+        ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&model), DAT_010657f8, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)*data->textures.FUN_00877a30(part))))->FUN_00408da0())));
+        reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00654720::FG547TextureLoader * *>(&::g_TES))))->FUN_004568c0((const char*)*(BSStringT<char>*)&model, (::TexPtr< ::NiSourceTexture> &)(context), false, false);
         if ((FGEntry*)context)
         {
-            FG547Property* shader = ((FG547Node*)(FGEntry*)accessory)->FUN_00a59d30(3);
+            FG547Property* shader = ((::fnv_00654720::FG547Property *)(reinterpret_cast<::FUN_00a59d30_C *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00a59d30(3)));
             FG547Property* base =
-                (!shader ? false : shader->FUN_00441110() >= 8 && shader->FUN_00441110() <= 12) ? shader : 0;
+                (!shader ? false : ((int)(reinterpret_cast<::BGSTerrainManager *>((shader))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((shader))->GetMinLevel())) <= 12) ? shader : 0;
             if (base)
                 base->Apply(0, 0, (FGEntry*)context);
         }
         if (part == 4 || part == 3)
         {
-            if (((FG547Node*)(FGEntry*)accessory)->FUN_00a59d30(0))
-                ((FG547Node*)(FGEntry*)accessory)->FUN_00a5b230(0);
-            ((FG547Node*)(FGEntry*)accessory)->FUN_00439410((void*)FUN_00655270());
+            if (((::fnv_00654720::FG547Property *)(reinterpret_cast<::FUN_00a59d30_C *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00a59d30(0))))
+                reinterpret_cast<::ExtraOwnerB *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00a5b230(0);
+            reinterpret_cast<::FUN_00439410_cls *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00439410((::ArgObject *)(void *)((void*)FUN_00655270()));
         }
         if (part == 0 || part == 1)
         {
-            FG547Property* shader = ((FG547Node*)(FGEntry*)accessory)->FUN_00a59d30(FUN_004af350());
+            FG547Property* shader = ((::fnv_00654720::FG547Property *)(reinterpret_cast<::FUN_00a59d30_C *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00a59d30(::FUN_004af350())));
             FG547Property* base = shader;
             if (base)
-                base->AssignFixedString(*FUN_006041c0());
+                ::AssignFixedString((char *)(base), (std::intptr_t)&(*((::fnv_00654720::NiFixedString *)(::FUN_006041c0()))), {});
             else
             {
                 base = (FG547Property*)new FUN_00a75650;
-                base->AssignFixedString(*FUN_006041c0());
-                ((FG547Node*)(FGEntry*)accessory)->FUN_00439410(base);
+                ::AssignFixedString((char *)(base), (std::intptr_t)&(*((::fnv_00654720::NiFixedString *)(::FUN_006041c0()))), {});
+                reinterpret_cast<::FUN_00439410_cls *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00439410((::ArgObject *)(base));
             }
         }
-        if (((FG547Node*)(FGEntry*)accessory)->FUN_0043fad0())
+        if (((void *)(::fnv_0043fad0::FUN_0043fad0((const char *)(((FG547Node*)(FGEntry*)accessory))))))
         {
             if (firstPerson)
             {
-                ((FG547Node*)(FGEntry*)accessory)->FUN_004adde0(0);
-                ((FG547Node*)(FGEntry*)accessory)->FUN_00440460(DAT_011f426c);
-                ((FG547Node*)(FGEntry*)accessory)->FUN_0043fa80(hair);
+                reinterpret_cast<::FUN_004adde0_shell *>((((FG547Node*)(FGEntry*)accessory)))->FUN_004adde0((::NiNode *)(void *)(0));
+                reinterpret_cast<::FUN_00440460_S *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00440460((const ::V3 *)&(DAT_011f426c));
+                reinterpret_cast<::FUN_0043fa80_s *>((((FG547Node*)(FGEntry*)accessory)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(hair));
                 (*root)->Attach((FG547Node*)(FGEntry*)accessory, 1);
-                FG547Property* shader = ((FG547Node*)(FGEntry*)accessory)->FUN_00a59d30(3);
-                FG547Property* base = FUN_00653270(DAT_01200464, shader);
+                FG547Property* shader = ((::fnv_00654720::FG547Property *)(reinterpret_cast<::FUN_00a59d30_C *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00a59d30(3)));
+                FG547Property* base = FUN_00653270((*reinterpret_cast<const char (*)[]>(&::g_01200464)), shader);
                 if (base)
                     base->FUN_00441130(1, 0);
             }
@@ -5760,48 +5549,47 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
         }
         else
         {
-            ((FG547Node*)(FGEntry*)accessory)->FUN_0043fa80(hair);
+            reinterpret_cast<::FUN_0043fa80_s *>((((FG547Node*)(FGEntry*)accessory)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(hair));
             (*root)->Attach((FG547Node*)(FGEntry*)accessory, 1);
         }
-        FG547Property* base = ((FG547Node*)(FGEntry*)accessory)->FUN_00a59d30(3);
+        FG547Property* base = ((::fnv_00654720::FG547Property *)(reinterpret_cast<::FUN_00a59d30_C *>((((FG547Node*)(FGEntry*)accessory)))->FUN_00a59d30(3)));
         FG547Property* checked = base;
         FG547Property* shader =
-            (!checked ? false : checked->FUN_00441110() >= 8 && checked->FUN_00441110() <= 12) ? checked : 0;
+            (!checked ? false : ((int)(reinterpret_cast<::BGSTerrainManager *>((checked))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((checked))->GetMinLevel())) <= 12) ? checked : 0;
         if (shader)
-            shader->FUN_00b68d30();
+            reinterpret_cast<::BSShaderPPLightingProperty *>((shader))->EnsureNormalMap();
         unusedPath = 0;
         ((FG547PointerOps*)&context)->FUN_0066b0d0(0);
         ((FG547PointerOps*)&accessory)->FUN_0066b0d0(0);
     }
-    if (FUN_00605d20() && cached && fallbackPath)
-        MatchGeometryVertices(cached, fallbackPath, 0.10000000149f, 0, 0);
+    if (::IsSettingEnabled() && cached && fallbackPath)
+        ::MatchGeometryVertices((::Geometry *)(cached), (::Geometry *)(fallbackPath), 0.10000000149f, 0, 0);
     if (data->unk80)
-        BuildHairFaceGenNodes(root, alternate, data, firstPerson);
+        ::fnv_00655320::BuildHairFaceGenNodes((::fnv_00655320::BSFaceGenNiNode **)(root), (::fnv_00655320::BSFaceGenNiNode **)(alternate), (::fnv_00655320::FaceGenData *)(data), firstPerson);
     if (data->leftEye && data->rightEye)
-        CreateEyeGeometry(root, alternate, data, firstPerson);
+        ::fnv_006558b0::CreateEyeGeometry((::fnv_006558b0::BSFaceGenNiNode **)(root), (::fnv_006558b0::BSFaceGenNiNode **)(alternate), (::fnv_006558b0::FaceGenData *)(data), firstPerson);
     FG547List* node = &data->accessories;
-    while (node && *node->FUN_006815c0())
+    while (node && *((::fnv_00654720::FG547Part **)((void *)(node))))
     {
-        FUN_00406f60(&model, DAT_01019710, (*node->FUN_006815c0())->model.Path());
+        ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&model), DAT_01019710, (*((::fnv_00654720::FG547Part **)((void *)(node))))->model.Path());
         unusedPath = GetOrCreateFaceGenModel(BuildEgmFilename(&texture, (const char*)*(BSStringT<char>*)&model, -1),
                                              (const char*)*(BSStringT<char>*)&model,
                                              BuildTriPathAndSet(&primary, (const char*)*(BSStringT<char>*)&model, -1),
                                              0, 1, -1, 1);
-        if (unusedPath && unusedPath->FUN_0065a910(data, &accessory) && (FG547Node*)(FGEntry*)accessory)
+        if (unusedPath && reinterpret_cast<::FUN_0065a910_shell *>((unusedPath))->FUN_0065a910(data, &accessory) && (FG547Node*)(FGEntry*)accessory)
         {
-            ((FG547Node*)(FGEntry*)accessory)->FUN_0043fa80(hair);
+            reinterpret_cast<::FUN_0043fa80_s *>((((FG547Node*)(FGEntry*)accessory)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(hair));
             (*root)->Attach((FG547Node*)(FGEntry*)accessory, 1);
-            (*node->FUN_006815c0())->model.FUN_0048afe0((FG547Node*)(FGEntry*)accessory);
-            ((FG547Node*)(FGEntry*)accessory)->AssignFixedString(NiFixedString(DAT_010657e4));
+            reinterpret_cast<::TESModelTextureSwap *>(&((*((::fnv_00654720::FG547Part **)((void *)(node))))->model))->ApplyTextureSwaps((::NiAVObject *)(::fnv_00654720::FG547Node *)((FG547Node*)(FGEntry*)accessory));
+            ::AssignFixedString((char *)(((FG547Node*)(FGEntry*)accessory)), (std::intptr_t)&(const ::fnv_00654720::NiFixedString &)(NiFixedString(DAT_010657e4)), {});
         }
-        node = node->FUN_00726070();
+        node = ((::fnv_00654720::FG547List *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     return true;
 }
 }  // namespace fnv_00654720
 
-float __cdecl FUN_004579e0(float);
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -5809,30 +5597,26 @@ class NiPoint3
     NiPoint3 operator+(const NiPoint3&) const;
     NiPoint3 operator-(const NiPoint3&) const;
     float Dot(const NiPoint3&) const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 NiPoint3 __cdecl operator*(float, const NiPoint3&);
-extern const NiPoint3 pathingrequestZero;
 struct PointIterator
 {
     const NiPoint3* points;
     unsigned int stride;
     unsigned int position;
-    void FUN_00534570(unsigned int, NiPoint3&);
-    void CopyV3(NiPoint3*);
-    void AddToA();
 };
 struct BoundingSphere
 {
-    void FUN_0098ddd0(const NiPoint3&);
-    void FUN_0063f790(float);
 };
 // @fnv 0x00656dc0
 void __cdecl ComputeBoundingSphere(BoundingSphere* sphere, PointIterator* points, int count)
 {
     if (count <= 0)
     {
-        sphere->FUN_0098ddd0(pathingrequestZero);
-        sphere->FUN_0063f790(0.0f);
+        reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((sphere))->FUN_0098ddd0((void *)&(::NiPoint3::ZERO));
+        reinterpret_cast<::FUN_0063f790_shell *>((sphere))->FUN_0063f790(0.0f);
         return;
     }
     // Local spellings and scopes preserve the original MSVC9 stack layout.
@@ -5843,13 +5627,13 @@ void __cdecl ComputeBoundingSphere(BoundingSphere* sphere, PointIterator* points
     float first = 0.0f;      // Greatest squared distance from the center.
     NiPoint3 maximum;        // Minimum coordinate on each axis.
     NiPoint3 radiusSquared;  // Current point.
-    points->FUN_00534570(0, maximum);
+    reinterpret_cast<::FUN_00534570_shell *>((points))->FUN_00534570(0, maximum);
     {
         NiPoint3 minimum = maximum;  // Upper corner; maximum is the lower corner.
         i = *points;
-        for (center = 1; center < count; ++center, i.AddToA())
+        for (center = 1; center < count; ++center, reinterpret_cast<::FUN_00657be0_class *>(&(i))->AddToA())
         {
-            i.CopyV3(&radiusSquared);
+            reinterpret_cast<::FUN_00656fd0_shell *>(&(i))->CopyV3((::V3 *)(::NiPoint3 *)(&radiusSquared));
             if (maximum.x > radiusSquared.x)
                 maximum.x = radiusSquared.x;
             if (maximum.y > radiusSquared.y)
@@ -5865,19 +5649,19 @@ void __cdecl ComputeBoundingSphere(BoundingSphere* sphere, PointIterator* points
         }
         point = 0.5f * (maximum + minimum);
         second = *points;
-        for (center = 0; center < count; ++center, second.AddToA())
+        for (center = 0; center < count; ++center, reinterpret_cast<::FUN_00657be0_class *>(&(second))->AddToA())
         {
-            second.CopyV3(&radiusSquared);
+            reinterpret_cast<::FUN_00656fd0_shell *>(&(second))->CopyV3((::V3 *)(::NiPoint3 *)(&radiusSquared));
             float distanceSquared;
             {
                 NiPoint3 delta = radiusSquared - point;
-                distanceSquared = delta.Dot(delta);
+                distanceSquared = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(delta))->DotProduct((void *)&(delta));
             }
             if (distanceSquared > first)
                 first = distanceSquared;
         }
-        sphere->FUN_0098ddd0(point);
-        sphere->FUN_0063f790(FUN_004579e0(first));
+        reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((sphere))->FUN_0098ddd0((void *)&(point));
+        reinterpret_cast<::FUN_0063f790_shell *>((sphere))->FUN_0063f790(FUN_004579e0(first));
     }
 }
 
@@ -5891,7 +5675,6 @@ struct CoordinateArrayBase
 {
     CoordinateArrayBase(TemporaryAllocator allocator);
     ~CoordinateArrayBase();
-    void ReserveEntries(int value);
 };
 struct FUN_00657960 : CoordinateArrayBase
 {
@@ -5901,16 +5684,14 @@ struct FUN_00657960 : CoordinateArrayBase
 // @fnv 0x00657960
 FUN_00657960::FUN_00657960() : CoordinateArrayBase(TemporaryAllocator())
 {
-    ReserveEntries(0);
+    reinterpret_cast<::FUN_00657cd0_cls *>(this)->ReserveEntries(0);
 }
 
 struct MxConstIter
 {
     float* m_p0;
     void* m_p1;
-    MxConstIter FUN_00659100(int);
     bool operator!=(const MxConstIter& o) const;
-    const float& FUN_0064dda0() const;
 };
 struct MxIter
 {
@@ -5933,12 +5714,20 @@ struct FUN_006586c0_cls
     int m_i14;
     unsigned int m_rows;
     unsigned int m_cols;
-    MxIter begin();
-    MxConstIter FUN_0065fd10() const;
     MxIter end();
-    MxConstIter FUN_0065fd40() const;
     FUN_006586c0_cls* AddMatrix(FUN_006586c0_cls* other);
 };
+// @fnv 0x00652320
+void __cdecl FUN_00652320(FG652_Mat* apMat, int aeAttr, int aeType, int aiIndex, float afValue)
+{
+    if (apMat && (unsigned int)aiIndex < ::FUN_00657a30((const ::_vec_60 *)&(((::FGMgr652 *)(::BSFaceGenManager::GetFaceGenManager()))->fans[aeAttr][aeType])))
+    {
+        float fOrig = GetMorphCoordinateValue(apMat, aeAttr, aeType, aiIndex);
+        float fChange = afValue - fOrig;
+        reinterpret_cast<::FUN_006586c0_cls *>(&(((FgMat652(*)[2])apMat)[aeAttr][aeType]))->AddMatrix(
+            (::FUN_006586c0_cls *)&(const ::FgMat652 &)(((::FanCtl652 *)(reinterpret_cast<::FUN_00657a50_shell *>(&(((::FGMgr652 *)(::BSFaceGenManager::GetFaceGenManager()))->fans[aeAttr][aeType]))->FUN_00657a50(aiIndex)))->GetMatrix().Scaled(fChange)));
+    }
+}
 
 // @fnv 0x006586c0
 FUN_006586c0_cls* FUN_006586c0_cls::AddMatrix(FUN_006586c0_cls* other)
@@ -5950,11 +5739,11 @@ FUN_006586c0_cls* FUN_006586c0_cls::AddMatrix(FUN_006586c0_cls* other)
     {
         ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x24f);
     }
-    MxIter a = begin();
-    MxConstIter b5 = other->FUN_0065fd10();
-    for (; a != end() && b5 != other->FUN_0065fd40(); a++, b5.FUN_00659100(0))
+    MxIter a = (*(::MxIter *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170({})));
+    MxConstIter b5 = (*(::MxConstIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)(other))->FUN_0065fd10({})));
+    for (; reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::MxIter &)(a))->FUN_0065dfd0((std::intptr_t)&(const ::MxIter &)((*(::MxIter *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf({}))))) && reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::MxConstIter &)(b5))->FUN_0065dfd0((std::intptr_t)&(const ::MxConstIter &)((*(::MxConstIter *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>((void *)(other))->FUN_0065fd40({}))))); a++, (*(::MxConstIter *)(reinterpret_cast<::FG_00659100_cls *>(&(b5))->FUN_00659100((::FG_00659100_pair *)(0), {}))))
     {
-        *a += double(b5.FUN_0064dda0());
+        *(float *)reinterpret_cast<::FUN_0064dbd0_Class *>(&a)->FUN_0064dbd0() += double(*(const float *)reinterpret_cast<::FUN_0064dda0_cls *>(&b5)->FUN_0064dda0());
     }
     return this;
 }
@@ -5970,50 +5759,39 @@ struct S_0065da80_bounds
 
 struct S_0044ac20_class
 {
-    void FUN_0044ac20(int value);
 };
 
-void __fastcall FUN_0064de50(void* pThis);
-unsigned int FUN_00ec7c56();
 
 // @fnv 0x0065da80
-int FUN_0065e000_class::FUN_0065da80(int value, int pBounds)
+std::intptr_t FUN_0065e000_class::FUN_0065da80(int value, std::intptr_t pBounds)
 {
-    FUN_0064de50(this);
+    reinterpret_cast<::FUN_0064de50_class *>((this))->FUN_0064de50();
 
     if (pBounds == 0 || reinterpret_cast<S_0065da80_bounds*>(pBounds)->unk0c > static_cast<unsigned int>(value) ||
         static_cast<unsigned int>(value) >
             static_cast<unsigned int>(reinterpret_cast<S_0065da80_bounds*>(pBounds)->unk10))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
     } while (0);
 
-    reinterpret_cast<S_0044ac20_class*>(this)->FUN_0044ac20(pBounds);
+    reinterpret_cast<::FUN_0044ac20_class *>((reinterpret_cast<S_0044ac20_class*>(this)))->FUN_0044ac20((const int *)(pBounds));
 
     reinterpret_cast<int*>(this)[1] = value;
 
-    return reinterpret_cast<int>(this);
+    return reinterpret_cast<std::intptr_t>(this);
 }
 
 class CoordArray : public FaceGenCoordArray
 {
   public:
-    unsigned int FUN_009611e0();
-    unsigned int FUN_00441110();
-    void SetDimensions(unsigned int, unsigned int);
     void FUN_006581e0(CoordArray*);
     float FUN_006588a0();
-    void ScaleAll(float);
-    void FUN_0044a0a0();
-    float* FUN_006578b0(unsigned int);
-    void PushBack(const float&);
 };
 
 void FUN_006529a0(CoordArray a1[2][2], CoordArray a2[2][2], int a3, int a4);
-float FUN_004019b0(float);
 
 // For each of the 2x2 CoordArray slots, combines a1 and a2 into a3 (or copies one source), optionally scaling the result when a5 is exceeded.
 // @fnv 0x00652af0
@@ -6037,11 +5815,11 @@ void FUN_00652af0(CoordArray a1[2][2], CoordArray a2[2][2], CoordArray a3[2][2],
     {
         for (int j = 0; j < 2; ++j)
         {
-            unsigned int var_c = a1[i][j].FUN_009611e0();
-            unsigned int var_10 = a1[i][j].FUN_00441110();
+            unsigned int var_c = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>(&(a1[i][j]))->FUN_009611e0()));
+            unsigned int var_10 = reinterpret_cast<::BGSTerrainManager *>(&(a1[i][j]))->GetMinLevel();
             if (var_c != 0 && var_10 != 0)
             {
-                a3[i][j].SetDimensions(var_c, var_10);
+                reinterpret_cast<::FR2MatrixVTCData *>(&(a3[i][j]))->SetDimensions(var_c, var_10);
                 if (i == 1 && a4)
                 {
                     a3[i][j].FUN_006581e0(&a1[i][j]);
@@ -6050,33 +5828,33 @@ void FUN_00652af0(CoordArray a1[2][2], CoordArray a2[2][2], CoordArray a3[2][2],
                         float var_14 = FUN_004019b0(a3[i][j].FUN_006588a0() / (float)var_c);
                         if (var_14 > a5)
                         {
-                            a3[i][j].ScaleAll(a5 / var_14);
+                            reinterpret_cast<::Mgr *>(&(a3[i][j]))->ScaleAll(a5 / var_14);
                         }
                     }
                 }
                 else
                 {
                     unsigned int var_18 = var_c * var_10;
-                    a3[i][j].FUN_0044a0a0();
+                    reinterpret_cast<::VecStandIn *>(&(a3[i][j]))->FUN_0044a0a0();
                     for (unsigned int k = 0; k < var_18; ++k)
                     {
-                        float sum = *a1[i][j].FUN_006578b0(k);
-                        float var_28 = *a2[i][j].FUN_006578b0(k);
-                        a3[i][j].PushBack(sum + var_28);
+                        float sum = *((float *)(reinterpret_cast<::V_006578b0 *>(&(a1[i][j]))->FUN_006578b0(k)));
+                        float var_28 = *((float *)(reinterpret_cast<::V_006578b0 *>(&(a2[i][j]))->FUN_006578b0(k)));
+                        reinterpret_cast<::FloatVec *>(&(a3[i][j]))->PushBack(sum + var_28);
                     }
                     if (a5 > 0.0)
                     {
                         float f2 = FUN_004019b0(a3[i][j].FUN_006588a0() / (float)var_c);
                         if (f2 > a5)
                         {
-                            a3[i][j].ScaleAll(a5 / f2);
+                            reinterpret_cast<::Mgr *>(&(a3[i][j]))->ScaleAll(a5 / f2);
                         }
                     }
                 }
             }
             else
             {
-                a3[i][j].SetDimensions(0, 0);
+                reinterpret_cast<::FR2MatrixVTCData *>(&(a3[i][j]))->SetDimensions(0, 0);
             }
         }
     }
@@ -6087,7 +5865,6 @@ struct FaceGenCoordinateValue
     float* m_pfValues;
     unsigned int m_uiCount;
     FaceGenCoordinateValue(const FaceGenCoordinateValue&);
-    float& FUN_00629ab0(unsigned int uiIndex);
 };
 
 struct FaceGenCoordinateBasis
@@ -6117,8 +5894,6 @@ struct FaceGenMorphArray
     FaceGenMorph* m_pBegin;
     FaceGenMorph* m_pRecordEnd;
     int unk14;
-    unsigned int FUN_00657a30();
-    FaceGenMorph& FUN_00657a50(unsigned int uiIndex);
 };
 
 struct FaceGenModelData
@@ -6172,7 +5947,6 @@ struct FaceGenModelData
     FaceGenMorphArray m_aakMorphs[2][2];
 };
 
-FaceGenModelData* FUN_00651b30();
 
 // Returns the first coordinate value of a morph at uiIndex for the given pcCoords, or 0.0f if out of range or pcCoords is null.
 // @fnv 0x00652230
@@ -6181,14 +5955,12 @@ float GetMorphCoordinateValue(char* pcCoords, unsigned int uiRenderPassIndex, un
     float fValue = 0.0f;
     if (pcCoords)
     {
-        if (uiIndex < FUN_00651b30()->m_aakMorphs[uiRenderPassIndex][uiSub].FUN_00657a30())
+        if (uiIndex < ::FUN_00657a30((const ::_vec_60 *)&(((::FaceGenModelData *)(::BSFaceGenManager::GetFaceGenManager()))->m_aakMorphs[uiRenderPassIndex][uiSub])))
         {
-            fValue = FUN_00651b30()
-                         ->m_aakMorphs[uiRenderPassIndex][uiSub]
-                         .FUN_00657a50(uiIndex)
+            fValue = reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceGenCoordinateValue &)((*(::FaceGenMorph *)(reinterpret_cast<::FUN_00657a50_shell *>(&(((::FaceGenModelData *)(::BSFaceGenManager::GetFaceGenManager()))
+                         ->m_aakMorphs[uiRenderPassIndex][uiSub]))->FUN_00657a50(uiIndex)))
                          .FUN_00658360(pcCoords + uiRenderPassIndex * 0x40 + uiSub * 0x20)
-                         .FUN_0060b370(0)
-                         .FUN_00629ab0(0);
+                         .FUN_0060b370(0)))->FUN_00629ab0(0);
         }
     }
     return fValue;
@@ -6196,8 +5968,6 @@ float GetMorphCoordinateValue(char* pcCoords, unsigned int uiRenderPassIndex, un
 
 // 0x00651b50 - BSFaceGenManager.cpp helper
 
-extern GO45CFE0 g_011d59f4;
-extern GO45CFE0 g_011d5afc;
 
 // Looks up a Sol face-gen model in the BSFaceGenManager cache by a1 or a4, creating and caching a new one via FUN_00659c70 when a5 is true and no entry exists.
 // @fnv 0x00651b50
@@ -6213,34 +5983,34 @@ Sol* GetOrCreateFaceGenModel(char* a1, char* a2, char* a3, char* a4, bool abCrea
     if (BSFaceGenManager::GetFaceGenManager()->cache == 0)
     {
         BSFaceGenManager::GetFaceGenManager()->cache = new BSFaceGenModelMap;
-        BSFaceGenManager::GetFaceGenManager()->cache->SetArrayValue(0, g_011d59f4.FUN_004503f0());
-        BSFaceGenManager::GetFaceGenManager()->cache->SetArrayValue(1, g_011d5afc.FUN_004503f0());
+        reinterpret_cast<::FUN_006508e0_shell *>((BSFaceGenManager::GetFaceGenManager()->cache))->SetArrayValue(0, (std::intptr_t)(((char *)(std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GO45CFE0 *>(&::g_011d59f4))))->GetCellStandValue()))));
+        reinterpret_cast<::FUN_006508e0_shell *>((BSFaceGenManager::GetFaceGenManager()->cache))->SetArrayValue(1, (std::intptr_t)(((char *)(std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GO45CFE0 *>(&::g_011d5afc))))->GetCellStandValue()))));
     }
 
     if (a1)
     {
-        if (BSFaceGenManager::GetFaceGenManager()->cache->FUN_00650200(a1, &ref))
+        if (reinterpret_cast<::FGModelCache *>((BSFaceGenManager::GetFaceGenManager()->cache))->FUN_00650200(a1, (::Helper62d0 *)(::SolPtr *)(&ref)))
         {
             if (a4)
             {
-                if (!ref.Get()->FUN_00650600())
-                    ref.Get()->FUN_0065a760(a4);
+                if (!((std::uintptr_t)(::FUN_00650600((char *)(((::Sol *)(::FUN_00559450((int *)&(ref)))))))))
+                    reinterpret_cast<::BSFaceGenModel *>((((::Sol *)(::FUN_00559450((int *)&(ref))))))->LoadFaceGenTexture((const char *)(a4));
             }
-            return ref.Get();
+            return ((::Sol *)(::FUN_00559450((int *)&(ref))));
         }
     }
     else if (a4)
     {
-        if (BSFaceGenManager::GetFaceGenManager()->cache->FUN_00650200(a4, &ref))
-            return ref.Get();
+        if (reinterpret_cast<::FGModelCache *>((BSFaceGenManager::GetFaceGenManager()->cache))->FUN_00650200(a4, (::Helper62d0 *)(::SolPtr *)(&ref)))
+            return ((::Sol *)(::FUN_00559450((int *)&(ref))));
     }
 
     if (abCreateIfMissing)
     {
         ref = new Sol;
-        if (ref.Get()->FUN_00659c70(a1, a2, a3, a4, a6, a7))
+        if (reinterpret_cast<::FUN_00659c70_shell *>((((::Sol *)(::FUN_00559450((int *)&(ref))))))->FUN_00659c70(a1, a2, a3, a4, a6, a7))
         {
-            BSFaceGenManager::GetFaceGenManager()->cache->FUN_0064ffd0(a1 ? a1 : a4, ref.Get());
+            reinterpret_cast<::fnv_0064ffd0::FGModelCache *>((BSFaceGenManager::GetFaceGenManager()->cache))->FUN_0064ffd0((const char *)(a1 ? a1 : a4), ((::Sol *)(::FUN_00559450((int *)&(ref)))));
         }
         else
         {
@@ -6248,7 +6018,7 @@ Sol* GetOrCreateFaceGenModel(char* a1, char* a2, char* a3, char* a4, bool abCrea
         }
     }
 
-    return ref.Get();
+    return ((::Sol *)(::FUN_00559450((int *)&(ref))));
 }
 
 struct FUN_00659190_class
@@ -6256,25 +6026,23 @@ struct FUN_00659190_class
     void* unk00;
     unsigned int unk04;
 
-    bool __thiscall FUN_005ca4f0();
-    unsigned char* __thiscall FUN_0060b980();
 
-    FUN_00659190_class* __thiscall FUN_00659190();
+    FUN_00659190_class* FUN_00659190();
 };
 
 // Calls two checks, increments a field by 4, and returns this.
 // @fnv 0x00659190
-FUN_00659190_class* __thiscall FUN_00659190_class::FUN_00659190()
+FUN_00659190_class* FUN_00659190_class::FUN_00659190()
 {
-    if (!FUN_005ca4f0())
-        FUN_00ec7c56();
+    if (!reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0())
+        std::abort();
 
     do
     {
     } while (0);
 
-    if (unk04 >= *reinterpret_cast<unsigned int*>(FUN_0060b980() + 0x10))
-        FUN_00ec7c56();
+    if (unk04 >= *reinterpret_cast<unsigned int*>(((unsigned char *)(reinterpret_cast<::S_0060b980 *>(this)->FUN_0060b980())) + 0x10))
+        std::abort();
 
     do
     {
@@ -6285,11 +6053,9 @@ FUN_00659190_class* __thiscall FUN_00659190_class::FUN_00659190()
 }
 
 namespace fnv_006518e0 {
-void FUN_00651e30();
 struct Cache
 {
     virtual ~Cache();
-    void PurgeUnusedModels(bool);
 };
 struct Base
 {
@@ -7445,10 +7211,456 @@ struct FUN_006518e0 : Base
 // @fnv 0x006518e0
 FUN_006518e0::~FUN_006518e0()
 {
-    FUN_00651e30();
+    ::FUN_00651e30();
     if (cache)
-        cache->PurgeUnusedModels(false);
+        reinterpret_cast<::FaceGenModelCache650 *>((cache))->PurgeUnusedModels(false);
     delete cache;
     cache = 0;
 }
 }  // namespace fnv_006518e0
+
+struct BSFaceGenModel_o2
+{
+    virtual void _v00();
+    virtual void _v04();
+    virtual void _v08();
+    virtual void _v0c();
+    virtual void _v10();
+    virtual void _v14();
+    virtual void _v18();
+    virtual void _v1c();
+    virtual void _v20();
+    virtual void _v24();
+    virtual void _v28();
+    virtual void _v2c();
+    virtual void _v30();
+    virtual void _v34();
+    virtual void _v38();
+    virtual void _v3c();
+    virtual void _v40();
+    virtual void _v44();
+    virtual void _v48();
+    virtual void _v4c();
+    virtual void _v50();
+    virtual void _v54();
+    virtual void _v58();
+    virtual void _v5c();
+    virtual void _v60();
+    virtual void _v64();
+    virtual void _v68();
+    virtual void _v6c();
+    virtual void _v70();
+    virtual void _v74();
+    virtual void _v78();
+    virtual void _v7c();
+    virtual void _v80();
+    virtual void _v84();
+    virtual void _v88();
+    virtual bool HasMorphs();  // 0x8c
+
+};
+
+struct BSFaceGenMorphData_o2
+{
+    void* m_pData;
+    unsigned int m_uiSize;
+    unsigned char m_bFlag;
+};
+
+struct S00a67410_o2
+{
+    char _pad0[0x20];
+    void* m_pDefaultData;  // +0x20
+    char _pad24[0xc];
+    BSFaceGenModel_o2* m_pModel;  // +0x30
+    char _pad34[6];
+    unsigned char m_bModifierActive;  // +0x3a
+
+    void FUN_00a67410(BSFaceGenMorphData_o2* outData);
+};
+
+class RecursiveSpinLock
+{
+  public:
+    unsigned int value;
+};
+
+template <class T> struct PoolAllocatorBase
+{
+    struct LinkedListEntry
+    {
+        LinkedListEntry* next;
+        LinkedListEntry* prev;
+        void* data;
+    };
+
+    static LinkedListEntry* ms_pFreeList;
+};
+
+struct FUN_00a68e30_shell
+{
+    char m_auiShapeKeys[0xb8];
+    PoolAllocatorBase<unsigned int>::LinkedListEntry* m_pkHead;
+    PoolAllocatorBase<unsigned int>::LinkedListEntry* m_pkTail;
+    unsigned int m_uiCount;
+
+    void FUN_00a68e30();
+};
+
+// @fnv 0x00a68e30
+void FUN_00a68e30_shell::FUN_00a68e30()
+{
+    while (m_uiCount)
+    {
+        PoolAllocatorBase<unsigned int>::LinkedListEntry* node = m_pkHead;
+        m_pkHead = node->next;
+        if (m_pkHead)
+            m_pkHead->prev = 0;
+        else
+            m_pkTail = 0;
+
+        node->data = 0;
+        node->prev = 0;
+        fnv::list::RecycleViewedNode(node);
+
+        --m_uiCount;
+    }
+}
+
+struct A72720Buffer
+{
+    int unk00;
+    unsigned int m_uiSize;
+    char* m_pcData;
+};
+
+struct A72720Record
+{
+    int unk00;
+    void* m_pvStream;
+    int m_iArrayCapacity;
+    int m_iFormat;
+    int m_iUsage;
+    unsigned int m_uiBuffer;
+    unsigned int m_uiValueBeforeCount;
+};
+
+class A72720StreamSet
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    unsigned short m_usVertexCount;
+    unsigned short unk0E;
+    unsigned int m_uiRecordCount;
+    A72720Record* m_pkRecords;
+    int unk18;
+    int unk1C;
+    A72720Buffer** m_ppkBuffers;
+    unsigned short unk24;
+    unsigned short m_usBufferCount;
+
+    bool FUN_00a72720(unsigned int uiIndex, char** ppcData, void** ppvStream, unsigned short* pusVertexCount,
+                      int* piFormat, int* piStride, int* piUsage);
+};
+
+// @fnv 0x00a67410
+void S00a67410_o2::FUN_00a67410(BSFaceGenMorphData_o2* outData)
+{
+    if (!m_bModifierActive)
+        return;
+
+    BSFaceGenModel_o2* model = m_pModel;
+    void* vars[6];
+    vars[1] = 0;
+    vars[3] = 0;
+    vars[0] = 0;
+
+    if (model && model->HasMorphs())
+    {
+        vars[2] = 0;
+        reinterpret_cast<::A72720StreamSet *>((model))->FUN_00a72720(0, (char **)(void *)(&vars[0]), (void **)(void *)(&vars[5]), (unsigned short *)(void *)(&vars[3]), (int *)(void *)(&vars[4]), (int *)(void *)(&vars[2]), (int *)(void *)(&vars[1]));
+    }
+
+    void* data;
+    std::uintptr_t size;
+    if (!vars[0])
+    {
+        data = m_pDefaultData;
+        size = 12;
+    }
+    else
+    {
+        data = vars[0];
+        size = (std::uintptr_t)vars[1];
+    }
+
+    outData->m_pData = data;
+    outData->m_uiSize = size;
+    outData->m_bFlag = 0;
+}
+
+// @fnv 0x00a72720
+bool A72720StreamSet::FUN_00a72720(unsigned int uiIndex, char** ppcData, void** ppvStream,
+                                   unsigned short* pusVertexCount, int* piFormat, int* piStride, int* piUsage)
+{
+    if (uiIndex >= m_uiRecordCount)
+        return false;
+    if (!m_pkRecords)
+        return false;
+
+    A72720Record& kRecord = m_pkRecords[uiIndex];
+    void* pvStream = kRecord.m_pvStream;
+    *ppvStream = pvStream;
+    if (!pvStream)
+        return false;
+
+    *pusVertexCount = m_usVertexCount;
+    *piFormat = kRecord.m_iFormat;
+    *piStride = kRecord.m_iArrayCapacity;
+    *piUsage = kRecord.m_iUsage;
+
+    if (kRecord.m_uiBuffer > m_usBufferCount)
+        return false;
+    A72720Buffer* pkBuffer = m_ppkBuffers[kRecord.m_uiBuffer];
+    if (!pkBuffer || pkBuffer->m_uiSize < kRecord.m_uiValueBeforeCount)
+        return false;
+
+    *ppcData = pkBuffer->m_pcData + kRecord.m_uiValueBeforeCount;
+    return true;
+}
+
+static __forceinline void DeadQ1()
+{
+    int dq[1];
+}
+
+static __forceinline void DeadQ2()
+{
+    int dq[2];
+}
+
+static __forceinline void DeadQ3()
+{
+    int dq[3];
+}
+
+static __forceinline void DeadQ4()
+{
+    int dq[4];
+}
+
+static __forceinline void DeadQ5()
+{
+    int dq[5];
+}
+
+static __forceinline void DeadQ6()
+{
+    int dq[6];
+}
+
+static __forceinline void DeadQ7()
+{
+    int dq[7];
+}
+
+static __forceinline void DeadQ8()
+{
+    int dq[8];
+}
+
+static __forceinline void DeadQ9()
+{
+    int dq[9];
+}
+
+static __forceinline void DeadQ10()
+{
+    int dq[10];
+}
+
+static __forceinline void DeadQ11()
+{
+    int dq[11];
+}
+
+struct ContainerBase
+{
+    void* m_ownedAux;
+};
+
+struct CoordVec;
+
+struct CoordConstIter
+{
+    void* m_aux;
+    float* m_ptr;
+    CoordConstIter()
+    {
+        m_aux = 0;
+    }
+    CoordConstIter(float* ptr, const ContainerBase* pVec);
+    CoordConstIter operator++(int)
+    {
+        DeadQ1();
+        CoordConstIter tmp = *this;
+        reinterpret_cast<::FG_00659100_cls *>(this)->FUN_00659190();
+        return tmp;
+    }
+};
+
+struct CoordIterBase : CoordConstIter
+{
+    CoordIterBase(float* ptr, const ContainerBase* pVec);
+};
+
+struct CoordIter : CoordIterBase
+{
+    CoordIter(float* ptr, const ContainerBase* pVec) : CoordIterBase(ptr, pVec)
+    {}
+    CoordIter operator++(int)
+    {
+        CoordIter tmp = *this;
+        reinterpret_cast<::FG_00659100_cls *>(this)->FUN_00659190();
+        return tmp;
+        DeadQ1();
+    }
+};
+
+struct CoordVec : ContainerBase
+{
+    int unk04;
+    int unk08;
+    float* m_pHeadNode;
+    float* m_last;
+    float* m_kRayEnd;
+    unsigned int m_rows;
+    unsigned int m_cols;
+    CoordIter begin()
+    {
+        return CoordIter(m_pHeadNode, this);
+        DeadQ1();
+    }
+    CoordConstIter end() const
+    {
+        return CoordConstIter(m_last, this);
+    }
+    CoordVec& FUN_00aaef90(const CoordVec& rhs);
+};
+
+inline CoordConstIter::CoordConstIter(float* ptr, const ContainerBase* pVec)
+{
+    m_aux = 0;
+    if (!(pVec != 0 && ((const CoordVec*)pVec)->m_pHeadNode <= ptr && ptr <= ((const CoordVec*)pVec)->m_last))
+        std::abort();
+    m_aux = pVec->m_ownedAux;
+    m_ptr = ptr;
+}
+
+// @fnv 0x00aaef90
+CoordVec& CoordVec::FUN_00aaef90(const CoordVec& rhs)
+{
+    (m_rows == rhs.m_rows && m_cols == rhs.m_cols)
+        ? (void)0
+        : ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x29e);
+    CoordIter it2 = begin();
+    CoordConstIter it1 = (*(::CoordConstIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)&(rhs))->FUN_0065fd10({})));
+    for (; reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(it2))->FUN_0065dfd0((std::intptr_t)&(const ::CoordConstIter &)(end())) && reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(it1))->FUN_0065dfd0((std::intptr_t)&(const ::CoordConstIter &)(rhs.end())); it2++, it1++)
+        *((float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it2))->FUN_0064dda0())) -= (*((float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it1))->FUN_0064dda0())));
+    return *this;
+    DeadQ2();
+}
+
+struct MatrixRow
+{
+    float* data;
+    unsigned int count;
+    MatrixRow(float* p, unsigned int n) : data(p), count(n)
+    {}
+    float& operator[](unsigned int i)
+    {
+        return data[i];
+    }
+};
+
+inline void copyColumn(float* dst, const float* src, unsigned int count)
+{
+    memcpy(dst, src, count * sizeof(float));
+}
+
+struct MatrixOps
+{
+    std::vector<float> data;
+    unsigned int columns;
+    unsigned int rows;
+    MatrixOps(unsigned int c, unsigned int r) : columns(c), rows(r)
+    {
+        data.resize(rows * columns);
+    }
+    MatrixOps(const MatrixOps& o)
+    {
+        unsigned int c = o.columns;
+        unsigned int r = o.rows;
+        columns = c;
+        rows = r;
+        unsigned int n = columns * rows;
+        data.resize(n);
+        unsigned int dstCount = data.size();
+        unsigned int srcCount = o.data.size();
+        if (dstCount && srcCount)
+        {
+            const float* src = &o.data[0];
+            float* dst = &data[0];
+            unsigned int columnBytes = r * sizeof(float);
+            unsigned int byteCount = c * columnBytes;
+            memcpy(dst, src, byteCount);
+        }
+    }
+    ~MatrixOps();
+    unsigned int getColumns() const
+    {
+        return columns;
+    }
+    unsigned int getRows() const
+    {
+        return rows;
+    }
+    MatrixRow FUN_0060b370(unsigned int i)
+    {
+        return MatrixRow(&data[0] + i * rows, rows);
+    }
+    MatrixOps FUN_00aaf110(unsigned int, unsigned int, unsigned int, unsigned int);
+};
+
+// @fnv 0x00aaf110
+MatrixOps MatrixOps::FUN_00aaf110(unsigned int startColumn, unsigned int startRow, unsigned int columnCount,
+                                  unsigned int rowCount)
+{
+    if (startRow >= 0 && startColumn >= 0)
+    {
+    }
+    else
+        ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x425);
+    if (startRow + rowCount <= rows && startColumn + columnCount <= columns)
+    {
+    }
+    else
+        ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x427);
+    MatrixOps temporary(columnCount, rowCount);
+    if (columnCount > 0 && rowCount > 0)
+    {
+        for (unsigned int column = 0; column < temporary.getColumns(); column++)
+        {
+            copyColumn(&temporary.FUN_0060b370(column)[0], &FUN_0060b370(column + startColumn)[startRow],
+                       temporary.getRows());
+        }
+    }
+    return temporary;
+}
+
+MatrixOps::~MatrixOps()
+{}
+
+#include "generated/data/fallout_shared/facegen/bsfacegenmanager.inc"

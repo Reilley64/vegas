@@ -5,14 +5,10 @@
 
 #include "hkBase.h"
 #include "hkaAnimation.h"
-#pragma pack(push, 1)
 class hkaInterleavedUncompressedAnimation : public hkaAnimation
 {
   public:
     hkArray<hkQsTransform> m_kTransforms;  // +0x28
     hkArray<hkReal> m_kFloats;             // +0x34
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkaInterleavedUncompressedAnimation[(sizeof(hkaInterleavedUncompressedAnimation) == 0x40) ? 1 : -1];
 #endif

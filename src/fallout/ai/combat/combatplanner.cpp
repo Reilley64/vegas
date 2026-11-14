@@ -2,12 +2,42 @@
 // src/fallout/ai/combat/combatplanner.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatplanner.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BGSDebris.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/CombatWorldStateListNode.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_005e3fc0_shell.h"
+#include "fnv/decl/FUN_00984470_Class.h"
+#include "fnv/decl/FUN_00994250_shell.h"
+#include "fnv/decl/FUN_009947f0_Class.h"
+#include "fnv/decl/FUN_00994ea0_class.h"
+#include "fnv/decl/FUN_009aadc0_cls.h"
+#include "fnv/decl/FUN_009aae10_Class.h"
+#include "fnv/decl/FUN_00aa54a0_s.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_0084b5c0__FUN_0084b5c0_Array.h"
+#include "fnv/decl/fnv_009957c0__FUN_009957c0_Class.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00994000.h"
+#include "fnv/symbols_00995000.h"
+#include "fnv/symbols_010a2000.h"
 struct AStarNodeData
 {
     int m_iNodeIndex;
+    unsigned int pad04[0x36];
+    int unkdc;
 };
-struct AStarNode
+class AStarNode
 {
+  public:
     int m_i;
     int m_iUnknownValue;
     AStarNodeData* m_p;
@@ -20,21 +50,17 @@ struct CombatPlanner
 // @fnv 0x00995800
 bool CombatPlanner::FUN_00995800(const AStarNode* apNode)
 {
-    if (*(const int*)((const char*)apNode->m_p + 0xdc) == 0)
+    if (apNode->m_p->unkdc == 0)
         return true;
     return false;
 }
 
-void* operator new(unsigned int uiSize, void* pvWhere);
-void operator delete(void* pvMem, void* pvWhere);
 
-extern unsigned int DAT_010a2720;
 extern const float DAT_0108dbf0;  // FLT_MAX
 
 struct CPScrapHeap
 {
     int unk00;
-    void* FUN_00aa54a0(unsigned int uiSize, unsigned int uiAlign);
 };
 
 class CPTarget;
@@ -42,16 +68,14 @@ class CPTarget;
 class CPCond
 {
   public:
-    int FUN_00559450();
-    CPTarget* FUN_00726070();
+    int iKey;
+    int iValue;
 };
 
 struct CPCondList
 {
     CPCond* m_pkItem;
     CPCondList* m_pkNext;
-    CPCond** FUN_006815c0();
-    CPCondList* FUN_0062d990();
 };
 
 struct CPEntry
@@ -66,7 +90,6 @@ class CPNodeData
     int unk00[23];
     CPEntry m_aEntries[16];       // +0x5c
     unsigned int m_uiNumEntries;  // +0xdc
-    CPTarget* GetCombatGoal(CPTarget* pkTarget);
 };
 
 class CPNode
@@ -75,7 +98,6 @@ class CPNode
     float m_fCost;
     int unk04;
     CPNodeData* m_pUserData;
-    CPNode* FUN_0044edb0();
 };
 
 struct CPWorldState
@@ -86,13 +108,11 @@ struct CPWorldState
 class CPGoals
 {
   public:
-    void FUN_006ecd40(class FUN_00995760_Aim* pkAim);
 };
 
 class CPOwner
 {
   public:
-    CPGoals* FUN_005e3fc0();
 };
 
 class CPAction
@@ -103,23 +123,14 @@ class CPAction
     virtual void v02();
     virtual float GetCost(CPOwner* pkOwner, CPTarget* pkTarget);
 
-    bool HasFlags(bool bValue);
-    bool FUN_009957c0(CPCond* pkCond);
-    CPCondList* FUN_007d6bb0();
-    CPCondList* FUN_00409140();
-    CPCondList* GetOffsetC();
 };
 
 struct CPActionList
 {
     CPAction* m_pkItem;
     CPActionList* m_pkNext;
-    CPAction** FUN_006815c0();
-    CPActionList* FUN_00726070();
 };
 
-CPActionList* FUN_009957f0(int iCond);
-bool IsValidCode(CPTarget* pkTarget);
 
 class FUN_00995760_Aim
 {
@@ -141,10 +152,6 @@ class FUN_00994e60_State
   public:
     int unk00[57];
     FUN_00994e60_State(CPWorldState* pkState);
-    int FUN_009947f0(CPTarget* pkFrom, CPTarget* pkTo);
-    void FUN_009aae10(int iCond, int iCondValue);
-    bool FUN_009aadc0(int iCond, int iCondValue);
-    void AppendPair(FUN_004b0680_Pair* pkPair, void* pvValue);
 };
 
 class FUN_00995780_Plan
@@ -168,9 +175,6 @@ struct CPOutItem
 class CPOutArray
 {
   public:
-    void FUN_0084b5c0(unsigned int uiSize);
-    void FUN_007cb2e0(CPOutItem*& rpkItem);
-    void FUN_008454f0(bool bFree);
 };
 
 class CPPlanner
@@ -190,26 +194,26 @@ class CPPlanner
 bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
 {
     float m_fPathingCostCur = pkNode->m_fCost;
-    bool bFirst = (pkNode->FUN_0044edb0() == 0) ? true : false;
+    bool bFirst = (((::CPNode *)(reinterpret_cast<::MagicCaster_shell *>((pkNode))->FUN_0044edb0())) == 0) ? true : false;
     if (bFirst)
-        pkOut->FUN_0084b5c0(0x10);
+        reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>((pkOut))->FUN_0084b5c0(0x10);
 
     for (unsigned int i = 0; i < pkNode->m_pUserData->m_uiNumEntries; i++)
     {
         CPCond* pkCond = pkNode->m_pUserData->m_aEntries[i].m_pkCond;
-        CPActionList* pkNodeIter = FUN_009957f0(pkCond->FUN_00559450());
+        CPActionList* pkNodeIter = ((::CPActionList *)(::FUN_009957f0(pkCond->iKey)));
         bool bFound = false;
-        while (pkNodeIter && *pkNodeIter->FUN_006815c0())
+        while (pkNodeIter && *((::CPAction **)(((::Vec3 *)(void *)(pkNodeIter)))))
         {
-            CPAction* pkAction = *pkNodeIter->FUN_006815c0();
-            if (!pkAction->HasFlags(true) || bFirst)
+            CPAction* pkAction = *((::CPAction **)(((::Vec3 *)(void *)(pkNodeIter))));
+            if (!reinterpret_cast<::FUN_00994250_shell *>((pkAction))->HasFlags(true) || bFirst)
             {
-                bool bValid = pkAction->FUN_009957c0(pkCond);
-                CPTarget* pkTarget = pkCond->FUN_00726070();
-                if (IsValidCode(pkTarget))
-                    pkTarget = pkNode->m_pUserData->GetCombatGoal(pkTarget);
+                bool bValid = reinterpret_cast<::fnv_009957c0::FUN_009957c0_Class *>((pkAction))->FUN_009957c0((::BSSimpleList<int> *)(pkCond));
+                CPTarget* pkTarget = ((::CPTarget *)(intptr_t)pkCond->iValue);
+                if (::IsValidCode((intptr_t)(pkTarget)))
+                    pkTarget = ((::CPTarget *)(reinterpret_cast<::FUN_00984470_Class *>((pkNode->m_pUserData))->GetCombatGoal((intptr_t)(pkTarget))));
                 FUN_00995760_Aim kAim;
-                m_pkOwnerManager->FUN_005e3fc0()->FUN_006ecd40(&kAim);
+                ((::CombatProcedure *)reinterpret_cast<CombatControllerFields*>(m_pkOwnerManager)->pUnknownA4)->Initialize((::CombatController *)(::FUN_00995760_Aim *)(&kAim));
                 if (bValid)
                 {
                     if (pkAction->IsValid(m_pkOwnerManager, &m_kWorldState, pkTarget))
@@ -218,49 +222,49 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                         if (fActionCost < DAT_0108dbf0)
                         {
                             FUN_00994e60_State* pkState =
-                                new (m_kHeap.FUN_00aa54a0(sizeof(FUN_00994e60_State), DAT_010a2720))
+                                new (reinterpret_cast<::FUN_00aa54a0_s *>(&(m_kHeap))->FUN_00aa54a0(sizeof(FUN_00994e60_State), DAT_010a2720))
                                     FUN_00994e60_State(&m_kWorldState);
 
-                            CPCondList* pkEffect = pkAction->FUN_007d6bb0();
-                            while (pkEffect && *pkEffect->FUN_006815c0())
+                            CPCondList* pkEffect = ((::CPCondList *)(reinterpret_cast<::NonActorMagicTarget *>((pkAction))->GetActiveEffectList()));
+                            while (pkEffect && *((::CPCond **)(((::Vec3 *)(void *)(pkEffect)))))
                             {
-                                CPCond* pkEffectCond = *pkEffect->FUN_006815c0();
-                                int iCondValue = pkState->FUN_009947f0(pkEffectCond->FUN_00726070(), pkTarget);
-                                pkState->FUN_009aae10(pkEffectCond->FUN_00559450(), iCondValue);
-                                pkEffect = pkEffect->FUN_0062d990();
+                                CPCond* pkEffectCond = *((::CPCond **)(((::Vec3 *)(void *)(pkEffect))));
+                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0(pkEffectCond->iValue, (intptr_t)(pkTarget));
+                                reinterpret_cast<::FUN_009aae10_Class *>((pkState))->FUN_009aae10(pkEffectCond->iKey, iCondValue);
+                                pkEffect = ((::CPCondList *)(reinterpret_cast<::CombatWorldStateListNode *>((pkEffect))->GetNext()));
                             }
 
-                            CPCondList* pkSide = pkAction->FUN_00409140();
-                            while (pkSide && *pkSide->FUN_006815c0())
+                            CPCondList* pkSide = ((::CPCondList *)(reinterpret_cast<::BGSDebris *>((pkAction))->GetDataList()));
+                            while (pkSide && *((::CPCond **)(((::Vec3 *)(void *)(pkSide)))))
                             {
-                                CPCond* pkSideCond = *pkSide->FUN_006815c0();
-                                int iCondValue = pkState->FUN_009947f0(pkSideCond->FUN_00726070(), pkTarget);
-                                pkState->FUN_009aae10(pkSideCond->FUN_00559450(), iCondValue);
-                                pkSide = pkSide->FUN_0062d990();
+                                CPCond* pkSideCond = *((::CPCond **)(((::Vec3 *)(void *)(pkSide))));
+                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0(pkSideCond->iValue, (intptr_t)(pkTarget));
+                                reinterpret_cast<::FUN_009aae10_Class *>((pkState))->FUN_009aae10(pkSideCond->iKey, iCondValue);
+                                pkSide = ((::CPCondList *)(reinterpret_cast<::CombatWorldStateListNode *>((pkSide))->GetNext()));
                             }
 
                             for (unsigned int j = 0; j < pkNode->m_pUserData->m_uiNumEntries; j++)
                             {
                                 CPCond* pkGoalCond = pkNode->m_pUserData->m_aEntries[j].m_pkCond;
-                                int iCondValue = pkState->FUN_009947f0(pkGoalCond->FUN_00726070(), pkTarget);
-                                if (!pkState->FUN_009aadc0(pkGoalCond->FUN_00559450(), iCondValue))
-                                    pkState->AppendPair(
-                                        new (m_kHeap.FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
-                                            FUN_004b0680_Pair(pkGoalCond->FUN_00559450(), iCondValue),
-                                        pkNode->m_pUserData->m_aEntries[j].m_pAssociatedData);
+                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0(pkGoalCond->iValue, (intptr_t)(pkTarget));
+                                if (!((bool)(reinterpret_cast<::FUN_009aadc0_cls *>((pkState))->FUN_009aadc0(pkGoalCond->iKey, iCondValue))))
+                                    reinterpret_cast<::FUN_00994ea0_class *>((pkState))->AppendPair(
+                                        (intptr_t)(new (reinterpret_cast<::FUN_00aa54a0_s *>(&(m_kHeap))->FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
+                                            FUN_004b0680_Pair(pkGoalCond->iKey, iCondValue)),
+                                        (intptr_t)(pkNode->m_pUserData->m_aEntries[j].m_pAssociatedData));
                             }
 
-                            CPCondList* pkRequire = pkAction->GetOffsetC();
-                            while (pkRequire && *pkRequire->FUN_006815c0())
+                            CPCondList* pkRequire = ((::CPCondList *)(::GetOffsetC((intptr_t)(pkAction))));
+                            while (pkRequire && *((::CPCond **)(((::Vec3 *)(void *)(pkRequire)))))
                             {
-                                CPCond* pkPreCond = *pkRequire->FUN_006815c0();
-                                int iCondValue = pkState->FUN_009947f0(pkPreCond->FUN_00726070(), pkTarget);
-                                if (!pkState->FUN_009aadc0(pkPreCond->FUN_00559450(), iCondValue))
-                                    pkState->AppendPair(
-                                        new (m_kHeap.FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
-                                            FUN_004b0680_Pair(pkPreCond->FUN_00559450(), iCondValue),
-                                        pkState);
-                                pkRequire = pkRequire->FUN_0062d990();
+                                CPCond* pkPreCond = *((::CPCond **)(((::Vec3 *)(void *)(pkRequire))));
+                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0(pkPreCond->iValue, (intptr_t)(pkTarget));
+                                if (!((bool)(reinterpret_cast<::FUN_009aadc0_cls *>((pkState))->FUN_009aadc0(pkPreCond->iKey, iCondValue))))
+                                    reinterpret_cast<::FUN_00994ea0_class *>((pkState))->AppendPair(
+                                        (intptr_t)(new (reinterpret_cast<::FUN_00aa54a0_s *>(&(m_kHeap))->FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
+                                            FUN_004b0680_Pair(pkPreCond->iKey, iCondValue)),
+                                        (intptr_t)(pkState));
+                                pkRequire = ((::CPCondList *)(reinterpret_cast<::CombatWorldStateListNode *>((pkRequire))->GetNext()));
                             }
 
                             fActionCost += m_fPathingCostCur;
@@ -274,12 +278,12 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                                 pkResult->m_fCost = 0.0f;
                             case 1: {
                                 FUN_00995780_Plan* pkPlan =
-                                    new (m_kHeap.FUN_00aa54a0(sizeof(FUN_00995780_Plan), DAT_010a2720))
+                                    new (reinterpret_cast<::FUN_00aa54a0_s *>(&(m_kHeap))->FUN_00aa54a0(sizeof(FUN_00995780_Plan), DAT_010a2720))
                                         FUN_00995780_Plan(pkAction, pkTarget,
                                                           pkNode->m_pUserData->m_aEntries[i].m_pAssociatedData);
                                 pkPlan->m_iAim = kAim.m_iValue;
                                 pkResult->m_pkPlan = pkPlan;
-                                pkOut->FUN_007cb2e0(pkResult);
+                                reinterpret_cast<::FUN_00438690 *>((pkOut))->FUN_007cb2e0((unsigned int *)&(pkResult));
                             }
                             break;
                             }
@@ -287,13 +291,15 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                     }
                 }
             }
-            pkNodeIter = pkNodeIter->FUN_00726070();
+            pkNodeIter = pkNodeIter->m_pkNext;
         }
         if (!bFound)
         {
-            pkOut->FUN_008454f0(false);
+            reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pkOut))->Clear(false);
             return false;
         }
     }
     return true;
 }
+
+#include "generated/data/fallout/ai/combat/combatplanner.inc"

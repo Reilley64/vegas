@@ -2,14 +2,15 @@
 #ifndef FNV_A3D_QUEST_H
 #define FNV_A3D_QUEST_H
 
+#include <malloc.h>
 #include "fnv_a3d_form_types.h"
 class TESQuest;
 class PlayerQuestData;
 class RegionObjectEntry;
 class ScriptLocalVariable;
-class FormFlagRecord;
+struct FormFlagRecord;
 class ScriptDefinition;
-class ScriptLocals
+struct ScriptLocals
 {
   public:
     Script* m_pOwnerScript;
@@ -192,7 +193,7 @@ class FormChangeMask
     FormChangeMask(unsigned int value);
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int mask);
@@ -201,7 +202,6 @@ class BGSLoadFormBuffer
     int ReadElementCount();
 };
 void __cdecl LogWarning(const char* message, ...);
-extern "C" void* __cdecl _alloca(unsigned int size);
 union SETTING_VALUE
 {
     bool b;
@@ -258,14 +258,4 @@ class TESQuest : public TESForm
     void AddStageDataAtIndex(QuestStage* stage);
     void AddObjective(BGSQuestObjective* objective);
 };
-FNV_ASSERT(QuestSize, sizeof(TESQuest) == 0x6c);
-FNV_ASSERT(QuestStageListOffset, offsetof(TESQuest, m_kStageList) == 0x44);
-FNV_ASSERT(QuestLocalsOffset, offsetof(TESQuest, m_pScriptLocals) == 0x5c);
-FNV_ASSERT(QuestCurrentStageOffset, offsetof(TESQuest, m_ucEnabled) == 0x60);
-FNV_ASSERT(QuestStageSize, sizeof(QuestStage) == 0x0c);
-FNV_ASSERT(QuestObjectiveSize, sizeof(BGSQuestObjective) == 0x24);
-FNV_ASSERT(QuestStageItemSize, sizeof(PlayerQuestData) == 0x74);
-FNV_ASSERT(QuestTargetSize, sizeof(RegionObjectEntry) == 0x48);
-FNV_ASSERT(DateSize, sizeof(Date) == 4);
-FNV_ASSERT(ScriptLocalsSize, sizeof(ScriptLocals) == 0x14);
 #endif

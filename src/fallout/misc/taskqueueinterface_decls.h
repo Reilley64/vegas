@@ -2,21 +2,82 @@
 #ifndef FNV_TASKQUEUEINTERFACE_DECLS_H
 #define FNV_TASKQUEUEINTERFACE_DECLS_H
 
+#include <windows.h>
+#include "fnv/decl/C6E030Holder.h"
+#include "fnv/decl/Cell.h"
+#include "fnv/decl/FUN_00453900_Class.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_006c0f10_shell.h"
+#include "fnv/decl/FUN_008a1a70_shell.h"
+#include "fnv/decl/FUN_008b51b0_cls.h"
+#include "fnv/decl/FUN_008fe9e0_shell.h"
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FireWeapon.h"
+#include "fnv/decl/KillActor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/ObstMgr0dc0.h"
+#include "fnv/decl/S005620e0_Object.h"
+#include "fnv/decl/SpellActor.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Target5c80.h"
+#include "fnv/decl/TaskQueueShell.h"
+#include "fnv/decl/WaitableObject.h"
+#include "fnv/decl/fnv_00457070__FUN_00457070_shell.h"
+#include "fnv/decl/fnv_004e8510__OwnerW.h"
+#include "fnv/decl/fnv_00571760__Actor.h"
+#include "fnv/decl/fnv_0070bc20__FUN_0070bc20_shell.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_00887d00__InitActor.h"
+#include "fnv/decl/fnv_0088e8d0__EActor.h"
+#include "fnv/decl/fnv_00899200__ZActor.h"
+#include "fnv/decl/fnv_0089a760__HActor.h"
+#include "fnv/decl/fnv_008a5f20__ActH2.h"
+#include "fnv/decl/fnv_008a7d50__ActorHitOwner.h"
+#include "fnv/decl/fnv_008b52a0__ActorView.h"
+#include "fnv/decl/fnv_008d3fa0__Target8d3f.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004ab000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00552000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005c0000.h"
+#include "fnv/symbols_005cc000.h"
+#include "fnv/symbols_005d1000.h"
+#include "fnv/symbols_005d3000.h"
+#include "fnv/symbols_005d4000.h"
+#include "fnv/symbols_005d9000.h"
+#include "fnv/symbols_0062e000.h"
+#include "fnv/symbols_006c0000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_0081b000.h"
+#include "fnv/symbols_0087c000.h"
+#include "fnv/symbols_00892000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00c69000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_01202000.h"
 #include "layout_support.h"
 #ifndef FNV_NIPOINT3_H
 #define FNV_NIPOINT3_H
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3(float x, float y, float z);  // @ref 0x00416870 ??0NiPoint3
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
 #endif
 class BSPackedTask;
 class TESObjectWEAP;
-class NiUpdateData;
-class BooleanFloatQuery;
+struct NiUpdateData;
+struct BooleanFloatQuery;
 class DismemberLimbTaskData;
 class Date;
 class bhkWorld;
@@ -84,12 +145,12 @@ class NiAVObject
     virtual void UpdateUpwardPassParent();
     virtual void vfn_00d4();
     virtual void vfn_00d8();
-    NiNode* GetParent();  // @ref 0x009611e0 GetParent@NiAVObject
-    float GetHeadTail();  // @ref 0x0087ce50 GetHeadTail
-    void FUN_00401970();  // @ref 0x00401970 FUN_00401970
-    void UpdateSceneObject();
+      // @ref 0x009611e0 GetParent@NiAVObject
+      // @ref 0x0087ce50 GetHeadTail
+      // @ref 0x00401970 FUN_00401970
     void Update(const NiUpdateData&);  // @ref 0x00a59c60 Update@NiAVObject
 };
+class NiAVObject;
 class NiNode : public NiAVObject
 {
   public:
@@ -97,6 +158,8 @@ class NiNode : public NiAVObject
     virtual void vfn_00e0();
     virtual void vfn_00e4();
     virtual void RemoveObject(NiAVObject*);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class TESForm
 {
@@ -166,7 +229,6 @@ class TESForm
     virtual void vfn_00f8();
     virtual void vfn_00fc();
     virtual bool IsActor();
-    static TESForm* GetFormByID(unsigned int);
 };
 class TESObjectREFR : public TESForm
 {
@@ -277,10 +339,9 @@ class TESObjectREFR : public TESForm
     virtual void vfn_02a0();
     virtual void vfn_02a4();
     virtual void SetPos(NiPoint3*);
-    static TESObjectREFR* GetReferenceFromNiAVObject(
-        NiAVObject*);                         // @ref 0x0056f930 GetReferenceFromNiAVObject@TESObjectREFR
-    TESObjectCELL* GetParentCell();           // @ref 0x008d6f30 GetParentCell@TESObjectREFR
-    void SetExtraDataString(TESObjectWEAP*);  // @ref 0x00571760 SetExtraDataString@TESObjectREFR
+                             // @ref 0x0056f930 GetReferenceFromNiAVObject@TESObjectREFR
+               // @ref 0x008d6f30 GetParentCell@TESObjectREFR
+      // @ref 0x00571760 SetExtraDataString@TESObjectREFR
 };
 class Actor : public TESObjectREFR
 {
@@ -381,17 +442,17 @@ class Actor : public TESObjectREFR
     virtual float GetAlpha();
     unsigned char layoutPadding04[0xbc];
     Actor* pKillerEntry;
-    void ProcessActorDamage(float, BooleanFloatQuery*);    // @ref 0x0088e8d0 ProcessActorDamage@Actor
-    void FUN_0088fb00(float, BooleanFloatQuery*, Actor*);  // @ref 0x0088fb00 FUN_0088fb00
-    void Kill(Actor*, float);                              // @ref 0x0089d900 Kill@Actor
-    void HandleDismembermentTask(int, int, Actor*);        // @ref 0x008b51b0 HandleDismembermentTask@Actor
-    void ProcessQueuedHit(bool, bool);                     // @ref 0x00899200 ProcessQueuedHit@Actor
-    void ProcessHitData(BooleanFloatQuery*, char);         // @ref 0x0089a760 ProcessHitData@Actor
-    void DismemberLimb(unsigned int, unsigned int, bool, bool, bool, bool);  // @ref 0x008b52a0 DismemberLimb@Actor
-    void FUN_008a5f20(bool);                                                 // @ref 0x008a5f20 FUN_008a5f20
-    void RefreshActorInteraction(bool, bool);  // @ref 0x008a7d50 RefreshActorInteraction@Actor
-    void ProcessQueuedActorUpdate();           // @ref 0x008a1a70 ProcessQueuedActorUpdate@Actor
-    void OnLifeStateChanged();                 // @ref 0x00887d00 OnLifeStateChanged@Actor
+        // @ref 0x0088e8d0 ProcessActorDamage@Actor
+      // @ref 0x0088fb00 FUN_0088fb00
+                                  // @ref 0x0089d900 Kill@Actor
+            // @ref 0x008b51b0 HandleDismembermentTask@Actor
+                         // @ref 0x00899200 ProcessQueuedHit@Actor
+             // @ref 0x0089a760 ProcessHitData@Actor
+      // @ref 0x008b52a0 DismemberLimb@Actor
+                                                     // @ref 0x008a5f20 FUN_008a5f20
+      // @ref 0x008a7d50 RefreshActorInteraction@Actor
+               // @ref 0x008a1a70 ProcessQueuedActorUpdate@Actor
+                     // @ref 0x00887d00 OnLifeStateChanged@Actor
 };
 class PlayerCharacter : public Actor
 {
@@ -399,7 +460,7 @@ class PlayerCharacter : public Actor
 class Character : public Actor
 {
   public:
-    void Reset3D();  // @ref 0x008d3fa0 Reset3D@Character
+      // @ref 0x008d3fa0 Reset3D@Character
 };
 class BaseProcess
 {
@@ -671,8 +732,7 @@ class BaseProcess
 class HighProcess : public BaseProcess
 {
   public:
-    void RefreshProcessState(Actor*, TESObjectREFR*, float, float,
-                             float);  // @ref 0x008fe9e0 RefreshProcessState@HighProcess
+      // @ref 0x008fe9e0 RefreshProcessState@HighProcess
 };
 class PlayerQuestData
 {
@@ -684,10 +744,13 @@ class MobileObject : public TESObjectREFR
 {
   public:
     unsigned int GetCurrentProcessLevel();
-    bhkCharacterController*
-    GetPhysicsCharacterController();  // @ref 0x009306d0 GetPhysicsCharacterController@MobileObject
+      // @ref 0x009306d0 GetPhysicsCharacterController@MobileObject
+public:
+    bool IsInDialogueWithPlayer() const;
+    unsigned int pad04[0x2a];
+    void* unkac;
 };
-class BooleanFloatQuery
+struct BooleanFloatQuery
 {
   public:
     Actor* m_pkAttacker;
@@ -723,66 +786,67 @@ class DismemberLimbTaskData
 class TESObjectWEAP
 {
   public:
-    void Fire(TESObjectREFR*);  // @ref 0x00523150 Fire@TESObjectWEAP
+      // @ref 0x00523150 Fire@TESObjectWEAP
 };
 class BipedAnim
 {
   public:
-    static void SetNodeTranslation(NiAVObject*);                   // @ref 0x004ab0c0 SetNodeTranslation@BipedAnim
-    static void SetNodeTranslation(NiAVObject*, const NiPoint3&);  // @ref 0x00b553d0 SetNodeTranslation@BipedAnim
+                       // @ref 0x004ab0c0 SetNodeTranslation@BipedAnim
+      // @ref 0x00b553d0 SetNodeTranslation@BipedAnim
     void AttachFaceGenNode();                                      // @ref 0x00571b50 AttachFaceGenNode@BipedAnim
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     void RemoveObject(NiAVObject*);  // @ref 0x00b5b1c0 RemoveObject@ShadowSceneNode
 };
+struct ShadowSceneNode;
 class NiAdditionalGeometryData
 {
   public:
-    static ShadowSceneNode* GetShadowSceneNodeForIndex(
-        unsigned int);  // @ref 0x00450b80 GetShadowSceneNodeForIndex@NiAdditionalGeometryData
+      // @ref 0x00450b80 GetShadowSceneNodeForIndex@NiAdditionalGeometryData
+public:
+    static ::ShadowSceneNode *GetShadowSceneNodeForIndex(int);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
     bool m_bUpdateEnabled;
     bool bMultithreaded;
     unsigned int uiFlags;
-    void FUN_0043d410(float, bool, bool);  // @ref 0x0043d410 FUN_0043d410
+      // @ref 0x0043d410 FUN_0043d410
+public:
+    NiUpdateData(float, bool, bool);
 };
-FNV_STATIC_ASSERT(sizeof(NiUpdateData) == 12);
 class Script
 {
   public:
     static void SetReferenceScale(TESObjectREFR*, float);  // @ref 0x005c1c10 SetReferenceScale@Script
-    static void MoveReferenceToPosition(TESObjectREFR*, TESObjectREFR*, float, float,
-                                        float);  // @ref 0x005ccb20 MoveReferenceToPosition@Script
-    static void MatchFaceGeometry(TESObjectREFR*, TESObjectREFR*, int);  // @ref 0x005d9bc0 MatchFaceGeometry@Script
-    void SetOwnerQuest(TESQuest*);                                       // @ref 0x0087ce80 SetOwnerQuest@Script
+      // @ref 0x005ccb20 MoveReferenceToPosition@Script
+      // @ref 0x005d9bc0 MatchFaceGeometry@Script
+                                           // @ref 0x0087ce80 SetOwnerQuest@Script
 };
-void FUN_005c0740(TESObjectREFR*, unsigned char, float);  // @ref 0x005c0740 FUN_005c0740
-void FUN_005c0b10(TESObjectREFR*, unsigned char, float);  // @ref 0x005c0b10 FUN_005c0b10
-void FUN_005d3c20(TESObjectREFR*, float);                 // @ref 0x005d3c20 FUN_005d3c20
-void FUN_005d4c20(TESObjectREFR*, float);                 // @ref 0x005d4c20 FUN_005d4c20
-void UpdateSceneGraph(NiAVObject*);                       // @ref 0x005526f0 UpdateSceneGraph
-void UpdateControllersRecursive(NiAVObject*);             // @ref 0x00552790 UpdateControllersRecursive
-void FUN_00892460(TESObjectREFR*, bool);                  // @ref 0x00892460 FUN_00892460
-void FUN_00c6a270(NiAVObject*, bool, bool, int);          // @ref 0x00c6a270 FUN_00c6a270
-void FUN_00c69fc0(NiAVObject*, bool, bool, bool);         // @ref 0x00c69fc0 FUN_00c69fc0
+  // @ref 0x005c0740 FUN_005c0740
+  // @ref 0x005c0b10 FUN_005c0b10
+                 // @ref 0x005d3c20 FUN_005d3c20
+                 // @ref 0x005d4c20 FUN_005d4c20
+                       // @ref 0x005526f0 UpdateSceneGraph
+             // @ref 0x00552790 UpdateControllersRecursive
+                  // @ref 0x00892460 FUN_00892460
+          // @ref 0x00c6a270 FUN_00c6a270
+         // @ref 0x00c69fc0 FUN_00c69fc0
 class Creature
 {
   public:
-    static void SetNodeFlagsRecursive(NiAVObject*, int, bool, bool,
-                                      bool);  // @ref 0x00c6a350 SetNodeFlagsRecursive@Creature
+      // @ref 0x00c6a350 SetNodeFlagsRecursive@Creature
     char _pdbpad_1[435];
     bool bRagDoll;
     char _pdbpad_1b5[3];
     float m_fFirstResetValue;
     float m_fSecondValue;
 };
-void* GetObjectFromNode(NiAVObject*, bool, int);  // @ref 0x00c69ee0 GetObjectFromNode
+  // @ref 0x00c69ee0 GetObjectFromNode
 class ActiveEffect
 {
   public:
@@ -791,8 +855,7 @@ class ActiveEffect
 class MagicHitEffect
 {
   public:
-    static BSSimpleList<MagicHitEffect*>* GetEffectsForActiveEffect(
-        ActiveEffect*);  // @ref 0x0081b8e0 GetEffectsForActiveEffect@MagicHitEffect
+      // @ref 0x0081b8e0 GetEffectsForActiveEffect@MagicHitEffect
 };
 class BGSOpenCloseForm
 {
@@ -802,28 +865,26 @@ class BGSOpenCloseForm
 class WaterZoneManager
 {
   public:
-    void SetWaterHeight(TESObjectREFR*, TESObjectREFR*, float);   // @ref 0x004e5c80 SetWaterHeight@WaterZoneManager
+       // @ref 0x004e5c80 SetWaterHeight@WaterZoneManager
     void UpdateWaterZone(TESObjectREFR*, TESObjectREFR*, float);  // @ref 0x004e5df0 UpdateWaterZone@WaterZoneManager
-    void AddWaterRipple(NiPoint3, float);                         // @ref 0x004e8510 AddWaterRipple@WaterZoneManager
+                             // @ref 0x004e8510 AddWaterRipple@WaterZoneManager
 };
 class TES
 {
   public:
-    TESObjectCELL* GetDetailedActorPathHandler();  // @ref 0x00457070 GetDetailedActorPathHandler@TES
-    WaterZoneManager* GetActorScale();
-    void FUN_00453900();  // @ref 0x00453900 FUN_00453900
+      // @ref 0x00457070 GetDetailedActorPathHandler@TES
+      // @ref 0x00453900 FUN_00453900
 };
 class DetailedActorPathHandler
 {
   public:
-    static void UpdateSceneNode(NiNode*);  // @ref 0x00552390 UpdateSceneNode@DetailedActorPathHandler
-    void HandleReferenceUpdate(TESObjectREFR*, bool,
-                               bool);  // @ref 0x0054a070 HandleReferenceUpdate@DetailedActorPathHandler
+      // @ref 0x00552390 UpdateSceneNode@DetailedActorPathHandler
+      // @ref 0x0054a070 HandleReferenceUpdate@DetailedActorPathHandler
 };
 class ExtraDataList
 {
   public:
-    bhkWorld* GetRoomId();  // @ref 0x004543c0 GetRoomId@ExtraDataList
+      // @ref 0x004543c0 GetRoomId@ExtraDataList
 };
 class bhkWorld
 {
@@ -914,26 +975,25 @@ class bhkWorld
 class NavMeshObstacleManager
 {
   public:
-    static NavMeshObstacleManager* GetSingleton();  // @ref 0x006c0720 GetSingleton@NavMeshObstacleManager
-    void RemoveObstacleReference(TESObjectREFR*);   // @ref 0x006c0dc0 RemoveObstacleReference@NavMeshObstacleManager
-    void AddObstacleReference(TESObjectREFR*);      // @ref 0x006c0f10 AddObstacleReference@NavMeshObstacleManager
+      // @ref 0x006c0720 GetSingleton@NavMeshObstacleManager
+       // @ref 0x006c0dc0 RemoveObstacleReference@NavMeshObstacleManager
+          // @ref 0x006c0f10 AddObstacleReference@NavMeshObstacleManager
 };
 class TESWaterListener
 {
   public:
-    static void UpdateWaterHeightAtPosition(float,
-                                            NiPoint3);  // @ref 0x0062eb50 UpdateWaterHeightAtPosition@TESWaterListener
+      // @ref 0x0062eb50 UpdateWaterHeightAtPosition@TESWaterListener
 };
 class bhkCharacterController
 {
   public:
-    void FUN_005620e0(void*);  // @ref 0x005620e0 FUN_005620e0
-    void FUN_0080fb00(void*);  // @ref 0x0080fb00 FUN_0080fb00
-    float FUN_005d10f0();      // @ref 0x005d10f0 FUN_005d10f0
-    void FUN_0087cee0();       // @ref 0x0087cee0 FUN_0087cee0
-    void ResetState();         // @ref 0x00c6e030 ResetState
+      // @ref 0x005620e0 FUN_005620e0
+      // @ref 0x0080fb00 FUN_0080fb00
+          // @ref 0x005d10f0 FUN_005d10f0
+           // @ref 0x0087cee0 FUN_0087cee0
+             // @ref 0x00c6e030 ResetState
 };
-void* FUN_00458b20();  // @ref 0x00458b20 FUN_00458b20
+  // @ref 0x00458b20 FUN_00458b20
 class TaskQueueParallelWork
 {
   public:
@@ -941,12 +1001,12 @@ class TaskQueueParallelWork
     void* pData;
     unsigned int ItemUpdateArray;
     unsigned int uiNext;
-    void Construct(void(__cdecl*)(unsigned int, void*), void*, unsigned int);  // @ref 0x0087cf10 Construct
+      // @ref 0x0087cf10 Construct
 };
 class TaskQueueParallelManager
 {
   public:
-    void FUN_00c44c90(TaskQueueParallelWork*);  // @ref 0x00c44c90 FUN_00c44c90
+      // @ref 0x00c44c90 FUN_00c44c90
 };
 template <class T, unsigned int Growth> class BSScrapArray : public BSSimpleArray<T, Growth>
 {
@@ -971,7 +1031,7 @@ template <class Collection> class SettingT
     SETTING_VALUE* Bool();
 };                                                              // @ref 0x00408d60 Bool@?$SettingT
 void UpdateAnimObjFromTask(unsigned int, void*);                // @ref 0x0087cf50 UpdateAnimObjFromTask
-void FUN_0087cfb0(unsigned int, void*);                         // @ref 0x0087cfb0 FUN_0087cfb0
+                         // @ref 0x0087cfb0 FUN_0087cfb0
 void FUN_0087d030(BSScrapArray<NiPointer<NiAVObject>, 1024>*);  // @ref 0x0087d030 FUN_0087d030
 template <class T> class DFALL
 {
@@ -984,29 +1044,20 @@ template <class Allocator, class Key, class Value> class NiTMapBase
 };
 NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int, CombatThreatRecord*>*
 FUN_0087ce70();                                            // @ref 0x0087ce70 FUN_0087ce70
-extern BSSimpleArray<ParentSpaceNode, 1024> DAT_011df244;  // @ref 0x011df244 DAT_011df244
-extern BSSimpleArray<ParentSpaceNode, 1024> DAT_011df1c4;  // @ref 0x011df1c4 DAT_011df1c4
-extern SettingT<INISettingCollection> DAT_011df1b8;        // @ref 0x011df1b8 DAT_011df1b8
-extern TaskQueueParallelManager* DAT_01202df4;             // @ref 0x01202df4 DAT_01202df4
-extern TES* g_TES;
-extern PlayerCharacter* g_thePlayer;
-int Warning(const char*, ...);
-void operator delete(void*);
+  // @ref 0x011df244 DAT_011df244
+  // @ref 0x011df1c4 DAT_011df1c4
+        // @ref 0x011df1b8 DAT_011df1b8
+             // @ref 0x01202df4 DAT_01202df4
 extern bool DAT_011a31f4;
-extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 
 class InterfaceManager
 {
   public:
-    void FUN_00984f60(unsigned int);
-    void ClearActivatePickResults();
 };
 
 class QuestStage
 {
   public:
-    unsigned char GetIndex();
 };
 
-InterfaceManager* FUN_004b7210();
 #endif

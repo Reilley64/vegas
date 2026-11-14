@@ -2,6 +2,14 @@
 // src/havok/common/base/memory/allocator/solver/hksolverallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/solver/hksolverallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <cstddef>
+#include <new>
+#include <windows.h>
+#include "fnv/decl/FUN_00cbf1a0_cls.h"
+#include "fnv/decl/SearchObject.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d2c000.h"
 struct hkMemoryStatistics
 {
     int m_iAllocated;
@@ -42,7 +50,6 @@ bool FUN_00d5e8a0_Class::CanAllocate(int size)
     return size <= m_uiLogicalSize - m_iAllocated;
 }
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 
 extern int DAT_010d1110;
 
@@ -62,7 +69,7 @@ void FUN_00c66560_class::FUN_00cbf1a0()
 struct FUN_00cd06a0_class : public FUN_00c66560_class
 {
     unsigned char m_aPadding[0x120];
-    unsigned char m_CriticalSection[24];
+    CRITICAL_SECTION m_CriticalSection;
 
     void ResetVftableAndDeleteCriticalSection();
 };
@@ -72,12 +79,12 @@ void FUN_00cd06a0_class::ResetVftableAndDeleteCriticalSection()
 {
     void* criticalSection = &m_CriticalSection;
     m_pVftable = &DAT_010d1110;
-    DeleteCriticalSection(criticalSection);
-    FUN_00cbf1a0();
+    DeleteCriticalSection((LPCRITICAL_SECTION)criticalSection);
+    reinterpret_cast<::FUN_00cbf1a0_cls *>(this)->FUN_00cbf1a0();
 }
 
 // @fnv 0x00c661c0
-int __stdcall FUN_00c661c0(unsigned int arg0, unsigned int arg1)
+int FUN_00c661c0(unsigned int arg0, unsigned int arg1)
 {
     return (int)arg1;
 }
@@ -99,27 +106,17 @@ void S_00d5e8f0::FUN_00d5e8f0()
 }
 
 // @fnv 0x00d5e880
-int __stdcall FUN_00d5e880(int arg0)
+int FUN_00d5e880(int arg0)
 {
     return 0;
 }
 
 // @fnv 0x00d5e890
-void __stdcall FUN_00d5e890(void* context, unsigned int flags)
+void FUN_00d5e890(void* context, unsigned int flags)
 {}
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs);
 
-struct hkCriticalSectionD5E9
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-};
+typedef CRITICAL_SECTION hkCriticalSectionD5E9;
 
 struct hkStreamD5E9
 {
@@ -225,8 +222,8 @@ void hkObjD5E9::InitStream(char* pBuffer, int size)
 }
 
 namespace fnv_00d5e9b0 {
-extern void(__stdcall* DAT_00fdf05c)(void* pvSection);
-extern void(__stdcall* DAT_00fdf100)(void* pvSection);
+extern void(* DAT_00fdf05c)(void* pvSection);
+extern void(* DAT_00fdf100)(void* pvSection);
 
 class hkCriticalSectionD5E9
 {
@@ -430,13 +427,6 @@ char* hkBlockAllocatorD5E9::Allocate(int* piSizeInOut) throw()
 }
 }  // namespace fnv_00d5e9b0
 
-inline void* operator new(unsigned int, void* ptr)
-{
-    return ptr;
-}
-
-void __cdecl FUN_00c908c0(void* allocator, void* array, int capacity, int elemSize);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int numBytes);
 
 struct Element
 {
@@ -466,10 +456,10 @@ void ArrayClass::Splice(void* allocator, int index, int numToRemove, const Eleme
         iCapacity += iCapacity;
         if (newSize >= iCapacity)
             iCapacity = newSize;
-        FUN_00c908c0(allocator, this, iCapacity, 8);
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(void *)(this), iCapacity, 8);
     }
 
-    FUN_00d2cc70(&m_data[index + numToInsert], &m_data[index + numToRemove], numToMove * 8);
+    ::FUN_00d2cc70(&m_data[index + numToInsert], (void *)(&m_data[index + numToRemove]), numToMove * 8);
 
     Element* dst = &m_data[index];
     for (int i = 0; i < numToInsert; ++i)
@@ -530,8 +520,6 @@ class FUN_00d5e900
 FUN_00d5e900::FUN_00d5e900() : m_04(0), m_08(0), m_0C(0), m_10(0), m_14(0), m_pChildAtom(0)
 {}
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct S00d5eb10_Block
 {
@@ -572,10 +560,9 @@ struct S00d5eb10_BlockArray
         }
     }
 
-    void FUN_00d5eda0(int unk0, int index, const S00d5eb10_Block* item);
     void aiRecipeIndex(int index, const S00d5eb10_Block& b)
     {
-        FUN_00d5eda0(0, index, &b);
+        reinterpret_cast<::SearchObject *>(this)->FUN_00d5eda0(0, index, (uintptr_t)(&b));
     }
 };
 
@@ -607,7 +594,7 @@ struct S00d5eb10_Alloc : public FUN_00c66560_class
 void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
 {
     void* cs = &m_pWorldLock;
-    EnterCriticalSection(cs);
+    EnterCriticalSection((LPCRITICAL_SECTION)cs);
     m_numAllocations--;
     if ((char*)apBlock + size == m_pTileTemplate)
     {
@@ -622,7 +609,7 @@ void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
             m_pTileTemplate = m_kBlocks.back().p;
             m_kBlocks.popBack();
         } while (m_kBlocks.m_iElementCount != 0);
-        LeaveCriticalSection(cs);
+        LeaveCriticalSection((LPCRITICAL_SECTION)cs);
         return;
     }
 
@@ -633,7 +620,7 @@ void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
         S00d5eb10_Block& newBlock = m_kBlocks.m_data[iIndex];
         newBlock.p = apBlock;
         newBlock.size = size;
-        LeaveCriticalSection(cs);
+        LeaveCriticalSection((LPCRITICAL_SECTION)cs);
         return;
     }
 
@@ -656,7 +643,7 @@ void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
                 b.size += m_kBlocks.m_data[i + 1].size;
                 m_kBlocks.removeAtAndCopy(i + 1);
             }
-            LeaveCriticalSection(cs);
+            LeaveCriticalSection((LPCRITICAL_SECTION)cs);
             return;
         }
     }
@@ -668,14 +655,14 @@ void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
         {
             kNextBlock.size += size;
             kNextBlock.p = apBlock;
-            LeaveCriticalSection(cs);
+            LeaveCriticalSection((LPCRITICAL_SECTION)cs);
             return;
         }
     }
 
     m_kBlocks.aiRecipeIndex(i + 1, S00d5eb10_Block(apBlock, size));
 exit:
-    LeaveCriticalSection(cs);
+    LeaveCriticalSection((LPCRITICAL_SECTION)cs);
 }
 
 struct SolverDeletingView : FUN_00cd06a0_class
@@ -690,3 +677,5 @@ SolverDeletingView* SolverDeletingView::FUN_00d5ed70(unsigned int)
     (this->*destroy)();
     return this;
 }
+
+#include "generated/data/havok/common/base/memory/allocator/solver/hksolverallocator.inc"

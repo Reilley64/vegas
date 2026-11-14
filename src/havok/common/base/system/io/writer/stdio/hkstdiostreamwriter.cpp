@@ -2,13 +2,16 @@
 // src/havok/common/base/system/io/writer/stdio/hkstdiostreamwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/writer/stdio/hkstdiostreamwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdio>
 // @fnv 0x00d2bef0
-void __stdcall FUN_00d2bef0(char* p)
+#include "fnv/decl/FUN_00d2be50.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0106e000.h"
+void FUN_00d2bef0(char* p)
 {
     *p = 1;
 }
 
-extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
 
 struct FUN_00d2bf00_class
 {
@@ -20,37 +23,33 @@ struct FUN_00d2bf00_class
 // @fnv 0x00d2bf00
 bool FUN_00d2bf00_class::Seek(long offset, int whence)
 {
-    return _fseek(m8, offset, whence) != 0;
+    return std::fseek((std::FILE *)(m8), offset, whence) != 0;
 }
 
 extern int DAT_010ce6f4;
-extern int DAT_0102e388;
 
 struct FUN_00d2bfb0_class
 {
     int* vtbl;
     void FUN_00d2bfb0();
-    void __thiscall FUN_00d2be50();
 };
 
 // @fnv 0x00d2bfb0
-void __thiscall FUN_00d2bfb0_class::FUN_00d2bfb0()
+void FUN_00d2bfb0_class::FUN_00d2bfb0()
 {
     vtbl = &DAT_010ce6f4;
-    FUN_00d2be50();
-    vtbl = &DAT_0102e388;
+    reinterpret_cast<::FUN_00d2be50 *>(this)->Close();
+    vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-void __cdecl FUN_00ecda70(void*);
 // @fnv 0x00d2bec0
-void __fastcall FUN_00d2bec0(void* self, int)
+void FUN_00d2bec0(void* self, int)
 {
     void* p = *(void**)((char*)self + 8);
     if (p)
-        FUN_00ecda70(p);
+        std::fflush((std::FILE *)(p));
 }
 
-long __cdecl _ftell(void*);
 struct FUN_00d2bf20_class
 {
     char m0[8];
@@ -60,7 +59,7 @@ struct FUN_00d2bf20_class
 // @fnv 0x00d2bf20
 long FUN_00d2bf20_class::FUN_00d2bf20()
 {
-    return _ftell(m8);
+    return std::ftell((std::FILE *)(m8));
 }
 
 struct FUN_00d2bf30
@@ -72,32 +71,20 @@ struct FUN_00d2bf30
     unsigned char unk0c;
     FUN_00d2bf30(int mode);
 };
-extern void* __cdecl FUN_00ecdf44();
-// Sets the vtable and flags, then stores a pointer into the block returned by FUN_00ecdf44, offset by 0x40 when mode is 2 and 0x20 otherwise.
+// Stores the C runtime's stderr stream when mode is 2 and its stdout stream otherwise.
 // @fnv 0x00d2bf30
 FUN_00d2bf30::FUN_00d2bf30(int mode)
 {
     unk06 = 1;
     vtable = &DAT_010ce6f4;
     unk0c = 0;
-    char* base = static_cast<char*>(FUN_00ecdf44());
-    if (mode == 2)
-    {
-        base += 0x40;
-        m8 = base;
-    }
-    else
-    {
-        base += 0x20;
-        m8 = base;
-    }
+    m8 = mode == 2 ? stderr : stdout;
 }
 
 struct FUN_00d2be30
 {
     void SetFile(const char* fileName, const char* mode);
 };
-extern const unsigned char DAT_0106e798[];
 struct Candidate : FUN_00d2be30
 {
     volatile int* vtable;
@@ -120,14 +107,12 @@ void* Candidate::OpenFile(const char* fileName)
     return this;
 }
 
-int __cdecl FUN_00ecb086(char* buf, int size, int count, void* stream);
 
 struct FUN_00d2be80_cls
 {
     int* vtbl;
     unsigned int unk04;
     void* m8;
-    void FUN_00d2be50();
     int ReadBytes(char* p, int n);
 };
 
@@ -138,10 +123,10 @@ int FUN_00d2be80_cls::ReadBytes(char* apBuffer, int aiCount)
     void* stream = m8;
     if (stream != 0)
     {
-        int result = FUN_00ecb086(apBuffer, 1, aiCount, stream);
+        int result = std::fwrite(apBuffer, 1, aiCount, (std::FILE *)(stream));
         if (result <= 0)
         {
-            FUN_00d2be50();
+            reinterpret_cast<::FUN_00d2be50 *>(this)->Close();
         }
         return result;
     }
@@ -164,7 +149,7 @@ unsigned char* FUN_00d2bed0_cls::GetFlagAsByte(unsigned char* out)
 }
 
 // @fnv 0x00d2bee0
-void __stdcall FUN_00d2bee0(unsigned char* output)
+void FUN_00d2bee0(unsigned char* output)
 {
     *output = 1;
 }

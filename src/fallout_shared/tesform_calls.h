@@ -2,6 +2,9 @@
 #ifndef FNV_UNIT_TESFORM_CALLS_H
 #define FNV_UNIT_TESFORM_CALLS_H
 
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesform_TESForm.h"
 #include "tesform_TESFile.h"
 class FormChangeMask
@@ -11,28 +14,26 @@ class FormChangeMask
     FormChangeMask(int flags);
     operator bool() const;
 };
-FNV_STATIC_ASSERT(sizeof(FormChangeMask) == 4);
-FNV_STATIC_ASSERT(offsetof(FormChangeMask, iFlags) == 0);
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int flags);
-    void ReadTypedData(void* destination, unsigned int size);
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
     void NotifyFormIDChanged(TESForm* form, FormChangeMask flags, bool force);
     void ClearFormChangeFlags(TESForm* form, FormChangeMask flags);
     void HasFormChanges(TESForm* form);
 };
+class TESForm;
 class TESSaveLoadGame
 {
   public:
     void HasFormChanges(TESForm* form, bool force);
+public:
+    void FinalizeForm(::TESForm *);
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 class TESValueForm : public BaseFormComponent
 {
   public:
@@ -42,6 +43,4 @@ class TESValueForm : public BaseFormComponent
     unsigned int uiValue;
     void SetFormValue(unsigned int value);
 };
-FNV_STATIC_ASSERT(sizeof(TESValueForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESValueForm, uiValue) == 4);
 #endif

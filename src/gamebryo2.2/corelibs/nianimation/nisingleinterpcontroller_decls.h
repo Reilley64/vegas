@@ -1,25 +1,24 @@
 // gamebryo2.2/corelibs/nianimation/nisingleinterpcontroller_decls.h: declares NiObject, NiStream, NiInterpolator, NiTimeController, NiInterpController and more
 #pragma once
 
-class CloningProcess;
-class NiStream;
-class NiObject;
-class NiObject
+#include <windows.h>
+struct CloningProcess;
+struct NiStream;
+struct NiObject;
+struct NiObject
 {
   public:
     virtual void vfn_00();
     virtual void DeleteThis();
     long refCount;
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned char data[0xd8];
     unsigned int version;
     NiObject* DeserializeObject();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 class NiInterpolator
 {
   public:
@@ -57,10 +56,15 @@ class NiTimeController
     virtual void ProcessClone(CloningProcess&);
     unsigned char data[48];
 };
+struct NiStream;
 class NiInterpController : public NiTimeController
 {
   public:
     virtual void LoadBinary(NiStream&);
+public:
+    void LinkObject(::NiStream &);
+public:
+    static const unsigned short INVALID_INDEX;
 };
 class NiSingleInterpController : public NiInterpController
 {

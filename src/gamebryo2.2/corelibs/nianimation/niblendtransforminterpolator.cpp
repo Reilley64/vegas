@@ -1,35 +1,37 @@
 // gamebryo2.2/corelibs/nianimation/niblendtransforminterpolator.cpp: NiBlendTransformInterpolator, BlendTransformInterpolator (9 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/BlendCopy.h"
+#include "fnv/decl/BlendSerializer.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a37260_shell.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a37980__Blend100.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a36000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
 #include "niblendtransforminterpolator_types_NiBlendTransformInterpolator.h"
 #include "niblendtransforminterpolator_types_NiQuatTransform.h"
 #include "niblendtransforminterpolator_NiObjectNET.h"
-
-// @fnv 0x00a41110
-bool NiBlendTransformInterpolator::Update(float fTime, NiObjectNET* pkObject, NiQuatTransform& kTransform)
-{
-    bool bSuccess = false;
-    if (m_ucInterpCount == 1)
-        bSuccess = UpdateAccumulatedTransform(fTime, pkObject, kTransform);
-    else if (m_ucInterpCount > 0)
-    {
-        NormalizeWeights();
-        bSuccess = UpdateSingleInterpolator(fTime, pkObject, kTransform);
-    }
-    m_fLastTime = fTime;
-    return bSuccess;
-}
+#include "fnv/symbols_01024000.h"
+#include "niblendtransforminterpolator_types_NiBlendTransformInterpolator_decl_niblendtransforminterpolator.h"
 
 struct FUN_00a40a40_shell : public NiBlendTransformInterpolator
 {
     void* FUN_00a40a40();
 };
 
-extern "C" const NiRTTI* g_011f3e64;
 
 // @fnv 0x00a40a40
 void* FUN_00a40a40_shell::FUN_00a40a40()
 {
-    return &g_011f3e64;
+    return &(*reinterpret_cast<const ::NiRTTI * *>(&::g_011f3e64));
 }
 
 struct FUN_00a40a20_shell : public NiBlendTransformInterpolator
@@ -39,13 +41,12 @@ struct FUN_00a40a20_shell : public NiBlendTransformInterpolator
 
 struct FUN_00a36fd0_tgt
 {
-    char FUN_00a36fd0(NiObject*);
 };
 
 // @fnv 0x00a40a20
 bool FUN_00a40a20_shell::FUN_00a40a20(NiObject* pkObject)
 {
-    return ((FUN_00a36fd0_tgt*)this)->FUN_00a36fd0(pkObject);
+    return ((char)(::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((FUN_00a36fd0_tgt*)this)), (intptr_t)(pkObject), {})));
 }
 
 class FUN_00a40980_base
@@ -68,7 +69,7 @@ class FUN_00a40980 : public FUN_00a40980_base
 FUN_00a40980::FUN_00a40980(int a, float b, int c) : FUN_00a40980_base(a, b, c)
 {}
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct NiBlendObject_b9169
 {
@@ -80,40 +81,26 @@ struct NiBlendObject_b9169
 struct NiBlendObjectDerived_b9169 : NiBlendObject_b9169
 {
     virtual void Update();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct NiUpdateOwner_b9169
 {
-    void FUN_00a37510(NiBlendObject_b9169* p, int a);
 };
 
 struct FUN_00a40a50_cls : NiUpdateOwner_b9169
 {
-    NiBlendObject_b9169* CreateBlendObject(int a1);
+    NiBlendObject_b9169* CreateBlendObject(intptr_t a1);
 };
 
 // @fnv 0x00a40a50
-NiBlendObject_b9169* FUN_00a40a50_cls::CreateBlendObject(int aiValue)
+NiBlendObject_b9169* FUN_00a40a50_cls::CreateBlendObject(intptr_t aiValue)
 {
     NiBlendObject_b9169* p = new NiBlendObjectDerived_b9169();
-    FUN_00a37510(p, aiValue);
+    reinterpret_cast<::BlendCopy *>(this)->FUN_00a37510((::NiBlendInterpolator *)(p), (::CloningProcess *)(aiValue));
     return p;
 }
 
-extern unsigned int DAT_011a8400;
-extern unsigned int DAT_011a8404;
-extern unsigned int DAT_011a8408;
-extern unsigned int DAT_011f3704;
-extern unsigned int DAT_011f3708;
-extern unsigned int DAT_011f370c;
-extern unsigned int DAT_011f3710;
-extern float DAT_01096b8c;
 
-void __stdcall FUN_00a37980(void* a1);
 
 class FUN_00a40ab0_obj
 {
@@ -186,25 +173,24 @@ class QuatBlockArg
     unsigned int m_14;
     unsigned int m_18;
     unsigned int m_1C;
-    void Apply(FUN_00a40ab0_obj* apObj);
 };
 
 // @fnv 0x00a40ab0
-void __stdcall FUN_00a40ab0(FUN_00a40ab0_obj* a1)
+void FUN_00a40ab0(FUN_00a40ab0_obj* a1)
 {
-    FUN_00a37980(a1);
+    reinterpret_cast<::fnv_00a37980::Blend100 *>((a1))->FUN_00a37980(*(::fnv_00a37980::Stream100 *)nullptr);
     if (a1->m_uiD8 < 0xa01006e)
     {
         QuatBlockArg b;
         *(volatile float*)&b.m_1C = DAT_01096b8c;
-        b.m_00 = DAT_011a8400;
-        b.m_04 = DAT_011a8404;
-        b.m_08 = DAT_011a8408;
-        b.m_0C = DAT_011f3704;
-        b.m_10 = DAT_011f3708;
-        b.m_14 = DAT_011f370c;
-        b.m_18 = DAT_011f3710;
-        b.Apply(a1);
+        b.m_00 = (*reinterpret_cast<unsigned int *>(&::DAT_011a8400));
+        b.m_04 = (*reinterpret_cast<unsigned int *>(&::DAT_011a8404));
+        b.m_08 = (*reinterpret_cast<unsigned int *>(&::DAT_011a8408));
+        b.m_0C = (*reinterpret_cast<unsigned int *>(&::DAT_011f3704));
+        b.m_10 = (*reinterpret_cast<unsigned int *>(&::DAT_011f3708));
+        b.m_14 = (*reinterpret_cast<unsigned int *>(&::DAT_011f370c));
+        b.m_18 = (*reinterpret_cast<unsigned int *>(&::DAT_011f3710));
+        reinterpret_cast<::NiQuatTransform *>(&(b))->LoadBinary((*(::NiStream *)(a1)));
     }
 }
 
@@ -223,8 +209,8 @@ template <class T> class AGPrimArray
     unsigned int SetAtGrow(unsigned int uiIndex, const T& element)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>((void *)this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((void *)this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
     unsigned int Add(const T& element)
@@ -233,23 +219,19 @@ template <class T> class AGPrimArray
     }
 };
 typedef AGPrimArray<const char*> AGViewerStrings;
-extern "C" const char* DAT_011f3e64;
-void __stdcall FUN_00a38080(AGViewerStrings* pkStrings);
-const char* __cdecl FUN_00a7d330(const char* pcText);
 
 // @fnv 0x00a41170
-void __stdcall FUN_00a41170(AGViewerStrings* pkStrings)
+void FUN_00a41170(AGViewerStrings* pkStrings)
 {
-    FUN_00a38080(pkStrings);
-    pkStrings->Add(FUN_00a7d330(DAT_011f3e64));
+    reinterpret_cast<::BlendSerializer *>((void *)(pkStrings))->FUN_00a38080({});
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f3e64))));
 }
 
-void __cdecl FUN_00a37510();
 
 // @fnv 0x00a40aa0
 void __cdecl FUN_00a40aa0()
 {
-    FUN_00a37510();
+    static_cast<::BlendCopy *>(nullptr)->FUN_00a37510({}, {});
 }
 
 #include <math.h>
@@ -329,11 +311,7 @@ struct BlendQuaternion
                m_fScalarPart * p.m_fScalarPart;
     }
 };
-extern BlendPoint DAT_011f426c;
 extern BlendQuaternion DAT_011f49ec;
-extern float DAT_01096b8c;
-extern float DAT_0109696c;
-extern const float DAT_01015f5c;
 struct NiBlendInterpolator__InterpArrayItem
 {
     NiInterpolator* interpolator;
@@ -350,8 +328,8 @@ struct BlendTransform
     float m_fScale;
     BlendTransform()
     {
-        m_kTranslate = *(BlendPoint*)&DAT_011a8400;
-        m_kRotate = *(BlendQuaternion*)&DAT_011f3704;
+        m_kTranslate = *(BlendPoint*)&(*reinterpret_cast<unsigned int *>(&::DAT_011a8400));
+        m_kRotate = *(BlendQuaternion*)&(*reinterpret_cast<unsigned int *>(&::DAT_011f3704));
         m_fScale = DAT_01096b8c;
     }
 };
@@ -367,13 +345,27 @@ struct BlendTransformInterpolator : NiBlendTransformInterpolator
     }
     bool FUN_00a40c10(float time, NiObjectNET* object, BlendTransform& output);
 };
+// @fnv 0x00a41110
+bool NiBlendTransformInterpolator::Update(float fTime, NiObjectNET* pkObject, NiQuatTransform& kTransform)
+{
+    bool bSuccess = false;
+    if (m_ucInterpCount == 1)
+        bSuccess = reinterpret_cast<::NiBlendTransformInterpolator *>(this)->FUN_00a40b30(fTime, pkObject, kTransform);
+    else if (m_ucInterpCount > 0)
+    {
+        reinterpret_cast<::FUN_00a37260_shell *>(this)->UpdateNormalizedWeights();
+        bSuccess = reinterpret_cast<::BlendTransformInterpolator *>(this)->FUN_00a40c10(fTime, pkObject, (::BlendTransform &)(kTransform));
+    }
+    m_fLastTime = fTime;
+    return bSuccess;
+}
 // Blends available interpolator components into output, normalizing translation and scale by their weights and rotation by its length.
 // @fnv 0x00a40c10
 bool BlendTransformInterpolator::FUN_00a40c10(float time, NiObjectNET* object, BlendTransform& output)
 {
     float translationWeight = 1.0f;
     float scaleWeight = 1.0f;
-    BlendPoint translation = DAT_011f426c;
+    BlendPoint translation = (*reinterpret_cast<::BlendPoint *>((void *)&::NiPoint3::ZERO));
     BlendQuaternion rotation = DAT_011f49ec;
     float scale = 0.0f;
     bool hasTranslation = false;
@@ -444,9 +436,9 @@ bool BlendTransformInterpolator::FUN_00a40c10(float time, NiObjectNET* object, B
         }
     }
     BlendTransform* __restrict result = &output;
-    result->m_kTranslate.x = DAT_01015f5c;
-    result->m_kRotate.m_fVectorY = DAT_01015f5c;
-    result->m_fScale = DAT_01015f5c;
+    result->m_kTranslate.x = ::DAT_01015f5c;
+    result->m_kRotate.m_fVectorY = ::DAT_01015f5c;
+    result->m_fScale = ::DAT_01015f5c;
     if (hasTranslation || hasRotation || hasScale)
     {
         if (translationWeight == 0.0f)
@@ -474,3 +466,35 @@ bool BlendTransformInterpolator::FUN_00a40c10(float time, NiObjectNET* object, B
         return false;
     return true;
 }
+
+void FUN_00a40ab0(FUN_00a40ab0_obj* a1);
+void FUN_00a41170(AGViewerStrings* pkStrings);
+
+__forceinline void Invalidate850(NiQuatTransform& value)
+{
+    value.m_fScale = value.m_kRotate.m_fVectorY = value.m_kTranslate.x = -3.402823466e+38F;
+}
+// @fnv 0x00a40b30
+bool NiBlendTransformInterpolator::FUN_00a40b30(float time, NiObjectNET* object, NiQuatTransform& value)
+{
+    if (m_uiObjectFlags & 1)
+        time = m_fSingleInterpolatorTime;
+    if (time == ::DAT_0109696c)
+    {
+        Invalidate850(value);
+        return false;
+    }
+    if (m_pSingleInterpolator->Update(time, object, value))
+    {
+        if (value.m_kRotate.m_fVectorY != ::DAT_010241b0)
+        {
+            NiQuaternion rotation = value.m_kRotate;
+            reinterpret_cast<::NiQuaternion *>(&(rotation))->MakeUnitLength();
+            value.m_kRotate = rotation;
+        }
+        return true;
+    }
+    Invalidate850(value);
+    return false;
+}
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendtransforminterpolator.inc"

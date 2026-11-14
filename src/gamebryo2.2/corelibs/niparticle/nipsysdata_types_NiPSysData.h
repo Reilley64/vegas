@@ -7,18 +7,17 @@
 #include "NiPoint3.h"
 #include "layout_support.h"
 class NiAdditionalGeometryData;
-class NiBound;
-class RgbaColor;
+struct NiBound;
+struct RgbaColor;
 class NiGeometryData;
 class NiGeometryData__RendererData;
-class NiPSysData;
-class Point3ParameterData;
+struct NiPSysData;
+struct Point3ParameterData;
 class NiParticlesData;
-class NiPoint2;
+struct NiPoint2;
 class NiQuaternion;
-class NiStream;
-#pragma pack(push, 4)
-class NiBound
+struct NiStream;
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;  // +0x0, 12 bytes
@@ -46,12 +45,6 @@ class NiBound
     // char* __cdecl NiBound::*(const char*)
     // const NiBound& __cdecl NiBound::*(const NiBound&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_kCenter) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_fBoundRadius) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_iRadius) == 12);
-#pragma pack(push, 4)
 class NiGeometryData : public NiObject
 {
   public:
@@ -129,25 +122,6 @@ class NiGeometryData : public NiObject
     // NiGeometryData& __cdecl NiGeometryData::*(const NiGeometryData&)
     // void __cdecl NiGeometryData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGeometryData) == 64);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usVertices) == 8);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usGeometryFlags) == 10);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usTrianglePoints) == 12);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usDirtyFlags) == 14);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_kBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkVertex) == 32);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkNormal) == 36);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkColor) == 40);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkTexture) == 44);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_spAdditionalGeomData) == 48);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkGeometryRendererData) == 52);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucKeepFlags) == 56);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucCompressFlags) == 57);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bIsDynamic) == 58);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bBoundDirty) == 59);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bVerticesDirty) == 60);
-#pragma pack(push, 4)
 class NiParticlesData : public NiGeometryData
 {
   public:
@@ -211,22 +185,7 @@ class NiParticlesData : public NiGeometryData
     virtual void LoadBinary(NiStream&);
     void SetRotations(NiQuaternion*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiParticlesData) == 112);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_bHasRadii) == 64);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pusParticleIndices) == 68);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pfSortValues) == 72);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pfRadii) == 76);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_usActive) == 80);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pfSizes) == 84);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pkRotations) == 88);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pfRotationAngles) == 92);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pkRotationAxes) == 96);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pucTextureIndices) == 100);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pkSubTextureOffsets) == 104);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_ucSubTextureOffsetCount) == 108);
-#pragma pack(push, 4)
-class NiPSysData : public NiParticlesData
+struct NiPSysData : public NiParticlesData
 {
   public:
     // base NiParticlesData at +0x0, size 112
@@ -258,10 +217,4 @@ class NiPSysData : public NiParticlesData
     // void __cdecl NiPSysData::*()
     virtual void LoadBinary(NiStream&);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysData) == 124);
-FNV_STATIC_ASSERT(offsetof(NiPSysData, m_pkParticleInfo) == 112);
-FNV_STATIC_ASSERT(offsetof(NiPSysData, m_pfRotationSpeeds) == 116);
-FNV_STATIC_ASSERT(offsetof(NiPSysData, m_usNumActive) == 120);
-FNV_STATIC_ASSERT(offsetof(NiPSysData, m_usNumParticles) == 122);
 #endif

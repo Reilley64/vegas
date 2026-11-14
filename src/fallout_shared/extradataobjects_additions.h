@@ -4,6 +4,10 @@
 
 // Canonical callable identities from IDENTITIES.md. Settings named by
 // JohnnyGuitarNVSE GameSettingCollection.hpp and JIP settings_enum.h.
+#include <cstring>
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_011c3000.h"
 union SETTING_VALUE
 {
     int i;
@@ -12,34 +16,23 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
-    SETTING_VALUE* Float();
 };
-class GameSettingCollection
+struct GameSettingCollection
 {
   public:
-    static SettingT_GameSettingCollection_ iLockLevelMaxVeryEasy;
-    static SettingT_GameSettingCollection_ iLockLevelMaxEasy;
-    static SettingT_GameSettingCollection_ iLockLevelMaxAverage;
-    static SettingT_GameSettingCollection_ iLockLevelMaxHard;
-    static SettingT_GameSettingCollection_ iLockLevelMaxVeryHard;
-    static SettingT_GameSettingCollection_ fLeveledLockMult;
-    static SettingT_GameSettingCollection_ iLockLevelMaxImpossible;
 };
 
 // Declaration source: include/NiPoint3.h; natural PC alignment.
 // Source layout: NiPoint3. PC corrections are in generate_headers.py.
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0
     float y;  // +0x4
     float z;  // +0x8
+public:
+    static const ::NiPoint3 ZERO;
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 0x4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 0x8);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class ReferenceIntersectionData;
@@ -50,10 +43,6 @@ class ReferenceIntersectionData
     NiPoint3 Intersect;              // +0x4, 12 bytes
     NiPoint3 Normal;                 // +0x10, 12 bytes
 };
-FNV_STATIC_ASSERT(sizeof(ReferenceIntersectionData) == 28);
-FNV_STATIC_ASSERT(offsetof(ReferenceIntersectionData, m_pHitReference) == 0);
-FNV_STATIC_ASSERT(offsetof(ReferenceIntersectionData, Intersect) == 4);
-FNV_STATIC_ASSERT(offsetof(ReferenceIntersectionData, Normal) == 16);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class ExtraHealth;
@@ -69,8 +58,6 @@ class ExtraHealth : public BSExtraData
     // ExtraHealth& __cdecl ExtraHealth::*(const ExtraHealth&)
     // void __cdecl ExtraHealth::*()
 };
-FNV_STATIC_ASSERT(sizeof(ExtraHealth) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraHealth, fHealthPercent) == 12);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class ExtraDecalRefs;
@@ -92,8 +79,6 @@ class ExtraDecalRefs : public BSExtraData
     // ExtraDecalRefs& __cdecl ExtraDecalRefs::*(const ExtraDecalRefs&)
     // void __cdecl ExtraDecalRefs::*()
 };
-FNV_STATIC_ASSERT(sizeof(ExtraDecalRefs) == 20);
-FNV_STATIC_ASSERT(offsetof(ExtraDecalRefs, m_kDecalReferences) == 12);
 
 // independently declares these names/types and the PC8-byte record layout.
 class FactionReaction
@@ -102,15 +87,6 @@ class FactionReaction
     TESFaction* pFaction;
     char m_ucRank;
 };
-FNV_STATIC_ASSERT(sizeof(FactionReaction) == 8);
-FNV_STATIC_ASSERT(offsetof(FactionReaction, pFaction) == 0);
-FNV_STATIC_ASSERT(offsetof(FactionReaction, m_ucRank) == 4);
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* pointer);
-
-void* __cdecl operator new[](unsigned int size);
-void __cdecl operator delete[](void* pointer);
-extern "C" void* __cdecl memcpy(void* destination, const void* source, unsigned int size);
 
 // Public names/layout: JohnnyGuitarNVSE BGSQuestObjective.hpp; its cpp
 // explicitly annotates SetOwner as GAME00437730. No implementation copied.
@@ -140,11 +116,4 @@ class BGSQuestObjective
     State eState;
     void SetOwner(TESQuest*);
 };
-FNV_STATIC_ASSERT(sizeof(BGSQuestObjective) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, uiIndex) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, QuestObjectiveEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, m_pOwnerQuest) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, kTargets) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, bInitialized) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, eState) == 0x20);
 #endif

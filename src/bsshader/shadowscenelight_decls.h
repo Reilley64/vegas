@@ -2,14 +2,15 @@
 #ifndef SHADOWSCENELIGHT_UNIT_DECLS_H
 #define SHADOWSCENELIGHT_UNIT_DECLS_H
 
+#include "fnv/decl/sb717a0__WatchSet.h"
+#include "fnv/symbols_011f4000.h"
 #include "shadowscenelight_types_ShadowSceneLight.h"
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 center;
     float radius;
 };
-extern NiBound DAT_011f4288;
 class NiProperty;
 
 class NiTexture : public NiRefObject
@@ -18,18 +19,28 @@ class NiTexture : public NiRefObject
 class NiLight : public NiRefObject
 {
 };
-class BSRenderedTexture : public NiRefObject
+class NiRenderTargetGroup;
+struct BSRenderedTexture : public NiRefObject
 {
+public:
+    ::NiRenderTargetGroup *GetGroup();
+public:
+    static void EndAllAndResetRendererState();
 };
 class NiTriBasedGeom : public NiRefObject
 {
 };
+struct NiFrustum;
 class NiCamera : public NiRefObject
 {
+public:
+    void UpdateViewFrustum(const ::NiFrustum &);
 };
 class BSShaderAccumulator : public NiRefObject
 {
 };
+class NiExtraData;
+class NiFixedString;
 class NiAVObject : public NiRefObject
 {
   public:
@@ -37,6 +48,8 @@ class NiAVObject : public NiRefObject
     void* m_kWorldBound;
     unsigned char layoutPadding24[0x0C];
     unsigned int m_uiObjectFlags;
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
 class NiTListItem_NiPointer_NiTriBasedGeom___
 {
@@ -54,7 +67,6 @@ class BSShaderLightingProperty
     {
         return m_uiActiveLightCount - 1 <= 11;
     }
-    ShadowSceneLight* GetNextAttachedLight(void*);
 };
 struct ShadowGeomShaderPropertyView
 {

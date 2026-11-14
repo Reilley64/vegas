@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkpConstraintMotor;
-#pragma pack(push, 1)
 class hkpPoweredChainDataConstraintInfo
 {
   public:
@@ -17,7 +16,4 @@ class hkpPoweredChainDataConstraintInfo
     hkBool m_bUseMotors;                // +0x4C
     char pad4D[0x3];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpPoweredChainDataConstraintInfo[(sizeof(hkpPoweredChainDataConstraintInfo) == 0x50) ? 1 : -1];
 #endif

@@ -3,7 +3,21 @@
 // layout-neutral SelectVertexDeclaration member declaration added to BSShaderNoLighting.
 #ifndef FNV_BSSHADERNOLIGHTING_LOCAL_H
 #define FNV_BSSHADERNOLIGHTING_LOCAL_H
+#include <cstddef>
 
+#include <cstring>
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00b97000.h"
+#include "fnv/symbols_00bc6000.h"
+#include "fnv/symbols_00bc8000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_0126f000.h"
 #include "layout_support.h"
 // PC allocation operators absent from the task's minimal shared declaration.
 #ifndef FNV_NIMEMOBJECT_H
@@ -11,8 +25,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 #endif
 #include "NiObject.h"
@@ -57,8 +69,7 @@ template <> class NiPointer<NiD3DVertexDeclaration>
     ~NiPointer();
     operator NiD3DShaderDeclaration*() const;
 };
-class NiRenderer;
-extern NiRenderer* DAT_011f9508;
+struct NiRenderer;
 class NiGeometry;
 class NiTransform;
 class NiPropertyState;
@@ -80,9 +91,7 @@ struct BSNoLightingShaderConfig
     const char* path;
     _D3DXMACRO macros[9];
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 template <class T> inline void AssignShader(NiPointer<T>& dest, T* value)
 {
     if (dest.m_pObject != value)
@@ -108,7 +117,6 @@ class GraphicsRenderer;
 class NiD3DVertexDeclaration;
 class VertexDeclarationLayout;
 class _D3DVERTEXELEMENT9;
-#pragma pack(push, 4)
 class NiShaderDeclaration : public NiObject
 {
   public:
@@ -163,9 +171,6 @@ class NiShaderDeclaration : public NiObject
     // NiShaderDeclaration& __cdecl NiShaderDeclaration::*(const NiShaderDeclaration&)
     // void __cdecl NiShaderDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShaderDeclaration) == 8);
-#pragma pack(push, 4)
 class NiD3DShaderDeclaration : public NiShaderDeclaration
 {
   public:
@@ -196,22 +201,9 @@ class NiD3DShaderDeclaration : public NiShaderDeclaration
     // NiD3DShaderDeclaration& __cdecl NiD3DShaderDeclaration::*(const NiD3DShaderDeclaration&)
     // void __cdecl NiD3DShaderDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderDeclaration) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pOwnerShader) == 8);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pShaderStreamInfo) == 12);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pD3DDevice) == 16);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiVertexElementCount) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiBufferStride) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiShaderRegisterCount) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiRegisterStreamCount) == 32);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pShaderRegisterStream) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_bHasChanges) == 40);
-#pragma pack(push, 4)
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
     // base NiD3DShaderDeclaration at +0x0, size 44
     _D3DVERTEXELEMENT9* m_pkVertexElements;         // +0x2C, 4 bytes
     COMUnknownInterface* m_pkD3DVertexDeclaration;  // +0x30, 4 bytes
@@ -230,10 +222,6 @@ class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
     // NiD3DVertexDeclaration& __cdecl NiD3DVertexDeclaration::*(const NiD3DVertexDeclaration&)
     // void __cdecl NiD3DVertexDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DVertexDeclaration) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DVertexDeclaration, m_pkVertexElements) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DVertexDeclaration, m_pkD3DVertexDeclaration) == 48);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -244,7 +232,6 @@ FNV_STATIC_ASSERT(offsetof(NiD3DVertexDeclaration, m_pkD3DVertexDeclaration) == 
 class BSShaderProperty;
 class BSShaderProperty__RenderPassArray;
 class NiShadeProperty;
-#pragma pack(push, 4)
 class NiShadeProperty : public NiProperty
 {
   public:
@@ -278,11 +265,6 @@ class NiShadeProperty : public NiProperty
     // NiShadeProperty& __cdecl NiShadeProperty::*(const NiShadeProperty&)
     // void __cdecl NiShadeProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShadeProperty) == 32);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_uiObjectFlags) == 24);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_iShaderType) == 28);
-#pragma pack(push, 4)
 class BSShaderProperty : public NiShadeProperty
 {
   public:
@@ -353,25 +335,6 @@ class BSShaderProperty : public NiShadeProperty
     // BSShaderProperty& __cdecl BSShaderProperty::*(const BSShaderProperty&)
     // void __cdecl BSShaderProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty) == 104);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, ulFlags) == 32);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fAlpha) == 40);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fFadeAlpha) == 44);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fAmbientReflectionScale) == 48);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fSpecularExponent) == 52);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, iLastRenderPassState) == 56);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, pRenderPassList) == 60);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray1) == 64);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray2) == 68);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray3) == 72);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray4) == 76);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray5) == 80);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray6) == 84);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_iRenderPassCount) == 88);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fDepthBias) == 92);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fValueAfterDepthBias) == 96);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fEnvironmentMapScale) == 100);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -384,7 +347,7 @@ FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fEnvironmentMapScale) == 100);
 class BSShader;
 class BSShaderNoLighting;
 class Direct3DDeviceInterface;
-class RgbaColor;
+struct RgbaColor;
 class NiD3DDefaultShader;
 class NiD3DDefaultShader__PassFogStatus;
 class NiD3DPass;
@@ -1181,7 +1144,6 @@ enum BSShaderManager__eBSSMPassEnum
     BSShaderManager__eBSSMPassEnum_BSSM_UNUSEDPASSES_LAST = 755,
     BSShaderManager__eBSSMPassEnum_BSSM_COUNT = 756
 };
-#pragma pack(push, 4)
 class NiShader : public NiRefObject
 {
   public:
@@ -1201,12 +1163,6 @@ class NiShader : public NiRefObject
     // NiShader& __cdecl NiShader::*(const NiShader&)
     // void __cdecl NiShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShader) == 20);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_uiShaderIdentifier) == 12);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_bShaderEnabled) == 16);
-#pragma pack(push, 4)
 class NiD3DShaderInterface : public NiShader
 {
   public:
@@ -1228,13 +1184,6 @@ class NiD3DShaderInterface : public NiShader
     // NiD3DShaderInterface& __cdecl NiD3DShaderInterface::*(const NiD3DShaderInterface&)
     // void __cdecl NiD3DShaderInterface::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderInterface) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pD3DDevice) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pShaderObject) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pRenderState) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_bShaderState) == 32);
-#pragma pack(push, 4)
 class NiD3DShader : public NiD3DShaderInterface
 {
   public:
@@ -1286,16 +1235,6 @@ class NiD3DShader : public NiD3DShaderInterface
     // NiD3DShader& __cdecl NiD3DShader::*(const NiD3DShader&)
     // void __cdecl NiD3DShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShader) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bIsInitialized) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bSoftwareVertexProcessing) == 37);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spShaderDeclaration) == 40);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_pRenderStateGroup) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spFirstShaderConstantMap) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spSecondShaderConstantMap) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_uiShaderType) == 56);
-#pragma pack(push, 4)
 class NiD3DDefaultShader : public NiD3DShader
 {
   public:
@@ -1326,18 +1265,6 @@ class NiD3DDefaultShader : public NiD3DShader
     // NiD3DDefaultShader& __cdecl NiD3DDefaultShader::*(const NiD3DDefaultShader&)
     // void __cdecl NiD3DDefaultShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DDefaultShader) == 92);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bUseFog) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bFogEnabled) == 61);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiDefaultShaderFlags) == 64);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassCount) == 68);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiActivePass) == 72);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFlags) == 76);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pPassFogStatus) == 80);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFogStatusCount) == 84);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pDynamicEffectState) == 88);
-#pragma pack(push, 4)
 class BSShader : public NiD3DDefaultShader
 {
   public:
@@ -1413,9 +1340,6 @@ class BSShader : public NiD3DDefaultShader
     virtual void vfn_11c();
     BSShader();
     ~BSShader();
-    static void GetShaderPath(const char*, char*);
-    NiD3DVertexShader* CompileVertexShader(const char*, const _D3DXMACRO*, const char*, const char*);
-    NiD3DPixelShader* CompilePixelShader(const char*, const _D3DXMACRO*, const char*, const char*);
     // base NiD3DDefaultShader at +0x0, size 92
     NiPointer<NiD3DPass> spRenderPass;       // +0x5C, 4 bytes
     BSShaderManager__eBSSMPassEnum m_ePass;  // +0x60, 4 bytes
@@ -1423,14 +1347,7 @@ class BSShader : public NiD3DDefaultShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShader) == 108);
-FNV_STATIC_ASSERT(offsetof(BSShader, spRenderPass) == 92);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_ePass) == 96);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_bIsBest) == 100);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_iPassId) == 104);
-#pragma pack(push, 4)
-class RgbaColor
+struct RgbaColor
 {
   public:
     RgbaColor(float R, float G, float B, float A) : r(R), g(G), b(B), a(A)
@@ -1458,13 +1375,6 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class BSShaderNoLighting : public BSShader
 {
   public:
@@ -1494,12 +1404,7 @@ class BSShaderNoLighting : public BSShader
                        NiD3DVertexDeclaration* d9, NiD3DVertexDeclaration* d10, NiD3DVertexDeclaration* d11);
     ~BSShaderNoLighting();
     static BSShader* CreateShader();
-    void FUN_00bc77e0();
     void PrepareShaderPass(const NiPropertyState*);
-    void CopyEntriesToGlobalBuffer(NiGeometry*, const NiTransform&);
-    void UpdateGlobalMatrix(const NiPropertyState*);
-    void FUN_00bc7100();
-    void UpdateMaterialColor(BSShaderNoLightingProperty*, NiMaterialProperty*);
     void InitializeShaderData();
     NiD3DShaderDeclaration* SelectVertexDeclaration(NiGeometry* pkGeometry, BSShaderProperty* pkShaderProperty);
     // const NiRTTI* __cdecl BSShaderNoLighting::*()
@@ -1527,28 +1432,6 @@ class BSShaderNoLighting : public BSShader
     // bool __cdecl BSShaderNoLighting::*()
     // BSShaderNoLighting& __cdecl BSShaderNoLighting::*(const BSShaderNoLighting&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderNoLighting) == 436);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, spRenderPass) == 108);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_spTreeVertexShader) == 228);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_spPixelShaderVariants) == 340);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pFirstShaderConstantMapEntry) == 368);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pSecondShaderConstantMapEntry) == 372);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pShaderConstantMapEntry3) == 376);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pShaderConstantMapEntry4) == 380);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pShaderConstantMapEntry5) == 384);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant1) == 388);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_spVertexDeclaration) == 392);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant3) == 396);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant4) == 400);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant5) == 404);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant6) == 408);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant7) == 412);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant8) == 416);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant9) == 420);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant10) == 424);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant11) == 428);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant12) == 432);
 #endif
 
 #endif
@@ -1557,11 +1440,10 @@ inline NiPointer<NiD3DVertexDeclaration>::operator NiD3DShaderDeclaration*() con
 {
     return m_pObject;
 }
-extern RgbaColor DAT_011a9be0;
 extern RgbaColor DAT_01202010;
 
 #include "NiPoint3.h"
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
@@ -1576,7 +1458,7 @@ class NiTransform
     void ResetToIdentity();
 };
 class NiSkinInstance;
-class NiGeometryBufferData;
+struct NiGeometryBufferData;
 class NiD3DShaderProgram;
 class NiGeometryData
 {
@@ -1599,8 +1481,6 @@ class NiGeometry
     NiGeometryData* m_spGeometryData;
     NiSkinInstance* m_spSkinningInstance;
 };
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_kWorldSpaceTransform) == 0x68);
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_spGeometryData) == 0xb8);
 class NiPropertyState
 {
   public:
@@ -1622,6 +1502,7 @@ class BSShaderNoLightingProperty : public BSShaderProperty
     unsigned char pad68[8];
     RgbaColor kFalloff;
 };
+template <class> class NiPointer;
 class NiD3DPass
 {
   public:
@@ -1629,11 +1510,16 @@ class NiD3DPass
     NiD3DShaderProgram* m_spPixelShaderObject;
     unsigned char pad48[0x14];
     NiD3DShaderProgram* m_spVertexShaderObject;
+public:
+    bool ApplyRenderStateChanges(bool);
+public:
+    void DestroyPass();
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 class GraphicsRenderer
 {
   public:
-    void ApplyObjectTransform(const NiTransform&, bool);
 };
 class ShaderPassRenderer
 {
@@ -1685,12 +1571,5 @@ class NiD3DShaderConstantMap : public NiRefObject
                                                     const void*, const NiTransform&, const NiBound&, unsigned int,
                                                     bool);
 };
-extern NiGeometry** DAT_011f91e0;
-extern unsigned int DAT_011f91e4;
-extern NiBound DAT_011f4288;
-extern NiPoint3 DAT_011f474c;
-extern int DAT_0126f74c;
 extern RgbaColor DAT_01202020;
 extern RgbaColor DAT_01202030;
-void __cdecl FUN_00b97e30(unsigned int, unsigned int);
-void __cdecl FUN_00b97de0(unsigned int, unsigned int);

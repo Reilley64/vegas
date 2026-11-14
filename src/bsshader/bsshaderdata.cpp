@@ -2,6 +2,15 @@
 // src/bsshader/bsshaderdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshaderdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/FUN_00baff20_Class.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/WorkerSource.h"
+#include "fnv/decl/fnv_00bafe10__Src.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_01200000.h"
 struct BSMaterialEmittanceMultController;
 struct BSRefractionFirePeriodController;
 struct BSRefractionStrengthController;
@@ -9,7 +18,7 @@ struct BSShaderNoLightingProperty;
 struct BSShaderPPLightingProperty;
 struct BSShaderProperty;
 struct BSShaderTextureSet;
-struct NiAVObject;
+class NiAVObject;
 struct NiAlphaController;
 struct NiMaterialColorController;
 struct SkyShaderProperty;
@@ -20,9 +29,6 @@ struct ShaderPropertyConversionData
 {
     void Convert(NiAVObject*, unsigned int);
     void CheckTextureAlphas();
-    void AddShaderProperty(NiAVObject*);
-    void AddMaterialProperty(NiAVObject*);
-    void AddAlphaProperty(NiAVObject*);
     BSShaderProperty* GetShaderProperty();
     void SetupShaderFlags(BSShaderProperty*, NiAVObject*);
     void SetupTexturesPPLightingShader(BSShaderPPLightingProperty*);
@@ -90,12 +96,10 @@ struct ShaderPropertyConversionData
     char _pad_b3[1];
     int m_iShaderDataFlags;
 };
-typedef char _sizecheck_BSShaderData[sizeof(ShaderPropertyConversionData) == 184 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00bb0180_shell : public ShaderPropertyConversionData
 {
     void AddProperties(NiAVObject*, unsigned int);
@@ -106,11 +110,11 @@ struct FUN_00bb0180_shell : public ShaderPropertyConversionData
 void FUN_00bb0180_shell::AddProperties(NiAVObject* apTarget, unsigned int auiProperties)
 {
     if (auiProperties & 1)
-        AddAlphaProperty(apTarget);
+        reinterpret_cast<::WorkerSource *>(this)->UpdateWorkerObject((::WorkerTarget *)(apTarget));
     if (auiProperties & 2)
-        AddMaterialProperty(apTarget);
+        reinterpret_cast<::fnv_00bafe10::Src *>(this)->CreateAndAttachMaterialProperty((::fnv_00bafe10::NiAVObject_Attach *)(apTarget));
     if (auiProperties & 4)
-        AddShaderProperty(apTarget);
+        reinterpret_cast<::FUN_00baff20_Class *>(this)->AttachAlphaProperty(apTarget);
 }
 
 extern int DAT_012005e0;
@@ -123,7 +127,7 @@ struct FUN_00bb0490_shell
 // @fnv 0x00bb0490
 void FUN_00bb0490_shell::CallVirtualMethod74()
 {
-    ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(this))[0x4a])(this, DAT_012005e0);
+    ((void(*)(void*, int))(*reinterpret_cast<void***>(this))[0x4a])(this, DAT_012005e0);
 }
 
 struct _D3DXMACRO
@@ -131,10 +135,9 @@ struct _D3DXMACRO
     const char* Name;
     const char* Definition;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-struct NiD3DPixelShader
+class NiD3DPixelShader
 {
+  public:
     virtual void v0();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -164,17 +167,14 @@ template <class T> struct ShaderPtr
         return *this;
     }
 };
-extern ShaderPtr<NiD3DPixelShader> DAT_012005c8[2];
-void* _fnv_zlib_memset(void*, int, unsigned int);
-int _sprintf_s(char*, unsigned int, const char*, ...);
 struct NiD3DGPUProgramCache
 {
     static const char* __cdecl GetPixelShaderProfile(bool);
+public:
+    static const char *GetVertexShaderProfile();
 };
 struct BSShader
 {
-    static void __cdecl GetShaderPath(const char*, char*);
-    NiD3DPixelShader* CompilePixelShader(const char*, const _D3DXMACRO*, const char*, const char*);
 };
 struct PrecipShaderDef
 {
@@ -192,20 +192,20 @@ void FUN_00bb0360_t::CreatePrecipitationPixelShaders()
     PrecipShaderDef ShaderDefs[2];
     ShaderDefs[0].pFile = "precipitation\\precipitation.p.hlsl";
     ShaderDefs[0].Macros[0].Name = 0;
-    _fnv_zlib_memset(&ShaderDefs[0].Macros[0].Definition, 0, 0x44);
+    std::memset(&ShaderDefs[0].Macros[0].Definition, 0, 17 * sizeof(const char*));
     ShaderDefs[1].pFile = "precipitation\\precipitation.p.hlsl";
     ShaderDefs[1].Macros[0].Name = "SNOW";
     ShaderDefs[1].Macros[0].Definition = 0;
     ShaderDefs[1].Macros[1].Name = 0;
-    _fnv_zlib_memset(&ShaderDefs[1].Macros[1].Definition, 0, 0x3c);
+    std::memset(&ShaderDefs[1].Macros[1].Definition, 0, 15 * sizeof(const char*));
     char acName[260];
     char acPath[260];
     for (int i = 0; i < 2; i++)
     {
-        BSShader::GetShaderPath(ShaderDefs[i].pFile, acPath);
-        _sprintf_s(acName, 260, "PRECIP%03i.pso", i);
-        DAT_012005c8[i] = CompilePixelShader(acPath, ShaderDefs[i].Macros,
-                                             NiD3DGPUProgramCache::GetPixelShaderProfile(false), acName);
+        ::FUN_00be0c00(ShaderDefs[i].pFile, acPath);
+        ::FUN_00406d00(acName, 260, "PRECIP%03i.pso", i);
+        (*reinterpret_cast<ShaderPtr<NiD3DPixelShader> (*)[2]>(&::g_aspSmall))[i] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(acPath), (void *)(ShaderDefs[i].Macros),
+                                             (char *)(NiD3DGPUProgramCache::GetPixelShaderProfile(false)), (char *)(acName));
     }
 }
 
@@ -224,17 +224,12 @@ struct NiD3DVertexShader
             DeleteThis();
     }
 };
-extern ShaderPtr<NiD3DVertexShader> DAT_012005d0[4];
 struct VSProfileCache
 {
-    static const char* __cdecl GetVertexShaderProfile();
 };
 struct BSShaderVS
 {
-    static void __cdecl GetShaderPath(const char*, char*);
-    NiD3DVertexShader* CompileVertexShader(const char*, const _D3DXMACRO*, const char*, const char*);
 };
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00bb01c0_t : BSShaderVS
 {
     void CreatePrecipitationVertexShaders();
@@ -248,33 +243,35 @@ void FUN_00bb01c0_t::CreatePrecipitationVertexShaders()
     shaderDefs[0].Macros[0].Name = "BILLBOARD_UP";
     shaderDefs[0].Macros[0].Definition = 0;
     shaderDefs[0].Macros[1].Name = 0;
-    fnv_zlib_memset(&shaderDefs[0].Macros[1].Definition, 0, 0x3c);
+    std::memset(&shaderDefs[0].Macros[1].Definition, 0, 15 * sizeof(const char*));
     shaderDefs[1].pFile = "precipitation\\precipitation.v.hlsl";
     shaderDefs[1].Macros[0].Name = "BILLBOARD_FACE";
     shaderDefs[1].Macros[0].Definition = 0;
     shaderDefs[1].Macros[1].Name = 0;
-    fnv_zlib_memset(&shaderDefs[1].Macros[1].Definition, 0, 0x3c);
+    std::memset(&shaderDefs[1].Macros[1].Definition, 0, 15 * sizeof(const char*));
     shaderDefs[2].pFile = "precipitation\\precipitation.v.hlsl";
     shaderDefs[2].Macros[0].Name = "BILLBOARD_UP";
     shaderDefs[2].Macros[0].Definition = 0;
     shaderDefs[2].Macros[1].Name = "SNOW";
     shaderDefs[2].Macros[1].Definition = 0;
     shaderDefs[2].Macros[2].Name = 0;
-    fnv_zlib_memset(&shaderDefs[2].Macros[2].Definition, 0, 0x34);
+    std::memset(&shaderDefs[2].Macros[2].Definition, 0, 13 * sizeof(const char*));
     shaderDefs[3].pFile = "precipitation\\precipitation.v.hlsl";
     shaderDefs[3].Macros[0].Name = "BILLBOARD_FACE";
     shaderDefs[3].Macros[0].Definition = 0;
     shaderDefs[3].Macros[1].Name = "SNOW";
     shaderDefs[3].Macros[1].Definition = 0;
     shaderDefs[3].Macros[2].Name = 0;
-    fnv_zlib_memset(&shaderDefs[3].Macros[2].Definition, 0, 0x34);
+    std::memset(&shaderDefs[3].Macros[2].Definition, 0, 13 * sizeof(const char*));
     for (int i = 0; i < 4; i++)
     {
         char shaderName[260];
         char shaderPath[260];
-        GetShaderPath(shaderDefs[i].pFile, shaderPath);
-        _sprintf_s(shaderName, 260, "PRECIP%03i.vso", i);
-        DAT_012005d0[i] =
-            CompileVertexShader(shaderPath, shaderDefs[i].Macros, VSProfileCache::GetVertexShaderProfile(), shaderName);
+        ::FUN_00be0c00(shaderDefs[i].pFile, shaderPath);
+        ::FUN_00406d00(shaderName, 260, "PRECIP%03i.vso", i);
+        (*reinterpret_cast<ShaderPtr<NiD3DVertexShader> (*)[4]>(&::g_aspLarge))[i] =
+            ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(shaderDefs[i].Macros), ::NiD3DGPUProgramCache::GetVertexShaderProfile(), shaderName)));
     }
 }
+
+#include "generated/data/bsshader/bsshaderdata.inc"

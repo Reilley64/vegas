@@ -1,9 +1,15 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppmodifyvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppmodifyvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_010d5000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-extern "C" void _ReadWriteBarrier();
 
 typedef unsigned char Byte;
 
@@ -63,19 +69,14 @@ struct Diagnostic {
 
 };
 
-extern Diagnostic* DAT_01268360;
-extern const char str_010d5100[];
 extern const char str_010ed0ac[];
 
 struct MessageStream {
 
     int unk00; int unk04; int unk08;
 
-    void FUN_00cb1600(char*, int);
 
-    void FUN_00cc01c0(const char*);
 
-    void FUN_00cc00e0();
 
 };
 
@@ -231,13 +232,13 @@ BranchWork work;
 
                 int buffer[128]; MessageStream message;
 
-                message.FUN_00cb1600((char*)buffer, 512);
+                new ((void *)&(message)) ::FUN_00cb1600((char*)buffer, 512);
 
-                message.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+                reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
 
-                if (DAT_01268360->report(3, 0x1298fedd, (char*)buffer, ".\\Collide\\Mopp\\Machine\\hkpMoppModifyVirtualMachine.cpp", 0x125)) __debugbreak();
+                if ((*reinterpret_cast<::Diagnostic * *>(&::DAT_01268360))->report(3, 0x1298fedd, (char*)buffer, ".\\Collide\\Mopp\\Machine\\hkpMoppModifyVirtualMachine.cpp", 0x125)) __debugbreak();
 
-                message.FUN_00cc00e0();
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
 
             }
 
@@ -394,7 +395,6 @@ struct S00e67230_Aabb {
     float maxX; float maxY; float maxZ; float maxW;
 };
 extern BoolResult DAT_0126efbc;
-extern "C" void __cdecl FUN_00df22f0(BoolResult* flag);
 
 __forceinline int S00e67230_toIntMin(float r) { return fnv_FloatToInt(r) - 1; }
 __forceinline int S00e67230_toIntMax(float r) { return fnv_FloatToInt(r) + 1; }
@@ -408,7 +408,6 @@ struct S00e67230_Machine {
     Visitor* modifier;
     int mask;
 
-    BoolResult FUN_00e66950(const VMState* state, const Byte* base, int offset);
 
     __forceinline void generateQueryFromAabb(const S00e67230_Aabb& aabb, VMState& query)
     {
@@ -444,7 +443,7 @@ struct S00e67230_Machine {
 void S00e67230_Machine::FUN_00e67230(const S00e67230_Code* codeIn, const S00e67230_Aabb& aabb, Visitor* modifierOut)
 {
     if (!DAT_0126efbc) {
-        FUN_00df22f0(&DAT_0126efbc);
+        ::ValidateHavokKeyCode((bool *)(::BoolResult *)(&DAT_0126efbc));
         if (!DAT_0126efbc) {
             return;
         }
@@ -460,8 +459,10 @@ void S00e67230_Machine::FUN_00e67230(const S00e67230_Code* codeIn, const S00e672
     mask = (*base != 13) - 1;
 
 
-    BoolResult hit = FUN_00e66950(&query, base, 0);
+    BoolResult hit = (*(::BoolResult *)(reinterpret_cast<::Interpreter *>(this)->FUN_00e66950((::BoolResult *)(&query), (const ::VMState *)(base), (const unsigned char *)(0), {})));
     if (hit) {
         modifierOut->branch(code->data[0] == 13 ? 5 : 0);
     }
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppmodifyvirtualmachine.inc"

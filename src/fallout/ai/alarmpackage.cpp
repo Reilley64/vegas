@@ -1,33 +1,104 @@
 // fallout/ai/alarmpackage.cpp: Crime, TESSpellList, Candidate, Cls and more (27 functions)
 
+#include "fnv/save_load_game_view.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00616c20_shell.h"
+#include "fnv/decl/FUN_00678fd0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00855220_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_0085a2e0_Class.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_00972740_shell.h"
+#include "fnv/decl/FUN_009727c0_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/Package679120.h"
+#include "fnv/decl/Package6798c0.h"
+#include "fnv/decl/PackageCopy.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_0047d680__FUN_0047d680_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_009a5f90__FUN_009a5f90_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "alarmpackage_decls.h"
+
+
+// The leading members of Crime as the crime save code reads them. The 4-byte getter folded into 0x00726070 reads
+// the crime type at +0x4.
+struct CrimeTypeView
+{
+    unsigned int uiUnknown00;
+    unsigned int uiCrimeType;
+};
 
 // If the buffer's change flags include 0x10, clears both spell lists and re-adds each SpellItem and TESLevSpell read from the buffer.
 // @fnv 0x0048e140
 void TESSpellList::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    if (buffer->GetChangeFlags(0x10))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x10)))->FUN_004280f0(0x10))
     {
-        spellList.RemoveAll();
-        leveledSpellList.RemoveAll();
+        reinterpret_cast<::FileMatchList *>(&(spellList))->RemoveAll();
+        reinterpret_cast<::FileMatchList *>(&(leveledSpellList))->RemoveAll();
 
         {
-            unsigned int spellCount = buffer->ReadElementCount();
+            unsigned int spellCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
             for (unsigned int i = 0; i < spellCount; ++i)
             {
                 SpellItem* pLevSpell = 0;
-                pLevSpell = dynamic_cast<SpellItem*>(GetFormByID(buffer->ReadFormIdentifier()));
+                pLevSpell = dynamic_cast<SpellItem*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
                 if (pLevSpell)
                     spellList.AddHead(pLevSpell);
             }
         }
 
         {
-            unsigned int leveledSpellCount = buffer->ReadElementCount();
+            unsigned int leveledSpellCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
             for (unsigned int i = 0; i < leveledSpellCount; ++i)
             {
                 TESLevSpell* pLevSpell = 0;
-                pLevSpell = dynamic_cast<TESLevSpell*>(GetFormByID(buffer->ReadFormIdentifier()));
+                pLevSpell = dynamic_cast<TESLevSpell*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
                 if (pLevSpell)
                     leveledSpellList.AddHead(pLevSpell);
             }
@@ -35,31 +106,27 @@ void TESSpellList::LoadGame(BGSLoadFormBuffer* buffer)
     }
 }
 
-TESForm* __cdecl GetFormByID(unsigned int);
 struct ChangesMap
 {
-    bool FUN_00855220(unsigned int, bool);
 };
 struct FUN_0085a290_t
 {
     ChangesMap* pChanges;
-    void DeleteForm(TESForm*);
     void DeleteFormById(unsigned int id);
 };
 // @fnv 0x0085a290
 void FUN_0085a290_t::DeleteFormById(unsigned int uiFormId)
 {
-    TESForm* pForm = GetFormByID(uiFormId);
+    TESForm* pForm = ::FUN_004839c0(uiFormId);
     if (pForm)
-        DeleteForm(pForm);
+        reinterpret_cast<::FUN_0085a2e0_Class *>(this)->FUN_0085a2e0(pForm);
     else
-        pChanges->FUN_00855220(uiFormId, true);
+        reinterpret_cast<::FUN_00855220_shell *>((pChanges))->FUN_00855220(uiFormId, true);
 }
 
-struct Actor;
+class Actor;
 struct LH
 {
-    bool IsInList(Actor*&);
 };
 struct Crime
 {
@@ -70,13 +137,12 @@ struct Crime
 // @fnv 0x009eb9a0
 bool Crime::IsActorInList(Actor* apActor)
 {
-    return _list.IsInList(apActor);
+    return reinterpret_cast<::RefList *>(&(_list))->FUN_005f65d0((void **)&(apActor));
 }
 
-struct Actor;
+class Actor;
 struct SL
 {
-    void _ref_00905330(Actor* const& a);
 };
 struct FUN_009eba00_t
 {
@@ -86,7 +152,7 @@ struct FUN_009eba00_t
 // @fnv 0x009eba00
 void FUN_009eba00_t::FUN_009eba00(Actor* apActor)
 {
-    reinterpret_cast<SL*>(reinterpret_cast<char*>(this) + 0x1c)->_ref_00905330(apActor);
+    reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<SL*>(reinterpret_cast<char*>(this) + 0x1c)))->FUN_00905330((::InventoryStackRecord *const &)(apActor));
     m_uiItemCount = m_uiItemCount - 1;
 }
 
@@ -111,26 +177,15 @@ int FUN_009ebab0_host::GetRaceListSize()
         return _list.GetSize();
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_009ec640_t
 {
     void FUN_009ec700();
     FUN_009ec640_t* FUN_009ec640(unsigned int flags);
 };
-// @fnv 0x009ec640
-FUN_009ec640_t* FUN_009ec640_t::FUN_009ec640(unsigned int flags)
-{
-    FUN_009ec700();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 namespace fnv_009ec810 {
 struct SpellItem;
 struct LH
 {
-    bool IsInList(SpellItem* const& a) const;
 };
 struct FUN_009ec810_t
 {
@@ -139,7 +194,7 @@ struct FUN_009ec810_t
 // @fnv 0x009ec810
 bool FUN_009ec810_t::IsSpellInList(SpellItem* pSpell)
 {
-    return reinterpret_cast<LH*>(reinterpret_cast<char*>(this) + 0x80)->IsInList(pSpell);
+    return reinterpret_cast<::RefList *>((void *)(reinterpret_cast<LH*>(reinterpret_cast<char*>(this) + 0x80)))->FUN_005f65d0((void **)&(pSpell));
 }
 }  // namespace fnv_009ec810
 
@@ -158,33 +213,30 @@ void FUN_009ec830_t::AddHeadAtOffset(int* a)
 }
 
 namespace fnv_009ec850 {
-struct Actor
+class Actor
 {
-    void SetSpeakingState(bool);
 };
 struct MyList
 {
-    void _ref_00905330(const unsigned int&);
     bool _ref_008256d0();
 };
 struct FUN_009ec850_shell
 {
     char _pad[0x80];
     MyList _list;
-    void FUN_009ec850(unsigned int, Actor*);
+    void FUN_009ec850(uintptr_t, Actor*);
 };
 // @fnv 0x009ec850
-void FUN_009ec850_shell::FUN_009ec850(unsigned int a, Actor* pActor)
+void FUN_009ec850_shell::FUN_009ec850(uintptr_t a, Actor* pActor)
 {
-    _list._ref_00905330(a);
+    reinterpret_cast<::ItemChangeListNode *>(&(_list))->FUN_00905330((::InventoryStackRecord *const &)(a));
     if (_list._ref_008256d0())
-        pActor->SetSpeakingState(0);
+        reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((pActor))->FUN_00881680(0);
 }
 }  // namespace fnv_009ec850
 
 struct List005fda50
 {
-    void FUN_00616c20(int);
 };
 struct Crime005fda50
 {
@@ -218,14 +270,13 @@ void Crime005fda50::FUN_005fda50(int aiAmount, bool b)
 {
     i44 += aiAmount;
     if (pList38 && b)
-        pList38->FUN_00616c20(1);
+        reinterpret_cast<::FUN_00616c20_shell *>((pList38))->FUN_00616c20(1);
     v18(0x80000000);
 }
 
 namespace fnv_009eb9c0 {
 struct FUN_009eb9c0_list
 {
-    bool IsInList(Actor* const& a);
     void AddHead(Actor* const& a);
 };
 struct Crime
@@ -238,7 +289,7 @@ struct Crime
 // @fnv 0x009eb9c0
 void Crime::AddActor(Actor* apActor)
 {
-    if (!actors.IsInList(apActor))
+    if (!reinterpret_cast<::RefList *>(&(actors))->FUN_005f65d0((void **)&(apActor)))
     {
         actors.AddHead(apActor);
         BackgroundTask = BackgroundTask + 1;
@@ -249,7 +300,6 @@ void Crime::AddActor(Actor* apActor)
 struct FUN_009eba30_t;
 struct FUN_009eba30_xl
 {
-    void Remove(FUN_009eba30_t* const& c);
 };
 struct FUN_0041cf00_shell
 {
@@ -257,12 +307,9 @@ struct FUN_0041cf00_shell
 };
 struct XActor
 {
-    FUN_0041cf00_shell* GetExtra() const;
 };
 struct FUN_009eba30_node
 {
-    XActor** FUN_006815c0();
-    FUN_009eba30_node* FUN_00726070();
 };
 struct FUN_009eba30_t
 {
@@ -275,13 +322,13 @@ struct FUN_009eba30_t
 void FUN_009eba30_t::FUN_009eba30()
 {
     FUN_009eba30_node* pnode = &list;
-    while (pnode && *pnode->FUN_006815c0())
+    while (pnode && *((::XActor **)(((::Vec3 *)(void *)(pnode)))))
     {
-        XActor* pActor = *pnode->FUN_006815c0();
-        FUN_009eba30_xl* pList = pActor->GetExtra()->FUN_0041cf00();
+        XActor* pActor = *((::XActor **)(((::Vec3 *)(void *)(pnode))));
+        FUN_009eba30_xl* pList = ((::FUN_0041cf00_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(pActor))->FUN_005d43c0()))->FUN_0041cf00();
         if (pList)
-            pList->Remove(this);
-        pnode = pnode->FUN_00726070();
+            reinterpret_cast<::ItemChangeListNode *>((pList))->FUN_00905330((::InventoryStackRecord *const &)((const ::FUN_009eba30_t *const &)(this)));
+        pnode = ((::FUN_009eba30_node *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070()));
     }
     BackgroundTask = 0;
 }
@@ -342,57 +389,60 @@ struct FUN_009ec700_pkg
 struct FUN_009ec700_sl
 {
     ~FUN_009ec700_sl();
-    void RemoveAll();
 };
 struct FUN_009ec700 : public FUN_009ec700_pkg
 {
     FUN_009ec700_sl list;
     ~FUN_009ec700();
 };
+// @fnv 0x009ec640
+FUN_009ec640_t* FUN_009ec640_t::FUN_009ec640(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009ec700 *>(this)->FUN_009ec700::~FUN_009ec700();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor that removes all entries from the list member before the base package destructor runs.
 // @fnv 0x009ec700
 FUN_009ec700::~FUN_009ec700()
 {
-    list.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(list))->RemoveAll();
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_009ebae0_shell
 {
     void AddActorToList(Actor* a);
+    unsigned int pad00[0xe];
+    void* unk38;
 };
 
 // Creates the BSSimpleList at offset 0x38 if null, then adds the given Actor to its head.
 // @fnv 0x009ebae0
 void FUN_009ebae0_shell::AddActorToList(Actor* apActor)
 {
-    if (!*(BSSimpleList<Actor*>**)((char*)this + 0x38))
+    if (!*(BSSimpleList<Actor*>**)&this->unk38)
     {
-        *(BSSimpleList<Actor*>**)((char*)this + 0x38) = new BSSimpleList<Actor*>;
+        *(BSSimpleList<Actor*>**)&this->unk38 = new BSSimpleList<Actor*>;
     }
-    (*(BSSimpleList<Actor*>**)((char*)this + 0x38))->AddHead(apActor);
+    (*(BSSimpleList<Actor*>**)&this->unk38)->AddHead(apActor);
 }
 
 struct DialoguePackage
 {
-    void CopyFromPackage(TESForm*);
 };
 
 struct List_009e03e0
 {
-    void RemoveAll();
 };
 
 struct CrimeNode
 {
-    int** _ref_006815c0();
-    CrimeNode* FUN_00726070();
 };
 
 struct AlarmPackage : public TESForm
 {
-    CrimeNode* GetCrimeList();
 };
 
 struct FUN_009ec780_shell : public AlarmPackage
@@ -406,43 +456,36 @@ void FUN_009ec780_shell::FUN_009ec780(TESForm* apCopy)
     AlarmPackage* pAlarmSource;
     CrimeNode* pCurrentElementNext;
 
-    ((DialoguePackage*)this)->CopyFromPackage(apCopy);
-    ((List_009e03e0*)((char*)this + 0x80))->RemoveAll();
+    reinterpret_cast<::PackageCopy *>((((DialoguePackage*)this)))->CopyFromPackage(apCopy);
+    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)((char*)this + 0x80))))->RemoveAll();
     pAlarmSource = dynamic_cast<AlarmPackage*>(apCopy);
     if (pAlarmSource)
     {
-        pCurrentElementNext = pAlarmSource->GetCrimeList();
-        while (pCurrentElementNext && *pCurrentElementNext->_ref_006815c0())
+        pCurrentElementNext = ((::CrimeNode *)(reinterpret_cast<::TESDataHandler *>((pAlarmSource))->GetTESClassList()));
+        while (pCurrentElementNext && *((int **)(((::Vec3 *)(void *)(pCurrentElementNext)))))
         {
-            ((G2*)((char*)this + 0x80))->AddHead(*pCurrentElementNext->_ref_006815c0());
-            pCurrentElementNext = pCurrentElementNext->FUN_00726070();
+            ((G2*)((char*)this + 0x80))->AddHead(*((int **)(((::Vec3 *)(void *)(pCurrentElementNext)))));
+            pCurrentElementNext = ((::CrimeNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
     }
 }
 
 struct Saver
 {
-    unsigned short FUN_00678fd0();
 };
 
 struct TESSaveLoadGame
 {
-    bool FUN_00862110();
-    void* GetHitSound();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-extern GlobalObject_0045cf30 g_011de4e8;
 
-TESForm* __cdecl _GetFormByNumericID(unsigned int);
 
 struct Interface
 {
-    static void __cdecl PrintDebugMessage(const char*, ...);
 };
 
 struct FormWithID
@@ -535,30 +578,24 @@ struct FUN_009ec890_shell : public Saver
 unsigned short FUN_009ec890_shell::FUN_009ec890()
 {
     unsigned short isaveGameCount = 0;
-    isaveGameCount += FUN_00678fd0();
+    isaveGameCount += reinterpret_cast<::FUN_00678fd0_shell *>(this)->FUN_00678fd0();
     unsigned short isaveGameBufferPos = isaveGameCount;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         isaveGameCount += 4;
         isaveGameCount += 2;
     }
-    if (*g_011de4e8.Bool())
+    if (*::g_011de4e8.Bool())
     {
-        char* header = (char*)g_TESSaveLoadGame->GetHitSound();
+        char* header = (char*)((void *)(reinterpret_cast<::EffectSetting *>((g_TESSaveLoadGame))->GetHitSound()));
         if (header)
         {
-            TESForm* form = _GetFormByNumericID(*(unsigned int*)header);
-            Interface::PrintDebugMessage(
-                "GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                isaveGameCount - isaveGameBufferPos, *(unsigned int*)header,
-                reinterpret_cast<FormWithID*>(form)->GetEditorID(), *(unsigned int*)(header + 5), 491,
-                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp");
+            TESForm* form = ::FUN_004839c0(*(unsigned int*)header);
+            ::FUN_0040fbe0();
         }
         else
         {
-            Interface::PrintDebugMessage("GetSaveSize(): %-5i ending at line %i in file %s",
-                                         isaveGameCount - isaveGameBufferPos, 491,
-                                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp");
+            ::FUN_0040fbe0();
         }
     }
     return isaveGameCount;
@@ -567,21 +604,15 @@ unsigned short FUN_009ec890_shell::FUN_009ec890()
 namespace fnv_009ecec0 {
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
-    unsigned int FUN_00865f20();
-    void FUN_00865ff0(int, unsigned int);
 };
 
 struct CrimeNode : public BSSimpleList<Crime*>
 {
-    Crime** _ref_006815c0();
 };
 
 struct ProcessLists
 {
-    unsigned short FUN_00972740(int, Crime*);
 };
-extern ProcessLists DAT_011e0e80;
 
 struct FUN_009ecec0_shell
 {
@@ -593,40 +624,36 @@ struct FUN_009ecec0_shell
 void FUN_009ecec0_shell::SaveCrimeList(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned int isaveGameCount = 0;
-    unsigned int isaveGameBufferPos = apSaveGameBuffer->FUN_00865f20();
+    unsigned int isaveGameBufferPos = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();
     CrimeNode* pCurrentElementNext = reinterpret_cast<CrimeNode*>((char*)this + 0x80);
     while (pCurrentElementNext)
     {
-        Crime* pcrime = *pCurrentElementNext->_ref_006815c0();
+        Crime* pcrime = *((::Crime **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         if (pcrime)
         {
-            char ccrimeType = (char)((BSSimpleList<Crime*>*)pcrime)->GetNext();
-            unsigned short icrimeIndex = DAT_011e0e80.FUN_00972740(ccrimeType, pcrime);
-            apSaveGameBuffer->SaveData(&ccrimeType, 1, 0);
-            apSaveGameBuffer->SaveData(&icrimeIndex, 2, 0);
+            char ccrimeType = (char)reinterpret_cast<::CrimeTypeView*>(pcrime)->uiCrimeType;
+            unsigned short icrimeIndex = reinterpret_cast<::FUN_00972740_shell *>(&((*reinterpret_cast<::fnv_009ecec0::ProcessLists *>(&::g_011e0e80))))->FUN_00972740(ccrimeType, (::BGSPerk *)(pcrime));
+            reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&ccrimeType, 1, 0);
+            reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&icrimeIndex, 2, 0);
             isaveGameCount++;
         }
-        pCurrentElementNext = static_cast<CrimeNode*>(pCurrentElementNext->GetNext());
+        pCurrentElementNext = static_cast<CrimeNode*>(((::BSSimpleList< ::Crime *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070())));
     }
-    apSaveGameBuffer->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
+    reinterpret_cast<::FUN_00865ff0_shell *>((apSaveGameBuffer))->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
 }
 }  // namespace fnv_009ecec0
 
-struct TESPackage
+class TESPackage
 {
-    void LoadGame(BGSLoadFormBuffer*);
 };
 
 struct BGSLoadFormBuffer_Accessor : BGSLoadFormBuffer
 {
-    void ReadTypedData(void*, unsigned int);
 };
 
 struct ProcessLists
 {
-    Crime* FUN_009727c0(int, unsigned short);
 };
-extern ProcessLists DAT_011e0e80;
 
 struct FUN_009ecf70_shell : public TESPackage
 {
@@ -637,15 +664,15 @@ struct FUN_009ecf70_shell : public TESPackage
 // @fnv 0x009ecf70
 void FUN_009ecf70_shell::LoadCrimeList(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    TESPackage::LoadGame(apLoadGameBuffer);
-    unsigned int isaveGameCount = apLoadGameBuffer->ReadElementCount();
+    reinterpret_cast<::Package6798c0 *>(this)->LoadPackage((::LoadBuffer6798c0 *)(apLoadGameBuffer));
+    unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
     for (unsigned int iIndex = 0; iIndex < isaveGameCount; ++iIndex)
     {
         char ccrimeType = 0;
         unsigned short icrimeIndex = 0;
-        static_cast<BGSLoadFormBuffer_Accessor*>(apLoadGameBuffer)->ReadTypedData(&ccrimeType, 1);
-        static_cast<BGSLoadFormBuffer_Accessor*>(apLoadGameBuffer)->ReadTypedData(&icrimeIndex, 2);
-        Crime* pcrime = DAT_011e0e80.FUN_009727c0(ccrimeType, icrimeIndex);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((static_cast<BGSLoadFormBuffer_Accessor*>(apLoadGameBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ccrimeType), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((static_cast<BGSLoadFormBuffer_Accessor*>(apLoadGameBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&icrimeIndex), 2);
+        Crime* pcrime = reinterpret_cast<::FUN_009727c0_shell *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->FUN_009727c0(ccrimeType, icrimeIndex);
         if (pcrime)
         {
             reinterpret_cast<G2*>((char*)this + 0x80)->AddHead((int*&)pcrime);
@@ -653,7 +680,6 @@ void FUN_009ecf70_shell::LoadCrimeList(BGSLoadFormBuffer* apLoadGameBuffer)
     }
 }
 
-extern TESSaveLoadGame* DAT_011de45c;
 extern const char $SG7034[];
 extern const char $SG7035[];
 extern const char $SG7038[];
@@ -841,7 +867,7 @@ unsigned short FUN_009ebb80_shell::FUN_009ebb80()
         unsigned short usStartSize = usTotalSize;
         FUN_009ebb80_hit_sound* SoundAssetTmp;
 
-        if (DAT_011de45c->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>((::g_TESSaveLoadGame))->FUN_00862110())
         {
             usTotalSize += 4;
             usTotalSize += 2;
@@ -851,21 +877,19 @@ unsigned short FUN_009ebb80_shell::FUN_009ebb80()
         usTotalSize += 0x10;
         usTotalSize += list.GetSize() * 4 + 2;
 
-        if (*g_011de4e8.Bool())
+        if (*::g_011de4e8.Bool())
         {
-            SoundAssetTmp = reinterpret_cast<FUN_009ebb80_hit_sound*>(DAT_011de45c->GetHitSound());
+            SoundAssetTmp = reinterpret_cast<FUN_009ebb80_hit_sound*>(((void *)(reinterpret_cast<::EffectSetting *>((::g_TESSaveLoadGame))->GetHitSound())));
 
             if (SoundAssetTmp)
             {
-                FUN_009ebb80_form* pForm = reinterpret_cast<FUN_009ebb80_form*>(_GetFormByNumericID(SoundAssetTmp->formID));
+                FUN_009ebb80_form* pForm = reinterpret_cast<FUN_009ebb80_form*>(::FUN_004839c0(SoundAssetTmp->formID));
 
-                Interface::PrintDebugMessage(
-                    $SG7035, usTotalSize - usStartSize, SoundAssetTmp->formID, pForm->v75(),
-                    *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(SoundAssetTmp) + 5), 0xf5, $SG7034);
+                ::FUN_0040fbe0();
             }
             else
             {
-                Interface::PrintDebugMessage($SG7038, usTotalSize - usStartSize, 0xf5, $SG7034);
+                ::FUN_0040fbe0();
             }
         }
 
@@ -875,22 +899,15 @@ unsigned short FUN_009ebb80_shell::FUN_009ebb80()
 
 struct SaveLocal
 {
-    void FUN_00865e50(void*, unsigned int, int);
-    void FUN_00865df0(void*, int);
-    unsigned int FUN_00865f20();
-    void FUN_00865ff0(int, unsigned int);
 };
 struct AuxLocal
 {
     unsigned int value;
-    void SaveTimeStamp(SaveLocal*);
 };
 struct NodeLocal
 {
     TESForm* item;
     NodeLocal* next;
-    TESForm** FUN_006815c0();
-    NodeLocal* FUN_00726070();
 };
 struct Candidate
 {
@@ -913,47 +930,47 @@ struct Candidate
 // @fnv 0x009ebfe0
 void Candidate::SaveToStream(SaveLocal* buffer)
 {
-    buffer->FUN_00865e50(&unk00, 4, 0);
-    buffer->FUN_00865e50(&unk04, 4, 0);
-    buffer->FUN_00865e50(&flag10, 1, 0);
-    buffer->FUN_00865e50(&unk18, 4, 0);
-    buffer->FUN_00865e50(&unk28, 4, 0);
-    buffer->FUN_00865e50(&flag2c, 1, 0);
-    buffer->FUN_00865e50(&unk30, 4, 0);
-    aux34.SaveTimeStamp(buffer);
-    buffer->FUN_00865df0(form08, 0);
-    buffer->FUN_00865df0(form0c, 0);
-    buffer->FUN_00865df0(form14, 0);
-    buffer->FUN_00865df0(form24, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk00, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk04, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&flag10, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk18, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk28, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&flag2c, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk30, 4, 0);
+    reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>(&(aux34))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(form08), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(form0c), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(form14), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(form24), 0);
     int count6 = 0;
-    unsigned int pos1 = buffer->FUN_00865f20();
+    unsigned int pos1 = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
     NodeLocal* node9 = &list1c;
     while (node9)
     {
-        TESForm* item1 = *node9->FUN_006815c0();
+        TESForm* item1 = *((::TESForm **)(((::Vec3 *)(void *)(node9))));
         if (item1)
         {
-            buffer->FUN_00865df0(item1, 0);
+            reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(item1), 0);
             ++count6;
         }
-        node9 = node9->FUN_00726070();
+        node9 = ((::NodeLocal *)(reinterpret_cast<::Callees *>((node9))->FUN_00726070()));
     }
-    buffer->FUN_00865ff0(count6, pos1);
+    reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count6, pos1);
     {
         int count7 = 0;
-        unsigned int pos3 = buffer->FUN_00865f20();
+        unsigned int pos3 = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
         NodeLocal* nodeTmp = list38;
         while (nodeTmp)
         {
-            TESForm* item6 = *nodeTmp->FUN_006815c0();
+            TESForm* item6 = *((::TESForm **)(((::Vec3 *)(void *)(nodeTmp))));
             if (item6)
             {
-                buffer->FUN_00865df0(item6, 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(item6), 0);
                 ++count7;
             }
-            nodeTmp = nodeTmp->FUN_00726070();
+            nodeTmp = ((::NodeLocal *)(reinterpret_cast<::Callees *>((nodeTmp))->FUN_00726070()));
         }
-        buffer->FUN_00865ff0(count7, pos3);
+        reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count7, pos3);
     }
 }
 
@@ -961,10 +978,11 @@ namespace fnv_00970b30 {
 // 0x00970b30  /MT /Od /Oy- /GS /EHsc /Gy
 struct TESFaction;
 struct BaseProcess;
-struct TESActorBase;
+class TESActorBase;
 
-struct Actor
+class Actor
 {
+  public:
     virtual void d000();
     virtual void d001();
     virtual void d002();
@@ -1105,10 +1123,7 @@ struct Actor
     virtual void d137();
     virtual void d138();
     virtual bool v8b(int a);
-    bool FUN_00437bd0();
     TESActorBase* GetActorBase();
-    BaseProcess* GetProcess();
-    float FUN_005723b0(Actor* a, int b, int c);
 };
 
 struct ProcVt
@@ -1299,16 +1314,11 @@ struct ProcVt
 
 struct TESActorBaseData
 {
-    int GetFactionRank(TESFaction* f, bool b);
 };
 struct Arr
 {
-    unsigned int GetCount(unsigned char a);
-    Actor* GetItem(unsigned int i);
 };
 
-extern "C" float DAT_01022958;
-extern "C" Actor* g_thePlayer;
 
 struct Cls
 {
@@ -1322,26 +1332,26 @@ Actor* Cls::FUN_00970b30(TESFaction* pFaction, bool bRequireProcess, bool bPickB
 {
     Actor* pB = 0;
     Actor* g4 = 0;
-    float pE = DAT_01022958;
+    float pE = ::DAT_01022958;
     Actor* e8 = 0;
     Actor* d4 = 0;
     Actor* c4 = 0;
-    for (unsigned int i = 0; !(pB && bPickBest) && i < ((Arr*)((char*)this + 4))->GetCount(0); i++)
+    for (unsigned int i = 0; !(pB && bPickBest) && i < reinterpret_cast<::FUN_005be5c0_shell *>((((Arr*)((char*)this + 4))))->FUN_005be5c0(0); i++)
     {
         Actor* v20 = 0;
         float f24 = 0.0f;
-        g4 = ((Arr*)((char*)this + 4))->GetItem(i);
+        g4 = ((::fnv_00970b30::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((Arr*)((char*)this + 4))))->FUN_00968670(i)));
         if (g4 && g4->v64())
             v20 = g4;
-        if (v20 && !v20->v8b(0) && !v20->FUN_00437bd0() &&
-            ((TESActorBaseData*)((char*)v20->GetActorBase() + 0x30))->GetFactionRank(pFaction, v20 == g_thePlayer) >
+        if (v20 && !v20->v8b(0) && !((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((v20))->FUN_00437bd0())) &&
+            reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBaseData*)((char*)v20->GetActorBase() + 0x30))))->GetFactionRank((::fnv_0047d680::TESFaction *)(pFaction), v20 == (*reinterpret_cast<::fnv_00970b30::Actor * *>(&::_g_thePlayer))) >
                 -1 &&
-            (!bRequireProcess || ((ProcVt*)v20->GetProcess())->v181(g_thePlayer, 0) > 0))
+            (!bRequireProcess || ((ProcVt*)((::fnv_00970b30::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((v20))->GetBaseTexture())))->v181((*reinterpret_cast<::fnv_00970b30::Actor * *>(&::_g_thePlayer)), 0) > 0))
         {
             pB = v20;
             if (bPickBest)
             {
-                f24 = v20->FUN_005723b0(g_thePlayer, 0, 0);
+                f24 = reinterpret_cast<::RefS *>((v20))->FUN_005723b0((::RefS *)((*reinterpret_cast<::fnv_00970b30::Actor * *>(&::_g_thePlayer))), 0, 0);
                 if (f24 < pE)
                 {
                     e8 = v20;
@@ -1394,28 +1404,15 @@ struct MyNode
     TESForm* item;
     MyNode* next;
     bool FUN_008256d0();
-    TESForm** FUN_006815c0();
-    MyNode* FUN_00726070();
 };
 
 struct SaveMgr
 {
-    char* GetPos();
-    bool FUN_00862110();
-    void Write(void* p, int n);
-    void WriteInt(void* p, int n);
-    FormRec* FUN_004fd3e0();
 };
 
-extern SaveMgr* g_save;
 
-extern const char DAT_010153a0[];
-extern const char DAT_0101536c[];
-extern const char DAT_01015318[];
 extern const char DAT_01092b94[];
 
-void __cdecl DebugPrint(const char* fmt, ...);
-void __cdecl Warn3(const char* a, const char* b, int line);
 
 struct MyCand
 {
@@ -1444,82 +1441,81 @@ void MyCand::WriteToSave()
 {
     unsigned short a7 = 0;
     char* aa = 0;
-    char* a9 = g_save->GetPos();
+    char* a9 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
 
-    if (*g_011de4e8.Bool())
-        a9 = g_save->GetPos();
+    if (*::g_011de4e8.Bool())
+        a9 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
 
-    if (g_save->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         int a5 = 0x424c4f4b;
-        g_save->Write(&a5, 4);
-        aa = g_save->GetPos();
-        g_save->Write(&a7, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a5, 4);
+        aa = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a7, 2);
     }
 
-    g_save->Write(&flag10, 1);
-    g_save->Write(&flag2c, 1);
-    g_save->Write(&unk04, 4);
-    g_save->Write(&unk18, 4);
-    g_save->Write(&unk28, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&flag10, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&flag2c, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk04, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk18, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk28, 4);
 
     int a1 = 0;
     if (form08)
-        a1 = form08->GetFormID();
-    g_save->WriteInt(&a1, 4);
+        a1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form08))->FUN_0084e3a0()));
+    reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&a1), 4);
 
     int a1c = 0;
     if (form0c)
-        a1c = form0c->GetFormID();
-    g_save->WriteInt(&a1c, 4);
+        a1c = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form0c))->FUN_0084e3a0()));
+    reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&a1c), 4);
 
     int actor2 = 0;
     if (form14)
-        actor2 = form14->GetFormID();
-    g_save->WriteInt(&actor2, 4);
+        actor2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form14))->FUN_0084e3a0()));
+    reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&actor2), 4);
 
     int ang4 = 0;
     if (form24)
-        ang4 = form24->GetFormID();
-    g_save->WriteInt(&ang4, 4);
+        ang4 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form24))->FUN_0084e3a0()));
+    reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&ang4), 4);
 
     unsigned short a38 = 0;
-    unsigned short* a8 = (unsigned short*)g_save->GetPos();
-    g_save->Write(&a38, 2);
+    unsigned short* a8 = (unsigned short*)((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a38, 2);
 
     MyNode* action9 = &list1c;
     while (action9 && !action9->FUN_008256d0())
     {
-        TESForm* active = *action9->FUN_006815c0();
-        int ac = active->GetFormID();
-        g_save->WriteInt(&ac, 4);
+        TESForm* active = *((::TESForm **)(((::Vec3 *)(void *)(action9))));
+        int ac = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((active))->FUN_0084e3a0()));
+        reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&ac), 4);
         a38++;
-        action9 = action9->FUN_00726070();
+        action9 = ((::MyNode *)(reinterpret_cast<::Callees *>((action9))->FUN_00726070()));
     }
     *(unsigned short*)a8 = a38;
 
-    if (*g_011de4e8.Bool())
+    if (*::g_011de4e8.Bool())
     {
-        char* a4 = g_save->GetPos();
-        FormRec* ang8 = g_save->FUN_004fd3e0();
+        char* a4 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
+        FormRec* ang8 = ((::FormRec *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (ang8)
         {
-            TESForm* pLookup = GetFormByID(ang8->formID);
-            DebugPrint(DAT_010153a0, a4 - a9, ang8->formID, ((FormWithID*)pLookup)->GetEditorID(),
-                       *(unsigned int*)((char*)ang8 + 5), 301, DAT_01092b94);
+            TESForm* pLookup = ::FUN_004839c0(ang8->formID);
+            ::FUN_0040fbe0();
         }
         else
         {
-            DebugPrint(DAT_0101536c, a4 - a9, 301, DAT_01092b94);
+            ::FUN_0040fbe0();
         }
     }
 
-    if (g_save->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        char* agg = g_save->GetPos();
+        char* agg = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         char* agg4 = aa;
         if (agg > agg4 + 0xffff)
-            Warn3(DAT_01015318, DAT_01092b94, 301);
+            ::FUN_005b5e40();
         *(unsigned short*)aa = (unsigned short)(agg - agg4);
     }
 }
@@ -1529,10 +1525,6 @@ extern "C" char DAT_01183028;
 extern "C" char DAT_01184704;
 struct Reader009
 {
-    void FUN_00864980(void*, unsigned);
-    void FUN_008648e0(void*);
-    void* FUN_008648a0();
-    unsigned FUN_00864a60();
 };
 class TESBoundObject : public TESForm
 {
@@ -1540,7 +1532,6 @@ class TESBoundObject : public TESForm
 class TESFaction : public TESForm
 {
 };
-TESForm* __cdecl FUN_004839c0(void*);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct List009
 {
@@ -1548,11 +1539,9 @@ struct List009
     List009();
     ~List009();
     void FUN_005ae3d0(void**);
-    void** FUN_006815c0();
 };
 struct Field009
 {
-    void FUN_009a5ff0(Reader009*);
 };
 struct Host009
 {
@@ -1575,39 +1564,39 @@ struct Host009
 // @fnv 0x009ec1a0
 void Host009::ReadFromStream(Reader009* apReader)
 {
-    apReader->FUN_00864980(&a, 4);
-    apReader->FUN_00864980(&b, 4);
-    apReader->FUN_00864980(&e, 1);
-    apReader->FUN_00864980(&g, 4);
-    apReader->FUN_00864980(&j, 4);
-    apReader->FUN_00864980(&k, 1);
-    apReader->FUN_00864980(&l, 4);
-    field.FUN_009a5ff0(apReader);
-    apReader->FUN_008648e0(&c);
-    apReader->FUN_008648e0(&d);
-    f = dynamic_cast<TESBoundObject*>(FUN_004839c0(apReader->FUN_008648a0()));
-    apReader->FUN_008648e0(&h);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apReader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apReader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&b), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apReader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&e), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apReader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&g), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apReader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&j), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apReader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&k), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apReader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&l), 4);
+    reinterpret_cast<::CombatTargetTimestamp *>(&(field))->LoadGame((::BGSLoadGameBuffer *)(apReader));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&c));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&d));
+    f = dynamic_cast<TESBoundObject*>(::FUN_004839c0((unsigned int)(uintptr_t)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&h));
     {
-        unsigned count = apReader->FUN_00864a60();
+        unsigned count = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apReader))->FUN_00864a60()));
         for (unsigned i = 0; i < count; i++)
         {
             void* item = 0;
-            apReader->FUN_008648e0(&item);
+            reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&item));
             list.FUN_005ae3d0(&item);
         }
     }
     strings = new List009;
     {
-        unsigned uiFactionCount = apReader->FUN_00864a60();
+        unsigned uiFactionCount = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apReader))->FUN_00864a60()));
         for (unsigned uiFactionIndex = 0; uiFactionIndex < uiFactionCount; uiFactionIndex++)
         {
             void* pFaction = 0;
-            pFaction = dynamic_cast<TESFaction*>(FUN_004839c0(apReader->FUN_008648a0()));
+            pFaction = dynamic_cast<TESFaction*>(::FUN_004839c0((unsigned int)(uintptr_t)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
             if (pFaction)
                 strings->FUN_005ae3d0(&pFaction);
         }
     }
-    if (!*strings->FUN_006815c0())
+    if (!*((void **)(((::Vec3 *)(void *)(strings)))))
     {
         delete strings;
         strings = 0;
@@ -1616,27 +1605,19 @@ void Host009::ReadFromStream(Reader009* apReader)
 
 struct S00679120
 {
-    void SavePackage();
 };
 struct TimeGlobal
 {
-    unsigned int GetTimeStamp();
 };
 struct TESSaveLoadGameHelper
 {
-    void FUN_008579b0(void* pv, int size);
 };
 struct ProcessLists9EC990
 {
-    unsigned short FUN_00972740(int index, void* node);
 };
 struct CrimeList
 {
-    CrimeList* FUN_00726070();
 };
-extern "C" void* _ref_004839c0(unsigned int formID);
-extern "C" void Log9EC990(const char* fmt, ...);
-extern "C" void Warn9EC990(const char* fmt, ...);
 
 struct FUN_009ec990_host
 {
@@ -1646,64 +1627,60 @@ struct FUN_009ec990_host
 // @fnv 0x009ec990
 void FUN_009ec990_host::FUN_009ec990()
 {
-    ((S00679120*)this)->SavePackage();
+    reinterpret_cast<::Package679120 *>((((S00679120*)this)))->SavePackage();
 
     unsigned short usVersion7 = 0;
     unsigned short* pSizeTmp = 0;
-    unsigned int uiStart3 = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-    if (*g_011de4e8.Bool())
-        uiStart3 = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
+    char* uiStart3 = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
+    if (*::g_011de4e8.Bool())
+        uiStart3 = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
 
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         unsigned int uiMagic_2 = 0x424c4f4b;
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&uiMagic_2, 4);
-        pSizeTmp = (unsigned short*)((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&usVersion7, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&uiMagic_2, 4);
+        pSizeTmp = (unsigned short*)reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&usVersion7, 2);
     }
 
     unsigned short m_usPassCountLocal = 0;
-    unsigned short* aPCount = (unsigned short*)((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-    ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&m_usPassCountLocal, 2);
+    unsigned short* aPCount = (unsigned short*)reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
+    reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&m_usPassCountLocal, 2);
 
     BSSimpleList<void*>* pNodeX = 0;
     while (pNodeX != 0 && !pNodeX->IsEmpty())
     {
-        void* pv = pNodeX->GetItem();
-        char cIndex2 = (char)((CrimeList*)pv)->FUN_00726070();
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&cIndex2, 1);
-        unsigned short usResult6 = ((ProcessLists9EC990*)&DAT_011e0e80)->FUN_00972740((int)cIndex2, pv);
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&usResult6, 2);
+        void* pv = ((void *)(((::Vec3 *)(void *)(pNodeX))));
+        char cIndex2 = (char)reinterpret_cast<::CrimeTypeView*>(pv)->uiCrimeType;
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&cIndex2, 1);
+        unsigned short usResult6 = reinterpret_cast<::FUN_00972740_shell *>((((ProcessLists9EC990*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_00972740((int)cIndex2, (::BGSPerk *)(pv));
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&usResult6, 2);
         m_usPassCountLocal++;
-        pNodeX = pNodeX->GetNext();
+        pNodeX = ((::BSSimpleList<void *> *)(reinterpret_cast<::Callees *>((pNodeX))->FUN_00726070()));
     }
     *aPCount = m_usPassCountLocal;
 
-    if (*g_011de4e8.Bool())
+    if (*::g_011de4e8.Bool())
     {
-        unsigned int uiEnd = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-        unsigned char* pRec9 = (unsigned char*)g_TESSaveLoadGame->GetHitSound();
+        char* uiEnd = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
+        unsigned char* pRec9 = (unsigned char*)((void *)(reinterpret_cast<::EffectSetting *>((g_TESSaveLoadGame))->GetHitSound()));
         if (pRec9 != 0)
         {
-            FormWithID* pForm3 = (FormWithID*)_ref_004839c0(*(unsigned int*)pRec9);
-            Log9EC990("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                      uiEnd - uiStart3, *(unsigned int*)pRec9, pForm3->GetEditorID(), *(unsigned int*)(pRec9 + 5), 526,
-                      "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp");
+            FormWithID* pForm3 = (FormWithID*)((void *)(::FUN_004839c0(*(unsigned int*)pRec9)));
+            ::FUN_0040fbe0();
         }
         else
         {
-            Log9EC990("SaveGame(): %-5i ending at line %i in file %s", uiEnd - uiStart3, 526,
-                      "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp");
+            ::FUN_0040fbe0();
         }
     }
 
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
-        unsigned int uiEnd9 = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-        unsigned int uiStart2 = (unsigned int)pSizeTmp;
+        uintptr_t uiEnd9 = reinterpret_cast<uintptr_t>(reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
+        uintptr_t uiStart2 = (uintptr_t)pSizeTmp;
         if (uiEnd9 > uiStart2 + 0xffff)
-            Warn9EC990("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
-                       "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp", 526);
+            ::FUN_005b5e40();
         *(unsigned short*)pSizeTmp = (unsigned short)(uiEnd9 - uiStart2);
     }
 }
@@ -1714,7 +1691,6 @@ using ::Actor;
 class TESObjectREFR : public TESForm
 {
   public:
-    void FUN_00564db0(int flag);
 };
 class Actor : public TESObjectREFR
 {
@@ -1725,10 +1701,7 @@ struct AlarmActorList
     Actor* data;
     AlarmActorList* next;
     bool FUN_008256d0();
-    Actor** FUN_006815c0();
-    AlarmActorList* FUN_00726070();
     void FUN_00726c60(Actor* const& actor);
-    void FUN_00905330(Actor** data);
     void FUN_0063f7b0();
 };
 struct AlarmPackageData
@@ -1748,18 +1721,18 @@ struct AlarmPackageData
 // @fnv 0x009ec400
 void AlarmPackageData::FUN_009ec400(void* unused)
 {
-    ref = ref ? dynamic_cast<TESObjectREFR*>(GetFormByID((unsigned int)ref)) : 0;
-    actor = actor ? dynamic_cast<Actor*>(GetFormByID((unsigned int)actor)) : 0;
-    other = other ? GetFormByID((unsigned int)other) : 0;
+    ref = ref ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)ref)) : 0;
+    actor = actor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)actor)) : 0;
+    other = other ? ::FUN_004839c0((unsigned int)(uintptr_t)other) : 0;
     AlarmActorList* current = &actors;
     AlarmActorList* previous = 0;
     while (current && !current->FUN_008256d0())
     {
-        Actor* entry = *current->FUN_006815c0();
+        Actor* entry = *((::Actor **)(((::Vec3 *)(void *)(current))));
         bool erase = false;
         if (entry)
         {
-            entry = entry ? dynamic_cast<Actor*>(GetFormByID((unsigned int)entry)) : 0;
+            entry = entry ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)entry)) : 0;
             if (entry)
             {
                 current->FUN_00726c60(entry);
@@ -1777,8 +1750,8 @@ void AlarmPackageData::FUN_009ec400(void* unused)
         {
             if (previous)
             {
-                previous->FUN_00905330(current->FUN_006815c0());
-                current = previous->FUN_00726070();
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(((::Actor **)(((::Vec3 *)(void *)(current)))))));
+                current = ((::AlarmActorList *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
             {
@@ -1788,11 +1761,11 @@ void AlarmPackageData::FUN_009ec400(void* unused)
         else
         {
             previous = current;
-            current = current->FUN_00726070();
+            current = ((::AlarmActorList *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         }
     }
     if (ref)
     {
-        ref->FUN_00564db0(1);
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((ref))->FUN_00564db0(1);
     }
 }

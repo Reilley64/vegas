@@ -3,7 +3,11 @@
 #define FNV_NIMATRIX3_DECLS_H
 
 
-class NiPoint3
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00416000.h"
+#include "fnv/symbols_01017000.h"
+struct NiPoint3
 {
   public:
     NiPoint3();
@@ -13,7 +17,7 @@ class NiPoint3
     float z;
 };
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[9];
@@ -26,7 +30,6 @@ class ThreeByThreeMatrix
 
     void SetYRotation(float);
     void MakeAxisAngleRotation(float, float, float, float);
-    void FUN_00439f50(unsigned int, NiPoint3&);
     void GetRow(unsigned int row, NiPoint3& point);
     bool operator==(const ThreeByThreeMatrix& matrix) const;
     ThreeByThreeMatrix operator+(const ThreeByThreeMatrix& matrix) const;
@@ -39,7 +42,7 @@ template <class T> class BSSimpleList
     T& GetItem();
 };
 
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 normal;
@@ -56,7 +59,6 @@ class NiAVObject
     NiPoint3 GetWorldTranslation();
     void SetLocalRotation(float, float, float, float);
 };
-void __cdecl FUN_004169a0(float, float&, float&);
 class NiTransform
 {
   public:
@@ -72,6 +74,4 @@ class NiPosData
     static NiPoint3* ComputePositionAtTime(NiPoint3*, float, const NiPoint3*);
     static NiPoint3 ComputePositionAtTime(float, const NiPoint3&);
 };
-double __cdecl FUN_00408820(float);
-extern const double DAT_01017cf8;
 #endif

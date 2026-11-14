@@ -2,22 +2,30 @@
 // src/gamebryo2.2/corelibs/nimain/bspackedadditionalgeometrydata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/bspackedadditionalgeometrydata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/FUN_00a73370Node.h"
+#include "fnv/decl/FUN_00a734c0.h"
+#include "fnv/decl/LBObject.h"
+#include "fnv/decl/NiAGDViewer.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FakeBase
 {
-    void FUN_00a734c0();
 };
 extern int DAT_0102e1dc;
 // @fnv 0x00a7f740
 void* FUN_00a7f740()
 {
-    void* p = BSFadeNode::operator new(52);
+    void* p = ::operator new(52);
     if (p)
     {
-        ((FakeBase*)p)->FUN_00a734c0();
+        new ((void *)(((FakeBase*)p))) ::FUN_00a734c0();
         *(void**)p = (void*)&DAT_0102e1dc;
         ((int*)p)[11] = 0;
         ((int*)p)[12] = 0;
@@ -34,8 +42,6 @@ struct StringList
     unsigned short count;
     unsigned short unk0C;
     unsigned short growth;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, void*);
 };
 struct Owner
 {
@@ -51,35 +57,30 @@ struct Owner
     int unk24;
     int unk28;
     const char* name;
-    void FUN_00a73e40(StringList*);
     void AppendNameStrings(StringList*);
 };
-extern "C" const char* g_011f4aac;
 extern const char str_0109deec[];
-extern char* __cdecl FUN_00a7d330(const char*);
-extern char* __cdecl FUN_00a7d510(const char*, const char*);
 // Calls FUN_00a73e40 on list, then appends the strings from FUN_00a7d330(g_011f4aac) and FUN_00a7d510(str_0109deec, name), growing the list as needed.
 // @fnv 0x00a7f780
 void Owner::AppendNameStrings(StringList* list)
 {
     char* text;
     unsigned int index;
-    FUN_00a73e40(list);
-    text = FUN_00a7d330(g_011f4aac);
+    reinterpret_cast<::NiAGDViewer *>(this)->FUN_00a73e40((::NiTViewerArray<char *> *)(list));
+    text = FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f4aac)));
     index = list->count;
     if (index >= list->capacity)
-        list->FUN_0096ad30(list->growth + index);
-    list->FUN_0096ae90(index, &text);
-    text = FUN_00a7d510(str_0109deec, name);
+        reinterpret_cast<::ViewerStrings *>((list))->SetSize(list->growth + index);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((list))->SetAt(index, (*(char * *)(&text)));
+    text = ::FUN_00a7d510(str_0109deec, (uintptr_t)(name));
     index = list->count;
     if (index >= list->capacity)
-        list->FUN_0096ad30(list->growth + index);
-    list->FUN_0096ae90(index, &text);
+        reinterpret_cast<::ViewerStrings *>((list))->SetSize(list->growth + index);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((list))->SetAt(index, (*(char * *)(&text)));
 }
 
 struct S_00a7f680_Base
 {
-    void FUN_00a73370(void* p);
 };
 struct S_00a7f680_Out
 {
@@ -116,7 +117,7 @@ struct FUN_00a7f680_cls : S_00a7f680_Base
 // @fnv 0x00a7f680
 void FUN_00a7f680_cls::SaveFields(void* p)
 {
-    FUN_00a73370(p);
+    reinterpret_cast<::FUN_00a73370Node *>(this)->FUN_00a73370((::SaveStream *)(p));
     S_00a7f680_Save(*(S_00a7f680_Out**)((char*)p + 0x250), &unk2c);
     S_00a7f680_Save(*(S_00a7f680_Out**)((char*)p + 0x250), &unk30);
 }
@@ -304,7 +305,6 @@ template <class T> inline void A7F6E0LoadBinary(A7F6E0Stream& kStream, T& value)
 class A7F6E0Object
 {
   public:
-    void LoadBinaryBase(A7F6E0Stream& kStream);
     void LoadBinary(A7F6E0Stream& kStream);
 
     void* m_ppVirtualMethodTable;
@@ -326,7 +326,9 @@ class A7F6E0Object
 // @fnv 0x00a7f6e0
 void A7F6E0Object::LoadBinary(A7F6E0Stream& kStream)
 {
-    LoadBinaryBase(kStream);
+    reinterpret_cast<::LBObject *>(this)->FUN_00a73160((::LBStream &)(kStream));
     A7F6E0LoadBinary(kStream, m_fValue0);
     A7F6E0LoadBinary(kStream, m_fValue1);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/bspackedadditionalgeometrydata.inc"

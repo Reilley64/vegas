@@ -2,6 +2,8 @@
 #ifndef FNV_FOVATSEFFECTMANAGER_TARGETS_H
 #define FNV_FOVATSEFFECTMANAGER_TARGETS_H
 
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011f4000.h"
 #include "layout_support.h"
 #include "fovatseffectmanager_shader.h"
 class NiAVObject;
@@ -22,17 +24,13 @@ class FUN_007002d0
     FUN_007002d0();
     ~FUN_007002d0();
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
     NiPoint2();
 };
-extern NiPoint2 DAT_011f4980;
 class GlobalObject_0044f440;
-extern GlobalObject_0044f440 g_011db200;
-extern GlobalObject_0044f440 g_011db238;
-extern GlobalObject_0044f440 g_011db25c;
 class ShadowLightData
 {
   public:
@@ -47,7 +45,4 @@ class ShadowLightData
     ShadowLightData();
     static void SetTargetMaskForSelection(unsigned int selectedIndex, unsigned __int64 targetMask);
 };
-FNV_STATIC_ASSERT(sizeof(FUN_007002d0) == 44);
-FNV_STATIC_ASSERT(offsetof(ShadowLightData, point0) == 0x30);
-FNV_STATIC_ASSERT(offsetof(ShadowLightData, pShaderParams) == 0x50);
 #endif

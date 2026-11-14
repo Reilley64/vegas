@@ -2,10 +2,16 @@
 // src/havok/common/base/math/matrix/hktransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hktransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <xmmintrin.h>
+#include "fnv/decl/Cls_c7f4e0.h"
+#include "fnv/decl/CD4BA0Matrix3.h"
+#include "fnv/decl/CMatrixOps.h"
+#include "fnv/symbols_00cb2000.h"
+#include "fnv/symbols_00ce5000.h"
 struct Matrix43;
 struct Transform
 {
-    void FUN_00ce5300(Matrix43* out);
 };
 struct __declspec(align(16)) Matrix43
 {
@@ -20,7 +26,7 @@ struct __declspec(align(16)) Matrix43
 void Matrix43::FUN_00cb22c0(Transform* apTransform, Matrix43* apMatrix)
 {
     Matrix43 temp;
-    apTransform->FUN_00ce5300(&temp);
+    ::FUN_00ce5300();
     this->FUN_00cb2240(&temp, apMatrix);
 }
 
@@ -34,11 +40,11 @@ struct FourFloatVector
 struct Matrix44;
 struct FUN_00cb21e0_shell
 {
-    void __thiscall FUN_00cb21e0(const Matrix44* source);
+    void FUN_00cb21e0(const Matrix44* source);
 };
 struct FUN_00cb2240_shell
 {
-    void __thiscall FUN_00cb2240(const Matrix44* left, const Matrix44* right);
+    void FUN_00cb2240(const Matrix44* left, const Matrix44* right);
 };
 __declspec(align(16)) struct Matrix44
 {
@@ -58,7 +64,7 @@ void Matrix44::FUN_00cb2420(const Matrix44* left, const Matrix44* right)
 
 struct S_c7f4e0_Foo
 {
-    bool* __thiscall CheckFloatsFinite(bool* value);
+    bool* CheckFloatsFinite(bool* value);
 };
 
 struct S_cb2110_Foo
@@ -78,18 +84,17 @@ struct S_cb2110_Foo
 
     S_c7f4e0_Foo unk30;
 
-    bool* __thiscall FUN_00cb2d70(bool* value);
-    bool* __thiscall FUN_00cb2110(bool* result);
+    bool* FUN_00cb2110(bool* result);
 };
 
 // @fnv 0x00cb2110
-bool* __thiscall S_cb2110_Foo::FUN_00cb2110(bool* result)
+bool* S_cb2110_Foo::FUN_00cb2110(bool* result)
 {
     bool value1;
     bool value2;
     bool value;
 
-    if (*unk30.CheckFloatsFinite(&value1) && *FUN_00cb2d70(&value2))
+    if (*unk30.CheckFloatsFinite(&value1) && *((bool *)(::FUN_00cb2d70((uintptr_t)this))))
     {
         value = true;
     }
@@ -101,20 +106,9 @@ bool* __thiscall S_cb2110_Foo::FUN_00cb2110(bool* result)
     return result;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_unpacklo_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_movelh_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_movehl_ps(__m128 a, __m128 b);
+#include "fnv/symbols_simd.h"
+
 
 class hkMatrix3CB22;
 
@@ -247,13 +241,13 @@ struct Matrix
 
 struct Obj : Matrix
 {
-    void __thiscall FUN_00cb2240(Matrix* m, int a);
-    void __thiscall FUN_00cb23e0(int a);
+    void FUN_00cb2240(Matrix* m, int a);
+    void FUN_00cb23e0(intptr_t a);
 };
 
 // Copies the matrix into a local, applies FUN_00cb2240 to that copy with a, leaving the original matrix unchanged.
 // @fnv 0x00cb23e0
-void __thiscall Obj::FUN_00cb23e0(int a)
+void Obj::FUN_00cb23e0(intptr_t a)
 {
     Matrix localMatrix;
     localMatrix.r0.v = r0.v;
@@ -263,10 +257,6 @@ void __thiscall Obj::FUN_00cb23e0(int a)
     FUN_00cb2240(&localMatrix, a);
 }
 
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-
-extern const __m128 DAT_010c4c10;
-extern const __m128 DAT_010c7170;
 
 struct FUN_00cb2050_cls
 {
@@ -282,20 +272,14 @@ struct FUN_00cb2050_cls
 // @fnv 0x00cb2050
 void FUN_00cb2050_cls::FUN_00cb2050(FUN_00cb2050_cls* apOut)
 {
-    apOut->m_kRow0 = _mm_and_ps(m_kRow0, DAT_010c4c10);
-    apOut->m_kRow1 = _mm_and_ps(m_kRow1, DAT_010c4c10);
-    apOut->m_kRow2 = _mm_and_ps(m_kRow2, DAT_010c4c10);
+    apOut->m_kRow0 = _mm_and_ps(m_kRow0, ::DAT_010c4c10);
+    apOut->m_kRow1 = _mm_and_ps(m_kRow1, ::DAT_010c4c10);
+    apOut->m_kRow2 = _mm_and_ps(m_kRow2, ::DAT_010c4c10);
 
     __m128 kRow3 = m_kRow3;
-    apOut->m_kRow3 = _mm_shuffle_ps(kRow3, _mm_unpackhi_ps(kRow3, DAT_010c7170), 0xc4);
+    apOut->m_kRow3 = _mm_shuffle_ps(kRow3, _mm_unpackhi_ps(kRow3, ::DAT_010c7170), 0xc4);
 }
 
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-
-extern __declspec(align(16)) const float g_absMask[4];
-extern __declspec(align(16)) const float g_rowMask[4];
 
 struct FUN_00cb20b0_shell
 {
@@ -304,27 +288,24 @@ struct FUN_00cb20b0_shell
     FourFloatVector row2;
     FourFloatVector row3;
 
-    const Matrix44* __thiscall FUN_00cb20b0(const Matrix44* source);
+    const Matrix44* FUN_00cb20b0(const Matrix44* source);
 };
 
 // Applies g_absMask to the first three source rows, shuffles source row3 with g_rowMask, stores the results, and returns source.
 // @fnv 0x00cb20b0
 const Matrix44* FUN_00cb20b0_shell::FUN_00cb20b0(const Matrix44* source)
 {
-    _mm_store_ps(&row0.x, _mm_and_ps(_mm_load_ps(&source->row0.x), _mm_load_ps(g_absMask)));
-    _mm_store_ps(&row1.x, _mm_and_ps(_mm_load_ps(&source->row1.x), _mm_load_ps(g_absMask)));
-    _mm_store_ps(&row2.x, _mm_and_ps(_mm_load_ps(&source->row2.x), _mm_load_ps(g_absMask)));
+    _mm_store_ps(&row0.x, _mm_and_ps(_mm_load_ps(&source->row0.x), _mm_load_ps((*reinterpret_cast<const float (*)[4]>(&::DAT_010c4c10)))));
+    _mm_store_ps(&row1.x, _mm_and_ps(_mm_load_ps(&source->row1.x), _mm_load_ps((*reinterpret_cast<const float (*)[4]>(&::DAT_010c4c10)))));
+    _mm_store_ps(&row2.x, _mm_and_ps(_mm_load_ps(&source->row2.x), _mm_load_ps((*reinterpret_cast<const float (*)[4]>(&::DAT_010c4c10)))));
 
     __m128 last = _mm_load_ps(&source->row3.x);
-    __m128 high = _mm_unpackhi_ps(last, _mm_load_ps(g_rowMask));
+    __m128 high = _mm_unpackhi_ps(last, _mm_load_ps((*reinterpret_cast<const float (*)[4]>(&::DAT_010c7170))));
     _mm_store_ps(&row3.x, _mm_shuffle_ps(last, high, 0xc4));
 
     return source;
 }
 
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-
-extern const __m128 g_vectorSignMask;
 
 struct S_00cb21e0_Vector4
 {
@@ -344,7 +325,6 @@ struct S_00cb21e0_Matrix3
     S_00cb21e0_Vector4 m_kColumn0;
     S_00cb21e0_Vector4 m_kColumn1;
     S_00cb21e0_Vector4 m_kColumn2;
-    void Transpose(const S_00cb21e0_Matrix3& m);
 };
 
 struct S_00cb21e0_Transform
@@ -356,9 +336,9 @@ struct S_00cb21e0_Transform
 
 __forceinline void S_00cb21e0_Transform::Body(const S_00cb21e0_Transform& t)
 {
-    m_rotation.Transpose(t.m_rotation);
+    reinterpret_cast<::CD4BA0Matrix3 *>(&(m_rotation))->Transpose((const ::CD4BA0Matrix3 &)(t.m_rotation));
     __declspec(align(16)) S_00cb21e0_Vector4 tr;
-    tr.q() = _mm_xor_ps(t.m_vTranslation.q(), g_vectorSignMask);
+    tr.q() = _mm_xor_ps(t.m_vTranslation.q(), ::DAT_010c44d0);
     __m128 b0 = _mm_shuffle_ps(tr.q(), tr.q(), 0x00);
     __m128 b1 = _mm_shuffle_ps(tr.q(), tr.q(), 0x55);
     __m128 b2 = _mm_shuffle_ps(tr.q(), tr.q(), 0xaa);
@@ -374,16 +354,9 @@ void FUN_00cb21e0_shell::FUN_00cb21e0(const Matrix44* source)
     ((S_00cb21e0_Transform*)this)->Body(*(const S_00cb21e0_Transform*)source);
 }
 
-extern "C" __m128 _mm_set_ps1(float _A);
-extern "C" __m128 _mm_and_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_cmple_ps(__m128 _A, __m128 _B);
-extern "C" int _mm_movemask_ps(__m128 _A);
-
-extern __m128 DAT_01017d10;
 
 struct FUN_00cb2160_cls : hkTransformCB22
 {
-    unsigned char* Probe(unsigned char* out, const FUN_00cb2160_cls* other, float eps);
     unsigned char* FUN_00cb2160(unsigned char* out, const FUN_00cb2160_cls* other, float eps);
 };
 // Writes 1 when Probe succeeds and the masked first three translation differences are at most eps; otherwise writes 0.
@@ -391,13 +364,13 @@ struct FUN_00cb2160_cls : hkTransformCB22
 unsigned char* FUN_00cb2160_cls::FUN_00cb2160(unsigned char* out, const FUN_00cb2160_cls* other, float eps)
 {
     unsigned char flag;
-    unsigned char* p = Probe(&flag, other, eps);
+    unsigned char* p = reinterpret_cast<::CMatrixOps *>(this)->FUN_00cd4e00(&flag, (const ::Matrix3x4 *)(other), eps);
     unsigned char r = 0;
     if (*p != 0)
     {
         __m128 d = _mm_sub_ps(m_vTranslation.m_vComponents, other->m_vTranslation.m_vComponents);
         __m128 bound = _mm_set_ps1(eps);
-        int mask = _mm_movemask_ps(_mm_cmple_ps(_mm_and_ps(d, DAT_01017d10), bound)) & 7;
+        int mask = _mm_movemask_ps(_mm_cmple_ps(_mm_and_ps(d, ::DAT_01017d10), bound)) & 7;
         if (mask == 7)
         {
             r = 1;
@@ -408,4 +381,28 @@ unsigned char* FUN_00cb2160_cls::FUN_00cb2160(unsigned char* out, const FUN_00cb
 done:
     *(unsigned char volatile*)out = r;
     return out;
+}
+
+
+struct FUN_00cb2240_cls
+{
+    __m128 m_col[4];
+
+    void FUN_00cb2240(const __m128* __restrict a, const __m128* __restrict b);
+};
+
+// @fnv 0x00cb2240
+void FUN_00cb2240_cls::FUN_00cb2240(const __m128* __restrict a, const __m128* __restrict b)
+{
+    const __m128& c1 = a[1];
+    const __m128& c0 = a[0];
+    const __m128& c2 = a[2];
+    for (int i = 3; i >= 0; i--)
+    {
+        const __m128& v = b[i];
+        m_col[i] =
+            _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0), c0), _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), c1)),
+                       _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), c2));
+    }
+    m_col[3] = _mm_add_ps(a[3], m_col[3]);
 }

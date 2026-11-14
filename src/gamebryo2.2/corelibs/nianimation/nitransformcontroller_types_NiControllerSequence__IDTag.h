@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "NiFixedString.h"
 class NiControllerSequence__IDTag;
-#pragma pack(push, 4)
 class NiControllerSequence__IDTag
 {
   public:
@@ -40,11 +39,4 @@ class NiControllerSequence__IDTag
     // void __cdecl NiControllerSequence::IDTag::*()
     // void* __cdecl NiControllerSequence::IDTag::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiControllerSequence__IDTag) == 20);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence__IDTag, m_kAVObjectName) == 0);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence__IDTag, m_kPropertyType) == 4);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence__IDTag, m_kCtlrType) == 8);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence__IDTag, m_kCtlrID) == 12);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence__IDTag, m_kInterpolatorID) == 16);
 #endif

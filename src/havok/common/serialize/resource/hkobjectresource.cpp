@@ -2,10 +2,19 @@
 // src/havok/common/serialize/resource/hkobjectresource.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/resource/hkobjectresource.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct hkReferencedObject
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
+#include "fnv/decl/ReflectObj.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010ea000.h"
+#include "fnv/symbols_01268000.h"
+class hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 
 struct FUN_00e04eb0_class
@@ -19,40 +28,37 @@ struct FUN_00e04eb0_class
 void FUN_00e04eb0_class::FUN_00e04eb0(hkReferencedObject* apObject)
 {
     if (apObject)
-        apObject->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
     if (m_p)
-        m_p->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_p))->FUN_00c905b0();
     m_p = apObject;
 }
 
 namespace fnv_00e04ee0 {
-struct hkReferencedObject
+class hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 
 struct FUN_00e04ee0_class
 {
-    void __thiscall FUN_00e04ee0(hkReferencedObject* p);
+    void FUN_00e04ee0(hkReferencedObject* p);
     char _pad[0x14];
     hkReferencedObject* m_p;
 };
 
 // @fnv 0x00e04ee0
-void __thiscall FUN_00e04ee0_class::FUN_00e04ee0(hkReferencedObject* apObject)
+void FUN_00e04ee0_class::FUN_00e04ee0(hkReferencedObject* apObject)
 {
     if (apObject)
-        apObject->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
     if (m_p)
-        m_p->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_p))->FUN_00c905b0();
     m_p = apObject;
 }
 }  // namespace fnv_00e04ee0
 
 struct D481D0Class
 {
-    const char* getName() const;
 };
 
 struct FUN_00e04ea0_class
@@ -65,7 +71,7 @@ struct FUN_00e04ea0_class
 // @fnv 0x00e04ea0
 const char* FUN_00e04ea0_class::FUN_00e04ea0()
 {
-    return p->getName();
+    return reinterpret_cast<::FnvClassNameNode *>((void *)(p))->FUN_00d46d40();
 }
 
 struct FUN_00e05090_class;
@@ -108,7 +114,6 @@ FUN_00e05090_class* FUN_00e05090_class::FUN_00e05090(int flags)
     return this;
 }
 
-int __cdecl FUN_00cb0fa0(int, int);
 
 struct hkBoolD46D
 {
@@ -123,7 +128,6 @@ class FUN_00d46d40_s
 {
   public:
     const char* FUN_00d46d40();
-    FUN_00d46d40_s* FUN_00d46d50();
 
     hkBoolD46D FUN_00d46d80(FUN_00d46d40_s* pkNode);
 };
@@ -133,9 +137,9 @@ hkBoolD46D FUN_00d46d40_s::FUN_00d46d80(FUN_00d46d40_s* pkNode)
 {
     while (pkNode)
     {
-        if (FUN_00cb0fa0((int)pkNode->FUN_00d46d40(), (int)FUN_00d46d40()) == 0)
+        if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)((intptr_t)reinterpret_cast<::FnvClassNameNode *>((pkNode))->FUN_00d46d40()), (const char *)((intptr_t)reinterpret_cast<::FnvClassNameNode *>(this)->FUN_00d46d40())) == 0)
             return true;
-        pkNode = pkNode->FUN_00d46d50();
+        pkNode = ((::FUN_00d46d40_s *)(reinterpret_cast<::ReflectObj *>((pkNode))->FUN_00d46d50()));
     }
     return false;
 }
@@ -147,7 +151,7 @@ int __cdecl FUN_00e04e50()
 }
 
 // @fnv 0x00e04e60
-void __stdcall FUN_00e04e60(int a, int b)
+void FUN_00e04e60(int a, int b)
 {}
 
 struct FUN_00e04e70_class
@@ -178,7 +182,6 @@ struct FUN_00e04f10_Resource
 {
     int refs;
 };
-extern "C" void __fastcall FUN_00c90510(FUN_00e04f10_Resource* resource);
 struct FUN_00e04f10_Manager
 {
     virtual void slot00();
@@ -187,8 +190,6 @@ struct FUN_00e04f10_Manager
     virtual FUN_00e04f10_Resource* GetSecond();
     virtual FUN_00e04f10_Resource* GetFirst();
 };
-extern "C" FUN_00e04f10_Manager* DAT_01268b08;
-extern "C" void* DAT_010ea4dc[];
 struct FUN_00e04f10_Values
 {
     int first, second;
@@ -209,13 +210,13 @@ FUN_00e04f10_Class* FUN_00e04f10_Class::Initialize(const FUN_00e04f10_Values* pI
     refCount = 1;
     vtable = DAT_010ea4dc;
     values = *pInitValues;
-    FUN_00e04f10_Resource* resource = DAT_01268b08->GetFirst();
+    FUN_00e04f10_Resource* resource = (*reinterpret_cast<::FUN_00e04f10_Manager * *>(&::DAT_01268b08))->GetFirst();
     if (resource)
-        FUN_00c90510(resource);
+        reinterpret_cast<::FUN_00c90510_class *>((resource))->FUN_00c90510();
     first = resource;
-    resource = DAT_01268b08->GetSecond();
+    resource = (*reinterpret_cast<::FUN_00e04f10_Manager * *>(&::DAT_01268b08))->GetSecond();
     if (resource)
-        FUN_00c90510(resource);
+        reinterpret_cast<::FUN_00c90510_class *>((resource))->FUN_00c90510();
     second = resource;
     return this;
 }
@@ -224,12 +225,10 @@ namespace fnv_00e04f80 {
 struct Resource_00e04f80
 {
     const char* FUN_00d46d40();
-    unsigned int FUN_00d470d0();
 };
 
 struct Referenced_00e04f80
 {
-    void FUN_00c905b0();
 };
 
 struct ListenerVTable_00e04f80;
@@ -257,10 +256,10 @@ struct Manager_00e04f80
 
 struct Router_00e04f80
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Manager_00e04f80* manager;
 };
 
@@ -269,10 +268,6 @@ struct Registry_00e04f80
     char* FUN_00d46d80(char* status, Resource_00e04f80* resource);
 };
 
-extern Registry_00e04f80 DAT_01268748;
-extern char DAT_010ea4dc;
-extern char DAT_0102e388;
-extern Router_00e04f80* __cdecl FUN_00c85750();
 
 struct FUN_00e04f80_class
 {
@@ -291,13 +286,13 @@ struct FUN_00e04f80_class
 void FUN_00e04f80_class::ReleaseResource()
 {
     Resource_00e04f80* oldResource = resource;
-    vtable = &DAT_010ea4dc;
+    vtable = &(*reinterpret_cast<char *>(&::DAT_010ea4dc));
     if (oldResource)
     {
         char status;
-        if (*DAT_01268748.FUN_00d46d80(&status, oldResource))
+        if (*(*reinterpret_cast<::fnv_00e04f80::Registry_00e04f80 *>(&::g_01268748)).FUN_00d46d80(&status, oldResource))
         {
-            owner->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((owner))->FUN_00c905b0();
         }
         else
         {
@@ -306,26 +301,26 @@ void FUN_00e04f80_class::ReleaseResource()
             {
                 ListenerVTable_00e04f80* methods = handler->methods;
                 ResourceCallback_00e04f80* callbackSlot = &methods->onResourceRemoved;
-                const char* name = resource->FUN_00d46d40();
+                const char* name = reinterpret_cast<::FnvClassNameNode *>((resource))->FUN_00d46d40();
                 (handler->**callbackSlot)(owner, name);
             }
 
-            unsigned int uiResourceId = resource->FUN_00d470d0();
+            unsigned int uiResourceId = ((unsigned int)(reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((resource))->FUN_00d470d0()));
             Referenced_00e04f80* savedOwner = owner;
-            Router_00e04f80* router = FUN_00c85750();
+            Router_00e04f80* router = static_cast<Router_00e04f80*>(::FUN_00c85750());
             router->manager->removeResource(savedOwner, uiResourceId);
         }
     }
 
     if (listener)
-        ((Referenced_00e04f80*)listener)->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((Referenced_00e04f80*)listener)))->FUN_00c905b0();
     ((volatile FUN_00e04f80_class*)this)->listener = 0;
 
     Referenced_00e04f80* pRemainingContext = ((volatile FUN_00e04f80_class*)this)->context;
     if (pRemainingContext)
-        pRemainingContext->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pRemainingContext))->FUN_00c905b0();
     ((volatile FUN_00e04f80_class*)this)->context = 0;
-    ((volatile FUN_00e04f80_class*)this)->vtable = &DAT_0102e388;
+    ((volatile FUN_00e04f80_class*)this)->vtable = &(*reinterpret_cast<char *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00e04f80
 
@@ -369,7 +364,7 @@ void* MyClass::LookupByName(const char* pcName, hkBool abMatch)
     if (pcName)
     {
         Registry* reg = unk10;
-        const char* n = unk0C->getName();
+        const char* n = reinterpret_cast<::FnvClassNameNode *>((void *)(unk0C))->FUN_00d46d40();
         FUN_00d46d40_s* node1 = reg->GetClassByName(n);
         FUN_00d46d40_s* node2 = reg->GetClassByName(pcName);
         abMatch = node2->FUN_00d46d80(node1);

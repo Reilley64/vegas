@@ -2,22 +2,11 @@
 // src/havok/physics/dynamics/constraint/motor/position/hkppositionconstraintmotor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/motor/position/hkppositionconstraintmotor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include "havok/hkpPositionConstraintMotor.h"
 
-struct MotorAllocator
-{
-    virtual void Release(void*);
-    virtual void* Allocate(unsigned int size);
-};
-struct MemoryRouter
-{
-    void* m_iValueAtOffset0C;
-    void* m_activeThread;
-    void* m_allocatorContext;
-    void* m_debugData;
-    MotorAllocator* m_pThreadAllocator;
-};
-MemoryRouter* __cdecl FUN_00c85750();
+
 extern int DAT_010cb76c;
 extern int DAT_010cb780;
 extern int DAT_010cb798;
@@ -49,14 +38,14 @@ struct PositionConstraintMotor
     float m_fMotorDamping;
     float m_fProportionalRecoveryVelocity;
     float m_fConstantRecoveryVelocity;
-    PositionConstraintMotor* __thiscall Clone();
+    PositionConstraintMotor* Clone();
 };
 // Allocates a 0x24-byte copy of this motor through the global allocator, copies its type and float parameters, and returns it.
 // @fnv 0x00cdf5b0
-PositionConstraintMotor* __thiscall PositionConstraintMotor::Clone()
+PositionConstraintMotor* PositionConstraintMotor::Clone()
 {
-    MemoryRouter* router = FUN_00c85750();
-    PositionConstraintMotor* copy = (PositionConstraintMotor*)router->m_pThreadAllocator->Allocate(0x24);
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    PositionConstraintMotor* copy = (PositionConstraintMotor*)router->m_heap->blockAlloc(0x24);
     ReferencedMotorView* referenced = (ReferencedMotorView*)copy;
     referenced->m_ppVirtualMethodTable = &DAT_010cb76c;
     referenced->m_memorySizeAndFlags = 0x24;

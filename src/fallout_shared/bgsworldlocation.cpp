@@ -2,28 +2,30 @@
 // src/fallout_shared/bgsworldlocation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsworldlocation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct TESObjectCELL
+#include <cstdint>
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/TESWorldSpace.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00527000.h"
+#include "fnv/symbols_011de000.h"
+class TESObjectCELL
 {
+public:
+    bool IsCellInterior() const;
 };
 struct CoordinateTriple
 {
     bool FUN_00527a00();
-    TESObjectCELL* FUN_00527900();
 };
 struct TES
 {
-    bool IsCellBuffered(TESObjectCELL* pcell, bool bUnknown);
 };
-extern TES* g_TES;
-
-// @fnv 0x00527a00
-bool CoordinateTriple::FUN_00527a00()
-{
-    TESObjectCELL* pcell = FUN_00527900();
-    if (!pcell)
-        return false;
-    return g_TES->IsCellBuffered(pcell, false);
-}
 
 namespace fnv_00527a40 {
 struct NiPoint3
@@ -55,11 +57,12 @@ float CoordinateTriple::FUN_00527a40(const CoordinateTriple& arWorldLocation)
 struct Pt
 {
     float x, y, z;
-    float Length() const;
 };
 struct NiPoint3 : Pt
 {
     NiPoint3 operator-(NiPoint3 const&) const;
+public:
+    float ComputeMagnitude() const;
 };
 struct FUN_00527a80_shell
 {
@@ -73,13 +76,11 @@ float FUN_00527a80_shell::DistanceTo(FUN_00527a80_shell* apOther)
 {
     if (cell != apOther->cell)
         return 3.4028234663852886e+38F;
-    return (apOther->pos - pos).Length();
+    return reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::Pt &)((apOther->pos - pos)))->ComputeMagnitude();
 }
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, unsigned int, int);
-    void SerializeFormData(void*, int);
 };
 struct BGSSaveGameBuffer : BGSSaveFormBuffer
 {
@@ -93,20 +94,16 @@ struct FUN_00527b70_shell
 // @fnv 0x00527b70
 void FUN_00527b70_shell::FUN_00527b70(BGSSaveGameBuffer* apSaveGameBuffer)
 {
-    apSaveGameBuffer->SaveData(this, 0xC, 0);
-    apSaveGameBuffer->SerializeFormData(m_pPathingCell, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(this, 0xC, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pPathingCell), 0);
 }
 
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void*, unsigned int);
 };
 struct BGSLoadGameBuffer : BGSLoadFormBuffer
 {
-    unsigned int ReadFormIdentifier(void);
 };
-void* __cdecl _ref_004839c0(unsigned int);
-bool __cdecl FUN_00527b20(void*);
 struct FUN_00527ba0_This
 {
     char _pad[12];
@@ -116,37 +113,38 @@ struct FUN_00527ba0_This
 // @fnv 0x00527ba0
 void FUN_00527ba0_This::FUN_00527ba0(BGSLoadGameBuffer* apLoadGameBuffer)
 {
-    apLoadGameBuffer->ReadTypedData(this, 12);
-    m_pPathingCell = _ref_004839c0(apLoadGameBuffer->ReadFormIdentifier());
-    if (!FUN_00527b20(m_pPathingCell))
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this), 12);
+    m_pPathingCell = ((void *)(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apLoadGameBuffer))->FUN_008648a0())));
+    if (!::FUN_00527b20((::TESForm *)(m_pPathingCell)))
         m_pPathingCell = 0;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     int FNV_GetFormType();
 };
 struct FUN_00527990_shell
 {
     char _pad[12];
     TESForm* pForm;
-    bool FUN_00527990(int* apID, int* apType);
+    bool FUN_00527990(intptr_t* apID, intptr_t* apType);
 };
 // @fnv 0x00527990
-bool FUN_00527990_shell::FUN_00527990(int* apID, int* apType)
+bool FUN_00527990_shell::FUN_00527990(intptr_t* apID, intptr_t* apType)
 {
     if (!pForm)
         return false;
     int iType = pForm->FNV_GetFormType();
     if (iType == 0x41)
     {
-        *apType = (int)pForm;
+        *apType = (intptr_t)pForm;
         *apID = 0;
         return true;
     }
     else if (iType == 0x39)
     {
-        *apID = (int)pForm;
+        *apID = (intptr_t)pForm;
         *apType = 0;
         return true;
     }
@@ -174,7 +172,8 @@ float FUN_00527ac0_shell::ComputeWeightedDistance(FUN_00527ac0_shell* apOther, P
 {
     if (*(int*)((char*)this + 0xc) != *(int*)((char*)apOther + 0xc))
         return 3.4028234663852886e+38f;
-    P3 diff = ((P3*)apOther)->operator-(*(P3*)this);
+    P3 diff;
+    reinterpret_cast<::FUN_00439ef0_class *>((void *)(((P3*)apOther)))->FUN_00439ef0((::NiPoint3 *)&diff, *(const ::NiPoint3 *)this);
     diff.x = diff.x * apDir->x;
     diff.y = diff.y * apDir->y;
     diff.z = diff.z * apDir->z;
@@ -183,7 +182,6 @@ float FUN_00527ac0_shell::ComputeWeightedDistance(FUN_00527ac0_shell* apOther, P
 
 struct FUN_00425fd0_shell
 {
-    bool FUN_00425fd0();
 };
 
 // Returns true if form is null, has form type 0x41, or is a cell whose FUN_00425fd0 check succeeds; otherwise false.
@@ -199,7 +197,7 @@ bool __cdecl FUN_00527b20(TESForm* form)
         return true;
     case 0x39: {
         FUN_00425fd0_shell* cell = (FUN_00425fd0_shell*)form;
-        if (cell->FUN_00425fd0())
+        if (reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
             return true;
         break;
     }
@@ -207,11 +205,9 @@ bool __cdecl FUN_00527b20(TESForm* form)
     return false;
 }
 
-int _TruncateFloatToInt(float value);
 
 struct FUN_00527900_Cell
 {
-    TESObjectCELL* FUN_005875a0(int cellX, int y);
 };
 
 struct FUN_00527900_shell
@@ -223,6 +219,14 @@ struct FUN_00527900_shell
 
     TESObjectCELL* FUN_00527900();
 };
+// @fnv 0x00527a00
+bool CoordinateTriple::FUN_00527a00()
+{
+    TESObjectCELL* pcell = reinterpret_cast<::FUN_00527900_shell *>(this)->FUN_00527900();
+    if (!pcell)
+        return false;
+    return reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->IsCellBuffered(pcell, false);
+}
 
 // Returns pForm for type 0x39, resolves type 0x41 using m_f0 and m_f4, and otherwise returns null.
 // @fnv 0x00527900
@@ -237,9 +241,9 @@ TESObjectCELL* FUN_00527900_shell::FUN_00527900()
     else if (type == 0x41)
     {
         TESObjectCELL* pCell = (TESObjectCELL*)pForm;
-        int cellX = _TruncateFloatToInt(m_f0) >> 12;
-        int y = _TruncateFloatToInt(m_f4) >> 12;
-        return ((FUN_00527900_Cell*)pCell)->FUN_005875a0(cellX, y);
+        int cellX = ::FUN_00406d90(m_f0) >> 12;
+        int y = ::FUN_00406d90(m_f4) >> 12;
+        return reinterpret_cast<::TESWorldSpace *>((((FUN_00527900_Cell*)pCell)))->GetCellAtGridPosition(cellX, y);
     }
     return 0;
 }

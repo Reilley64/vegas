@@ -2,32 +2,92 @@
 // src/fallout/ai/fleepackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/fleepackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/package_fields.h"
+#include "fnv/save_load_game_view.h"
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/A90Cls.h"
+#include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BSSimpleArray_PathingAvoidNode_1024.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00484d20_Class.h"
+#include "fnv/decl/FUN_00484d40_Host.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_00672fc0_shell.h"
+#include "fnv/decl/FUN_00678fd0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_00953c50_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LockExtraData.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/Package679120.h"
+#include "fnv/decl/Package6798c0.h"
+#include "fnv/decl/PackageEx.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00484ce0__TESSaveLoadGameHelper.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_00568fa0__Fn568fa0.h"
+#include "fnv/decl/fnv_00575d10__FUN_00575d10_shell.h"
+#include "fnv/decl/fnv_00671d30__FUN_00671d30_shell.h"
+#include "fnv/decl/fnv_00679340__Package679.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006d6000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
 struct FUN_009f1090_shell
 {
     void FUN_009f10c0();
     void* DestroyIfFlagged(unsigned int flags);
 };
 
-// Calls FUN_009f10c0, then deletes this when flags has bit 0 set, and returns this.
-// @fnv 0x009f1090
-void* FUN_009f1090_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_009f10c0();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct PC7d;
-extern PC7d* g_thePlayer;
 struct BSSimpleListTESRaceSize
 {
     int GetSize();
-    PC7d** _ref_006815c0();
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
-    bool FUN_00953c50(bool*);
 };
 struct FUN_009f1990_shell
 {
@@ -41,10 +101,10 @@ bool FUN_009f1990_shell::FUN_009f1990()
     {
         bool flag = false;
         {
-            PC7d* item = *((BSSimpleListTESRaceSize*)((char*)this + 0x98))->_ref_006815c0();
-            if (item == g_thePlayer)
+            PC7d* item = *((::PC7d **)(((::Vec3 *)(void *)(((BSSimpleListTESRaceSize*)((char*)this + 0x98))))));
+            if (item == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
             {
-                if (!((PlayerCharacter*)g_thePlayer)->FUN_00953c50(&flag))
+                if (!((bool)(reinterpret_cast<::FUN_00953c50_Class *>((((PlayerCharacter*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))))->FUN_00953c50((char *)(bool *)(&flag)))))
                     return true;
             }
         }
@@ -52,12 +112,14 @@ bool FUN_009f1990_shell::FUN_009f1990()
     return false;
 }
 
-struct TESObjectREFR
+struct ExtraRadioData;
+class TESObjectREFR
 {
+public:
+    ::ExtraRadioData *GetExtraRadioData();
 };
 struct BSSimpleList_TESObjectREFR
 {
-    bool IsInList(TESObjectREFR*&);
     void AddHead(TESObjectREFR*&);
 };
 struct FleePackage
@@ -71,29 +133,32 @@ struct FleePackage
 // @fnv 0x009f1310
 void FleePackage::FUN_009f1310(TESObjectREFR* apRef)
 {
-    if (!AvoidedRefList.IsInList(apRef))
+    if (!reinterpret_cast<::RefList *>(&(AvoidedRefList))->FUN_005f65d0((void **)&(apRef)))
         AvoidedRefList.AddHead(apRef);
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 enum PACKAGE_PROCEDURE_TYPE
 {
     PACKAGE_PROCEDURE_TYPE_NONE = -1
 };
 
+class TESObjectREFR;
+enum PACK_TARG_TYPE;
 class PackageTargetRecord
 {
   public:
     char pad[0x10];
     PackageTargetRecord();
     ~PackageTargetRecord();
-    void SetTargetKind(int);
     void SetTargetObjectReference(TESObjectREFR*);
+public:
+    ::TESObjectREFR *GetReferenceTarget();
+public:
+    void SetTargetKind(::PACK_TARG_TYPE);
 };
 
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
     char pad[0xc];
@@ -104,21 +169,17 @@ class LocationDescriptor
 
 struct TESObjectREFR_Flags
 {
-    void SetFlags(unsigned int);
 };
 
-struct TESPackage
+class TESPackage
 {
+  public:
     char pad[0x7c];
     TESPackage();
     virtual ~TESPackage();
-    void SetPackageType(int);
     void SetMustReachLocation(bool);
     void SetMustComplete(bool);
-    void FUN_00671d30(LocationDescriptor*);
-    void FUN_00672fc0(PackageTargetRecord*);
     void SetProcedureType(PACKAGE_PROCEDURE_TYPE);
-    PackageTargetRecord* GetTarget();
 };
 
 struct FUN_009f9250 : public TESPackage
@@ -134,6 +195,11 @@ struct FUN_009f9250 : public TESPackage
     virtual ~FUN_009f9250();
 };
 
+class Script
+{
+  public:
+    char* GetData();
+};
 // Initializes the package fields, sets reach/complete flags and procedure type, and configures the target from apRef.
 // @fnv 0x009f9250
 FUN_009f9250::FUN_009f9250(TESObjectREFR* apRef, int aiUnk88, int aiUnk8c, int aiUnk94)
@@ -142,42 +208,29 @@ FUN_009f9250::FUN_009f9250(TESObjectREFR* apRef, int aiUnk88, int aiUnk8c, int a
     iUnk84 = 0;
     iUnk88 = aiUnk88;
     iUnk8c = aiUnk8c;
-    SetPackageType(0x17);
+    reinterpret_cast<::PackageEx *>(this)->SetPackageType(0x17);
     SetMustReachLocation(true);
     SetMustComplete(true);
     PackageTargetRecord* pTarget;
     LocationDescriptor* ploc;
     ploc = new LocationDescriptor;
     ploc->FUN_0067f3c0(apRef);
-    FUN_00671d30(ploc);
+    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>(this)->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(ploc));
     delete ploc;
     pTarget = new PackageTargetRecord;
-    FUN_00672fc0(pTarget);
+    reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0(pTarget);
     delete pTarget;
     SetProcedureType((PACKAGE_PROCEDURE_TYPE)0x14);
-    GetTarget()->SetTargetKind(0);
-    GetTarget()->SetTargetObjectReference(apRef);
-    ((TESObjectREFR_Flags*)GetTarget())->SetFlags(0x80);
+    ((::PackageTargetRecord *)(reinterpret_cast<PackageFields*>(this)->pPackageTarget))->SetTargetKind((::PACK_TARG_TYPE)(0));
+    ((::PackageTargetRecord *)(reinterpret_cast<PackageFields*>(this)->pPackageTarget))->SetTargetObjectReference(apRef);
+    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)((::PackageTargetRecord *)(reinterpret_cast<PackageFields*>(this)->pPackageTarget)))))->AssignLandTexture((::TESLandTexture *)(0x80));
     iUnk90 = -1;
     iUnk94 = aiUnk94;
     iUnk98 = 0;
 }
-
-struct Script
-{
-    int GetText();
-    char* GetData();
-};
-struct PTHelper
-{
-    TESObjectREFR* GetReferenceTarget();
-    void SetTargetObjectReference(TESObjectREFR*);
-};
 struct BSSimpleList_TESObjectREFR_Helper
 {
     bool FUN_008256d0();
-    TESObjectREFR** _ref_006815c0();
-    void Remove(TESObjectREFR*&);
 };
 
 struct FUN_009f1350_shell
@@ -188,30 +241,30 @@ struct FUN_009f1350_shell
 // @fnv 0x009f1350
 void FUN_009f1350_shell::RemoveRef(TESObjectREFR* apRef)
 {
-    ((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))->Remove(apRef);
+    reinterpret_cast<::ItemChangeListNode *>((((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))->FUN_00905330((::InventoryStackRecord *const &)(apRef));
     TESObjectREFR* pref = 0;
-    if (((Script*)this)->GetData())
-        pref = ((PTHelper*)((Script*)this)->GetData())->GetReferenceTarget();
+    if (reinterpret_cast<PackageFields*>(this)->pPackageTarget)
+        pref = reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetRecord*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)))->GetReferenceTarget();
     if (pref && pref == apRef)
     {
         if (!((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))->FUN_008256d0())
         {
-            ((PTHelper*)((Script*)this)->GetData())
-                ->SetTargetObjectReference(*(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))->_ref_006815c0()));
-            ((LocationDescriptor*)((Script*)this)->GetText())
-                ->FUN_0067f3c0(*(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))->_ref_006815c0()));
+            ((::PackageTargetRecord*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)
+                ->SetTargetObjectReference(*(((::TESObjectREFR **)(((::Vec3 *)(void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))))));
+            ((LocationDescriptor*)reinterpret_cast<PackageFields*>(this)->pLocation)
+                ->FUN_0067f3c0(*(((::TESObjectREFR **)(((::Vec3 *)(void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))))));
         }
         else
         {
-            ((PTHelper*)((Script*)this)->GetData())->SetTargetObjectReference(0);
-            ((LocationDescriptor*)((Script*)this)->GetText())->FUN_0067f3c0(0);
+            ((::PackageTargetRecord*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)->SetTargetObjectReference(0);
+            ((LocationDescriptor*)reinterpret_cast<PackageFields*>(this)->pLocation)->FUN_0067f3c0(0);
         }
     }
     if (apRef == *(TESObjectREFR**)((char*)this + 0xa4))
         *(TESObjectREFR**)((char*)this + 0xa4) = 0;
 }
 
-struct TESObjectCELL;
+class TESObjectCELL;
 struct NiPoint3
 {
     float x;
@@ -220,32 +273,30 @@ struct NiPoint3
 };
 
 extern const float runtimeFloatSettingDefault132;
-extern int DAT_011f2f10;
+extern intptr_t DAT_011f2f10;
 extern TESObjectREFR* DAT_011f2f1c;
 
-extern bool __cdecl CanActorReachReference(TESObjectREFR*, long);
+extern bool __cdecl CanActorReachReference(TESObjectREFR*, intptr_t);
 
 struct TESObjectREFR_GetRefPersists
 {
-    bool GetReferencePersistence();
 };
 
 struct BSOcclusionPlane
 {
-    int GetCullResult() const;
 };
 
-struct TESDataHandler
+class TESDataHandler
 {
+  public:
     void GetReferencesInArea(TESObjectCELL*, NiPoint3 const&, float, NiPoint3 const&, float,
-                             bool(__cdecl*)(TESObjectREFR*, long), long);
+                             bool(__cdecl*)(TESObjectREFR*, intptr_t), intptr_t);
 };
 
 struct DH : public TESDataHandler
 {
 };
 
-extern DH* g_dataHandler;
 
 struct FUN_009f1140_VirtualTarget
 {
@@ -776,13 +827,13 @@ bool FUN_009f1140_shell::FUN_009f1140(TESObjectREFR* apRef, TESObjectREFR* apCon
 
     DAT_011f2f1c = apContext;
 
-    if (reinterpret_cast<TESObjectREFR_GetRefPersists*>(apRef)->GetReferencePersistence())
+    if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((reinterpret_cast<TESObjectREFR_GetRefPersists*>(apRef)))->FUN_005653d0())
     {
         g_dataHandler->GetReferencesInArea(
-            reinterpret_cast<TESObjectCELL*>(reinterpret_cast<BSOcclusionPlane*>(apRef)->GetCullResult()),
+            reinterpret_cast<TESObjectCELL*>(((intptr_t)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(apRef)))->GetTarget()))),
             *reinterpret_cast<FUN_009f1140_VirtualTarget*>(apRef)->Target(), runtimeFloatSettingDefault132,
             *reinterpret_cast<FUN_009f1140_VirtualTarget*>(apRef)->Target(), runtimeFloatSettingDefault132,
-            CanActorReachReference, reinterpret_cast<long>(apRef));
+            CanActorReachReference, reinterpret_cast<intptr_t>(apRef));
     }
 
     result_0A0 = DAT_011f2f10;
@@ -794,23 +845,18 @@ bool FUN_009f1140_shell::FUN_009f1140(TESObjectREFR* apRef, TESObjectREFR* apCon
 
 struct Saver
 {
-    unsigned short FUN_00678fd0();
 };
 
 struct TESSaveLoadGame
 {
-    bool FUN_00862110();
-    void* GetHitSound();
 };
 
 struct SaveManager;
-extern SaveManager* DAT_011de45c;
 
 struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-extern GlobalObject_0045cf30 g_011de4e8;
 
 struct TESFormVirtualBase
 {
@@ -892,9 +938,12 @@ struct TESFormVirtualBase
     virtual void f75() = 0;
 };
 
-struct TESForm : public TESFormVirtualBase
+class TESForm : public TESFormVirtualBase
 {
+  public:
     virtual char* FUN_0130();
+public:
+    bool GetDisabled() const;
 };
 
 char* TESForm::FUN_0130()
@@ -902,11 +951,9 @@ char* TESForm::FUN_0130()
     return 0;
 }
 
-TESForm* _ref_004839c0(unsigned int formID);
 
 struct Interface
 {
-    static void __cdecl PrintDebugMessage(const char* format, ...);
 };
 
 extern const char str_01093344[];
@@ -934,10 +981,10 @@ unsigned short FUN_009f19f0_shell::GetSaveSize()
     unsigned short usSize = 0;
     unsigned short usOldSize;
 
-    usSize += reinterpret_cast<Saver*>(this)->FUN_00678fd0();
+    usSize += reinterpret_cast<::FUN_00678fd0_shell *>((reinterpret_cast<Saver*>(this)))->FUN_00678fd0();
     usOldSize = usSize;
 
-    if (reinterpret_cast<TESSaveLoadGame*>(DAT_011de45c)->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<TESSaveLoadGame*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         usSize += 4;
         usSize += 2;
@@ -954,50 +1001,43 @@ unsigned short FUN_009f19f0_shell::GetSaveSize()
     usSize += 1;
     usSize += 1;
 
-    if (*g_011de4e8.Bool())
+    if (*::g_011de4e8.Bool())
     {
         HitSound* m_pContactSound =
-            reinterpret_cast<HitSound*>(reinterpret_cast<TESSaveLoadGame*>(DAT_011de45c)->GetHitSound());
+            reinterpret_cast<HitSound*>(((void *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<TESSaveLoadGame*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound())));
 
         if (m_pContactSound)
         {
-            TESForm* pForm = _ref_004839c0(m_pContactSound->formID);
+            TESForm* pForm = ::FUN_004839c0(m_pContactSound->formID);
 
-            Interface::PrintDebugMessage(
-                $SG7035, usSize - usOldSize, m_pContactSound->formID, pForm->FUN_0130(),
-                *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(m_pContactSound) + 5), 0x237,
-                str_01093344);
+            ::FUN_0040fbe0();
         }
         else
         {
-            Interface::PrintDebugMessage($SG7038, usSize - usOldSize, 0x237, str_01093344);
+            ::FUN_0040fbe0();
         }
     }
 
     return usSize;
 }
 
+struct FUN_006797c0_arg;
 struct FUN_006797c0_shell
 {
-    void FUN_006797c0(void*);
+public:
+    void FUN_006797c0(::FUN_006797c0_arg *);
 };
 
 struct SaveFormIDHelper
 {
-    void SerializeFormData(void*, int);
 };
 
 struct BGSSaveFormBuffer : public SaveFormIDHelper
 {
-    void SaveData(void*, int, int);
-    unsigned int FUN_00865f20(void);
-    void FUN_00865ff0(int, unsigned int);
 };
 
-struct BSSimpleList
+class BSSimpleList
 {
-    TESObjectREFR** _ref_006815c0();
-    BSSimpleList* _ref_00726070();
 };
 
 struct FUN_009f2380_shell : public FUN_006797c0_shell
@@ -1014,52 +1054,48 @@ void FUN_009f2380_shell::SaveExtraData(BGSSaveFormBuffer* apSaveGameBuffer)
     unsigned int isaveGameCount;
     TESObjectREFR* pCurrentElementNext;
 
-    this->FUN_006797c0(apSaveGameBuffer);
+    this->FUN_006797c0((::FUN_006797c0_arg *)(apSaveGameBuffer));
 
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0x80), 1, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0x81), 1, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0x84), 0xc, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0x90), 4, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0x94), 1, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0xa8), 1, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 0xa9), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x80), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x81), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x84), 0xc, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x90), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x94), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0xa8), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0xa9), 1, 0);
 
-    apSaveGameBuffer->SerializeFormData(*(void**)((char*)this + 0xa0), 0);
-    apSaveGameBuffer->SerializeFormData(*(void**)((char*)this + 0xa4), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0xa0)), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0xa4)), 0);
 
     isaveGameCount = 0;
-    pForm = apSaveGameBuffer->FUN_00865f20();
+    pForm = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();
     isaveGameBufferPos = (BSSimpleList*)((char*)this + 0x98);
 
     while (isaveGameBufferPos != 0)
     {
-        pCurrentElementNext = *isaveGameBufferPos->_ref_006815c0();
+        pCurrentElementNext = *((::TESObjectREFR **)(((::Vec3 *)(void *)(isaveGameBufferPos))));
         if (pCurrentElementNext != 0)
         {
-            apSaveGameBuffer->SerializeFormData(pCurrentElementNext, 0);
+            reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pCurrentElementNext), 0);
             ++isaveGameCount;
         }
-        isaveGameBufferPos = isaveGameBufferPos->_ref_00726070();
+        isaveGameBufferPos = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((isaveGameBufferPos))->FUN_00726070()));
     }
 
-    apSaveGameBuffer->FUN_00865ff0(isaveGameCount, pForm);
+    reinterpret_cast<::FUN_00865ff0_shell *>((apSaveGameBuffer))->FUN_00865ff0(isaveGameCount, pForm);
 }
 
 struct BGSLoadFormBuffer
 {
-    bool __thiscall ReadFormIdentifier(void*);
-    void __thiscall ReadTypedData(void*, unsigned int);
-    int __thiscall ReadElementCount();
 };
 
 struct G2
 {
-    void __thiscall AddHead(int*);
+    void AddHead(int*);
 };
 
 struct TESPackage_LoadGameHelper
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer*);
 };
 
 struct FUN_009f24d0_shell
@@ -1071,26 +1107,26 @@ struct FUN_009f24d0_shell
 // @fnv 0x009f24d0
 void FUN_009f24d0_shell::FUN_009f24d0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<TESPackage_LoadGameHelper*>(this)->LoadGame(apLoadGameBuffer);
+    reinterpret_cast<::Package6798c0 *>((reinterpret_cast<TESPackage_LoadGameHelper*>(this)))->LoadPackage((::LoadBuffer6798c0 *)(apLoadGameBuffer));
 
-    apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x80), 1);
-    apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x81), 1);
-    apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x84), 0x0c);
-    apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x90), 4);
-    apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x94), 1);
-    apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa8), 1);
-    apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa9), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x80)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x81)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x84)), 0x0c);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x90)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x94)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa8)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa9)), 1);
 
-    apLoadGameBuffer->ReadFormIdentifier(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa0));
-    apLoadGameBuffer->ReadFormIdentifier(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa4));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa0)));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa4)));
 
-    unsigned int isaveGameCount = apLoadGameBuffer->ReadElementCount();
+    unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
     {
         unsigned int uiIndex;
         for (uiIndex = 0; uiIndex < isaveGameCount; uiIndex++)
         {
             TESObjectREFR* pForm = 0;
-            apLoadGameBuffer->ReadFormIdentifier(&pForm);
+            reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&pForm));
             reinterpret_cast<G2*>(reinterpret_cast<char*>(this) + 0x98)->AddHead(reinterpret_cast<int*>(&pForm));
         }
     }
@@ -1100,8 +1136,6 @@ void FUN_009f24d0_shell::FUN_009f24d0(BGSLoadFormBuffer* apLoadGameBuffer)
 struct FUN_009f1210_ref;
 struct FUN_009f1210_node
 {
-    FUN_009f1210_ref** _ref_006815c0();
-    FUN_009f1210_node* FUN_00726070();
 };
 struct FUN_009f1210_ref
 {
@@ -1245,41 +1279,36 @@ struct FUN_009f1210_ref
     virtual void M137();
     virtual void M138();
     virtual bool M139(int a);
-    bool FUN_005653d0();
-    float FUN_005723b0(FUN_009f1210_ref* apRef, int a2, int a3);
-    bool FUN_00440da0();
 };
-extern const float DAT_01016970;
 struct FUN_009f1210_cls
 {
     char pad_000[0x80];
     unsigned char flag_080;
     char pad_081[0x17];
     FUN_009f1210_node list_098;
-    void RemoveRef(FUN_009f1210_ref* apRef);
     FUN_009f1210_ref* FindNearestRef(FUN_009f1210_ref* apRef);
 };
 
 // @fnv 0x009f1210
 FUN_009f1210_ref* FUN_009f1210_cls::FindNearestRef(FUN_009f1210_ref* apRef)
 {
-    if (flag_080 == 0 || !apRef->FUN_005653d0())
+    if (flag_080 == 0 || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((apRef))->FUN_005653d0())
     {
         return 0;
     }
     FUN_009f1210_node* nodeB = &list_098;
-    float best = DAT_01016970;
+    float best = ::DAT_01016970;
     FUN_009f1210_ref* result2 = 0;
     float d2;
     FUN_009f1210_ref* cand;
-    while (nodeB != 0 && *nodeB->_ref_006815c0() != 0)
+    while (nodeB != 0 && *((::FUN_009f1210_ref **)(((::Vec3 *)(void *)(nodeB)))) != 0)
     {
-        cand = *nodeB->_ref_006815c0();
-        nodeB = nodeB->FUN_00726070();
-        d2 = cand->FUN_005723b0(apRef, 0, 0);
-        if (cand->FUN_00440da0() || cand->M139(0))
+        cand = *((::FUN_009f1210_ref **)(((::Vec3 *)(void *)(nodeB))));
+        nodeB = ((::FUN_009f1210_node *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
+        d2 = reinterpret_cast<::RefS *>((cand))->FUN_005723b0((::RefS *)(apRef), 0, 0);
+        if (reinterpret_cast<::TESForm *>((cand))->GetDisabled() || cand->M139(0))
         {
-            RemoveRef(cand);
+            reinterpret_cast<::FUN_009f1350_shell *>(this)->RemoveRef((::TESObjectREFR *)(cand));
             nodeB = &list_098;
         }
         else if (best > d2)
@@ -1433,24 +1462,16 @@ struct AvoidedReference
     virtual void slot137();
     virtual void slot138();
     virtual bool IsDead(int);
-    bool FUN_00440d80();
-    bool FUN_00493bb0();
 };
-extern AvoidedReference* DAT_011dea3c;
 struct AvoidedList
 {
     AvoidedReference* value;
     AvoidedList* next;
-    AvoidedReference*& FUN_006815c0();
     void FUN_0063f7b0();
-    AvoidedList* FUN_00726070();
 };
 struct AvoidanceSetting
 {
-    float* FUN_00403e20();
 };
-extern AvoidanceSetting DAT_011cd348;
-double FUN_00435dd0();
 struct AvoidanceContext
 {
     virtual void slot0();
@@ -1508,16 +1529,16 @@ struct AvoidancePackage
 void AvoidancePackage::RemoveInvalidAvoidedReferences(AvoidanceContext* context)
 {
     AvoidedList* current = &avoided;
-    float limit2 = *DAT_011cd348.FUN_00403e20();
-    while (current && current->FUN_006815c0())
+    float limit2 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AvoidanceSetting *>(&::originalRuntimeFloatSetting234))))));
+    while (current && ((::AvoidedReference *)(((::Vec3 *)(void *)(current)))))
     {
-        AvoidedReference* reference6 = current->FUN_006815c0();
+        AvoidedReference* reference6 = ((::AvoidedReference *)(((::Vec3 *)(void *)(current))));
         AvoidedReference* actor = reference6->IsActor() ? reference6 : 0;
-        bool remove4 = reference6->IsDead(0) || reference6->FUN_00440d80();
+        bool remove4 = reference6->IsDead(0) || reinterpret_cast<::FUN_00440d80_shell *>((reference6))->FUN_00440d80();
         if (!remove4 && actor && timed)
         {
-            remove4 = (!actor->FUN_00493bb0() && actor != DAT_011dea3c) ||
-                      (context && FUN_00435dd0() - context->GetLastTime(actor, 0) > limit2);
+            remove4 = (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())) && actor != (*reinterpret_cast<::AvoidedReference * *>(&::_g_thePlayer))) ||
+                      (context && ((double)(::FUN_00435dd0())) - context->GetLastTime(actor, 0) > limit2);
         }
         if (remove4)
         {
@@ -1525,7 +1546,7 @@ void AvoidancePackage::RemoveInvalidAvoidedReferences(AvoidanceContext* context)
             current = &avoided;
             continue;
         }
-        current = current->FUN_00726070();
+        current = ((::AvoidedList *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
 }
 
@@ -1535,7 +1556,6 @@ class F10C0List
 {
   public:
     ~F10C0List();
-    void RemoveAll();
 
     void* m_pkHead;
     void* m_pkTail;
@@ -1591,12 +1611,21 @@ class FUN_009f10c0 : public F10C0Base
 
     F10C0List m_kList;
 };
+// Calls FUN_009f10c0, then deletes this when flags has bit 0 set, and returns this.
+// @fnv 0x009f1090
+void* FUN_009f1090_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009f10c0 *>(this)->FUN_009f10c0::~FUN_009f10c0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that removes all entries from m_kList.
 // @fnv 0x009f10c0
 FUN_009f10c0::~FUN_009f10c0()
 {
-    m_kList.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kList))->RemoveAll();
 }
 
 struct PathingAvoidanceNode
@@ -1605,8 +1634,9 @@ struct PathingAvoidanceNode
     PathingAvoidanceNode(NiPoint3 const&, float, float);
 };
 
-struct PathingAvoidNodeArray
+class PathingAvoidNodeArray
 {
+  public:
     PathingAvoidanceNode** nodes;
     unsigned int size;
     unsigned int capacity;
@@ -1614,21 +1644,15 @@ struct PathingAvoidNodeArray
     unsigned int growth;
     unsigned int ownership;
 
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*);
     PathingAvoidNodeArray();
-    void SetSize(unsigned int, bool);
-    PathingAvoidanceNode* FUN_006a1400(unsigned int);
 };
 
 struct FUN_00672930_flags
 {
-    int GetFlags();
 };
 
 struct ActorView
 {
-    bool GetDisabled();
 };
 
 struct AvoidedRefTarget
@@ -1761,11 +1785,7 @@ struct AvoidedRefTarget
     virtual NiPoint3* GetPos();
 };
 
-extern const float runtimeFloatSettingDefault38;
-extern const float runtimeFloatSettingDefault1232;
-extern const float runtimeFloatSettingDefault1018;
 
-float __cdecl FUN_00404010(float, float);
 
 struct AvoidancePackage_1440 : public AvoidancePackage
 {
@@ -1776,24 +1796,24 @@ struct AvoidancePackage_1440 : public AvoidancePackage
 PathingAvoidNodeArray* AvoidancePackage_1440::BuildAvoidNodeArray()
 {
     PathingAvoidNodeArray* pNodes_ = new PathingAvoidNodeArray;
-    float fRadius3 = ((TESPackage*)this)->GetTarget()
-                         ? (float)((FUN_00672930_flags*)((TESPackage*)this)->GetTarget())->GetFlags()
-                         : runtimeFloatSettingDefault1232;
-    fRadius3 = FUN_00404010(fRadius3, runtimeFloatSettingDefault38);
+    float fRadius3 = ((::PackageTargetRecord *)(reinterpret_cast<PackageFields*>(this)->pPackageTarget))
+                         ? (float)reinterpret_cast<PackageTargetFields*>(reinterpret_cast<PackageFields*>(this)->pPackageTarget)->iValue
+                         : ::DAT_010231a0;
+    fRadius3 = FUN_00404010(fRadius3, ::DAT_01032adc);
     AvoidedList* pNode;
     float fRadius4;
     AvoidedReference* pRef;
     unsigned int iSize;
-    for (pNode = &avoided; pNode != 0; pNode = pNode->FUN_00726070())
+    for (pNode = &avoided; pNode != 0; pNode = ((::AvoidedList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
-        pRef = pNode->FUN_006815c0();
-        if (!pRef || ((ActorView*)pRef)->GetDisabled() || pRef->IsDead(0))
+        pRef = ((::AvoidedReference *)(((::Vec3 *)(void *)(pNode))));
+        if (!pRef || reinterpret_cast<::TESForm *>((((ActorView*)pRef)))->GetDisabled() || pRef->IsDead(0))
             continue;
 
-        iSize = ((FUN_00672930_flags*)pNodes_)->GetFlags();
-        pNodes_->SetSize(iSize + 1, true);
-        fRadius4 = FUN_00404010(fRadius3 * fRadius3, runtimeFloatSettingDefault1018);
-        *pNodes_->FUN_006a1400(iSize) = PathingAvoidanceNode(*((AvoidedRefTarget*)pRef)->GetPos(), fRadius3, fRadius4);
+        iSize = ((int)SimpleArraySize((((FUN_00672930_flags*)pNodes_))));
+        reinterpret_cast<::BSSimpleArray_PathingAvoidNode_1024 *>((pNodes_))->SetSize(iSize + 1, true);
+        fRadius4 = FUN_00404010(fRadius3 * fRadius3, ::DAT_01016410);
+        *((::PathingAvoidanceNode *)(reinterpret_cast<::S3e60 *>((pNodes_))->FUN_006a1400(iSize))) = PathingAvoidanceNode(*((AvoidedRefTarget*)pRef)->GetPos(), fRadius3, fRadius4);
     }
     return pNodes_;
 }
@@ -1802,23 +1822,11 @@ struct DoorAccess
 {
     unsigned int flags;
     TESObjectREFR* destination;
-    bool FUN_005021a0();
 };
 struct ReferenceAccess
 {
-    bool FUN_00440d80();
-    bool FUN_004077c0();
-    bool FUN_00440da0();
-    void* FUN_007af430();
-    void* FUN_00568e50();
-    bool FUN_00575d10();
-    float FUN_005723b0(ReferenceAccess*, int, int);
-    DoorAccess* FUN_00569160();
-    bool FUN_005785e0(ReferenceAccess*, bool);
-    bool FUN_00891db0(TESObjectREFR*, int, int, int, int*);
-    NiPoint3 const& FUN_00568fa0();
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     unsigned int unk00, unk04, unk08, unk0c, unk10;
@@ -1827,13 +1835,9 @@ class PathingLocation
     PathingLocation(NiPoint3 const&, TESObjectREFR*);
     ~PathingLocation();
 };
-extern void* DAT_011ca258;
-extern const float runtimeFloatSettingDefault1070;
-extern const float runtimeFloatSettingDefault142;
-bool __cdecl CallWithNullArgs(PathingLocation*, PathingLocation*, int);
 
 // @fnv 0x009f1600
-bool __cdecl CanActorReachReference(TESObjectREFR* reference, long context)
+bool __cdecl CanActorReachReference(TESObjectREFR* reference, intptr_t context)
 {
     float fDistance;
     {
@@ -1844,35 +1848,35 @@ bool __cdecl CanActorReachReference(TESObjectREFR* reference, long context)
                 float fTargetDistance;
                 {
                     int iAccessResult;
-                    if (!reference || ((ReferenceAccess*)reference)->FUN_00440d80() ||
-                        ((ReferenceAccess*)reference)->FUN_004077c0() || ((ReferenceAccess*)reference)->FUN_00440da0())
+                    if (!reference || reinterpret_cast<::FUN_00440d80_shell *>((((ReferenceAccess*)reference)))->FUN_00440d80() ||
+                        reinterpret_cast<::FUN_004077c0_shell *>((((ReferenceAccess*)reference)))->FUN_004077c0() || reinterpret_cast<::TESForm *>((((ReferenceAccess*)reference)))->GetDisabled())
                         return false;
                     iAccessResult = 0;
                     pActor = (ReferenceAccess*)context;
                     if (!pActor)
                         return false;
-                    if (((ReferenceAccess*)reference)->FUN_007af430() == DAT_011ca258)
+                    if (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((ReferenceAccess*)reference)))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca258)))
                         return false;
-                    if (!((ReferenceAccess*)reference)->FUN_00568e50())
+                    if (!((void *)(reinterpret_cast<::TESObjectREFR *>((((ReferenceAccess*)reference)))->GetExtraRadioData())))
                         return false;
-                    m_fUnknownValue2 = DAT_011f2f1c && ((ReferenceAccess*)DAT_011f2f1c)->FUN_00575d10()
-                                           ? runtimeFloatSettingDefault1070
-                                           : runtimeFloatSettingDefault142;
-                    fDistance = ((ReferenceAccess*)reference)->FUN_005723b0(pActor, 0, 0);
-                    fTargetDistance = ((ReferenceAccess*)reference)->FUN_005723b0((ReferenceAccess*)DAT_011f2f1c, 0, 0);
+                    m_fUnknownValue2 = DAT_011f2f1c && reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((((ReferenceAccess*)DAT_011f2f1c)))->FUN_00575d10()
+                                           ? ::DAT_0101e704
+                                           : ::g_011c7344_arg1;
+                    fDistance = reinterpret_cast<::RefS *>((((ReferenceAccess*)reference)))->FUN_005723b0((::RefS *)(pActor), 0, 0);
+                    fTargetDistance = reinterpret_cast<::RefS *>((((ReferenceAccess*)reference)))->FUN_005723b0((::RefS *)(::ReferenceAccess *)((ReferenceAccess*)DAT_011f2f1c), 0, 0);
                     if (fTargetDistance > m_fUnknownValue2 || fTargetDistance > fDistance)
                     {
-                        DoorAccess* door = ((ReferenceAccess*)reference)->FUN_00569160();
-                        if (door && door->FUN_005021a0() && !((ReferenceAccess*)reference)->FUN_005785e0(pActor, true))
+                        DoorAccess* door = ((::DoorAccess *)(reinterpret_cast<::FUN_00569160_shell *>((((ReferenceAccess*)reference)))->FUN_00569160()));
+                        if (door && reinterpret_cast<::LockExtraData *>((door))->IsLocked() && !reinterpret_cast<::OwnershipReferenceView *>((((ReferenceAccess*)reference)))->FUN_005785e0((::Actor *)(pActor), true))
                         {
-                            if (!door->destination || !pActor->FUN_00891db0(door->destination, 0, 1, 0, &iAccessResult))
+                            if (!door->destination || !reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((pActor))->FUN_00891db0((::TESBoundObject *)(door->destination), 0, 1, 0, (*(int *)(&iAccessResult))))
                                 return false;
                         }
                         PathingLocation actorLocation((TESObjectREFR*)pActor);
-                        PathingLocation referenceLocation(((ReferenceAccess*)reference)->FUN_00568fa0(), reference);
-                        if (!CallWithNullArgs(&actorLocation, &referenceLocation, 0))
+                        PathingLocation referenceLocation((*(const ::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((((ReferenceAccess*)reference)))->FUN_00568fa0())), reference);
+                        if (!((bool)(::CallWithNullArgs(&actorLocation, &referenceLocation, (void *)(0)))))
                             return false;
-                        DAT_011f2f10 = (int)reference;
+                        DAT_011f2f10 = (intptr_t)reference;
                         return true;
                     }
                     return false;
@@ -1884,15 +1888,12 @@ bool __cdecl CanActorReachReference(TESObjectREFR* reference, long context)
 
 struct SavedReference
 {
-    unsigned int GetFormID();
 };
 struct SavedReferenceList
 {
     SavedReference* value;
     SavedReferenceList* next;
     bool FUN_008256d0();
-    SavedReference*& _ref_006815c0();
-    SavedReferenceList* FUN_00726070();
 };
 struct SaveDebugRecord
 {
@@ -1902,10 +1903,6 @@ struct SaveDebugRecord
 };
 struct SaveStream
 {
-    unsigned char* FUN_00825c00();
-    bool FUN_00862110();
-    void FUN_008579b0(void*, int);
-    SaveDebugRecord* GetHitSound();
 };
 struct FleeSavePackage
 {
@@ -1922,81 +1919,72 @@ struct FleeSavePackage
     SavedReference* referenceA;
     SavedReference* referenceB;
     unsigned char flagA8, flagA9;
-    void SavePackage();
-    void ForwardToSaveLoadGame(void*, int);
-    void FUN_00484ce0(void*, int);
     void SaveFleePackage();
 };
-void __cdecl FNV_Warning(const char*, ...);
 // @fnv 0x009f1b70
 void FleeSavePackage::SaveFleePackage()
 {
-    SavePackage();
+    reinterpret_cast<::Package679120 *>(this)->SavePackage();
     unsigned short sizeVal = 0;   // Serialized block length.
     unsigned char* position = 0;  // Address of the block length field.
-    unsigned char* aPosition = reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_00825c00();
-    if (*g_011de4e8.Bool())
-        aPosition = reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_00825c00();
-    if (reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_00862110())
+    unsigned char* aPosition = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
+    if (*::g_011de4e8.Bool())
+        aPosition = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
+    if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
-        reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_008579b0(&tag, 4);
-        position = reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_00825c00();
-        reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_008579b0(&sizeVal, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&tag, 4);
+        position = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
+        reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&sizeVal, 2);
     }
     unsigned short kCount = 0;  // Number of avoided references.
-    unsigned char* _position = reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_00825c00();
-    reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_008579b0(&kCount, 2);
+    unsigned char* _position = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
+    reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&kCount, 2);
     SavedReferenceList* node = &avoided;
     while (node && !node->FUN_008256d0())
     {
-        SavedReference* reference = node->_ref_006815c0();
-        unsigned int formID = reference->GetFormID();
-        ForwardToSaveLoadGame(&formID, 4);
+        SavedReference* reference = ((::SavedReference *)(((::Vec3 *)(void *)(node))));
+        unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0()));
+        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&formID), 4);
         ++kCount;
-        node = node->FUN_00726070();
+        node = ((::SavedReferenceList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     *reinterpret_cast<unsigned short*>(_position) = kCount;
     unsigned int formB = 0;
     if (referenceB)
-        formB = referenceB->GetFormID();
-    ForwardToSaveLoadGame(&formB, 4);
+        formB = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((referenceB))->FUN_0084e3a0()));
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&formB), 4);
     unsigned int form = 0;
     if (referenceA)
-        form = referenceA->GetFormID();
-    ForwardToSaveLoadGame(&form, 4);
-    FUN_00484ce0(&flag81, 1);
-    FUN_00484ce0(&flagA8, 1);
-    FUN_00484ce0(&flag94, 1);
-    FUN_00484ce0(&timer, 4);
-    FUN_00484ce0(&this->position, 12);
-    FUN_00484ce0(&flag80, 1);
-    FUN_00484ce0(&flagA9, 1);
-    if (*g_011de4e8.Bool())
+        form = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((referenceA))->FUN_0084e3a0()));
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&form), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flag81, 1);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flagA8, 1);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flag94, 1);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&timer, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&this->position, 12);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flag80, 1);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flagA9, 1);
+    if (*::g_011de4e8.Bool())
     {
-        unsigned char* end = reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_00825c00();
-        SaveDebugRecord* reference = reinterpret_cast<SaveStream*>(DAT_011de45c)->GetHitSound();
+        unsigned char* end = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
+        SaveDebugRecord* reference = ((::SaveDebugRecord *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
         if (reference)
         {
-            TESForm* form = _ref_004839c0(reference->formID);
-            Interface::PrintDebugMessage(
-                "SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s", end - aPosition,
-                reference->formID, form->FUN_0130(), *reinterpret_cast<unsigned int*>(&reference->flags), 618,
-                str_01093344);
+            TESForm* form = ::FUN_004839c0(reference->formID);
+            ::FUN_0040fbe0();
         }
         else
         {
-            Interface::PrintDebugMessage("SaveGame(): %-5i ending at line %i in file %s", end - aPosition, 618,
-                                         str_01093344);
+            ::FUN_0040fbe0();
         }
     }
-    if (reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned char* end = reinterpret_cast<SaveStream*>(DAT_011de45c)->FUN_00825c00();
+        unsigned char* end = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
         unsigned char* data = position;
         if (end > data + 65535)
-            FNV_Warning("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
-                        str_01093344, 618);
+            ::FUN_005b5e40();
         *reinterpret_cast<unsigned short*>(position) = static_cast<unsigned short>(end - data);
     }
 }
@@ -2009,17 +1997,9 @@ struct FleeLoadFormInfo
 
 struct FleeLoadManager
 {
-    bool IsLoading();
-    void ReadTypedData(void* apBuffer, int aiSize);
-    unsigned int GetOffset();
-    FleeLoadFormInfo* GetCurrentFormInfo();
-    unsigned char GetVersion();
 };
 
-extern FleeLoadManager* g_pFleeLoadManager;
 
-void __cdecl FleeLoadWarning(const char* apFormat, ...);
-TESForm* __cdecl FleeLookupFormByID(unsigned int auiFormID);
 
 struct FleeLoadRef;
 
@@ -2079,9 +2059,6 @@ struct FleeLoadPackage
     unsigned char ucFlagA8;
     unsigned char ucFlagA9;
 
-    void BaseLoadGame();
-    void ReadTypedData(void* apBuffer, int aiSize);
-    void ReadFormIdentifier(unsigned int* apFormID, int aiSize);
     void FUN_009f1e80();
 };
 
@@ -2092,120 +2069,91 @@ void FleeLoadPackage::FUN_009f1e80()
     unsigned short usCount4;
     unsigned int uiRefA7;
     unsigned int uiRefA9;
-    unsigned int uiBlockStart7;
+    char* uiBlockStart7;
     unsigned short usBlockSize2;
     int i3;
 
-    BaseLoadGame();
+    reinterpret_cast<::fnv_00679340::Package679 *>(this)->FUN_00679340();
     usBlockSize2 = 0;
     uiBlockStart7 = 0;
 
-    if (g_pFleeLoadManager->IsLoading())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         int iMarker;
-        g_pFleeLoadManager->ReadTypedData(&iMarker, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&iMarker, 4);
         if (iMarker != 'BLOK')
         {
-            FleeLoadFormInfo* pInfo = g_pFleeLoadManager->GetCurrentFormInfo();
+            FleeLoadFormInfo* pInfo = ((::FleeLoadFormInfo *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))));
             if (pInfo)
             {
-                TESForm* pForm = FleeLookupFormByID(pInfo->auiFormId);
-                FleeLoadWarning(
-                    "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\FleePackage.cpp", 0x272, pInfo->auiFormId,
-                    pForm->FUN_0130(), pInfo->m_ucTimeSettings[5], *(unsigned int*)(pInfo->m_ucTimeSettings + 1));
+                TESForm* pForm = ::FUN_004839c0(pInfo->auiFormId);
+                ::FUN_005b5e40();
             }
             else
             {
-                FleeLoadWarning(
-                    "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\FleePackage.cpp", 0x272,
-                    g_pFleeLoadManager->GetVersion());
+                ::FUN_005b5e40();
             }
         }
-        uiBlockStart7 = g_pFleeLoadManager->GetOffset();
-        g_pFleeLoadManager->ReadTypedData(&usBlockSize2, 2);
+        uiBlockStart7 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&usBlockSize2, 2);
     }
 
-    ReadTypedData(&usCount4, 2);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&usCount4, 2);
     for (i3 = 0; i3 < usCount4; i3++)
     {
         unsigned int auiFormId;
-        ReadFormIdentifier(&auiFormId, 4);
-        unsigned int uiRef = auiFormId;
+        reinterpret_cast<::FUN_00484d40_Host *>(this)->FUN_00484d40(&auiFormId, 4);
+        uintptr_t uiRef = auiFormId;
         kAvoidedRefs.AddHead((FleeLoadRef*)uiRef);
     }
 
-    ReadFormIdentifier(&uiRefA9, 4);
+    reinterpret_cast<::FUN_00484d40_Host *>(this)->FUN_00484d40(&uiRefA9, 4);
     uiTargetA4 = uiRefA9;
-    ReadFormIdentifier(&uiRefA7, 4);
+    reinterpret_cast<::FUN_00484d40_Host *>(this)->FUN_00484d40(&uiRefA7, 4);
     uiTargetA0 = uiRefA7;
-    ReadTypedData(&ucFlag81, 1);
-    ReadTypedData(&ucFlagA8, 1);
-    ReadTypedData(&ucFlag94, 1);
-    ReadTypedData(&iValue90, 4);
-    ReadTypedData(fPos84, 0xc);
-    ReadTypedData(&ucFlag80, 1);
-    if (g_pFleeLoadManager->GetVersion() >= 0x71)
-        ReadTypedData(&ucFlagA9, 1);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&ucFlag81, 1);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&ucFlagA8, 1);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&ucFlag94, 1);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&iValue90, 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(fPos84, 0xc);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&ucFlag80, 1);
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x71)
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&ucFlagA9, 1);
 
-    if (g_pFleeLoadManager->IsLoading())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int uiBlockEndA = g_pFleeLoadManager->GetOffset();
-        FleeLoadFormInfo* pEndInfo = g_pFleeLoadManager->GetCurrentFormInfo();
+        char* uiBlockEndA = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
+        FleeLoadFormInfo* pEndInfo = ((::FleeLoadFormInfo *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))));
         if (pEndInfo)
         {
-            TESForm* pEndForm = FleeLookupFormByID(pEndInfo->auiFormId);
+            TESForm* pEndForm = ::FUN_004839c0(pEndInfo->auiFormId);
             if (uiBlockEndA > usBlockSize2 + uiBlockStart7)
-                FleeLoadWarning(
-                    "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    uiBlockEndA - (usBlockSize2 + uiBlockStart7),
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\FleePackage.cpp", 0x29a, pEndInfo->auiFormId,
-                    pEndForm->FUN_0130(), pEndInfo->m_ucTimeSettings[5],
-                    *(unsigned int*)(pEndInfo->m_ucTimeSettings + 1));
+                ::FUN_005b5e40();
             else if (uiBlockEndA < usBlockSize2 + uiBlockStart7)
-                FleeLoadWarning(
-                    "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    (usBlockSize2 + uiBlockStart7) - uiBlockEndA,
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\FleePackage.cpp", 0x29a, pEndInfo->auiFormId,
-                    pEndForm->FUN_0130(), pEndInfo->m_ucTimeSettings[5],
-                    *(unsigned int*)(pEndInfo->m_ucTimeSettings + 1));
+                ::FUN_005b5e40();
         }
         else
         {
             if (uiBlockEndA > usBlockSize2 + uiBlockStart7)
-                FleeLoadWarning(
-                    "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
-                    uiBlockEndA - (usBlockSize2 + uiBlockStart7),
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\FleePackage.cpp", 0x29a,
-                    g_pFleeLoadManager->GetVersion());
+                ::FUN_005b5e40();
             else if (uiBlockEndA < usBlockSize2 + uiBlockStart7)
-                FleeLoadWarning(
-                    "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
-                    (usBlockSize2 + uiBlockStart7) - uiBlockEndA,
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\FleePackage.cpp", 0x29a,
-                    g_pFleeLoadManager->GetVersion());
+                ::FUN_005b5e40();
         }
     }
 }
 
-TESForm* _ref_004839c0(unsigned int formID);
 
 struct RefListNode
 {
     TESObjectREFR* item;
     RefListNode* next;
     bool IsEmpty();
-    TESObjectREFR** GetItem();
     void SetItem(TESObjectREFR* const& apItem);
-    void RemoveAfter(TESObjectREFR* const& apItem);
-    RefListNode* GetNext();
     void RemoveHead();
 };
 
 struct FleePackageBase
 {
-    void InitLoadGame(void* apBuffer);
 };
 
 struct FleePackageLG : public FleePackageBase
@@ -2259,19 +2207,19 @@ struct FleePackageLG : public FleePackageBase
 // @fnv 0x009f25f0
 void FleePackageLG::FUN_009f25f0(void* apBuffer)
 {
-    FleePackageBase::InitLoadGame(apBuffer);
-    pRefA0 = pRefA0 ? dynamic_cast<TESObjectREFR*>(_ref_004839c0((unsigned int)pRefA0)) : 0;
-    pRefA4 = pRefA4 ? dynamic_cast<TESObjectREFR*>(_ref_004839c0((unsigned int)pRefA4)) : 0;
+    reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((intptr_t)(apBuffer));
+    pRefA0 = pRefA0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pRefA0)) : 0;
+    pRefA4 = pRefA4 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pRefA4)) : 0;
 
     RefListNode* pNode = &AvoidedRefList;
     RefListNode* pPrev = 0;
     while (pNode && !pNode->IsEmpty())
     {
-        TESObjectREFR* pRef = *pNode->GetItem();
+        TESObjectREFR* pRef = *((::TESObjectREFR **)(((::Vec3 *)(void *)(pNode))));
         bool bRemove = false;
         if (pRef)
         {
-            pRef = pRef ? dynamic_cast<TESObjectREFR*>(_ref_004839c0((unsigned int)pRef)) : 0;
+            pRef = pRef ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pRef)) : 0;
             if (pRef)
                 pNode->SetItem(pRef);
             else
@@ -2285,8 +2233,8 @@ void FleePackageLG::FUN_009f25f0(void* apBuffer)
         {
             if (pPrev)
             {
-                pPrev->RemoveAfter(*pNode->GetItem());
-                pNode = pPrev->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)(*((::TESObjectREFR **)(((::Vec3 *)(void *)(pNode))))));
+                pNode = ((::RefListNode *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else
             {
@@ -2296,7 +2244,9 @@ void FleePackageLG::FUN_009f25f0(void* apBuffer)
         else
         {
             pPrev = pNode;
-            pNode = pNode->GetNext();
+            pNode = ((::RefListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
     }
 }
+
+#include "generated/data/fallout/ai/fleepackage.inc"

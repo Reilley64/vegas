@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpLinConstraintAtom.h"
 #include "hkpSetLocalTransformsConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpPointToPlaneConstraintDataAtoms
 {
   public:
@@ -14,7 +13,4 @@ class hkpPointToPlaneConstraintDataAtoms
     hkpLinConstraintAtom m_vLinearConstraint;           // +0x90
     char pad94[0xC];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpPointToPlaneConstraintDataAtoms[(sizeof(hkpPointToPlaneConstraintDataAtoms) == 0xA0) ? 1 : -1];
 #endif

@@ -3,7 +3,16 @@
 #define NIPARALLELUPDATETASKMANAGER_DECLS_H
 
 
-class Interface
+#include "fnv/decl/fnv_007014a0__FM7.h"
+#include "fnv/decl/fnv_00871dc0__FUN_00871dc0_class.h"
+#include "fnv/decl/fnv_00877430__FUN_00877430_shell.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+struct Interface
 {
   public:
     enum enumMenus
@@ -23,17 +32,11 @@ class Interface
 
     static bool GetSelectedTargetIndex(enumMenus menu);
     static bool IsMenuActive(enumMenus menu, unsigned int flags);
-    static bool IsPipboyMenuActive();
-    static bool IsConsoleActive();
-    static bool IsPipboyMenuOpen();
-    bool FUN_007014a0(bool);
 };
 
 class Main
 {
   public:
-    void RunFrame();
-    void RefreshAfterSave();
 };
 
 class NiParallelUpdateTaskManager
@@ -43,10 +46,5 @@ class NiParallelUpdateTaskManager
 };
 
 // The packet has no identities for these menu-state globals and helper.
-extern bool DAT_011dea28;
-extern bool DAT_011dea29;
-extern bool DAT_011dea2b;
-extern Interface* DAT_011d8804;
-bool FUN_0070edf0();
 
 #endif

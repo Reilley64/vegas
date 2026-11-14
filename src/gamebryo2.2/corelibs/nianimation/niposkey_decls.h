@@ -3,6 +3,8 @@
 #define NIPOSKEY_DECLS_H
 
 
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011f3000.h"
 #include "NiPoint3.h"
 
 class AnimationKey
@@ -42,7 +44,5 @@ class PositionKeyInterpolator : public AnimationKey
 };
 
 typedef void(__cdecl* NiPosInterpFunction)(float, const AnimationKey*, const AnimationKey*, void*);
-extern "C" const double DAT_010241b0;
-extern NiPosInterpFunction DAT_011f3ca8[AnimationKey::NUMKEYTYPES];
 
 #endif

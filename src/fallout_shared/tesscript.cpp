@@ -1,12 +1,116 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesscript.cpp: Script, ScriptLocals, DelStandIn, ScriptInitOwner and more (82 functions)
 
+#include <cstdint>
+#include "fnv/game_timer.h"
+#include <new>
+#include <cstring>
+#include "fnv/decl/ActList.h"
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_0041c8d0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00456630_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00501c10_cls.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_005e2730_shell.h"
+#include "fnv/decl/FUN_005e29a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00857ba0_shell.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_00865db0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/ItemChangeShell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Ref.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/W004702f0.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00484730__FUN_00484730_shell.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_00573f40__R.h"
+#include "fnv/decl/fnv_00576260__FUN_00576260_shell.h"
+#include "fnv/decl/fnv_005aedb0__ScriptCompiler.h"
+#include "fnv/decl/fnv_006eae40__FUN_006eae40_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00469000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005a8000.h"
+#include "fnv/symbols_005aa000.h"
+#include "fnv/symbols_005ab000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b1000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_007d9000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_0118c000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 #include "tesscript_decls.h"
-// @fnv 0x005aa0f0
-Script::Script()
-{
-    InitializeComponent();
-}
+#include "fnv/decl/TextString.h"
 
+// The compile data a script is initialised from: its name, compiled data and header.
+struct ScriptCompileDataView
+{
+    char pad[0x0c];
+    char kScriptName[8];
+    char pad14[0x20 - 0x14];
+    char* pScriptData;
+    char pad24[0x28 - 0x24];
+    char kHeader[0x14];
+};
 // @fnv 0x005ac740
 bool Script::IsConsolePlatform()
 {
@@ -16,13 +120,7 @@ bool Script::IsConsolePlatform()
 // @fnv 0x006ebc50
 void ScriptLocals::ProcessPendingTasks()
 {
-    m_pOwnerScript->FUN_006eae40();
-}
-
-// @fnv 0x005ab7d0
-void Script::InitItem()
-{
-    InitItem(this);
+    reinterpret_cast<::fnv_006eae40::FUN_006eae40_shell *>((m_pOwnerScript))->FUN_006eae40();
 }
 
 // @fnv 0x005acc70
@@ -42,7 +140,7 @@ void Script::GetLocalData()
 {
     TESBoundObject* object = reinterpret_cast<ScriptLocals*>(this)->GetLocalData();
     if (object)
-        object->IsBoundItem();
+        reinterpret_cast<::TESForm *>((object))->ClearData();
 }
 
 // Returns the bound object from this ScriptLocals instance, or null when the instance pointer is null.
@@ -77,7 +175,7 @@ void ScriptLocals::Destroy()
 
 // Zeroes the 0x14-byte object at pThis, clears the int at offset 0 and offset 0x10, and returns pThis.
 // @fnv 0x005a8b80
-void* __fastcall FUN_005a8b80(void* apObject)
+void* FUN_005a8b80(void* apObject)
 {
     memset(apObject, 0, 0x14);
     *reinterpret_cast<int*>(apObject) = 0;
@@ -90,42 +188,39 @@ struct FUN_005a8bc0_shell : public ScriptLocals
     void FUN_005a8bc0();
 };
 
-void __cdecl Deallocate(void* p);
-void __fastcall FUN_005a8c00(void* pThis);
-void __fastcall FUN_005a8c90(void* pThis);
-
-// Calls two cleanup helpers, then deallocates the pointer stored at offset 0x10 if it is non-null.
-// @fnv 0x005a8bc0
-void FUN_005a8bc0_shell::FUN_005a8bc0()
-{
-    FUN_005a8c00(this);
-    FUN_005a8c90(this);
-    if (*(void**)((char*)this + 0x10) != 0)
-    {
-        void* p = *(void**)((char*)this + 0x10);
-        Deallocate(p);
-    }
-}
+void FUN_005a8c00(void* pThis);
 
 struct FUN_005a8c90_shell : public ScriptLocals
 {
     void FUN_005a8c90();
 };
+// Calls two cleanup helpers, then deallocates the pointer stored at offset 0x10 if it is non-null.
+// @fnv 0x005a8bc0
+void FUN_005a8bc0_shell::FUN_005a8bc0()
+{
+    FUN_005a8c00(this);
+    reinterpret_cast<::FUN_005a8c90_shell *>((this))->FUN_005a8c90();
+    if (*(void**)&this->m_pExtendedLocals != 0)
+    {
+        void* p = *(void**)&this->m_pExtendedLocals;
+        ::FUN_00401030(p);
+    }
+}
 
 // Deletes every item in the list at offset 0xc, then deletes the list itself and nulls the pointer.
 // @fnv 0x005a8c90
 void FUN_005a8c90_shell::FUN_005a8c90()
 {
-    if (*(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc))
+    if (this->m_pVariableList)
     {
-        while ((*(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc))->GetItem())
+        while ((((this->m_pVariableList))->m_item))
         {
-            ScriptLocalVariable* local = (*(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc))->GetItem();
-            (*(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc))->RemoveHead();
+            ScriptLocalVariable* local = (((this->m_pVariableList))->m_item);
+            (this->m_pVariableList)->RemoveHead();
             delete local;
         }
-        delete *(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc);
-        *(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc) = 0;
+        delete this->m_pVariableList;
+        this->m_pVariableList = 0;
     }
 }
 
@@ -140,6 +235,8 @@ struct FUN_005a8e20_cls
     int* actionList;
     Act5a* FUN_005a90b0(void* form, bool create);
     bool FUN_005a8e20(void* form, unsigned int flag);
+public:
+    char FUN_005a8ef0(std::intptr_t, int);
 };
 // @fnv 0x005a8e20
 bool FUN_005a8e20_cls::FUN_005a8e20(void* form, unsigned int flag)
@@ -147,13 +244,13 @@ bool FUN_005a8e20_cls::FUN_005a8e20(void* form, unsigned int flag)
     bool result = false;
     if (!actionList)
         return false;
-    Act5a* obj = FUN_005a90b0(form, true);
+    Act5a* obj = ((::Act5a *)(reinterpret_cast<::ActList *>(this)->FUN_005a90b0((::TESForm *)(form), true)));
     if (obj)
     {
         obj->flags |= flag;
         result = true;
     }
-    obj = FUN_005a90b0(0, true);
+    obj = ((::Act5a *)(reinterpret_cast<::ActList *>(this)->FUN_005a90b0((::TESForm *)(void *)(0), true)));
     if (obj)
     {
         obj->flags |= flag;
@@ -167,77 +264,61 @@ struct FUN_005a8ea0_shell : public ScriptLocals
     void FUN_005a8ea0();
 };
 
-int* __fastcall _ref_006815c0(void* pThis);
-void* __fastcall _ref_00726070(void* pThis);
 
 // Walks the list at this+8 and sets the second int of each entry returned by _ref_006815c0 to 0 until the list or entry is null.
 // @fnv 0x005a8ea0
 void FUN_005a8ea0_shell::FUN_005a8ea0()
 {
-    void* pList = *(void**)((char*)this + 8);
-    while (pList && *_ref_006815c0(pList))
+    void* pList = *(void**)&this->m_pLocalVariableList;
+    while (pList && *((int *)((void *)(pList))))
     {
-        int* used = (int*)*_ref_006815c0(pList);
-        pList = _ref_00726070(pList);
+        int* used = *((int**)((void *)(pList)));
+        pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
         used[1] = 0;
     }
 }
 
 struct FUN_005a9140_shell : public ScriptLocals
 {
-    double FUN_005a9140(unsigned int, Script*);
+    double FUN_005a9140(uintptr_t, Script*);
 };
 
-extern const char DAT_01015890[];
 extern int DAT_011cae50;
 
-bool __fastcall _ref_008256d0(unsigned int);
-ScriptLocalVariable** __fastcall _ref_006815c0(unsigned int);
-unsigned int __fastcall _ref_00726070(unsigned int);
-
-struct TLS_Data_005a9140
-{
-    char pad[0x270];
-    ScriptLocalVariable* pLastLocal;
-    unsigned int uiLastID;
-    void* pLastLocals;
-};
-
-__declspec(thread) TLS_Data_005a9140 tls_005a9140;
+bool _ref_008256d0(void*);
 
 // Looks up a script local variable by ID (using a TLS cache), returns its double value, or warns and returns 0.0 if not found.
 // @fnv 0x005a9140
-double FUN_005a9140_shell::FUN_005a9140(unsigned int auiID, Script* apScript)
+double FUN_005a9140_shell::FUN_005a9140(uintptr_t auiID, Script* apScript)
 {
     ScriptLocalVariable* plocalvar = 0;
-    if (tls_005a9140.pLastLocals == this && tls_005a9140.uiLastID == auiID)
+    if (g_tlsBlock.lastLocalVariableLocals == reinterpret_cast<ScriptLocals*>(this) && g_tlsBlock.lastLocalVariableId == auiID)
     {
-        plocalvar = tls_005a9140.pLastLocal;
+        plocalvar = g_tlsBlock.lastLocalVariable;
     }
     if (plocalvar == 0)
     {
-        unsigned int pCurrentElementNext = ((TESForm*)this)->GetFormID();
-        while (pCurrentElementNext != 0 && !_ref_008256d0(pCurrentElementNext))
+        std::uintptr_t pCurrentElementNext = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
+        while (pCurrentElementNext != 0 && !_ref_008256d0((void*)pCurrentElementNext))
         {
-            ScriptLocalVariable* pCandidate = *_ref_006815c0(pCurrentElementNext);
+            ScriptLocalVariable* pCandidate = *((::ScriptLocalVariable **)((void *)(pCurrentElementNext)));
             if (*(unsigned int*)pCandidate == auiID)
             {
                 plocalvar = pCandidate;
                 break;
             }
-            pCurrentElementNext = _ref_00726070(pCurrentElementNext);
+            pCurrentElementNext = ((std::uintptr_t)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
     }
-    tls_005a9140.pLastLocals = this;
-    tls_005a9140.uiLastID = auiID;
-    tls_005a9140.pLastLocal = plocalvar;
+    g_tlsBlock.lastLocalVariableLocals = reinterpret_cast<ScriptLocals*>(this);
+    g_tlsBlock.lastLocalVariableId = auiID;
+    g_tlsBlock.lastLocalVariable = plocalvar;
     if (plocalvar != 0)
     {
-        return *(double*)((char*)plocalvar + 8);
+        return plocalvar->fValue;
     }
-    Warning(
-        "SCRIPTS: Variable ID %08X not found. Try to recompile script '%s'. The script may also have a bad reference variable in an if statement on line %d.",
-        auiID, apScript ? ((TESForm*)apScript)->GetName() : DAT_01015890, DAT_011cae50);
+    ::FUN_005b5e40(
+        );
     return 0.0;
 }
 
@@ -268,11 +349,11 @@ struct FUN_005aa220_shell : public Script
 {
     void ResetScriptData();
 };
-
-void* __cdecl memset(void*, int, unsigned int);
-
-__declspec(thread) extern char tls_pad[0x268];
-__declspec(thread) extern bool tls_bIsInitialized;
+// @fnv 0x005aa0f0
+Script::Script()
+{
+    InitializeComponent();
+}
 
 // Clears the script's data fields and TLS state, then sets the form type to 0x11.
 // @fnv 0x005aa220
@@ -281,22 +362,22 @@ void FUN_005aa220_shell::ResetScriptData()
     memset(&m_kHeader, 0, sizeof(m_kHeader));
     m_data = 0;
     m_pText = 0;
-    tls_bIsInitialized = false;
+    g_tlsBlock.conditionFunctionDebug = false;
     m_pOwnerQuest = 0;
     m_fValueAtOffset34 = 0.0f;
     fValueAtOffset38 = 0.0f;
     m_fValueAtOffset3C = 0.0f;
-    SetFormType((ENUM_FORM_ID)0x11);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x11)));
 }
 
 // Deletes every item in the variable list and removes each head until the list is empty.
 // @fnv 0x005aa2e0
 void Script::FUN_005aa2e0()
 {
-    BSSimpleList<ScriptVariableInfo*>* pList = GetVariableList();
+    BSSimpleList<ScriptVariableInfo*>* pList = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
     while (pList && !pList->IsEmpty())
     {
-        delete pList->GetItem();
+        delete (pList->m_item);
         pList->RemoveHead();
     }
 }
@@ -306,89 +387,46 @@ struct FUN_005aa420_shell : public Script
     void CopyFromScript(Script*);
 };
 
-void* __cdecl memcpy(void*, const void*, unsigned int);
-
-// Copies the header, data, referenced objects, variables and text from another Script into this one, resetting the variable count.
-// @fnv 0x005aa420
-void FUN_005aa420_shell::CopyFromScript(Script* apScriptToCopy)
-{
-    if (!apScriptToCopy)
-        return;
-
-    memcpy(&m_kHeader, apScriptToCopy->GetHeader(), sizeof(ScriptHeaderData));
-    m_kHeader.variableCount = 0;
-
-    SetScriptData(m_kHeader.dataSize, apScriptToCopy->GetData());
-
-    InitializeActionList();
-    CopyScriptReferences(apScriptToCopy->GetReferencedObjectList(), GetReferencedObjectList(), this);
-
-    FUN_005aa2e0();
-    CopyListToView(apScriptToCopy->GetVariableList(), GetVariableList(), this);
-
-    if (apScriptToCopy->GetText())
-        SetText(apScriptToCopy->GetText());
-    else
-        SetText(0);
-
-    SetInitializationState(apScriptToCopy->IsFormInitialized());
-}
-
 struct G2
 {
-    void _ref_00905330(int* p);
     void AddHead(int* p);
 };
 struct ATM
 {
-    void QueryPerformanceCounter(int a);
-    void WaitForTasksDuringRendering();
 };
-extern G2 g_011cac98;
-extern G2 g_011caca8;
-extern ATM g_011cacf8;
-bool FUN_005aa680(int p);
 // Queries the performance counter, and if value is non-zero references it and adds it to a list unless FUN_005aa680 accepts it, then waits for rendering tasks.
 // @fnv 0x005aa580
-void FUN_005aa580(int value)
+void FUN_005aa580(std::intptr_t value)
 {
-    g_011cacf8.QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
     if (value)
     {
-        g_011cac98._ref_00905330(&value);
-        if (!FUN_005aa680(value))
-            g_011caca8.AddHead(&value);
+        reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::G2 *>(&::g_011cac98))))->FUN_00905330((*(::InventoryStackRecord *const *)(&value)));
+        if (!::fnv_005aa680::FUN_005aa680((::Actor *)(value)))
+            (*reinterpret_cast<::G2 *>(&::g_011caca8)).AddHead((int*)&value);
     }
-    g_011cacf8.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
 }
 
 namespace fnv_005aa5d0 {
 struct G2
 {
-    void _ref_00905330(int* p);
 };
 struct ATM
 {
-    void QueryPerformanceCounter(int a);
-    void WaitForTasksDuringRendering();
 };
-extern G2 g_011cac98;
-extern G2 g_011caca8;
-extern G2 g_011cacb8;
-extern G2 g_011cace8;
-extern ATM g_011cacf8;
 // If value is nonzero, queries the performance counter, passes value to four objects' _ref_00905330, then waits for tasks during rendering.
 // @fnv 0x005aa5d0
 void FUN_005aa5d0(int value)
 {
     if (value)
     {
-        g_011cacf8.QueryPerformanceCounter(0);
-        g_011caca8._ref_00905330(&value);
-        g_011cac98._ref_00905330(&value);
-        g_011cace8._ref_00905330(&value);
-        g_011cacb8._ref_00905330(&value);
-        g_011cacf8.WaitForTasksDuringRendering();
+        reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa5d0::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
+        reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::fnv_005aa5d0::G2 *>(&::g_011caca8))))->FUN_00905330((*(::InventoryStackRecord *const *)(&value)));
+        reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::fnv_005aa5d0::G2 *>(&::g_011cac98))))->FUN_00905330((*(::InventoryStackRecord *const *)(&value)));
+        reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::fnv_005aa5d0::G2 *>(&::g_011cace8))))->FUN_00905330((*(::InventoryStackRecord *const *)(&value)));
+        reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::fnv_005aa5d0::G2 *>(&::g_011cacb8))))->FUN_00905330((*(::InventoryStackRecord *const *)(&value)));
+        reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_005aa5d0::ATM *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
     }
 }
 }  // namespace fnv_005aa5d0
@@ -397,22 +435,18 @@ namespace fnv_005aa630 {
 class ActorTaskManager
 {
   public:
-    void QueryPerformanceCounter(int);
-    void WaitForTasksDuringRendering(void);
 };
 
-extern BSSimpleList<Actor*> g_011cac98;
-extern ActorTaskManager g_011cacf8;
 
 // Checks whether apRef is non-null and present in g_011cac98, bracketing the check with calls on g_011cacf8, and returns the result.
 // @fnv 0x005aa630
 bool __cdecl FUN_005aa630(Actor* apRef)
 {
     bool bretval = false;
-    g_011cacf8.QueryPerformanceCounter(0);
-    if (apRef && g_011cac98.IsInList(apRef))
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa630::ActorTaskManager *>(&::g_011cacf8))))->FUN_004538a0(0);
+    if (apRef && reinterpret_cast<::RefList *>(&((*reinterpret_cast<::BSSimpleList< ::Actor *> *>(&::g_011cac98))))->FUN_005f65d0((void **)&(apRef)))
         bretval = true;
-    g_011cacf8.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_005aa630::ActorTaskManager *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
     return bretval;
 }
 }  // namespace fnv_005aa630
@@ -420,22 +454,18 @@ bool __cdecl FUN_005aa630(Actor* apRef)
 namespace fnv_005aa680 {
 struct ActorTaskManager
 {
-    void QueryPerformanceCounter(int);
-    void WaitForTasksDuringRendering(void);
 };
 
-extern BSSimpleList<Actor*> g_011caca8;
-extern ActorTaskManager g_011cacf8;
 
 // Checks whether apRef is non-null and present in g_011caca8, calling QueryPerformanceCounter and WaitForTasksDuringRendering around the check.
 // @fnv 0x005aa680
 bool __cdecl FUN_005aa680(Actor* apRef)
 {
     bool bretval = false;
-    g_011cacf8.QueryPerformanceCounter(0);
-    if (apRef && g_011caca8.IsInList(apRef))
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa680::ActorTaskManager *>(&::g_011cacf8))))->FUN_004538a0(0);
+    if (apRef && reinterpret_cast<::RefList *>(&((*reinterpret_cast<::BSSimpleList< ::Actor *> *>(&::g_011caca8))))->FUN_005f65d0((void **)&(apRef)))
         bretval = true;
-    g_011cacf8.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_005aa680::ActorTaskManager *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
     return bretval;
 }
 }  // namespace fnv_005aa680
@@ -444,62 +474,54 @@ namespace fnv_005aa720 {
 class ActorTaskManager
 {
   public:
-    void QueryPerformanceCounter(int);
-    void WaitForTasksDuringRendering();
 };
 
-extern ActorTaskManager g_011cacf8;
 
-void __fastcall FUN_00573f40(TESObjectREFR* ref);
-bool __fastcall FUN_005aa8c0(BSFadeNode* fadeNode);
+bool FUN_005aa8c0(BSFadeNode* fadeNode);
 
-extern BSSimpleList<TESObjectREFR*> g_011caca8;
-extern BSSimpleList<TESObjectREFR*> g_011cac98;
-extern BSSimpleList<TESObjectREFR*> g_011cace8;
-extern BSSimpleList<TESObjectREFR*> g_011cacb8;
 
 // @fnv 0x005aa720
 void FUN_005aa720()
 {
     BSSimpleList<TESObjectREFR*>* pCurrentElementNext;
-    g_011cacf8.QueryPerformanceCounter(0);
-    while (!g_011caca8.IsEmpty())
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa720::ActorTaskManager *>(&::g_011cacf8))))->FUN_004538a0(0);
+    while (!(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011caca8)).IsEmpty())
     {
-        TESObjectREFR* pref = g_011caca8.GetItem();
-        g_011caca8.RemoveHead();
-        FUN_00573f40(pref);
+        TESObjectREFR* pref = (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011caca8)).m_item;
+        (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011caca8)).RemoveHead();
+        reinterpret_cast<::fnv_00573f40::R *>((pref))->FUN_00573f40();
     }
-    while (!g_011cac98.IsEmpty())
+    while (!(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cac98)).IsEmpty())
     {
-        TESObjectREFR* pref = g_011cac98.GetItem();
-        g_011cac98.RemoveHead();
-        pref->FUN_00574400();
+        TESObjectREFR* pref = (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cac98)).m_item;
+        (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cac98)).RemoveHead();
+        reinterpret_cast<::Ref *>((pref))->FUN_00574400();
     }
-    pCurrentElementNext = &g_011cace8;
+    pCurrentElementNext = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cace8));
     while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
     {
         TESObjectREFR* pref;
         NiNode* pav;
-        BSSimpleList<TESObjectREFR*>* m_pActionSuccessor = pCurrentElementNext->GetNext();
-        pref = pCurrentElementNext->GetItem();
+        BSSimpleList<TESObjectREFR*>* m_pActionSuccessor = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+        pref = (pCurrentElementNext->m_item);
         pav = pref->GetNiNode_v();
         BSFadeNode* pfade = pav ? pav->GetFadeNode() : 0;
         if (!pfade || !FUN_005aa8c0(pfade))
         {
-            pref->FUN_00574400();
-            g_011cace8.Remove(pref);
-            if (pCurrentElementNext == &g_011cace8)
-                m_pActionSuccessor = &g_011cace8;
+            reinterpret_cast<::Ref *>((pref))->FUN_00574400();
+            reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cace8))))->FUN_00905330((::InventoryStackRecord *const &)(pref));
+            if (pCurrentElementNext == &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cace8)))
+                m_pActionSuccessor = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cace8));
         }
         pCurrentElementNext = m_pActionSuccessor;
     }
-    while (!g_011cacb8.IsEmpty())
+    while (!(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cacb8)).IsEmpty())
     {
-        TESObjectREFR* pref = g_011cacb8.GetItem();
-        g_011cacb8.RemoveHead();
+        TESObjectREFR* pref = (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cacb8)).m_item;
+        (*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cacb8)).RemoveHead();
         delete pref;
     }
-    g_011cacf8.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_005aa720::ActorTaskManager *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_005aa720
 
@@ -508,51 +530,44 @@ struct FUN_005aae70_shell : public Script
     void FUN_005aae70(unsigned int, char*);
 };
 
-void __cdecl Deallocate(void*);
 char* __cdecl AllocateZeroed(unsigned int, unsigned int);
 
 // Frees m_data, stores auiDataSize at offset 0x20, and if nonzero allocates that many bytes and copies apCompileData into m_data.
 // @fnv 0x005aae70
 void FUN_005aae70_shell::FUN_005aae70(unsigned int auiDataSize, char* apCompileData)
 {
-    Deallocate(m_data);
+    ::FUN_00401030(m_data);
     m_data = 0;
-    *(unsigned int*)((char*)this + 0x20) = auiDataSize;
-    if (*(unsigned int*)((char*)this + 0x20))
+    this->m_kHeader.dataSize = auiDataSize;
+    if (this->m_kHeader.dataSize)
     {
-        m_data = AllocateZeroed(1, *(unsigned int*)((char*)this + 0x20));
-        memcpy(m_data, apCompileData, *(unsigned int*)((char*)this + 0x20));
+        m_data = AllocateZeroed(1, this->m_kHeader.dataSize);
+        memcpy(m_data, apCompileData, this->m_kHeader.dataSize);
     }
 }
 
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
 };
 
-MemoryManager* __cdecl FUN_00401020(void);
 
 // Multiplies aSize by aNum, allocates that many bytes from the memory manager, zeroes them with memset, and returns the pointer.
 // @fnv 0x005aaee0
 char* __cdecl AllocateZeroed(unsigned int aNum, unsigned int aSize)
 {
     aSize = aSize * aNum;
-    void* pBuffer = FUN_00401020()->Allocate(aSize);
+    void* pBuffer = reinterpret_cast<::MemoryManagerStandIn *>((FUN_00401020()))->FUN_00aa3e40(aSize);
     memset(pBuffer, 0, aSize);
     return (char*)pBuffer;
 }
 
-void* __cdecl operator new(unsigned int);
-bool __fastcall _ref_008256d0(void*);
-int* __fastcall _ref_006815c0(void*);
-void* __fastcall _ref_00726070(void*);
+bool _ref_008256d0(void*);
 
 class SoundListEntry;
 class SoundListView
 {
   public:
-    void AddTail(SoundListEntry* const&);
 };
 
 struct FUN_005ab8b0
@@ -570,9 +585,9 @@ void __cdecl CopyListToTail(void* pSourceList, SoundListView* pCopyToList)
 
     while (pSourceList && !_ref_008256d0(pSourceList))
     {
-        SoundListEntry* pNewRefObject = (SoundListEntry*)new FUN_005ab8b0(*_ref_006815c0(pSourceList));
-        pCopyToList->AddTail(pNewRefObject);
-        pSourceList = _ref_00726070(pSourceList);
+        SoundListEntry* pNewRefObject = (SoundListEntry*)new FUN_005ab8b0(*((int *)((void *)(pSourceList))));
+        reinterpret_cast<::Callees *>((pCopyToList))->FUN_00905820((void *)&(pNewRefObject));
+        pSourceList = reinterpret_cast<::Callees *>((pSourceList))->FUN_00726070();
     }
 }
 
@@ -580,11 +595,31 @@ struct FUN_005abe50_shell : public Script
 {
     void FUN_005abe50(char*);
 };
+// Copies the header, data, referenced objects, variables and text from another Script into this one, resetting the variable count.
+// @fnv 0x005aa420
+void FUN_005aa420_shell::CopyFromScript(Script* apScriptToCopy)
+{
+    if (!apScriptToCopy)
+        return;
 
-void __cdecl Deallocate(void*);
-unsigned int __cdecl strlen(const char*);
-void* __cdecl memcpy(void*, const void*, unsigned int);
-char* __cdecl AllocateZeroed(int, int);
+    memcpy(&m_kHeader, ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((apScriptToCopy))->GetConditions())), sizeof(ScriptHeaderData));
+    m_kHeader.variableCount = 0;
+
+    reinterpret_cast<::FUN_005aae70_shell *>(this)->FUN_005aae70(m_kHeader.dataSize, apScriptToCopy->GetData());
+
+    InitializeActionList();
+    ::CopyListToTail(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScriptToCopy))->FUN_005d43c0())), (::SoundListView *)(::BSSimpleList< ::ScriptReferencedObject *> *)(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))));
+
+    FUN_005aa2e0();
+    ::fnv_005ab930::CopyListToView((::fnv_005ab930::FUN_008256d0 *)(::BSSimpleList< ::ScriptVariableInfo *> *)(((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>((apScriptToCopy))->FUN_005d43e0()))), (::fnv_005ab930::SoundListView *)(::BSSimpleList< ::ScriptVariableInfo *> *)(((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()))));
+
+    if (apScriptToCopy->m_pText)
+        reinterpret_cast<::FUN_005abe50_shell *>(this)->FUN_005abe50((char *)(apScriptToCopy->m_pText));
+    else
+        reinterpret_cast<::FUN_005abe50_shell *>(this)->FUN_005abe50((char *)(0));
+
+    SetInitializationState(reinterpret_cast<::TESForm *>((void *)(apScriptToCopy))->GetInitialized());
+}
 
 // Frees the stored string, then copies newText into a newly allocated buffer (or clears it when newText is null).
 // @fnv 0x005abe50
@@ -592,12 +627,12 @@ void FUN_005abe50_shell::FUN_005abe50(char* newText)
 {
     if (m_pText)
     {
-        Deallocate(m_pText);
+        ::FUN_00401030(m_pText);
     }
     if (newText)
     {
         int iSize = strlen(newText);
-        m_pText = AllocateZeroed(1, iSize + 1);
+        m_pText = ::AllocateZeroed(1, iSize + 1);
         memcpy(m_pText, newText, iSize);
     }
     else
@@ -611,8 +646,7 @@ struct FUN_005abf60_shell : public Script
     ScriptLocals* FUN_005abf60();
 };
 
-void* __cdecl operator new(unsigned int);
-void* __fastcall CopyVariableList(Script*);
+void* CopyVariableList(Script*);
 
 // Allocates a ScriptLocals, stores the result of CopyVariableList(this) at offset 0xc and this at offset 0, then returns it.
 // @fnv 0x005abf60
@@ -621,7 +655,7 @@ ScriptLocals* FUN_005abf60_shell::FUN_005abf60()
     AutoMemContext tempMemContext(static_cast<MEM_CONTEXT>(0x15), true,
                                   "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp", 0xcde);
     ScriptLocals* sl = new ScriptLocals;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(sl) + 0xc) = CopyVariableList(this);
+    *reinterpret_cast<void**>(&sl->m_pVariableList) = CopyVariableList(this);
     *reinterpret_cast<Script**>(sl) = this;
     return sl;
 }
@@ -629,12 +663,12 @@ ScriptLocals* FUN_005abf60_shell::FUN_005abf60()
 // @fnv 0x005ac190
 void __cdecl FUN_005ac190(TESObjectREFR* ownerObject, ExtraDataList* apExtra)
 {
-    if (apExtra && apExtra->FUN_00418830())
+    if (apExtra && reinterpret_cast<::FUN_00418830_shell *>((apExtra))->FUN_00418830())
     {
-        ScriptLocals* locals = apExtra->FUN_00418830();
+        ScriptLocals* locals = reinterpret_cast<::FUN_00418830_shell *>((apExtra))->FUN_00418830();
         if (!locals->m_pLocalVariableList)
         {
-            ScriptExecutor::Instance()->FUN_005e2730(locals->m_pOwnerScript, ownerObject, locals);
+            reinterpret_cast<::FUN_005e2730_shell *>((ScriptExecutor::Instance()))->FUN_005e2730(locals->m_pOwnerScript, ownerObject, locals);
         }
     }
 }
@@ -644,43 +678,6 @@ struct FUN_005ac1e0_shell : public Script
     bool FUN_005ac1e0(TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool);
 };
 
-extern SettingT_GameSettingCollection_ g_011cac68;
-
-// Runs the script via the script runner, decrementing a timer and resetting it from the game setting or a referenced value when the header flag is set.
-// @fnv 0x005ac1e0
-bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* ownerVars,
-                                      TESObjectREFR* ownerContainer, bool abIsPartialScript)
-{
-    if (!abIsPartialScript && GetHeader()->dataSize <= 4)
-        return false;
-
-    if (GetHeader()->m_bQuest && fValueAtOffset38 > 0.0)
-    {
-        fValueAtOffset38 -= g_timeGlobal.FUN_0084d030();
-        m_fValueAtOffset3C += g_timeGlobal.FUN_0084d030();
-        if (fValueAtOffset38 > 0.0)
-            return false;
-    }
-
-    bool bretVal = ScriptExecutor::Instance()->Run(this, ownerObject, ownerVars, ownerContainer, abIsPartialScript,
-                                                   false, false, 0.0f);
-
-    if (GetHeader()->m_bQuest && g_011cac68.Float()->f > 0.0)
-    {
-        if (m_pOwnerQuest && m_pOwnerQuest->FUN_00792760() > 0.0)
-        {
-            fValueAtOffset38 += m_pOwnerQuest->FUN_00792760();
-        }
-        else
-        {
-            fValueAtOffset38 += g_011cac68.Float()->f;
-        }
-        m_fValueAtOffset3C = 0.0f;
-    }
-
-    FUN_005ae2e0();
-    return bretVal;
-}
 
 namespace fnv_005ac4f0 {
 struct FUN_005ac4f0_shell : public Script
@@ -690,24 +687,9 @@ struct FUN_005ac4f0_shell : public Script
 
 struct ScriptLocals_shell : public ScriptLocals
 {
-    double FUN_005a9140(unsigned int auiIndex, Script* apScript);
 };
 
-void __cdecl FUN_005acc90(unsigned int* apFormID, double* apValue);
-bool __fastcall _ref_008256d0(void* pList);
-void* __fastcall _ref_00726070(void* pList);
-ScriptReferencedObject** __fastcall _ref_006815c0(void* pList);
-
-struct TLSData
-{
-    char padding[0x27c];
-    ScriptReferencedObject* lastRefObj;
-    unsigned int lastIndex;
-    ScriptLocals* lastLocals;
-    Script* lastScript;
-};
-
-__declspec(thread) TLSData g_tlsData;
+bool _ref_008256d0(void* pList);
 
 // Returns the reference at aiIndex in this object's extra-data list, resolving its form ID via the script locals and caching the last result in TLS.
 // @fnv 0x005ac4f0
@@ -715,43 +697,43 @@ ScriptReferencedObject* FUN_005ac4f0_shell::GetNthRefByIndex(unsigned int aiInde
 {
     if (aiIndex == 0)
         return 0;
-    if (aiIndex > *(unsigned int*)((char*)this + 0x1c))
+    if (aiIndex > this->m_kHeader.m_uiReferenceID)
         return 0;
 
-    if (g_tlsData.lastScript == this && g_tlsData.lastIndex == aiIndex && g_tlsData.lastLocals == apScriptLocals)
-        return g_tlsData.lastRefObj;
+    if (g_tlsBlock.lastRefObjectScript == this && g_tlsBlock.lastRefObjectIndex == aiIndex && g_tlsBlock.lastRefObjectLocals == apScriptLocals)
+        return g_tlsBlock.lastRefObject;
 
     void* pList;
     ScriptReferencedObject* pExtraDataEntry;
     unsigned int iCount = 1;
-    pList = ((TESObjectREFR*)this)->GetExtraData();
+    pList = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0()));
 
     while (pList && !_ref_008256d0(pList) && iCount < aiIndex)
     {
         iCount++;
-        pList = _ref_00726070(pList);
+        pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
     }
 
     if (!pList)
         return 0;
 
-    pExtraDataEntry = *_ref_006815c0(pList);
-    if (*(unsigned int*)((char*)pExtraDataEntry + 0xc) != 0 && apScriptLocals != 0)
+    pExtraDataEntry = *((::ScriptReferencedObject **)((void *)(pList)));
+    if (pExtraDataEntry->m_uiFormID != 0 && apScriptLocals != 0)
     {
         double dtemp =
-            ((ScriptLocals_shell*)apScriptLocals)->FUN_005a9140(*(unsigned int*)((char*)pExtraDataEntry + 0xc), this);
+            reinterpret_cast<::FUN_005a9140_shell *>((((ScriptLocals_shell*)apScriptLocals)))->FUN_005a9140(pExtraDataEntry->m_uiFormID, this);
         unsigned int formID = 0;
-        FUN_005acc90(&formID, &dtemp);
+        ::FUN_005acc90(&formID, &dtemp);
         if (formID != 0)
         {
-            *(TESForm**)((char*)pExtraDataEntry + 8) = TESForm::GetFormByID(formID);
+            pExtraDataEntry->pForm = ::FUN_004839c0(formID);
         }
     }
 
-    g_tlsData.lastScript = this;
-    g_tlsData.lastLocals = apScriptLocals;
-    g_tlsData.lastIndex = aiIndex;
-    g_tlsData.lastRefObj = pExtraDataEntry;
+    g_tlsBlock.lastRefObjectScript = this;
+    g_tlsBlock.lastRefObjectLocals = apScriptLocals;
+    g_tlsBlock.lastRefObjectIndex = aiIndex;
+    g_tlsBlock.lastRefObject = pExtraDataEntry;
     return pExtraDataEntry;
 }
 }  // namespace fnv_005ac4f0
@@ -761,10 +743,10 @@ ScriptReferencedObject* FUN_005ac4f0_shell::GetNthRefByIndex(unsigned int aiInde
 bool __cdecl FUN_005ac750(TESForm* apActionForm, ExtraDataList* apExtra, unsigned int aiFlag)
 {
     bool bres = false;
-    if (apExtra && apExtra->FUN_00418830())
+    if (apExtra && reinterpret_cast<::FUN_00418830_shell *>((apExtra))->FUN_00418830())
     {
-        ScriptLocals* locals = apExtra->FUN_00418830();
-        bres = locals->FUN_005a8e20(apActionForm, aiFlag);
+        ScriptLocals* locals = reinterpret_cast<::FUN_00418830_shell *>((apExtra))->FUN_00418830();
+        bres = reinterpret_cast<::FUN_005a8e20_cls *>((locals))->FUN_005a8e20(apActionForm, aiFlag);
     }
     return bres;
 }
@@ -777,13 +759,15 @@ void __cdecl FUN_005acc90(unsigned int* aiID, const double* adVal)
 
 struct FUN_00792760_shell : public TESQuest
 {
+    char pad18[0x40 - 0x18];
+    float fUnk40;
     float FUN_00792760();
 };
 
 // @fnv 0x00792760
 float FUN_00792760_shell::FUN_00792760()
 {
-    return *(float*)((char*)this + 0x40);
+    return fUnk40;
 }
 
 namespace fnv_005a8d20 {
@@ -815,15 +799,15 @@ void FUN_005a8d20_shell::AttachScriptLocals(ScriptLocals* apLocals)
 {
     AutoMemContext ctx((MEM_CONTEXT)0x15, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp",
                        300);
-    if (!*(void**)((char*)this + 8))
-        *(SL**)((char*)this + 8) = new SL();
-    Act5a* used = ((FUN_005a8e20_cls*)this)->FUN_005a90b0(apLocals, false);
+    if (!*(void**)&this->m_pLocalVariableList)
+        *(SL**)&this->m_pLocalVariableList = new SL();
+    Act5a* used = ((::fnv_005a8d20::Act5a *)(reinterpret_cast<::ActList *>((((FUN_005a8e20_cls*)this)))->FUN_005a90b0((::TESForm *)(apLocals), false)));
     if (!used)
     {
         used = new Act5a;
         used->obj = apLocals;
         used->next = 0;
-        (*(G2**)((char*)this + 8))->AddHead((int*)&used);
+        (*(G2**)&this->m_pLocalVariableList)->AddHead((int*)&used);
     }
 }
 }  // namespace fnv_005a8d20
@@ -843,22 +827,19 @@ struct VarX
     char pad[0x14];
     Flt flt;
 };
-typedef char*(__thiscall* NameFn)(void*);
-int* __fastcall _ref_006815c0(void*);
-void* __fastcall _ref_00726070(void*);
+typedef char*(* NameFn)(void*);
 // @fnv 0x005abed0
 char* FUN_005abed0_shell::FUN_005abed0(unsigned int auiID)
 {
-    void* pList = GetVariableList();
-    while (pList && *_ref_006815c0(pList))
+    void* pList = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
+    while (pList && *((int *)((void *)(pList))))
     {
-        VarX* pVar = (VarX*)*_ref_006815c0(pList);
-        pList = _ref_00726070(pList);
+        VarX* pVar = *((VarX**)((void *)(pList)));
+        pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
         if (pVar->id == auiID)
-            return (char*)(unsigned int)pVar->flt;
+            return (char*)(std::uintptr_t)pVar->flt;
     }
-    Warning("SCRIPTS: Trying to access local variable %d in script '%s' -- variable not found.\r\n", auiID,
-            (*(NameFn**)this)[0x130 / 4](this));
+    ::FUN_005b5e40();
     return 0;
 }
 
@@ -866,38 +847,69 @@ struct FUN_005ae2e0_shell : public Script
 {
     void FUN_005ae2e0();
 };
+// Runs the script via the script runner, decrementing a timer and resetting it from the game setting or a referenced value when the header flag is set.
+// @fnv 0x005ac1e0
+bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* ownerVars,
+                                      TESObjectREFR* ownerContainer, bool abIsPartialScript)
+{
+    if (!abIsPartialScript && ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->dataSize <= 4)
+        return false;
 
-bool __fastcall _ref_008256d0(unsigned int);
-int* __fastcall _ref_006815c0(void*);
-void* __fastcall _ref_00726070(void*);
-__declspec(thread) void* g_tlsSlot;
+    if (((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->m_bQuest && fValueAtOffset38 > 0.0)
+    {
+        fValueAtOffset38 -= ::fnv::timer::Seconds();
+        m_fValueAtOffset3C += ::fnv::timer::Seconds();
+        if (fValueAtOffset38 > 0.0)
+            return false;
+    }
+
+    bool bretVal = ScriptExecutor::Instance()->Run(this, ownerObject, ownerVars, ownerContainer, abIsPartialScript,
+                                                   false, false, 0.0f);
+
+    if (((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->m_bQuest && ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f > 0.0)
+    {
+        if (m_pOwnerQuest && reinterpret_cast<::FUN_00792760_shell *>((m_pOwnerQuest))->FUN_00792760() > 0.0)
+        {
+            fValueAtOffset38 += reinterpret_cast<::FUN_00792760_shell *>((m_pOwnerQuest))->FUN_00792760();
+        }
+        else
+        {
+            fValueAtOffset38 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
+        }
+        m_fValueAtOffset3C = 0.0f;
+    }
+
+    reinterpret_cast<::FUN_005ae2e0_shell *>(this)->FUN_005ae2e0();
+    return bretVal;
+}
+
+bool _ref_008256d0(void*);
 struct RefObj
 {
     char pad[8];
     int f8;
     int fc;
 };
-// Clears the thread-local slot if it holds this object, then walks the extra-data list and zeroes f8 on each referenced object that has a nonzero fc.
+// Clears the referenced-object cache's script if it is this script, then walks the extra-data list and zeroes f8 on each referenced object that has a nonzero fc.
 // @fnv 0x005ae2e0
 void FUN_005ae2e0_shell::FUN_005ae2e0()
 {
-    if (g_tlsSlot == (void*)this)
-        g_tlsSlot = 0;
-    void* pCurrentElementNext = ((TESObjectREFR*)this)->GetExtraData();
-    while (pCurrentElementNext && !_ref_008256d0((unsigned int)pCurrentElementNext))
+    if (g_tlsBlock.lastRefObjectScript == reinterpret_cast<Script*>(this))
+        g_tlsBlock.lastRefObjectScript = 0;
+    void* pCurrentElementNext = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0()));
+    while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
     {
-        RefObj* prefObject = (RefObj*)*_ref_006815c0(pCurrentElementNext);
+        RefObj* prefObject = *((RefObj**)((void *)(pCurrentElementNext)));
         if (prefObject && prefObject->fc)
             prefObject->f8 = 0;
-        pCurrentElementNext = _ref_00726070(pCurrentElementNext);
+        pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
     }
 }
 
-void __cdecl Deallocate(void*);
+namespace fnv_005aa170 {
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
@@ -907,19 +919,18 @@ struct DelStandIn
 // @fnv 0x005aa170
 void* DelStandIn::DestroyAndFree(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::FUN_005aa1a0 *>((((DtorStandIn*)this)))->FUN_005aa1a0::~FUN_005aa1a0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
+}  // namespace fnv_005aa170
 
 namespace fnv_005aa3f0 {
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
@@ -929,9 +940,9 @@ struct DelStandIn
 // @fnv 0x005aa3f0
 void* DelStandIn::FUN_005aa3f0(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    ::FUN_007d9ec0((::BSStringT<char> *)(((DtorStandIn*)this)));
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -939,6 +950,7 @@ void* DelStandIn::FUN_005aa3f0(unsigned int flags)
 
 struct FUN_005a9460_This
 {
+    char pad[0x1c4];
     unsigned int field_1c4;
     unsigned int FUN_005a9460();
 };
@@ -946,46 +958,35 @@ struct FUN_005a9460_This
 // @fnv 0x005a9460
 unsigned int FUN_005a9460_This::FUN_005a9460()
 {
-    return reinterpret_cast<unsigned int*>(this)[0x1c4 / 4];
+    return field_1c4;
 }
 
 namespace fnv_005aae20 {
 struct ATM
 {
-    void QueryPerformanceCounter(int);
-    void WaitForTasksDuringRendering();
 };
 
 struct G2
 {
-    void RemoveAll();
 };
 
 struct GlobalObject2_0096a2d0
 {
-    void RemoveAll();
 };
 
-extern ATM g_011cacf8;
-extern G2 g_011cac98;
-extern G2 g_011caca8;
-extern GlobalObject2_0096a2d0 g_011cacb8;
-extern GlobalObject2_0096a2d0 g_011cace8;
 
 // @fnv 0x005aae20
 void __cdecl FUN_005aae20()
 {
-    g_011cacf8.QueryPerformanceCounter(0);
-    g_011caca8.RemoveAll();
-    g_011cac98.RemoveAll();
-    g_011cacb8.RemoveAll();
-    g_011cace8.RemoveAll();
-    g_011cacf8.WaitForTasksDuringRendering();
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aae20::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::fnv_005aae20::G2 *>(&::g_011caca8))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::fnv_005aae20::G2 *>(&::g_011cac98))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::fnv_005aae20::GlobalObject2_0096a2d0 *>(&::g_011cacb8))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::fnv_005aae20::GlobalObject2_0096a2d0 *>(&::g_011cace8))))->RemoveAll();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_005aae20::ATM *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_005aae20
 
-extern "C" bool __cdecl FUN_00401500();
-extern "C" unsigned int __cdecl AppendChunk(unsigned int, void*, unsigned int);
 
 struct FUN_005abe00
 {
@@ -997,11 +998,11 @@ struct FUN_005abe00
 // @fnv 0x005abe00
 void FUN_005abe00::ProcessHeader()
 {
-    if (FUN_00401500())
-        m_kHeader.Endian();
-    AppendChunk(0x52484353, &m_kHeader, 0x14);
-    if (FUN_00401500())
-        m_kHeader.Endian();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00414220_shell *>(&(m_kHeader))->FUN_00414220();
+    ::AppendChunk(0x52484353, &m_kHeader, 0x14);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00414220_shell *>(&(m_kHeader))->FUN_00414220();
 }
 
 // @fnv 0x005ac730
@@ -1010,15 +1011,13 @@ void FUN_005ac730(bool abProcessScripts)
     DAT_0118c685 = abProcessScripts;
 }
 
-__declspec(thread) int DAT_tls;
-
 // @fnv 0x005ae270
 void FUN_005ae270()
 {
-    *(int*)((char*)&DAT_tls + 0x288) = 0;
-    *(int*)((char*)&DAT_tls + 0x284) = 0;
-    *(int*)((char*)&DAT_tls + 0x280) = 0xffffffff;
-    *(int*)((char*)&DAT_tls + 0x27c) = 0;
+    g_tlsBlock.lastRefObjectScript = 0;
+    g_tlsBlock.lastRefObjectLocals = 0;
+    g_tlsBlock.lastRefObjectIndex = 0xffffffff;
+    g_tlsBlock.lastRefObject = 0;
 }
 
 struct FUN_00857bd0
@@ -1038,57 +1037,47 @@ void FUN_00857bd0::Init(unsigned int value)
     m_0x14 += value;
 }
 
-__declspec(thread) int tlsVar1;
-__declspec(thread) int tlsVar2 = -1;
-__declspec(thread) int tlsVar3;
-
-// Resets the three thread-local variables to 0, -1 and 0.
+// Resets the script local variable lookup cache.
 // @fnv 0x005a9d60
 void FUN_005a9d60()
 {
-    tlsVar1 = 0;
-    tlsVar2 = -1;
-    tlsVar3 = 0;
+    g_tlsBlock.lastLocalVariable = 0;
+    g_tlsBlock.lastLocalVariableId = 0xffffffff;
+    g_tlsBlock.lastLocalVariableLocals = 0;
 }
 
 namespace fnv_005aa6d0 {
 struct ATM
 {
-    void QueryPerformanceCounter(int);
-    void WaitForTasksDuringRendering(void);
 };
 
 struct LH
 {
-    bool IsInList(int*&);
 };
 
-extern ATM g_011cacf8;
-extern LH g_011cace8;
 
 // Queries the performance counter, checks whether arg is in the list, waits for tasks during rendering, and returns whether arg was found.
 // @fnv 0x005aa6d0
 char __cdecl FUN_005aa6d0(int* pItem)
 {
     char result = 0;
-    g_011cacf8.QueryPerformanceCounter(0);
-    if (pItem && g_011cace8.IsInList(pItem))
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa6d0::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
+    if (pItem && reinterpret_cast<::RefList *>(&((*reinterpret_cast<::fnv_005aa6d0::LH *>(&::g_011cace8))))->FUN_005f65d0((void **)&(pItem)))
         result = 1;
-    g_011cacf8.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_005aa6d0::ATM *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
     return result;
 }
 }  // namespace fnv_005aa6d0
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
     bool HasFlag8000();
 };
 
 // @fnv 0x005aa910
 bool FUN_00456630_helper::HasFlag8000()
 {
-    return this->FUN_00456630(0x8000);
+    return ((bool)(reinterpret_cast<::FUN_00456630_Class *>((this))->FUN_00456630(0x8000)));
 }
 
 struct FUN_00483d20_shell
@@ -1109,26 +1098,26 @@ unsigned char FUN_005abd70_shell::FUN_005abd70(TESFile* apFile)
 
 struct FUN_00857ba0_class
 {
-    void __thiscall ReadFromStream(int a, int b, int c);
+    void ReadFromStream(int a, int b, int c);
 };
 
-void __thiscall FUN_00857ba0_class::ReadFromStream(int a, int b, int c)
+void FUN_00857ba0_class::ReadFromStream(int a, int b, int c)
 {}
 
 struct FUN_008586d0_class
 {
-    void __thiscall FUN_008586d0(int a, int b, int c);
+    void FUN_008586d0(std::intptr_t a, std::intptr_t b, int c);
 };
 
 // @fnv 0x008586d0
-void __thiscall FUN_008586d0_class::FUN_008586d0(int a, int b, int c)
+void FUN_008586d0_class::FUN_008586d0(std::intptr_t a, std::intptr_t b, int c)
 {
-    reinterpret_cast<FUN_00857ba0_class*>(this)->ReadFromStream(a, b, c);
+    reinterpret_cast<::FUN_00857ba0_shell *>((reinterpret_cast<FUN_00857ba0_class*>(this)))->ReadFromStream((::NiBinaryStream *)(a), (void *)(b), c);
 }
 
 struct FUN_005a9290_shell : public ScriptLocals
 {
-    void SetScriptVariable(unsigned int, double);
+    void SetScriptVariable(uintptr_t, double);
 };
 
 struct SCRIPT_LOCAL_s
@@ -1139,26 +1128,23 @@ struct SCRIPT_LOCAL_s
 };
 struct LocalListStub
 {
-    SCRIPT_LOCAL_s** _ref_006815c0();
 };
 struct EffectSettingStub
 {
-    FormRecordMetadata* GetBoltSound();
 };
-struct MobileObject
+class MobileObject
 {
-    const char* GetFullName();
 };
 
 // Searches the script local list for the given variable ID and assigns the value, warning if the variable is not found.
 // @fnv 0x005a9290
-void FUN_005a9290_shell::SetScriptVariable(unsigned int auiID, double value)
+void FUN_005a9290_shell::SetScriptVariable(uintptr_t auiID, double value)
 {
-    BSSimpleList<SCRIPT_LOCAL_s*>* pList = (BSSimpleList<SCRIPT_LOCAL_s*>*)((TESForm*)this)->GetFormID();
-    while (pList && *((LocalListStub*)pList)->_ref_006815c0())
+    BSSimpleList<SCRIPT_LOCAL_s*>* pList = (BSSimpleList<SCRIPT_LOCAL_s*>*)((reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
+    while (pList && *((::SCRIPT_LOCAL_s **)((void *)(((LocalListStub*)pList)))))
     {
-        SCRIPT_LOCAL_s* pLocal = *((LocalListStub*)pList)->_ref_006815c0();
-        pList = pList->GetNext();
+        SCRIPT_LOCAL_s* pLocal = *((::SCRIPT_LOCAL_s **)((void *)(((LocalListStub*)pList))));
+        pList = ((::BSSimpleList< ::SCRIPT_LOCAL_s *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (pLocal->uiID == auiID)
         {
             pLocal->fValue = value;
@@ -1168,53 +1154,49 @@ void FUN_005a9290_shell::SetScriptVariable(unsigned int auiID, double value)
     bool bshowGenericWarning = true;
     if (*(TESForm**)this)
     {
-        Warning("SCRIPTS: Trying to set variableID %d in script '%s' -- variable not found.", auiID,
-                (*(TESForm**)this)->GetName());
+        ::FUN_005b5e40();
         bshowGenericWarning = false;
     }
-    else if (g_TESSaveLoadGame->GetLoading())
+    else if (reinterpret_cast<::FUN_0047c850 *>((::g_TESSaveLoadGame))->EvaluateCondition())
     {
-        FormRecordMetadata* ploadHeader = ((EffectSettingStub*)g_TESSaveLoadGame)->GetBoltSound();
+        FormRecordMetadata* ploadHeader = ((::FormRecordMetadata *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSettingStub*)::g_TESSaveLoadGame)))));
         TESForm* pform = 0;
         if (ploadHeader)
         {
-            pform = TESForm::GetFormByID(ploadHeader->iFormID);
+            pform = ::FUN_004839c0(ploadHeader->iFormID);
             TESObjectREFR* pref = dynamic_cast<TESObjectREFR*>(pform);
             const char* pfullname;
             if (pref)
-                pfullname = ((MobileObject*)pref)->GetFullName();
+                pfullname = reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject*)pref)))->FUN_0055d520();
             else
-                pfullname = TESFullName::GetFullName(pform);
+                pfullname = ::FUN_00482720(pform);
             if (pform && pfullname)
             {
                 if (pref)
-                    Warning(
-                        "SAVELOAD: (LoadGame '%s') Trying to set variableID %d on ref '%s' (%08X) -- variable not found. The script may have been changed in the master/plug-in file.",
-                        g_TESSaveLoadGame->FUN_005a9460(), auiID, pfullname, ploadHeader->iFormID);
+                    ::FUN_005b5e40(
+                        );
                 else
-                    Warning(
-                        "SAVELOAD: (LoadGame '%s') Trying to set variableID %d on '%s' (%08X) -- variable not found. The script may have been changed in the master/plug-in file.",
-                        g_TESSaveLoadGame->FUN_005a9460(), auiID, pfullname, ploadHeader->iFormID);
+                    ::FUN_005b5e40(
+                        );
             }
             else
             {
-                Warning(
-                    "SAVELOAD: (LoadGame '%s') Trying to set variableID %d on (%08X) -- variable not found. The script may have been changed in the master/plug-in file.",
-                    g_TESSaveLoadGame->FUN_005a9460(), auiID, ploadHeader->iFormID);
+                ::FUN_005b5e40(
+                    );
             }
             bshowGenericWarning = false;
         }
     }
     if (bshowGenericWarning)
-        Warning("SCRIPTS: Trying to set variableID %d -- variable not found.", auiID);
+        ::FUN_005b5e40();
 }
 
 namespace fnv_005a9f20 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
+class NiQuaternion;
 struct hkVector4;
 struct blob4
 {
@@ -1247,7 +1229,6 @@ struct BGSLoadGameBuffer
     void ReadTypedData(ThreeByThreeMatrix*, unsigned int);
     void ReadTypedData(void*, unsigned int);
     char* LoadString(char*);
-    int ReadElementCount();
     void AdvanceBuffer(unsigned int);
     void ReadElementData(void*, unsigned int, unsigned int);
     void ReadDataBlock(void*, unsigned int);
@@ -1256,7 +1237,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -1293,7 +1273,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_005a9f20_shell : public ScriptLocals
 {
     void FUN_005a9f20(BGSLoadFormBuffer*);
@@ -1301,7 +1280,6 @@ struct FUN_005a9f20_shell : public ScriptLocals
 
 struct FUN_005a8ea0_shell
 {
-    void FUN_005a8ea0();
 };
 
 // @fnv 0x005a9f20
@@ -1310,42 +1288,42 @@ void FUN_005a9f20_shell::FUN_005a9f20(BGSLoadFormBuffer* apLoadGameBuffer)
     bool bhasScriptEffectData;
     bool bonLoadFlagSet;
     {
-        unsigned int iVariableCount = apLoadGameBuffer->ReadElementCount();
+        unsigned int iVariableCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
         for (unsigned int iIndex = 0; iIndex < iVariableCount; iIndex++)
         {
             double fvalue = 0.0;
             unsigned int ivarID = 0;
-            apLoadGameBuffer->ReadTypedData((void*)&ivarID, 4);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)&ivarID), 4);
             if (ivarID & 0x80000000)
             {
                 ivarID &= 0x7fffffff;
                 unsigned int irefID = 0;
-                apLoadGameBuffer->ReadFormIdentifier(&irefID);
+                reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0(&irefID);
                 Script::CopyIdentifierBitsToValue(irefID, fvalue);
             }
             else
             {
-                apLoadGameBuffer->ReadTypedData((void*)&fvalue, 8);
+                reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)&fvalue), 8);
             }
-            SetVariable(ivarID, fvalue);
+            reinterpret_cast<::FUN_005a9290_shell *>(this)->SetScriptVariable(ivarID, fvalue);
         }
     }
     bhasScriptEffectData = false;
-    apLoadGameBuffer->ReadTypedData((void*)&bhasScriptEffectData, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)&bhasScriptEffectData), 1);
     if (bhasScriptEffectData)
     {
-        *(double**)((char*)this + 0x10) = new double;
-        apLoadGameBuffer->ReadTypedData((void*)*(double**)((char*)this + 0x10), 8);
+        *(double**)&this->m_pExtendedLocals = new double;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)*(double**)&this->m_pExtendedLocals), 8);
     }
     bonLoadFlagSet = false;
     if (apLoadGameBuffer->GetVersion() >= 0x15)
-        apLoadGameBuffer->ReadTypedData((void*)&bonLoadFlagSet, 1);
-    if (*(void**)((char*)this + 8) == 0)
-        ScriptExecutor::Instance()->FUN_005e2730(*(Script**)this, apLoadGameBuffer->GetReference(), this);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)&bonLoadFlagSet), 1);
+    if (*(void**)&this->m_pLocalVariableList == 0)
+        reinterpret_cast<::FUN_005e2730_shell *>((ScriptExecutor::Instance()))->FUN_005e2730(*(Script**)this, apLoadGameBuffer->GetReference(), this);
     else
-        ((FUN_005a8ea0_shell*)this)->FUN_005a8ea0();
+        reinterpret_cast<::FUN_005a8ea0_shell *>((((FUN_005a8ea0_shell*)this)))->FUN_005a8ea0();
     if (bonLoadFlagSet)
-        FUN_005a8e20(0, 0x1000);
+        reinterpret_cast<::FUN_005a8e20_cls *>(this)->FUN_005a8e20(0, 0x1000);
 }
 }  // namespace fnv_005a9f20
 
@@ -1355,26 +1333,18 @@ struct FUN_005ac020_shell : public Script
     void* CopyVariableList();
 };
 
-struct AutoMemHelper
-{
-    int aiMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct SL
 {
     int a;
-    int b;
+    std::intptr_t b;
     SL();
 };
 struct SoundListView
 {
-    void AddTail(char* const&);
 };
 struct S006815c0
 {
-    ScriptVariableInfo** FUN_006815c0();
-    S006815c0* FUN_00726070();
 };
 struct FUN_005ac150
 {
@@ -1391,15 +1361,15 @@ void* FUN_005ac020_shell::CopyVariableList()
     SoundListView* pNewList;
 
     pNewList = (SoundListView*)new SL;
-    pList = (S006815c0*)GetVariableList();
-    while (pList && *pList->FUN_006815c0())
+    pList = (S006815c0*)((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
+    while (pList && *((::ScriptVariableInfo **)((void *)(pList))))
     {
         char* pLocal;
         ScriptVariableInfo* pVar;
-        pVar = *pList->FUN_006815c0();
-        pList = pList->FUN_00726070();
+        pVar = *((::ScriptVariableInfo **)((void *)(pList)));
+        pList = ((::fnv_005ac020::S006815c0 *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         pLocal = (char*)new FUN_005ac150(pVar);
-        pNewList->AddTail(pLocal);
+        reinterpret_cast<::Callees *>((pNewList))->FUN_00905820((void *)&(pLocal));
     }
     return pNewList;
 }
@@ -1418,13 +1388,10 @@ struct FUN_008256d0
 {
     char* m_pInventoryEntryData;
     unsigned char FUN_008256d1() const;
-    FUN_005e2910* FUN_006815c0() const;
-    FUN_008256d0* FUN_00726070();
 };
 
 struct SoundListView
 {
-    void AddTail(FUN_005e2910* const&);
 };
 
 struct FUN_005e2910Big
@@ -1445,21 +1412,18 @@ void CopyListToView(FUN_008256d0* pSourceList, SoundListView* pTargetView)
     while (pSourceList && !pSourceList->FUN_008256d1())
     {
         FUN_005e2910* const pNewItem =
-            (FUN_005e2910*)new FUN_005e2910Big(pSourceList->FUN_006815c0()->m_pInventoryEntryData);
-        pTargetView->AddTail(pNewItem);
-        pSourceList = pSourceList->FUN_00726070();
+            (FUN_005e2910*)new FUN_005e2910Big(((::fnv_005ab930::FUN_005e2910 *)((void *)(pSourceList)))->m_pInventoryEntryData);
+        reinterpret_cast<::Callees *>((pTargetView))->FUN_00905820((void *)&(pNewItem));
+        pSourceList = ((::fnv_005ab930::FUN_008256d0 *)(reinterpret_cast<::Callees *>((pSourceList))->FUN_00726070()));
     }
 }
 }  // namespace fnv_005ab930
 
 namespace fnv_005aa090 {
-void __cdecl _Deallocate(void*);
 
-struct Script;
-void* __fastcall CopyVariableList(Script*);
+class Script;
 struct FUN_005a8ea0_shell
 {
-    void FUN_005a8ea0();
 };
 
 struct FUN_005aa090
@@ -1469,7 +1433,6 @@ struct FUN_005aa090
     int pad1;
     void* pData;
     void* pAlloc;
-    void __fastcall FUN_005a8c90();
     void Method(int dummy);
 };
 
@@ -1477,14 +1440,14 @@ struct FUN_005aa090
 // @fnv 0x005aa090
 void FUN_005aa090::Method(int dummy)
 {
-    FUN_005a8c90();
-    ((FUN_005a8ea0_shell*)this)->FUN_005a8ea0();
+    reinterpret_cast<::FUN_005a8c90_shell *>(this)->FUN_005a8c90();
+    reinterpret_cast<::FUN_005a8ea0_shell *>((((FUN_005a8ea0_shell*)this)))->FUN_005a8ea0();
     if (pScript)
-        pData = CopyVariableList(pScript);
+        pData = reinterpret_cast<::fnv_005ac020::FUN_005ac020_shell *>((pScript))->CopyVariableList();
     if (pAlloc)
     {
         void* tmp = pAlloc;
-        _Deallocate(tmp);
+        ::FUN_00401030(tmp);
     }
     pAlloc = 0;
 }
@@ -1492,33 +1455,28 @@ void FUN_005aa090::Method(int dummy)
 
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
-bool FUN_00401500();
-void AppendChunk(unsigned int, char*, unsigned int);
-struct FUN_005abd90 : TESForm
+struct FUN_005abd90 : Script
 {
     void Save();
 };
 // @fnv 0x005abd90
 void FUN_005abd90::Save()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
     TESForm::ClearData();
-    if (FUN_00401500())
-        reinterpret_cast<ScriptHeaderData*>(reinterpret_cast<char*>(this) + 0x18)->Endian();
-    AppendChunk(0x52484353, reinterpret_cast<char*>(this) + 0x18, 0x14);
-    if (FUN_00401500())
-        reinterpret_cast<ScriptHeaderData*>(reinterpret_cast<char*>(this) + 0x18)->Endian();
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00414220_shell *>(&m_kHeader)->FUN_00414220();
+    ::AppendChunk(0x52484353, reinterpret_cast<char*>(&m_kHeader), 0x14);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00414220_shell *>(&m_kHeader)->FUN_00414220();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
 namespace fnv_005ac6a0 {
-int __cdecl FUN_00404dc0(const char*, const char*);
 struct Flt
 {
     operator unsigned int() const;
@@ -1530,12 +1488,12 @@ struct FUN_005ac6a0 : Script
 // @fnv 0x005ac6a0
 char FUN_005ac6a0::Method_005ac6a0(const char* pcName, unsigned int* puiID)
 {
-    BSSimpleList<ScriptVariableInfo*>* node = GetVariableList();
-    while (node && node->GetItem())
+    BSSimpleList<ScriptVariableInfo*>* node = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
+    while (node && (node->m_item))
     {
-        ScriptVariableInfo* variable = node->GetItem();
-        node = node->GetNext();
-        if (FUN_00404dc0((const char*)(unsigned int)*(Flt*)((char*)variable + 0x18), pcName) == 0)
+        ScriptVariableInfo* variable = (node->m_item);
+        node = ((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        if (::FUN_00404dc0(*reinterpret_cast<const char**>(&variable->m_kName), pcName) == 0)
         {
             *puiID = variable->data.uiID;
             if (variable->data.m_bIsString)
@@ -1552,13 +1510,10 @@ char FUN_005ac6a0::Method_005ac6a0(const char* pcName, unsigned int* puiID)
 namespace fnv_005aa500 {
 struct ATM
 {
-    void QueryPerformanceCounter(int);
-    void WaitForTasksDuringRendering();
 };
 
 struct ContNode
 {
-    void FUN_00905330(void*);
 };
 
 struct G2 : public ContNode
@@ -1570,36 +1525,30 @@ struct GlobalObject2_0096a2d0 : public G2
 {
 };
 
-extern ATM g_011cacf8;
-extern G2 g_011caca8;
-extern G2 g_011cac98;
-extern GlobalObject2_0096a2d0 g_011cace8;
 
-bool __cdecl FUN_005aa630(int);
-bool __cdecl FUN_005aa6d0(int);
 
 // @fnv 0x005aa500
-void __cdecl FUN_005aa500(int aiTask, unsigned char abAlternate)
+void __cdecl FUN_005aa500(std::intptr_t aiTask, unsigned char abAlternate)
 {
-    g_011cacf8.QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa500::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
 
     if (aiTask != 0)
     {
-        g_011caca8.FUN_00905330(&aiTask);
+        reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::fnv_005aa500::G2 *>(&::g_011caca8))))->FUN_00905330((*(::InventoryStackRecord *const *)(&aiTask)));
 
         if (abAlternate == 0)
         {
-            if (!FUN_005aa630(aiTask))
-                g_011cac98.AddHead(&aiTask);
+            if (!::fnv_005aa630::FUN_005aa630((::Actor *)(aiTask)))
+                (*reinterpret_cast<::fnv_005aa500::G2 *>(&::g_011cac98)).AddHead((int*)&aiTask);
         }
         else
         {
-            if (!FUN_005aa6d0(aiTask))
-                g_011cace8.AddHead(&aiTask);
+            if (!((bool)(::fnv_005aa6d0::FUN_005aa6d0((int *)(aiTask)))))
+                (*reinterpret_cast<::fnv_005aa500::GlobalObject2_0096a2d0 *>(&::g_011cace8)).AddHead((int*)&aiTask);
         }
     }
 
-    g_011cacf8.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_005aa500::ATM *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_005aa500
 
@@ -1608,7 +1557,6 @@ struct G2;
 
 struct List_009e03e0
 {
-    void RemoveAll();
 };
 
 struct G2 : public List_009e03e0
@@ -1623,14 +1571,11 @@ struct GlobalObject2_0096a2d0 : public G2
 class ATM
 {
   public:
-    void QueryPerformanceCounter(int value);
-    void WaitForTasksDuringRendering();
 };
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
-    int ReadElementCount();
     unsigned int ReadFormIdentifier();
 };
 
@@ -1642,7 +1587,6 @@ struct ExpandedTESObjectREFR : public TESObjectREFR
     {}
 };
 
-TESForm* _GetFormByNumericID(unsigned int formID);
 
 G2 g_011cac98;
 G2 g_011caca8;
@@ -1653,65 +1597,65 @@ ATM g_011cacf8;
 // @fnv 0x005aaaf0
 void __cdecl LoadReferenceLists(BGSLoadFormBuffer* buffer)
 {
-    g_011cacf8.QueryPerformanceCounter(0);
-    g_011caca8.RemoveAll();
-    g_011cac98.RemoveAll();
-    g_011cacb8.RemoveAll();
-    g_011cace8.RemoveAll();
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aaaf0::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::fnv_005aaaf0::G2 *>(&::g_011caca8))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::fnv_005aaaf0::G2 *>(&::g_011cac98))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::fnv_005aaaf0::GlobalObject2_0096a2d0 *>(&::g_011cacb8))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::fnv_005aaaf0::GlobalObject2_0096a2d0 *>(&::g_011cace8))))->RemoveAll();
 
     {
-        unsigned int count = buffer->ReadElementCount();
+        unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
         if (count)
         {
             for (unsigned int index = 0; index < count; ++index)
             {
                 TESObjectREFR* reference = new ExpandedTESObjectREFR;
-                reference = dynamic_cast<TESObjectREFR*>(_GetFormByNumericID(buffer->ReadFormIdentifier()));
-                g_011caca8.AddHead(reinterpret_cast<int*>(&reference));
+                reference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+                (*reinterpret_cast<::fnv_005aaaf0::G2 *>(&::g_011caca8)).AddHead(reinterpret_cast<int*>(&reference));
             }
         }
     }
 
     {
-        unsigned int count = buffer->ReadElementCount();
+        unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
         if (count)
         {
             for (unsigned int index = 0; index < count; ++index)
             {
                 TESObjectREFR* reference = new ExpandedTESObjectREFR;
-                reference = dynamic_cast<TESObjectREFR*>(_GetFormByNumericID(buffer->ReadFormIdentifier()));
-                g_011cac98.AddHead(reinterpret_cast<int*>(&reference));
+                reference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+                (*reinterpret_cast<::fnv_005aaaf0::G2 *>(&::g_011cac98)).AddHead(reinterpret_cast<int*>(&reference));
             }
         }
     }
 
     {
-        unsigned int count = buffer->ReadElementCount();
+        unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
         if (count)
         {
             for (unsigned int index = 0; index < count; ++index)
             {
                 TESObjectREFR* reference = new ExpandedTESObjectREFR;
-                reference = dynamic_cast<TESObjectREFR*>(_GetFormByNumericID(buffer->ReadFormIdentifier()));
-                g_011cacb8.AddHead(reinterpret_cast<int*>(&reference));
+                reference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+                (*reinterpret_cast<::fnv_005aaaf0::GlobalObject2_0096a2d0 *>(&::g_011cacb8)).AddHead(reinterpret_cast<int*>(&reference));
             }
         }
     }
 
     {
-        unsigned int count = buffer->ReadElementCount();
+        unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
         if (count)
         {
             for (unsigned int index = 0; index < count; ++index)
             {
                 TESObjectREFR* reference = new ExpandedTESObjectREFR;
-                reference = dynamic_cast<TESObjectREFR*>(_GetFormByNumericID(buffer->ReadFormIdentifier()));
-                g_011cace8.AddHead(reinterpret_cast<int*>(&reference));
+                reference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+                (*reinterpret_cast<::fnv_005aaaf0::GlobalObject2_0096a2d0 *>(&::g_011cace8)).AddHead(reinterpret_cast<int*>(&reference));
             }
         }
     }
 
-    g_011cacf8.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_005aaaf0::ATM *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_005aaaf0
 
@@ -1722,7 +1666,6 @@ struct CStringArgument
 
 struct S7010
 {
-    unsigned int Length();
 };
 
 struct GO
@@ -1732,53 +1675,13 @@ struct GO
 
 struct TESFaction_RankDataView
 {
-    unsigned char* GetRankDataList();
 };
 
-void* __cdecl __memcpy(void* destination, void* source, unsigned int size);
 
 struct ScriptInitOwner : public Script
 {
-    bool IsDifferentFromCompileData(CStringArgument* apCompileData);
     void InitFromCompileData(CStringArgument* apCompileData);
 };
-
-// @fnv 0x005aaf20
-void ScriptInitOwner::InitFromCompileData(CStringArgument* apCompileData)
-{
-    this->InitItem();
-
-    if (((S7010*)((char*)apCompileData + 0x0C))->Length() == 0)
-    {
-        this->MarkForDeletion(true);
-    }
-    else if (this->IsDifferentFromCompileData(apCompileData))
-    {
-        this->SetEditorID_AtRuntime((const char*)(((GO*)((char*)apCompileData + 0x0C))->operator unsigned int()));
-
-        __memcpy((char*)this + 0x18, (char*)apCompileData + 0x28, 0x14);
-
-        this->SetScriptData(*(unsigned int*)((char*)this + 0x20), *(char**)((char*)apCompileData + 0x20));
-
-        this->InitializeActionList();
-        this->FUN_005aa2e0();
-
-        if (*(unsigned int*)((char*)this + 0x20) != 0)
-        {
-            Script::CopyScriptReferences(
-                (BSSimpleList<ScriptReferencedObject*>*)((TESObjectREFR*)apCompileData)->GetExtraData(),
-                (BSSimpleList<ScriptReferencedObject*>*)((TESObjectREFR*)this)->GetExtraData(), (Script*)this);
-
-            Script::CopyListToView(
-                (BSSimpleList<ScriptVariableInfo*>*)(unsigned char*)((TESFaction_RankDataView*)apCompileData)
-                    ->GetRankDataList(),
-                this->GetVariableList(), (Script*)this);
-        }
-
-        this->MarkForDeletion(false);
-        this->SetAltered(true);
-    }
-}
 
 struct FUN_005ac340_t
 {
@@ -1812,21 +1715,11 @@ enum COMPILER_NAME
 class ScriptCompiler
 {
   public:
-    bool FUN_005aedb0(Script* script, TESObjectREFR* ownerObject, COMPILER_NAME compilerIndex, bool flag);
 };
 
-class AutoMemHelper
-{
-  public:
-    AutoMemHelper(int size, bool flag, const char* fileName, int line);
-    ~AutoMemHelper();
-
-  private:
-    void* m_pBuffer;
-};
+using AutoMemHelper = ::AutoMemContext;
 
 extern int __tls_index;
-__declspec(thread) unsigned char FUN_005ac400_tls[0x269];
 
 struct ScriptCompileAndRun
 {
@@ -1841,19 +1734,19 @@ void ScriptCompileAndRun::FUN_005ac400(ScriptCompiler* compiler, COMPILER_NAME c
     AutoMemHelper tempMemContext(0x15, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp",
                                  0xd53);
 
-    if (compiler->FUN_005aedb0((Script*)this, ownerObject, compilerIndex, false) &&
+    if (reinterpret_cast<::fnv_005aedb0::ScriptCompiler *>((compiler))->FUN_005aedb0((::fnv_005aedb0::Script *)(::Script *)((Script*)this), (::fnv_005aedb0::TESObjectREFR *)(ownerObject), (*(::fnv_005aedb0::COMPILER_NAME *)&(compilerIndex)), false) &&
         ((Script*)this)->m_kHeader.dataSize != 0)
     {
         if (compilerIndex == 1)
-            FUN_005ac400_tls[0x268] = 1;
+            g_tlsBlock.conditionFunctionDebug = true;
 
         ScriptLocals* ownerVars = 0;
         if (ownerObject != 0)
-            ownerVars = ownerObject->GetReferenceLocals();
+            ownerVars = reinterpret_cast<::FUN_005673e0_shell *>((ownerObject))->FUN_005673e0();
 
-        ((Script*)this)->Run(ownerObject, ownerVars, 0, true);
+        reinterpret_cast<::FUN_005ac1e0_shell *>((((Script*)this)))->FUN_005ac1e0(ownerObject, ownerVars, 0, true);
 
-        FUN_005ac400_tls[0x268] = 0;
+        g_tlsBlock.conditionFunctionDebug = false;
     }
 }
 
@@ -1865,9 +1758,6 @@ struct FUN_005a9480_ItemRef
     unsigned int formID;
 };
 
-void* __fastcall FUN_005d43c0(void* pThis);
-int* __fastcall FUN_006815c0(void* pThis);
-void* __fastcall FUN_00726070(void* pThis);
 
 struct FUN_005a9480_holder
 {
@@ -1883,15 +1773,15 @@ bool FUN_005a9480_holder::FUN_005a9480(unsigned int formID)
     {
         return false;
     }
-    void* node = FUN_005d43c0(pHead);
-    while (node != 0 && *FUN_006815c0(node) != 0)
+    void* node = reinterpret_cast<::FUN_005d43c0_ *>((pHead))->FUN_005d43c0();
+    while (node != 0 && *((int *)((void *)(node))) != 0)
     {
-        FUN_005a9480_ItemRef* item = (FUN_005a9480_ItemRef*)*FUN_006815c0(node);
+        FUN_005a9480_ItemRef* item = *((FUN_005a9480_ItemRef**)((void *)(node)));
         if (item->formID == formID)
         {
             return true;
         }
-        node = FUN_00726070(node);
+        node = reinterpret_cast<::Callees *>((node))->FUN_00726070();
     }
     return false;
 }
@@ -1905,13 +1795,9 @@ struct ScriptVariableValue
 };
 struct ScriptLocalList
 {
-    ScriptVariableValue** FUN_006815c0();
-    ScriptLocalList* FUN_00726070();
 };
 struct GlobalGameState
 {
-    bool FUN_00862110();
-    void* FUN_004fd3e0();
 };
 struct FlagManager
 {
@@ -1925,28 +1811,21 @@ struct Formatter
 {
     unsigned int getItem(int item, unsigned int line, const char* text)
     {
-        typedef unsigned int(__thiscall * Callback)(Formatter*, int, unsigned int, const char*);
+        typedef unsigned int(* Callback)(Formatter*, int, unsigned int, const char*);
         Callback fn = *(Callback*)(*(char**)this + 0x130);
         return fn(this, item, line, text);
     }
 };
-extern GlobalGameState* DAT_011de45c;
-extern FlagManager DAT_011de4e8;
 extern const char DAT_01036d58;
-extern const char DAT_01012cb0;
-extern const char DAT_01012c78;
-extern Formatter* __cdecl FUN_004839c0(void* item);
-extern void __cdecl FUN_0040fbe0(const char* message, ...);
 struct ScriptLocalsExt : ScriptLocals
 {
-    bool FUN_005a9480(unsigned int id);
 };
 // @fnv 0x005a94f0
-unsigned short __fastcall GetScriptLocalsSerializedSize(ScriptLocals* pLocals)
+unsigned short GetScriptLocalsSerializedSize(ScriptLocals* pLocals)
 {
     unsigned short bytes = 0;
     unsigned short original = bytes;
-    if (DAT_011de45c->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         bytes += 4;
         bytes += 2;
@@ -1955,72 +1834,63 @@ unsigned short __fastcall GetScriptLocalsSerializedSize(ScriptLocals* pLocals)
     ScriptLocalList* entry = (ScriptLocalList*)pLocals->m_pVariableList;
     while (entry)
     {
-        ScriptVariableValue* value = *entry->FUN_006815c0();
+        ScriptVariableValue* value = *((::ScriptVariableValue **)((void *)(entry)));
         if (value && value->value != 0.0)
         {
-            if (((ScriptLocalsExt*)pLocals)->FUN_005a9480(value->id))
+            if (reinterpret_cast<::FUN_005a9480_holder *>((((ScriptLocalsExt*)pLocals)))->FUN_005a9480(value->id))
                 bytes += 8;
             else
                 bytes += 12;
         }
-        entry = entry->FUN_00726070();
+        entry = ((::ScriptLocalList *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
     }
     bytes += 1;
     if (pLocals->m_pExtendedLocals)
         bytes += 8;
-    if (*DAT_011de4e8.FUN_00408d60())
+    if (*(*reinterpret_cast<::FlagManager *>(&::g_011de4e8)).FUN_00408d60())
     {
-        void* info = DAT_011de45c->FUN_004fd3e0();
+        void* info = ((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (info)
         {
-            Formatter* formatter = FUN_004839c0(*(void**)info);
-            FUN_0040fbe0(&DAT_01012cb0, (unsigned int)bytes - (unsigned int)original, *(void**)info,
-                         ((TESForm*)formatter)->GetName(), *(int*)((char*)info + 5), 638, &DAT_01036d58);
+            Formatter* formatter = ((::Formatter *)(::FUN_004839c0((std::uintptr_t)(*(void**)info))));
+            ::FUN_0040fbe0();
         }
         else
         {
-            FUN_0040fbe0(&DAT_01012c78, (unsigned int)bytes - (unsigned int)original, 638, &DAT_01036d58);
+            ::FUN_0040fbe0();
         }
     }
     return bytes;
 }
 
-void* __fastcall CopyVariableList(Script*);
+void* CopyVariableList(Script*);
 
 struct FUN_005a9d00_shell : public ScriptLocals
 {
-    void FUN_005a8c90();
-    void FUN_005a8ea0();
     void FUN_005a9d00();
 };
 
 // @fnv 0x005a9d00
 void FUN_005a9d00_shell::FUN_005a9d00()
 {
-    FUN_005a8c90();
-    FUN_005a8ea0();
+    reinterpret_cast<::FUN_005a8c90_shell *>(this)->FUN_005a8c90();
+    reinterpret_cast<::FUN_005a8ea0_shell *>(this)->FUN_005a8ea0();
     if (m_pOwnerScript)
-        m_pVariableList = (BSSimpleList<ScriptLocalVariable*>*)CopyVariableList(m_pOwnerScript);
+        m_pVariableList = (BSSimpleList<ScriptLocalVariable*>*)reinterpret_cast<::fnv_005ac020::FUN_005ac020_shell *>((m_pOwnerScript))->CopyVariableList();
     if (m_pExtendedLocals)
         delete (void*)m_pExtendedLocals;
     m_pExtendedLocals = 0;
 }
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
-    unsigned int FUN_00865f20();
-    void FUN_00865e50(void* data, unsigned int size, int flag);
-    void FUN_00865db0(unsigned int value, unsigned int flag);
-    void FUN_00865ff0(int count, unsigned int offset);
 };
 
 void __cdecl FUN_005acc90(unsigned int* aiID, const double* adVal);
 
 struct SaveLocals9db0 : public ScriptLocals
 {
-    bool FUN_005a9480(unsigned int id);
-    char HasActionFlag(int a, int b);
     void FUN_005a9db0(BGSSaveFormBuffer* buffer);
 };
 
@@ -2028,43 +1898,41 @@ struct SaveLocals9db0 : public ScriptLocals
 void SaveLocals9db0::FUN_005a9db0(BGSSaveFormBuffer* buffer)
 {
     int count3 = 0;
-    unsigned int offset = buffer->FUN_00865f20();
+    unsigned int offset = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
     BSSimpleList<ScriptLocalVariable*>* node3 = m_pVariableList;
     while (node3)
     {
-        ScriptLocalVariable* local_ = node3->GetItem();
+        ScriptLocalVariable* local_ = (node3->m_item);
         if (local_ && local_->fValue != 0.0)
         {
-            if (FUN_005a9480(local_->uiID))
+            if (reinterpret_cast<::FUN_005a9480_holder *>(this)->FUN_005a9480(local_->uiID))
             {
                 unsigned int value7 = 0;
                 FUN_005acc90(&value7, &local_->fValue);
                 unsigned int id3 = local_->uiID | 0x80000000;
-                buffer->FUN_00865e50(&id3, 4, 0);
-                buffer->FUN_00865db0(value7, 0);
+                reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&id3, 4, 0);
+                reinterpret_cast<::FUN_00865db0_shell *>((buffer))->FUN_00865db0(value7, 0);
             }
             else
             {
-                buffer->FUN_00865e50(local_, 4, 0);
-                buffer->FUN_00865e50(&local_->fValue, 8, 0);
+                reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(local_, 4, 0);
+                reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&local_->fValue, 8, 0);
             }
             count3++;
         }
-        node3 = node3->GetNext();
+        node3 = ((::BSSimpleList< ::ScriptLocalVariable *> *)(reinterpret_cast<::Callees *>((node3))->FUN_00726070()));
     }
-    buffer->FUN_00865ff0(count3, offset);
+    reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count3, offset);
     unsigned char hasEffect = m_pExtendedLocals != 0;
-    buffer->FUN_00865e50(&hasEffect, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&hasEffect, 1, 0);
     if (hasEffect)
     {
-        buffer->FUN_00865e50(m_pExtendedLocals, 8, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(m_pExtendedLocals, 8, 0);
     }
-    char result2 = HasActionFlag(0, 0x1000);
-    buffer->FUN_00865e50(&result2, 1, 0);
+    char result2 = reinterpret_cast<::FUN_005a8e20_cls *>(this)->FUN_005a8ef0(0, 0x1000);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&result2, 1, 0);
 }
 
-extern unsigned char DAT_011ad7b4;
-extern double DAT_01012060;
 
 class FUN_005aa8c0_cls
 {
@@ -2116,7 +1984,6 @@ class FUN_005aa8c0_cls
     int unkB0;
     int unkB4;
     float m_fB8;
-    bool HasFlag8000();
     bool FUN_005aa8c0();
 };
 
@@ -2124,14 +1991,12 @@ class FUN_005aa8c0_cls
 // @fnv 0x005aa8c0
 bool FUN_005aa8c0_cls::FUN_005aa8c0()
 {
-    return (HasFlag8000() || DAT_011ad7b4 == 0 || m_fB8 > DAT_01012060) ? 1 : 0;
+    return (reinterpret_cast<::FUN_00456630_helper *>(this)->HasFlag8000() || DAT_011ad7b4 == 0 || m_fB8 > ::_DAT_01012060) ? 1 : 0;
 }
 
-int __cdecl StrICmp(const char*, const char*);
 
 struct ScrVarStub
 {
-    bool IsDifferent(ScrVarStub* other);
 };
 
 struct RefObjStub
@@ -2143,15 +2008,11 @@ struct RefObjStub
 
 struct VarListStub
 {
-    ScrVarStub** Item();
-    VarListStub* Next();
     int Count();
 };
 
 struct RefListStub
 {
-    RefObjStub** Item();
-    RefListStub* Next();
     int Count();
 };
 
@@ -2159,7 +2020,6 @@ struct NameStr
 {
     int unk00;
     int unk04;
-    unsigned int Length();
     operator const char*() const;
 };
 
@@ -2175,17 +2035,47 @@ struct CompileDataStub
     char* data;
     int unk24;
     ScriptHeaderData header;
-    VarListStub* GetVars();
-    RefListStub* GetRefs();
 };
 
 struct ScriptCmpOwner : public Script
 {
-    int HasName();
-    VarListStub* GetVarList();
-    RefListStub* GetRefList();
     bool IsDifferentFromCompileData(CompileDataStub* apData);
 };
+// @fnv 0x005aaf20
+void ScriptInitOwner::InitFromCompileData(CStringArgument* apCompileData)
+{
+    this->InitItem();
+
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(reinterpret_cast<S7010*>(reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kScriptName))->FUN_004048e0())) == 0)
+    {
+        this->MarkForDeletion(true);
+    }
+    else if (reinterpret_cast<::ScriptCmpOwner *>((this))->IsDifferentFromCompileData((::CompileDataStub *)(apCompileData)))
+    {
+        this->SetEditorID_AtRuntime((const char*)(std::uintptr_t)(reinterpret_cast<GO*>(reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kScriptName)->operator unsigned int()));
+
+        ::__memcpy((char*)&this->m_kHeader, reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->kHeader, 0x14);
+
+        reinterpret_cast<::FUN_005aae70_shell *>((this))->FUN_005aae70(this->m_kHeader.dataSize, reinterpret_cast<::ScriptCompileDataView*>(apCompileData)->pScriptData);
+
+        this->InitializeActionList();
+        this->FUN_005aa2e0();
+
+        if (this->m_kHeader.dataSize != 0)
+        {
+            ::CopyListToTail(
+                (BSSimpleList<ScriptReferencedObject*>*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)apCompileData)))->FUN_005d43c0())),
+                (::SoundListView *)(::BSSimpleList< ::ScriptReferencedObject *> *)((BSSimpleList<ScriptReferencedObject*>*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0()))));
+
+            ::fnv_005ab930::CopyListToView(
+                (::fnv_005ab930::FUN_008256d0 *)(::BSSimpleList< ::ScriptVariableInfo *> *)((BSSimpleList<ScriptVariableInfo*>*)(unsigned char*)((unsigned char *)(reinterpret_cast<struct ::FUN_005a8080 *>((((TESFaction_RankDataView*)apCompileData)))->GetField()))),
+                (::fnv_005ab930::SoundListView *)(::BSSimpleList< ::ScriptVariableInfo *> *)(((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>((this))->FUN_005d43e0()))));
+        }
+
+        this->MarkForDeletion(false);
+        this->SetAltered(true);
+    }
+}
 
 // @fnv 0x005ab040
 bool ScriptCmpOwner::IsDifferentFromCompileData(CompileDataStub* apData)
@@ -2202,9 +2092,9 @@ bool ScriptCmpOwner::IsDifferentFromCompileData(CompileDataStub* apData)
     RefObjStub* newRef;
     RefObjStub* oldRef;
 
-    if (HasName() && apData->name.Length())
+    if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning() && ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(apData->name))->FUN_004048e0())))
     {
-        if (StrICmp(GetName(), apData->name))
+        if (::FUN_00404dc0(GetName(), apData->name))
             return true;
     }
 
@@ -2221,32 +2111,32 @@ bool ScriptCmpOwner::IsDifferentFromCompileData(CompileDataStub* apData)
             return true;
     }
 
-    newVars = apData->GetVars();
-    oldVars = GetVarList();
+    newVars = ((::VarListStub *)(reinterpret_cast<struct ::FUN_005a8080 *>((apData))->GetField()));
+    oldVars = ((::VarListStub *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()));
     if (newVars->Count() != oldVars->Count())
         return true;
     while (newVars && oldVars)
     {
-        oldVar4 = *oldVars->Item();
-        newVar4 = *newVars->Item();
-        if (newVar4 && oldVar4 && newVar4->IsDifferent(oldVar4))
+        oldVar4 = *((::ScrVarStub **)((void *)(oldVars)));
+        newVar4 = *((::ScrVarStub **)((void *)(newVars)));
+        if (newVar4 && oldVar4 && reinterpret_cast<::FUN_005e29a0_shell *>((newVar4))->FUN_005e29a0((::FUN_005e29a0_shell *)(oldVar4)))
             return true;
-        newVars = newVars->Next();
-        oldVars = oldVars->Next();
+        newVars = ((::VarListStub *)(reinterpret_cast<::Callees *>((newVars))->FUN_00726070()));
+        oldVars = ((::VarListStub *)(reinterpret_cast<::Callees *>((oldVars))->FUN_00726070()));
     }
 
-    newRefs3 = apData->GetRefs();
-    oldRefs4 = GetRefList();
+    newRefs3 = ((::RefListStub *)(reinterpret_cast<::FUN_005d43c0_ *>((apData))->FUN_005d43c0()));
+    oldRefs4 = ((::RefListStub *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     if (newRefs3->Count() != oldRefs4->Count())
         return true;
     while (newRefs3 && oldRefs4)
     {
-        oldRef = *oldRefs4->Item();
-        newRef = *newRefs3->Item();
+        oldRef = *((::RefObjStub **)((void *)(oldRefs4)));
+        newRef = *((::RefObjStub **)((void *)(newRefs3)));
         if (newRef && oldRef && newRef->form != oldRef->form)
             return true;
-        newRefs3 = newRefs3->Next();
-        oldRefs4 = oldRefs4->Next();
+        newRefs3 = ((::RefListStub *)(reinterpret_cast<::Callees *>((newRefs3))->FUN_00726070()));
+        oldRefs4 = ((::RefListStub *)(reinterpret_cast<::Callees *>((oldRefs4))->FUN_00726070()));
     }
     return false;
 }
@@ -2261,39 +2151,34 @@ struct FUN_005a8c00_cls
 struct FUN_005a8c00_list
 {
     void _ref_0063f7b0();
-    int _ref_004702f0(int flag);
 };
 
 // @fnv 0x005a8c00
-void __fastcall FUN_005a8c00(void* pThis)
+void FUN_005a8c00(void* pThis)
 {
-    unsigned int v;
+    std::uintptr_t v;
     void* arg;
     void* t;
     void* l;
     if (((FUN_005a8c00_cls*)pThis)->m_08 != 0)
     {
-        while (*_ref_006815c0(((FUN_005a8c00_cls*)pThis)->m_08) != 0)
+        while (*((int *)((void *)(((FUN_005a8c00_cls*)pThis)->m_08))) != 0)
         {
-            v = *(unsigned int*)_ref_006815c0(((FUN_005a8c00_cls*)pThis)->m_08);
+            v = *(unsigned int*)((int *)((void *)(((FUN_005a8c00_cls*)pThis)->m_08)));
             ((FUN_005a8c00_list*)((FUN_005a8c00_cls*)pThis)->m_08)->_ref_0063f7b0();
             arg = (void*)v;
-            Deallocate(arg);
+            ::FUN_00401030(arg);
         }
         t = ((FUN_005a8c00_cls*)pThis)->m_08;
         l = t;
-        l != 0 ? ((FUN_005a8c00_list*)l)->_ref_004702f0(1) : 0;
+        l != 0 ? ((std::intptr_t)(reinterpret_cast<::W004702f0 *>((((FUN_005a8c00_list*)l)))->FUN_004702f0(1))) : 0;
         ((FUN_005a8c00_cls*)pThis)->m_08 = 0;
     }
 }
 
 struct StateX
 {
-    char* FUN_00825c00();
-    void FUN_008579b0(const void* p, unsigned int n);
-    void FUN_00857a10(const void* p, unsigned int n);
 };
-void __cdecl FUN_005b5e40(const char* pFmt, const char* file, int line);
 
 struct ThisX
 {
@@ -2302,7 +2187,6 @@ struct ThisX
     int m_08;
     ScriptLocalList* m_0c;
     void* m_10;
-    bool FUN_005a9480(unsigned int id);
     void WriteScriptLocals();
 };
 
@@ -2328,75 +2212,70 @@ void ThisX::WriteScriptLocals()
     char* posB;
     numHdr = 0;
     posB = 0;
-    fromPos = ((StateX*)DAT_011de45c)->FUN_00825c00();
-    if (*DAT_011de4e8.FUN_00408d60())
-        fromPos = ((StateX*)DAT_011de45c)->FUN_00825c00();
-    if (DAT_011de45c->FUN_00862110())
+    fromPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    if (*(*reinterpret_cast<::FlagManager *>(&::g_011de4e8)).FUN_00408d60())
+        fromPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         chunkTag = 0x424c4f4b;
-        ((StateX*)DAT_011de45c)->FUN_008579b0(&chunkTag, 4);
-        posB = ((StateX*)DAT_011de45c)->FUN_00825c00();
-        ((StateX*)DAT_011de45c)->FUN_008579b0(&numHdr, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&chunkTag), 4);
+        posB = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&numHdr), 2);
     }
     written = 0;
-    posNum = ((StateX*)DAT_011de45c)->FUN_00825c00();
-    ((StateX*)DAT_011de45c)->FUN_008579b0(&written, 2);
+    posNum = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&written), 2);
     pList = m_0c;
     while (pList)
     {
-        pCur = *pList->FUN_006815c0();
+        pCur = *((::ScriptVariableValue **)((void *)(pList)));
         if (pCur && pCur->value != 0.0)
         {
-            if (FUN_005a9480(pCur->id))
+            if (reinterpret_cast<::FUN_005a9480_holder *>(this)->FUN_005a9480(pCur->id))
             {
                 converted = 0;
                 FUN_005acc90(&converted, &pCur->value);
                 tagged = pCur->id | 0x80000000;
-                ((StateX*)DAT_011de45c)->FUN_008579b0(&tagged, 4);
-                ((StateX*)DAT_011de45c)->FUN_00857a10(&converted, 4);
+                reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&tagged), 4);
+                reinterpret_cast<::C857A10Buffer *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10((const unsigned int *)(const void *)(&converted), 4);
             }
             else
             {
-                ((StateX*)DAT_011de45c)->FUN_008579b0(pCur, 4);
-                ((StateX*)DAT_011de45c)->FUN_008579b0(&pCur->value, 8);
+                reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(pCur), 4);
+                reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&pCur->value), 8);
             }
             written++;
         }
-        pList = pList->FUN_00726070();
+        pList = ((::ScriptLocalList *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
     *(unsigned short*)posNum = written;
     hasTail = false;
     if (m_10)
         hasTail = true;
-    ((StateX*)DAT_011de45c)->FUN_008579b0(&hasTail, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&hasTail), 1);
     if (hasTail)
-        ((StateX*)DAT_011de45c)->FUN_008579b0(m_10, 8);
-    if (*DAT_011de4e8.FUN_00408d60())
+        reinterpret_cast<::FUN_008579b0_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(m_10), 8);
+    if (*(*reinterpret_cast<::FlagManager *>(&::g_011de4e8)).FUN_00408d60())
     {
-        curPos = ((StateX*)DAT_011de45c)->FUN_00825c00();
-        formPtr = DAT_011de45c->FUN_004fd3e0();
+        curPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        formPtr = ((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (formPtr)
         {
-            pFmt = FUN_004839c0(*(void**)formPtr);
-            typedef unsigned int(__thiscall * GetItemFn)(Formatter*);
-            FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                         curPos - fromPos, *(int*)formPtr, (*(GetItemFn*)(*(char**)pFmt + 0x130))(pFmt),
-                         *(int*)((char*)formPtr + 5), 694,
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp");
+            pFmt = ((::Formatter *)(::FUN_004839c0((std::uintptr_t)(*(void**)formPtr))));
+            typedef unsigned int(* GetItemFn)(Formatter*);
+            ::FUN_0040fbe0();
         }
         else
         {
-            FUN_0040fbe0("SaveGame(): %-5i ending at line %i in file %s", curPos - fromPos, 694,
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp");
+            ::FUN_0040fbe0();
         }
     }
-    if (DAT_011de45c->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        endPos = ((StateX*)DAT_011de45c)->FUN_00825c00();
+        endPos = ((char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StateX*)(*reinterpret_cast<::GlobalGameState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         posTmp = posB;
         if (endPos > posTmp + 0xffff)
-            FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp", 694);
+            ::FUN_005b5e40();
         *(unsigned short*)posB = (unsigned short)(endPos - posTmp);
     }
 }
@@ -2405,7 +2284,6 @@ class BGSSaveFormBuffer_Write : public BGSSaveFormBuffer
 {
 
   public:
-    void FUN_00865df0(TESObjectREFR* reference, unsigned int flag);
 };
 
 // Writes each of four global TESObjectREFR lists to the save buffer, counting non-null entries and patching each count at its recorded offset.
@@ -2450,111 +2328,108 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
 
             TESObjectREFR* item6;
 
-            DAT_011cacf8.FUN_004538a0(0);
+            reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011cacf8))))->FUN_004538a0(0);
 
             count1 = 0;
 
-            offset1 = buffer->FUN_00865f20();
+            offset1 = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
 
-            list1 = &DAT_011caca8;
+            list1 = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011caca8));
 
             while (list1 != 0)
             {
 
-                item9 = (TESObjectREFR*)*FUN_006815c0(list1);
+                item9 = *((TESObjectREFR**)(&list1->m_item));
 
                 if (item9 != 0)
                 {
 
-                    ((BGSSaveFormBuffer_Write*)buffer)->FUN_00865df0(item9, 0);
+                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((BGSSaveFormBuffer_Write*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(item9), 0);
 
                     count1 = count1 + 1;
                 }
 
-                list1 = (BSSimpleList<TESObjectREFR*>*)FUN_00726070(list1);
+                list1 = (BSSimpleList<TESObjectREFR*>*)reinterpret_cast<::Callees *>((list1))->FUN_00726070();
             }
 
-            buffer->FUN_00865ff0(count1, offset1);
+            reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count1, offset1);
 
             count2 = 0;
 
-            offset6 = buffer->FUN_00865f20();
+            offset6 = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
 
-            listVal = &DAT_011cac98;
+            listVal = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cac98));
 
             while (listVal != 0)
             {
 
-                aItem2 = (TESObjectREFR*)*FUN_006815c0(listVal);
+                aItem2 = *((TESObjectREFR**)(&listVal->m_item));
 
                 if (aItem2 != 0)
                 {
 
-                    ((BGSSaveFormBuffer_Write*)buffer)->FUN_00865df0(aItem2, 0);
+                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((BGSSaveFormBuffer_Write*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(aItem2), 0);
 
                     count2 = count2 + 1;
                 }
 
-                listVal = (BSSimpleList<TESObjectREFR*>*)FUN_00726070(listVal);
+                listVal = (BSSimpleList<TESObjectREFR*>*)reinterpret_cast<::Callees *>((listVal))->FUN_00726070();
             }
 
-            buffer->FUN_00865ff0(count2, offset6);
+            reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count2, offset6);
 
             count7 = 0;
 
-            offsetVal = buffer->FUN_00865f20();
+            offsetVal = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
 
-            list9 = &DAT_011cacb8;
+            list9 = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cacb8));
 
             while (list9 != 0)
             {
 
-                item8 = (TESObjectREFR*)*FUN_006815c0(list9);
+                item8 = *((TESObjectREFR**)(&list9->m_item));
 
                 if (item8 != 0)
                 {
 
-                    ((BGSSaveFormBuffer_Write*)buffer)->FUN_00865df0(item8, 0);
+                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((BGSSaveFormBuffer_Write*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(item8), 0);
 
                     count7 = count7 + 1;
                 }
 
-                list9 = (BSSimpleList<TESObjectREFR*>*)FUN_00726070(list9);
+                list9 = (BSSimpleList<TESObjectREFR*>*)reinterpret_cast<::Callees *>((list9))->FUN_00726070();
             }
 
-            buffer->FUN_00865ff0(count7, offsetVal);
+            reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count7, offsetVal);
 
             count9 = 0;
 
-            offset4 = buffer->FUN_00865f20();
+            offset4 = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
 
-            list4 = &DAT_011cace8;
+            list4 = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011cace8));
 
             while (list4 != 0)
             {
 
-                item6 = (TESObjectREFR*)*FUN_006815c0(list4);
+                item6 = *((TESObjectREFR**)(&list4->m_item));
 
                 if (item6 != 0)
                 {
 
-                    ((BGSSaveFormBuffer_Write*)buffer)->FUN_00865df0(item6, 0);
+                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((BGSSaveFormBuffer_Write*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(item6), 0);
 
                     count9 = count9 + 1;
                 }
 
-                list4 = (BSSimpleList<TESObjectREFR*>*)FUN_00726070(list4);
+                list4 = (BSSimpleList<TESObjectREFR*>*)reinterpret_cast<::Callees *>((list4))->FUN_00726070();
             }
 
-            buffer->FUN_00865ff0(count9, offset4);
+            reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count9, offset4);
         }
     }
 
-    DAT_011cacf8.FUN_004538c0();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
 }
-
-int _mbscmp(const unsigned char* a, const unsigned char* b);
-unsigned int __cdecl strlen(const char*);
 
 struct ScriptCompareOwner : public Script
 {
@@ -2573,7 +2448,7 @@ bool ScriptCompareOwner::IsDifferentFrom(Script* apOther)
     ScriptReferencedObject* pRef;
     if (!apOther)
         return true;
-    pHeader = apOther->GetHeader();
+    pHeader = ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((apOther))->GetConditions()));
     if (m_kHeader.dataSize != pHeader->dataSize)
         return true;
     if (m_kHeader.m_uiReferenceID != pHeader->m_uiReferenceID)
@@ -2586,32 +2461,31 @@ bool ScriptCompareOwner::IsDifferentFrom(Script* apOther)
         if (m_data[i8] != pData6[i8])
             return true;
     }
-    if (GetText() && apOther->GetText())
+    if (this->m_pText && apOther->m_pText)
     {
-        if (strlen(GetText()) != strlen(apOther->GetText()))
+        if (strlen(this->m_pText) != strlen(apOther->m_pText))
             return true;
-        else if (_mbscmp((const unsigned char*)GetText(), (const unsigned char*)apOther->GetText()))
+        else if (::FUN_00469880((void *)((const unsigned char*)this->m_pText), (void *)((const unsigned char*)apOther->m_pText)))
             return true;
     }
-    else if (GetText() || apOther->GetText())
+    else if (this->m_pText || apOther->m_pText)
         return true;
-    pOtherIter7 = apOther->GetReferencedObjectList();
-    kPIter = GetReferencedObjectList();
+    pOtherIter7 = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apOther))->FUN_005d43c0()));
+    kPIter = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (pOtherIter7 && kPIter)
     {
-        pRef = kPIter->GetItem();
-        pOtherRef8 = pOtherIter7->GetItem();
+        pRef = (kPIter->m_item);
+        pOtherRef8 = (pOtherIter7->m_item);
         if (pOtherRef8 && pRef && pOtherRef8->pForm != pRef->pForm)
             return true;
-        pOtherIter7 = pOtherIter7->GetNext();
-        kPIter = kPIter->GetNext();
+        pOtherIter7 = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::Callees *>((pOtherIter7))->FUN_00726070()));
+        kPIter = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::Callees *>((kPIter))->FUN_00726070()));
     }
     return false;
 }
 
 struct FUN_00501c10_s
 {
-    void* CallAndReturnSelf(const void* src);
 };
 
 namespace ns5a {
@@ -2627,33 +2501,23 @@ struct FUN_005ab8b0
 // @fnv 0x005ab8b0
 ns5a::FUN_005ab8b0::FUN_005ab8b0(const FUN_005ab8b0& src)
 {
-    ((FUN_00501c10_s*)this)->CallAndReturnSelf(&src);
+    reinterpret_cast<::FUN_00501c10_cls *>((((FUN_00501c10_s*)this)))->CallAndReturnSelf((std::intptr_t)(&src));
     unk = src.unk;
     unk0C = src.unk0C;
 }
 
 struct ScriptResolve : Script
 {
-    ScriptReferencedObject* GetNthRefByIndex(int, ScriptLocals*);
 };
 struct RefRead : TESObjectREFR
 {
-    ExtraDataList* FUN_005d43c0();
-    ScriptLocals* FUN_005673e0();
 };
 struct ExtraRead : ExtraDataList
 {
-    TESObjectREFR* FUN_0041c8d0();
 };
 struct InventoryRead : TESObjectREFR
 {
-    InventoryStackRecord* FUN_00576260(TESBoundObject*, unsigned int);
 };
-void FUN_005acc70(const unsigned int*, double*);
-ScriptFunctionInfo* FUN_005b1120(int);
-void FUN_005accb0(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*,
-                  ScriptLocals*);
-void FUN_00401460(void*, const void*, unsigned int);
 // @fnv 0x005ac7a0
 bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESObjectREFR* reference,
                      TESObjectREFR* container, Script* script, ScriptLocals* locals, bool skip)
@@ -2677,7 +2541,7 @@ bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESO
     if (!a)
         return false;
     p = 0;
-    if (skip && script->IsFormInitialized())
+    if (skip && reinterpret_cast<::TESForm *>((void *)(script))->GetInitialized())
         skip = false;
     h = data[*offset];
     *offset += 1;
@@ -2688,20 +2552,20 @@ bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESO
     case 'r': {
         i = *(short*)(data + *offset);
         *offset += 2;
-        p = ((ScriptResolve*)script)->GetNthRefByIndex(i, locals);
+        p = reinterpret_cast<::fnv_005ac4f0::FUN_005ac4f0_shell *>((((ScriptResolve*)script)))->GetNthRefByIndex(i, locals);
         if (p)
         {
             if (p->pForm || skip)
             {
                 if (h == 'G')
                 {
-                    *value = ((TESGlobalValueReader*)p->pForm)->GetValue();
+                    *value = reinterpret_cast<::FUN_00526ac0_shell *>((((TESGlobalValueReader*)p->pForm)))->FUN_00526ac0();
                     return true;
                 }
                 else if (h == 'Z')
                 {
-                    e = p->pForm->GetFormID();
-                    FUN_005acc70(&e, value);
+                    e = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p->pForm))->FUN_0084e3a0()));
+                    ::Script::CopyIdentifierBitsToValue((*(const unsigned int *)(&e)), (*(double *)(value)));
                     return true;
                 }
                 else
@@ -2736,16 +2600,16 @@ bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESO
                             }
                             if (f)
                             {
-                                if (((ExtraRead*)f->FUN_005d43c0())->FUN_0041c8d0())
+                                if (reinterpret_cast<::FUN_0041c8d0_shell *>((((ExtraRead*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((f))->FUN_005d43c0())))))->FUN_0041c8d0())
                                 {
-                                    eb = ((ExtraRead*)f->FUN_005d43c0())->FUN_0041c8d0();
-                                    cf = ((InventoryRead*)eb)->FUN_00576260(f->GetObjectReference(), f->GetFormID());
+                                    eb = reinterpret_cast<::FUN_0041c8d0_shell *>((((ExtraRead*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((f))->FUN_005d43c0())))))->FUN_0041c8d0();
+                                    cf = ((::InventoryStackRecord *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((((InventoryRead*)eb)))->FUN_00576260((::fnv_00576260::TESBoundObject *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((f))->FUN_007af430()))), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((f))->FUN_0084e3a0())))));
                                     if (cf)
-                                        a = cf->GetScriptLocalData();
+                                        a = reinterpret_cast<::ItemChangeShell *>((cf))->FUN_004bdea0();
                                     delete cf;
                                 }
                                 else
-                                    a = f->FUN_005673e0();
+                                    a = reinterpret_cast<::FUN_005673e0_shell *>((f))->FUN_005673e0();
                             }
                         }
                         if (!a)
@@ -2773,7 +2637,7 @@ bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESO
         *offset += 4;
         return true;
     case 'z':
-        FUN_00401460(value, data + *offset, 8);
+        ::__memcpy(value, data + *offset, 8);
         *offset += 8;
         return true;
     }
@@ -2782,7 +2646,7 @@ bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESO
         b = *(short*)(data + *offset);
         *offset += 2;
         *offset += 2;
-        q = FUN_005b1120(b);
+        q = ::GetFunctionByOpcode((::SCRIPT_OUTPUT)(b));
         if (!q)
             return false;
         else
@@ -2812,7 +2676,7 @@ bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESO
             if (skip)
             {
                 if (k)
-                    FUN_005accb0(k, data, offset, ba, container, script, locals);
+                    ::FUN_005accb0((const ::ExtractParameter *)(k), data, offset, ba, container, (::ExtractScript *)(script), locals);
             }
             else
             {
@@ -2836,7 +2700,7 @@ bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESO
         case 'f':
         case 'l':
         case 's':
-            *value = a->GetVariable(c, script);
+            *value = reinterpret_cast<::FUN_005a9140_shell *>((a))->FUN_005a9140(c, script);
             return true;
         default:
             return false;
@@ -2853,8 +2717,6 @@ struct ExtractParameter
 };
 struct ExtractScript
 {
-    ScriptReferencedObject* GetNthRefByIndex(int, ScriptLocals*);
-    bool FUN_004013e0();
 };
 struct ExtractForm
 {
@@ -2919,10 +2781,7 @@ struct ExtractForm
     virtual bool IsReference();
     int FUN_00401170();
 };
-bool FUN_00481f30(int);
 extern const char extractUnimplemented[];
-bool ReadScriptValue(double*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, ExtractScript*, ScriptLocals*,
-                     bool);
 // @fnv 0x005accb0
 bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, unsigned int* offset,
                           TESObjectREFR* reference, TESObjectREFR* container, ExtractScript* script,
@@ -2943,14 +2802,14 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
                 return false;
             short refIndex3 = *reinterpret_cast<const short*>(data + *offset);
             *offset += 2;
-            ScriptReferencedObject* ref = script->GetNthRefByIndex(refIndex3, locals);
-            if (script->FUN_004013e0() && ref && ref->pForm)
+            ScriptReferencedObject* ref = reinterpret_cast<::fnv_005ac4f0::FUN_005ac4f0_shell *>((script))->GetNthRefByIndex(refIndex3, locals);
+            if (reinterpret_cast<::TESForm *>((script))->GetInitialized() && ref && ref->pForm)
             {
                 bool valid = false;
                 switch (parameters[index].type)
                 {
                 case 3: {
-                    if (FUN_00481f30(reinterpret_cast<ExtractForm*>(ref->pForm)->FUN_00401170()))
+                    if (::TESContainer::IsValidContainerType(reinterpret_cast<ExtractForm*>(ref->pForm)->FUN_00401170()))
                     {
                         TESForm** formOutput = va_arg(args2, TESForm**);
                         *formOutput = 0;
@@ -2962,7 +2821,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
                 }
                 break;
                 case 50: {
-                    if (FUN_00481f30(reinterpret_cast<ExtractForm*>(ref->pForm)->FUN_00401170()) ||
+                    if (::TESContainer::IsValidContainerType(reinterpret_cast<ExtractForm*>(ref->pForm)->FUN_00401170()) ||
                         reinterpret_cast<ExtractForm*>(ref->pForm)->FUN_00401170() == 85)
                     {
                         TESForm** formOutput = va_arg(args2, TESForm**);
@@ -3065,7 +2924,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
                         if (ref->pForm && reinterpret_cast<ExtractForm*>(ref->pForm)->FUN_00401170() == 25)
                             book = reinterpret_cast<TESObjectBOOK*>(ref->pForm);
                         *spellOutput = reinterpret_cast<SpellItem*>(book);
-                        if (book && book->enchantable.FindFormEnchantment())
+                        if (book && ((::EnchantmentItem *)(reinterpret_cast<::Callees *>(&(book->enchantable))->FUN_00726070())))
                             valid = true;
                     }
                 }
@@ -3509,7 +3368,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
                 }
                 break;
                 default:
-                    Warning(extractUnimplemented, parameters[index].type);
+                    ::FUN_005b5e40();
                     return false;
                 }
                 if (!valid)
@@ -3525,7 +3384,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             case 0: {
                 short length = *reinterpret_cast<const short*>(data + *offset);
                 *offset += 2;
-                if (script->FUN_004013e0())
+                if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                 {
                     char* textOutput = va_arg(args2, char*);
                     memcpy(textOutput, data + *offset, length);
@@ -3537,9 +3396,9 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             case 1:
             case 23: {
                 double value = 0.0;
-                if (ReadScriptValue(&value, data, offset, reference, container, script, locals, true))
+                if (::ReadScriptValue(&value, data, offset, reference, container, (::Script *)(script), locals, true))
                 {
-                    if (script->FUN_004013e0())
+                    if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                     {
                         int* intOutput = va_arg(args2, int*);
                         *intOutput = (int)value;
@@ -3551,9 +3410,9 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             break;
             case 2: {
                 double value = 0.0;
-                if (ReadScriptValue(&value, data, offset, reference, container, script, locals, true))
+                if (::ReadScriptValue(&value, data, offset, reference, container, (::Script *)(script), locals, true))
                 {
-                    if (script->FUN_004013e0())
+                    if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                     {
                         float* floatOutput = va_arg(args2, float*);
                         *floatOutput = (float)value;
@@ -3564,7 +3423,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             }
             break;
             case 8: {
-                if (script->FUN_004013e0())
+                if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                 {
                     char* byteOutput = va_arg(args2, char*);
                     *byteOutput = data[*offset];
@@ -3579,7 +3438,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             case 55: {
                 short value = *reinterpret_cast<const short*>(data + *offset);
                 *offset += 2;
-                if (script->FUN_004013e0())
+                if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                 {
                     int* intOutput = va_arg(args2, int*);
                     *intOutput = value;
@@ -3589,7 +3448,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             case 28: {
                 short value = *reinterpret_cast<const short*>(data + *offset);
                 *offset += 2;
-                if (script->FUN_004013e0())
+                if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                 {
                     int* intOutput = va_arg(args2, int*);
                     *intOutput = value;
@@ -3599,7 +3458,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             case 10: {
                 short value = *reinterpret_cast<const short*>(data + *offset);
                 *offset += 2;
-                if (script->FUN_004013e0())
+                if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                 {
                     int* intOutput = va_arg(args2, int*);
                     *intOutput = value;
@@ -3609,7 +3468,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             case 32: {
                 short value = *reinterpret_cast<const short*>(data + *offset);
                 *offset += 2;
-                if (script->FUN_004013e0())
+                if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                 {
                     char* byteOutput = va_arg(args2, char*);
                     *byteOutput = (char)value;
@@ -3619,7 +3478,7 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
             case 18: {
                 short value = *reinterpret_cast<const short*>(data + *offset);
                 *offset += 2;
-                if (script->FUN_004013e0())
+                if (reinterpret_cast<::TESForm *>((script))->GetInitialized())
                 {
                     int* intOutput = va_arg(args2, int*);
                     *intOutput = value;
@@ -3635,7 +3494,6 @@ bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, 
     return true;
 }
 
-void __cdecl FNV_Warning(const char* fmt, ...);
 extern int DAT_011cad40;
 extern float DAT_011cad20[8];
 
@@ -3649,13 +3507,8 @@ struct S4eb0_list
 {
     bool FUN_008256d0();
     void FUN_0063f7b0();
-    ScriptReferencedObject** FUN_006815c0();
-    S4eb0_list* FUN_00726070();
-    void FUN_00905330(ScriptReferencedObject** p);
 };
 
-void ResolveFormID(TESForm** form, TESFile* file);
-TESForm* FUN_004839c0(TESForm* form);
 
 struct Scr : TESForm
 {
@@ -3669,39 +3522,40 @@ struct Scr : TESForm
     float fQuestScriptBuffer;
     TESQuest* m_pOwnerQuest;
 
-    bool FUN_004013e0();
-    bool FUN_00483710();
-    S4eb0_list* FUN_005d43c0();
-    S4eb0_flag* FUN_00500940();
     void FUN_00484ab0(bool initialized);
     void FUN_005ab400(TESForm* form);
 };
+// @fnv 0x005ab7d0
+void Script::InitItem()
+{
+    reinterpret_cast<::Scr *>(this)->FUN_005ab400(this);
+}
 
 // @fnv 0x005ab400
 void Scr::FUN_005ab400(TESForm* form)
 {
-    if (FUN_004013e0() || form == 0)
+    if (reinterpret_cast<::TESForm *>(this)->GetInitialized() || form == 0)
         return;
     AutoMemContext saveCtx((MEM_CONTEXT)21, true,
                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp", 0xab5);
-    if (form != this && IsTemporary())
+    if (form != this && reinterpret_cast<::FUN_004077c0_shell *>((void *)this)->FUN_004077c0())
     {
         SetFile(form->GetFile(-1));
     }
     int num = 0;
-    S4eb0_list* iter = FUN_005d43c0();
+    S4eb0_list* iter = ((::S4eb0_list *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     S4eb0_list* pPrev = 0;
     TESFile* pTemp = form ? form->GetFile(-1) : 0;
     while (iter && !iter->FUN_008256d0())
     {
-        ScriptReferencedObject* refTmp = *iter->FUN_006815c0();
+        ScriptReferencedObject* refTmp = *((::ScriptReferencedObject **)((void *)(iter)));
         TESForm* form7 = refTmp->pForm;
         unsigned int idB = refTmp->m_uiFormID;
         bool ok3 = false;
         if (form7)
         {
-            ResolveFormID(&form7, pTemp);
-            refTmp->pForm = FUN_004839c0(form7);
+            ::ResolveFormID((unsigned int *)(::TESForm **)(&form7), pTemp);
+            refTmp->pForm = ::FUN_004839c0((unsigned int)(std::uintptr_t)(form7));
             if (refTmp->pForm)
                 ok3 = true;
         }
@@ -3712,14 +3566,14 @@ void Scr::FUN_005ab400(TESForm* form)
         if (ok3)
         {
             pPrev = iter;
-            iter = iter->FUN_00726070();
+            iter = ((::S4eb0_list *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         }
         else
         {
             if (pPrev)
             {
-                pPrev->FUN_00905330(iter->FUN_006815c0());
-                iter = pPrev->FUN_00726070();
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::ScriptReferencedObject **)((void *)(iter))))));
+                iter = ((::S4eb0_list *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else
             {
@@ -3727,15 +3581,13 @@ void Scr::FUN_005ab400(TESForm* form)
             }
             if (form7)
             {
-                FNV_Warning(
-                    "MASTERFILE: Could not find referenced object (%08X) on Script (%08X) '%s'.  Script will not be executed.",
-                    form7, GetFormID(), GetName());
+                ::FUN_005b5e40(
+                    );
             }
             else
             {
-                FNV_Warning(
-                    "MASTERFILE: Referenced object %d on Script (%08X) '%s' is invalid.  Script will not be executed.",
-                    num, GetFormID(), GetName());
+                ::FUN_005b5e40(
+                    );
             }
             dataSize = 0;
         }
@@ -3743,18 +3595,17 @@ void Scr::FUN_005ab400(TESForm* form)
     }
     if (num != m_uiReferenceID && dataSize != 0)
     {
-        FNV_Warning(
-            "MASTERFILE: Referenced object list on Script (%08X) '%s' is corrupt.  Expected %d objects, found %d.",
-            GetFormID(), GetName(), m_uiReferenceID, num);
+        ::FUN_005b5e40(
+            );
         dataSize = 0;
     }
     if (m_data)
-        FUN_00483710();
-    if (FUN_00500940()->b10)
+        reinterpret_cast<::TESForm *>(this)->ClearData();
+    if (((::S4eb0_flag *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->b10)
     {
-        if (DAT_011cac68.Float()->f > 0.0)
+        if (((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f > 0.0)
         {
-            float t = DAT_011cac68.Float()->f;
+            float t = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
             if (DAT_011cad40 == 0)
             {
                 for (int j = 0; j < 8; j++)
@@ -3765,13 +3616,13 @@ void Scr::FUN_005ab400(TESForm* form)
             }
             int mask3 = DAT_011cad40 & 0xff;
             int k = 0;
-            if (m_pOwnerQuest != 0 && m_pOwnerQuest->FUN_00792760() > 0.0)
+            if (m_pOwnerQuest != 0 && reinterpret_cast<::FUN_00792760_shell *>((m_pOwnerQuest))->FUN_00792760() > 0.0)
             {
                 fValueAtOffset38 = 0.0f;
             }
             else if (mask3 == 0)
             {
-                fValueAtOffset38 = DAT_011cac68.Float()->f;
+                fValueAtOffset38 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
             }
             else
             {
@@ -3791,7 +3642,6 @@ void Scr::FUN_005ab400(TESForm* form)
     SetInitializationState(true);
 }
 
-extern const char DAT_01015588[];
 struct SavedFormHeader
 {
     unsigned int formID;
@@ -3801,15 +3651,7 @@ struct SavedFormHeader
 };
 struct ScriptSaveReader : TESSaveLoadGame
 {
-    bool FUN_00862110();
-    void FUN_008579e0(void*, unsigned int);
-    void FUN_00857aa0(unsigned int*, unsigned int);
-    SavedFormHeader* FUN_004fd3c0();
-    unsigned int FUN_00825c00();
-    unsigned char FUN_008df040();
 };
-TESForm* __cdecl _ref_004839c0(unsigned int);
-void __cdecl FUN_005acc70(const unsigned int&, double&);
 struct LoadScriptLocals : ScriptLocals
 {
     void FUN_005a9950();
@@ -3823,133 +3665,198 @@ void LoadScriptLocals::FUN_005a9950()
     unsigned short s;
     unsigned char h;
     int p;
-    if (((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_00862110())
     {
         unsigned int blockTag;
-        ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(&blockTag, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(&blockTag, 4);
         if (blockTag != 0x424c4f4b)
         {
-            SavedFormHeader* header = ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_004fd3c0();
+            SavedFormHeader* header = ((::SavedFormHeader *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((ScriptSaveReader*)::g_TESSaveLoadGame)))));
             if (header)
             {
-                TESForm* form = _ref_004839c0(header->formID);
-                Warning(
-                    "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    &DAT_01036d58, 700, header->formID, form->GetName(), header->version,
-                    *(unsigned int*)&header->flagsLow);
+                TESForm* form = ::FUN_004839c0(header->formID);
+                ::FUN_005b5e40(
+                    );
             }
             else
             {
-                Warning(
-                    "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
-                    &DAT_01036d58, 700, ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008df040());
+                ::FUN_005b5e40(
+                    );
             }
         }
-        i = ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_00825c00();
-        ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(&a, 2);
+        i = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_00825c00();
+        reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(&a, 2);
     }
-    ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(&s, 2);
+    reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(&s, 2);
     for (p = 0; p < s; p++)
     {
         unsigned int i = 0;
         double p = 0.0;
-        if (((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008df040() >= 117)
+        if (reinterpret_cast<::FUN_008df040_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008df040() >= 117)
         {
-            ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(&i, 4);
+            reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(&i, 4);
             if (i & 0x80000000)
             {
                 i &= 0x7fffffff;
                 unsigned int refID;
-                ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_00857aa0(&refID, 4);
-                FUN_005acc70(refID, p);
+                reinterpret_cast<::FUN_00857aa0 *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->ValidateFormIDArray(&refID, 4);
+                ::Script::CopyIdentifierBitsToValue(refID, p);
             }
             else
             {
-                ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(&p, 8);
+                reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(&p, 8);
             }
         }
-        if (((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008df040() < 117)
+        if (reinterpret_cast<::FUN_008df040_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008df040() < 117)
         {
-            ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(&i, 4);
-            ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(&p, 8);
+            reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(&i, 4);
+            reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(&p, 8);
         }
-        SetVariable(i, p);
+        reinterpret_cast<::FUN_005a9290_shell *>(this)->SetScriptVariable(i, p);
     }
-    ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(&h, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(&h, 1);
     if (h)
     {
         m_pExtendedLocals = (ScriptDefinition*)new double;
-        ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008579e0(m_pExtendedLocals, 8);
+        reinterpret_cast<::FUN_008579e0_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_008579e0(m_pExtendedLocals, 8);
     }
-    if (((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_00862110())
     {
-        unsigned int s = ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_00825c00();
-        SavedFormHeader* h = ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_004fd3c0();
+        unsigned int s = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((ScriptSaveReader*)::g_TESSaveLoadGame)))->FUN_00825c00();
+        SavedFormHeader* h = ((::SavedFormHeader *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((ScriptSaveReader*)::g_TESSaveLoadGame)))));
         if (h)
         {
-            TESForm* form = _ref_004839c0(h->formID);
+            TESForm* form = ::FUN_004839c0(h->formID);
             if (s > i + a)
-                Warning(
-                    "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    s - (i + a), &DAT_01036d58, 747, h->formID, form->GetName(), h->version,
-                    *(unsigned int*)&h->flagsLow);
+                ::FUN_005b5e40(
+                    );
             else if (s < i + a)
-                Warning(
-                    "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    i + a - s, &DAT_01036d58, 747, h->formID, form->GetName(), h->version,
-                    *(unsigned int*)&h->flagsLow);
+                ::FUN_005b5e40(
+                    );
         }
         else
         {
             if (s > i + a)
-                Warning("SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
-                        s - (i + a), &DAT_01036d58, 747, ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008df040());
+                ::FUN_005b5e40();
             else if (s < i + a)
-                Warning("SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
-                        i + a - s, &DAT_01036d58, 747, ((ScriptSaveReader*)g_TESSaveLoadGame)->FUN_008df040());
+                ::FUN_005b5e40();
         }
     }
 }
 
 namespace fnv_005aa350 {
-struct TlsSlot
-{
-    char pad[0x24F0];
-    void* pCached;
-};
 
 struct ItemX
 {
-    void* FUN_005aa3f0(unsigned int flags);
 };
 struct ListX
 {
     bool FUN_008256d0();
-    ItemX** FUN_006815c0();
     void FUN_0063f7b0();
 };
 struct ClsX
 {
-    ListX* FUN_005d43c0();
     void FUN_005aa350();
 };
 
-extern __declspec(thread) TlsSlot DAT_0126fd98;
 
-// Clears the TLS cached pointer if it points to this object, then iterates the list from FUN_005d43c0 and calls FUN_005aa3f0(1) on each item.
+// Clears the referenced-object cache's script if it is this script, then iterates the list from FUN_005d43c0 and calls FUN_005aa3f0(1) on each item.
 // @fnv 0x005aa350
 void ClsX::FUN_005aa350()
 {
-    if (DAT_0126fd98.pCached == this)
-        DAT_0126fd98.pCached = 0;
-    ListX* pList = FUN_005d43c0();
+    if (g_tlsBlock.lastRefObjectScript == reinterpret_cast<Script*>(this))
+        g_tlsBlock.lastRefObjectScript = 0;
+    ListX* pList = ((::fnv_005aa350::ListX *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     while (pList != 0 && !pList->FUN_008256d0())
     {
-        ItemX* b = *pList->FUN_006815c0();
+        ItemX* b = *((::fnv_005aa350::ItemX **)((void *)(pList)));
         ItemX* pItem = b;
         // the result is discarded but stays in an implicit temp (VM /Od slot layout)
-        (void)(pItem ? pItem->FUN_005aa3f0(1) : 0);
+        (void)(pItem ? reinterpret_cast<::fnv_005aa3f0::p07::DelStandIn *>((pItem))->FUN_005aa3f0(1) : 0);
         pList->FUN_0063f7b0();
     }
 }
 }  // namespace fnv_005aa350
+
+class ScriptLoader : public Script
+{
+  public:
+    bool FUN_005ab9f0(TESFile* file);
+};
+
+// @fnv 0x005ab9f0
+bool ScriptLoader::FUN_005ab9f0(TESFile* file)
+{
+    ScriptVariableInfo* chunk = 0;
+    unsigned int reference;
+    char* variable;
+    int size;
+    char* variableName;
+    unsigned int unusedID;
+    ScriptReferencedObject* referenceID;
+    unsigned int editorID;
+    if (file->GetTESForm() != ENUM_FORM_ID_SCPT_ID)
+        return false;
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    while (size = reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())
+    {
+        switch (size)
+        {
+        case 0x44494445:
+            variable = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(variable), 0x200);
+            SetEditorID_AtRuntime(variable);
+            break;
+        case 0x444e424f:
+            readOBNDSubRecord(file);
+            break;
+        case 0x52484353:
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_kHeader), 0);
+            if (file->IsEndianConversionRequired())
+                reinterpret_cast<::FUN_00414220_shell *>(&(m_kHeader))->FUN_00414220();
+            break;
+        case 0x44534c53:
+            chunk = new ScriptVariableInfo;
+            chunk->Load(file);
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()))))->FUN_00905820((void *)&(chunk));
+            break;
+        case 0x52564353:
+            if (chunk)
+            {
+                variableName = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(variableName), 0x200);
+                reinterpret_cast<::TextString *>(&(chunk->m_kName))->FUN_004037f0(variableName, 0);
+            }
+            break;
+        case 0x41444353:
+            reference = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+            m_data = AllocateZeroed(1, reference);
+            memset(m_data, 0, reference);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_data), 0);
+            break;
+        case 0x4f524353:
+        case 0x56524353:
+            referenceID = new ScriptReferencedObject;
+            file->GetChunkData(&unusedID);
+            if (size == 0x4f524353)
+                referenceID->pForm = (TESForm*)(std::uintptr_t)unusedID;
+            else
+                referenceID->m_uiFormID = unusedID;
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00905820((void *)&(referenceID));
+            break;
+        case 0x54584353:
+            break;
+        case 0x44484353:
+            break;
+        case 0x4d414e52:
+            file->GetChunkData(&editorID);
+        }
+        if (!file->NextChunk())
+            break;
+    }
+    if (!m_data)
+        ::FUN_005b5e40();
+    return true;
+}
+
+#include "generated/data/fallout_shared/tesscript.inc"

@@ -2,6 +2,88 @@
 // src/fallout/magic/summoncreatureeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/summoncreatureeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/effect_item_fields.h"
+#include "fnv/active_effect_fields.h"
+#include "fnv/simple_list_node_view.h"
+#include <new>
+#include <cstdlib>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/AssociatedItemCopyEntry.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004046b0_cls.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00689920_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_008feab0_cls.h"
+#include "fnv/decl/HandlerView.h"
+#include "fnv/decl/KillActor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicItem.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/UnloadMagic.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00490e40__FUN_00490e40_shell.h"
+#include "fnv/decl/fnv_00564930__FUN_00564930_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/decl/fnv_00806de0__AssociatedItemEffect.h"
+#include "fnv/decl/fnv_00806e70__AssociatedItemEffect.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_005c5000.h"
+#include "fnv/symbols_0080b000.h"
+#include "fnv/symbols_00828000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/decl/CalleeObj.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00458420_cls.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_0056e120_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_00c9f420_Class.h"
+#include "fnv/decl/Hld621210.h"
+#include "fnv/decl/Obj.h"
+#include "fnv/decl/ScriptX.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_0050ebf0__FUN_0050ebf0_shell.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
 struct SummonCreatureEffect
 {
     virtual ~SummonCreatureEffect();
@@ -9,49 +91,40 @@ struct SummonCreatureEffect
     void* FUN_00828560(unsigned int flags);
 };
 
-void __cdecl _Deallocate(void*);
-
-// Calls FUN_00828590, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x00828560
-void* SummonCreatureEffect::FUN_00828560(unsigned int flags)
-{
-    FUN_00828590();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 struct FUN_00828da0_shell
 {
-    int __thiscall GetZero(int a, int b, int c);
+    int GetZero(intptr_t a, intptr_t b, int c);
 };
 
 // Returns 0; the local variables are initialized to 0 and never used.
 // @fnv 0x00828da0
-int __thiscall FUN_00828da0_shell::GetZero(int a, int b, int c)
+int FUN_00828da0_shell::GetZero(intptr_t a, intptr_t b, int c)
 {
     int v1 = 0;
     int v2 = 0;
     return v1;
 }
 
-struct Actor;
+class Actor;
 struct FUN_00806da0_shell
 {
-    unsigned short __thiscall FUN_00806da0(Actor*);
+    unsigned short FUN_00806da0(Actor*);
 };
 struct FUN_00829720_shell : public SummonCreatureEffect
 {
-    unsigned short __thiscall FUN_00829720(Actor* actor);
+    unsigned short FUN_00829720(Actor* actor);
+    unsigned int pad04[0x12];
+    void* unk4c;
 };
 // @fnv 0x00829720
-unsigned short __thiscall FUN_00829720_shell::FUN_00829720(Actor* actor)
+unsigned short FUN_00829720_shell::FUN_00829720(Actor* actor)
 {
     unsigned short isize = 0;
     isize += ((FUN_00806da0_shell*)this)->FUN_00806da0(actor);
     isize += 4;
     isize += 1;
-    if (!*(Actor**)((char*)this + 0x4c))
+    if (!*(Actor**)&this->unk4c)
     {
         isize += 4;
         isize += 0xc;
@@ -60,22 +133,25 @@ unsigned short __thiscall FUN_00829720_shell::FUN_00829720(Actor* actor)
     return isize;
 }
 
-struct Actor;
+class Actor;
 struct AssociatedItemEffect
 {
     void FUN_00806e30(Actor* actor);
 };
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void* p, unsigned int size);
-    unsigned char FUN_00857aa0(unsigned int* p, int size);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_00829850_shell : AssociatedItemEffect
 {
-    Actor* m_pActor;
-    bool m_bAssociatedItemLoaded;
     void LoadAssociatedItemEffect(Actor* actor);
+    char pad00[0x4c];
+    Actor* unk4c;
+    unsigned char unk50;
+    char pad51[0x3];
+    unsigned int unk54;
+    float unk58[3];
+    float unk64[3];
+    char unk70;
 };
 // Calls the base loader, reads a 4-byte id and a byte from the save stream, stores them, and reads further fields when the id is zero and not forced.
 // @fnv 0x00829850
@@ -84,25 +160,24 @@ void FUN_00829850_shell::LoadAssociatedItemEffect(Actor* actor)
     unsigned int id;
     unsigned char bforcedToZero;
     FUN_00806e30(actor);
-    bforcedToZero = g_TESSaveLoadGame->FUN_00857aa0(&id, 4);
-    *(Actor**)((char*)this + 0x4c) = (Actor*)id;
-    g_TESSaveLoadGame->ReadTypedData((char*)this + 0x50, 1);
+    bforcedToZero = ((unsigned char)(reinterpret_cast<::FUN_00857aa0 *>((g_TESSaveLoadGame))->ValidateFormIDArray(&id, 4)));
+    this->unk4c = (Actor*)(uintptr_t)id;
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&this->unk50, 1);
     if (!id && !bforcedToZero)
     {
-        g_TESSaveLoadGame->ReadTypedData((char*)this + 0x54, 4);
-        g_TESSaveLoadGame->ReadTypedData((char*)this + 0x58, 0xc);
-        g_TESSaveLoadGame->ReadTypedData((char*)this + 0x64, 0xc);
-        *(char*)((char*)this + 0x70) = 0;
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&this->unk54, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(this->unk58, 0xc);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(this->unk64, 0xc);
+        this->unk70 = 0;
     }
     else
     {
-        *(char*)((char*)this + 0x70) = 1;
+        this->unk70 = 1;
     }
 }
 
 struct FUN_0040b800_shell
 {
-    void FUN_0040b800(bool);
 };
 struct FUN_0080d930
 {
@@ -112,7 +187,6 @@ struct FUN_0080d930
 struct FUN_00828590 : FUN_0080d930
 {
     virtual ~FUN_00828590();
-    FUN_0040b800_shell* FUN_0044ddc0();
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
@@ -143,12 +217,21 @@ struct FUN_00828590 : FUN_0080d930
     unsigned char unk70;
     unsigned char unk71;
 };
+// Calls FUN_00828590, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x00828560
+void* SummonCreatureEffect::FUN_00828560(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00828590 *>(this)->FUN_00828590::~FUN_00828590();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor: if unk71 is set and FUN_0044ddc0() returns non-null, calls FUN_0040b800(true) on the returned shell object.
 // @fnv 0x00828590
 FUN_00828590::~FUN_00828590()
 {
-    if (unk71 && FUN_0044ddc0())
-        FUN_0044ddc0()->FUN_0040b800(true);
+    if (unk71 && ((::FUN_0040b800_shell *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)))
+        reinterpret_cast<::UnloadMagic *>((((::FUN_0040b800_shell *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))))->FUN_0040b800(true);
 }
 
 struct SelectedRecord
@@ -157,30 +240,31 @@ struct SelectedRecord
     int y;
     int z;
 };
-extern void* selectionContext;
-int __cdecl FUN_00828b20(const void*, const void*);
-void __cdecl FUN_00ec6f20(int, int, int, int);
 struct SelectionPredicate
 {
-    bool FUN_00828f00(int, SelectedRecord*);
 };
 struct RecordSelector
 {
     bool SelectRecord(void* context, int flags, SelectedRecord* output);
+};
+struct SummonCreatureEffectHelper : SummonCreatureEffect
+{
+    TESForm* GetBaseForm();
+    bool FUN_00828f00(int iUnused, NiPoint3* pkPos);
 };
 // Collects records via GetZero, sorts them with FUN_00ec6f20, finds the first matching FUN_00828f00, copies it to output and frees the array.
 // @fnv 0x00828cb0
 bool RecordSelector::SelectRecord(void* context, int flags, SelectedRecord* output)
 {
     SelectedRecord* entries = 0;
-    int count = ((FUN_00828da0_shell*)this)->GetZero((int)&entries, (int)context, flags);
+    int count = ((FUN_00828da0_shell*)this)->GetZero((intptr_t)&entries, (intptr_t)context, flags);
     if (count <= 0 || entries == 0)
         return false;
     int index = 0;
-    selectionContext = context;
-    FUN_00ec6f20((int)entries, count, sizeof(SelectedRecord), (int)&FUN_00828b20);
+    (*reinterpret_cast<void * *>(&::g_011dcc58)) = context;
+    std::qsort((void *)(entries), count, sizeof(SelectedRecord), (int (*)(const void *, const void *))((intptr_t)&((int (&)(const void *, const void *))::FUN_00828b20)));
     index = 0;
-    while (index < count && !((SelectionPredicate*)this)->FUN_00828f00(flags, &entries[index]))
+    while (index < count && !reinterpret_cast<::SummonCreatureEffectHelper *>((((SelectionPredicate*)this)))->FUN_00828f00(flags, (::NiPoint3 *)(::SelectedRecord *)(&entries[index])))
     {
         ++index;
     }
@@ -188,24 +272,22 @@ bool RecordSelector::SelectRecord(void* context, int flags, SelectedRecord* outp
     {
         *output = entries[index];
         SelectedRecord* selected = entries;
-        _Deallocate(selected);
+        ::FUN_00401030(selected);
         return true;
     }
     else
     {
         SelectedRecord* discarded = entries;
-        _Deallocate(discarded);
+        ::FUN_00401030(discarded);
         return false;
     }
 }
 
-struct Actor;
+class Actor;
 struct ListNode
 {
     void* value;
-    ListNode* _ref_00726070();
     bool _ref_008256d0() const;
-    struct ActiveEffect** _ref_006815c0();
 };
 struct PlayerEffects
 {
@@ -213,8 +295,9 @@ struct PlayerEffects
     virtual void slot1();
     virtual ListNode* GetFirst();
 };
-struct Actor
+class Actor
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -254,25 +337,19 @@ struct Actor
     int unk90;
     PlayerEffects effects;
 };
-extern Actor* g_thePlayer;
-struct ActiveEffect;
-struct EffectSetting
+class ActiveEffect;
+class EffectSetting
 {
-    bool IsAssociatedFormUsed();
-    bool IsFlagSet(unsigned int flag);
 };
-struct ActiveEffect
+class EffectSetting;
+class ActiveEffect
 {
-    EffectSetting* GetEffectSetting();
-    float GetAge();
-    void Dispel(bool immediate);
+public:
+    ::EffectSetting *GetEffectSetting() const;
 };
 struct GlobalObject2_0040c150
 {
-    int* FUN_0043d4d0();
 };
-extern GlobalObject2_0040c150 g_011d171c;
-extern float DAT_01015f5c;
 
 struct FUN_00829970_Class
 {
@@ -281,7 +358,7 @@ struct FUN_00829970_Class
 // @fnv 0x00829970
 void FUN_00829970_Class::DispelOldestQualifyingEffect()
 {
-    ListNode* node = g_thePlayer->effects.GetFirst();
+    ListNode* node = (*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->effects.GetFirst();
     int bestAge;
     ActiveEffect* bestEffect;
     float validCount;
@@ -290,21 +367,21 @@ void FUN_00829970_Class::DispelOldestQualifyingEffect()
     bestAge = 0;
     while (node && !node->_ref_008256d0())
     {
-        ActiveEffect* effect = *node->_ref_006815c0();
+        ActiveEffect* effect = *((::ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         EffectSetting* setting = effect->GetEffectSetting();
-        if (setting->IsAssociatedFormUsed() && setting->IsFlagSet(0x40000))
+        if (::IsArchetypeFlagSet((::EffectSetting *)(setting)) && reinterpret_cast<::S3e60 *>((setting))->FUN_00403e60(0x40000))
         {
             ++bestAge;
-            if (effect->GetAge() > validCount)
+            if (reinterpret_cast<::TimeoutTimer *>((effect))->FUN_006b9130() > validCount)
             {
                 bestEffect = effect;
-                validCount = effect->GetAge();
+                validCount = reinterpret_cast<::TimeoutTimer *>((effect))->FUN_006b9130();
             }
         }
-        node = node->_ref_00726070();
+        node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
-    if (bestEffect && bestAge > *g_011d171c.FUN_0043d4d0())
-        bestEffect->Dispel(false);
+    if (bestEffect && bestAge > *((int *)&(::FUN_0043d4d0((int *)&(::g_011d171c)))))
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((bestEffect))->FUN_00804210(false);
 }
 
 struct NiPoint3
@@ -315,15 +392,18 @@ struct NiPoint3
 
     NiPoint3();
     NiPoint3(float fX, float fY, float fZ);
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
+public:
+    NiPoint3 operator+(const NiPoint3& kPt) const;
 };
 
 NiPoint3 operator*(float fScalar, const NiPoint3& kPt);
 
-float FUN_005b9e80(float f);
-float FUN_005c53d0(float f);
 void* FUN_006890b0(void* pCell, float fScale, const char* m_kModelObjectsItem, NiPoint3 point, NiPoint3 vel, float fScale2,
                    int iFlags, int iUnk);
-float GetAnimValueByPrefix(void* pA, const char* m_pIdleForm, const char* pEvent);
 
 struct S_008287e0_Cell;
 
@@ -455,13 +535,10 @@ struct S_008287e0_Actor
     virtual void vfn7B();
     virtual void vfn7C();
     virtual const NiPoint3& vfn7D();
-    const NiPoint3& FUN_00430830();
-    S_008287e0_Cell* FUN_008d6f30();
 };
 
 struct S_008287e0_Caster
 {
-    S_008287e0_Actor* FUN_00822b40();
 };
 
 struct S_008287e0_Model
@@ -490,18 +567,14 @@ struct S_008287e0_Setting : S_008287e0_Base, S_008287e0_Model
 
 struct S_008287e0_Item
 {
-    S_008287e0_Setting* FUN_00825c00();
 };
 
 struct S_008287e0_Temp
 {
-    void FUN_00689920(const char* m_pIdleForm);
-    void* FUN_00490e40();
 };
 
 struct S_008287e0_Magic
 {
-    void FUN_0040a420(bool b);
 };
 
 struct S_008287e0
@@ -533,45 +606,38 @@ struct S_008287e0
     char unk70;
     bool unk71;
 
-    S_008287e0_Caster* FUN_0059bb30();
-    S_008287e0_Item* FUN_0084e3a0();
-    S_008287e0_Magic* FUN_0044ddc0();
-    bool SelectRecord(S_008287e0_Actor* ref, int iUnk, NiPoint3* pPos);
     void FUN_008287e0();
 };
 
 // @fnv 0x008287e0
 void S_008287e0::FUN_008287e0()
 {
-    S_008287e0_Actor* ref = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
+    S_008287e0_Actor* ref = ((::S_008287e0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::S_008287e0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_008287e0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!ref)
         return;
 
-    unk64 = ref->FUN_00430830();
+    unk64 = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((ref))->GetData()));
     unk58 = ref->vfn7D();
     NiPoint3 point;
-    if (SelectRecord(ref, unk4C, &point))
+    if (reinterpret_cast<::RecordSelector *>(this)->SelectRecord(ref, unk4C, (::SelectedRecord *)(::NiPoint3 *)(&point)))
         unk58 = point;
 
     const char* m_pIdleForm = "SpecialIdle_SummonEffect";
     NiPoint3 vel = 64.0f * NiPoint3(-FUN_005c53d0(-unk64.z), FUN_005b9e80(-unk64.z), 0.0f);
     void* m_kModelObjectsItem =
-        FUN_006890b0(ref->FUN_008d6f30(), 1.0f, FUN_0084e3a0()->FUN_00825c00()->vfn05(), vel, unk58, 1.0f, 7, 0);
-    ((S_008287e0_Temp*)m_kModelObjectsItem)->FUN_00689920(m_pIdleForm);
-    void* pAVObject = ((S_008287e0_Temp*)m_kModelObjectsItem)->FUN_00490e40();
-    unk54 = GetAnimValueByPrefix(pAVObject, m_pIdleForm, "Hit");
+        FUN_006890b0(((::S_008287e0_Cell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())), 1.0f, ((::S_008287e0_Setting *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(this)->effect)->setting))->vfn05(), vel, unk58, 1.0f, 7, 0);
+    reinterpret_cast<::FUN_00689920_shell *>((((S_008287e0_Temp*)m_kModelObjectsItem)))->FUN_00689920(m_pIdleForm);
+    void* pAVObject = ((void *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((S_008287e0_Temp*)m_kModelObjectsItem)))->FUN_00490e40()));
+    unk54 = ::GetAnimValueByPrefix((::NiObj6220 *)(pAVObject), m_pIdleForm, "Hit");
 
-    if (!unk71 && FUN_0044ddc0())
+    if (!unk71 && ((::S_008287e0_Magic *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)))
     {
-        FUN_0044ddc0()->FUN_0040a420(false);
+        reinterpret_cast<::MagicItem *>((((::S_008287e0_Magic *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))))->Preload(false);
         unk71 = true;
     }
 }
 
 extern char DAT_0107c2ac;
-extern unsigned int DAT_011f426c;
-extern unsigned int DAT_011f4270;
-extern unsigned int DAT_011f4274;
 
 struct FUN_00828470_helper1
 {
@@ -586,7 +652,6 @@ struct FUN_00828470_base
 
 struct FUN_00828470_sub
 {
-    void FUN_006815c0();
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -628,13 +693,11 @@ struct FUN_00828470_cls : FUN_00828470_base
 FUN_00828470_cls::FUN_00828470_cls(void* a1, void* a2, FUN_00828470_helper1* a3) : FUN_00828470_base(a1, a2, a3)
 {
     m_vptr = &DAT_0107c2ac;
-    m_58.FUN_006815c0();
-    m_64.FUN_006815c0();
     m_4c = 0;
     m_50 = 0;
     m_54 = 0.0f;
-    m_58 = *(FUN_00828470_sub*)&DAT_011f426c;
-    m_64 = *(FUN_00828470_sub*)&DAT_011f426c;
+    m_58 = *(FUN_00828470_sub*)&(*reinterpret_cast<unsigned int *>((void *)&::NiPoint3::ZERO));
+    m_64 = *(FUN_00828470_sub*)&(*reinterpret_cast<unsigned int *>((void *)&::NiPoint3::ZERO));
     m_70 = 0;
     m_71 = 0;
 }
@@ -680,22 +743,21 @@ struct FUN_00828470_cls
 
 struct FUN_0044ddc0_ret
 {
-    void FUN_0040a420(int a1);
 };
 
 struct FUN_00828610_cls
 {
     unsigned int unk00;
     unsigned int unk04;
-    unsigned int m_08;
-    unsigned int m_0c;
+    uintptr_t m_08;
+    uintptr_t m_0c;
     unsigned int unk10;
     unsigned int unk14;
     unsigned int unk18;
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int unk24;
-    unsigned int m_28;
+    uintptr_t m_28;
     unsigned int unk2c;
     unsigned int unk30;
     unsigned int unk34;
@@ -713,24 +775,22 @@ struct FUN_00828610_cls
     unsigned char m_71;
 
     FUN_00828470_cls* CloneObject();
-    void FUN_00806d50(FUN_00828470_cls* apObj);
-    FUN_0044ddc0_ret* FUN_0044ddc0();
 };
 
 // @fnv 0x00828610
 FUN_00828470_cls* FUN_00828610_cls::CloneObject()
 {
     FUN_00828470_cls* obj = new FUN_00828470_cls((void*)m_28, (void*)m_08, (void*)m_0c);
-    FUN_00806d50(obj);
+    reinterpret_cast<::AssociatedItemCopyEntry *>(this)->FUN_00806d50((::ActiveEffect *)(obj));
     obj->m_4c = m_4c;
     obj->m_50 = m_50;
     obj->m_54 = m_54;
     obj->m_58 = m_58;
     obj->m_64 = m_64;
     obj->m_70 = m_70;
-    if (m_71 != 0 && obj->m_71 == 0 && FUN_0044ddc0())
+    if (m_71 != 0 && obj->m_71 == 0 && ((::fnv_00828610::FUN_0044ddc0_ret *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)))
     {
-        FUN_0044ddc0()->FUN_0040a420(0);
+        reinterpret_cast<::MagicItem *>((((::fnv_00828610::FUN_0044ddc0_ret *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))))->Preload(0);
     }
     obj->m_71 = m_71;
     return obj;
@@ -924,19 +984,12 @@ struct FxnObj
     virtual void v137();
     virtual void v138();
     virtual bool v139(int a);
-    FxnNode* FUN_008d8520();
-    void FUN_0089d900(int a, float f);
 };
 
 struct FxnNode
 {
-    FxnNode* FUN_00822b40();
-    int FUN_0045cd60();
-    void FUN_008feab0(FxnObj* obj);
-    void FUN_0040b800(int a);
 };
 
-void __cdecl FUN_0080b9e0(FxnObj* obj, FxnNode* node, int flag);
 
 struct FUN_008289e0_cls : public SummonCreatureEffect
 {
@@ -969,51 +1022,47 @@ struct FUN_008289e0_cls : public SummonCreatureEffect
     int unk6c;
     unsigned char unk70;
     unsigned char m_71;
-    FxnNode* FUN_0059bb30();
-    FxnNode* FUN_0044ddc0();
     void CleanupSummonedCreature();
 };
 
 // @fnv 0x008289e0
 void FUN_008289e0_cls::CleanupSummonedCreature()
 {
-    FxnNode* a = (this->FUN_0059bb30() != 0) ? this->FUN_0059bb30()->FUN_00822b40() : 0;
+    FxnNode* a = (((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0) ? ((::FxnNode *)(reinterpret_cast<::MagicTarget *>((((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (this->m_4c != 0 && a != 0)
     {
-        if (this->m_4c->FUN_008d8520() != 0 && this->m_4c->FUN_008d8520()->FUN_0045cd60() == 0)
+        if (((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture())) != 0 && (reinterpret_cast<::FUN_0045cd60_shell *>((((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture()))))->FUN_0045cd60()) == 0)
         {
             if (!this->m_4c->v139(0))
             {
-                this->m_4c->FUN_0089d900(0, 0.0f);
+                reinterpret_cast<::KillActor *>((this->m_4c))->FUN_0089d900((::Actor *)(0), 0.0f);
             }
-            this->m_4c->FUN_008d8520()->FUN_008feab0(this->m_4c);
-            FUN_0080b9e0(this->m_4c, a, 1);
+            reinterpret_cast<::FUN_008feab0_cls *>((((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture()))))->FUN_008feab0((::Actor *)(this->m_4c));
+            ::FUN_0080b9e0(this->m_4c, a, 1);
         }
         else
         {
-            FUN_0080b9e0(this->m_4c, a, 1);
+            ::FUN_0080b9e0(this->m_4c, a, 1);
             this->m_4c->v49(1);
         }
         this->m_4c = 0;
     }
-    if (this->m_71 != 0 && this->FUN_0044ddc0() != 0)
+    if (this->m_71 != 0 && ((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)) != 0)
     {
-        this->FUN_0044ddc0()->FUN_0040b800(0);
+        reinterpret_cast<::UnloadMagic *>((((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))))->FUN_0040b800(0);
         this->m_71 = 0;
     }
 }
 
-extern int g_011dcc58;
-float __cdecl ComputeDirectionalFalloff(int owner, int key);
 
 // Looks up two float values by id from g_011dcc58 and returns 0 if equal, 1 if the first is smaller, -1 otherwise.
 // @fnv 0x00828b20
 int __cdecl FUN_00828b20(int aiIdA, int aiIdB)
 {
-    int idA = aiIdA;
-    int idB = aiIdB;
-    float valueA = ComputeDirectionalFalloff(g_011dcc58, idA);
-    float valueB = ComputeDirectionalFalloff(g_011dcc58, idB);
+    intptr_t idA = aiIdA;
+    intptr_t idB = aiIdB;
+    float valueA = ::ComputeDirectionalFalloff((::S_00828dc0_Actor *)(g_011dcc58), (::S_00828dc0_Obj *)(idA));
+    float valueB = ::ComputeDirectionalFalloff((::S_00828dc0_Actor *)(g_011dcc58), (::S_00828dc0_Obj *)(idB));
     if (valueA == valueB)
     {
         return 0;
@@ -1175,7 +1224,6 @@ struct S_00828ba0_Target
 
 struct S_00828ba0_Owner
 {
-    S_00828ba0_Actor* FUN_00822b40();
 };
 
 struct S_00828ba0 : SummonCreatureEffect
@@ -1208,59 +1256,24 @@ struct S_00828ba0 : SummonCreatureEffect
     int unk68;
     int unk6c;
     unsigned char m_70;
-    S_00828ba0_Owner* FUN_0059bb30();
-    void FUN_00804210(int a);
-    void SpawnSummonedActor(S_00828ba0_Actor* actor);
-    void DispelOldestQualifyingEffect();
     void FUN_00828ba0(int unused);
 };
-void __cdecl FUN_0080b8f0(S_00828ba0_Target* t, S_00828ba0_Actor* actor);
-extern S_00828ba0_Actor* DAT_011dea3c;
 
-// @fnv 0x00828ba0
-void S_00828ba0::FUN_00828ba0(int unused)
-{
-    S_00828ba0_Actor* actor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    if (!actor || (m_70 && (!m_4c || m_4c->vfn8b(0))))
-    {
-        FUN_00804210(0);
-        return;
-    }
-    if (m_04 >= m_54 && !m_70)
-    {
-        SpawnSummonedActor(actor);
-        if (actor == DAT_011dea3c)
-            DispelOldestQualifyingEffect();
-        m_70 = 1;
-    }
-    if (m_4c && !m_4c->vfn8b(0))
-        FUN_0080b8f0(m_4c, actor);
-}
-
-extern float DAT_0101b2d0;
-extern float DAT_01013d84;
-extern double DAT_01011588;
 
 struct S_00828dc0_Vec3
 {
     float x, y, z;
-    float FUN_00457990();
-    void FUN_004a0c10();
 };
 
 struct S_00828dc0_Mat;
 struct S_00828dc0_Mat
 {
     float m0, m1, m2, m3, m4, m5, m6, m7, m8;
-    void FUN_004a0c90(float z);
-    void FUN_004b45b0(S_00828dc0_Mat* out);
 };
 
-extern S_00828dc0_Mat DAT_011a9448;
 
 struct S_00828dc0_Obj
 {
-    void FUN_00439ef0(S_00828dc0_Vec3* out, int x);
 };
 
 struct S_00828dc0_Actor
@@ -1390,12 +1403,9 @@ struct S_00828dc0_Actor
     virtual void vf1e8();
     virtual void vf1ec();
     virtual void vf1f0();
-    virtual int vf1f4();
-    S_00828dc0_Vec3* FUN_00430830();
+    virtual intptr_t vf1f4();
 };
 
-void FUN_004b3ae0(S_00828dc0_Vec3* out, const S_00828dc0_Vec3* v, const S_00828dc0_Mat* m);
-float FUN_00408820(float f);
 
 // @fnv 0x00828dc0
 float ComputeDirectionalFalloff(S_00828dc0_Actor* actor, S_00828dc0_Obj* obj)
@@ -1403,8 +1413,8 @@ float ComputeDirectionalFalloff(S_00828dc0_Actor* actor, S_00828dc0_Obj* obj)
     float low = DAT_0101b2d0;
     float high = DAT_01013d84;
     S_00828dc0_Vec3 delta;
-    obj->FUN_00439ef0(&delta, actor->vf1f4());
-    float dist = delta.FUN_00457990();
+    reinterpret_cast<::FUN_00439ef0_class *>((obj))->FUN_00439ef0((::NiPoint3 *)(::S_00828dc0_Vec3 *)(&delta), (*(const ::NiPoint3 *)(actor->vf1f4())));
+    float dist = reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude();
     float scale = 1.0f;
     if (dist < low)
         scale = dist / low;
@@ -1412,15 +1422,15 @@ float ComputeDirectionalFalloff(S_00828dc0_Actor* actor, S_00828dc0_Obj* obj)
         scale = (high - dist) / (high - low);
     else
         scale = 0.0f;
-    S_00828dc0_Vec3 rot = *actor->FUN_00430830();
-    S_00828dc0_Mat matrix = DAT_011a9448;
-    matrix.FUN_004a0c90(rot.z);
+    S_00828dc0_Vec3 rot = *((::S_00828dc0_Vec3 *)(reinterpret_cast<::TESRecipe *>((actor))->GetData()));
+    S_00828dc0_Mat matrix = (*reinterpret_cast<::S_00828dc0_Mat *>(&::DAT_011a9448));
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(matrix))->FUN_004a0c90(rot.z);
     S_00828dc0_Mat mInv;
-    matrix.FUN_004b45b0(&mInv);
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(matrix))->FUN_004b45b0((::ThreeByThreeMatrix *)(::S_00828dc0_Mat *)(&mInv));
     S_00828dc0_Vec3 localDir;
-    FUN_004b3ae0(&localDir, &delta, &matrix);
-    localDir.FUN_004a0c10();
-    float x = 1.0f - FUN_00408820(localDir.x);
+    ::FUN_004b3ae0((::NiPoint3 *)(::S_00828dc0_Vec3 *)(&localDir), (*(const ::NiPoint3 *)(&delta)), (const float *)(const ::S_00828dc0_Mat *)(&matrix));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(localDir))->FUN_004a0c10();
+    float x = 1.0f - ((float)(::FUN_00408820(localDir.x)));
     x = x * x;
     float fy = (1.0f + localDir.y) * DAT_01011588;
     return scale * x * fy;
@@ -1428,14 +1438,10 @@ float ComputeDirectionalFalloff(S_00828dc0_Actor* actor, S_00828dc0_Obj* obj)
 
 struct RegistrationManager
 {
-    void FUN_00857a10(const void*, unsigned int);
-    void FUN_008579b0(void*, unsigned int);
 };
-extern RegistrationManager* g_registrationManager;
 
 struct OptionalState
 {
-    int FUN_0084e3a0();
 };
 
 struct FUN_008297a0_shell : public SummonCreatureEffect
@@ -1468,24 +1474,23 @@ struct FUN_008297a0_shell : public SummonCreatureEffect
     int unk68;
     int unk6c;
 
-    void FUN_00806de0(int);
-    void FUN_008297a0(int);
+    void FUN_008297a0(intptr_t);
 };
 
 // @fnv 0x008297a0
-void FUN_008297a0_shell::FUN_008297a0(int value)
+void FUN_008297a0_shell::FUN_008297a0(intptr_t value)
 {
-    FUN_00806de0(value);
+    reinterpret_cast<::fnv_00806de0::AssociatedItemEffect *>(this)->FUN_00806de0((::Actor *)(value));
     int id = 0;
     if (unk4c != 0)
-        id = unk4c->FUN_0084e3a0();
-    g_registrationManager->FUN_00857a10(&id, 4);
-    g_registrationManager->FUN_008579b0(&unk50, 1);
+        id = reinterpret_cast<::FUN_0084e3a0_Class *>((unk4c))->FUN_0084e3a0();
+    reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::RegistrationManager * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(const void *)(&id), 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::RegistrationManager * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk50, 1);
     if (unk4c == 0)
     {
-        g_registrationManager->FUN_008579b0(&unk54, 4);
-        g_registrationManager->FUN_008579b0(&unk58, 12);
-        g_registrationManager->FUN_008579b0(&unk64, 12);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::RegistrationManager * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk54, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::RegistrationManager * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk58, 12);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::RegistrationManager * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk64, 12);
     }
 }
 
@@ -1500,19 +1505,18 @@ struct S_008294e0_Str
     unsigned short m_len;
     unsigned short m_kMaximumCorner;
     ~S_008294e0_Str();
-    const char* FUN_00559450();
 };
 
 struct S_008294e0_Named
 {
-    S_008294e0_Str AssignFromSub();
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
-struct TESBoundObject : TESForm
+class TESBoundObject : public TESForm
 {
 };
 
@@ -2098,38 +2102,24 @@ struct S_008294e0_Ref
     virtual void vr_258();
     virtual void vr_25C();
     virtual void vr_260();
-    bool FUN_00564930(int a);
-    void FUN_00575830(S_008294e0_Point* pos);
-    S_008294e0_Proc* FUN_008d8520();
 };
 
 struct S_008294e0_Actor
 {
-    int FUN_00575d70();
-    int FUN_008d6f30(int a);
-    const char* FUN_0055d520();
 };
 
 struct S_008294e0_Target
 {
-    S_008294e0_Actor* FUN_00822b40();
 };
 
 struct S_008294e0_Handler
 {
-    S_008294e0_Ref* PlaceObjectReference(TESBoundObject* obj, S_008294e0_Point* pos, S_008294e0_Point* rot, int cell,
-                                         int a, int b, int c);
 };
-extern S_008294e0_Handler* DAT_011c3f2c;
 
-void __cdecl FUN_005b5e40(const char* fmt, ...);
-void __cdecl StartHostilityAndCombat(S_008294e0_Ref* ref, S_008294e0_Actor* actor);
 
 struct S_008294e0_Effect
 {
-    S_008294e0_Target* FUN_0059bb30();
     TESForm* FUN_006733e0();
-    S_008294e0_Named* FUN_007df1d0();
 };
 
 struct S_008294e0_Summon : S_008294e0_Effect
@@ -2140,57 +2130,72 @@ struct S_008294e0_Summon : S_008294e0_Effect
     int unk50, unk54;
     S_008294e0_Point unk58;
     S_008294e0_Point unk64;
-    void SpawnSummonedActor(int unused);
+    void SpawnSummonedActor(void* unused);
 };
+// @fnv 0x00828ba0
+void S_00828ba0::FUN_00828ba0(int unused)
+{
+    S_00828ba0_Actor* actor = ((::S_00828ba0_Owner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::S_00828ba0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_00828ba0_Owner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
+    if (!actor || (m_70 && (!m_4c || m_4c->vfn8b(0))))
+    {
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(0);
+        return;
+    }
+    if (m_04 >= m_54 && !m_70)
+    {
+        reinterpret_cast<::S_008294e0_Summon *>(this)->SpawnSummonedActor(actor);
+        if (actor == (*reinterpret_cast<::S_00828ba0_Actor * *>(&::_g_thePlayer)))
+            reinterpret_cast<::FUN_00829970_Class *>(this)->DispelOldestQualifyingEffect();
+        m_70 = 1;
+    }
+    if (m_4c && !m_4c->vfn8b(0))
+        ::FUN_0080b8f0(m_4c, actor);
+}
 
 // @fnv 0x008294e0
-void S_008294e0_Summon::SpawnSummonedActor(int unused)
+void S_008294e0_Summon::SpawnSummonedActor(void* unused)
 {
-    S_008294e0_Actor* actor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
+    S_008294e0_Actor* actor = ((::S_008294e0_Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::S_008294e0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_008294e0_Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!actor)
         return;
     S_008294e0_Ref* ref;
     TESBoundObject* pCreatureForm = dynamic_cast<TESBoundObject*>(FUN_006733e0());
     if (!pCreatureForm)
     {
-        FUN_005b5e40("GAME EFFECTS: %s effect has no associated creature.",
-                     FUN_007df1d0()->AssignFromSub().FUN_00559450());
+        ::FUN_005b5e40();
     }
     else
     {
-        ref = DAT_011c3f2c->PlaceObjectReference(pCreatureForm, &unk58, &unk64,
-                                                 actor->FUN_008d6f30(actor->FUN_00575d70()), 0, 0, 0);
+        ref = ((::S_008294e0_Ref *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::S_008294e0_Handler * *>(&::g_dataHandler))))->PlaceObjectReference(pCreatureForm, (::NiPoint3 *)(::S_008294e0_Point *)(&unk58), (::NiPoint3 *)(::S_008294e0_Point *)(&unk64),
+                                                 (::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((actor))->GetTarget()))), (::TESWorldSpace *)(0), (::TESObjectREFR *)(0), (const char *)(0), {})));
         if (ref)
         {
             if (ref->IsActor())
             {
                 unk4C = ref;
-                unk4C->FUN_00575830(&unk58);
+                reinterpret_cast<::Reference *>((unk4C))->FUN_00575830((::Position *)(::S_008294e0_Point *)(&unk58));
                 unk4C->vr_1FC(0);
                 unk4C->vr_260();
-                StartHostilityAndCombat(unk4C, actor);
-                unk4C->FUN_008d8520()->SetSomething(1);
+                ::StartHostilityAndCombat((::B850Actor *)(unk4C), (::B850Actor *)(actor));
+                ((::S_008294e0_Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((unk4C))->GetBaseTexture()))->SetSomething(1);
             }
             else
             {
-                FUN_005b5e40("GAME EFFECTS: %s summoned a non-actor.", actor->FUN_0055d520());
-                ref->FUN_00564930(1);
+                ::FUN_005b5e40();
+                reinterpret_cast<::fnv_00564930::FUN_00564930_shell *>((ref))->FUN_00564930(1);
             }
         }
         else if (!pCreatureForm)
         {
-            FUN_005b5e40("DEFAULT: %s effect unable to create reference.",
-                         FUN_007df1d0()->AssignFromSub().FUN_00559450());
+            ::FUN_005b5e40();
         }
     }
 }
 
 struct DbeffectBaseCall
 {
-    void FUN_00806e70(void*);
 };
 
-TESForm* __cdecl FUN_004839c0(unsigned int);
 struct Dbeffect : SummonCreatureEffect
 {
     int unk04;
@@ -2211,19 +2216,617 @@ struct Dbeffect : SummonCreatureEffect
     int unk40;
     int unk44;
     int unk48;
-    int formId;
+    intptr_t formId;
     void FUN_00829900(void* arg);
 };
 // Calls the base handler, resolves formId to an Actor via FUN_004839c0, and dispels the effect if the lookup fails.
 // @fnv 0x00829900
 void Dbeffect::FUN_00829900(void* arg)
 {
-    ((DbeffectBaseCall*)this)->FUN_00806e70(arg);
+    reinterpret_cast<::fnv_00806e70::AssociatedItemEffect *>((((DbeffectBaseCall*)this)))->FUN_00806e70((::fnv_00806e70::Actor *)(arg));
     int iFormId = formId;
     if (iFormId)
     {
-        formId = (int)dynamic_cast<Actor*>(FUN_004839c0((unsigned int)iFormId));
+        formId = (intptr_t)dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)iFormId));
         if (!formId)
-            ((ActiveEffect*)this)->Dispel(true);
+            reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((((ActiveEffect*)this)))->FUN_00804210(true);
     }
 }
+
+
+
+struct __declspec(align(16)) hkVector4
+{
+    float x;
+    float y;
+    float z;
+    float w;
+
+    hkVector4();
+};
+
+
+struct hkBool
+{
+    char m_cBooleanValue;
+
+    hkBool() {}
+    operator bool() const;
+};
+
+class TESObjectCELL;
+struct bhkWorld;
+
+
+class MobileObject
+{
+  public:
+    virtual void Vfn000();
+    virtual void Vfn001();
+    virtual void Vfn002();
+    virtual void Vfn003();
+    virtual void Vfn004();
+    virtual void Vfn005();
+    virtual void Vfn006();
+    virtual void Vfn007();
+    virtual void Vfn008();
+    virtual void Vfn009();
+    virtual void Vfn00a();
+    virtual void Vfn00b();
+    virtual void Vfn00c();
+    virtual void Vfn00d();
+    virtual void Vfn00e();
+    virtual void Vfn00f();
+    virtual void Vfn010();
+    virtual void Vfn011();
+    virtual void Vfn012();
+    virtual void Vfn013();
+    virtual void Vfn014();
+    virtual void Vfn015();
+    virtual void Vfn016();
+    virtual void Vfn017();
+    virtual void Vfn018();
+    virtual void Vfn019();
+    virtual void Vfn01a();
+    virtual void Vfn01b();
+    virtual void Vfn01c();
+    virtual void Vfn01d();
+    virtual void Vfn01e();
+    virtual void Vfn01f();
+    virtual void Vfn020();
+    virtual void Vfn021();
+    virtual void Vfn022();
+    virtual void Vfn023();
+    virtual void Vfn024();
+    virtual void Vfn025();
+    virtual void Vfn026();
+    virtual void Vfn027();
+    virtual void Vfn028();
+    virtual void Vfn029();
+    virtual void Vfn02a();
+    virtual void Vfn02b();
+    virtual void Vfn02c();
+    virtual void Vfn02d();
+    virtual void Vfn02e();
+    virtual void Vfn02f();
+    virtual void Vfn030();
+    virtual void Vfn031();
+    virtual void Vfn032();
+    virtual void Vfn033();
+    virtual void Vfn034();
+    virtual void Vfn035();
+    virtual void Vfn036();
+    virtual void Vfn037();
+    virtual void Vfn038();
+    virtual void Vfn039();
+    virtual void Vfn03a();
+    virtual void Vfn03b();
+    virtual void Vfn03c();
+    virtual void Vfn03d();
+    virtual void Vfn03e();
+    virtual void Vfn03f();
+    virtual void Vfn040();
+    virtual void Vfn041();
+    virtual void Vfn042();
+    virtual void Vfn043();
+    virtual void Vfn044();
+    virtual void Vfn045();
+    virtual void Vfn046();
+    virtual void Vfn047();
+    virtual void Vfn048();
+    virtual void Vfn049();
+    virtual void Vfn04a();
+    virtual void Vfn04b();
+    virtual void Vfn04c();
+    virtual void Vfn04d();
+    virtual void Vfn04e();
+    virtual void Vfn04f();
+    virtual void Vfn050();
+    virtual void Vfn051();
+    virtual void Vfn052();
+    virtual void Vfn053();
+    virtual void Vfn054();
+    virtual void Vfn055();
+    virtual void Vfn056();
+    virtual void Vfn057();
+    virtual void Vfn058();
+    virtual void Vfn059();
+    virtual void Vfn05a();
+    virtual void Vfn05b();
+    virtual void Vfn05c();
+    virtual void Vfn05d();
+    virtual void Vfn05e();
+    virtual void Vfn05f();
+    virtual void Vfn060();
+    virtual void Vfn061();
+    virtual void Vfn062();
+    virtual void Vfn063();
+    virtual void Vfn064();
+    virtual void Vfn065();
+    virtual void Vfn066();
+    virtual void Vfn067();
+    virtual void Vfn068();
+    virtual void Vfn069();
+    virtual void Vfn06a();
+    virtual void Vfn06b();
+    virtual void Vfn06c();
+    virtual void Vfn06d();
+    virtual void Vfn06e();
+    virtual void Vfn06f();
+    virtual void Vfn070();
+    virtual void Vfn071();
+    virtual void Vfn072();
+    virtual void Vfn073();
+    virtual void Vfn074();
+    virtual void Vfn075();
+    virtual void Vfn076();
+    virtual void Vfn077();
+    virtual void Vfn078();
+    virtual void Vfn079();
+    virtual void Vfn07a();
+    virtual void Vfn07b();
+    virtual void Vfn07c();
+    virtual NiPoint3* GetPos();
+
+};
+
+struct EffectTarget
+{
+};
+
+struct bhkSphereShape
+{
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+
+
+    bhkSphereShape(float fRadius, bool bFlag);
+    virtual ~bhkSphereShape();
+};
+
+struct CollisionFilterInfo
+{
+    unsigned int m_uiFilterInfo;
+
+    CollisionFilterInfo(int iLayer, int iSystemGroup, int iPart);
+    operator unsigned int() const;
+};
+
+struct BoundingVolumeData
+{
+    unsigned int m_kMinimumCorner[3];
+    unsigned char m_ucExpansionMin[3];
+    unsigned char m_ucExpansionShift;
+    unsigned int m_kMaximumCorner[3];
+    unsigned char m_ucExpansionMax[3];
+    unsigned char m_reserved;
+    unsigned short m_uiNumChildShapeAabbs;
+    unsigned short m_uiCapacityChildShapeAabbs;
+    void* m_pChildShapeAabbs;
+    void* m_pChildShapeKeys;
+
+};
+
+struct __declspec(align(16)) Collidable
+{
+    unsigned int m_uiFilterInfo;
+    void* m_pShape;
+    void* m_pMotionState;
+    void* m_parent;
+    char m_iOwnerOffset;
+    char m_uiForceCollideOntoPpu;
+    short m_uiShapeSizeOnSpu;
+    unsigned int m_broadPhaseId;
+    char m_cBroadPhaseType;
+    char m_broadPhaseOwnerOffset;
+    char m_ucObjectQualityType;
+    unsigned int m_uiCollisionFilterData;
+    BoundingVolumeData m_kBoundingVolumeData;
+    float m_fAllowedPenetrationDepth;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+
+    Collidable();
+    ~Collidable();
+};
+
+struct ShapePhantom
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+
+    ShapePhantom(const void* pkCollidable);
+    ~ShapePhantom();
+};
+
+struct __declspec(align(16)) CdPointCollector
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int unk2b4;
+    int unk2b8;
+    int unk2bc;
+    int unk2c0;
+    int unk2c4;
+    int unk2c8;
+    int unk2cc;
+    int unk2d0;
+    int unk2d4;
+    int unk2d8;
+    int unk2dc;
+    int unk2e0;
+    int unk2e4;
+    int unk2e8;
+    int unk2ec;
+    int unk2f0;
+    int unk2f4;
+    int unk2f8;
+    int unk2fc;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30c;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31c;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32c;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33c;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34c;
+    int unk350;
+    int unk354;
+    int unk358;
+    int unk35c;
+    int unk360;
+    int unk364;
+    int unk368;
+    int unk36c;
+    int unk370;
+    int unk374;
+    int unk378;
+    int unk37c;
+    int unk380;
+    int unk384;
+    int unk388;
+    int unk38c;
+    int unk390;
+    int unk394;
+    int unk398;
+    int unk39c;
+
+    CdPointCollector();
+    ~CdPointCollector();
+};
+
+struct __declspec(align(16)) LinearCastInput
+{
+    hkVector4 m_vTo;
+    float m_fMaxExtraPenetration;
+    float m_fStartPointTolerance;
+    int unk18;
+    int unk1c;
+
+    LinearCastInput();
+};
+
+struct PickFilter
+{
+    unsigned int m_uiFilter;
+
+    PickFilter(int iValue);
+};
+
+struct RayCastOutput
+{
+    hkVector4 m_vHitNormal;
+    float m_fHitFraction;
+    int m_iExtraInfo;
+    unsigned int m_uiShapeKeys[8];
+    int m_uiShapeKeyIndex;
+    void* m_pRootCollidable;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+
+};
+
+struct __declspec(align(16)) PickData
+{
+    hkVector4 m_kFrom;
+    hkVector4 m_kTo;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    RayCastOutput m_kOutput;
+
+    PickData();
+    void SetFilter(PickFilter kFilter);
+};
+
+struct TES
+{
+};
+
+
+
+// @fnv 0x00828f00
+bool SummonCreatureEffectHelper::FUN_00828f00(int iUnused, NiPoint3* pkPos)
+{
+    MobileObject* pkActor = ((::EffectTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MobileObject *)(reinterpret_cast<::MagicTarget *>((((::EffectTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
+    TESBoundObject* pkBound = dynamic_cast<TESBoundObject*>(GetBaseForm());
+    float fRadius = reinterpret_cast<::fnv_0050ebf0::FUN_0050ebf0_shell *>((pkBound))->FUN_0050ebf0();
+    if (64.0 > fRadius)
+        fRadius = 64.0f;
+
+    bhkSphereShape* pkShape = new bhkSphereShape(fRadius * 0.5, true);
+    CollisionFilterInfo kFilter(0x26, 0, 0);
+    Collidable kCollidable;
+    kCollidable.m_uiFilterInfo = kFilter;
+    kCollidable.m_pShape = ((void *)(::FUN_004ae750((void *)(pkShape))));
+    reinterpret_cast<::FUN_0056e120_shell *>(&(kCollidable.m_kBoundingVolumeData))->FUN_0056e120();
+    ShapePhantom kPhantom(&kCollidable);
+    if (((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pkActor))->GetTarget())))
+        reinterpret_cast<::Obj *>(&(kPhantom))->FUN_00c85810((::Obj *)(::bhkWorld *)(((::bhkWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pkActor))->GetTarget()))))->FUN_004543c0()))));
+
+    hkVector4 kFrom;
+    CdPointCollector kStartCollector;
+    CdPointCollector kCastCollector;
+    LinearCastInput kInput;
+    ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kFrom), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3 &)(*pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0))));
+    ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kInput.m_vTo), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3 &)(*pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0))));
+    reinterpret_cast<::ScriptX *>(&(kPhantom))->InvokeInterfaceCall((intptr_t)&(kFrom), (intptr_t)(&kInput), (intptr_t)(&kCastCollector), (intptr_t)(&kStartCollector));
+    ::hkBool startHit;
+    reinterpret_cast<::Hld621210 *>(&(kStartCollector))->FUN_00621210((::Rcv621210 *)&startHit);
+    if (reinterpret_cast<::FUN_005609f0_shell *>(&startHit)->FUN_005609f0())
+    {
+        reinterpret_cast<::FUN_00c9f420_Class *>(&(kPhantom))->FUN_00c9f420();
+        delete pkShape;
+        return false;
+    }
+
+    reinterpret_cast<::FUN_00c9f420_Class *>(&(kPhantom))->FUN_00c9f420();
+    delete pkShape;
+    if (reinterpret_cast<::FUN_0057b0a0_shell *>((pkActor))->FUN_0057b0a0() > pkActor->GetPos()->z)
+        return false;
+
+    PickData kPick;
+    PickFilter kPickFilter(0);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(kPickFilter))->FUN_004a39f0(0x26);
+    kPick.SetFilter(kPickFilter);
+    NiPoint3 kStart = *pkActor->GetPos();
+    kStart.z += 64.0;
+    NiPoint3 kEnd = *pkPos;
+    kEnd.z += 64.0;
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kPick))->FUN_004a3da0((void *)&(kStart));
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(kPick))->FUN_004a3eb0((void *)&(kEnd));
+    reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458420((intptr_t)&(kPick));
+    ::hkBool pickHit;
+    reinterpret_cast<::CalleeObj *>(&(kPick.m_kOutput))->FUN_005c53f0((::CalleeObj *)&pickHit);
+    if (reinterpret_cast<::FUN_005609f0_shell *>(&pickHit)->FUN_005609f0())
+        return false;
+
+    return true;
+}
+#include "generated/data/fallout/magic/summoncreatureeffect.inc"

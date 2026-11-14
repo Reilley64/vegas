@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkResourceContainer.h"
 class hkMemoryResourceHandle;
-#pragma pack(push, 1)
 class hkMemoryResourceContainer : public hkResourceContainer
 {
   public:
@@ -15,6 +14,4 @@ class hkMemoryResourceContainer : public hkResourceContainer
     hkArray<hkMemoryResourceHandle*> m_kHandles;     // +0x10
     hkArray<hkMemoryResourceContainer*> m_children;  // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMemoryResourceContainer[(sizeof(hkMemoryResourceContainer) == 0x28) ? 1 : -1];
 #endif

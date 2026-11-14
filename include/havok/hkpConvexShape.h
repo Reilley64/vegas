@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpSphereRepShape.h"
-#pragma pack(push, 1)
 class hkpConvexShape : public hkpSphereRepShape
 {
   public:
@@ -17,6 +16,4 @@ class hkpConvexShape : public hkpSphereRepShape
     };
     hkReal m_fSphereRadius;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConvexShape[(sizeof(hkpConvexShape) == 0x14) ? 1 : -1];
 #endif

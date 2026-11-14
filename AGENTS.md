@@ -8,6 +8,8 @@ Before scoped work, read the literal path that applies:
 | Work | Read |
 | --- | --- |
 | GitHub workflows, composite actions or automation YAML | `.github/AGENTS.md` |
+| A new CTest check | `tests/checks/README.md` |
+| Object proof of a change | `tools/object-proof/README.md` |
 
 ## Agent skills
 

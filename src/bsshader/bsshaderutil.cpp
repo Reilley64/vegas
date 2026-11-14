@@ -1,6 +1,30 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the copy constructor,
+// the destructor, the conversion to T* and operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
+#include <cstddef>
 // bsshader/bsshaderutil.cpp: BSShaderRenderUtility (7 functions)
 
+#include <cstring>
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/CameraState4E9.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004dc540_shell.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00b54000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_01272000.h"
 #include "bsshaderutil_decls.h"
+#include <d3d9.h>
 
 #pragma optimize("", off)
 // @fnv 0x00469860
@@ -24,7 +48,7 @@ void BSShaderRenderUtility::SetRenderCamera(NiCamera* camera, BSShaderAccumulato
 {
     if (NiRenderer::ms_pRenderer && camera)
     {
-        NiRenderer::ms_pRenderer->SetCurrentCamera(camera);
+        reinterpret_cast<::CameraState4E9 *>((NiRenderer::ms_pRenderer))->SetFromCamera((*(const ::Camera4E9 *)(camera)));
         DAT_011f917c = camera;
         FUN_00b54b10(accumulator);
         accumulator->SetCamera(camera);
@@ -81,7 +105,6 @@ class NiRefObject
     }
 };
 
-extern NiPointer<NiRefObject> g_spCurrentAccumulator;
 
 // Stores the given BSShaderAccumulator into the global g_spCurrentAccumulator smart pointer.
 // @fnv 0x00b54b10
@@ -95,10 +118,7 @@ struct PipboyManager6b
     int unk00;
     int unk04;
     NiPointer<NiRefObject> m_pReferencedObject;
-    void FUN_004dc540(NiRefObject* pkNode);
 };
-extern PipboyManager6b* DAT_011f4748;
-void __cdecl FUN_00b54ac0(NiRefObject* pkNode);
 
 struct Accumulator6b
 {
@@ -199,12 +219,12 @@ struct PointerList6b
 // @fnv 0x00b6bfc0
 void __cdecl FUN_00b6bfc0(void* pkCamera, PointerList6b& kList, Accumulator6b* pkAccumulator)
 {
-    if (!DAT_011f4748 || !pkCamera)
+    if (!(*reinterpret_cast<::PipboyManager6b * *>(&::NiRenderer::ms_pRenderer)) || !pkCamera)
         return;
 
-    NiPointer<NiRefObject> spRetainedObject = DAT_011f4748->m_pReferencedObject;
-    DAT_011f4748->FUN_004dc540(pkAccumulator->m_spNode);
-    FUN_00b54ac0(pkAccumulator->m_spNode);
+    NiPointer<NiRefObject> spRetainedObject = (*reinterpret_cast<::PipboyManager6b * *>(&::NiRenderer::ms_pRenderer))->m_pReferencedObject;
+    reinterpret_cast<::FUN_004dc540_shell *>(((*reinterpret_cast<::PipboyManager6b * *>(&::NiRenderer::ms_pRenderer))))->FUN_004dc540((::NiAVObject *)(::NiRefObject *)(pkAccumulator->m_spNode));
+    ::FUN_00b54ac0((::NiTexture *)(::NiRefObject *)(pkAccumulator->m_spNode));
 
     ListIter6b kPos = kList.GetHeadPos();
     if (kPos)
@@ -224,9 +244,7 @@ void __cdecl FUN_00b6bfc0(void* pkCamera, PointerList6b& kList, Accumulator6b* p
 }
 
 namespace fnv_00b6bbd0 {
-#include <d3d9.h>
 
-void _memmove(void* destination, const void* source, unsigned int size);
 
 class NiPixelFormat
 {
@@ -252,8 +270,6 @@ class NiPixelFormat
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class NiPixelData : public NiRefObject, public NiMemObject
 {
@@ -408,24 +424,18 @@ class TextureRenderer : public NiRenderer
     unsigned int unk284;
     IDirect3DDevice9* m_pkDevice;
 };
-extern TextureRenderer* DAT_011f4748;
-extern unsigned char DAT_011f4448;
 extern bool DAT_011a9595;
 struct TextureFormatPrefs
 {
     unsigned int pixelLayout, alphaFormat, mipMapped;
 };
-extern TextureFormatPrefs DAT_011a9598;
 int FUN_00e7bd20(const NiPixelFormat*);
-HRESULT __stdcall FUN_00ee6de6(IDirect3DSurface9*, const PALETTEENTRY*, const RECT*, IDirect3DSurface9*,
-                               const PALETTEENTRY*, const RECT*, DWORD, D3DCOLOR);
-NiTexture* FUN_00a5ff10(NiPixelData*, void*, TextureFormatPrefs*);
 
 // Converts a NiTexture to a supported D3D format by copying each mip level and swapping RGB bytes when needed, then builds a new NiTexture from the result.
 // @fnv 0x00b6bbd0
 NiTexture* FUN_00b6bbd0(NiTexture* texture, const NiPixelFormat* pixelFormat)
 {
-    TextureRenderer* renderer = DAT_011f4748;
+    TextureRenderer* renderer = (*reinterpret_cast<::fnv_00b6bbd0::TextureRenderer * *>(&::NiRenderer::ms_pRenderer));
     NiPixelFormat format = *pixelFormat;
     if (!texture || !renderer)
         return 0;
@@ -462,11 +472,11 @@ NiTexture* FUN_00b6bbd0(NiTexture* texture, const NiPixelFormat* pixelFormat)
     {
         source->GetSurfaceLevel(level, &sourceSurface);
         destination->GetSurfaceLevel(level, &destinationSurface);
-        FUN_00ee6de6(destinationSurface, 0, 0, sourceSurface, 0, 0, 0xffffffff, 0);
+        ::FUN_00ee6de6(destinationSurface, 0, 0, sourceSurface, 0, 0, 0xffffffff, 0);
         destinationSurface->LockRect(&lockedRect, 0, 0);
         if (d3dFormat == 21)
         {
-            _memmove(pixels->m_pucPixels + pixels->m_puiOffset[level], lockedRect.pBits,
+            std::memmove(pixels->m_pucPixels + pixels->m_puiOffset[level], lockedRect.pBits,
                      pixels->m_puiHeight[level] * lockedRect.Pitch);
             unsigned char* pPixelData = pixels->m_pucPixels + pixels->m_puiOffset[level];
             unsigned int bytes = pixels->m_puiWidth[level] * pixels->m_puiHeight[level] * 4;
@@ -483,19 +493,54 @@ NiTexture* FUN_00b6bbd0(NiTexture* texture, const NiPixelFormat* pixelFormat)
             unsigned int rows = pixels->m_puiHeight[level];
             if (rows < 4)
                 rows = 4;
-            _memmove(pPixelData, lockedRect.pBits, (rows * lockedRect.Pitch) / 4);
+            std::memmove(pPixelData, lockedRect.pBits, (rows * lockedRect.Pitch) / 4);
         }
         destinationSurface->UnlockRect();
         destinationSurface->Release();
         sourceSurface->Release();
     }
     destination->Release();
-    unsigned char oldFlag = DAT_011f4448;
-    DAT_011f4448 = 0;
+    unsigned char oldFlag = ::DAT_011f4448;
+    ::DAT_011f4448 = 0;
     void* pvGlobalData = *(void**)DAT_011fa050;
-    NiTexture* pResultTexture = FUN_00a5ff10(pixels, pvGlobalData, &DAT_011a9598);
+    NiTexture* pResultTexture = ((::fnv_00b6bbd0::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixels), pvGlobalData, (const ::fnv_00a5ff10::OwnerTriple *)(::fnv_00b6bbd0::TextureFormatPrefs *)(&(*reinterpret_cast<::fnv_00b6bbd0::TextureFormatPrefs *>(&::DAT_011a9598))))));
     DAT_011a9595 = levels > 1;
-    DAT_011f4448 = oldFlag;
+    ::DAT_011f4448 = oldFlag;
     return pResultTexture;
 }
 }  // namespace fnv_00b6bbd0
+
+struct AccumulatorContext
+{
+    int unk00, unk04;
+    NiRefObject* object;
+};
+
+struct NiNodeHolder
+{
+    NiRefObject* value;
+    NiNodeHolder(NiRefObject* p) : value(p)
+    {
+        if (value)
+            value->IncRefCount();
+    }
+    ~NiNodeHolder();
+};
+
+// @fnv 0x00b6bee0
+void FUN_00b6bee0(void* first, void* second, BSShaderAccumulator* accumulator)
+{
+    if ((*reinterpret_cast<::AccumulatorContext * *>(&::NiRenderer::ms_pRenderer)) && first && second)
+    {
+        if (!DAT_012722bc)
+        {
+            NiNodeHolder guard((*reinterpret_cast<::AccumulatorContext * *>(&::NiRenderer::ms_pRenderer))->object);
+            reinterpret_cast<::FUN_004dc540_shell *>(((*reinterpret_cast<::AccumulatorContext * *>(&::NiRenderer::ms_pRenderer))))->FUN_004dc540((::NiAVObject *)(::NiRefObject *)(accumulator->texture));
+        }
+        ::FUN_00b54ac0((::NiTexture *)(::NiRefObject *)(accumulator->texture));
+        accumulator->vfn_48(first, second, 0);
+    }
+}
+
+#include "generated/data/bsshader/bsshaderutil.inc"
+#include "generated/data/bsshader/bsshaderutil_decl_variant.inc"

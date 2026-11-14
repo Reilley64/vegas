@@ -2,20 +2,55 @@
 #ifndef TESQUEST_TYPES_H
 #define TESQUEST_TYPES_H
 
+#include <malloc.h>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0059e400_shell.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_005abf60_shell.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_005dc960_shell.h"
+#include "fnv/decl/FUN_005ec370_shell.h"
+#include "fnv/decl/FUN_005ec500_shell.h"
+#include "fnv/decl/FUN_0060ce80_Obj.h"
+#include "fnv/decl/FUN_0067fdb0_shell.h"
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/StageHolder.h"
+#include "fnv/decl/TESFaction_RankDataView.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_005a9f20__FUN_005a9f20_shell.h"
+#include "fnv/decl/fnv_005aa090__FUN_005aa090.h"
+#include "fnv/decl/fnv_0060f2c0__FUN_0060f2c0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_011cb000.h"
 #include "fnv_a3d_form_types.h"
 class TESQuest;
 class PlayerQuestData;
 class RegionObjectEntry;
-class QuantityData;
+struct QuantityData;
 class TESRecipe
 {
   public:
-    BSSimpleList<QuantityData*>* GetIngredientList();
 };
 class ScriptLocalVariable;
-class FormFlagRecord;
+struct FormFlagRecord;
 class ScriptDefinition;
-class ScriptLocals
+struct ScriptLocals
 {
   public:
     Script* m_pOwnerScript;
@@ -25,8 +60,6 @@ class ScriptLocals
     ScriptDefinition* m_pExtendedLocals;
     ScriptLocals();
     ~ScriptLocals();
-    void LoadGame(BGSLoadFormBuffer* buffer);
-    void Revert(BGSLoadFormBuffer* buffer);
 };
 class TESScriptableForm : public BaseFormComponent
 {
@@ -35,8 +68,6 @@ class TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     unsigned char layoutPadding9[3];
     void InitItem(TESForm* owner);
-    Script* GetScript();
-    void SetScript(Script* script);
 };
 class TESTexture : public BaseFormComponent
 {
@@ -67,7 +98,6 @@ class QuestData
     unsigned char m_ucEntryType, ucPriority;
     unsigned char layoutPadding2[2];
     float fQuestDelayTime;
-    void Endian();
 };
 class AnimationClipStatus
 {
@@ -83,13 +113,7 @@ class QuestStage
     BSSimpleList<PlayerQuestData*> m_kStageItems;
     QuestStage();
     ~QuestStage();
-    bool GetDone();
-    unsigned char GetIndex();
     void SetIndex(unsigned char index);
-    void MarkDone(TESQuest* quest, bool allItems);
-    void MarkDone(bool done);
-    PlayerQuestData* GetStageItemByIndex(unsigned char index);
-    BSSimpleList<PlayerQuestData*>* GetStageItemList();
     void InitItem(TESForm* owner);
     void Load(TESFile* file);
     void AddStageItem(PlayerQuestData* item);
@@ -101,6 +125,7 @@ enum QUEST_OBJECTIVE_STATE
     QOS_COMPLETED = 2,
     QOS_COMPLETED_DISPLAYED = 3
 };
+class TESQuest;
 class BGSQuestObjective
 {
   public:
@@ -113,15 +138,12 @@ class BGSQuestObjective
     unsigned char layoutPadding1D[3];
     QUEST_OBJECTIVE_STATE eState;
     BGSQuestObjective();
-    unsigned int GetIndex();
     void SetIndex(unsigned int index);
     void InitItem(TESQuest* owner);
-    void Load(TESFile* file);
-    void GetTargetsAndObjectives(BSSimpleList<RegionObjectEntry*>* targets);
-    BSSimpleList<RegionObjectEntry*>* GetTargetList();
-    QUEST_OBJECTIVE_STATE GetState();
-    void SetState(QUEST_OBJECTIVE_STATE state);
-    void SetOwnerQuest(TESQuest* owner);
+public:
+    void SetOwner(::TESQuest *);
+public:
+    bool GetDisplayed() const;
 };
 class RegionObjectEntry
 {
@@ -134,16 +156,12 @@ class RegionObjectEntry
     RegionObjectEntry();
     void Load(TESFile* file);
     TESObjectREFR* GetReference(bool resolve);
-    PerkEntryConditionSet* GetConditions();
 };
 class Script : public TESForm
 {
   public:
     // The canonical Script prefix is 0x54 bytes; these routines only call members.
     unsigned char scriptFields[0x3c];
-    ScriptLocals* GetOrCreateScriptLocals();
-    void SetOwnerQuest(TESQuest* quest);
-    bool Run(TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool);
 };
 class Date
 {
@@ -171,25 +189,17 @@ class PlayerQuestData
     bool Load(TESFile* file);
     void SetIndex(unsigned char index);
     void SetHasLogEntry(bool value);
-    PerkEntryConditionSet* GetConditions();
-    Date* GetLogDate();
-    void SetLogDate(Date* date);
 };
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool NextChunk();
     bool IsEndianConversionRequired();
-    bool GetChunkData(void* data, unsigned int size);
     bool GetChunkData(unsigned int* value);
 };
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName* name, TESFile* file);
 };
 class FormChangeMask
 {
@@ -198,16 +208,12 @@ class FormChangeMask
     FormChangeMask(unsigned int value);
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int mask);
     FormChangeMask GetOldChangeFlags(unsigned int mask);
-    void ReadTypedData(void* data, unsigned int size);
-    int ReadElementCount();
 };
-void __cdecl LogWarning(const char* message, ...);
-extern "C" void* __cdecl _alloca(unsigned int size);
 union SETTING_VALUE
 {
     bool b;
@@ -221,7 +227,6 @@ template <class C> class SettingT
   public:
     SETTING_VALUE* Bool();
 };
-extern SettingT<INISettingCollection> bActivateAllQuestScripts;
 class TESQuest : public TESForm
 {
   public:
@@ -252,27 +257,12 @@ class TESQuest : public TESForm
     bool Load(TESFile* file);
     virtual void LoadGame(BGSLoadFormBuffer* buffer);
     virtual void Revert(BGSLoadFormBuffer* buffer);
-    bool GetEnabled();
     void SetEnabled(bool enabled);
-    bool GetCompleted();
-    bool GetAllowRepeatStages();
     void RunScript();
     void SetStartsEnabled(bool enabled);
     PerkEntryConditionSet* GetConditions();
-    BSSimpleList<QuestStage*>* GetStageList();
-    BSSimpleList<BGSQuestObjective*>* GetObjectiveList();
     QuestStage* GetStage(unsigned char index);
     void AddStageDataAtIndex(QuestStage* stage);
     void AddObjective(BGSQuestObjective* objective);
 };
-FNV_ASSERT(QuestSize, sizeof(TESQuest) == 0x6c);
-FNV_ASSERT(QuestStageListOffset, offsetof(TESQuest, m_kStageList) == 0x44);
-FNV_ASSERT(QuestLocalsOffset, offsetof(TESQuest, m_pScriptLocals) == 0x5c);
-FNV_ASSERT(QuestCurrentStageOffset, offsetof(TESQuest, m_ucEnabled) == 0x60);
-FNV_ASSERT(QuestStageSize, sizeof(QuestStage) == 0x0c);
-FNV_ASSERT(QuestObjectiveSize, sizeof(BGSQuestObjective) == 0x24);
-FNV_ASSERT(QuestStageItemSize, sizeof(PlayerQuestData) == 0x74);
-FNV_ASSERT(QuestTargetSize, sizeof(RegionObjectEntry) == 0x48);
-FNV_ASSERT(DateSize, sizeof(Date) == 4);
-FNV_ASSERT(ScriptLocalsSize, sizeof(ScriptLocals) == 0x14);
 #endif

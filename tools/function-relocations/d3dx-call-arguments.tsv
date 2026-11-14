@@ -1,0 +1,19 @@
+# Functions whose calls of the D3DX matrix inverse, transpose and normal
+# transform got their arguments back (VEGAS-90). Format: README.md.
+# The argument-less names of the three addresses:
+forbid	?FUN_00ee6dd4@@YAXXZ
+forbid	?FUN_00ee6dda@@YAXXZ
+forbid	?FUN_00ee6df2@@YAXXZ
+# batch, unit, function, the native names it calls:
+function	fallout_shared	src/fallout_shared/settings/xgamesetting.cpp	?FUN_00c4c2d0@fnv_00c4c2d0@@YAXPEAVNiAVObject@1@PEBXPEAUMat4@1@@Z	?FUN_00ee6dda@@YAPEAXPEAXPEAMPEBX@Z
+function	fallout_shared	src/fallout_shared/teswater.cpp	?FUN_004ecef0@WaterPlaneHost_o2_od_oy_noo2@@QEAAXMMMMH@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z ?FUN_00ee6dda@@YAPEAXPEAXPEAMPEBX@Z
+function	shader_constants	src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslpixelshader.cpp	?FUN_00e96fb0@HLSLPixelShader@@QEAA_NPEAVNiShaderConstantMapEntry@@PEBXIIPEBG@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z
+function	shader_constants	src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp	?FUN_00e972e0@VS_00e972e0_Shader@@QEAA_NPEAUVS_00e972e0_Entry@@PEBXI@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z
+function	shader_constants	src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp	?FUN_00e974f0@ArrayShader@@QEAA_NPEAUVS_00e972e0_Entry@@PEBXIIUOrderArg@@@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z
+function	shader_constants	src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderconstantmap.cpp	?FUN_00e82b40@@YAIPEAUFUN_00e84b60_prog@@PEAX_KI_N3@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z ?FUN_00ee6dda@@YAPEAXPEAXPEAMPEBX@Z
+function	shader_constants	src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderconstantmap.cpp	?FUN_00e83db0@ConstantMap@@QEAAIPEAUProgram@@PEAUEntry@@PEAUGeometry@@PEAUSkin@@PEAUPartition@@PEAXPEAUProperties@@PEAUEffects@@PEBX8I@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z ?FUN_00ee6dda@@YAPEAXPEAXPEAMPEBX@Z
+function	shader_constants	src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderconstantmap.cpp	?FUN_00e85d10@ConstantMapView@fnv_00e85d10@@QEAAIIPEAUMapping@2@PEAVNiAVObjectCall@2@PEAXPEAUProperties@2@PEAUEffects@2@2I@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z ?FUN_00ee6dda@@YAPEAXPEAXPEAMPEBX@Z
+function	lighting	src/bsshader/lighting30shader.cpp	?FUN_00bbc050@fnv_00bbc050@@YAXPEAULightingSource@1@PEAUEffectOp@1@IPEAUOtherData@1@PEAUMatrix@1@PEBXPEAUSizeScale@1@@Z	?FUN_00ee6df2@@YAPEAXPEAXPEBX1@Z
+function	lighting	src/bsshader/lighting30shader.cpp	?FUN_00bbe6b0@S00bbe6b0_Renderer@@QEAAXPEAUS00bbe6b0_Src@@IPEBXPEAX@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z
+function	lighting	src/bsshader/lighting30shader.cpp	?FUN_00bbef90@Shadow@fnv_00bbef90@@QEAAXPEAUArg@2@@Z	?FUN_00ee6dd4@@YAPEAXPEAXPEBX@Z ?FUN_00ee6dda@@YAPEAXPEAXPEAMPEBX@Z
+function	lighting	src/bsshader/shadowlightshader.cpp	?UpdateLightPass@@YAXPEAUProperty119@@PEAUPass119@@UM_bbb890@@PEAUScale119@@IPEBX@Z	?FUN_00ee6df2@@YAPEAXPEAXPEBX1@Z

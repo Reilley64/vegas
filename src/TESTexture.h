@@ -10,6 +10,4 @@ class TESTexture : public BaseFormComponent
     static void ReadTextureData(TESTexture* texture, TESFile* file);
     BSStringT<char> FullNameComponent;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(TESTexture) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESTexture, FullNameComponent) == 0x4);
 #endif

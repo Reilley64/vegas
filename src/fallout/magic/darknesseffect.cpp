@@ -2,6 +2,16 @@
 // src/fallout/magic/darknesseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/darknesseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/LoadedValueEffect.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
 extern int DAT_01079d2c;
 
 struct ValueModifierEffect
@@ -26,28 +36,27 @@ FUN_0080c460_shell::FUN_0080c460_shell(void* apArg1, void* apArg2, void* apArg3)
     vtbl = &DAT_01079d2c;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
-    int GetReferenceType();
 };
-struct Actor : TESObjectREFR
+class Actor : public TESObjectREFR
 {
 };
 struct DarknessEffect : TESForm
 {
     void FUN_0080c850(Actor*);
 };
-void __cdecl FUN_00b55b00(int, float);
 // @fnv 0x0080c850
 void DarknessEffect::FUN_0080c850(Actor* apActor)
 {
-    TESForm::Revert((unsigned int)apActor);
-    if (apActor->GetReferenceType())
-        FUN_00b55b00(apActor->GetReferenceType(), 1.0F);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
+    if (((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0())))
+        ::FUN_00b55b00((::PropHelper *)(((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0()))), 1.0F);
 }
 
 struct FUN_0080c730_shell : public FUN_0080c460_shell
@@ -62,7 +71,6 @@ FUN_0080c730_shell* __cdecl FUN_0080c730(void* a, void* b, void* c)
     return new FUN_0080c730_shell(a, b, c);
 }
 
-void* __cdecl operator new(unsigned int);
 
 typedef void ActiveEffect;
 
@@ -115,14 +123,16 @@ struct FUN_0080c4c0_shell
     void* d;
 
     ActiveEffect* FUN_0080c4c0();
+    unsigned int pad14[0x5];
+    void* unk28;
 };
 
 // @fnv 0x0080c4c0
 ActiveEffect* FUN_0080c4c0_shell::FUN_0080c4c0()
 {
-    ActiveEffect* presult = new FUN_0080c730_shell(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28),
-                                                   *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08),
-                                                   *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x0c));
+    ActiveEffect* presult = new FUN_0080c730_shell(this->unk28,
+                                                   this->b,
+                                                   this->c);
 
     reinterpret_cast<CopyTarget*>(this)->CopyFrom(presult);
     return presult;
@@ -130,17 +140,16 @@ ActiveEffect* FUN_0080c4c0_shell::FUN_0080c4c0()
 
 struct BSThread
 {
-    unsigned int GetThreadID(void);
 };
 
-struct MagicTarget
+class MagicTarget
 {
+  public:
     Actor* GetOwnerActor(void) const;
 };
 
 struct FUN_0080dd30_shell
 {
-    void FUN_0082c000(void);
 };
 
 double _DAT_01012060;
@@ -264,7 +273,7 @@ struct FUN_0080c570_ActorVirtuals
     virtual void F113() = 0;
     virtual void F114() = 0;
     virtual void F115() = 0;
-    virtual int GetValue() = 0;
+    virtual intptr_t GetValue() = 0;
 };
 
 struct FUN_0080c570_InnerBase
@@ -282,6 +291,8 @@ struct FUN_0080c570_Inner : public FUN_0080c570_InnerBase
 struct FUN_0080c570_shell : public DarknessEffect
 {
     void UpdateDarkness();
+    unsigned int pad04[0x11];
+    unsigned int unk48;
 };
 
 // Gets the target actor, calls FUN_0082c000, and if the actor has a value, computes a clamped darkness from its inner value and applies it via FUN_00b55b00.
@@ -292,17 +303,17 @@ void FUN_0080c570_shell::UpdateDarkness()
     float fnewDarkness;
 
     ptargetActor =
-        reinterpret_cast<BSThread*>(this)->GetThreadID()
-            ? reinterpret_cast<MagicTarget*>(reinterpret_cast<BSThread*>(this)->GetThreadID())->GetOwnerActor()
+        reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType()
+            ? reinterpret_cast<MagicTarget*>(reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType())->GetOwnerActor()
             : 0;
 
-    reinterpret_cast<FUN_0080dd30_shell*>(this)->FUN_0082c000();
+    reinterpret_cast<::FUN_0082c000_shell *>((reinterpret_cast<FUN_0080dd30_shell*>(this)))->FUN_0082c000();
 
     if (ptargetActor && reinterpret_cast<FUN_0080c570_ActorVirtuals*>(ptargetActor)->GetValue())
     {
         fnewDarkness = static_cast<float>(
             1.0 - reinterpret_cast<FUN_0080c570_Inner*>(reinterpret_cast<char*>(ptargetActor) + 0xa4)
-                          ->GetValue(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48)) /
+                          ->GetValue(this->unk48) /
                       g_d100);
 
         if (fnewDarkness < _DAT_01012060)
@@ -311,27 +322,18 @@ void FUN_0080c570_shell::UpdateDarkness()
         if (fnewDarkness > 1.0)
             fnewDarkness = 1.0f;
 
-        FUN_00b55b00(reinterpret_cast<FUN_0080c570_ActorVirtuals*>(ptargetActor)->GetValue(), fnewDarkness);
+        ::FUN_00b55b00((::PropHelper *)(reinterpret_cast<FUN_0080c570_ActorVirtuals*>(ptargetActor)->GetValue()), fnewDarkness);
     }
 }
 
 namespace fnv_0080c650 {
-extern double _DAT_01012060;
-extern double g_d100;
 
 struct BSThread
 {
-    unsigned int GetThreadID();
-};
-
-struct MagicTarget
-{
-    Actor* GetOwnerActor() const;
 };
 
 struct FUN_0082c810_shell
 {
-    void ApplyEffect();
 };
 
 struct FUN_0080c650_ActorVTableBase
@@ -572,7 +574,7 @@ struct FUN_0080c650_ActorVTableBase
 
 struct FUN_0080c650_ActorVTable : public FUN_0080c650_ActorVTableBase
 {
-    virtual int v116()
+    virtual intptr_t v116()
     {
         return 1;
     }
@@ -595,31 +597,33 @@ struct FUN_0080c650_Nested
 struct FUN_0080c650_shell : public DarknessEffect
 {
     void UpdateDarknessEffect();
+    unsigned int pad04[0x11];
+    int unk48;
 };
 
 // @fnv 0x0080c650
 void FUN_0080c650_shell::UpdateDarknessEffect()
 {
-    reinterpret_cast<FUN_0082c810_shell*>(this)->ApplyEffect();
+    reinterpret_cast<::Cls *>((reinterpret_cast<FUN_0082c810_shell*>(this)))->ApplyEffect();
 
     Actor* ptargetActor =
-        reinterpret_cast<BSThread*>(this)->GetThreadID()
-            ? reinterpret_cast<MagicTarget*>(reinterpret_cast<BSThread*>(this)->GetThreadID())->GetOwnerActor()
+        reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType()
+            ? reinterpret_cast<::MagicTarget*>(reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType())->GetOwnerActor()
             : 0;
     float fnewDarkness;
 
     if (ptargetActor && reinterpret_cast<FUN_0080c650_ActorVTable*>(ptargetActor)->v116())
     {
         fnewDarkness = 1.0 - reinterpret_cast<FUN_0080c650_Nested*>(reinterpret_cast<char*>(ptargetActor) + 0xa4)
-                                     ->v003(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48)) /
-                                 g_d100;
+                                     ->v003(this->unk48) /
+                                 ::g_d100;
 
-        if (fnewDarkness < _DAT_01012060)
+        if (fnewDarkness < ::_DAT_01012060)
             fnewDarkness = 0.0f;
         if (fnewDarkness > 1.0)
             fnewDarkness = 1.0f;
 
-        FUN_00b55b00(reinterpret_cast<FUN_0080c650_ActorVTable*>(ptargetActor)->v116(), fnewDarkness);
+        ::FUN_00b55b00((::PropHelper *)(reinterpret_cast<FUN_0080c650_ActorVTable*>(ptargetActor)->v116()), fnewDarkness);
     }
 }
 }  // namespace fnv_0080c650
@@ -629,12 +633,10 @@ extern double g_d100;
 
 struct P09H
 {
-    int __thiscall GetReferenceType();
 };
 
 struct InvisibilityEffect
 {
-    void __thiscall FUN_0082cd10(Actor*);
 };
 
 struct FUN_0080c7b0_helper
@@ -655,14 +657,16 @@ struct FUN_0080c7b0_helper
 struct FUN_0080c7b0_shell : public DarknessEffect
 {
     void FUN_0080c7b0(Actor*);
+    unsigned int pad04[0x11];
+    int unk48;
 };
 
 void FUN_0080c7b0_shell::FUN_0080c7b0(Actor* apActor)
 {
-    reinterpret_cast<InvisibilityEffect*>(this)->FUN_0082cd10(apActor);
+    reinterpret_cast<::LoadedValueEffect *>((reinterpret_cast<InvisibilityEffect*>(this)))->FUN_0082cd10(apActor);
 
     float fnewDarkness = 1.0 - (reinterpret_cast<FUN_0080c7b0_helper*>(reinterpret_cast<char*>(apActor) + 0xa4))
-                                       ->GetValue(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48)) /
+                                       ->GetValue(this->unk48) /
                                    g_d100;
 
     if (fnewDarkness < 0.0)
@@ -671,6 +675,6 @@ void FUN_0080c7b0_shell::FUN_0080c7b0(Actor* apActor)
     if (fnewDarkness > 1.0)
         fnewDarkness = 1.0f;
 
-    if (reinterpret_cast<P09H*>(apActor)->GetReferenceType() != 0)
-        FUN_00b55b00(reinterpret_cast<P09H*>(apActor)->GetReferenceType(), fnewDarkness);
+    if (((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0())) != 0)
+        ::FUN_00b55b00((::PropHelper *)(((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0()))), fnewDarkness);
 }

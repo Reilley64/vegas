@@ -3,12 +3,14 @@
 #define FNV_RENDERER_DECLS_H
 
 
-class NiColor
+#include "fnv/symbols_004bc000.h"
+#include "fnv/symbols_005d4000.h"
+struct NiColor
 {
   public:
     float r, g, b;
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -72,9 +74,6 @@ class Renderer
     static bool CanRender();
 };
 
-NiDX9Renderer* FUN_004bc3f0();
-bool FUN_005d4a40();
-extern NiColor DAT_011c74b8;
 extern bool DAT_011c70e9;
 
 #endif

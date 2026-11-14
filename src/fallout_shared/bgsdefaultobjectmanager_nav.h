@@ -13,7 +13,7 @@ class PathingSolutionBase
     virtual ~PathingSolutionBase();
     unsigned int refs;
 };
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     BSSimpleArray();
@@ -45,7 +45,7 @@ class NiTMap_unsigned_short_NiPointer_ObstacleData___
     NiTMap_unsigned_short_NiPointer_ObstacleData___(unsigned int);
     unsigned int data[4];
 };
-class NavMeshGrid
+struct NavMeshGrid
 {
   public:
     NavMeshGrid();

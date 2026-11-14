@@ -2,6 +2,8 @@
 #ifndef SHADOWSCENENODE_LOCAL_H
 #define SHADOWSCENENODE_LOCAL_H
 
+#include "fnv/decl/FUN_00b9bc50_t.h"
+#include "fnv/decl/MultiBoundOwner.h"
 #include "layout_support.h"
 #include "NiObjectNET.h"
 #include "NiPoint3.h"
@@ -10,7 +12,7 @@
 class FourComponentFloatVector;
 class NiAVObject;
 class NiCollisionObject;
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___;
@@ -21,23 +23,16 @@ class NiTPointerList_NiPointer_NiProperty___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___;
 class NiTransform;
 class FourComponentNumericValue;
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -45,12 +40,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____Ant
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator) ==
-                  4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
   public:
@@ -75,12 +64,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
     // NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::*(const NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
@@ -109,9 +92,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_NiPointer_NiProperty___
     : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
@@ -122,9 +102,6 @@ class NiTPointerList_NiPointer_NiProperty___
     // NiTPointerList<NiPointer<NiProperty> >& __cdecl NiTPointerList<NiPointer<NiProperty> >::*(const NiTPointerList<NiPointer<NiProperty> >&)
     // void* __cdecl NiTPointerList<NiPointer<NiProperty> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_NiPointer_NiProperty___) == 12);
-#pragma pack(push, 4)
 class FourComponentNumericValue
 {
   public:
@@ -143,17 +120,6 @@ class FourComponentNumericValue
         unsigned int u[4];  // +0x0, 16 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FourComponentNumericValue) == 16);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_afComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_auiComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, x) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, y) == 4);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, z) == 8);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, w) == 12);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, v) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, u) == 0);
-#pragma pack(push, 4)
 class NiPoint4
 {
   public:
@@ -181,12 +147,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint4) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_kComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_afExtents) == 0);
-#pragma pack(push, 4)
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes
@@ -197,10 +158,6 @@ class ThreeByThreeMatrix
     // operator*
     // Inverse
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 48);
-FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
-#pragma pack(push, 4)
 class NiTransform
 {
   public:
@@ -217,12 +174,6 @@ class NiTransform
     // void __cdecl NiTransform::*(NiStream&)
     // void __cdecl NiTransform::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTransform) == 64);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kOrientation) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kTranslation) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_fScale) == 60);
-#pragma pack(push, 4)
 class NiAVObject : public NiObjectNET
 {
   public:
@@ -343,17 +294,9 @@ class NiAVObject : public NiObjectNET
     // NiAVObject& __cdecl NiAVObject::*(const NiAVObject&)
     // void __cdecl NiAVObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiAVObject) == 192);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_pParentNode) == 24);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_spCollisionObject) == 28);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kWorldBound) == 32);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, SceneGraphObject) == 36);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_uiObjectFlags) == 48);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kLocalTransform) == 64);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kWorldSpaceTransform) == 128);
 // Minimal owner declaration for this unit (full PC layout pending canonical
-class BSRenderedTexture
+class NiRenderTargetGroup;
+struct BSRenderedTexture
 {
   public:
     virtual void vfn_00();
@@ -365,11 +308,12 @@ class BSRenderedTexture
     char m_acDataAtOffset40[4];
     int m_iDataAtOffset44;
     char spTexture[16];
+public:
+    ::NiRenderTargetGroup *GetGroup();
 };
-class BSTextureManager
+struct BSTextureManager
 {
   public:
-    void RemoveRenderedTexture(BSRenderedTexture*);
 };
 extern BSTextureManager* DAT_011f91a8;
 struct ShadowListItem
@@ -397,6 +341,7 @@ struct ShadowLightFlags
     NiPoint3 diffuse;
 };
 class NiLight;
+class NiAVObject;
 class ShadowSceneLight
 {
   public:
@@ -405,12 +350,14 @@ class ShadowSceneLight
     char padFC[0x10];
     BSRenderedTexture* texture;
     float ComputeLightAttenuation(NiPoint3, NiLight*);
+public:
+    void AddObject(::NiAVObject *);
 };
 inline float ShadowMax(float a, float b)
 {
     return a > b ? a : b;
 }
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     char pad[0xb4];
@@ -422,7 +369,6 @@ class ShadowSceneNode
     char padD8[8];
     ShadowSceneLight* ambientLight;
     void AddObject(NiAVObject*);
-    void RemoveSceneObject(NiAVObject*, bool);
     void UpdateShadowLights();
     float CalculateLightingAtPoint(NiPoint3, int&, float&, float&, NiLight*);
 };

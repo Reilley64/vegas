@@ -2,7 +2,7 @@
 #ifndef MOBILEOBJECT_INTERFACE_H
 #define MOBILEOBJECT_INTERFACE_H
 // Declaration only; JohnnyGuitar Interface.cpp exact PC007050D0.
-class Interface
+struct Interface
 {
   public:
     static bool IsInDialog();

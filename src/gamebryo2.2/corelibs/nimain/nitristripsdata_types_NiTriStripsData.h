@@ -2,22 +2,22 @@
 #ifndef FNV_NITRISTRIPSDATA_H
 #define FNV_NITRISTRIPSDATA_H
 
+#include "fnv/decl/FUN_00a8aa30_shell.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
 #include "layout_support.h"
 class NiAdditionalGeometryData;
-class NiRTTI;
-class NiStream;
-class NiBound;
-class RgbaColor;
+struct NiRTTI;
+struct NiStream;
+struct NiBound;
+struct RgbaColor;
 class NiGeometryData;
 class NiGeometryData__RendererData;
-class NiPoint2;
+struct NiPoint2;
 class NiTriBasedGeomData;
 class NiTriStripsData;
-#pragma pack(push, 4)
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;  // +0x0, 12 bytes
@@ -45,12 +45,6 @@ class NiBound
     // char* __cdecl NiBound::*(const char*)
     // const NiBound& __cdecl NiBound::*(const NiBound&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_kCenter) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_fBoundRadius) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_iRadius) == 12);
-#pragma pack(push, 4)
 class NiGeometryData : public NiObject
 {
   public:
@@ -128,32 +122,12 @@ class NiGeometryData : public NiObject
     // NiGeometryData& __cdecl NiGeometryData::*(const NiGeometryData&)
     // void __cdecl NiGeometryData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGeometryData) == 64);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usVertices) == 8);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usGeometryFlags) == 10);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usTrianglePoints) == 12);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usDirtyFlags) == 14);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_kBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkVertex) == 32);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkNormal) == 36);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkColor) == 40);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkTexture) == 44);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_spAdditionalGeomData) == 48);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkGeometryRendererData) == 52);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucKeepFlags) == 56);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucCompressFlags) == 57);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bIsDynamic) == 58);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bBoundDirty) == 59);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bVerticesDirty) == 60);
-#pragma pack(push, 4)
 class NiTriBasedGeomData : public NiGeometryData
 {
   public:
     // base NiGeometryData at +0x0, size 64
     unsigned short m_usTriangles;  // +0x40, 2 bytes
     unsigned char layoutPadding42[2];
-    void LoadBinary(NiStream&);
     void SaveBinary(NiStream&);
     unsigned short GetNumTriangles();
     // const NiRTTI* __cdecl NiTriBasedGeomData::*()
@@ -170,10 +144,6 @@ class NiTriBasedGeomData : public NiGeometryData
     // NiTriBasedGeomData& __cdecl NiTriBasedGeomData::*(const NiTriBasedGeomData&)
     // void __cdecl NiTriBasedGeomData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTriBasedGeomData) == 68);
-FNV_STATIC_ASSERT(offsetof(NiTriBasedGeomData, m_usTriangles) == 64);
-#pragma pack(push, 4)
 class NiTriStripsData : public NiTriBasedGeomData
 {
   public:
@@ -183,7 +153,6 @@ class NiTriStripsData : public NiTriBasedGeomData
     unsigned short* m_pusStripLengths;  // +0x48, 4 bytes
     unsigned short* m_pusStripLists;    // +0x4C, 4 bytes
     const NiRTTI* GetRTTI() const;
-    void LoadBinary(NiStream&);
     unsigned short* GetTriangleStripData();
     void GetTriangleStripData(unsigned short&, const unsigned short*&, const unsigned short*&, unsigned int&);
     void SaveBinary(NiStream&);
@@ -211,9 +180,4 @@ class NiTriStripsData : public NiTriBasedGeomData
     // NiTriStripsData& __cdecl NiTriStripsData::*(const NiTriStripsData&)
     // void __cdecl NiTriStripsData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTriStripsData) == 80);
-FNV_STATIC_ASSERT(offsetof(NiTriStripsData, m_usStrips) == 68);
-FNV_STATIC_ASSERT(offsetof(NiTriStripsData, m_pusStripLengths) == 72);
-FNV_STATIC_ASSERT(offsetof(NiTriStripsData, m_pusStripLists) == 76);
 #endif

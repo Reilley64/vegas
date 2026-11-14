@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkpWorld;
-#pragma pack(push, 1)
 class hkpSimulation : public hkReferencedObject
 {
   public:
@@ -38,6 +37,4 @@ class hkpSimulation : public hkReferencedObject
     hkReal m_fFrameMarkerPsiSnap;     // +0x24
     hkUint32 m_uiSimulationType;      // +0x28
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSimulation[(sizeof(hkpSimulation) == 0x2C) ? 1 : -1];
 #endif

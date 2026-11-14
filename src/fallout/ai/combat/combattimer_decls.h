@@ -2,22 +2,22 @@
 #ifndef COMBATTIMER_DECLS_H
 #define COMBATTIMER_DECLS_H
 
-class BGSLoadFormBuffer
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00435000.h"
+struct BGSLoadFormBuffer
 {
   public:
-    void ReadTypedData(void*, unsigned int);
 };
-class BGSLoadGameBuffer : public BGSLoadFormBuffer
+struct BGSLoadGameBuffer : public BGSLoadFormBuffer
 {
 };
 class Actor
 {
   public:
-    static float GetActorScale();
 };
 extern float DAT_0108e360;
 extern float DAT_011f1bf0;
-class CombatTargetTimestamp
+struct CombatTargetTimestamp
 {
   public:
     float fTimeStamp;

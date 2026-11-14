@@ -2,25 +2,48 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct FUN_00d93330 {
-    void __thiscall UpdateConstraint(int);
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <intrin.h>
+#include <new>
+#include "fnv/decl/FUN_00c911d0_Class.h"
+#include "fnv/decl/FUN_00c91210_Class.h"
+#include "fnv/decl/FUN_00cfa7d0.h"
+#include "fnv/decl/FUN_00d02e70_cls.h"
+#include "fnv/decl/FUN_00d93310_cls.h"
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
+// The counter at +0x18 and the value at +0x1c that FUN_00d93330 and FUN_00d93340 update.
+struct CounterAndValueFields {
+    char pad00[0x18];
+    int m_iCounter;  // +0x18
+    int m_iValue;    // +0x1c
+};
+struct FUN_00d93330 : CounterAndValueFields {
+    void UpdateConstraint(int);
 };
 // @fnv 0x00d93330
-void __thiscall FUN_00d93330::UpdateConstraint(int v)
+void FUN_00d93330::UpdateConstraint(int v)
 {
-    ++(*(int*)((char*)this + 0x18));
-    *(int*)((char*)this + 0x1c) = v;
+    ++m_iCounter;
+    m_iValue = v;
 }
 
-struct FUN_00d93340_StandIn {
+struct FUN_00d93340_StandIn : CounterAndValueFields {
     void FUN_00d93340(int);
 };
 
 // @fnv 0x00d93340
-void __thiscall FUN_00d93340_StandIn::FUN_00d93340(int a)
+void FUN_00d93340_StandIn::FUN_00d93340(int a)
 {
-    *(int*)((char*)this + 0x18) = *(int*)((char*)this + 0x18) - 1;
-    *(int*)((char*)this + 0x1c) = a;
+    m_iCounter = m_iCounter - 1;
+    m_iValue = a;
 }
 
 struct SubTarget {
@@ -75,8 +98,7 @@ void SimulationIsland::SetFlags(Arg1Struct* a1, unsigned int uiFlags)
 
 #include <xmmintrin.h>
 #include <windows.h>
-extern "C" void _ReadWriteBarrier();
-extern "C" const char str_010cc54c[], str_010d3e28[], str_010cd440[], str_010d3e14[];
+extern "C" const char str_010d3e28[], str_010d3e14[];
 
 
 struct FourFloatVector { float x, y, z, w; };
@@ -95,16 +117,14 @@ struct Context : Input {
     short field6e;
     void *field70;
     int field74, field78, field7c;
-    void FUN_00cfa7d0(const Input *);
 };
 struct Command { union { int type; char code; }; int object, value, extra; };
 struct CommandBuffer {
     int offset, size, capacity, field0c;
     Command commands[16];
-    void FUN_00d93310();
     Command *end() { return (Command *)((char *)this + offset + size); }
 };
-extern int DAT_010d3df8, DAT_0102e388;
+extern int DAT_010d3df8;
 struct AddCommand { char type; int object, critical; };
 struct RemoveCommand { char type; int object; };
 struct __declspec(align(16)) Owner {
@@ -182,8 +202,6 @@ struct Job {
     union { int sector; unsigned char useContinuousQuality; };
 };
 struct World {
-    void EnterLock(Island *);
-    void FUN_00c91210(Island *);
 };
 struct Quality { int field00, field04, field08, field0c; int createPredictive; int field14, field18, field1c, field20, field24, field28, field2c, field30, field34, field38, field3c; };
 struct Dispatcher {
@@ -200,7 +218,6 @@ struct Physics {
     int fieldc0, fieldc4, fieldc8, fieldcc, fieldd0, fieldd4, fieldd8, fielddc;
     int fielde0, fielde4, fielde8, fieldec, fieldf0, fieldf4, fieldf8, fieldfc;
     int toiQueue;
-    void AddToiEvent(Output *, Entry *, int *);
 };
 struct Globals {
     World *world;
@@ -212,17 +229,12 @@ struct Globals {
     Context input;
     Physics *physics;
 };
-struct Queue { int ProcessCallback(Job *, Job *, int); };
+struct Queue {  };
 struct MonitorRecord { const char *name; unsigned int time, field08; __forceinline void sample() { unsigned int stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         time = stamp;
     } };
 struct Monitor { int field00; MonitorRecord *end; int field08; MonitorRecord *limit; };
-extern unsigned long DAT_0126835c;
-extern int DAT_01269200;
 __forceinline void profile(const char *name, unsigned long tlsIndex) {
     Monitor *m = (Monitor *)TlsGetValue(tlsIndex);
     MonitorRecord *p = m->end;
@@ -232,11 +244,7 @@ __forceinline void profile(const char *name, unsigned long tlsIndex) {
         m->end = p + 1;
     }
 }
-void FUN_00cfedd0(Entry *, Context *, Output *, CollisionManager *);
-void FUN_00df25f0(World *, void *, int);
-struct Allocator { virtual void v0(); virtual void v1(); virtual void release(void *, int); };
-struct Memory { int field00, field04, field08, field0c; Allocator *allocator; };
-Memory *FUN_00c85750();
+
 __forceinline Quality *qualityAt(Context &c, int index) { return ((Dispatcher *)c.dispatcher)->qualities + index; }
 __forceinline void storeResults(Statistics *s, Owner &owner) {
     s->maximum = owner.maximum; s->added = owner.added; s->removed = owner.removed; s->changed = owner.changed;
@@ -254,12 +262,12 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
     Context context;
     (Input &)context = (Input &)globals->input;
     context.allocation = 0;
-    context.FUN_00cfa7d0(&globals->input);
+    new ((void *)&(context)) ::FUN_00cfa7d0((*(const ::FUN_00cfa7d0 *)(&globals->input)));
     context.time = job->time;
     Owner owner;
     owner.references = 1;
     owner.dispatch = &DAT_010d3df8;
-    owner.commands.FUN_00d93310();
+    reinterpret_cast<::FUN_00d93310_cls *>(&(owner.commands))->FUN_00d93310();
     Output output;
     output.toi.time = 3.402820018375656e38f;
     output.toi.rotation = output.toi.velocity = 0.0f;
@@ -269,7 +277,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
     if (job->type == 13) {
         {
         Island *island = job->island; work.savedIsland = island;
-        profile(str_010cc54c, DAT_0126835c);
+        profile(::str_010cc54c, DAT_0126835c);
         int num = job->count;
         int index = job->sector;
         int remaining = num - 1;
@@ -287,9 +295,9 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
             context.field14 = ((Quality *)context.quality)->createPredictive;
             output.toi.time = 3.402820018375656e38f;
             output.end = output.contacts; output.count = 0;
-            FUN_00cfedd0(current, &context, &output, current->manager);
+            ::ProcessAgentCFEDD0::FUN_00cfedd0((::ProcessAgentCFEDD0::hkpAgentNnEntryProcessAgentCFEDD0 *)(current), (*(const ::ProcessAgentCFEDD0::hkpProcessCollisionInputProcessAgentCFEDD0 *)(&context)), (*(::ProcessAgentCFEDD0::hkpProcessCollisionOutputProcessAgentCFEDD0 *)(&output)));
             if (output.end != output.contacts) current->manager->process(bodyA, bodyB, &context, &output);
-            if (output.toi.time != 3.402820018375656e38) physics->AddToiEvent(&output, current, &physics->toiQueue);
+            if (output.toi.time != 3.402820018375656e38) reinterpret_cast<::FUN_00d02e70_cls *>((physics))->AddToiEvent((char *)(::Output *)(&output), (::EventMeta *)(current), (::_RTL_CRITICAL_SECTION *)(int *)(&physics->toiQueue));
             owner.flush();
             current = next; next = prefetched;
             if (DAT_01269200 == 1) break;
@@ -301,7 +309,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
                         Island *sectorIsland = work.savedIsland;
                         Entry *const &slot = sectorIsland->sectors[index]; prefetched = slot;
                         if (remaining > 0) {
-                            char *p = (char *)sectorIsland->sectors[index + 1];
+                            char *p = reinterpret_cast<char *>(sectorIsland->sectors[index + 1]);
                             _mm_prefetch(p, 0); _mm_prefetch(p + 64, 0); _mm_prefetch(p + 128, 0); _mm_prefetch(p + 192, 0);
                         }
                         end = (index + 1 == sectorIsland->sectorCount ? sectorIsland->lastSize : 512) + (char *)slot;
@@ -312,17 +320,17 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
         if (!job->batch) {
             if ((owner.maximum | owner.added | owner.removed | owner.changed) || owner.commands.size) {
                 island = work.savedIsland;
-                globals->world->EnterLock(island);
+                reinterpret_cast<::FUN_00c911d0_Class *>((globals->world))->EnterLock(island);
                 island->maximum = island->maximum > owner.maximum ? island->maximum : owner.maximum;
                 island->added += owner.added; island->removed += owner.removed; island->changed += owner.changed;
-                if (owner.commands.size) FUN_00df25f0(globals->world, (char *)&owner.commands + owner.commands.offset, owner.commands.size);
-                globals->world->FUN_00c91210(island);
+                if (owner.commands.size) ::FUN_00df25f0(globals->world, (::CommandRecord *)(void *)((char *)&owner.commands + owner.commands.offset), owner.commands.size);
+                reinterpret_cast<::FUN_00c91210_Class *>((globals->world))->FUN_00c91210(island);
             }
         } else storeResults(job->batch->results[job->index], owner);
         }
         profile(str_010d3e28, DAT_0126835c);
     } else {
-        profile(str_010cd440, DAT_0126835c);
+        profile(::str_010cd440, DAT_0126835c);
         int start = job->stride * (unsigned short)job->index;
         for (work.i = 0; work.i < job->count; ++work.i) {
             Entry *entry = job->entries[start + work.i];
@@ -335,17 +343,19 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
             }
             output.toi.time = 3.402820018375656e38f;
             output.end = output.contacts; output.count = 0;
-            FUN_00cfedd0(entry, &context, &output, entry->manager);
+            ::ProcessAgentCFEDD0::FUN_00cfedd0((::ProcessAgentCFEDD0::hkpAgentNnEntryProcessAgentCFEDD0 *)(entry), (*(const ::ProcessAgentCFEDD0::hkpProcessCollisionInputProcessAgentCFEDD0 *)(&context)), (*(::ProcessAgentCFEDD0::hkpProcessCollisionOutputProcessAgentCFEDD0 *)(&output)));
             if (output.end != output.contacts) entry->manager->process(entry->bodyA, entry->bodyB, &context, &output);
-            if (output.toi.time != 3.402820018375656e38) globals->physics->AddToiEvent(&output, entry, &globals->physics->toiQueue);
+            if (output.toi.time != 3.402820018375656e38) reinterpret_cast<::FUN_00d02e70_cls *>((globals->physics))->AddToiEvent((char *)(::Output *)(&output), (::EventMeta *)(entry), (::_RTL_CRITICAL_SECTION *)(int *)(&globals->physics->toiQueue));
             owner.flush();
             if (DAT_01269200 == 1) break;
         }
         storeResults(job->batch->results[job->index], owner);
         profile(str_010d3e14, DAT_0126835c);
     }
-    int result = queue->ProcessCallback(job, job, 0);
-    owner.dispatch = &DAT_0102e388;
-    if (context.allocation) { Memory *m = FUN_00c85750(); Allocator *a = m->allocator; a->release(context.allocation, 512); }
+    int result = reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
+    owner.dispatch = &(*reinterpret_cast<int *>(&::DAT_0102e388));
+    if (context.allocation) { hkMemoryRouter *m = &hkMemoryRouter::getInstance(); hkMemoryAllocator *a = m->m_heap; a->blockFree(context.allocation, 512); }
     return result;
 }
+
+#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.inc"

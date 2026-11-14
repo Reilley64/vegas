@@ -1,0 +1,9 @@
+#pragma once
+
+#include <cstdint>
+
+struct FUN_00807770_Class {
+public:
+    // 0x00807770
+    char *FUN_00807770(int);
+};

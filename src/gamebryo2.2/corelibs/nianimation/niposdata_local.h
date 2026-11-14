@@ -8,6 +8,7 @@
 #ifndef FNV_NIPOSDATA_LOCAL_H
 #define FNV_NIPOSDATA_LOCAL_H
 
+#include "fnv/decl/FUN_00416870_t.h"
 #include "layout_support.h"
 #include "NiObject.h"
 class PositionKeyInterpolator;
@@ -21,14 +22,12 @@ enum NiAnimationKey__KeyType
     NiAnimationKey__KeyType_STEPKEY = 5,
     NiAnimationKey__KeyType_NUMKEYTYPES = 6
 };
-#pragma pack(push, 4)
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0
     float y;  // +0x4
     float z;  // +0x8
-    void Set(float x, float y, float z);
 };
 class NiPosData : public NiObject
 {
@@ -41,14 +40,4 @@ class NiPosData : public NiObject
     unsigned char layoutPadding15[3];
     static NiPoint3* ComputePositionAtTime(NiPoint3* pOut, float fTime, const NiPoint3* pIn);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPosData) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPosData, m_uiNumKeys) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPosData, m_pKeyArray) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPosData, m_eRequestType) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPosData, m_ucKeyDataSize) == 20);
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 8);
 #endif

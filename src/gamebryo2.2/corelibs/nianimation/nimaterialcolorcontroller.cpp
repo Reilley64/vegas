@@ -2,17 +2,37 @@
 // src/gamebryo2.2/corelibs/nianimation/nimaterialcolorcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nimaterialcolorcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3f88;
 
 // @fnv 0x00a4b570
+#include <windows.h>
+#include <new>
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/FUN_00a57c80.h"
+#include "fnv/decl/FUN_00a5e930.h"
+#include "fnv/decl/FUN_00a5ea70_t.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6d290.h"
+#include "fnv/decl/NiAlphaController.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/StandIn.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a57c70__FUN_00a57c70.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_010ba000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01201000.h"
 void* __cdecl FUN_00a4b570()
 {
-    return &g_011f3f88;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f88));
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 void __cdecl FUN_00a57c80(void*);
@@ -23,10 +43,10 @@ extern int DAT_01098a14;
 // @fnv 0x00a4b790
 void* __cdecl FUN_00a4b790()
 {
-    void* p = BSFadeNode::operator new(0x3c);
+    void* p = ::operator new(0x3c);
     if (p)
     {
-        ((void(__thiscall*)(void*))FUN_00a57c80)(p);
+        ((void(*)(void*))FUN_00a57c80)(p);
         *(unsigned short*)((char*)p + 0x38) = 0;
         *(void**)p = &DAT_01098a14;
         return p;
@@ -37,44 +57,35 @@ void* __cdecl FUN_00a4b790()
 namespace fnv_00a4b880 {
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct GlobalObjectO2_00a7b610
 {
     char const* m_str;
 };
-extern GlobalObjectO2_00a7b610 g_011f3f88;
-void __stdcall FUN_00a57d10(StrArr*);
-char* __cdecl FUN_00a7d330(char const*);
 
 // Appends the string returned by FUN_00a7d330(g_011f3f88.m_str) to pkStrings, growing it when the length reaches the count.
 // @fnv 0x00a4b880
-void __stdcall FUN_00a4b880(StrArr* pkStrings)
+void FUN_00a4b880(StrArr* pkStrings)
 {
-    FUN_00a57d10(pkStrings);
-    char* pStr = FUN_00a7d330(g_011f3f88.m_str);
+    ::FUN_00a57d10((::NiTArray< ::ActorCombatGroup *, ::NiTMallocInterface< ::ActorCombatGroup *>> *)(pkStrings));
+    char* pStr = ::FUN_00a7d330((*reinterpret_cast<::fnv_00a4b880::GlobalObjectO2_00a7b610 *>(&::g_011f3f88)).m_str);
     unsigned int len = *(unsigned short*)(pkStrings + 0xa);
     unsigned int cnt = *(unsigned short*)(pkStrings + 0x8);
     if (len >= cnt)
     {
-        pkStrings->SetSize(*(unsigned short*)(pkStrings + 0xe) + len);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(*(unsigned short*)(pkStrings + 0xe) + len);
     }
-    pkStrings->SetAt(len, pStr);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(len, pStr);
 }
 }  // namespace fnv_00a4b880
 
-extern "C" void* g_01201f74;
 
 // @fnv 0x00bc29d0
 void* __cdecl FUN_00bc29d0()
 {
-    return &g_01201f74;
+    return &(*reinterpret_cast<void * *>(&::g_01201f74));
 }
 
-extern unsigned int DAT_011f4998;
-extern unsigned int DAT_011f499c;
-extern unsigned int DAT_011f49a0;
 struct NiColorSource
 {
     unsigned int unk00;
@@ -118,15 +129,15 @@ void ColorHolder::GetColor(float* afOut)
     float red = 0.0f;
     float green = 0.0f;
     float blue = 0.0f;
-    register unsigned int type = mode & 7;
-    register NiColorSource* source = this->source;
+    unsigned int type = mode & 7;
+    NiColorSource* source = this->source;
     switch (type)
     {
     case 0:
     case 1:
-        *(unsigned int*)&red = DAT_011f4998;
-        *(unsigned int*)&green = DAT_011f499c;
-        *(unsigned int*)&blue = DAT_011f49a0;
+        *(unsigned int*)&red = (*reinterpret_cast<unsigned int *>(&::DAT_011f4998));
+        *(unsigned int*)&green = (*reinterpret_cast<unsigned int *>(&::DAT_011f499c));
+        *(unsigned int*)&blue = (*reinterpret_cast<unsigned int *>(&::DAT_011f49a0));
         break;
     case 2:
         *(unsigned int*)&red = source->r;
@@ -238,7 +249,6 @@ struct Thing
     int m_i18;
     int m_i1c;
 
-    static void* operator new(unsigned int auiSize) throw();
 
     Thing(Source* apSource) throw();
 };
@@ -323,7 +333,6 @@ struct NiStreamLike
     int unk0d4;
     unsigned int m_uiFormatVersion;
 
-    Source* FUN_00a63430();
 };
 
 struct StreamableBase
@@ -341,7 +350,6 @@ struct StreamableBase
     int unk28;
     int unk2c;
     int unk30;
-    void FUN_00a57630(NiStreamLike* apStream);
 };
 
 struct FUN_00a4b4b0_cls : StreamableBase
@@ -350,19 +358,6 @@ struct FUN_00a4b4b0_cls : StreamableBase
 
     void FUN_00a4b4b0(NiStreamLike* apStream);
 };
-
-// @fnv 0x00a4b4b0
-void FUN_00a4b4b0_cls::FUN_00a4b4b0(NiStreamLike* apStream)
-{
-    StreamableBase::FUN_00a57630(apStream);
-
-    if (apStream->m_uiFormatVersion < 0xa010068)
-    {
-        Source* pSource = apStream->FUN_00a63430();
-        m_spThing = new Thing(pSource);
-        m_spThing.m_pObject->Refresh();
-    }
-}
 
 namespace fnv_00a4b540 {
 struct NiObject
@@ -373,21 +368,19 @@ struct NiObject
 struct NiMaterialColorController
 {
     unsigned char mFlags[0x38];
-    bool __thiscall FUN_00a57c10(NiObject*);
-    bool __thiscall FUN_00a4b540(NiObject* pkObject);
+    bool FUN_00a4b540(NiObject* pkObject);
 };
 
 // Returns true if pkObject passes FUN_00a57c10 and its mFlags[0x38] low 3 bits match this object's mFlags[0x38] low 3 bits.
 // @fnv 0x00a4b540
-bool __thiscall NiMaterialColorController::FUN_00a4b540(NiObject* pkObject)
+bool NiMaterialColorController::FUN_00a4b540(NiObject* pkObject)
 {
-    if (!FUN_00a57c10(pkObject))
+    if (!((bool)(reinterpret_cast<::StandIn *>(this)->FUN_00a57c10((::FUN_00a57c10_This *)(pkObject), {}))))
         return false;
     return ((unsigned char)pkObject->mFlags[0x38] ^ (unsigned char)mFlags[0x38]) & 7 ? false : true;
 }
 }  // namespace fnv_00a4b540
 
-extern const float DAT_01096324;
 
 struct NiUpdateDataA4B5
 {
@@ -516,7 +509,6 @@ class NiMaterialColorControllerA4B5
     };
 
     virtual void vfn_00();
-    bool FUN_00a36250(float fTime);
     void FUN_00a4b580(NiUpdateDataA4B5& kUpdateData);
 
     bool GetManagerControlled() const
@@ -547,7 +539,7 @@ void NiMaterialColorControllerA4B5::FUN_00a4b580(NiUpdateDataA4B5& kUpdateData)
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(kUpdateData.m_fTime) &&
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
@@ -583,8 +575,6 @@ void NiMaterialColorControllerA4B5::FUN_00a4b580(NiUpdateDataA4B5& kUpdateData)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-void __cdecl _delete(void*, unsigned int);
 struct RefObj
 {
     virtual void f0();
@@ -593,7 +583,6 @@ struct RefObj
 };
 struct BaseB
 {
-    void FUN_00a6d290();
 };
 struct S00a4b6f0
 {
@@ -612,9 +601,9 @@ void* S00a4b6f0::Release(unsigned int uiFlags)
         if (InterlockedDecrement((volatile long*)&p->m_ref) == 0)
             p->f1();
     }
-    ((BaseB*)this)->FUN_00a6d290();
+    reinterpret_cast<struct ::FUN_00a6d290 *>((((BaseB*)this)))->FUN_00a6d290::~FUN_00a6d290();
     if (uiFlags & 1)
-        _delete(this, 0x3c);
+        ::FUN_00aa1460(this, 0x3c);
     return this;
 }
 
@@ -622,11 +611,9 @@ namespace fnv_00a4b740 {
 struct CloningProcess;
 struct NiAlphaController
 {
-    void CopyMemberData(NiAlphaController*, CloningProcess&);
 };
 struct NiLightColorController
 {
-    void FUN_00a57c80();
 };
 struct NiMaterialColorController
 {
@@ -638,10 +625,10 @@ struct NiMaterialColorController
 // @fnv 0x00a4b740
 NiMaterialColorController* NiMaterialColorController::Clone(CloningProcess& kCloning)
 {
-    NiMaterialColorController* pkObject = (NiMaterialColorController*)BSFadeNode::operator new(0x3c);
+    NiMaterialColorController* pkObject = (NiMaterialColorController*)::operator new(0x3c);
     if (pkObject)
     {
-        ((NiLightColorController*)pkObject)->FUN_00a57c80();
+        new ((void *)(((NiLightColorController*)pkObject))) struct ::FUN_00a57c80();
         *(void**)pkObject = (void*)&DAT_01098a14;
         pkObject->m_uiObjectFlags = 0;
     }
@@ -649,7 +636,7 @@ NiMaterialColorController* NiMaterialColorController::Clone(CloningProcess& kClo
     {
         pkObject = 0;
     }
-    ((NiAlphaController*)this)->CopyMemberData((NiAlphaController*)pkObject, kCloning);
+    reinterpret_cast<::NiAlphaController *>((((NiAlphaController*)this)))->CopyMemberData((::NiAlphaController *)(::fnv_00a4b740::NiAlphaController *)((NiAlphaController*)pkObject), (::CloningProcess &)(kCloning));
     pkObject->m_uiObjectFlags = m_uiObjectFlags;
     return pkObject;
 }
@@ -661,6 +648,7 @@ struct StreamRecord
     unsigned int bytesRead;
     int(__cdecl* read)(StreamRecord*, void*, unsigned int, unsigned int*, unsigned int);
 };
+struct NiObject;
 struct NiStream
 {
     StreamRecord* record()
@@ -675,9 +663,21 @@ struct NiStream
     {
         return *(unsigned short*)((char*)this + 0x286);
     }
-    void FUN_00a645b0();
+public:
+    ::NiObject *GetLoadedObject();
 };
-void __stdcall FUN_00a57c70(NiStream*);
+// @fnv 0x00a4b4b0
+void FUN_00a4b4b0_cls::FUN_00a4b4b0(NiStreamLike* apStream)
+{
+    reinterpret_cast<struct ::FUN_00a57630 *>(this)->LinkObject((*(::NiStream *)(apStream)));
+
+    if (apStream->m_uiFormatVersion < 0xa010068)
+    {
+        Source* pSource = ((::Source *)(reinterpret_cast<::NiStream *>((apStream))->GetLoadedObject()));
+        m_spThing = new Thing(pSource);
+        m_spThing.m_pObject->Refresh();
+    }
+}
 struct Stand840
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -689,7 +689,7 @@ struct Stand840
 void Stand840::Load(NiStream* stream)
 {
     unsigned int value;
-    FUN_00a57c70(stream);
+    reinterpret_cast<::fnv_00a57c70::FUN_00a57c70 *>((stream))->LoadBinary(*(::fnv_00a57c70::NiStream *)nullptr);
     if (stream->version() < 0x0a000102)
     {
         selected = (stream->savedFlags() >> 5) & 0xff;
@@ -703,16 +703,15 @@ void Stand840::Load(NiStream* stream)
         record->bytesRead += uiBytesAdded;
     }
     if (stream->version() < 0x0a010068)
-        stream->FUN_00a645b0();
+        reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
 }
 
-struct NiNode
+class NiNode
 {
+  public:
     char _pad[0xAC];
     NiNode(unsigned short);
 };
-extern float DAT_010ba600;
-extern int DAT_010ba608;
 struct FUN_00bc2980 : NiNode
 {
     unsigned char m_ac;
@@ -732,38 +731,38 @@ FUN_00bc2980::FUN_00bc2980() : NiNode(0)
     m_ac = 0;
 }
 
-void __cdecl FUN_00a5ea70();
 
 // @fnv 0x00bc29c0
 void __cdecl FUN_00bc29c0()
 {
-    FUN_00a5ea70();
+    static_cast<::FUN_00a5ea70_t *>(nullptr)->FUN_00a5ea70({});
 }
 
 namespace fnv_00bc29e0 {
 // Placeholder declarations
 struct NiMaterialColorController
 {
-    char _pad[0xb8];
+    char _pad[0xac];
+    unsigned char unkac;
+    unsigned char unkad;
+    char padae[0xa];
     NiMaterialColorController* FUN_00bc29e0(int arg);
 };
-extern void __fastcall FUN_00a5e930(NiMaterialColorController*);
-extern "C" void __cdecl __Dummy_00b6fef0(NiMaterialColorController*, int);
-extern float DAT_010ba600;
-extern void* DAT_010ba608;
 
 // Initializes NiMaterialColorController fields, calls FUN_00a5e930, and optionally calls __Dummy_00b6fef0 if arg bit 0 is set.
 // @fnv 0x00bc29e0
-NiMaterialColorController* __thiscall NiMaterialColorController::FUN_00bc29e0(int aiFlags)
+NiMaterialColorController* NiMaterialColorController::FUN_00bc29e0(int aiFlags)
 {
     ((float*)this)[0x2d] = 100.0f;
-    ((float*)this)[0x2c] = DAT_010ba600;
-    ((void**)this)[0] = &DAT_010ba608;
-    ((unsigned char*)this)[0xad] = 0;
-    ((unsigned char*)this)[0xac] = 0;
-    FUN_00a5e930(this);
+    ((float*)this)[0x2c] = ::DAT_010ba600;
+    ((void**)this)[0] = &(*reinterpret_cast<void * *>(&::DAT_010ba608));
+    this->unkad = 0;
+    this->unkac = 0;
+    reinterpret_cast<class ::FUN_00a5e930 *>((this))->FUN_00a5e930::~FUN_00a5e930();
     if (aiFlags & 1)
-        __Dummy_00b6fef0(this, 0xb8);
+        ::FUN_00aa1460(this, 0xb8);
     return this;
 }
 }  // namespace fnv_00bc29e0
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nimaterialcolorcontroller.inc"

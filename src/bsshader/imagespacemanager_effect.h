@@ -2,8 +2,8 @@
 #define IMAGESPACEMANAGER_EFFECT_H
 // Declaration-only virtual prefix: JIP LN NVSE internal/netimmerse.h,
 // ImageSpaceEffect (PC 1.4.0.525). No object is instantiated here.
-class ImageSpaceManager;
-class ImageSpaceEffectParam;
+struct ImageSpaceManager;
+struct ImageSpaceEffectParam;
 class NiGeometry;
 class NiDX9Renderer;
 class ImageSpaceEffect

@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkReferencedObject;
-#pragma pack(push, 1)
 class hkxAttribute
 {
   public:
@@ -21,6 +20,4 @@ class hkxAttribute
     hkStringPtr m_name;                   // +0x0
     hkReferencedObject* m_uiFilterValue;  // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxAttribute[(sizeof(hkxAttribute) == 0x8) ? 1 : -1];
 #endif

@@ -2,6 +2,8 @@
 // src/havok/common/scenedata/graph/hkxnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/graph/hkxnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkxNode.h"
 
 class hkMemoryAllocatorDFF6
@@ -16,7 +18,7 @@ class hkMemoryAllocatorDFF6
 
 struct hkMemoryRouterDFF6
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorDFF6* m_pStreamAllocator;
 
     hkMemoryAllocatorDFF6& heap()
@@ -25,7 +27,6 @@ struct hkMemoryRouterDFF6
     }
 };
 
-extern "C" hkMemoryRouterDFF6& __cdecl FUN_00c85750() throw();
 
 namespace hkDFF6 {
 class hkBaseObject
@@ -40,7 +41,6 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void FUN_00c905b0() throw();
 };
 
 template <class T> class ReferenceCountedPointer
@@ -49,7 +49,7 @@ template <class T> class ReferenceCountedPointer
     __forceinline ~ReferenceCountedPointer() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     T* m_pRetainedObject;
@@ -70,7 +70,7 @@ template <class T> class hkArray
 
     __forceinline ~hkArray() throw()
     {
-        hkMemoryAllocatorDFF6& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDFF6& kAlloc = (*static_cast<hkMemoryRouterDFF6*>(::FUN_00c85750())).heap();
         destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)

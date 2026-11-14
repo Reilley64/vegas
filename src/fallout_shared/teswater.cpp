@@ -1433,13 +1433,13 @@ struct BGSPlaceableWater
 
 struct FUN_004e32e0_shell : BGSPlaceableWater
 {
-    void FUN_004e32e0();
+    bool FUN_004e32e0();
 };
 
 // @fnv 0x004e32e0
-void FUN_004e32e0_shell::FUN_004e32e0()
+bool FUN_004e32e0_shell::FUN_004e32e0()
 {
-    reinterpret_cast<::BGSPlaceableWater *>(this)->HasFlags(0x10000000);
+    return reinterpret_cast<::BGSPlaceableWater *>(this)->HasFlags(0x10000000);
 }
 }  // namespace fnv_004e32e0
 

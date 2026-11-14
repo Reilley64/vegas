@@ -319,9 +319,9 @@ struct FUN_00b00ae0_shell
 };
 
 // @fnv 0x006c08e0
-void FUN_006c08e0(void* pThis)
+bool FUN_006c08e0(void* pThis)
 {
-    reinterpret_cast<::FUN_00b00ae0_class *>(&(reinterpret_cast<FUN_00b00ae0_shell&>(::GetTaskletManager())))->FUN_00b00ae0((void **)(pThis));
+    return reinterpret_cast<::FUN_00b00ae0_class *>(&(reinterpret_cast<FUN_00b00ae0_shell&>(::GetTaskletManager())))->FUN_00b00ae0((void **)(pThis));
 }
 
 class BSWin32TaskletManager;

@@ -69,17 +69,63 @@ call; that is a defect of those callers, not repaired here.
 
 ## Not variadic, but walking their parameters
 
-These functions are declared with a fixed parameter list and pass the
-address of a parameter as an argument list. They are a different defect:
-the declaration lost its `...`, and the callers pass a fixed argument. They
-are not repaired here; a repair changes the declaration and its callers.
+These functions were declared with a fixed parameter list and passed the
+address of a parameter as an argument list. The declaration lost its
+`...`, and the callers pass a fixed argument. VEGAS-131 left them as they
+were; VEGAS-134 takes them under the coordinator's ruling of 2026-11-14,
+whose seven conditions are in that ticket.
 
-| Function | Row | Unit | Form | Read by |
-| --- | --- | --- | --- | --- |
-| `InvokeVirtualWithArgs` | `0x00a0e4b0` | `src/bsmenu/debugtext.cpp` | `(char*)&aiArg5` | the fifth virtual function of its first argument |
-| `FUN_00cb0f80` | `0x00cb0f80` | `src/staging/blk_00ca0000_o2.cpp` | `(char*)&c` | `std::vsprintf` |
-| `FUN_00703c80` | `0x00703c80` | `src/fallout_shared/tesscriptfunctions.cpp` | `int* p = &b`, passed as `char*` | `ConsoleText::FUN_0071d0a0` |
-| `FUN_00703c00` | `0x00703c00` | `src/fallout/ai/processlists.cpp` | `(char const*)&context` | `ConsoleText::FUN_0071d0a0` |
+| Function | Row | Unit | Form | Read by | VEGAS-134 |
+| --- | --- | --- | --- | --- | --- |
+| `InvokeVirtualWithArgs` | `0x00a0e4b0` | `src/bsmenu/debugtext.cpp` | `(char*)&aiArg5` | the fifth virtual function of its first argument | tabled |
+| `FUN_00cb0f80` | `0x00cb0f80` | `src/staging/blk_00ca0000_o2.cpp` | `(char*)&c` | `std::vsprintf` | restored |
+| `FUN_00703c80` | `0x00703c80` | `src/fallout_shared/tesscriptfunctions.cpp` | `int* p = &b`, passed as `char*` | `ConsoleText::FUN_0071d0a0` | tabled |
+| `FUN_00703c00` | `0x00703c00` | `src/fallout/ai/processlists.cpp` | `(char const*)&context` | `ConsoleText::FUN_0071d0a0` | tabled |
+
+`FUN_00cb0f80` is now `void FUN_00cb0f80(char*, const char*, ...)` and
+makes its list with `va_start` on the format. Its one caller,
+`FUN_00d87aa0` in `src/staging/blk_00d80000_o2.cpp`, formats a count with
+`"%4i\t\t"` and passes the count as an `int`; it passed it through
+`char*` before. The recipe's two keys take the new name, and
+`tests/checks/objects_ellipsis_restored.cmake` checks the list and that no
+object refers to the former name.
+
+`FUN_00703c80` takes a string object by value and formats with its text.
+The recipe binds three names in its unit to the address, each with
+another class for that parameter: the definition's `S_00703c80_A`, two
+32-bit fields; `FUN_00703c80(TreeStr)`, called three times; and
+`xConsolePrint(DynamicString)`, called three times. `TreeStr` and
+`DynamicString` have the string's three fields but other members.
+Condition (4) does not need one class: each name can take its own `...`
+and each key its new spelling in one commit. What fails is condition (6):
+`S_00703c80_A` is the 32-bit view of the string the format is read from,
+a lost parameter type that needs its own stated commit first, and no rule
+yet picks the class for a string passed by value (`TreeStr`,
+`DynamicString` or the unit's `BSStringT<char>`).
+
+`FUN_00703c00` stays for its own lane. The recipe has 194 keys at the
+address in 27 entries of 25 sources, under 166 names: `FUN_00703c00`,
+`DebugLog`, `_DebugLog`, `xDebugLog`, `B5CC970DebugLog`, `Log`,
+`LogPositionCondition`, `ReportMessage` and a `char` variable
+`_DebugLog`, in many namespaces, with and without C linkage. In 24 units
+700 calls name 165 of them. Of the calls, 17 pass fewer arguments than
+their format's conversions; 20 pass more, 12 of those an empty
+placeholder `{}`; 34 have a format that is a run-time string or of which
+the source holds only the first one to four bytes, and 17 of those pass
+`{}`. Two more calls name `FUN_00703c00` in a namespace that no key
+binds. Some declarations take another type in the format's place
+(`unsigned int`, `const void*`, `void*`) or return a value (`int`,
+`bool`), each a separate change under the ruling.
+
+`InvokeVirtualWithArgs` has no caller in the recipe. Its siblings
+`FUN_00a0e470`, `FUN_00a0e690` and `InvokeVFuncWithVarArgs` call the
+fifth virtual function of their receiver with the format fourth and the
+list fifth, where
+it passes `aiArg4` and the address of `aiArg5`, so they place the format
+at `aiArg4`, an `int` that would first become `const char*`. Its first
+argument's class is a stand-in, as is `InvokeVFuncWithVarArgs`'s
+receiver, so that the virtual function is the same one is not shown. A
+second declaration at `debugtext.cpp:1475` moves with any later restore.
 
 ## Functions that take a list
 

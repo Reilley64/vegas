@@ -767,6 +767,16 @@ class ProveTest(Folder):
                                                   "at /Od (none)"), verdicts)
         self.assertEqual(rows, [])
 
+    def test_rows_name_comdat_functions(self):
+        # A check row names a COMDAT function: a section key of a table (#name/N) or of an
+        # associative section (parent|name) drops the name.
+        for key in ("#.rdata/1", CALLER + "|.pdata"):
+            rep = dict(report("identical", RENAMED), retargets=[dict(old=N, new=D, count=2, by_map=True,
+                                                                     functions=[CALLER, key])])
+            (verdicts, rows), _ = self.prove(("// report * %s\n" % json.dumps(rep)).encode())
+            self.assertTrue(verdicts[N][0].startswith("row: no COMDAT function"), (key, verdicts))
+            self.assertEqual(rows, [], key)
+
     def test_layouts(self):
         # The removed empty stand-in S may be only in the base; any other layout difference, or a
         # failed dump on either target, drops the name.
@@ -780,6 +790,13 @@ class ProveTest(Folder):
         self.assertTrue(bb.layout_check(build, "src/u.cpp", base, bound, os.path.join(work, "l"), set()))
         self.assertTrue(bb.layout_check(build, "src/u.cpp", base, os.path.join(self.dir, "other.cpp"),
                                         os.path.join(work, "l"), {"S"}).startswith("layout: x86_64"))
+        # A record layout only in the head drops the name too.
+        self.write("plain.cpp", TEXT)
+        self.write("more.cpp", TEXT + b"// layout r 4\n")
+        self.assertEqual(bb.layout_check(build, "src/u.cpp", os.path.join(self.dir, "plain.cpp"),
+                                         os.path.join(self.dir, "more.cpp"), os.path.join(work, "l"), {"S"}),
+                         "layout: x86_64-pc-windows-msvc: 1 record layout(s) only in the head, 0 other than a "
+                         "removed empty stand-in only in the base")
         for target in ("x86_64-pc-windows-msvc", "i686-pc-windows-msvc"):
             (verdicts, rows), _ = self.prove(("// layout-fail %s\n" % target).encode())
             self.assertEqual(verdicts[N][0], "layout: the %s record-layout dump failed" % target)
@@ -874,6 +891,16 @@ class ApplyTest(Folder):
         self.assertEqual(self.apply(), 1)
         self.assertEqual(self.state(), before)
 
+
+    def test_an_edited_unit_writes_nothing(self):
+        # The checkout's unit is neither the export's text nor its moves: both stages write nothing.
+        self.proved()
+        with open(os.path.join(self.repo, "src", "u.cpp"), "ab") as f:
+            f.write(b"// edited in the checkout\n")
+        before = self.state()
+        self.assertEqual(self.apply(), 1)
+        self.assertEqual(bb.main(["apply", self.out, self.repo, "--stage", "moves"]), 1)
+        self.assertEqual(self.state(), before)
 
     def test_a_changed_export_refuses_prove_and_apply(self):
         # The gate recorded the export's text; once it changes, prove and apply write nothing.

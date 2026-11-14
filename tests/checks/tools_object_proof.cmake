@@ -35,7 +35,8 @@
 # equal, other symbols or address-significance entries change order, the
 # head still holds OLD (beside the call, alone or in a label),
 # no relocation of the base targets OLD, OLD is defined or embedded in
-# another name, NEW is held twice, an address-significance entry of NEW is
+# another name, is a static or weak external symbol or has an aux record,
+# NEW is held twice or is a static symbol, an address-significance entry of NEW is
 # added or removed alone, the relocations only change order, a call goes to
 # another name or with another type, a second call is retargeted, code or
 # the owner's body changes, or the head's NEW is another kind of symbol, or
@@ -44,8 +45,10 @@
 # children moved, also among themselves, "reordered" (or "merged and
 # reordered") and one where nothing moved "identical", or calls one so where
 # a non-COMDAT section (one the listed function leads too) or an unlisted
-# function's section changed place, two .CRT$XCU entries swapped, a .CRT$
-# child moved with its parent, a section was added, a moved section's bytes
+# function's section changed place (then with one ORDER-FIXED line and
+# nothing more), two .CRT$XCU entries swapped, a .CRT$ child of any group
+# (XC, XI, XL, XP, XT) moved with its parent, the symbol multisets differ
+# by a count, a section was added, a moved section's bytes
 # changed, a relocation was retargeted, a symbol moved to another section,
 # another address-significance entry moved or the listed function's entry
 # went, or combines it with --expect-kept, or compares the symbols as a
@@ -62,7 +65,8 @@ set(tools_object_proof_cases identical timestamp rename refused_renames unmatche
     alignment addrsig_encoding base_holds_both summary symbol_shift expect_kept kept_holes
     expect_kept_file kept_identical beside_kept compile_source source_fails_closed kept_symbol
     refusal_alone base_holds_new merge_attacks function_order symbol_order_only_when_equal
-    function_order_keeps_symbol_order merge_addrsig_characteristics)
+    function_order_keeps_symbol_order merge_addrsig_characteristics merge_symbol_kinds
+    function_order_fixed_sections)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

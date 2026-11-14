@@ -29,13 +29,15 @@
 # and a failing exit never pass; the moves need equal bytes), stops passing
 # --base-holds-new and --function-order with the owners, stops dropping a
 # name on one failing variant, a warnings difference, a missing check row
-# (a row names a function that holds the call at the unit's flags and at
-# /Od, never one that holds only an inlined copy),
-# or a record layout that differs on windows-x64 or i686 other than a
-# removed empty stand-in (an unnamed record's place aside), or a failed
+# (a row names a COMDAT function, never a #name/N or parent|name section
+# key, that holds the call at the unit's flags and at /Od, never one that
+# holds only an inlined copy),
+# or a record layout that differs on windows-x64 or i686 (one only in the
+# head included) other than a removed empty stand-in (an unnamed record's place aside), or a failed
 # layout dump; or when apply stops
 # needing the proof's files, applying only proved names, or writing nothing
-# until every text, key and check row is ready, or check rows stop coming
+# until every text, key and check row is ready (a unit edited in the
+# checkout included), or check rows stop coming
 # from the proof's rows alone with one forbid line per name; or when gate
 # stops deleting an earlier proof's files or recording each unit's sha256,
 # or prove and apply stop refusing, writing nothing, a unit whose text no
@@ -62,10 +64,10 @@ set(tools_bind_batch_cases
     RewriteTest.test_wrapped_move RewriteTest.test_overlapping_edits_refused
     RewriteTest.test_whole_names ProofModeTest.test_modes ProveTest.test_compare_reads_the_verdict
     ProveTest.test_prove_unit_modes_and_rows ProveTest.test_prove_unit_drops ProveTest.test_layouts
-    ProveTest.test_rows_hold_the_call_at_od
+    ProveTest.test_rows_hold_the_call_at_od ProveTest.test_rows_name_comdat_functions
     ApplyTest.test_needs_the_proof ApplyTest.test_binds_the_proved_names
     ApplyTest.test_unproved_names_stay ApplyTest.test_nothing_written_unless_everything_is_ready
-    ApplyTest.test_a_changed_export_refuses_prove_and_apply
+    ApplyTest.test_a_changed_export_refuses_prove_and_apply ApplyTest.test_an_edited_unit_writes_nothing
     GateRunTest.test_gate_drops_an_earlier_proof_and_hashes_the_unit
     TableTest.test_rows_from_proof_and_forbid_once TableTest.test_usage)
 if(Python3_Interpreter_FOUND)

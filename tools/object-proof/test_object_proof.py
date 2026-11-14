@@ -25,7 +25,7 @@ def obj(sections, symbols, bigobj=False, timestamp=0, machine=0x8664):
     each relocation (offset, symbol, type) with the symbol's position in
     symbols. symbols: (name, value, section, type, storage, selection); a
     selection other than None gives the symbol the aux record of its section
-    with that COMDAT selection."""
+    with that COMDAT selection, or, given as bytes, that aux record."""
     symsize = 20 if bigobj else 18
     strings = bytearray(b"\0\0\0\0")
 
@@ -56,7 +56,9 @@ def obj(sections, symbols, bigobj=False, timestamp=0, machine=0x8664):
     table = b""
     for text, value, section, typ, storage, selection in symbols:
         aux = b""
-        if selection is not None:
+        if isinstance(selection, bytes):
+            aux = selection.ljust(symsize, b"\0")
+        elif selection is not None:
             data, relocations = sections[section - 1][1], sections[section - 1][3]
             aux = struct.pack("<IHHIHB", len(data), len(relocations), 0, 0, 0, selection).ljust(symsize, b"\0")
         fmt = "<IiHBB" if bigobj else "<IhHBB"
@@ -140,7 +142,7 @@ def merge_unit(targets, undefined, new_defined=True, addrsig=None, types=None, c
     """A COMDAT ?caller@@YAXXZ whose calls, at 0x1, 0x6 and on, go to the named
     targets; with new_defined, NEW's body in a COMDAT section of its own;
     undefined lists the undefined symbols in table order; extra adds symbols
-    (name, value, section, type, storage) after them; order permutes the
+    (name, value, section, type, storage[, aux bytes]) after them; order permutes the
     caller's relocation records."""
     sections = [[".text$mn", code or b"\xe8\0\0\0\0" * max(len(targets), 2) + b"\xc3", CODE | COMDAT, []]]
     symbols = [[".text$mn", 0, 1, 0, 3, 2], ["?caller@@YAXXZ", 0, 1, 0x20, 2, None]]
@@ -148,7 +150,7 @@ def merge_unit(targets, undefined, new_defined=True, addrsig=None, types=None, c
         sections.append([".text$mn", new_body, CODE | COMDAT, []])
         symbols += [[".text$mn", 0, 2, 0, 3, 2], [NEW, 0, 2, 0x20, 2, None]]
     symbols += [[name, 0, 0, 0x20, 2, None] for name in undefined]
-    symbols += [list(name) + [None] for name in extra]
+    symbols += [list(name) + [None] * (6 - len(name)) for name in extra]
     positions = [symbol[0] for symbol in symbols]
     sections[0][3] = [(1 + 5 * i, positions.index(target), (types or [4] * len(targets))[i])
                       for i, target in enumerate(targets)]
@@ -1210,6 +1212,55 @@ class ObjectProofTest(unittest.TestCase):
             self.assertIn("SECTION-DIFFERS\t#.llvm_addrsig/1\t.llvm_addrsig\tcharacteristics %d -> %d (0x%08x -> "
                           "0x%08x)\tequal: selection None, names, relocations 0"
                           % (ADDRSIG, ADDRSIG | 0x40, ADDRSIG, ADDRSIG | 0x40), out.splitlines(), out)
+
+    def test_merge_symbol_kinds(self):
+        # A merge needs OLD as one undefined external symbol with no aux record, and NEW as one
+        # external symbol.
+        rename = "%s=%s" % (OLD, NEW)
+        old_kinds = [((OLD, 0, 0, 0x20, 3),), ((OLD, 0, 0, 0x20, 105, struct.pack("<II", 5, 3)),),
+                     ((OLD, 0, 0, 0x20, 2, b"\0" * 18),)]
+        for extra in old_kinds:
+            code, out, _ = self.objcmp(merge_unit([OLD], [], extra=extra), merge_unit([NEW], []), rename,
+                                       "--base-holds-new")
+            self.assertEqual(code, 1, (extra, out))
+            self.assertIn("MERGE-OLD\tA holds %s other than as one undefined external symbol" % OLD,
+                          out.splitlines(), (extra, out))
+        static_new = [(NEW, 0, 1, 0x20, 3)]
+        code, out, _ = self.objcmp(merge_unit([OLD], [OLD], new_defined=False, extra=static_new),
+                                   merge_unit([NEW], [], new_defined=False, extra=static_new), rename,
+                                   "--base-holds-new")
+        self.assertEqual(code, 1, out)
+        self.assertIn("MERGE-NEW\tA holds %s other than as one external symbol" % NEW, out.splitlines(), out)
+
+    def test_function_order_fixed_sections(self):
+        # No .CRT$ section moves, whichever group it sorts in, even as a listed function's child;
+        # symbols compare as a multiset, counts included.
+        owner, caller, other, x = "?owner@@YAXXZ", "?caller@@YAXXZ", "?other@@YAXXZ", "?x@@YAXXZ"
+        listed = self.write("order.txt", (owner + "\n").encode())
+        text = (".text$mn", None, b"", None, [])
+        call = (".text$mn", caller, b"\xe8\0\0\0\0\xc3", "any", [owner])
+        rest = (".text$mn", other, b"\xc3", "any", [x])
+        body = (".text$mn", owner, b"\xc3", "any", [])
+        for name in (".CRT$XCA", ".CRT$XCT", ".CRT$XCZ", ".CRT$XIC", ".CRT$XLB", ".CRT$XPU", ".CRT$XTA"):
+            crt = (name, None, b"\0" * 8, owner, [])
+            code, out, _ = self.objcmp(order_unit([text, call, rest, body, crt], [x]),
+                                       order_unit([text, body, crt, call, rest], [x]), "--function-order", listed)
+            self.assertEqual(code, 1, (name, out))
+            self.assertIn("ORDER-FIXED\t%s|%s\tchanged place; only the listed functions' sections may" % (owner, name),
+                          out.splitlines(), (name, out))
+        # An unlisted function's section moved: its ORDER-FIXED line is the one difference; the
+        # symbols that follow its section are not reported again.
+        code, out, _ = self.objcmp(order_unit([text, call, rest, body], [x]), order_unit([text, rest, call, body], [x]),
+                                   "--function-order", listed)
+        self.assertEqual((code, out.splitlines()), (1, [
+            "differs: 1 difference(s)",
+            "ORDER-FIXED\t%s\tchanged place; only the listed functions' sections may" % other]), out)
+        twice = [("lab", 1, caller), ("lab", 1, caller)]
+        code, out, _ = self.objcmp(order_unit([text, call, rest, body], [x], labels=twice),
+                                   order_unit([text, body, call, rest], [x], labels=twice[:1]),
+                                   "--function-order", listed)
+        self.assertEqual(code, 1, out)
+        self.assertIn("SYMBOL-ONLY-A\tlab\t1\t%s\t0\t3" % caller, out.splitlines(), out)
 
     def test_symbol_order_only_when_equal(self):
         # SYMBOL-ORDER is reported only when the symbol multisets are equal.

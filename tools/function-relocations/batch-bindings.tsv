@@ -42,3 +42,9 @@ forbid	?Set@Tile@fnv_007851d0@@QEAAXHH@Z
 function	batch2	src/fallout/interface/menus/levelupmenu.cpp	?UpdateLevelUpMenu@fnv_007851d0@@YAXXZ	?Set@Tile@@QEAAXHH@Z
 forbid	?Update@FUN_006658b0_shell@fnv_006652e0@@QEAAXXZ
 function	batch3	src/fallout_shared/speedtree/bstreemanager.cpp	?FUN_006652e0@fnv_006652e0@@YAXPEAVNiAVObject@1@_N@Z	?Update@C6658@@QEAAXXZ
+forbid	?FUN_00716730@IMX@fnv_0070c4a0@@QEAAHM@Z
+forbid	?FUN_00717660@IMX@fnv_0070c4a0@@QEAAXXZ
+forbid	?UpdateFocusTarget@IMX@fnv_0070c4a0@@QEAAXXZ
+forbid	?UpdatePickObjects@IMX@fnv_0070c4a0@@QEAAXXZ
+forbid	?UpdatePipboyWaiver@IMX@fnv_0070c4a0@@QEAAXXZ
+function	batch3	src/fallout/interface/interfacemanager.cpp	?UpdateInterface@FUN_0070c4a0_shell@fnv_0070c4a0@@QEAAXXZ	?FUN_00716730@FUN_00716730_t@fnv_00716730@@QEAAHM@Z ?FUN_00717660@FUN_00717660_shell@fnv_00717660@@QEAAXXZ ?UpdateFocusTarget@IMStandIn@fnv_00715ca0@@QEAAXXZ ?UpdatePickObjects@PickOwner@@QEAAXXZ ?UpdatePipboyWaiver@FUN_0070ee80_shell@fnv_0070ee80@@QEAAXXZ

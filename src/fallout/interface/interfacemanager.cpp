@@ -2680,22 +2680,17 @@ struct IMX
     char _p16[0x14];
     S4d4 o4d4;
     void UpdateControllerState(bool);
-    void FUN_00717660();
     void FUN_00718930(int);
     void FUN_007118d0();
-    void UpdateFocusTarget();
     TileH* FUN_007126c0(int);
-    void UpdatePickObjects();
     void DrawDebugInfo();
     int FUN_0070ec70();
     void FUN_00718080(MenuH*, int, TileH*);
     void HandleGamepadButton(int);
     int HandleKeyEvent(int, int);
-    int FUN_00716730(float);
     void PushMenuStackEntry(int);
     void QueueHudCallback(int, int);
     void HandleCallbackOrStore(int);
-    void UpdatePipboyWaiver();
 };
 int FUN_00458030();
 extern XS DAT_011d8a54;
@@ -2733,7 +2728,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
     }
     if (((IMX*)this)->bc8)
     {
-        ((IMX*)this)->FUN_00717660();
+        ((::fnv_00717660::FUN_00717660_shell*)this)->FUN_00717660();
     }
     ConsoleManager* pCurrentConsoleManager = 0;
     Ctl* pcontrols = (Ctl*)((::InputManager *)(reinterpret_cast<::FUN_00877720_shell *>((g_osGlobals))->FUN_00877720()));
@@ -2933,7 +2928,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
             if (!((IMX*)this)->tbc || !reinterpret_cast<::sa040a0::Owner *>((((IMX*)this)->tbc))->IsAllChildrenFlag0() ||
                 !reinterpret_cast<::FUN_00a01230_shell *>((((IMX*)this)->tbc))->IsTraitNonZero(0xfaf))
             {
-                ((IMX*)this)->UpdateFocusTarget();
+                ((::fnv_00715ca0::IMStandIn*)this)->UpdateFocusTarget();
             }
         }
         int imouse_down = 0;
@@ -3170,7 +3165,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
             }
             else if (reinterpret_cast<::FUN_004a4020_shell *>((ConsoleManager::Instance(true)))->FUN_004a4020())
             {
-                ((IMX*)this)->UpdatePickObjects();
+                ((::PickOwner*)this)->UpdatePickObjects();
                 ((IMX*)this)->DrawDebugInfo();
             }
         }
@@ -3238,7 +3233,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
             int ikey = ((IMX*)this)->HandleKeyEvent(iis_down, iraw_key);
             if (!ikey)
             {
-                ikey = ((IMX*)this)->FUN_00716730(1.0f);
+                ikey = ((::fnv_00716730::FUN_00716730_t*)this)->FUN_00716730(1.0f);
             }
             bool bConsoleUsed = false;
             pCurrentConsoleManager = ConsoleManager::Instance(false);
@@ -3525,7 +3520,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
     }
     if (!GetTopEnterStackEntry() || InterfaceManager::IsInterfaceMenuActive())
     {
-        ((IMX*)this)->UpdatePipboyWaiver();
+        ((::fnv_0070ee80::FUN_0070ee80_shell*)this)->UpdatePipboyWaiver();
     }
     ((IMX*)this)->o4d4.FUN_007182e0();
 }

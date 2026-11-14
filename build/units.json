@@ -539869,7 +539869,7 @@
     },
     {
      "address": "0x00cb0f80",
-     "symbol": "?FUN_00cb0f80@@YAXPADPBD0@Z",
+     "symbol": "?FUN_00cb0f80@@YAXPADPBDZZ",
      "size": 24
     },
     {
@@ -550692,7 +550692,7 @@
     "_FUN_00cb10d0": "0x00cb10d0",
     "?FUN_00cb0fa0@fnv_00cb0fa0@@YAHPBD0@Z": "0x00cb0fa0",
     "?DAT_010d3cb4@fnv_00d87aa0@@3QBDB": "0x010d3cb4",
-    "?FUN_00cb0f80@@YAXPADPBD0@Z": "0x00cb0f80",
+    "?FUN_00cb0f80@@YAXPADPBDZZ": "0x00cb0f80",
     "?FUN_00cc0470@Own_00cc0470@@QAEXPAX@Z": "0x00cc0470",
     "?FUN_00cb0f50@@YAXHHHH@Z": "0x00cb0f50",
     "?FUN_00c6cd60@hkMatrix4CD60@@QAEAAU1@ABU1@@Z": "0x00c6cd60",

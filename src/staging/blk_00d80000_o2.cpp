@@ -4737,7 +4737,7 @@ void __cdecl FUN_00d87aa0(D87aa0Reporter* apReporter, const char* id, const char
         va_list args;
         va_start(args, fmt);
         if (*fmt == '#') {
-            ::FUN_00cb0f80((char*)buf, DAT_010d3cb4, (char *)(intptr_t)(n)); // the "%4i" argument of a varargs format
+            ::FUN_00cb0f80((char*)buf, DAT_010d3cb4, n);
             reinterpret_cast<::Own_00cc0470 *>((apReporter->m_stream))->FUN_00cc0470((void *)((char*)buf));
             ::FUN_00cb0f50((intptr_t)((char*)buf), 0x400, (intptr_t)(fmt + 1), (intptr_t)(args));
         } else {

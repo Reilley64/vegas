@@ -23,7 +23,7 @@ void FUN_00cb0f50(intptr_t, int, intptr_t, intptr_t);
 // 0x00cb0f60
 int Vsnprintf(char *, intptr_t, const char *, ...);
 // 0x00cb0f80
-void FUN_00cb0f80(char *, const char *, char *);
+void FUN_00cb0f80(char *, const char *, ...);
 // 0x00cb0fa0
 namespace fnv_00cb0fa0 { int FUN_00cb0fa0(const char *, const char *); }
 // 0x00cb0fd0

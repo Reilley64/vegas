@@ -180099,7 +180099,7 @@
     "?g_011d73d8@@3VGlobalObject_0045cf30@@A": "0x011d73d8",
     "?FUN_00505c00@FUN_00505c00_shell@@QAE_NXZ": "0x00505c00",
     "?FUN_006a7980@FUN_006a7980_shell@@QAE_NXZ": "0x006a7980",
-    "?FUN_006cd1f0@PathBuilderS@fnv_006cc5e0@@QAE_NPAUPathingLocation@@0@Z": "0x006cd1f0",
+    "?FUN_006cd1f0@PathBuilderMethods@fnv_006cd1f0@@QAE_NPAUPathingLocation@@0@Z": "0x006cd1f0",
     "?FUN_008cdd90@FUN_008cdd90_shell@fnv_008cdd90@@QAEPAUhkpAllRayHitCollector@2@XZ": "0x008cdd90",
     "?Clear@FUN_008454f0@fnv_008454f0@@QAEX_N@Z": "0x008454f0",
     "?FUN_0042f9c0@FUN_0042f9c0_Class@@QAEX_N@Z": "0x0042f9c0",

@@ -670,7 +670,6 @@ struct PathingSolutionS
 
 struct PathBuilderS
 {
-    bool FUN_006cd1f0(PathingLocation*, PathingLocation*);
     bool FindPath(PathingLocation*, PathingLocation*, BSSimpleArray<NavMeshTriangleEdgeReference, 1024>&,
                   BSSimpleArray<NavMeshTriangleReference, 1024>&, BSSimpleArray<NavMeshTriangleEdgeReference, 1024>&,
                   unsigned int, unsigned int);
@@ -709,7 +708,7 @@ int FUN_006cc5e0_shell::FUN_006cc5e0(PathingLocation* aStartLocation, PathingLoc
 {
     if (*(*reinterpret_cast<::fnv_006cc5e0::ProcessLists *>(&::g_011d73d8)).GetLifeStateControlFlag() && !((const void *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(((PathingRequestS*)pRequest)))->GetString())) &&
         !reinterpret_cast<::FUN_00505c00_shell *>((((PathingRequestS*)pRequest)))->FUN_00505c00() && !reinterpret_cast<::FUN_006a7980_shell *>((void *)(((PathingRequestS*)pRequest)))->FUN_006a7980() &&
-        ((PathBuilderS*)this)->FUN_006cd1f0(aStartLocation, aGoalLocation))
+        ((::fnv_006cd1f0::PathBuilderMethods*)this)->FUN_006cd1f0(aStartLocation, aGoalLocation))
         return 0;
 
     BSSimpleArray<NavMeshTriangleEdgeReference, 1024> BadNodes(0x20, 0);

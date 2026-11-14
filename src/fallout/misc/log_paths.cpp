@@ -5,7 +5,9 @@
 // and DAT_01202b48 in src/staging/blk_00c20000_od.cpp. Generated data
 // defined DAT_01202938, DAT_01202a40 and DAT_01202c50; the native data
 // composition retires those lines (docs/native-data-ownership.md).
-#include <cstring>
+// All four builders copy and append with fnv::crt::strcpy_s and strcat_s,
+// which leave the buffer empty when the path does not fit (VEGAS-130,
+// docs/data-pack-startup.md).
 #include "runtime/crt.h"
 #include "fnv/symbols_00c3b000.h"
 #include "fnv/symbols_01202000.h"
@@ -23,8 +25,8 @@ char* FUN_00c3bb80()
 // @fnv 0x00c3bb90
 void FUN_00c3bb90(const char* src)
 {
-    strcpy_s(DAT_01202c50, 260, DAT_01202fa0);
-    strcat_s(DAT_01202c50, 260, src);
+    fnv::crt::strcpy_s(DAT_01202c50, 260, DAT_01202fa0);
+    fnv::crt::strcat_s(DAT_01202c50, 260, src);
 }
 
 namespace fnv_00c3bbe0 {
@@ -41,8 +43,8 @@ extern char DAT_01202a40[0x104];
 // @fnv 0x00c3bc30
 void __cdecl FUN_00c3bc30(const char* pcSuffix)
 {
-    strcpy_s(DAT_01202a40, 0x104, DAT_01202fa0);
-    strcat_s(DAT_01202a40, 0x104, pcSuffix);
+    fnv::crt::strcpy_s(DAT_01202a40, 0x104, DAT_01202fa0);
+    fnv::crt::strcat_s(DAT_01202a40, 0x104, pcSuffix);
 }
 
 namespace fnv_00c3bc80 {

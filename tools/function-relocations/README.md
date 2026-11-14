@@ -40,6 +40,7 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.mask_constants`, one test for all of `mask-constants.tsv`,
 `objects.integer_width_calls` for `integer-width-calls.tsv`,
 `objects.log_path_buffer` for `log-path-buffer.tsv`,
+`objects.log_path_copies` for `log-path-copies.tsv`,
 `objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`,
 `objects.float_setting_accessor_callers` for `float-setting-accessor.tsv`,
 `objects.setting_member_calls` for `setting-member-calls.tsv`,
@@ -160,6 +161,15 @@ declared as an array of 260 characters, a loaded value would need a cast.
 A smaller array under the same name is not caught by
 `objects.log_path_buffer`; the `static_assert` in `FUN_004dc110` covers the
 size of the buffer's definition.
+
+`log-path-copies.tsv` lists WinMain's four log-path builders (VEGAS-130,
+docs/data-pack-startup.md). Under the ruling of 2026-11-14 all four copy
+and append with `fnv::crt::strcpy_s` and `fnv::crt::strcat_s`, which leave
+the buffer empty when the path does not fit. The table forbids the C
+runtime's `strcpy_s` and `strcat_s`, which end the process instead and
+which two of the builders called before, and requires both `fnv::crt`
+names of each builder. It is registered by
+`tests/checks/objects_log_path_copies.cmake`.
 
 `setting-value-accessor.tsv` lists a sample of the callers of the setting
 value accessor at `0x0043d4d0` (VEGAS-111, docs/setting-value-offset.md). It

@@ -1019,6 +1019,24 @@ struct FUN_00a317e0_t
     void AssignInterpolatorRef(int index, FUN_00a317e0_ref** output);
 };
 
+namespace fnv_00a30640 {
+struct NiStringPtr
+{
+    char* m_kHandle;
+};
+}  // namespace fnv_00a30640
+namespace fnv_00a30640 {
+class NiControllerSequence
+{
+  public:
+    NiStringPtr m_kName;
+    NiStringPtr m_kParentName;
+    NiStringPtr m_kSourceName;
+    NiStringPtr m_kTargetName;
+    NiStringPtr m_kControllerName;
+    void ResetStrings();
+};
+}  // namespace fnv_00a30640
 // @fnv 0x00a317e0
 void FUN_00a317e0_t::AssignInterpolatorRef(int index, FUN_00a317e0_ref** output)
 {
@@ -3897,21 +3915,7 @@ struct NiGlobalStringTable
 };
 
 
-struct NiStringPtr
-{
-    char* m_kHandle;
-};
 
-class NiControllerSequence
-{
-  public:
-    NiStringPtr m_kName;
-    NiStringPtr m_kParentName;
-    NiStringPtr m_kSourceName;
-    NiStringPtr m_kTargetName;
-    NiStringPtr m_kControllerName;
-    void ResetStrings();
-};
 
 // For each non-null handle, assigns AddString(0)'s result and decrements the old handle's count when it differs from a global handle.
 // @fnv 0x00a30640

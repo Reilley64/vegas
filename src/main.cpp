@@ -5,6 +5,7 @@
 #include "fnv/memory/process_startup.h"
 #include "fnv/second_window_check.h"
 #include "fnv/single_instance_check.h"
+#include "fnv/symbols_00c3b000.h"
 
 #include <cstdio>
 #include <filesystem>
@@ -89,9 +90,17 @@ int main()
     if (fnv::startup::CheckSingleInstance(singleInstance, GetLastError(), IsRemoteSession, ShowMessageBox) !=
         fnv::startup::SingleInstanceOutcome::Continue)
         return 0; // WinMain returns 0 after either message box.
+    // WinMain's statements S2 to S5, on the suffixes the stage published: each
+    // log-path builder copies the user folder into its buffer and appends its
+    // suffix. Of the eight statements WinMain runs between the checks above
+    // and the next one, main composes these four; S1, S6, S7 and S8 are
+    // skipped (docs/data-pack-startup.md).
+    const fileformat::LogPathSuffixes& suffixes = values.logPathSuffixes.get();
+    FUN_00c3bb90(suffixes.firstSuffix.data());
+    fnv_00c3bbe0::FUN_00c3bbe0(suffixes.secondSuffix.data());
+    FUN_00c3bc30(suffixes.thirdSuffix.data());
+    fnv_00c3bc80::FUN_00c3bc80(suffixes.fourthSuffix.data());
     // WinMain's second-window check, on the class name the stage published.
-    // WinMain runs eight statements between the checks above and this one;
-    // main composes none of them (docs/data-pack-startup.md).
     if (fnv::startup::CheckSecondWindow(values.mainWindowClass.get(), FindWindowOfClass, BringToForeground) !=
         fnv::startup::SecondWindowOutcome::Continue)
         return 0; // WinMain returns 0 after bringing the window to the foreground.

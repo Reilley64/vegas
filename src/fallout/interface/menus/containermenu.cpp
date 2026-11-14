@@ -1391,7 +1391,6 @@ struct MenuData
     int unkc0;
     int unkc4;
     MenuList listc8;
-    void FUN_0075bc80();
     void FUN_0075c280(int);
 };
 struct InventoryMenuSetting
@@ -1474,7 +1473,7 @@ MenuTile* FUN_0075b310(TESObjectREFR* reference, int mode)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((title))->FUN_00a01350(4036, (char *)(""), true);
         ((MenuData*)DAT_011d93f8)->reference = reference;
         ((MenuData*)DAT_011d93f8)->mode = mode;
-        ((MenuData*)DAT_011d93f8)->FUN_0075bc80();
+        ((::MenuX*)DAT_011d93f8)->FUN_0075bc80();
         int subtitle = FUN_00a01860("_Title");
         if (((MenuData*)DAT_011d93f8)->tile60)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((MenuData*)DAT_011d93f8)->tile60))->FUN_00a01350(subtitle, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d2c7c))))->GetMenuTitle()))), true);

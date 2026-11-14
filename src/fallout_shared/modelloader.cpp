@@ -8872,10 +8872,6 @@ struct FUN_00443ff0Class
 struct FUN_00447190_dummy
 {
 };
-struct FUN_0043ccf0_s
-{
-    void FUN_0043ccf0();
-};
 struct FUN_0043d180_s
 {
     void FUN_0043d180();
@@ -8907,7 +8903,7 @@ NiNode* FUN_00447080_shell::FUN_00447080(char* apFilename, int aeLODFadeMult, bo
         FUN_0043c6e0::FUN_0043c830 queuedModel(apFilename, 0, aeLODFadeMult, abPrepareObject, 0);
         reinterpret_cast<::FUN_00443ff0Class *>((reinterpret_cast<FUN_00443ff0Class*>(&queuedModel)))->FUN_00443ff0(abFaceGenModel);
         reinterpret_cast<::FUN_00447190_dummy *>((reinterpret_cast<FUN_00447190_dummy*>(&queuedModel)))->FUN_00447190(1);
-        reinterpret_cast<FUN_0043ccf0_s*>(&queuedModel)->FUN_0043ccf0();
+        reinterpret_cast<::FUN_0043ccf0_shell*>(&queuedModel)->FUN_0043ccf0();
         reinterpret_cast<FUN_0043d180_s*>(&queuedModel)->FUN_0043d180();
         pmodel = (Model*)(std::uintptr_t)queuedModel.model;
     }

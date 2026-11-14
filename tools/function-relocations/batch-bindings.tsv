@@ -34,3 +34,7 @@ forbid	?ResetStrings@FUN_00a317e0_tag@@QEAAXXZ
 function	batch2	src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp	?AssignInterpolatorRef@FUN_00a317e0_t@@QEAAXHPEAPEAUFUN_00a317e0_ref@@@Z	?ResetStrings@NiControllerSequence@fnv_00a30640@@QEAAXXZ
 function	batch2	src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp	?ClearInterpolatorRefs@Obj43c@@QEAAXPEAUSrc43c@@_J@Z	?ResetStrings@NiControllerSequence@fnv_00a30640@@QEAAXXZ
 function	batch2	src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp	?FUN_00a32fa0@S00a32fa0_Seq@@QEAAXPEAU1@HH_N@Z	?ResetStrings@NiControllerSequence@fnv_00a30640@@QEAAXXZ
+forbid	?CopyStringToBuffer@TaskQueueInterface@fnv_005636e0@@SAXPEADIPEBD@Z
+forbid	?GetDisabled@FormStub@fnv_005728c0@@QEAA_NXZ
+function	batch2	src/fallout_shared/tesobjectrefr.cpp	?FUN_005636e0@FUN_005636e0_shell@fnv_005636e0@@QEAAXPEAUBGSLoadFormBuffer@2@@Z	?CopyStringToBuffer@TaskQueueInterface@@SAXPEADIPEBD@Z
+function	batch2	src/fallout_shared/tesobjectrefr.cpp	?FUN_005728c0@FUN_005728c0_shell@fnv_005728c0@@QEAAX_N@Z	?GetDisabled@TESForm@@QEBA_NXZ

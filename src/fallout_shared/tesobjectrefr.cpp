@@ -2679,7 +2679,6 @@ class BGSOpenCloseForm
 struct TaskQueueInterface
 {
   public:
-    static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
 };
 
 
@@ -2719,12 +2718,12 @@ void FUN_005636e0_shell::FUN_005636e0(BGSLoadFormBuffer* apLoadGameBuffer)
         {
             if (::FUN_00404dc0(plastFinishedSequence, "Open") == 0)
             {
-                TaskQueueInterface::CopyStringToBuffer(plastFinishedSequence, 260, "Close");
+                ::TaskQueueInterface::CopyStringToBuffer(plastFinishedSequence, 260, "Close");
                 bstartSequence = true;
             }
             else if (::FUN_00404dc0(plastFinishedSequence, "Close") == 0)
             {
-                TaskQueueInterface::CopyStringToBuffer(plastFinishedSequence, 260, "Open");
+                ::TaskQueueInterface::CopyStringToBuffer(plastFinishedSequence, 260, "Open");
                 bstartSequence = true;
             }
         }
@@ -4841,7 +4840,6 @@ struct FormTypeStub
 struct FormStub
 {
     bool IsDeleted() const;
-    bool GetDisabled();
     const ExtraStub* GetExtra() const;
     FormTypeStub* _FNV_GetObjectReference();
 };
@@ -4851,7 +4849,7 @@ void FUN_005728c0_shell::FUN_005728c0(bool abMagic)
     NameStr* lightPtr;
     bool bdynamic;
     SSLight* psslight;
-    if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(((FormStub*)this)))->FUN_00440d80() || ((FormStub*)this)->GetDisabled())
+    if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(((FormStub*)this)))->FUN_00440d80() || ((::TESForm*)this)->GetDisabled())
         return;
     lightPtr = abMagic ? ((::fnv_005728c0::NameStr *)(reinterpret_cast<::FUN_00418280_Class *>((((ExtraStub*)((FormStub*)this)->GetExtra())))->FUN_00418280()))
                        : ((ExtraStub*)((FormStub*)this)->GetExtra())->FUN_00418250();

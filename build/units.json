@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2782,
+  "units": 2783,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -206579,11 +206579,6 @@
      "address": "0x008905f0",
      "symbol": "?FUN_008905f0@@YA_NPA_N@Z",
      "size": 17
-    },
-    {
-     "address": "0x00c3bb80",
-     "symbol": "?FUN_00c3bb80@@YAPADXZ",
-     "size": 10
     }
    ],
    "symbols": {
@@ -206660,7 +206655,6 @@
     "??1FUN_004709f0@@QAE@XZ": "0x004709f0",
     "?DAT_011c54d0@@3HA": "0x011c54d0",
     "?FUN_00474760@FUN_00474760_This@@QAEXXZ": "0x00474760",
-    "?DAT_01202c50@@3PADA": "0x01202c50",
     "?DAT_011c54cc@@3PAXA": "0x011c54cc",
     "?FUN_00ec3bf0@@YA_J_J@Z": "0x00ec3bf0",
     "?FUN_00404dc0@@YAHPBD0@Z": "0x00404dc0",
@@ -528560,39 +528554,9 @@
      "size": 48
     },
     {
-     "address": "0x00c3bb90",
-     "symbol": "?FUN_00c3bb90@@YAXPBD@Z",
-     "size": 50
-    },
-    {
-     "address": "0x00c3bbd0",
-     "symbol": "?FUN_00c3bbd0@@YAPADXZ",
-     "size": 10
-    },
-    {
-     "address": "0x00c3bbe0",
-     "symbol": "?FUN_00c3bbe0@fnv_00c3bbe0@@YAXPBD@Z",
-     "size": 50
-    },
-    {
-     "address": "0x00c3bc20",
-     "symbol": "?FUN_00c3bc20@@YAPADXZ",
-     "size": 10
-    },
-    {
-     "address": "0x00c3bc30",
-     "symbol": "?FUN_00c3bc30@@YAXPBD@Z",
-     "size": 50
-    },
-    {
      "address": "0x00c3bc70",
      "symbol": "?FUN_00c3bc70@@YAPADXZ",
      "size": 10
-    },
-    {
-     "address": "0x00c3bc80",
-     "symbol": "?FUN_00c3bc80@fnv_00c3bc80@@YAXPBD@Z",
-     "size": 50
     },
     {
      "address": "0x00c3bcc0",
@@ -528888,17 +528852,9 @@
     "?UpdateDownwardPass@NiNode@@QAEXAAUNiUpdateData@@I@Z": "0x00a5dd70",
     "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
     "?FUN_00c3a620@FUN_00c3a620_Class@@QAEXXZ": "0x00c3a620",
-    "?DAT_01202fa0@@3PADA": "0x01202fa0",
-    "?DAT_01202c50@@3PADA": "0x01202c50",
     "?strcpy_s@@YAXPADIPBD@Z": "0x00ec65a6",
     "?strcat_s@@YAXPADIPBD@Z": "0x00ec6bd2",
-    "_DAT_01202b48": "0x01202b48",
-    "?_strcpy_s@fnv_00c3bbe0@@YAPADPADIPBD@Z": "0x00ec65a6",
-    "?_strcat_s@fnv_00c3bbe0@@YAPADPADIPBD@Z": "0x00ec6bd2",
-    "?DAT_01202a40@@3PADA": "0x01202a40",
     "?DAT_01202938@@3PADA": "0x01202938",
-    "?_strcpy_s@fnv_00c3bc80@@YAXPADIPBD@Z": "0x00ec65a6",
-    "?_strcat_s@fnv_00c3bc80@@YAXPADIPBD@Z": "0x00ec6bd2",
     "?FUN_00aa4c60@FUN_00aa4c60_class@@QAEPAXXZ": "0x00aa4c60",
     "?DAT_010c14a8@@3PBXB": "0x010c14a8",
     "?pHandler@MessageHandler@@2PAV1@A": "0x01202d74",
@@ -529531,6 +529487,68 @@
     "?FUN_00c35c10@Target@fnv_00c35c10@@QAEXPAUResult@2@@Z": "0x00c35c10",
     "?FUN_00c3a3f0@FUN_00c3a3f0_cls@@QAEPAXAAPAX@Z": "0x00c3a3f0",
     "?FUN_00c3d4f0@PtrArray_c3d4@@QAEIABV?$NiPointerC3D4@URefObj_c3d4@@@@@Z": "0x00c3d4f0"
+   }
+  },
+  {
+   "source": "src/fallout/misc/log_paths.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00c3bb80",
+     "symbol": "?FUN_00c3bb80@@YAPADXZ",
+     "size": 10
+    },
+    {
+     "address": "0x00c3bb90",
+     "symbol": "?FUN_00c3bb90@@YAXPBD@Z",
+     "size": 50
+    },
+    {
+     "address": "0x00c3bbd0",
+     "symbol": "?FUN_00c3bbd0@@YAPADXZ",
+     "size": 10
+    },
+    {
+     "address": "0x00c3bbe0",
+     "symbol": "?FUN_00c3bbe0@fnv_00c3bbe0@@YAXPBD@Z",
+     "size": 50
+    },
+    {
+     "address": "0x00c3bc20",
+     "symbol": "?FUN_00c3bc20@@YAPADXZ",
+     "size": 10
+    },
+    {
+     "address": "0x00c3bc30",
+     "symbol": "?FUN_00c3bc30@@YAXPBD@Z",
+     "size": 50
+    },
+    {
+     "address": "0x00c3bc80",
+     "symbol": "?FUN_00c3bc80@fnv_00c3bc80@@YAXPBD@Z",
+     "size": 50
+    }
+   ],
+   "symbols": {
+    "?DAT_01202fa0@@3PADA": "0x01202fa0",
+    "?DAT_01202c50@@3PADA": "0x01202c50",
+    "_DAT_01202b48": "0x01202b48",
+    "?DAT_01202a40@@3PADA": "0x01202a40",
+    "?_strcpy_s@fnv_00c3bbe0@@YAPADPADIPBD@Z": "0x00ec65a6",
+    "?_strcat_s@fnv_00c3bbe0@@YAPADPADIPBD@Z": "0x00ec6bd2",
+    "?_strcpy_s@fnv_00c3bc80@@YAXPADIPBD@Z": "0x00ec65a6",
+    "?_strcat_s@fnv_00c3bc80@@YAXPADIPBD@Z": "0x00ec6bd2",
+    "?DAT_01202938@@3PADA": "0x01202938",
+    "?strcpy_s@@YAXPADIPBD@Z": "0x00ec65a6",
+    "?strcat_s@@YAXPADIPBD@Z": "0x00ec6bd2"
    }
   },
   {

@@ -427,41 +427,6 @@ void* FUN_00c3a6a0_Class::FUN_00c3a6a0(unsigned int flags)
     return this;
 }
 
-// @fnv 0x00c3bb90
-void FUN_00c3bb90(const char* src)
-{
-    strcpy_s(DAT_01202c50, 260, DAT_01202fa0);
-    strcat_s(DAT_01202c50, 260, src);
-}
-
-namespace fnv_00c3bbe0 {
-// @fnv 0x00c3bbe0
-void __cdecl FUN_00c3bbe0(const char* pcSuffix)
-{
-    fnv::crt::strcpy_s(::DAT_01202b48, 260, ::DAT_01202fa0);
-    fnv::crt::strcat_s(::DAT_01202b48, 260, pcSuffix);
-}
-}  // namespace fnv_00c3bbe0
-
-extern char DAT_01202a40[0x104];
-// Copies DAT_01202fa0 into DAT_01202a40, then appends p to it.
-// @fnv 0x00c3bc30
-void __cdecl FUN_00c3bc30(const char* pcSuffix)
-{
-    strcpy_s(DAT_01202a40, 0x104, DAT_01202fa0);
-    strcat_s(DAT_01202a40, 0x104, pcSuffix);
-}
-
-namespace fnv_00c3bc80 {
-// Copies DAT_01202fa0 into DAT_01202938, then appends src to that buffer.
-// @fnv 0x00c3bc80
-void __cdecl FUN_00c3bc80(const char* pcSuffix)
-{
-    fnv::crt::strcpy_s(::DAT_01202938, 0x104, ::DAT_01202fa0);
-    fnv::crt::strcat_s(::DAT_01202938, 0x104, pcSuffix);
-}
-}  // namespace fnv_00c3bc80
-
 extern const void* DAT_010c14a8;
 class MessageHandler
 {
@@ -1485,24 +1450,6 @@ void __cdecl BuildDataPath(char* outPath, const char* srcPath, const char* suffi
     }
 }
 
-
-char DAT_01202b48[260];
-// @fnv 0x00c3bbd0
-char* __cdecl FUN_00c3bbd0()
-{
-    // fnv_00c3bbe0::FUN_00c3bbe0 writes up to 260 characters there. The
-    // recipe binds the next address, 0x01202c50, 264 bytes after the buffer.
-    static_assert(sizeof(DAT_01202b48) == 260);
-    return DAT_01202b48;
-}
-
-extern char DAT_01202a40[0x104];
-
-// @fnv 0x00c3bc20
-char* __cdecl FUN_00c3bc20()
-{
-    return DAT_01202a40;
-}
 
 // FUN_00c3bc70 returns the address of the 0x104-byte scratch buffer that the
 // sibling helpers FUN_00c3bc80 (strcpy_s/strcat_s on it) operate on.

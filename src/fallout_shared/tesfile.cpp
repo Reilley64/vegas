@@ -1082,13 +1082,6 @@ std::uintptr_t __cdecl GetOwnerFileByID(unsigned int aiID)
 }
 
 
-// @fnv 0x00c3bb80
-char* FUN_00c3bb80()
-{
-    return ::DAT_01202c50;
-}
-
-
 struct FUN_00473070Class
 {
     void* GetGlobalPointer();

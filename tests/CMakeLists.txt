@@ -1520,7 +1520,7 @@ endif()
 # Fails when a path buffer of path-buffer-extents.tsv (VEGAS-112) again
 # reaches fewer than the 260 bytes its writers copy: the distance from its
 # symbol to the next symbol of its section, or to the section's end.
-# DAT_01202b48 in the object of blk_00c20000_od.cpp, which generated data
+# DAT_01202b48 in the object of log_paths.cpp, which generated data
 # defined as one byte, and DAT_01202e98 in the object of main.cpp, which it
 # defined as an int under another name. Blind spot: padding before the next
 # symbol counts, so an array a few bytes short passes; the static_assert in

@@ -6,6 +6,10 @@
 +++ b/src/generated/data/fallout/misc/main.inc
 @@ -115 +114,0 @@
 -int DAT_01202e98;
+--- a/src/generated/data/fallout_shared/tesfile.inc
++++ b/src/generated/data/fallout_shared/tesfile.inc
+@@ -9 +8,0 @@
+-char DAT_01202c50[260];
 --- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc
 +++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc
 @@ -5,4 +4,0 @@
@@ -334,7 +338,9 @@
 +extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z");
 --- a/src/generated/data/staging/blk_00c20000_od.inc
 +++ b/src/generated/data/staging/blk_00c20000_od.inc
-@@ -23 +22,0 @@
+@@ -21,3 +20,0 @@
+-char DAT_01202938[260];
+-char DAT_01202a40[260];
 -unsigned char DAT_01202b48;
 --- a/src/generated/data/staging/blk_00c60000_o2.inc
 +++ b/src/generated/data/staging/blk_00c60000_o2.inc

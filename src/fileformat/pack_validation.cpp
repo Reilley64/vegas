@@ -129,6 +129,41 @@ LogPathSuffixes DecodeLogPathSuffixes(std::span<const std::byte> payload)
     return suffixes;
 }
 
+// Decodes the next save directory folder as DecodeString does, then refuses
+// one that FolderPathRefusal refuses, naming the field and the reason.
+template <std::size_t Capacity>
+void DecodeFolder(ByteReader& reader, std::array<char, Capacity>& field, std::string_view name)
+{
+    DecodeString(reader, field, name);
+    const std::string_view refusal = FolderPathRefusal(field.data());
+    if (!refusal.empty())
+        Fail(PackCatalogueProblem::FolderPath, name, refusal);
+}
+
+// The save directory strings' ten fields in order; the format of the INI
+// paths must also hold exactly one %s and no other conversion, and the four
+// folders pass FolderPathRefusal. The payload is saveDirectoryEntry.bytes
+// long, and every field starts as zeros.
+SaveDirectoryStrings DecodeSaveDirectory(std::span<const std::byte> payload)
+{
+    ByteReader reader(payload, format);
+    SaveDirectoryStrings strings{};
+    DecodeString(reader, strings.iniPathFormat, "entry SDIR: INI path format");
+    if (!HoldsOneStringConversion(strings.iniPathFormat.data()))
+        Fail(PackCatalogueProblem::FormatConversion, "entry SDIR: INI path format",
+             "does not hold exactly one %s and no other conversion");
+    DecodeString(reader, strings.firstIniName, "entry SDIR: first INI name");
+    DecodeString(reader, strings.iniSection, "entry SDIR: INI section");
+    DecodeString(reader, strings.settingKey, "entry SDIR: setting key");
+    DecodeString(reader, strings.secondIniName, "entry SDIR: second INI name");
+    DecodeFolder(reader, strings.localFolder, "entry SDIR: local folder");
+    DecodeFolder(reader, strings.documentsFolder, "entry SDIR: documents folder");
+    DecodeFolder(reader, strings.gameFolder, "entry SDIR: game folder");
+    DecodeFolder(reader, strings.workingFolder, "entry SDIR: working folder");
+    DecodeString(reader, strings.defaultIniName, "entry SDIR: default INI name");
+    return strings;
+}
+
 // The main window class's one field. The payload is
 // mainWindowClassEntry.bytes long, and the field starts as zeros.
 MainWindowClass DecodeMainWindowClass(std::span<const std::byte> payload)
@@ -140,6 +175,41 @@ MainWindowClass DecodeMainWindowClass(std::span<const std::byte> payload)
 }
 
 } // namespace
+
+bool HoldsOneStringConversion(std::string_view format)
+{
+    int strings = 0;
+    for (std::size_t at = 0; at < format.size(); ++at)
+    {
+        if (format[at] != '%')
+            continue;
+        ++at;
+        if (at == format.size())
+            return false;
+        if (format[at] == 's')
+            ++strings;
+        else if (format[at] != '%')
+            return false;
+    }
+    return strings == 1;
+}
+
+std::string_view FolderPathRefusal(std::string_view folder)
+{
+    if (folder.find(':') != std::string_view::npos)
+        return "holds a colon";
+    if (std::ranges::any_of(folder, [](char c) { return static_cast<unsigned char>(c) < 0x20; }))
+        return "holds a control character";
+    for (std::size_t start = 0;;)
+    {
+        const std::size_t end = folder.find_first_of("\\/", start);
+        if (folder.substr(start, end == std::string_view::npos ? end : end - start) == "..")
+            return "holds a .. part";
+        if (end == std::string_view::npos)
+            return {};
+        start = end + 1;
+    }
+}
 
 OriginalCheckedPack CheckPackOriginal(std::vector<std::byte> file)
 {
@@ -161,7 +231,8 @@ ValidatedPack ValidatePack(std::vector<std::byte> file)
     CheckCatalogue(pack.Entries());
     const SingleInstanceStrings singleInstance = DecodeSingleInstance(Payload(pack, singleInstanceEntry));
     const LogPathSuffixes logPathSuffixes = DecodeLogPathSuffixes(Payload(pack, logPathSuffixesEntry));
-    return ValidatedPack(pack.Original(), singleInstance, logPathSuffixes,
+    const SaveDirectoryStrings saveDirectory = DecodeSaveDirectory(Payload(pack, saveDirectoryEntry));
+    return ValidatedPack(pack.Original(), singleInstance, logPathSuffixes, saveDirectory,
                          DecodeMainWindowClass(Payload(pack, mainWindowClassEntry)));
 }
 

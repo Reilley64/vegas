@@ -28,6 +28,16 @@ bool SameValues(const fileformat::ValidatedPack& a, const fileformat::ValidatedP
            a.PathSuffixes().secondSuffix == b.PathSuffixes().secondSuffix &&
            a.PathSuffixes().thirdSuffix == b.PathSuffixes().thirdSuffix &&
            a.PathSuffixes().fourthSuffix == b.PathSuffixes().fourthSuffix &&
+           a.SaveDirectory().iniPathFormat == b.SaveDirectory().iniPathFormat &&
+           a.SaveDirectory().firstIniName == b.SaveDirectory().firstIniName &&
+           a.SaveDirectory().iniSection == b.SaveDirectory().iniSection &&
+           a.SaveDirectory().settingKey == b.SaveDirectory().settingKey &&
+           a.SaveDirectory().secondIniName == b.SaveDirectory().secondIniName &&
+           a.SaveDirectory().localFolder == b.SaveDirectory().localFolder &&
+           a.SaveDirectory().documentsFolder == b.SaveDirectory().documentsFolder &&
+           a.SaveDirectory().gameFolder == b.SaveDirectory().gameFolder &&
+           a.SaveDirectory().workingFolder == b.SaveDirectory().workingFolder &&
+           a.SaveDirectory().defaultIniName == b.SaveDirectory().defaultIniName &&
            a.WindowClass().className == b.WindowClass().className;
 }
 

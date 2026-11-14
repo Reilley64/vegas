@@ -348,11 +348,12 @@ void RefusesToValidate(Checks& check, std::string_view name, const fs::path& fil
     }
 }
 
-// A pack of catalogue version 3: C1 under INST, version 1, its four fields of
+// A pack of catalogue version 4: C1 under INST, version 1, its four fields of
 // 20, 60, 8 and 52 bytes, the log path suffixes under LOGS, version 1, their
-// four fields of 16, 16, 24 and 16 bytes, and the main window class under
-// WNDC, version 1, its one field of 256 bytes, each holding a made-up string
-// and zeros.
+// four fields of 16, 16, 24 and 16 bytes, the save directory strings under
+// SDIR, version 1, their ten fields of 368 bytes in all, and the main window
+// class under WNDC, version 1, its one field of 256 bytes, each holding a
+// made-up string and zeros; the format of the INI paths holds one %s.
 std::vector<std::byte> CompletePack()
 {
     std::string payload(140, '\0');
@@ -365,11 +366,15 @@ std::vector<std::byte> CompletePack()
     suffixes.replace(16, 2, "s3");
     suffixes.replace(32, 2, "s4");
     suffixes.replace(56, 2, "s5");
+    std::string saveDirectory(368, '\0');
+    saveDirectory.replace(0, 4, "[%s]");
+    saveDirectory.replace(8, 3, "ini");
+    saveDirectory.replace(348, 6, "folder");
     std::string windowClass(256, '\0');
     windowClass.replace(0, 5, "class");
-    const std::array<PackWriteEntry, 3> three{Entry("INST", 1, payload), Entry("LOGS", 1, suffixes),
-                                              Entry("WNDC", 1, windowClass)};
-    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), three);
+    const std::array<PackWriteEntry, 4> four{Entry("INST", 1, payload), Entry("LOGS", 1, suffixes),
+                                             Entry("SDIR", 1, saveDirectory), Entry("WNDC", 1, windowClass)};
+    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), four);
 }
 
 // The file of a complete pack opens and validates; each stage before the
@@ -395,6 +400,12 @@ void OpensAndValidates(Checks& check)
                 std::string_view(pack.PathSuffixes().thirdSuffix.data()));
     check.Equal("validated: fourth suffix", std::string_view("s5"),
                 std::string_view(pack.PathSuffixes().fourthSuffix.data()));
+    check.Equal("validated: INI path format", std::string_view("[%s]"),
+                std::string_view(pack.SaveDirectory().iniPathFormat.data()));
+    check.Equal("validated: first INI name", std::string_view("ini"),
+                std::string_view(pack.SaveDirectory().firstIniName.data()));
+    check.Equal("validated: default INI name", std::string_view("folder"),
+                std::string_view(pack.SaveDirectory().defaultIniName.data()));
     check.Equal("validated: class name", std::string_view("class"),
                 std::string_view(pack.WindowClass().className.data()));
 

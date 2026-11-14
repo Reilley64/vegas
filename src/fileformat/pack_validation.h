@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <span>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -98,16 +99,36 @@ class OriginalCheckedPack
 // UnknownKey, EntryVersion and EntrySize are checked in that order for each
 // entry of the pack in turn. FieldTerminator is checked last, for each field
 // in turn, the entries in catalogue order; SuffixPath is checked for each log
-// path suffix right after its FieldTerminator.
+// path suffix right after its FieldTerminator, FormatConversion for a format
+// field and FolderPath for a save directory folder likewise.
 enum class PackCatalogueProblem
 {
-    MissingEntry,    // the pack has no entry with the key of a catalogue entry
-    UnknownKey,      // an entry's key is not in the catalogue
-    EntryVersion,    // an entry's version is not the catalogue's for its key
-    EntrySize,       // an entry's size is not the catalogue's for its key
-    FieldTerminator, // a string field holds no zero byte
-    SuffixPath,      // a log path suffix holds '\\', '/', ':' or a byte below 0x20, or is ".."
+    MissingEntry,     // the pack has no entry with the key of a catalogue entry
+    UnknownKey,       // an entry's key is not in the catalogue
+    EntryVersion,     // an entry's version is not the catalogue's for its key
+    EntrySize,        // an entry's size is not the catalogue's for its key
+    FieldTerminator,  // a string field holds no zero byte
+    SuffixPath,       // a log path suffix holds '\\', '/', ':' or a byte below 0x20, or is ".."
+    FormatConversion, // a format field does not hold exactly the conversions its consumer passes arguments for
+    FolderPath,       // a save directory folder holds ':' or a byte below 0x20, or a .. part
 };
+
+// Whether `format`, read as a printf format whose consumer passes it one
+// string argument, makes exactly that one conversion: every '%' is followed
+// by 's', exactly once, or by a second '%', which writes a '%' and reads no
+// argument. Any other '%', with a flag, a width, a precision, a length or
+// another conversion, or at the end, is refused. The format of the INI paths,
+// in the save directory strings, must pass it.
+bool HoldsOneStringConversion(std::string_view format);
+
+// Why ValidatePack refuses `folder` as one of the save directory folders, or
+// an empty view when it does not (coordinator's ruling of 2026-11-14). A
+// folder may hold path separators, '\\' and '/', leading, inner or last. It
+// may not hold a colon, which names a drive or a stream, or a byte below
+// 0x20, or have a .. part, a part between separators or the ends that is
+// "..". The reasons are checked in that order. The reason never quotes the
+// folder.
+std::string_view FolderPathRefusal(std::string_view folder);
 
 // A FormatError that also says which check of the catalogue failed.
 class PackCatalogueError : public FormatError
@@ -162,6 +183,12 @@ class ValidatedPack
     const LogPathSuffixes& PathSuffixes() const& { return logPathSuffixes; }
     const LogPathSuffixes& PathSuffixes() const&& = delete;
 
+    // The save directory strings, each field its string, a zero byte and
+    // zeros to its end; the format of the INI paths holds exactly one %s and
+    // no other conversion.
+    const SaveDirectoryStrings& SaveDirectory() const& { return saveDirectory; }
+    const SaveDirectoryStrings& SaveDirectory() const&& = delete;
+
     // The main window class's class name, a zero byte and zeros to the end
     // of its field.
     const MainWindowClass& WindowClass() const& { return windowClass; }
@@ -171,16 +198,20 @@ class ValidatedPack
     friend ValidatedPack ValidatePack(std::vector<std::byte> file);
 
     ValidatedPack(const OriginalIdentity& original, const SingleInstanceStrings& singleInstance,
-                  const LogPathSuffixes& logPathSuffixes, const MainWindowClass& windowClass)
+                  const LogPathSuffixes& logPathSuffixes, const SaveDirectoryStrings& saveDirectory,
+                  const MainWindowClass& windowClass)
         : original(original), singleInstance(singleInstance), logPathSuffixes(logPathSuffixes),
-          windowClass(windowClass)
+          windowClass(windowClass), saveDirectory(saveDirectory)
     {
     }
 
+    // The save directory strings are stored last, after the values of
+    // earlier catalogue versions, which keep their places.
     OriginalIdentity original;
     SingleInstanceStrings singleInstance;
     LogPathSuffixes logPathSuffixes;
     MainWindowClass windowClass;
+    SaveDirectoryStrings saveDirectory;
 };
 
 } // namespace fileformat

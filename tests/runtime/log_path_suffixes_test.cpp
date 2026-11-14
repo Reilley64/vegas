@@ -36,9 +36,9 @@ constexpr Suffixes secondSuffixes{"one.other", "two.other", "three other suffix"
 
 constexpr std::array<std::size_t, 4> suffixBytes{16, 16, 24, 16};
 
-// A complete pack of catalogue version 3 holding `suffixes`, made-up C1
-// strings and a made-up class name. It records the supported release's
-// identity: it is compared, not proved.
+// A complete pack of catalogue version 4 holding `suffixes`, made-up C1
+// strings, made-up save directory strings and a made-up class name. It
+// records the supported release's identity: it is compared, not proved.
 fileformat::ValidatedPack Validated(const Suffixes& suffixes)
 {
     std::vector<std::byte> payload(140);
@@ -52,8 +52,12 @@ fileformat::ValidatedPack Validated(const Suffixes& suffixes)
     }
     std::vector<std::byte> classPayload(256);
     classPayload[0] = std::byte{'w'};
-    const std::array<fileformat::PackWriteEntry, 3> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
+    std::vector<std::byte> savePayload(368);
+    savePayload[0] = std::byte{'%'};
+    savePayload[1] = std::byte{'s'};
+    const std::array<fileformat::PackWriteEntry, 4> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
                                                              {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
+                                                             {{'S', 'D', 'I', 'R'}, 1, savePayload},
                                                              {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     return fileformat::ValidatePack(
         fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));

@@ -345,9 +345,10 @@ std::vector<std::byte> ClassPayload(std::string_view className)
 
 // The pack written from a synthetic executable records its identity and
 // holds C1, the log path suffixes and the main window class as setup writes
-// them. The same entries, written again with the supported release's
-// identity (compared, not proved), pass the complete validator with the same
-// strings.
+// them. Setup does not yet read the save directory strings, so the same
+// entries, written again with the supported release's identity (compared, not
+// proved), are refused by the complete validator for the missing SDIR entry;
+// with a made-up SDIR entry before WNDC, they pass with the same strings.
 void PreparesAPack(Checks& check)
 {
     const std::vector<std::byte> file = Build(Typical());
@@ -382,8 +383,22 @@ void PreparesAPack(Checks& check)
     const std::array<fileformat::PackWriteEntry, 3> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
                                                              {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
                                                              {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
+    Refuses<fileformat::PackCatalogueError>(
+        check, "C1, the suffixes and the class: complete validator",
+        [&] {
+            fileformat::ValidatePack(
+                fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
+        },
+        fileformat::PackCatalogueProblem::MissingEntry, "entry SDIR");
+    std::vector<std::byte> madeUpSaveDirectory(368);
+    madeUpSaveDirectory[0] = std::byte{'%'};
+    madeUpSaveDirectory[1] = std::byte{'s'};
+    const std::array<fileformat::PackWriteEntry, 4> withSaveDirectory{{{{'I', 'N', 'S', 'T'}, 1, payload},
+                                                                       {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
+                                                                       {{'S', 'D', 'I', 'R'}, 1, madeUpSaveDirectory},
+                                                                       {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     const fileformat::ValidatedPack validated = fileformat::ValidatePack(
-        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
+        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), withSaveDirectory));
     const fileformat::SingleInstanceStrings& strings = validated.SingleInstance();
     check.Equal("validated: mutex name", true, Holds(strings.mutexName, someTexts[0]));
     check.Equal("validated: first message text", true, Holds(strings.firstMessageText, someTexts[1]));
@@ -776,13 +791,21 @@ void RefusesUnreadableSuffixes(Checks& check)
 // The entries of `staged`, a pack that PrepareDataPackAgainst wrote, written
 // again with the supported release's identity (compared, not proved), so
 // that step 6 checks them as it checks a pack of the supported release.
+// Setup does not yet read the save directory strings, so a made-up SDIR
+// entry goes between LOGS and WNDC.
 std::vector<std::byte> AsSupportedRelease(const std::vector<std::byte>& staged,
                                           std::span<const OriginalIdentity> supported)
 {
     const fileformat::OriginalCheckedPack pack = fileformat::CheckPackOriginalAgainst(staged, supported);
-    std::array<fileformat::PackWriteEntry, 3> entries{};
-    for (std::size_t i = 0; i < entries.size(); ++i)
-        entries[i] = {pack.Entries()[i].key, pack.Entries()[i].version, pack.EntryBytes(i)};
+    std::vector<std::byte> madeUpSaveDirectory(fileformat::saveDirectoryEntry.bytes);
+    madeUpSaveDirectory[0] = std::byte{'%'};
+    madeUpSaveDirectory[1] = std::byte{'s'};
+    const fileformat::PackCatalogueEntry& save = fileformat::saveDirectoryEntry;
+    const std::array<fileformat::PackWriteEntry, 4> entries{
+        {{pack.Entries()[0].key, pack.Entries()[0].version, pack.EntryBytes(0)},
+         {pack.Entries()[1].key, pack.Entries()[1].version, pack.EntryBytes(1)},
+         {save.key, save.version, madeUpSaveDirectory},
+         {pack.Entries()[2].key, pack.Entries()[2].version, pack.EntryBytes(2)}}};
     return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries);
 }
 

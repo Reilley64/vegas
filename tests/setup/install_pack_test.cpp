@@ -113,9 +113,12 @@ void HoldsNames(Checks& check, std::string_view name, const Folder& folder, cons
 }
 
 // A complete pack of made-up strings that records the supported release's
-// identity: it is compared, not proved.
+// identity: it is compared, not proved. The save directory strings are the
+// format "%s" and "s" in each other field, except that field `saveField`, if
+// any, holds `saveText`.
 std::vector<std::byte> CompletePack(std::string_view mutexName, std::string_view className = "window class",
-                                    std::size_t suffixField = 0, std::string_view suffix = "suffix")
+                                    std::size_t suffixField = 0, std::string_view suffix = "suffix",
+                                    std::size_t saveField = 10, std::string_view saveText = {})
 {
     std::string payload(140, '\0');
     payload.replace(0, mutexName.size(), mutexName);
@@ -125,13 +128,22 @@ std::vector<std::byte> CompletePack(std::string_view mutexName, std::string_view
     std::string suffixes(72, '\0');
     constexpr std::array<std::size_t, 4> suffixOffsets{0, 16, 32, 56};
     suffixes.replace(suffixOffsets[suffixField], suffix.size(), suffix);
+    std::string saveDirectory(368, '\0');
+    constexpr std::array<std::size_t, 10> saveOffsets{0, 8, 20, 28, 52, 308, 320, 332, 344, 348};
+    for (std::size_t i = 0; i < saveOffsets.size(); ++i)
+    {
+        const std::string_view text = i == saveField ? saveText : i == 0 ? "%s" : "s";
+        saveDirectory.replace(saveOffsets[i], text.size(), text);
+    }
     std::string windowClass(256, '\0');
     windowClass.replace(0, className.size(), className);
     const std::vector<std::byte> bytes = Bytes(payload);
     const std::vector<std::byte> suffixBytes = Bytes(suffixes);
+    const std::vector<std::byte> saveBytes = Bytes(saveDirectory);
     const std::vector<std::byte> classBytes = Bytes(windowClass);
-    const std::array<fileformat::PackWriteEntry, 3> entries{{{{'I', 'N', 'S', 'T'}, 1, bytes},
+    const std::array<fileformat::PackWriteEntry, 4> entries{{{{'I', 'N', 'S', 'T'}, 1, bytes},
                                                              {{'L', 'O', 'G', 'S'}, 1, suffixBytes},
+                                                             {{'S', 'D', 'I', 'R'}, 1, saveBytes},
                                                              {{'W', 'N', 'D', 'C'}, 1, classBytes}}};
     return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries);
 }
@@ -203,6 +215,16 @@ void KeepsTheExistingPack(Checks& check)
         const std::string name = std::format("other suffix {}", field);
         RefusesToInstall(check, name, folder.path, CompletePack("mutex", "window class", field, "other"), expected,
                          InstallProblem::StagedInvalid);
+        HoldsNames(check, name + ": names", folder, std::set<std::string>{std::string(packName)});
+        check.Equal(name + ": existing pack", true, folder.Read(packName) == old);
+    }
+
+    for (std::size_t field = 0; field < 10; ++field)
+    {
+        const std::string name = std::format("other save directory string {}", field);
+        RefusesToInstall(check, name, folder.path,
+                         CompletePack("mutex", "window class", 0, "suffix", field, field == 0 ? "<%s>" : "o"),
+                         expected, InstallProblem::StagedInvalid);
         HoldsNames(check, name + ": names", folder, std::set<std::string>{std::string(packName)});
         check.Equal(name + ": existing pack", true, folder.Read(packName) == old);
     }

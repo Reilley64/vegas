@@ -39,7 +39,7 @@ std::array<std::byte, 32> SomeSha256()
 constexpr std::array<unsigned char, 113> minimalPack{
     'V', 'E', 'G', 'A', 'S', 'P', 'K', 0x00,                // magic
     0x01, 0x00, 0x00, 0x00,                                 // envelope version 1
-    0x03, 0x00, 0x00, 0x00,                                 // catalogue version 3
+    0x04, 0x00, 0x00, 0x00,                                 // catalogue version 4
     0x01, 0x00, 0x00, 0x00,                                 // native data contract 1
     0x01, 0x00, 0x00, 0x00,                                 // build target 1
     0x01, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0D, 0x02,         // original version 1.4.0.525
@@ -50,7 +50,7 @@ constexpr std::array<unsigned char, 113> minimalPack{
     0x71, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,         // file bytes 113
     0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,         // directory bytes 24
     0x01, 0x00, 0x00, 0x00,                                 // entry count 1
-    0xD2, 0x68, 0x03, 0x70,                                 // CRC-32 of bytes 0 to 83 and 88 to 112
+    0xE4, 0x15, 0x7A, 0xE3,                                 // CRC-32 of bytes 0 to 83 and 88 to 112
     'O', 'N', 'E', '1',                                     // entry key
     0x07, 0x00, 0x00, 0x00,                                 // entry version 7
     0x70, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,         // payload offset 112

@@ -1,10 +1,12 @@
 // For the tests that run FalloutNV.exe.
 //
 // falloutnv_pack_fixture PATH MUTEX writes a complete synthetic data pack of
-// catalogue version 3 to PATH whose mutex name and main window class name are
+// catalogue version 4 to PATH whose mutex name and main window class name are
 // both MUTEX. It records the supported release's identity, so it claims that
 // identity: it is compared, not proved. Its other strings, the log path
-// suffixes included, are made up; none is a string of the original release.
+// suffixes and the save directory strings included, are made up; none is a
+// string of the original release. The save directory strings hold no path
+// separator; main reads none of them yet.
 //
 // falloutnv_pack_fixture --check MUTEX makes the calls of the single-instance
 // check that main makes, CreateMutexA on MUTEX and the decision with the real
@@ -39,6 +41,7 @@ namespace
 {
 constexpr std::array<std::size_t, 4> fieldBytes{20, 60, 8, 52};
 constexpr std::array<std::size_t, 4> suffixBytes{16, 16, 24, 16};
+constexpr std::array<std::size_t, 10> saveBytes{8, 12, 8, 24, 256, 12, 12, 12, 4, 20};
 constexpr std::size_t classBytes = 256;
 
 bool IsRemoteSession()
@@ -116,12 +119,23 @@ int Write(const char* path, std::string_view mutexName)
             suffixPayload.push_back(static_cast<std::byte>(c));
         suffixPayload.resize(suffixPayload.size() + suffixBytes[i] - suffixes[i].size());
     }
+    const std::array<std::string_view, 10> saveTexts{"%s",          "fixture1.ini", "Fixture",     "fixtureKey",
+                                                     "fixture2.ini", "fixtureA",     "fixtureB",    "fixtureC",
+                                                     "fx",           "fixture3.ini"};
+    std::vector<std::byte> savePayload;
+    for (std::size_t i = 0; i < saveTexts.size(); ++i)
+    {
+        for (const char c : saveTexts[i])
+            savePayload.push_back(static_cast<std::byte>(c));
+        savePayload.resize(savePayload.size() + saveBytes[i] - saveTexts[i].size());
+    }
     std::vector<std::byte> classPayload;
     for (const char c : mutexName)
         classPayload.push_back(static_cast<std::byte>(c));
     classPayload.resize(classBytes);
-    const std::array<fileformat::PackWriteEntry, 3> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
+    const std::array<fileformat::PackWriteEntry, 4> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
                                                              {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
+                                                             {{'S', 'D', 'I', 'R'}, 1, savePayload},
                                                              {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     const std::vector<std::byte> pack =
         fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries);

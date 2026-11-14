@@ -15,7 +15,7 @@ namespace fileformat
 // 2026-11-13, a pack's header field must equal it, and any change to the
 // required entries raises it by one. It is its own constant, not the
 // container's revision.
-inline constexpr std::uint32_t packCatalogueVersion = 3;
+inline constexpr std::uint32_t packCatalogueVersion = 4;
 
 // One entry of the catalogue: a pack holds it under `key`, with exactly
 // `version` and exactly `bytes` bytes.
@@ -70,6 +70,43 @@ inline constexpr PackCatalogueEntry logPathSuffixesEntry{
 };
 static_assert(logPathSuffixesEntry.bytes == 72);
 
+// The values of the save directory strings: the ten strings that
+// BGSSaveLoadManager::GetSaveDirectory (0x00876ad0) reads, one field per
+// string in the order it first reads them. A string the original stores at a
+// recipe-bound address has the recipe bound as its capacity, the distance to
+// the next address the recipe binds; so does the first INI name, reached
+// through the pointer at 0x011a2ff4 to an address the recipe binds. The
+// second INI name, reached through the pointer at 0x011a2ff0 to an address
+// the recipe does not bind, has 256 bytes, as the main window class. A field
+// holds its string, then a zero byte, then zeros to its end. The format of
+// the INI paths is passed one argument, an INI name, so it holds exactly one
+// %s and no other conversion.
+struct SaveDirectoryStrings
+{
+    std::array<char, 8> iniPathFormat;    // the format of both INI paths, one %s for the INI name
+    std::array<char, 12> firstIniName;    // the first INI file the setting is read from
+    std::array<char, 8> iniSection;       // the INI section of the setting
+    std::array<char, 24> settingKey;      // the INI key of the setting that selects the profile folders
+    std::array<char, 256> secondIniName;  // the second INI file the setting is read from, and the INI path's name
+    std::array<char, 12> localFolder;     // appended to the local application data folder
+    std::array<char, 12> documentsFolder; // appended to the documents folder
+    std::array<char, 12> gameFolder;      // appended after documentsFolder
+    std::array<char, 4> workingFolder;    // both folders when the setting is off
+    std::array<char, 20> defaultIniName;  // the file copied when the INI path names no file
+};
+
+// The save directory strings' entry: its ten fields in order, end to end.
+inline constexpr PackCatalogueEntry saveDirectoryEntry{
+    {'S', 'D', 'I', 'R'},
+    1,
+    sizeof(SaveDirectoryStrings::iniPathFormat) + sizeof(SaveDirectoryStrings::firstIniName) +
+        sizeof(SaveDirectoryStrings::iniSection) + sizeof(SaveDirectoryStrings::settingKey) +
+        sizeof(SaveDirectoryStrings::secondIniName) + sizeof(SaveDirectoryStrings::localFolder) +
+        sizeof(SaveDirectoryStrings::documentsFolder) + sizeof(SaveDirectoryStrings::gameFolder) +
+        sizeof(SaveDirectoryStrings::workingFolder) + sizeof(SaveDirectoryStrings::defaultIniName),
+};
+static_assert(saveDirectoryEntry.bytes == 368);
+
 // The value of the main window class: the class name that the second-window
 // check of WinMain reads, after the single-instance and remote-session
 // checks. The original reaches it through the pointer at 0x011a2fe8. Its
@@ -90,10 +127,10 @@ inline constexpr PackCatalogueEntry mainWindowClassEntry{
 };
 static_assert(mainWindowClassEntry.bytes == 256);
 
-// Every entry of catalogue version 3, in ascending key order. A pack holds
+// Every entry of catalogue version 4, in ascending key order. A pack holds
 // each of them and no other.
-inline constexpr std::array<PackCatalogueEntry, 3> packCatalogue{singleInstanceEntry, logPathSuffixesEntry,
-                                                                 mainWindowClassEntry};
+inline constexpr std::array<PackCatalogueEntry, 4> packCatalogue{singleInstanceEntry, logPathSuffixesEntry,
+                                                                 saveDirectoryEntry, mainWindowClassEntry};
 
 } // namespace fileformat
 

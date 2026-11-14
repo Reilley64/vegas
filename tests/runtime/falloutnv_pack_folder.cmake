@@ -22,10 +22,12 @@
 # and can show no message box, so no check is made. Each run also has TIMEOUT
 # seconds: a run that waits fails instead of holding the runner.
 #
-# In both modes, after the run FOLDER must hold the copy and the pack and no
-# other file: main, which builds four log paths in memory (VEGAS-127), creates
-# no file in the executable's folder or in the working directory. Files
-# elsewhere are not looked for.
+# In both modes, after the run FOLDER must hold the copy, the pack and the two
+# folders the test made, and no other file or folder: main, which builds four
+# log paths in memory (VEGAS-127), creates nothing in the executable's folder
+# or in the working directory. Folders are listed too, so an empty folder
+# left behind fails (VEGAS-130). Files and folders elsewhere are not looked
+# for.
 if(NOT DEFINED PROGRAM OR NOT DEFINED FIXTURE OR NOT DEFINED FOLDER OR NOT DEFINED MODE OR NOT DEFINED TIMEOUT)
   message(FATAL_ERROR "PROGRAM, FIXTURE, FOLDER, MODE and TIMEOUT are required")
 endif()
@@ -77,10 +79,10 @@ execute_process(
   OUTPUT_VARIABLE output
   ERROR_VARIABLE error
 )
-file(GLOB_RECURSE left LIST_DIRECTORIES false RELATIVE "${FOLDER}" "${FOLDER}/*")
+file(GLOB_RECURSE left LIST_DIRECTORIES true RELATIVE "${FOLDER}" "${FOLDER}/*")
 list(SORT left)
 file(RELATIVE_PATH packLeft "${FOLDER}" "${pack}")
-set(expected "executable/${name}" "${packLeft}")
+set(expected executable "executable/${name}" working "${packLeft}")
 list(SORT expected)
 file(REMOVE_RECURSE "${FOLDER}")
 if(NOT result MATCHES "^-?[0-9]+$")

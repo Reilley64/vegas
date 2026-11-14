@@ -3,7 +3,9 @@
 VEGAS-111. The recipe has one function row at `0x0043d4d0`, 56 bytes, in
 `src/fallout_shared/magic/magicitem.cpp`: `FUN_0043d4d0`. It returns a
 reference to a setting's integer value, or to `DAT_01202800`, set to zero,
-when it is given null. 122 units call it.
+when it is given null. 122 units call it. Since VEGAS-129 the row, the
+body and `DAT_01202800` are in a unit of their own,
+`src/fallout_shared/setting_value_accessor.cpp` ("Its own unit" below).
 
 Everything below was measured on the windows-x64 cross build of 64f08c9d9
 and of the two code commits, built from one source path. Nothing was run on
@@ -220,7 +222,9 @@ the table: 21 of these relocations remain, in 8 members.
 - `objects.setting_value_accessor` disassembles the accessor from the
   archive. It fails when it adds 4 to the setting's address, or adds no 8,
   and when no member or more than one defines the new name. A build of
-  `magicitem.cpp` with the old body under the new name fails it.
+  `magicitem.cpp` with the old body under the new name fails it, and since
+  VEGAS-129 an archive whose member of `setting_value_accessor.cpp` has
+  the old body under the new name fails it as well.
 - `objects.setting_value_accessor_callers` (`tools/function-relocations`,
   `setting-value-accessor.tsv`) forbids the old form in eight callers and
   requires the new one: three readers of `g_011c3ea4` and one caller for
@@ -366,6 +370,50 @@ the `U` spelling of `g_011d10d4`, which `0x0086f6a0` no longer reaches. No
 section changes member. No program that links today contains
 `main.cpp.obj` or `magicitem.cpp.obj`: the lazy link of FalloutNV.exe's
 inputs loads 24 members of the game archive, neither of them.
+
+## Its own unit (VEGAS-129)
+
+WinMain's statements S6 and S8 call the accessor
+(`docs/data-pack-startup.md`). A link that reached it loaded
+`magicitem.cpp.obj` for the body and `bsaudio.cpp.obj` for
+`DAT_01202800`, which generated data defined in `bsaudio/bsaudio.inc`. The
+accessor and the `int` now live in
+`src/fallout_shared/setting_value_accessor.cpp`, with the same names, types
+and body. The native data composition retires the generated line
+(`docs/native-data-ownership.md`), and the recipe's function row moves to
+an entry of the new source with the flags of `magicitem.cpp`'s entry.
+`magicitem.cpp` no longer includes `fnv/setting_class.h`, which it
+included for the accessor alone.
+
+Measured on the windows-x64 cross build of 087a5a0c1 and of the move,
+built from one source path; nothing was run on Windows:
+
+- The accessor's code section, 31 bytes with the unit's flags, is the same
+  in bytes, characteristics, selection and relocations as it was in
+  `magicitem.cpp.obj`, also with `/Ob0` and with `/Od /Gy`, its unwind data
+  included. `DAT_01202800` keeps its name, its 4 bytes and its zero
+  initialization. It sat in `bsaudio.cpp`'s `.bss`, aligned to 8 bytes
+  because that section also holds a pointer; it now has a `.bss` of its
+  own, aligned to 4 bytes, which an `int` needs (an admissible
+  difference, coordinator ruling of 2026-11-14).
+- `magicitem.cpp.obj` loses the accessor's sections and symbols, its
+  reference to `DAT_01202800` and that name's address-significance entry;
+  nothing else in it changes. `bsaudio.cpp.obj` loses the definition: its
+  `.bss` shrinks from 20 to 16 bytes. With `/Od /Gy` it refers to the
+  name instead, and one other name moves one place in its
+  address-significance table; with the unit's flags and `/Ob0` no code of
+  `bsaudio.cpp` refers to it. No other object changes.
+- The link cells with `user32.lib` keep their lists: the forced unlimited
+  cell has 35,014 undefined names before and after, and FalloutNV.exe's
+  lazy link loads the same members. Per name, the two moved definitions
+  change member and the two other names of `bsaudio.cpp`'s `.bss` change
+  content; every name keeps one content, and 519 names of the archive and
+  521 of FalloutNV's link inputs have differing definitions, as before.
+- `objects.setting_value_accessor` passes on the new archive and fails on
+  an archive whose `setting_value_accessor.cpp` member has the old body
+  under the new name (`addq $0x4, %rax`).
+  `objects.setting_value_accessor_callers` passes, and fails when
+  `processlists.cpp`'s reader of `g_011c3ea4` calls the old form.
 
 ## Remainder
 

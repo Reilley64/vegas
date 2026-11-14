@@ -248,18 +248,78 @@ file, so it was not compared with instructions.
 | --- | --- | --- |
 | S1 | `FUN_00c3bd30(1, ...)`, the crash-log configuration, with the values of three `Setting` objects and the callback `FUN_0086a580` | the stand-in `Setting86::FUN_00408d60`, which no object defines; a native `MessageHandler` in place of the legacy virtual table `DAT_010c14a8` that its callee `0x00c3c460` stores; the closure of `blk_00c20000_od.cpp` |
 | S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | composed since VEGAS-127, not skipped |
-| S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | a native owner of that setting: generated data defines it, and its unit's one startup initializer builds it and reads original data (D2); for a native setting, `INISettingCollection`'s constructor and `Setting::IsPrefSetting`, which no object defines (the row at `0x0044f600` is a stand-in that stores a legacy table address, and `IsPrefSetting` has no row); a native `DAT_01202800`, which the accessor returns for a null setting and which generated data defines too; the closure of `magicitem.cpp`, which defines the accessor |
+| S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | a native owner of that setting: generated data defines it, and its unit's one startup initializer builds it and reads original data (D2); for a native setting, `INISettingCollection`'s constructor, which no object defines (the row at `0x0044f600` is a stand-in that stores a legacy table address); since VEGAS-129 the accessor with `DAT_01202800`, `Setting::IsPrefSetting`, and Setting's constructors with its destructor are each in a unit of their own (below) |
 | S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp` and `_DAT_011a2ff0` of `main.cpp`, and catalogue entries for its strings; `FUN_0086d480`, `TaskQueueInterface::CopyStringToBuffer` and `FUN_00406d00` are in units of their own since VEGAS-128; since VEGAS-131 `FUN_00406d00` reads its variable arguments with `va_start` (`docs/variadic-lists.md`) |
 | S8 | a processor count of 1 set to 2 | as S6 |
 
-The coordinator named four prerequisites for S6 and S8 (VEGAS-52): the
-first three above and the accessor's offset. The offset is met. The
+The coordinator named four prerequisites for S6 and S8 (VEGAS-52): a
+native owner of the setting, the members a native setting needs, a native
+`DAT_01202800`, and the accessor's offset. `DAT_01202800` is met (below),
+and so is the offset. The
 accessor read 4 bytes into the setting, the value's offset in the 32-bit
 layout, which on windows-x64 is the upper half of the setting's table
 pointer. Since VEGAS-111 it reads the value at 8. Since VEGAS-115 S6's
 call, which writes the processor count, and S8's two, which read it and
 write 2, take the shared `Setting` (docs/setting-value-offset.md). S6 and
-S8 stay skipped for the other three and the closure of `magicitem.cpp`.
+S8 stay skipped for a native owner of the setting and, for a native
+setting, the constructor of `INISettingCollection`.
+
+VEGAS-129 moved the accessor and what S6 and S8 reach of `Setting` into
+small units, so that a link that reaches them no longer loads
+`magicitem.cpp`, `bsaudio.cpp`, `tesactorbasedata.cpp` or `setting.cpp`
+for them:
+
+- `src/fallout_shared/setting_value_accessor.cpp` defines the accessor
+  `FUN_0043d4d0` and `DAT_01202800`, the `int` it returns for a null
+  setting. They were defined by `magicitem.cpp` and, through the native
+  data composition, by generated data (docs/setting-value-offset.md).
+- `src/fallout_shared/setting_is_pref_setting.cpp` holds the row at
+  `0x0047c850`, a function that returns false, moved from
+  `tesactorbasedata.cpp`, and defines `Setting::IsPrefSetting` with the
+  same body. Slot 1 of Setting's table in generated data,
+  `?vftable_SettingBase_01012120`, holds that address, and
+  `include/fnv/setting_class.h` declares `IsPrefSetting` at that slot,
+  after the destructor. The recipe keys `?IsPrefSetting@Setting@@UAE_NXZ`
+  to the address in that unit's entry only, as the owner of a folded
+  address keys its other identities. No object defined it before; it
+  was an undefined name of the forced link.
+  `objects.setting_is_pref_setting` fails unless one member defines it
+  and its body clears `eax`.
+
+  30 virtual tables of the archive name `IsPrefSetting` at slot 1 and
+  now reach this body: Setting's own table and the six `SettingT` tables
+  of `src/unmapped/setting.cpp`; 21 tables of generated global objects
+  in `src/generated/`, 14 in `global_object_initializers.cpp`, three in
+  `global_object_initializers2.cpp` and four in
+  `global_object_initializers_o2.cpp`; and two of
+  `setting_eh_initializers.cpp`. Generated data confirms slot 1 at
+  `0x0047c850` for two of them: Setting's table at `0x01012120` and the
+  one at `0x01012114`, which it names after `0x00404a00`, the destructor
+  of `SettingT<GameSettingCollection>`. The others are unconfirmed, among
+  them the tables the recipe keys to `0x01017720` and `0x01022738`
+  (`SettingT<INISettingCollection>` and
+  `SettingT<INIPrefSettingCollection>`), where generated data holds no
+  table. Whether the original's `INIPrefSetting` overrides
+  `IsPrefSetting` is an open question (VEGAS-133), and nothing composed
+  may rely on its value for a pref setting.
+- `src/unmapped/setting_lifetime.cpp` defines Setting's five
+  constructors and its destructor, moved from `src/unmapped/setting.cpp`.
+  They move together because the unit that defines them emits Setting's
+  table and `??_GSetting`; that function keeps one definition, of the
+  same 118 bytes. In `setting.cpp` 29 `SettingT` members, at the unit's
+  flags, now call the constructor or the destructor where they inlined
+  its body, with the same other calls in the same order and no new
+  unwind funclet.
+
+Measured on the windows-x64 cross build of `087a5a0c1` and of each move,
+built from one source path; nothing was run on Windows. Each moved
+section is identical with the unit's flags, with `/Ob0` and with
+`/Od /Gy`. The forced unlimited link cell with `user32.lib` goes from
+35,014 undefined names to 35,013, without `Setting::IsPrefSetting`;
+every other list of the four cells is unchanged, no name gains a second
+content, and 519 names of the archive and 521 of `FalloutNV`'s link
+inputs have differing definitions, as before. `link.function_level`
+accepts `FalloutNV` with no name unresolved after each move.
 
 At `891a44f50`, a link of `main` with any one of them composed, made as
 `FalloutNV` links, loaded most of the game archive and left names

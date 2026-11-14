@@ -41,7 +41,8 @@ retirements previously reviewed for VEGAS-1, unchanged, not additional engine
 work. Four are the three retirements and the one move below. Sixteen are the
 VEGAS-51 retirements below. Four are the VEGAS-102 label respellings below.
 Two are the VEGAS-112 retirements below. One comes with the three VEGAS-127 moves below.
-One is the VEGAS-129 retirement below.
+One is the VEGAS-129 retirement below. The VEGAS-130 retirement below adds
+a hunk to an input that VEGAS-112 pinned, and no input.
 
 VEGAS-86 adds three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
@@ -101,6 +102,23 @@ VEGAS-128 `fallout/misc/app_data_folder.cpp` defines it
 definition, which had no initializer, so no value is lost or cloned. Every
 other line of the input is unchanged. Its pin is the hash of the committed
 bytes, which do not change.
+
+VEGAS-130 retires four more lines of `fallout/misc/main.inc`:
+`UNK_01082a00`, `UNK_01082a10`, `UNK_01082a28` and `UNK_01082a38`, each one
+`unsigned char` with an initializer. The recipe binds the four addresses to
+the strings that `WinMain`'s log-path builders append, of 16, 16, 24 and 16
+bytes (`data-pack-catalogue.md`), so each definition held one byte of its
+string: an incompatible byte-layout declaration of it. `FUN_0086a850` in
+`main.cpp`, the one unit that named them, now passes the fields of the log
+path suffixes' owner, which the data pack fills (`data-pack-startup.md`),
+and no object of the build defines or refers to the four names any more.
+The patch removes the four lines in a hunk of their own, before the hunk of
+`DAT_01202e98`. Each line's one byte is dropped, not moved or cloned: the
+owner holds the whole string, from the pack. Every other line of the input
+is unchanged. The input was already pinned, with `eol=lf`, so its pin, the
+count of forty inputs and `.gitattributes` do not change. The recipe keeps
+the four keys in `main.cpp`'s entry, and setup still reads the strings at
+their addresses under them (`src/setup/log_path_suffix_ranges.h`).
 
 VEGAS-127 moves WinMain's four log-path builders, the functions that return
 three of their buffers, and the buffers into a unit of their own,

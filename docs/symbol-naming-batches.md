@@ -513,6 +513,61 @@ empty stand-ins. Of the 17 calls, 15 retarget an existing cast and 2 are
 static calls. `objects.batch_bindings` checks the 19 functions that hold the
 calls at the unit's flags.
 
+Batch 3 ran the tool after its repairs of 2026-11-14: a proof bound to the
+unit texts the gate read, an owner the tip lists as undefined refused, a
+class compared by its full scope (with the label `name+class` for a
+placeholder that becomes another name in another class), symbols compared in
+order unless a listed function's section moved, check rows only from
+functions that hold the call at the unit's flags and at `/Od`, and the
+floating-point and vector constants a listed function refers to allowed to
+move with it (ruling of 2026-11-14). The candidates were every boot-core
+name of census class e or a at ea1964476, the 140 of batch 2's candidates
+still undefined among them; the rest of the core adds no name whose every
+site the gate admits. Units were left out by name (game `main.cpp`,
+`taskqueueinterface.cpp`, `effectitemlist.cpp`, `magicitem.cpp`,
+`setting.cpp`, `actor.cpp` and the `highprocess`, `bstempeffectsimpledecal`
+and `tesreputation` units), when another running lane changes them
+(VEGAS-128, VEGAS-129, and the definition units of the first 20 rows of
+VEGAS-124's table), and when a function to bind still calls an old setting
+accessor form or the unit defines a global `::Setting`. Measured at
+ea1964476:
+
+| Step | Names |
+| --- | --- |
+| candidates (10,449 unit and name pairs in 887 units; 12,124 gate rows) | 7,964 |
+| refused by the gate, first kind: the owner (3,137) or the stand-in (1,803) is not declared in the unit | 4,940 |
+| refused: no recipe row of the owner (568) or key of the stand-in (514) at the address, or no address (8) | 1,090 |
+| refused: a result (506) or parameter (295) type differs | 801 |
+| refused: the receiver is not a cast | 243 |
+| refused: no site found | 203 |
+| refused: a result the caller uses from a body that returns `void` | 158 |
+| refused: a member against a free call (153), a static member against a free function (29), a special member (18) | 200 |
+| refused: the owner is overloaded in its class or namespace | 148 |
+| refused: other kinds (literal 0 or 1 to `bool`, naming, moves, parameter count, unreadable signature, not a call, default argument, `this`, macro, header, no command, no plain qualified owner name) | 125 |
+| every site admitted | 56 |
+| left out before the proof: a requiring unit excluded (`statsmenu.cpp` 9, `actor.cpp`, `extradatalist.cpp`, `modelloader.cpp`, `blk_00440000_od.cpp` 1 each) | 13 |
+| dropped by the proof: differ at the unit's flags only, the owner defined in the unit | 21 |
+| dropped: the code differs (8), the rewrite does not compile (1) | 9 |
+| bound | 13 |
+
+The 13 names, all labelled class-only and all merged into the unit's own
+definition, whose body is now emitted earlier, at all three variants:
+`0x00977130` and `0x0096e3c0` in `processlists.cpp`, `0x00716730`,
+`0x00717660`, `0x00715ca0` (`UpdateFocusTarget`), `0x00710880`
+(`UpdatePickObjects`) and `0x0070ee80` (`UpdatePipboyWaiver`) in
+`interfacemanager.cpp`, `0x007d3b60` and `0x007d5f80` in `startmenu.cpp`,
+`0x0078cc50` in `loadingmenu.cpp`, `0x006c4d30` in
+`navmeshobstaclemanager.cpp`, `0x006cd1f0` in `pathbuilder.cpp` and
+`0x006658b0` in `bstreemanager.cpp`. Nine of them are the names batch 2 left
+out in setting-lane units; the five of `statsmenu.cpp` stay out. In the last
+four units the owner's constants change place with its body; without the
+ruling of 2026-11-14 those four would differ. Three keep a descriptive
+member name on both sides (`UpdateFocusTarget`, `UpdatePickObjects`,
+`UpdatePipboyWaiver`). Each moves commit is byte-identical, the timestamp
+aside, at the three variants; `loadingmenu.cpp`'s moves carry the unit's own
+`Tile` and `TileMenu` with the owner. Each call retargets an existing cast;
+`objects.batch_bindings` checks the 9 functions that hold the calls.
+
 ## The object check and its named exceptions
 
 In every step the objects of the changed units are compared with the objects
@@ -766,6 +821,24 @@ name at 2277431b8.
 | `0x0075bc80` | `?FUN_0075bc80@MenuX@@QAEXXZ` | `fallout/interface/menus/containermenu.cpp` | 1 | 0 | 1 |
 | `0x00788ab0` | `?FUN_00788ab0@S00788ab0_LoadingSetup@fnv_00788ab0@@QAEXH@Z` | `fallout/interface/menus/loadingmenu.cpp` | 1 | 0 | 1 |
 | `0x00a30640` | `?ResetStrings@NiControllerSequence@fnv_00a30640@@QAEXXZ` | `gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp` | 0 | 1 | 1 |
+
+### Tool-proved batch 3
+
+| Address | Name the changed keys now spell (recipe function row) | Row's unit | Keys respelled | Keys merged | Units |
+| --- | --- | --- | --- | --- | --- |
+| `0x006658b0` | `?Update@C6658@@QAEXXZ` | `fallout_shared/speedtree/bstreemanager.cpp` | 0 | 1 | 1 |
+| `0x006c4d30` | `?FUN_006c4d30@ObsMgr@fnv_006c4d30@@QAEXXZ` | `fallout_shared/pathfinding/navmeshobstaclemanager.cpp` | 1 | 0 | 1 |
+| `0x006cd1f0` | `?FUN_006cd1f0@PathBuilderMethods@fnv_006cd1f0@@QAE_NPAUPathingLocation@@0@Z` | `fallout_shared/pathfinding/pathbuilder.cpp` | 1 | 0 | 1 |
+| `0x0070ee80` | `?UpdatePipboyWaiver@FUN_0070ee80_shell@fnv_0070ee80@@QAEXXZ` | `fallout/interface/interfacemanager.cpp` | 0 | 1 | 1 |
+| `0x00710880` | `?UpdatePickObjects@PickOwner@@QAEXXZ` | `fallout/interface/interfacemanager.cpp` | 0 | 1 | 1 |
+| `0x00715ca0` | `?UpdateFocusTarget@IMStandIn@fnv_00715ca0@@QAEXXZ` | `fallout/interface/interfacemanager.cpp` | 0 | 1 | 1 |
+| `0x00716730` | `?FUN_00716730@FUN_00716730_t@fnv_00716730@@QAEHM@Z` | `fallout/interface/interfacemanager.cpp` | 1 | 0 | 1 |
+| `0x00717660` | `?FUN_00717660@FUN_00717660_shell@fnv_00717660@@QAEXXZ` | `fallout/interface/interfacemanager.cpp` | 0 | 1 | 1 |
+| `0x0078cc50` | `?FUN_0078cc50@FadeMenu@s78cc50@@QAEXXZ` | `fallout/interface/menus/loadingmenu.cpp` | 1 | 0 | 1 |
+| `0x007d3b60` | `?FUN_007d3b60@PrepSaveMenu@@QAEXXZ` | `fallout/interface/menus/startmenu.cpp` | 1 | 0 | 1 |
+| `0x007d5f80` | `?FUN_007d5f80@StartMenu_Wrap@fnv_007d5f80@@QAEXXZ` | `fallout/interface/menus/startmenu.cpp` | 1 | 0 | 1 |
+| `0x0096e3c0` | `?FUN_0096e3c0@FUN_0096e3c0_shell@fnv_0096e3c0@@QAEXPAVActor@@@Z` | `fallout/ai/processlists.cpp` | 0 | 1 | 1 |
+| `0x00977130` | `?FUN_00977130@FUN_00977130_shell@fnv_00977130@@QAEXM@Z` | `fallout/ai/processlists.cpp` | 1 | 0 | 1 |
 
 ### Shared ImageSpaceEffectParam, d0d8fd469
 

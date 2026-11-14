@@ -1799,10 +1799,6 @@ struct MobileObjectProcess
 struct BaseProcessUpdate
 {
 };
-struct ProcessListsUpdate
-{
-    void FUN_00977130(float afTime);
-};
 struct MobileObjectHigh : public TESObjectREFR
 {
     virtual void StartHighProcess();
@@ -1939,7 +1935,7 @@ void ProcessListsHigh::FUN_0096bcd0(float afDelta, bool abSleeping)
             }
         }
     }
-    ((ProcessListsUpdate*)this)->FUN_00977130(::fnv::timer::Seconds());
+    ((::fnv_00977130::FUN_00977130_shell*)this)->FUN_00977130(::fnv::timer::Seconds());
 }
 }  // namespace fnv_0096bcd0
 
@@ -3019,10 +3015,6 @@ struct Ref_S
 struct FUN_0096e570_shell
 {
 };
-struct ProcessListsInsertHelper
-{
-    void FUN_0096e3c0(Actor*);
-};
 
 // @fnv 0x00977660
 void FUN_00977660_shell::FUN_00977660()
@@ -3043,7 +3035,7 @@ void FUN_00977660_shell::FUN_00977660()
         {
             float fdistancefromplayer = reinterpret_cast<::RefS *>((((Ref_S*)pactor)))->FUN_005723b0((::RefS *)(::_g_thePlayer), false, false);
             if (fdistancefromplayer < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00977660::Setting_S *>(&::originalRuntimeFloatSetting248)))))))
-                ((ProcessListsInsertHelper*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))->FUN_0096e3c0(pactor);
+                ((::fnv_0096e3c0::FUN_0096e3c0_shell*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))->FUN_0096e3c0(pactor);
         }
     }
     reinterpret_cast<::FUN_0096e570_shell *>((((FUN_0096e570_shell*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_0096e570();

@@ -54,3 +54,7 @@ forbid	?FUN_006c4d30@NMOM@fnv_006c39c0@@QEAAXXZ
 function	batch3	src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp	?FUN_006c39c0@FUN_006c39c0_shell@fnv_006c39c0@@QEAAXXZ	?FUN_006c4d30@ObsMgr@fnv_006c4d30@@QEAAXXZ
 forbid	?FUN_006cd1f0@PathBuilderS@fnv_006cc5e0@@QEAA_NPEAUPathingLocation@@0@Z
 function	batch3	src/fallout_shared/pathfinding/pathbuilder.cpp	?FUN_006cc5e0@FUN_006cc5e0_shell@fnv_006cc5e0@@QEAAHPEAUPathingLocation@@0II@Z	?FUN_006cd1f0@PathBuilderMethods@fnv_006cd1f0@@QEAA_NPEAUPathingLocation@@0@Z
+forbid	?FUN_0096e3c0@ProcessListsInsertHelper@fnv_00977660@@QEAAXPEAVActor@@@Z
+forbid	?FUN_00977130@ProcessListsUpdate@fnv_0096bcd0@@QEAAXM@Z
+function	batch3	src/fallout/ai/processlists.cpp	?FUN_0096bcd0@ProcessListsHigh@fnv_0096bcd0@@QEAAXM_N@Z	?FUN_00977130@FUN_00977130_shell@fnv_00977130@@QEAAXM@Z
+function	batch3	src/fallout/ai/processlists.cpp	?FUN_00977660@FUN_00977660_shell@fnv_00977660@@QEAAXXZ	?FUN_0096e3c0@FUN_0096e3c0_shell@fnv_0096e3c0@@QEAAXPEAVActor@@@Z

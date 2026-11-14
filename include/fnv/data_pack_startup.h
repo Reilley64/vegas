@@ -14,12 +14,15 @@ namespace fnv::startup
 // The file name of the data pack that setup installs beside the executable.
 inline constexpr char dataPackFileName[] = "vegas-data.pack";
 
-// The values the stage published, each read back from its native owner.
+// The values the stage published, each read back from its native owner. The
+// save directory strings come last, so the values of earlier catalogue
+// versions keep their places.
 struct PublishedPackValues
 {
     std::reference_wrapper<const fileformat::SingleInstanceStrings> singleInstance; // C1, entry INST
     std::reference_wrapper<const fileformat::LogPathSuffixes> logPathSuffixes;      // entry LOGS
     std::reference_wrapper<const fileformat::MainWindowClass> mainWindowClass;      // entry WNDC
+    std::reference_wrapper<const fileformat::SaveDirectoryStrings> saveDirectory;   // entry SDIR
 };
 
 // The published values when every value is published, or one line that names
@@ -29,9 +32,10 @@ using DataPackLoad = std::variant<PublishedPackValues, std::string>;
 // Reads dataPackFileName in `executableFolder`, validates it with
 // fileformat::OpenAndValidatePack and publishes each value to its native
 // owner: C1 to fnv::startup::PublishSingleInstanceStrings, the log path
-// suffixes to fnv::startup::PublishLogPathSuffixes and the main window class
-// to fnv::startup::PublishMainWindowClass. Returns the published values, so
-// their consumers cannot read them before they are published.
+// suffixes to fnv::startup::PublishLogPathSuffixes, the save directory
+// strings to fnv::startup::PublishSaveDirectoryStrings and the main window
+// class to fnv::startup::PublishMainWindowClass. Returns the published
+// values, so their consumers cannot read them before they are published.
 //
 // A missing, unreadable or invalid pack is normal validation, not a fault:
 // the stage publishes nothing and returns one line, ending in a newline, that

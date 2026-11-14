@@ -5,6 +5,7 @@
 #include "fnv/data_pack_startup.h"
 #include "fnv/log_path_suffixes.h"
 #include "fnv/main_window_class.h"
+#include "fnv/save_directory_strings.h"
 #include "fnv/single_instance_strings.h"
 
 #include <array>
@@ -246,6 +247,18 @@ void ExpectPublished(Checks& checks, std::string_view test, const Values& expect
         !SameField(suffixes.fourthSuffix, expected.suffixes[3]))
         checks.Fail(test, std::format("the published log path suffixes are not those of the pack with \"{}\"",
                                       expected.suffixes[0]));
+    const fileformat::SaveDirectoryStrings& saves = fnv::startup::PublishedSaveDirectoryStrings();
+    if (!SameField(saves.iniPathFormat, expected.saveTexts[0]) ||
+        !SameField(saves.firstIniName, expected.saveTexts[1]) || !SameField(saves.iniSection, expected.saveTexts[2]) ||
+        !SameField(saves.settingKey, expected.saveTexts[3]) ||
+        !SameField(saves.secondIniName, expected.saveTexts[4]) ||
+        !SameField(saves.localFolder, expected.saveTexts[5]) ||
+        !SameField(saves.documentsFolder, expected.saveTexts[6]) ||
+        !SameField(saves.gameFolder, expected.saveTexts[7]) ||
+        !SameField(saves.workingFolder, expected.saveTexts[8]) ||
+        !SameField(saves.defaultIniName, expected.saveTexts[9]))
+        checks.Fail(test, std::format("the published save directory strings are not those of the pack with \"{}\"",
+                                      expected.saveTexts[1]));
 }
 
 // Loads the pack of `folder` and expects success with the owner's published
@@ -261,6 +274,8 @@ void ExpectLoaded(Checks& checks, std::string_view test, const Folder& folder, c
         checks.Fail(test, "the stage did not return the owner's published main window class");
     else if (&std::get_if<0>(&load)->logPathSuffixes.get() != &fnv::startup::PublishedLogPathSuffixes())
         checks.Fail(test, "the stage did not return the owner's published log path suffixes");
+    else if (&std::get_if<0>(&load)->saveDirectory.get() != &fnv::startup::PublishedSaveDirectoryStrings())
+        checks.Fail(test, "the stage did not return the owner's published save directory strings");
     ExpectPublished(checks, test, expected);
 }
 
@@ -311,6 +326,15 @@ int main(int argc, char** argv)
             return 1;
         std::fprintf(stderr, "refused-then-read-log-path-suffixes\n");
         fnv::startup::PublishedLogPathSuffixes();
+        return 0;
+    }
+    if (argc == 2 && std::strcmp(argv[1], "--refused-then-read-save-directory-strings") == 0)
+    {
+        Folder empty;
+        if (!std::holds_alternative<std::string>(fnv::startup::LoadDataPack(empty.path)))
+            return 1;
+        std::fprintf(stderr, "refused-then-read-save-directory-strings\n");
+        fnv::startup::PublishedSaveDirectoryStrings();
         return 0;
     }
 

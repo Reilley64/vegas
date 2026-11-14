@@ -591,6 +591,7 @@ else()
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/single_instance_strings.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/main_window_class.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/log_path_suffixes.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/save_directory_strings.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_open.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_validation.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp
@@ -611,9 +612,10 @@ add_test(NAME runtime.data_pack_startup.refused_publishes_nothing
 # complete synthetic pack beside the copy and requires exit code 0: the
 # process image loads, its imports resolve, the C++ runtime starts, process
 # memory initialisation completes, the pack beside the executable validates,
-# C1, the log path suffixes and the main window class are published, the
-# single-instance and remote-session checks pass, the four log paths are
-# built in memory, the second-window check passes and main returns 0.
+# C1, the log path suffixes, the save directory strings and the main window
+# class are published, the single-instance and remote-session checks pass,
+# the four log paths are built in memory, the second-window check passes and
+# main returns 0.
 # falloutnv.process_exit.missing_pack writes the pack only in the working
 # directory and requires exit code 2 with the missing pack reported on the
 # standard error stream. Before the run with the pack the fixture makes the

@@ -6,6 +6,7 @@
 #include "fileformat/pack_validation.h"
 #include "fnv/log_path_suffixes.h"
 #include "fnv/main_window_class.h"
+#include "fnv/save_directory_strings.h"
 #include "fnv/single_instance_strings.h"
 
 fnv::startup::DataPackLoad fnv::startup::LoadDataPack(const std::filesystem::path& executableFolder)
@@ -16,9 +17,10 @@ fnv::startup::DataPackLoad fnv::startup::LoadDataPack(const std::filesystem::pat
         const fileformat::ValidatedPack pack = fileformat::OpenAndValidatePack(executableFolder / dataPackFileName);
         PublishSingleInstanceStrings(pack);
         PublishLogPathSuffixes(pack);
+        PublishSaveDirectoryStrings(pack);
         PublishMainWindowClass(pack);
         return PublishedPackValues{std::cref(PublishedSingleInstanceStrings()), std::cref(PublishedLogPathSuffixes()),
-                                   std::cref(PublishedMainWindowClass())};
+                                   std::cref(PublishedMainWindowClass()), std::cref(PublishedSaveDirectoryStrings())};
     }
     catch (const fileformat::PackOpenError& error)
     {

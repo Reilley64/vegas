@@ -117,9 +117,11 @@ target_sources(game PRIVATE src/fallout/misc/data_pack_startup.cpp)
 target_sources(game PRIVATE src/fallout/misc/main_window_class.cpp)
 # Then the decision of the second-window check (VEGAS-52).
 target_sources(game PRIVATE src/fallout/misc/second_window_check.cpp)
-# Then the native owner of the log path suffixes (VEGAS-127), now the first
-# member listed.
+# Then the native owner of the log path suffixes (VEGAS-127).
 target_sources(game PRIVATE src/fallout/misc/log_path_suffixes.cpp)
+# Then the native owner of the save directory strings (VEGAS-135), now the
+# first member listed.
+target_sources(game PRIVATE src/fallout/misc/save_directory_strings.cpp)
 
 add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

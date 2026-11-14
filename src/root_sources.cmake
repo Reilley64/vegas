@@ -114,6 +114,7 @@ set(VEGAS_ROOT_SOURCES
   "src/unmapped/rtti.cpp"
   "src/unmapped/setfilepointerex.cpp"
   "src/unmapped/setting.cpp"
+  "src/unmapped/setting_lifetime.cpp"
   "src/unmapped/signedquaternion.cpp"
   "src/unmapped/sincos.cpp"
   "src/unmapped/sleep.cpp"

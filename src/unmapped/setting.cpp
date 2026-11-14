@@ -65,46 +65,6 @@ void* FUN_00877a10_Class::FUN_0044f6d0(unsigned int flags)
 }
 }  // namespace fnv_0044f6d0
 
-// Setting constructors for 4-byte values and floats share their code with other classes' two-field constructors
-// (0x00404920, 0x0040e130), so only the bool form has an address of its own.
-Setting::Setting(const char* key, int value)
-{
-    uValue.i = value;
-    pKey = key;
-}
-
-Setting::Setting(const char* key, char* value)
-{
-    uValue.str = value;
-    pKey = key;
-}
-
-Setting::Setting(const char* key, const char* value)
-{
-    uValue.str = value;
-    pKey = key;
-}
-
-Setting::Setting(const char* key, float value)
-{
-    uValue.f = value;
-    pKey = key;
-}
-
-// @fnv 0x0045cfb0
-Setting::Setting(const char* key, bool value)
-{
-    uValue.b = value;
-    pKey = key;
-}
-
-// @fnv 0x00404950
-Setting::~Setting()
-{
-    if (pKey && *pKey == 'S')
-        ::FUN_00401030(const_cast<char*>(pKey));
-}
-
 template <> GameSettingCollection* SettingT<GameSettingCollection>::GetCollection()
 {
     return ::GetGameSettingCollection();

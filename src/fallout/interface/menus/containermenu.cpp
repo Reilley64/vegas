@@ -1397,6 +1397,49 @@ struct MenuData
 struct InventoryMenuSetting
 {
 };
+struct TileX
+{
+};
+struct RefX
+{
+};
+struct MenuX
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    TileX* m28;
+    TileX* m2c;
+    TileX* m30;
+    int unk34;
+    int unk38;
+    TileX* m3c;
+    int unk40;
+    TileX* m44;
+    int unk48;
+    int unk4c;
+    TileX* m50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    RefX* m74;
+    int unk78;
+    int unk7c;
+    int m80;
+    void FUN_0075bc80();
+};
 // Loads container_menu.xml, validates the container menu, initializes its lists and title tiles, stores the reference and mode, and returns the menu tile.
 // @fnv 0x0075b310
 MenuTile* FUN_0075b310(TESObjectREFR* reference, int mode)
@@ -4086,12 +4129,6 @@ void FUN_0075da60(xTile* pTile, xItem* pItem)
 extern "C" void* __cdecl FUN_00ec43fb(void* p, long off, void* src, void* dst, int isRef);
 
 void FUN_00763ff0();
-struct TileX
-{
-};
-struct RefX
-{
-};
 struct MgrX
 {
 };
@@ -4119,43 +4156,6 @@ struct PlayerX
 };
 struct HudX
 {
-};
-struct MenuX
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    TileX* m28;
-    TileX* m2c;
-    TileX* m30;
-    int unk34;
-    int unk38;
-    TileX* m3c;
-    int unk40;
-    TileX* m44;
-    int unk48;
-    int unk4c;
-    TileX* m50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    RefX* m74;
-    int unk78;
-    int unk7c;
-    int m80;
-    void FUN_0075bc80();
 };
 // Switches on m80 to update labels, play the trader sound and selected topic info, or set tile traits to zero.
 // @fnv 0x0075bc80

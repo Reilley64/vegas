@@ -19,6 +19,7 @@
 # Entry: LABEL|FUNCTION|SPILL or -|FORBID|SITE|ORIGIN
 set(objects_variadic_lists_entries
   "FUN_00406d00|?FUN_00406d00@@YAHPEADHPEBDZZ|^movq[ \t]+%r9, 0x88\\(%rsp\\)$|^leaq[ \t]+0x40\\(%rsp\\), |^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x88\\(%rsp\\), BASE$"
+  "FUN_00a0e470|?FUN_00a0e470@@YAHPEAUDebugText@@HPEBDZZ|^movq[ \t]+%r9, 0x68\\(%rsp\\)$|^leaq[ \t]+0x40\\(%rsp\\), |^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x68\\(%rsp\\), BASE$"
 )
 if(vegas_object_checks)
   foreach(objects_variadic_lists_entry IN LISTS objects_variadic_lists_entries)

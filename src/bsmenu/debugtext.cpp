@@ -89,9 +89,10 @@ int __cdecl FUN_00a0e470(DebugText* apDebugText, int aiX, const char* apFormatSt
 {
     int iret;
     {
-        char* args;
-        args = (char*)(&apFormatString + 1);
+        va_list args;
+        va_start(args, apFormatString);
         iret = ((VCall_00a0e470*)apDebugText)->f4(aiX, 0, 1, apFormatString, args, 0);
+        va_end(args);
     }
     return iret;
 }

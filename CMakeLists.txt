@@ -127,7 +127,9 @@ add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)
 # user32: GetSystemMetrics and MessageBoxA of WinMain's first checks, and
 # FindWindowA and SetForegroundWindow of its second-window check (VEGAS-52).
-target_link_libraries(FalloutNV PRIVATE game user32)
+# shell32: SHGetFolderPathA of BGSSaveLoadManager::GetSaveDirectory, WinMain's
+# statement S7 (VEGAS-135). Until main composes S7 the link reads none of it.
+target_link_libraries(FalloutNV PRIVATE game user32 shell32)
 
 # The function-level link (VEGAS-126, docs/function-level-link.md): lld-link
 # discards every COMDAT section that no kept section reaches (/OPT:REF),

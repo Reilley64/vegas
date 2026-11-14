@@ -78,6 +78,18 @@ SYSTEM_LIBRARIES = {
     "kernel32": "an import library, both runtimes: FalloutNV and the test programs",
     "user32": "an import library that FalloutNV links, both runtimes: FalloutNV",
     "advapi32": "an import library, both runtimes: the scratch composition (GetUserNameA)",
+    # shell32 (VEGAS-135), read from the cross build's SDK (10.0.26100,
+    # x86_64): 393 short import members and the three import descriptor
+    # objects of SHELL32.dll, as in the import libraries above, and one more
+    # object, shguid.obj. It defines 399 GUIDs, each in a COMDAT .rdata
+    # section, refers to no name, and has relocations only in its .debug$S
+    # sections, to its own GUIDs. No object of the game archive, FalloutNV,
+    # zlib or the libraries above refers to any of its names, so no link
+    # loads it, and a loaded copy could refer to nothing. A Windows CI run
+    # of this entry shows only that the link line works, since the check
+    # does not read system libraries; the CI SDK's shell32.lib is read when
+    # the S7 composition's map names its import member (VEGAS-135 ruling).
+    "shell32": "admitted on its members (VEGAS-135); the scratch composition of S7 (SHGetFolderPathA)",
 }
 
 

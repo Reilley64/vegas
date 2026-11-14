@@ -85,7 +85,8 @@ be in a section that is not in the executable. The check also fails when:
 - the map names a member of a library that it neither read nor lists as a
   system library (`SYSTEM_LIBRARIES` in `check.py`, each with its reason:
   the C runtime and the Windows import libraries seen in the maps of both C
-  runtime flavours the builds use);
+  runtime flavours the builds use, and shell32, admitted on what it holds;
+  see shell32 below);
 - a line of the map is out of its place, or the map is missing;
 - the map is not the one of this executable: another file name, header
   timestamp (unless the link was in repro mode), load address, entry point,
@@ -166,3 +167,37 @@ build, measured on `1a4404c01`). Since VEGAS-127 `main` also composes
 link with no name unresolved, and a strict link of the same inputs succeeds
 and writes the same bytes apart from the header timestamp and checksum
 (cross build, measured at VEGAS-127's head; `data-pack-startup.md`).
+
+## shell32
+
+FalloutNV links shell32 for `SHGetFolderPathA`, which
+`BGSSaveLoadManager::GetSaveDirectory`, WinMain's statement S7, calls
+(VEGAS-135). The coordinator admitted it to the link and to
+`SYSTEM_LIBRARIES` on 2026-11-14 on what the library holds, read from the
+cross build's SDK (10.0.26100, x86_64):
+
+- 393 short import members and the three import descriptor objects of
+  SHELL32.dll, as kernel32, user32 and advapi32 hold for their DLLs, and
+  one more object, `shguid.obj`;
+- `shguid.obj` defines 399 GUIDs, each in a COMDAT `.rdata` section,
+  refers to no name, has relocations only in its `.debug$S` sections, to
+  its own GUIDs, and holds only spaces in its `.drectve`;
+- no object of the game archive, of FalloutNV or of zlib, and no member of
+  the C runtime and Windows import libraries of either C runtime flavour,
+  refers to any of those 399 names. lld-link loads an archive member only
+  for a name that a loaded object leaves undefined, so no link of these
+  inputs loads `shguid.obj`, and a loaded copy could refer to nothing: the
+  check's blind spot for the objects of system libraries holds nothing
+  for it. `uuid.lib` also defines `shguid.obj`'s 399 names, and
+  `shell32.lib` precedes the `uuid.lib` directives on the link, which is
+  sound because `shguid.obj` refers to nothing.
+
+A Windows CI run of this entry shows only that the link line works, since
+the check does not read system libraries; the CI SDK's `shell32.lib` is
+read when the S7 composition's map names its import member (VEGAS-135
+ruling).
+
+Until `main` composes S7, the link reads no member of shell32:
+FalloutNV.exe is the one linked without it, byte for byte apart from the
+header timestamp and checksum, and its map names nothing of shell32 (cross
+build, measured at VEGAS-135's T9 commit).

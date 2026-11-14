@@ -40,7 +40,7 @@ set(tools_function_level_link_cases dead_comdat_accepted unresolved_export_refus
     unread_library_refused leaderless_comdat_unclassified bad_associative_parent_unclassified
     bigobj_associative_parent_high_part relocation_count_overflow_read weak_external_unresolved
     symbols_never_listed_are_no_evidence map_line_after_static_symbols_refused
-    symbol_line_with_other_tail_refused crlf_map_read)
+    symbol_line_with_other_tail_refused crlf_map_read shell32_import_accepted)
 if(Python3_Interpreter_FOUND)
   foreach(tools_function_level_link_case IN LISTS tools_function_level_link_cases)
     add_test(NAME tools.function_level_link.${tools_function_level_link_case}

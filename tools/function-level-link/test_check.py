@@ -520,6 +520,18 @@ class CheckTest(unittest.TestCase):
                                       symbol_line("GetUserNameA", 0x140001020, "Advapi32:ADVAPI32.dll")])
         self.assertEqual(status, 0, out)
 
+    def test_shell32_import_accepted(self):
+        # The form of WinMain's statement S7 (VEGAS-135): a call through the
+        # import slot of SHGetFolderPathA, which the map lists from shell32.
+        obj = coff(section(".text$mn", TEXT, comdat=2, defines=["main"],
+                           refs=["__imp_SHGetFolderPathA"]))
+        status, out = self.run_check([("a.obj", obj)],
+                                     [symbol_line("main", 0x140001010, "a.obj"),
+                                      symbol_line("__imp_SHGetFolderPathA", 0x140003000,
+                                                  "shell32:SHELL32.dll", section=2, offset=0)])
+        self.assertEqual(status, 0, out)
+        self.assertIn("accepted: 0 unresolved names", out)
+
     def test_leaderless_comdat_unclassified(self):
         obj = self.main_obj(section(".text$mn", TEXT, comdat=2, refs=["missing"]))
         status, out = self.run_check([("a.obj", obj)],

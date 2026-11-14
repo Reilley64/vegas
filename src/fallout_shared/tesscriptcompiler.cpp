@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptcompiler.cpp: ScriptCompiler, BGSCameraPath, S7f, S5a and more (36 functions)
 
+#include <cstdarg>
 #include <cstdint>
 #include <new>
 #include <cctype>
@@ -985,10 +986,11 @@ struct ScriptNameRef
 // @fnv 0x005aea90
 void __cdecl ReportScriptError(CStringArgument* self, const char* pcFormat, ...)
 {
-    void* args = (char*)&pcFormat + sizeof(pcFormat);
+    va_list args;
+    va_start(args, pcFormat);
     char msg[0x108];
     ::FUN_00407000(msg, pcFormat, (char *)(args));
-    args = 0;
+    va_end(args);
     StrBuf8 strBuf;
     ::FUN_00406f60((::FUN_00406f90_this *)(::StrBuf8 *)(&strBuf), "SCRIPTS: Script '%s', line %d:\n%s", ((char *)(::FUN_00559450((int *)(((ScriptNameRef*)&self->m_kScriptName))))),
                  self->m_uiLastLineNumber, msg);

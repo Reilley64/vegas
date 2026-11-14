@@ -59,7 +59,8 @@
 # moves a string, a table, a constant whose bytes or size are not its
 # name's, one with a relocation, a second symbol or an associative child,
 # one not COMDAT ANY, writable or code, one only an unlisted function
-# refers to, one not named .rdata or a COMDAT .CRT$XCU;
+# or a listed function's .pdata refers to, one not named .rdata or a COMDAT
+# .CRT$XCU;
 # or when an address-significance table whose characteristics differ under
 # a merge raises an error in place of a difference line; or when
 # SYMBOL-ORDER is reported where the symbol multisets differ. The tests write small objects, logs and

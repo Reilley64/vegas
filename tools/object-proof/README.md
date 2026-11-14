@@ -174,8 +174,8 @@ these hold, in both objects:
   with 8 or 16 lowercase hex digits, `__xmm@` with 32 or `__ymm@` with 64,
   and its bytes are those digits read as one number, stored least
   significant byte first (4, 8, 16 or 32 bytes);
-- a relocation of a COMDAT section that a listed name leads targets that
-  symbol.
+- a relocation of a COMDAT section that a listed name leads (not its
+  `.pdata` or `.xdata`) targets that symbol.
 
 Any other section stays in place: a string (`??_C@`), a table, a constant
 whose bytes or size are not its name's, one with a relocation, one only

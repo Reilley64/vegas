@@ -1275,12 +1275,15 @@ class ObjectProofTest(unittest.TestCase):
         text = (".text$mn", None, b"", None, [])
         call = (".text$mn", caller, b"\xe8\0\0\0\0\xc3", "any", [owner])
         rest = (".text$mn", other, b"\xc3", "any", [x])
-        pdata = (".pdata", None, b"\0" * 4, owner, [])
 
-        def run(constant, refers=True, extra=(), labels=()):
+        def run(constant, refers=True, extra=(), labels=(), pdata_refers=False):
+            # Without REFERS the unlisted caller refers to the constant, or, with PDATA_REFERS,
+            # only the listed function's .pdata does.
             body = (".text$mn", owner, b"\xe8\0\0\0\0\xc3", "any", [constant[1]] if refers else [])
             first = (".text$mn", caller, b"\xe8\0\0\0\0\xe8\0\0\0\0\xc3", "any", [owner, constant[1]]) \
-                if not refers else call
+                if not refers and not pdata_refers else call
+            pdata = (".pdata", None, b"\0" * 12, owner, [constant[1]]) if pdata_refers \
+                else (".pdata", None, b"\0" * 4, owner, [])
             base = order_unit([text, first, rest, constant, body, pdata] + list(extra), [x], labels=labels)
             head = order_unit([text, constant, body, pdata, first, rest] + list(extra), [x], labels=labels)
             return self.objcmp(base, head, "--function-order", listed)
@@ -1303,6 +1306,8 @@ class ObjectProofTest(unittest.TestCase):
             ("bytes other than the name's", (".rdata", real, b"\0\0\x80\x40", "any", []), {}),
             ("a relocation", (".rdata", real, bytes_, "any", [x]), {}),
             ("not referred to by a listed function", (".rdata", real, bytes_, "any", []), dict(refers=False)),
+            ("referred to only by a listed function's .pdata", (".rdata", real, bytes_, "any", []),
+             dict(refers=False, pdata_refers=True)),
             ("a COMDAT .CRT$XCU", (".CRT$XCU", real, bytes_, "any", []), {}),
             ("another section name", (".rdata$zz", real, bytes_, "any", []), {}),
             ("another size", (".rdata", "__real@3f8000000000", b"\0\0\0\0\x80\x3f", "any", []), {}),

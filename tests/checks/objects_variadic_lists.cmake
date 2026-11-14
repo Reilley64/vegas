@@ -14,7 +14,10 @@
 # passed (the stack cookie slot, or a slot that nothing writes) or its
 # step of four bytes, the 32-bit size of an argument. It reads the
 # archive with llvm-objdump. The patterns are specific to clang-cl at /O2
-# and to each function's frame. Blind spots: registers, not values, are
+# and to each function's frame, measured with clang-cl 23.1.5 (the cross
+# build) and 20.1.8 (the Windows CI job); where the two frames differ, a
+# character class admits both offsets, and under one compiler the other's
+# offset is another slot. Blind spots: registers, not values, are
 # matched; the trace follows address order, not control flow; what the
 # callee does with the list is not checked.
 #
@@ -26,14 +29,14 @@ set(objects_variadic_lists_entries
   "FUN_00a0e690|?FUN_00a0e690@@YAHPEAUDebugText@@HAEBURgbaColor@@PEBDZZ|-|-|^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x70\\(%rsp\\), BASE$"
   "InvokeVFuncWithVarArgs|?InvokeVFuncWithVarArgs@@YAHPEAUFUN_00a0e6d0_this@@HPEAXHHPEBDZZ|-|-|^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x90\\(%rsp\\), BASE$"
   "NiSprintf|?NiSprintf@@YAHPEADIPEBDZZ|^movq[ \t]+%r9, 0x88\\(%rsp\\)$|^leaq[ \t]+0x38\\(%rsp\\), |^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x88\\(%rsp\\), BASE$"
-  "LogScriptCompileError|?LogScriptCompileError@@YAXPEAVScriptRunner@@PEAVScript@@PEADZZ|^movq[ \t]+%r9, 0x168\\(%rsp\\)$|^leaq[ \t]+0x28\\(%rsp\\), |^movq %(r8), 0x20\\(%rsp\\)$|^leaq 0x168\\(%rsp\\), BASE$"
-  "ApplyPerkModifiers|?ApplyPerkModifiers@@YAXHPEAVActor@@ZZ|^movq[ \t]+%r8, 0x160\\(%rsp\\)$|^addq[ \t]+\\$0x4, |^movq %(rcx), \\(%rax\\)$|^leaq 0x160\\(%rsp\\), BASE$"
+  "LogScriptCompileError|?LogScriptCompileError@@YAXPEAVScriptRunner@@PEAVScript@@PEADZZ|^movq[ \t]+%r9, 0x1[67]8\\(%rsp\\)$|^leaq[ \t]+0x28\\(%rsp\\), |^movq %(r8), 0x2[08]\\(%rsp\\)$|^leaq 0x1[67]8\\(%rsp\\), BASE$"
+  "ApplyPerkModifiers|?ApplyPerkModifiers@@YAXHPEAVActor@@ZZ|^movq[ \t]+%r8, 0x1[67]0\\(%rsp\\)$|^addq[ \t]+\\$0x4, |^movq %(rcx), \\(%rax\\)$|^leaq 0x1[67]0\\(%rsp\\), BASE$"
   "FUN_00406f60|?FUN_00406f60@@YAHPEAUFUN_00406f90_this@@PEBDZZ|^movq[ \t]+%r8, 0x50\\(%rsp\\)$|^leaq[ \t]+0x30\\(%rsp\\), |^movq %(r8), 0x28\\(%rsp\\)$|^leaq 0x50\\(%rsp\\), BASE$"
   "FUN_00703e80|?FUN_00703e80@fnv_00703e80@@YA_NPEBD00PEAXHHMM0ZZ|-|-|^movq %(r[a-z0-9]+), 0x78\\(%rsp\\)$|^leaq 0xf8\\(%rsp\\), BASE$"
   "FUN_007ca200|??0FUN_007ca200@@QEAA@HHHHHZZ|-|-|^movq %(rax), -0x20\\(%rbp\\)$|^leaq 0x50\\(%rbp\\), BASE$"
   "FUN_007d6350|??0FUN_007d6350@@QEAA@PEBDPEAXHHIHZZ|-|-|^movq %(rax), -0x10\\(%rbp\\)$|^leaq 0x78\\(%rbp\\), BASE$"
   "FUN_00845cc0|?FUN_00845cc0@@YAXPEBDZZ|^movq[ \t]+%rdx, 0x48\\(%rsp\\)$|^leaq[ \t]+0x2c\\(%rsp\\), |^movq %(rcx), 0x28\\(%rsp\\)$|^leaq 0x48\\(%rsp\\), BASE$"
-  "ReportScriptError|?ReportScriptError@@YAXPEAUCStringArgument@@PEBDZZ|^movq[ \t]+%r8, 0x100\\(%rbp\\)$|^leaq[ \t]+0xb8\\(%rbp\\), %r8$|^movq %(r8), 0xb0\\(%rbp\\)$|^leaq 0x100\\(%rbp\\), BASE$"
+  "ReportScriptError|?ReportScriptError@@YAXPEAUCStringArgument@@PEBDZZ|^movq[ \t]+%r8, 0x1[01]0\\(%rbp\\)$|^leaq[ \t]+0xb8\\(%rbp\\), %r8$|^movq %(r8), 0x[bc]0\\(%rbp\\)$|^leaq 0x1[01]0\\(%rbp\\), BASE$"
   "FUN_00cb0c70|?FUN_00cb0c70@hkStringPtr@@QEAAXPEBDZZ|^movq[ \t]+%r8, 0x110\\(%rbp\\)$|^leaq[ \t]+0xb8\\(%rbp\\), |^movq %(rax), 0xb0\\(%rbp\\)$|^leaq 0x110\\(%rbp\\), BASE$"
   "ShaderPassEntry|??0ShaderPassEntry@BSShaderProperty@@QEAA@PEAVNiGeometry@@G_NEPEAVShadowSceneLight@@ZZ|-|-|^movq %(rax), 0x28\\(%rsp\\)$|^leaq 0x90\\(%rsp\\), BASE$"
 )

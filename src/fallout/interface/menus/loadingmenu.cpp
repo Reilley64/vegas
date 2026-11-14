@@ -1567,10 +1567,6 @@ struct FUN_0078a3e0_shell
 {
     void ApplyLoadingScreenTexture(bool);
 };
-struct FUN_0078cc50_shell
-{
-    void FUN_0078cc50();
-};
 struct BSAudio
 {
     void SetAudioProperty(unsigned int, unsigned int, unsigned int);
@@ -1724,7 +1720,7 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         reinterpret_cast<::FUN_00a20cc0_t *>((p3dtile))->FUN_00a20cc0("Left");
         data.FUN_0043d410(0.0f, true, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((p3dtile))->renderedNode))))->FUN_00a59c60((std::intptr_t)&(data));
-        ((FUN_0078cc50_shell*)this)->FUN_0078cc50();
+        ((::s78cc50::FadeMenu*)this)->FUN_0078cc50();
         this->m_uiTipTimer = 0;
     }
 

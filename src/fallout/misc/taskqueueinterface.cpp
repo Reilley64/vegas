@@ -314,12 +314,6 @@ struct TaskQueueInterface
 
 unsigned int gm_GetCurrentThreadId();
 
-// @fnv 0x00406d30
-void TaskQueueInterface::CopyStringToBuffer(char* apBuffer, unsigned int auiSize, const char* apSource)
-{
-    fnv::crt::strcpy_s(apBuffer, auiSize, apSource);
-}
-
 // @fnv 0x005c3420
 NiPoint3& TaskQueueInterface::QueueActorAnimationTask(NiPoint3& akDest)
 {

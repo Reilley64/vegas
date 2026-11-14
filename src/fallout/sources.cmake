@@ -222,6 +222,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/misc/appmemory_console.cpp
   src/fallout/misc/bgsmovieplayer.cpp
   src/fallout/misc/calendar.cpp
+  src/fallout/misc/copy_string_to_buffer.cpp
   src/fallout/misc/garbagecollector.cpp
   src/fallout/misc/log_paths.cpp
   src/fallout/misc/main.cpp

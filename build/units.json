@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2784,
+  "units": 2785,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -126121,11 +126121,6 @@
    ],
    "functions": [
     {
-     "address": "0x00406d30",
-     "symbol": "?CopyStringToBuffer@TaskQueueInterface@@SAXPADIPBD@Z",
-     "size": 25
-    },
-    {
      "address": "0x0043b370",
      "symbol": "?FUN_0043b370@FUN_0043b370_cls@@QAEX_NI@Z",
      "size": 55
@@ -126467,7 +126462,6 @@
     }
    ],
    "symbols": {
-    "_strcpy_s": "0x00ec65a6",
     "?gm_GetCurrentThreadId@@YAIXZ": "0x0040fc90",
     "?FUN_0043b370@FUN_0043b370_cls@@QAEX_NI@Z": "0x0043b370",
     "?FUN_0047aa60@FUN_0047aa60_cls@@QAEX_NG@Z": "0x0047aa60",
@@ -126619,7 +126613,6 @@
     "__ehhandler$?ProcessQueuedTask@TaskQueueInterface@@SAXABVBSPackedTask@@@Z": "0x00f14608",
     "?g_011c4104@@3VGlobalObject_00479190@@A": "0x011c4104",
     "?CallVirtualMethod1@PackedTaskQueueProcessor@@QAE_NABVBSPackedTask@@@Z": "0x0087a890",
-    "?CopyStringToBuffer@TaskQueueInterface@@SAXPADIPBD@Z": "0x00406d30",
     "?QueueActorDisarm@TaskQueueInterface@@QAEX_N@Z": "0x00450f90",
     "?QueueActorAnimationTask@TaskQueueInterface@@QAEAAUNiPoint3@@AAU2@@Z": "0x005c3420",
     "?ThreadProcessSecondaryInput@TaskQueueInterface@@SAXXZ": "0x00703490",
@@ -126652,6 +126645,30 @@
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
     "FUN_005c0740": "0x005c0740",
     "?FUN_005d10f0@@YAMPBD@Z": "0x005d10f0"
+   }
+  },
+  {
+   "source": "src/fallout/misc/copy_string_to_buffer.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy",
+    "/GF"
+   ],
+   "functions": [
+    {
+     "address": "0x00406d30",
+     "symbol": "?CopyStringToBuffer@TaskQueueInterface@@SAXPADIPBD@Z",
+     "size": 25
+    }
+   ],
+   "symbols": {
+    "?CopyStringToBuffer@TaskQueueInterface@@SAXPADIPBD@Z": "0x00406d30",
+    "_strcpy_s": "0x00ec65a6"
    }
   },
   {

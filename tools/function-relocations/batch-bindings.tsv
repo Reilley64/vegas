@@ -30,3 +30,7 @@ forbid	?FUN_0075bc80@MenuData@@QEAAXXZ
 function	batch2	src/fallout/interface/menus/containermenu.cpp	?FUN_0075b310@@YAPEAUMenuTile@@PEAVTESObjectREFR@@H@Z	?FUN_0075bc80@MenuX@@QEAAXXZ
 forbid	?FUN_00788ab0@Fake00788ab0@@QEAAXH@Z
 function	batch2	src/fallout/interface/menus/loadingmenu.cpp	?UpdateIfEnabled@@YAXH@Z	?FUN_00788ab0@S00788ab0_LoadingSetup@fnv_00788ab0@@QEAAXH@Z
+forbid	?ResetStrings@FUN_00a317e0_tag@@QEAAXXZ
+function	batch2	src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp	?AssignInterpolatorRef@FUN_00a317e0_t@@QEAAXHPEAPEAUFUN_00a317e0_ref@@@Z	?ResetStrings@NiControllerSequence@fnv_00a30640@@QEAAXXZ
+function	batch2	src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp	?ClearInterpolatorRefs@Obj43c@@QEAAXPEAUSrc43c@@_J@Z	?ResetStrings@NiControllerSequence@fnv_00a30640@@QEAAXXZ
+function	batch2	src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp	?FUN_00a32fa0@S00a32fa0_Seq@@QEAAXPEAU1@HH_N@Z	?ResetStrings@NiControllerSequence@fnv_00a30640@@QEAAXXZ

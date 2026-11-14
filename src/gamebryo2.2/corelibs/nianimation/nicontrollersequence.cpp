@@ -1003,7 +1003,6 @@ struct FUN_00a317e0_tag
     void* unk08;
     void* unk0C;
     void* unk10;
-    void ResetStrings();
 };
 
 struct FUN_00a317e0_t
@@ -1048,7 +1047,7 @@ void FUN_00a317e0_t::AssignInterpolatorRef(int index, FUN_00a317e0_ref** output)
 
     reinterpret_cast<::FUN_00a31260_StandIn *>((reinterpret_cast<FUN_00a317e0_interp*>(m_pInterpArray + index)))->FUN_00a31260();
 
-    reinterpret_cast<FUN_00a317e0_tag*>(m_pkIDTags + index)->ResetStrings();
+    reinterpret_cast<::fnv_00a30640::NiControllerSequence*>(m_pkIDTags + index)->ResetStrings();
 
     FUN_00a317e0_ref* old = *output;
     int(* pfnDecrementRef)(void*) = DAT_00fdf1c4;

@@ -255610,7 +255610,6 @@
     "?FUN_00a32290@FUN_00a32290_Cls@@QAEXMMM@Z": "0x00a32290",
     "?FUN_00a34ba0@AnimationSequence@@QAEXM_N@Z": "0x00a34ba0",
     "?FUN_00a35700@@YAXPAUBinaryDataRecord@@IAAV?$NiPointer@VNiNode@@@@@Z": "0x00a35700",
-    "?ResetStrings@FUN_00a317e0_tag@@QAEXXZ": "0x00a30640",
     "?AssignControllers@FUN_00a34480_cls@@QAE_NPAXPAUFUN_00a34480_obj@@@Z": "0x00a33130",
     "?IsSameAs@A5d470Class@@UAE_NPAUA5d470Object@@@Z": "0x00a5d470",
     "?ConvertOldSequence@@YAXPAUOldSequence@@AAU?$SeqPtr@UNewSequence@@@@@Z": "0x00a349e0",

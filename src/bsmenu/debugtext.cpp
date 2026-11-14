@@ -168,9 +168,10 @@ int __cdecl InvokeVFuncWithVarArgs(FUN_00a0e6d0_this* pObject, int aiArg1, void*
 {
     int iret;
     {
-        char* args;
-        args = (char*)(&p5 + 1);
+        va_list args;
+        va_start(args, p5);
         iret = pObject->VFunc(aiArg1, aiArg3, aiArg4, p5, args, apArg2);
+        va_end(args);
     }
     return iret;
 }

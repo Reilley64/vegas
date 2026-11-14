@@ -22,6 +22,7 @@ set(objects_variadic_lists_entries
   "FUN_00a0e470|?FUN_00a0e470@@YAHPEAUDebugText@@HPEBDZZ|^movq[ \t]+%r9, 0x68\\(%rsp\\)$|^leaq[ \t]+0x40\\(%rsp\\), |^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x68\\(%rsp\\), BASE$"
   "FUN_00a0e580|?FUN_00a0e580@@YAHPEAUFUN_00a0e580_VTab@@HHPEBDZZ|-|-|^movq %(r[a-z0-9]+), 0x20\\(%rsp\\)$|^leaq 0x70\\(%rsp\\), BASE$"
   "FUN_00a0e690|?FUN_00a0e690@@YAHPEAUDebugText@@HAEBURgbaColor@@PEBDZZ|-|-|^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x70\\(%rsp\\), BASE$"
+  "InvokeVFuncWithVarArgs|?InvokeVFuncWithVarArgs@@YAHPEAUFUN_00a0e6d0_this@@HPEAXHHPEBDZZ|-|-|^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x90\\(%rsp\\), BASE$"
 )
 if(vegas_object_checks)
   foreach(objects_variadic_lists_entry IN LISTS objects_variadic_lists_entries)

@@ -4,6 +4,7 @@
 #include "fnv/result_slot.h"
 #include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
+#include <cstdarg>
 #include <new>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -174,7 +175,7 @@ void ApplyPerkModifiers(int entryPoint, Actor* actor, ...)
         struct PerkArgumentCursor
         {
             BGSEntryPointFunction::ENTRY_POINT_FUNCTION_TYPE type;
-            char* current;
+            va_list current;
         } kArgumentPosition;
         argumentValidation.parameterCount = EntryPointFunctionDispatcher::ms_kEntryPointTable[entryPoint].filterCount;
         kArgumentPosition.type = (BGSEntryPointFunction::ENTRY_POINT_FUNCTION_TYPE)
@@ -182,22 +183,22 @@ void ApplyPerkModifiers(int entryPoint, Actor* actor, ...)
                                          .functionType;
         argumentValidation.argumentCount = BGSEntryPointFunction::GetArgumentCount(kArgumentPosition.type);
         pParameters[0] = actor;
-        kArgumentPosition.current = (char*)(&actor + 1);
+        va_start(kArgumentPosition.current, actor);
         argumentValidation.validParameters = true;
         for (unsigned int i = 1; i < argumentValidation.parameterCount; ++i)
         {
-            pParameters[i] = *(void**)((kArgumentPosition.current += 4) - 4);
+            pParameters[i] = va_arg(kArgumentPosition.current, void*);
             if (!pParameters[i])
                 argumentValidation.validParameters = false;
         }
         argumentValidation.validArguments = true;
         for (unsigned int i = 0; i < argumentValidation.argumentCount; ++i)
         {
-            pEntryPointArguments[i] = *(void**)((kArgumentPosition.current += 4) - 4);
+            pEntryPointArguments[i] = va_arg(kArgumentPosition.current, void*);
             if (!pEntryPointArguments[i])
                 argumentValidation.validArguments = false;
         }
-        kArgumentPosition.current = 0;
+        va_end(kArgumentPosition.current);
         if (argumentValidation.validParameters && argumentValidation.validArguments)
         {
             while (pList)

@@ -10,8 +10,9 @@
 # SITE was set by ORIGIN, the address of that slot.
 # objects.variadic_list.LABEL.spill, for an entry with a SPILL pattern,
 # fails unless the function saves the register to its home slot, or when
-# it computes FORBID, the address that the old form passed as the list
-# (the stack cookie slot, or a slot that nothing writes). It reads the
+# it has FORBID, an instruction of the old form's list: the address it
+# passed (the stack cookie slot, or a slot that nothing writes) or its
+# step of four bytes, the 32-bit size of an argument. It reads the
 # archive with llvm-objdump. The patterns are specific to clang-cl at /O2
 # and to each function's frame. Blind spots: registers, not values, are
 # matched; the trace follows address order, not control flow; what the
@@ -26,6 +27,7 @@ set(objects_variadic_lists_entries
   "InvokeVFuncWithVarArgs|?InvokeVFuncWithVarArgs@@YAHPEAUFUN_00a0e6d0_this@@HPEAXHHPEBDZZ|-|-|^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x90\\(%rsp\\), BASE$"
   "NiSprintf|?NiSprintf@@YAHPEADIPEBDZZ|^movq[ \t]+%r9, 0x88\\(%rsp\\)$|^leaq[ \t]+0x38\\(%rsp\\), |^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x88\\(%rsp\\), BASE$"
   "LogScriptCompileError|?LogScriptCompileError@@YAXPEAVScriptRunner@@PEAVScript@@PEADZZ|^movq[ \t]+%r9, 0x168\\(%rsp\\)$|^leaq[ \t]+0x28\\(%rsp\\), |^movq %(r8), 0x20\\(%rsp\\)$|^leaq 0x168\\(%rsp\\), BASE$"
+  "ApplyPerkModifiers|?ApplyPerkModifiers@@YAXHPEAVActor@@ZZ|^movq[ \t]+%r8, 0x160\\(%rsp\\)$|^addq[ \t]+\\$0x4, |^movq %(rcx), \\(%rax\\)$|^leaq 0x160\\(%rsp\\), BASE$"
 )
 if(vegas_object_checks)
   foreach(objects_variadic_lists_entry IN LISTS objects_variadic_lists_entries)

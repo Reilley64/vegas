@@ -863,7 +863,7 @@ int* __cdecl FUN_004e3260()
 
 struct FUN_004e32c0_shell
 {
-    void FUN_004e32c0();
+    bool FUN_004e32c0();
 };
 
 struct FUN_004e45e0_shell
@@ -1287,9 +1287,9 @@ struct BGSPlaceableWater
     bool HasFlags(unsigned int);
 };
 // @fnv 0x004e32c0
-void FUN_004e32c0_shell::FUN_004e32c0()
+bool FUN_004e32c0_shell::FUN_004e32c0()
 {
-    reinterpret_cast<::BGSPlaceableWater *>(this)->HasFlags(0x8000000);
+    return reinterpret_cast<::BGSPlaceableWater *>(this)->HasFlags(0x8000000);
 }
 // @fnv 0x004ea930
 bool FUN_004ea930_shell::FUN_004ea930()

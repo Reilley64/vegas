@@ -28,6 +28,7 @@ set(objects_variadic_lists_entries
   "NiSprintf|?NiSprintf@@YAHPEADIPEBDZZ|^movq[ \t]+%r9, 0x88\\(%rsp\\)$|^leaq[ \t]+0x38\\(%rsp\\), |^movq %(r[a-z0-9]+), 0x28\\(%rsp\\)$|^leaq 0x88\\(%rsp\\), BASE$"
   "LogScriptCompileError|?LogScriptCompileError@@YAXPEAVScriptRunner@@PEAVScript@@PEADZZ|^movq[ \t]+%r9, 0x168\\(%rsp\\)$|^leaq[ \t]+0x28\\(%rsp\\), |^movq %(r8), 0x20\\(%rsp\\)$|^leaq 0x168\\(%rsp\\), BASE$"
   "ApplyPerkModifiers|?ApplyPerkModifiers@@YAXHPEAVActor@@ZZ|^movq[ \t]+%r8, 0x160\\(%rsp\\)$|^addq[ \t]+\\$0x4, |^movq %(rcx), \\(%rax\\)$|^leaq 0x160\\(%rsp\\), BASE$"
+  "FUN_00406f60|?FUN_00406f60@@YAHPEAUFUN_00406f90_this@@PEBDZZ|^movq[ \t]+%r8, 0x50\\(%rsp\\)$|^leaq[ \t]+0x30\\(%rsp\\), |^movq %(r8), 0x28\\(%rsp\\)$|^leaq 0x50\\(%rsp\\), BASE$"
 )
 if(vegas_object_checks)
   foreach(objects_variadic_lists_entry IN LISTS objects_variadic_lists_entries)

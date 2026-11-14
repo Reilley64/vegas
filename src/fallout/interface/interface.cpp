@@ -2869,10 +2869,10 @@ struct FUN_00406f90_this
 int __cdecl FUN_00406f60(FUN_00406f90_this* p, char const* apFormat, ...)
 {
     int ires;
-    char* marker;
-    marker = (char*)(&apFormat + 1);
+    va_list marker;
+    va_start(marker, apFormat);
     ires = p->FUN_00406f90(apFormat, marker);
-    marker = 0;
+    va_end(marker);
     return ires;
 }
 

@@ -8,7 +8,8 @@ object proof does not see the missing result, and `tools/bind-batch` refuses
 the call as `void-result-used`.
 
 The table was derived at `9b14ee21c`. It holds 202 definitions, reached by
-455 names, with 799 call sites that use a result.
+460 names, with 804 call sites that use a result; five of those names were
+added while repairing (below).
 
 ## The table
 
@@ -66,6 +67,19 @@ Not tabled:
   `0x00726db0`, `0x00adb1a0`, `0x00cd2470` and `0x00cf2410` (each a whole
   statement).
 
+Before a definition is repaired, every recipe `symbols` key at its
+address, every entry of every source merged, is read. At three
+definitions whose callers all used the dropped value's type in the
+surveys, a unit's key carries another result type and its call uses the
+result at a site the surveys did not list. Those names and sites are now
+in their rows, whose notes say so:
+
+- `0x0043b480`: `teseffectshader.cpp:571` declares `int`.
+- `0x00433a00`: `extradatalist.cpp:14029` declares `int`,
+  `extradatalist.cpp:14105` `fnv_0041ea30::ReferenceFloatEntry *` and
+  `extradataobjects.cpp:6309` `ActivateEntry334 *`.
+- `0x00863d90`: `tessaveloadgame.cpp:2465` declares `unsigned short`.
+
 ## What it shows
 
 At `9b14ee21c` every row said `void` (`X` in its symbol), and every body
@@ -76,15 +90,16 @@ with the result.
 | `note` | Definitions |
 | --- | --- |
 | repaired: the body returns the value | 10 (32 names, 52 sites) |
-| every caller uses the dropped value's type | 50 (117 names, 229 sites) |
+| every caller uses the dropped value's type | 47 (48 names, 87 sites) |
 | callers use another type than the dropped value's | 46 |
-| callers use 2 to 13 result types | 29 |
+| callers use 2 to 13 result types | 32 |
 | the body computes no value | 50 |
 | the body ends in a statement, not a dropped value | 17 |
 
 For example, `NiObjectNET::GetNumChildren` at `0x0043b480` evaluates
 `GetShortAtOffsetA()`, whose row at `0x00658930` returns `unsigned int`,
-and drops it, while each of its 66 names declares an `unsigned int` result.
+and drops it, while 66 of its 67 names declare an `unsigned int` result
+and one declares `int`.
 
 ## What stays open
 
@@ -94,6 +109,16 @@ result type, every caller that uses the result declares exactly that
 type, and a dropped call's own row returns it (VEGAS-124, ruling of
 2026-11-14). Each other definition stays open, with the `note` as the
 reason.
+
+Ten bodies are repaired, the largest first by names, each in its own
+commit with its object proof: `0x0044df20`, `0x00696540`, `0x004e32c0`,
+`0x004e32e0`, `0x004dfea0`, `0x0044a2c0`, `0x004dc2b0`, `0x004e3280`,
+`0x004e32a0` and `0x006c08e0`. `objects.void_result_repairs`
+(`tools/function-relocations/void-result-repairs.tsv`) requires each
+under its row's name and forbids the former `void` name. The callers
+were not changed: a caller's own name that now matches a repaired
+definition is bound later by `tools/bind-batch`. `0x00877a50`, in
+`src/fallout/misc/main.cpp`, is left for the work that owns that unit.
 
 Blind spots:
 
@@ -107,3 +132,9 @@ Blind spots:
   is what the original returned is not established.
 - The inputs list the definitions that the two earlier surveys found. A
   definition that neither found is not in the table.
+- The keys read before a repair are the recipe's. A caller whose unit has
+  no key for its name at the address is not seen.
+- The `callers` and `names` columns of the repaired rows come from the
+  two surveys and may be incomplete. Before each repair the callers were
+  found again from every recipe key at the address and every spelling of
+  it in the tree; that sweep is the input to condition (b), not the table.

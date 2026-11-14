@@ -1525,11 +1525,11 @@ endif()
 # reaches fewer than the 260 bytes its writers copy: the distance from its
 # symbol to the next symbol of its section, or to the section's end.
 # DAT_01202b48 in the object of log_paths.cpp, which generated data
-# defined as one byte, and DAT_01202e98 in the object of main.cpp, which it
-# defined as an int under another name. Blind spot: padding before the next
-# symbol counts, so an array a few bytes short passes; the static_assert in
-# FUN_00c3bbd0 and in FUN_0086d480 holds the exact size. It uses the object
-# list and GO_EXECUTABLE of the checks above.
+# defined as one byte, and DAT_01202e98 in the object of app_data_folder.cpp,
+# which it defined as an int under another name. Blind spot: padding before
+# the next symbol counts, so an array a few bytes short passes; the
+# static_assert in FUN_00c3bbd0 and in FUN_0086d480 holds the exact size. It
+# uses the object list and GO_EXECUTABLE of the checks above.
 if(vegas_object_checks)
   add_test(NAME objects.path_buffer_extents
     COMMAND ${GO_EXECUTABLE} run . --table path-buffer-extents.tsv

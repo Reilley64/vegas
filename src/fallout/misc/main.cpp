@@ -2779,17 +2779,6 @@ int __cdecl FUN_0086d470()
     return DAT_011dea18;
 }
 
-char DAT_01202e98[260];
-// @fnv 0x0086d480
-char* __cdecl FUN_0086d480()
-{
-    // BGSSaveLoadManager::GetSaveDirectory copies a folder of up to 260
-    // characters there. The recipe binds the next address, 0x01202fa0, 264
-    // bytes after the buffer.
-    static_assert(sizeof(DAT_01202e98) == 260);
-    return DAT_01202e98;
-}
-
 namespace fnv_0086d580 {
 
 // @fnv 0x0086d580
@@ -7624,7 +7613,7 @@ struct HandlerInit
 {
 };
 extern intptr_t DAT_011a2ffc;
-char* FUN_0086d480();
+char* FUN_0086d480() noexcept;
 struct PointInit
 {
     float x, y, z;

@@ -217,6 +217,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/magic/valuemodifiereffect.cpp
   src/fallout/magic/valuemodifiereffect_h_unit.cpp
   src/fallout/magic/vampirismeffect.cpp
+  src/fallout/misc/app_data_folder.cpp
   src/fallout/misc/appmemory.cpp
   src/fallout/misc/appmemory_console.cpp
   src/fallout/misc/bgsmovieplayer.cpp

@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2783,
+  "units": 2784,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -118466,11 +118466,6 @@
      "size": 10
     },
     {
-     "address": "0x0086d480",
-     "symbol": "?FUN_0086d480@@YAPADXZ",
-     "size": 10
-    },
-    {
      "address": "0x0086d490",
      "symbol": "?impl@FUN_0086d490_class@fnv_0086d490@@QAEXABUNiPoint3_local@2@@Z",
      "size": 45
@@ -119438,7 +119433,6 @@
     "?FUN_00401030@@YAXPAX@Z": "0x00401030",
     "??1FUN_0086c880@fnv_0086c880@@QAE@XZ": "0x0086c880",
     "?DAT_011dea18@@3HA": "0x011dea18",
-    "?DAT_01202e98@@3PADA": "0x01202e98",
     "?DAT_011c6fc8@@3DA": "0x011c6fc8",
     "?DAT_011f91ec@@3P6AIPAVNiAVObject@@@ZA": "0x011f91ec",
     "?DAT_011f91de@@3_NA": "0x011f91de",
@@ -120828,6 +120822,29 @@
     "?FUN_00ecc104@@YAPADPADHPAU_iobuf@@@Z": "0x00ecc104",
     "?LookupTESFile@TESDataHandler@@QAEPAVTESFile@@PBD@Z": "0x00462f40",
     "?InitializeCollection@EffectSettingCollection@@QAEX_N@Z": "0x00471d00"
+   }
+  },
+  {
+   "source": "src/fallout/misc/app_data_folder.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy",
+    "/GF"
+   ],
+   "functions": [
+    {
+     "address": "0x0086d480",
+     "symbol": "?FUN_0086d480@@YAPADXZ",
+     "size": 10
+    }
+   ],
+   "symbols": {
+    "?DAT_01202e98@@3PADA": "0x01202e98"
    }
   },
   {

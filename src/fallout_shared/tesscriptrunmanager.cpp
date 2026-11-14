@@ -1,6 +1,7 @@
 // fallout_shared/tesscriptrunmanager.cpp: ScriptRunner, ScriptExecutor (11 functions)
 
 #include "fnv/tls.h"
+#include <cstdarg>
 #include <cstdint>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
@@ -188,11 +189,11 @@ bool __cdecl GetThreadLocalValue()
 void LogScriptCompileError(ScriptRunner* scriptRunner, Script* apScript, char* apFormat, ...)
 {
     char buffer[260];
-    char* varArgs;
+    va_list varArgs;
 
-    varArgs = (char*)(&apFormat + 1);
+    va_start(varArgs, apFormat);
     FUN_00407000(buffer, apFormat, varArgs);
-    varArgs = 0;
+    va_end(varArgs);
 
     if (::GetThreadLocalValue())
     {

@@ -5,3 +5,20 @@
 # respelled, as the object proof's retargets at the unit's flags list it.
 forbid	?FUN_0063d5e0@FUN_0063d5e0_t@fnv_0063ac70@@QEAAXXZ
 function	batch1	src/fallout_shared/sky/sky.cpp	?FUN_0063ac70@FUN_0063ac70_shell@fnv_0063ac70@@QEAAXM@Z	?FUN_0063d5e0@FUN_0063d5e0_shell@fnv_0063d5e0@@QEAAXXZ
+forbid	?FUN_00410020@ExtraDataList_Remove_stub@fnv_00419dc0@@QEAAXPEAVBSExtraData@@_N@Z
+forbid	?FUN_00410020@ExtraDataList_Remove_stub@fnv_0041b4b0@@QEAAXPEAVBSExtraData@@_N@Z
+forbid	?FUN_00410020@ExtraDataList_Remove_stub@fnv_0041b8d0@@QEAAXPEAVBSExtraData@@_N@Z
+forbid	?FUN_00410020@ExtraListRemover@fnv_004198a0@@QEAAXPEAVBSExtraData@@_N@Z
+forbid	?FUN_00410020@ExtraListRemover@fnv_0041a090@@QEAAXPEAVBSExtraData@@_N@Z
+forbid	?FUN_00410020@ExtraListRemover@fnv_0041a3e0@@QEAAXPEAVBSExtraData@@_N@Z
+forbid	?FUN_00410020@ExtraListRemover@fnv_0041a540@@QEAAXPEAVBSExtraData@@_N@Z
+forbid	?FUN_00410020@ExtraListRemover@fnv_0041d490@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?FUN_00419dc0@FUN_00419dc0_shell2@fnv_00419dc0@@QEAAXPEAUTESObjectREFRHelper@2@@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?FUN_0041a090@FUN_0041a090_shell@fnv_0041a090@@QEAAXPEAX@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?FUN_0041a3e0@FUN_0041a3e0_shell@fnv_0041a3e0@@QEAAXPEAX@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?FUN_0041a540@FUN_0041a540_shell@fnv_0041a540@@QEAAXPEAX@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?FUN_0041b4b0@FUN_0041b4b0_t@fnv_0041b4b0@@QEAAXPEAX@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?FUN_004267d0@LoadRef@@QEAAXIPEAULoadRefForm@@@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?SetHavokWorld@FUN_0041b8d0_shell@fnv_0041b8d0@@QEAAXPEAUbhkWorld@2@@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?SetTeleportData@FUN_004198a0@fnv_004198a0@@QEAAXPEAUTeleportableReference@2@@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
+function	batch2	src/fallout_shared/extradatalist.cpp	?UpdateRagDoll@FUN_0041d490_shell@fnv_0041d490@@QEAAXPEAVTESObjectREFR@@@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z

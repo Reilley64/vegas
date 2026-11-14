@@ -7728,7 +7728,6 @@ struct ExtraTarget : public BSExtraData
 };
 struct ExtraDataList_Remove_stub
 {
-    void FUN_00410020(BSExtraData*, bool);
 };
 
 struct FUN_00419dc0_shell2 : public ExtraDataList
@@ -7742,7 +7741,7 @@ void FUN_00419dc0_shell2::FUN_00419dc0(TESObjectREFRHelper* apRef)
     ExtraTarget* pextra = (ExtraTarget*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((BaseExtraList*)this)))->FUN_00410220(0x46);
     if (!apRef && pextra)
     {
-        ((ExtraDataList_Remove_stub*)this)->FUN_00410020(pextra, true);
+        ((::FUN_00410020_t*)this)->FUN_00410020(pextra, true);
         return;
     }
     if (pextra)
@@ -7797,7 +7796,6 @@ struct ExtraHavok : public BSExtraData
 };
 struct ExtraDataList_Remove_stub
 {
-    void FUN_00410020(BSExtraData*, bool);
 };
 
 // Gets the ExtraHavok entry; if apWorld is set, creates or updates it, otherwise removes the entry.
@@ -7819,7 +7817,7 @@ void FUN_0041b8d0_shell::SetHavokWorld(bhkWorld* apWorld)
     }
     else if (pextra)
     {
-        ((ExtraDataList_Remove_stub*)this)->FUN_00410020(pextra, true);
+        ((::FUN_00410020_t*)this)->FUN_00410020(pextra, true);
     }
 }
 }  // namespace fnv_0041b8d0
@@ -8866,7 +8864,6 @@ struct ExtraRagDollData : public BSExtraData
 };
 struct ExtraListRemover : public ExtraDataList
 {
-    void FUN_00410020(BSExtraData* apExtra, bool abDelete);
 };
 // Gets the ragdoll extra data; removes it when apRef is null, otherwise updates it, creating and adding it if missing.
 // @fnv 0x0041d490
@@ -8876,7 +8873,7 @@ void FUN_0041d490_shell::UpdateRagDoll(TESObjectREFR* apRef)
     if (pextra)
     {
         if (!apRef)
-            ((ExtraListRemover*)this)->FUN_00410020(pextra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pextra, true);
         else
             reinterpret_cast<::RagDollDataEx *>((pextra->m_pRagDollData))->FUN_004d9800((::RagDollRefStandIn *)(apRef));
     }
@@ -10998,7 +10995,6 @@ struct FUN_0041a220_t
 };
 struct ExtraListRemover
 {
-    void FUN_00410020(BSExtraData*, bool);
 };
 struct FUN_004361e0 : BSExtraData
 {
@@ -11013,7 +11009,7 @@ void FUN_0041a090_shell::FUN_0041a090(void* afSound)
     if (SoundAssetTmp)
     {
         if (reinterpret_cast<::FUN_0041a1f0Class *>((((FUN_0041a1f0Class*)afSound)))->Equals((::Flt *)&(const ::fnv_0041a090::BSSoundHandleEx &)(BSSoundHandleEx())))
-            ((ExtraListRemover*)this)->FUN_00410020(SoundAssetTmp, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(SoundAssetTmp, true);
         else
             reinterpret_cast<::SoundPlaybackHandle *>((((SH_00418890*)(&static_cast<::ExtraCreatureAwakeSound*>(SoundAssetTmp)->kSound))))->operator=((*(const ::SoundPlaybackHandle *)(afSound)));
     }
@@ -11102,7 +11098,6 @@ struct FUN_0041a220_s
 };
 struct ExtraListRemover
 {
-    void FUN_00410020(BSExtraData*, bool);
 };
 struct SH_00418890
 {
@@ -11120,7 +11115,7 @@ void FUN_0041a3e0_shell::FUN_0041a3e0(void* afSound)
     if (SoundAssetTmp)
     {
         if (reinterpret_cast<::FUN_0041a1f0Class *>((((FUN_0041a1f0Class*)afSound)))->Equals((::Flt *)&(const ::fnv_0041a3e0::GlobalObject_0041a250 &)(GlobalObject_0041a250())))
-            ((ExtraListRemover*)this)->FUN_00410020(SoundAssetTmp, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(SoundAssetTmp, true);
         else
             reinterpret_cast<::SoundPlaybackHandle *>((((SH_00418890*)&SoundAssetTmp->kSound)))->operator=((*(const ::SoundPlaybackHandle *)(afSound)));
     }
@@ -11214,7 +11209,6 @@ struct FUN_0041a220Class
 };
 struct ExtraListRemover
 {
-    void FUN_00410020(BSExtraData*, bool);
 };
 struct FUN_00436540 : BSExtraData
 {
@@ -11228,7 +11222,7 @@ void FUN_0041a540_shell::FUN_0041a540(void* afSound)
     if (SoundAssetTmp)
     {
         if (reinterpret_cast<::FUN_0041a1f0Class *>((((FUN_0041a1f0Class*)afSound)))->Equals((::Flt *)&(const ::fnv_0041a540::BSSoundHandleEx &)(BSSoundHandleEx())))
-            ((ExtraListRemover*)this)->FUN_00410020(SoundAssetTmp, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(SoundAssetTmp, true);
         else
             reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::fnv_0041a540::FUN_00418900 &)(((FUN_00436540*)SoundAssetTmp)->kSound))->operator=((const ::SoundPlaybackHandle &)(*(const FUN_00418900*)afSound));
     }
@@ -11787,7 +11781,6 @@ struct ExtraTeleport : BSExtraData
 
 struct ExtraListRemover
 {
-    void FUN_00410020(BSExtraData*, bool);
 };
 
 struct FUN_004198a0 : BaseExtraList
@@ -11803,7 +11796,7 @@ void FUN_004198a0::SetTeleportData(TeleportableReference* apTeleport)
     if (pExtra)
     {
         if (apTeleport == (TeleportableReference*)-1)
-            ((ExtraListRemover*)this)->FUN_00410020(pExtra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pExtra, true);
         else
             pExtra->m_pTeleportData = apTeleport;
     }
@@ -12796,7 +12789,6 @@ struct Dummy_00410020
 };
 struct ExtraDataList_Remove_stub
 {
-    void FUN_00410020(BSExtraData*, bool);
 };
 struct FUN_0041b4b0_t : BaseExtraList
 {
@@ -12813,7 +12805,7 @@ void FUN_0041b4b0_t::FUN_0041b4b0(void* value)
     }
     else if (static_cast<::ExtraAction_ctx*>(extra)->cFlags == 1 && !value)
     {
-        ((ExtraDataList_Remove_stub*)this)->FUN_00410020(extra, true);
+        ((::FUN_00410020_t*)this)->FUN_00410020(extra, true);
         extra = 0;
     }
     if (extra)

@@ -103,7 +103,7 @@ associative section as `parent|name`). Then the summary.
 | `RETARGET` | summary: A's target as A spells it `->` B's target at one offset of a section both hold, count, `by the map` or `not by the map`, the sections |
 | `KEPT-SITE` | summary: section, offset, OLD, NEW of a relocation where B still targets OLD and the respelled A targets NEW |
 | `KEPT-MISSING`, `KEPT-UNEXPECTED` | an expected kept site (section, OLD) not found; a kept site (section, offset, OLD) not expected |
-| `MOVED` | summary of a `reordered` verdict: a listed function's section, its place in the base and in the head (0-based) |
+| `MOVED` | summary of a `reordered` verdict: a listed function's section, or a constant that moved with it, its place in the base and in the head (0-based) |
 | `MERGED` | summary of a `merged` verdict: OLD `->` NEW, into the base's own definition or its existing reference, the number of the base's relocations to OLD |
 
 A refused comparison prints no summary. For the instructions of a differing
@@ -161,9 +161,28 @@ the owner's body where a function first uses it, so the head may emit it
 earlier. `--function-order FILE` (one mangled function name per line, `#`
 comments) proves such a unit: the COMDAT sections that a listed name leads,
 and their associative children (`.pdata`, `.xdata`), may change place,
-never a `.CRT$` section (initializer order is behaviour). The verdict is
-`reordered` (with `--base-holds-new`, `merged and reordered`) and the exit 0
-only when:
+never a `.CRT$` section (initializer order is behaviour). clang also emits
+a floating-point or vector constant where a function first uses it, so a
+constant may move with a listed function (ruling of 2026-11-14) when all of
+these hold, in both objects:
+
+- the section is named exactly `.rdata`, holds read-only initialised data
+  (characteristics `0x40001040`, any alignment), and is COMDAT with
+  selection ANY;
+- it has no relocations and no associative children;
+- it defines exactly one symbol, external, at offset 0, named `__real@`
+  with 8 or 16 lowercase hex digits, `__xmm@` with 32 or `__ymm@` with 64,
+  and its bytes are those digits read as one number, stored least
+  significant byte first (4, 8, 16 or 32 bytes);
+- a relocation of a COMDAT section that a listed name leads targets that
+  symbol.
+
+Any other section stays in place: a string (`??_C@`), a table, a constant
+whose bytes or size are not its name's, one with a relocation, one only
+an unlisted function refers to, or a `.CRT$` section of any name. A moved
+constant counts among the verdict's sections of the listed functions and
+has its `MOVED` line. The verdict is `reordered` (with `--base-holds-new`,
+`merged and reordered`) and the exit 0 only when:
 
 - every other section keeps its place among the other sections (else
   `ORDER-FIXED`); the listed functions' sections may also change order

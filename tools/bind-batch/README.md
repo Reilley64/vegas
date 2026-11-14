@@ -130,7 +130,7 @@ verdict names one of these modes, recorded per variant in `proof.tsv`:
 | --- | --- |
 | `strict` | `identical: ... once the renames are applied` |
 | `merge-definition`, `merge-reference` | `merged`: the stand-in merges into the owner the unit defines, or into the unit's existing reference to it (ruling of 2026-11-13) |
-| `function-order` | `reordered`: only the owner's COMDAT sections and their associative children changed place; `+` joins it to a merge |
+| `function-order` | `reordered`: only the owner's COMDAT sections, their associative children and the `__real@`/`__xmm@`/`__ymm@` constants the owner refers to changed place (`tools/object-proof/README.md`); `+` joins it to a merge |
 
 Byte-identical objects (`identical: the bytes are equal`) do not pass: the
 call was not bound. Warnings must be equal without positions. A name whose

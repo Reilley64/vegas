@@ -163,16 +163,21 @@ def merge_unit(targets, undefined, new_defined=True, addrsig=None, types=None, c
 
 def order_unit(specs, undefined=(), addrsig=None, labels=()):
     """An object of the sections in SPECS, in that order: (name, leader, data,
-    comdat, targets), with leader the external symbol at its offset 0 (or
-    None), comdat None, "any" or the leader of its associative parent, and
-    one call per target at 0x1, 0x6 and on. undefined lists the undefined
-    symbols; labels adds static symbols (name, value, leader of the section)."""
+    comdat, targets[, characteristics]), with leader the external symbol at
+    its offset 0 (or None), comdat None, "any", another COMDAT selection's
+    number or the leader of its associative parent, and one call per target
+    at 0x1, 0x6 and on. undefined lists the undefined symbols; labels adds
+    static symbols (name, value, leader of the section)."""
     sections, symbols, parents = [], [], []
-    for number, (name, leader, data, comdat, targets) in enumerate(specs, 1):
+    for number, spec in enumerate(specs, 1):
+        name, leader, data, comdat, targets = spec[:5]
         characteristics = (CODE if name.startswith(".text") else RDATA) | (COMDAT if comdat else 0)
+        if len(spec) > 5:
+            characteristics = spec[5]
         sections.append([name, data, characteristics, []])
-        symbols.append([name, 0, number, 0, 3, 0 if not comdat else 2 if comdat == "any" else 5])
-        if comdat not in (None, "any"):
+        symbols.append([name, 0, number, 0, 3, 0 if not comdat else 2 if comdat == "any" else
+                        comdat if isinstance(comdat, int) else 5])
+        if comdat not in (None, "any") and not isinstance(comdat, int):
             parents.append((len(symbols) - 1, [spec[1] for spec in specs].index(comdat) + 1))
         if leader:
             symbols.append([leader, 0, number, 0x20, 2, None])
@@ -1261,6 +1266,61 @@ class ObjectProofTest(unittest.TestCase):
                                    "--function-order", listed)
         self.assertEqual(code, 1, out)
         self.assertIn("SYMBOL-ONLY-A\tlab\t1\t%s\t0\t3" % caller, out.splitlines(), out)
+
+    def test_function_order_constants(self):
+        # A __real@, __xmm@ or __ymm@ constant that a listed function refers to in both objects
+        # moves with it; any other .rdata COMDAT stays in place.
+        owner, caller, other, x = "?owner@@YAXXZ", "?caller@@YAXXZ", "?other@@YAXXZ", "?x@@YAXXZ"
+        listed = self.write("order.txt", (owner + "\n").encode())
+        text = (".text$mn", None, b"", None, [])
+        call = (".text$mn", caller, b"\xe8\0\0\0\0\xc3", "any", [owner])
+        rest = (".text$mn", other, b"\xc3", "any", [x])
+        pdata = (".pdata", None, b"\0" * 4, owner, [])
+
+        def run(constant, refers=True, extra=(), labels=()):
+            body = (".text$mn", owner, b"\xe8\0\0\0\0\xc3", "any", [constant[1]] if refers else [])
+            first = (".text$mn", caller, b"\xe8\0\0\0\0\xe8\0\0\0\0\xc3", "any", [owner, constant[1]]) \
+                if not refers else call
+            base = order_unit([text, first, rest, constant, body, pdata] + list(extra), [x], labels=labels)
+            head = order_unit([text, constant, body, pdata, first, rest] + list(extra), [x], labels=labels)
+            return self.objcmp(base, head, "--function-order", listed)
+        for name, data in (("__real@3f800000", b"\0\0\x80\x3f"), ("__real@3ff0000000000000", b"\0" * 6 + b"\xf0\x3f"),
+                           ("__xmm@" + "00" * 12 + "3f800000", b"\0\0\x80\x3f" + b"\0" * 12),
+                           ("__ymm@" + "01" + "00" * 31, b"\0" * 31 + b"\x01")):
+            for characteristics in (RDATA | COMDAT, 0x40100040 | COMDAT):  # any alignment
+                code, out, _ = run((".rdata", name, data, "any", [], characteristics))
+                self.assertEqual(code, 0, (name, out))
+            code, out, _ = run((".rdata", name, data, "any", []))
+            self.assertEqual(code, 0, (name, out))
+            self.assertEqual(out.splitlines(), [
+                "reordered: equal with the timestamp masked, but 3 section(s) of the listed function(s) changed place",
+                "MOVED\t%s\tplace 3 -> 1" % name, "MOVED\t%s\tplace 4 -> 2" % owner,
+                "MOVED\t%s|.pdata\tplace 5 -> 3" % owner], (name, out))
+        real, bytes_ = "__real@3f800000", b"\0\0\x80\x3f"
+        refused = [
+            ("a string", (".rdata", "??_C@_03KJJDBJCH@abc?$AA@", b"abc\0", "any", []), {}),
+            ("a vtable", (".rdata", "??_7Owner@@6B@", b"\0" * 8, "any", [owner]), {}),
+            ("bytes other than the name's", (".rdata", real, b"\0\0\x80\x40", "any", []), {}),
+            ("a relocation", (".rdata", real, bytes_, "any", [x]), {}),
+            ("not referred to by a listed function", (".rdata", real, bytes_, "any", []), dict(refers=False)),
+            ("a COMDAT .CRT$XCU", (".CRT$XCU", real, bytes_, "any", []), {}),
+            ("another section name", (".rdata$zz", real, bytes_, "any", []), {}),
+            ("another size", (".rdata", "__real@3f8000000000", b"\0\0\0\0\x80\x3f", "any", []), {}),
+            ("capitals in the name", (".rdata", "__real@3F800000", bytes_, "any", []), {}),
+            ("not COMDAT", (".rdata", real, bytes_, None, []), {}),
+            ("selection largest", (".rdata", real, bytes_, 6, []), {}),
+            ("selection same size", (".rdata", real, bytes_, 3, []), {}),
+            ("writable", (".rdata", real, bytes_, "any", [], RDATA | COMDAT | 0x80000000), {}),
+            ("code", (".rdata", real, bytes_, "any", [], RDATA | COMDAT | 0x20), {}),
+            ("a second symbol", (".rdata", real, bytes_, "any", []), dict(labels=[("lab", 2, real)])),
+            ("an associative child", (".rdata", real, bytes_, "any", []),
+             dict(extra=[(".rdata", None, b"\0", real, [])])),
+        ]
+        for what, constant, kw in refused:
+            code, out, _ = run(constant, **kw)
+            self.assertEqual(code, 1, (what, out))
+            self.assertIn("ORDER-FIXED\t%s\tchanged place; only the listed functions' sections may"
+                          % constant[1], out.splitlines(), (what, out))
 
     def test_symbol_order_only_when_equal(self):
         # SYMBOL-ORDER is reported only when the symbol multisets are equal.

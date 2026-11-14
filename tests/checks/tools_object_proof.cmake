@@ -54,6 +54,12 @@
 # went, or combines it with --expect-kept, or compares the symbols as a
 # multiset when no listed section moved (a merge with other symbols
 # reordered or NEW at a third place, or a rename with two symbols swapped);
+# or when --function-order stops moving a __real@, __xmm@ or __ymm@
+# constant that a listed function refers to (any alignment) with it, or
+# moves a string, a table, a constant whose bytes or size are not its
+# name's, one with a relocation, a second symbol or an associative child,
+# one not COMDAT ANY, writable or code, one only an unlisted function
+# refers to, one not named .rdata or a COMDAT .CRT$XCU;
 # or when an address-significance table whose characteristics differ under
 # a merge raises an error in place of a difference line; or when
 # SYMBOL-ORDER is reported where the symbol multisets differ. The tests write small objects, logs and
@@ -66,7 +72,7 @@ set(tools_object_proof_cases identical timestamp rename refused_renames unmatche
     expect_kept_file kept_identical beside_kept compile_source source_fails_closed kept_symbol
     refusal_alone base_holds_new merge_attacks function_order symbol_order_only_when_equal
     function_order_keeps_symbol_order merge_addrsig_characteristics merge_symbol_kinds
-    function_order_fixed_sections)
+    function_order_fixed_sections function_order_constants)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

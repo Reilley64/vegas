@@ -29,8 +29,11 @@ targets, B must hold no OLD, and B must equal A once OLD is respelled NEW
 and its symbol and address-significance entries merge into NEW's; that is
 "merged" and exits 0. With --function-order FILE (one name per line), the
 COMDAT sections that the named functions lead, and their associative
-children, may change place: every other section keeps its place among the
-others, the sections are equal, the symbols are equal as a multiset (in
+children, and the floating-point and vector constants (__real@, __xmm@,
+__ymm@ .rdata COMDATs, selection ANY, no relocations or children, bytes as
+the name gives them) that such a section refers to in both objects, may
+change place: every other section keeps its place among the others, the
+sections are equal, the symbols are equal as a multiset (in
 order when none of those sections moved), and the named functions'
 address-significance entries may move; that is "reordered" (or
 "merged and reordered") and exits 0. --json prints the same facts as one
@@ -42,6 +45,7 @@ error or unreadable input.
 import collections
 import difflib
 import json
+import re
 import struct
 import sys
 
@@ -51,6 +55,11 @@ NRELOC_OVFL = 0x01000000
 UNINITIALIZED = 0x80
 COMDAT = 0x1000
 EXTERNAL, STATIC, WEAK_EXTERNAL = 2, 3, 105
+ALIGNMENT_BITS = 0x00F00000
+READ_ONLY_DATA = 0x40000040  # initialised data, readable, nothing else
+SELECT_ANY = 2
+# A floating-point or vector constant as clang names it: its bytes, last byte first, in hex.
+CONSTANT = re.compile(r"__(?:real@(?:[0-9a-f]{8}|[0-9a-f]{16})|xmm@[0-9a-f]{32}|ymm@[0-9a-f]{64})")
 
 
 class Unreadable(Exception):
@@ -571,6 +580,36 @@ def movable_keys(coff, names):
     return out
 
 
+def constant_keys(coff, names):
+    """The keys of the constants that a COMDAT section a name in NAMES leads refers to: a section
+    named .rdata, read-only initialised data, COMDAT with selection ANY, with no relocations and
+    no associative children, that defines one symbol, external, at offset 0, named __real@ (8 or
+    16 hex digits), __xmm@ (32) or __ymm@ (64), whose bytes are the ones the name gives."""
+    children = {s["associated"] for s in coff.sections if s["associated"]}
+    defined = collections.defaultdict(list)
+    for index, name, value, section, _, storage, _ in coff.symbols:
+        if 0 < section <= len(coff.sections) and coff.sections[section - 1].get("is_section_symbol") != index:
+            defined[section].append((name, value, storage))
+    referred = set()
+    for number, s in enumerate(coff.sections, 1):
+        if coff.keys[number - 1] not in names or not s["characteristics"] & COMDAT:
+            continue
+        for _, index, _ in s["relocations"]:
+            symbol = coff.by_index.get(index)
+            if symbol and symbol[5] == EXTERNAL and 0 < symbol[3] <= len(coff.keys) \
+                    and coff.keys[symbol[3] - 1] == symbol[1]:
+                referred.add(symbol[3])
+    out = set()
+    for number in referred:
+        s, key = coff.sections[number - 1], coff.keys[number - 1]
+        if s["name"] == ".rdata" and s["characteristics"] & ~ALIGNMENT_BITS == READ_ONLY_DATA | COMDAT \
+                and s["selection"] == SELECT_ANY and not s["relocations"] and number not in children \
+                and defined[number] == [(key, 0, EXTERNAL)] and CONSTANT.fullmatch(key) \
+                and s["body"] == bytes.fromhex(key.split("@", 1)[1])[::-1]:
+            out.add(key)
+    return out
+
+
 def order_view(a, b, movable, names, out):
     """A's and B's comparisons with the moves of the MOVABLE sections undone,
     when every other section keeps its place among the others; prints an
@@ -717,8 +756,10 @@ def main(argv):
         printed = 0
         if order_names is not None:
             loose = merge_view(plain_a, plain_b, raw_a, merges, anywhere=True) if merges else (plain_a, plain_b)
-            moved_a, moved_b, printed, moves = order_view(loose[0], loose[1], movable_keys(coff_a, order_names),
-                                                          order_names, lines.append)
+            # A constant moves with a listed function that refers to it in both objects.
+            movable = movable_keys(coff_a, order_names) | (constant_keys(coff_a, order_names)
+                                                           & constant_keys(coff_b, order_names))
+            moved_a, moved_b, printed, moves = order_view(loose[0], loose[1], movable, order_names, lines.append)
             if moves or printed:  # nothing moved: the symbols compare in order, as without the option
                 view_a, view_b = moved_a, moved_b
         found = compare(view_a, view_b, lines.append, shifts=not as_json) + len(merge_problems) + printed

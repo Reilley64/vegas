@@ -1305,13 +1305,13 @@ void FUN_004ec7e0_shell::FUN_004ec7e0()
 struct FUN_004e32a0_shell
 {
     BGSPlaceableWater m_water;
-    void FUN_004e32a0();
+    bool FUN_004e32a0();
 };
 
 // @fnv 0x004e32a0
-void FUN_004e32a0_shell::FUN_004e32a0()
+bool FUN_004e32a0_shell::FUN_004e32a0()
 {
-    m_water.HasFlags(0x800);
+    return m_water.HasFlags(0x800);
 }
 
 struct FUN_004e45c0_shell
